@@ -6,8 +6,8 @@
   width: 100%;
   background-color: var(--BleuFonce);
   z-index: 1000;
-  /* 53px pour 911px de page = 5.82% */
-  /* Pour responsive: minimum 53px, maximum proportionnel à la hauteur */
-  height: max(53px, 5.82vh);
-  min-height: 53px;
+  /* Footer commence à 864px pour 914px = 94.53%, donc hauteur = 914-864 = 50px = 5.47% */
+  /* Pour responsive: minimum 50px, proportionnel à la hauteur */
+  height: max(50px, 5.47vh);
+  min-height: 50px;
 }

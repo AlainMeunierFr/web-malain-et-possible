@@ -6,44 +6,43 @@
   width: 100%;
   background-color: var(--BleuFonce);
   z-index: 1000;
-  /* 78px pour 911px de page = 8.57% */
-  /* Pour responsive: minimum 78px, maximum proportionnel à la hauteur */
-  height: max(78px, 8.57vh);
-  min-height: 78px;
+  /* 80px pour 914px de page = 8.75% */
+  /* Pour responsive: minimum 80px, proportionnel à la hauteur */
+  height: max(80px, 8.75vh);
+  min-height: 80px;
   overflow: visible;
 }
 
 .logoContainer {
   position: absolute;
-  top: 0;
+  /* Début à 11px pour 914px = 1.2% */
+  top: max(11px, 1.2vh);
   left: 0;
   z-index: 1001;
-  /* Le logo flotte au-dessus de la têtière et dépasse vers le bas */
-  /* Environ 1.5 à 2 fois la hauteur de la têtière (78px) = 117-156px */
 }
 
 .logo {
   display: block;
   width: auto;
-  height: clamp(117px, 20vh, 156px);
-  /* Le logo déborde de la têtière vers le bas */
-  /* 50-60% de la hauteur du logo dépasse en dessous de la têtière */
+  /* Logo/photo de 11px à 110px = 99px de haut (110-11) pour 914px = 10.83% */
+  height: max(99px, 10.83vh);
+  min-height: 99px;
   object-fit: contain;
 }
 
 .photoContainer {
   position: absolute;
-  top: 0;
+  /* Début à 11px pour 914px = 1.2% */
+  top: max(11px, 1.2vh);
   right: 0;
   z-index: 1001;
-  /* La photo flotte au-dessus de la têtière et dépasse vers le bas */
 }
 
 .photo {
   display: block;
   width: auto;
-  height: clamp(117px, 20vh, 156px);
-  /* La photo déborde de la têtière vers le bas */
-  /* 50-60% de la hauteur de la photo dépasse en dessous de la têtière */
+  /* Logo/photo de 11px à 110px = 99px de haut (110-11) pour 914px = 10.83% */
+  height: max(99px, 10.83vh);
+  min-height: 99px;
   object-fit: contain;
 }
