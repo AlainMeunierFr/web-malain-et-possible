@@ -5,33 +5,36 @@
 }
 
 .title {
-  font-size: 2.5rem;
-  margin-bottom: 2rem;
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
   color: var(--BleuFonce);
   font-family: 'Oswald', sans-serif;
   text-align: center;
   border-bottom: 3px solid var(--BleuFonce);
-  padding-bottom: 1rem;
+  padding-bottom: 0.75rem;
+  font-weight: 600;
 }
 
 .intro {
   margin: 2rem 0;
-  line-height: 1.8;
-  font-size: 1.1rem;
+  line-height: 1.4;
+  font-size: 1rem;
   background-color: #ffffff;
   padding: 2rem;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  color: #444;
 }
 
 .intro h2 {
-  font-size: 1.75rem;
-  margin-bottom: 1.5rem;
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
   margin-top: 2rem;
   color: var(--BleuFonce);
   font-family: 'Oswald', sans-serif;
   border-bottom: 2px solid var(--BleuFonce);
   padding-bottom: 0.5rem;
+  font-weight: 600;
 }
 
 .intro h2:first-of-type {
@@ -39,23 +42,52 @@
 }
 
 .intro p {
-  margin-bottom: 1.5rem;
-  line-height: 1.8;
-  color: #333;
+  margin: 0;
+  margin-top: 0.4em;
+  padding: 0;
+  line-height: 1.4;
+  color: #444;
+  font-size: 1rem;
+}
+
+.intro p + p {
+  margin-top: 0.4em;
 }
 
 .intro ul {
-  margin: 1rem 0 1.5rem 0;
+  margin: 0;
+  padding: 0;
   padding-left: 0;
   list-style: none;
 }
 
+.intro ul ul {
+  margin: 0;
+  padding: 0;
+  padding-left: 1.5rem;
+  list-style: none;
+}
+
+.intro p + ul {
+  margin-top: 0;
+}
+
+.intro ul + p {
+  margin-top: 0;
+}
+
 .intro li {
-  padding: 0.5rem 0;
+  margin: 0;
+  padding: 0;
   padding-left: 1.5rem;
   position: relative;
-  line-height: 1.6;
-  color: #333;
+  line-height: 1.4;
+  color: #444;
+  font-size: 1rem;
+}
+
+.intro ul ul li {
+  padding-left: 1.5rem;
 }
 
 .intro li::before {
@@ -64,7 +96,7 @@
   left: 0;
   color: var(--BleuFonce);
   font-weight: bold;
-  font-size: 1.2rem;
+  font-size: 1rem;
 }
 
 .intro strong {
@@ -78,50 +110,57 @@
   padding: 2rem;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  color: #444;
 }
 
 .dodSection h2 {
-  font-size: 2rem;
+  font-size: 1.75rem;
   margin-bottom: 1rem;
   color: var(--BleuFonce);
   font-family: 'Oswald', sans-serif;
   border-bottom: 2px solid var(--BleuFonce);
   padding-bottom: 0.5rem;
+  font-weight: 600;
 }
 
 .description {
-  margin-bottom: 2rem;
+  margin: 0;
+  padding: 0;
   font-style: italic;
   color: #666;
-  line-height: 1.6;
+  line-height: 1.4;
 }
 
 .theme {
-  margin-bottom: 2.5rem;
-  padding: 1.5rem;
+  margin-bottom: 2rem;
+  padding: 1.25rem;
   background-color: #f9f9f9;
   border-radius: 8px;
   border-left: 4px solid var(--BleuFonce);
 }
 
 .theme h3 {
-  font-size: 1.5rem;
-  margin-bottom: 1rem;
+  font-size: 1.25rem;
+  margin-bottom: 0.75rem;
   color: #1a1a1a;
   font-family: 'Oswald', sans-serif;
+  font-weight: 600;
 }
 
 .theme ul {
-  list-style: none;
-  padding: 0;
   margin: 0;
+  padding: 0;
+  list-style: none;
 }
 
 .theme li {
-  padding: 0.75rem 0;
+  margin: 0;
+  padding: 0;
   padding-left: 1.5rem;
   position: relative;
-  line-height: 1.6;
+  line-height: 1.4;
+  font-size: 0.95rem;
+  color: #444;
 }
 
 .theme li::before {
@@ -142,7 +181,15 @@
   }
 
   .intro h2 {
-    font-size: 1.5rem;
+    font-size: 1.35rem;
+  }
+
+  .intro p {
+    font-size: 0.95rem;
+  }
+
+  .intro li {
+    font-size: 0.95rem;
   }
 
   .dodSection {

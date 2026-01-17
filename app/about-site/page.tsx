@@ -186,6 +186,28 @@ export default function AboutSitePage() {
             <strong>l&apos;intention initiale du produit</strong>.
           </p>
 
+          <h2>Ce que j&apos;ai fait</h2>
+
+          <ul>
+            <li>Installer Cursor</li>
+            <li>Installer Git</li>
+            <li>Installer NodeJS</li>
+            <li>Installer Jest</li>
+            <li>Installer Cucumber.js</li>
+            <li>Créer un compte GitHub (que j&apos;ai associé à Cursor)</li>
+            <li>Créer un compte Vercel (où j&apos;ai créé un projet associé à mon projet sous GitHub)</li>
+            <li>Mon premier prompt dans Cursor a été de lui demander d&apos;afficher un &quot;Hello World&quot;</li>
+            <li>
+              Après, je n&apos;ai pas arrêté d&apos;enchaîner les prompts :
+              <ul>
+                <li>pour faire émerger petit à petit de nouveaux contenus sur le site</li>
+                <li>pour lui demander de refactoriser le code</li>
+                <li>pour lui imposer des BDD et TDD</li>
+                <li>pour recevoir une formation sur la syntaxe en TypeScript et le comportement de Next.JS</li>
+              </ul>
+            </li>
+          </ul>
+
           <h2>Pourquoi ce projet peut vous intéresser</h2>
 
           <p>
