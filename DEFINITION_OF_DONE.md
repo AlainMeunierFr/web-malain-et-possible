@@ -6,6 +6,7 @@ Cette Definition of Done (DOD) structure les bonnes pratiques appliquées lors d
 
 - Chaque section doit être un composant React fonctionnel dans le dossier `components/`
 - Les textes statiques doivent être extraits dans des fichiers JSON dans `data/`
+- La configuration statique (images, constantes de configuration) doit être dans `constants/` (pas dans les composants)
 - La Definition of Done (DOD) doit être dans un fichier Markdown `DEFINITION_OF_DONE.md` à la racine du projet pour être partagée entre l'IA, le Product Manager et le site web
 - Utilisation de CSS Modules avec un fichier CSS par composant
 - Header et Footer factorisés dans le layout pour être partagés par toutes les pages
@@ -15,8 +16,9 @@ Cette Definition of Done (DOD) structure les bonnes pratiques appliquées lors d
 
 - Tous les composants doivent avoir des types TypeScript définis
 - Les interfaces communes doivent être dans `types/`
-- Les constantes (routes, couleurs) doivent être dans `constants/`
-- Types stricts sans utilisation de `any` sauf cas justifiés
+- Les constantes (routes, couleurs, configuration) doivent être dans `constants/`
+- Types stricts sans utilisation de `any` sauf cas justifiés (ex: mocks dans les tests)
+- Configuration des composants (images, dimensions, etc.) séparée des composants eux-mêmes dans `constants/`
 
 ## 3. Références et Chemins
 
@@ -56,10 +58,12 @@ Cette Definition of Done (DOD) structure les bonnes pratiques appliquées lors d
 
 ## 8. Tests
 
-- Tests unitaires (TDD) pour les fonctions utilitaires et composants
-- Tests BDD (Cucumber) pour les scénarios utilisateur
+- **Tests unitaires (TDD) obligatoires pour TOUTES les fonctions backend pur** : Chaque fonction exportée dans `utils/` doit avoir des tests unitaires complets
+- Tests unitaires (TDD) pour les composants critiques
+- Tests BDD (Cucumber) pour les scénarios utilisateur : Les scénarios Gherkin expriment les intentions métier et sont lisibles par les non-développeurs
 - Tests passent sans erreurs avant commit
-- Mocking approprié des dépendances externes (`next/image`, `window`)
+- Mocking approprié des dépendances externes (`next/image`, `window`, `next/navigation`)
+- Couverture de tests : Les fonctions backend pur doivent avoir une couverture de tests complète (cas normaux, cas limites, cas d'erreur)
 
 ## 9. Architecture Next.js
 
@@ -72,5 +76,7 @@ Cette Definition of Done (DOD) structure les bonnes pratiques appliquées lors d
 
 - Pas d'erreurs de linting (ESLint)
 - Build Next.js réussi sans avertissements critiques
-- Structure de dossiers claire : `components/`, `types/`, `constants/`, `data/`, `app/`
+- Structure de dossiers claire : `components/`, `types/`, `constants/`, `data/`, `app/`, `utils/`, `tests/`
 - Code documenté avec commentaires pour les logiques complexes
+- **Documentation pédagogique** : Les commentaires dans le code doivent expliquer le "pourquoi" et non seulement le "comment", pour faciliter l'apprentissage (contexte : Product Manager se formant avec une IA)
+- Pas de code mort : fichiers et imports inutilisés doivent être supprimés
