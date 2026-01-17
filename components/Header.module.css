@@ -10,4 +10,37 @@
   /* Pour responsive: minimum 78px, maximum proportionnel à la hauteur */
   height: max(78px, 8.57vh);
   min-height: 78px;
+  overflow: visible;
+}
+
+.logoContainer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1001;
+  /* Le logo flotte au-dessus de la têtière et dépasse vers le bas */
+  /* Environ 1.5 à 2 fois la hauteur de la têtière (78px) = 117-156px */
+  /* Position: haut aligné avec le haut de la têtière, mais dépasse en bas */
+}
+
+.logo {
+  display: block;
+  /* Le logo déborde de la têtière vers le bas */
+  /* 50-60% de la hauteur du logo dépasse en dessous de la têtière */
+  object-fit: contain;
+}
+
+.photoContainer {
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 1001;
+  /* La photo flotte au-dessus de la têtière et dépasse vers le bas */
+}
+
+.photo {
+  display: block;
+  /* La photo déborde de la têtière vers le bas */
+  /* 50-60% de la hauteur de la photo dépasse en dessous de la têtière */
+  object-fit: contain;
 }
