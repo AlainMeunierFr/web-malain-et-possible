@@ -1,39 +1,44 @@
 'use client';
 
 import React from 'react';
-import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import styles from './Footer.module.css';
 import footerButtons from '../data/footerButtons.json';
+import FooterButton from './FooterButton';
+import type { FooterButton as FooterButtonType } from '../types/footer';
+import { getButtonAction } from '../utils/buttonHandlers';
 
 const Footer: React.FC = () => {
+  const router = useRouter();
+
   const handleButtonClick = (command: string, url: string | null) => {
-    if (url) {
-      // Ouvrir l'URL (mailto: ou lien externe)
-      window.open(url, '_blank', 'noopener,noreferrer');
-    } else {
-      // Afficher une pop-up avec le nom de la commande si pas d'URL
-      alert(`Commande: ${command}`);
+    // Backend pur : détermine l'action (logique métier)
+    const action = getButtonAction(command, url);
+
+    // Frontend : exécute l'action (interactivité navigateur)
+    switch (action.type) {
+      case 'internal':
+        router.push(action.route);
+        break;
+      case 'external':
+        window.open(action.url, '_blank', 'noopener,noreferrer');
+        break;
+      case 'alert':
+        alert(action.message);
+        break;
     }
   };
 
   return (
     <footer className={styles.footer}>
       <div className={styles.buttonsContainer}>
-        {footerButtons.map((button) => (
-          <button
+        {(footerButtons as FooterButtonType[]).map((button) => (
+          <FooterButton
             key={button.id}
-            className={styles.iconButton}
-            onClick={() => handleButtonClick(button.command, button.url || null)}
-            aria-label={button.alt}
-          >
-            <Image
-              src={button.image}
-              alt={button.alt}
-              width={40}
-              height={40}
-              className={styles.iconImage}
-            />
-          </button>
+            {...button}
+            url={button.url ?? null}
+            onButtonClick={handleButtonClick}
+          />
         ))}
       </div>
     </footer>
