@@ -1,0 +1,19 @@
+.footer {
+  background-color: #1a1a1a;
+  color: #ffffff;
+  padding: 2rem 0;
+  margin-top: 4rem;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  text-align: center;
+}
+
+.text {
+  font-size: 0.9rem;
+  margin: 0;
+  color: #a0aec0;
+}
