@@ -1,0 +1,30 @@
+[
+  {
+    "id": "email",
+    "image": "/images/Bouton - email.JPG",
+    "command": "cmd-email",
+    "alt": "Email",
+    "url": "mailto:alain@maep.fr"
+  },
+  {
+    "id": "youtube",
+    "image": "/images/Bouton - YouTube.JPG",
+    "command": "cmd-YouTube",
+    "alt": "YouTube",
+    "url": "https://www.youtube.com/@m-alain-et-possible"
+  },
+  {
+    "id": "linkedin",
+    "image": "/images/Bouton - Linkedin.JPG",
+    "command": "cmd-Linkedin",
+    "alt": "LinkedIn",
+    "url": "https://www.linkedin.com/in/alain-meunier-maep/"
+  },
+  {
+    "id": "sitemap",
+    "image": "/images/Bouton - Site map.JPG",
+    "command": "cmd-SiteMap",
+    "alt": "Site Map",
+    "url": null
+  }
+]
