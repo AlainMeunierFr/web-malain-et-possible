@@ -4,7 +4,7 @@
   left: 0;
   right: 0;
   width: 100%;
-  background-color: #0070C0;
+  background-color: var(--BleuFonce);
   z-index: 1000;
   /* 78px pour 911px de page = 8.57% */
   /* Pour responsive: minimum 78px, maximum proportionnel à la hauteur */
