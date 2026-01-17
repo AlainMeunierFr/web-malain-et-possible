@@ -1,0 +1,10 @@
+.main {
+  /* Padding pour éviter que le contenu soit caché par le header et footer fixes */
+  /* Header: 78px (8.57%), Footer: 53px (5.82%) */
+  padding-top: max(78px, 8.57vh);
+  padding-bottom: max(53px, 5.82vh);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
