@@ -4,6 +4,90 @@
   padding: 2rem;
 }
 
+.sectionContent {
+  line-height: 1.4;
+  font-size: 1rem;
+  color: #444;
+}
+
+.sectionContent h2 {
+  font-size: 1.25rem; /* H2 - plus petit que H1 (1.75rem) */
+  margin-bottom: 1rem;
+  margin-top: 2rem;
+  color: var(--BleuFonce);
+  font-family: 'Oswald', sans-serif;
+  border-bottom: none; /* Pas de trait horizontal pour H2 */
+  padding-bottom: 0;
+  font-weight: 600;
+}
+
+.sectionContent h2:first-of-type {
+  margin-top: 0;
+}
+
+.sectionContent p {
+  margin: 0;
+  margin-top: 0.4em;
+  padding: 0;
+  line-height: 1.4;
+  color: #444;
+  font-size: 1rem;
+}
+
+.sectionContent p + p {
+  margin-top: 0.4em;
+}
+
+.sectionContent ul {
+  margin: 0;
+  padding: 0;
+  padding-left: 0;
+  list-style: none;
+}
+
+.sectionContent ul ul {
+  margin: 0;
+  padding: 0;
+  padding-left: 1.5rem;
+  list-style: none;
+}
+
+.sectionContent p + ul {
+  margin-top: 0;
+}
+
+.sectionContent ul + p {
+  margin-top: 0;
+}
+
+.sectionContent li {
+  margin: 0;
+  padding: 0;
+  padding-left: 1.5rem;
+  position: relative;
+  line-height: 1.4;
+  color: #444;
+  font-size: 1rem;
+}
+
+.sectionContent ul ul li {
+  padding-left: 1.5rem;
+}
+
+.sectionContent li::before {
+  content: '•';
+  position: absolute;
+  left: 0;
+  color: var(--BleuFonce);
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+.sectionContent strong {
+  color: var(--BleuFonce);
+  font-weight: 600;
+}
+
 .title {
   font-size: 2rem;
   margin-bottom: 1.5rem;
@@ -27,13 +111,13 @@
 }
 
 .intro h2 {
-  font-size: 1.5rem;
+  font-size: 1.25rem; /* H2 - plus petit que H1 (1.75rem) */
   margin-bottom: 1rem;
   margin-top: 2rem;
   color: var(--BleuFonce);
   font-family: 'Oswald', sans-serif;
-  border-bottom: 2px solid var(--BleuFonce);
-  padding-bottom: 0.5rem;
+  border-bottom: none; /* Pas de trait horizontal pour H2 */
+  padding-bottom: 0;
   font-weight: 600;
 }
 
@@ -114,12 +198,12 @@
 }
 
 .dodSection h2 {
-  font-size: 1.75rem;
+  font-size: 1.25rem; /* H2 - plus petit que H1 (1.75rem) */
   margin-bottom: 1rem;
   color: var(--BleuFonce);
   font-family: 'Oswald', sans-serif;
-  border-bottom: 2px solid var(--BleuFonce);
-  padding-bottom: 0.5rem;
+  border-bottom: none; /* Pas de trait horizontal pour H2 */
+  padding-bottom: 0;
   font-weight: 600;
 }
 
@@ -137,6 +221,21 @@
   background-color: #f9f9f9;
   border-radius: 8px;
   border-left: 4px solid var(--BleuFonce);
+}
+
+.theme h2 {
+  font-size: 1.25rem; /* H2 - plus petit que H1 (1.75rem) */
+  margin-bottom: 1rem;
+  margin-top: 0;
+  color: var(--BleuFonce);
+  font-family: 'Oswald', sans-serif;
+  border-bottom: none; /* Pas de trait horizontal pour H2 */
+  padding-bottom: 0;
+  font-weight: 600;
+}
+
+.theme h2:first-child {
+  margin-top: 0;
 }
 
 .theme h3 {
@@ -181,7 +280,7 @@
   }
 
   .intro h2 {
-    font-size: 1.35rem;
+    font-size: 1.15rem; /* Ajusté pour mobile - plus petit que H1 */
   }
 
   .intro p {
@@ -197,7 +296,7 @@
   }
 
   .dodSection h2 {
-    font-size: 1.75rem;
+    font-size: 1.15rem; /* Ajusté pour mobile - plus petit que H1 */
   }
 
   .theme h3 {

@@ -1,7 +1,7 @@
 [
   {
     "id": "email",
-    "image": "/images/Bouton - email.JPG",
+    "icon": "Mail",
     "command": "cmd-email",
     "alt": "Email",
     "url": "mailto:alain@maep.fr",
@@ -9,7 +9,7 @@
   },
   {
     "id": "youtube",
-    "image": "/images/Bouton - YouTube.JPG",
+    "icon": "Youtube",
     "command": "cmd-YouTube",
     "alt": "YouTube",
     "url": "https://www.youtube.com/@m-alain-et-possible",
@@ -17,7 +17,7 @@
   },
   {
     "id": "linkedin",
-    "image": "/images/Bouton - Linkedin.JPG",
+    "icon": "Linkedin",
     "command": "cmd-Linkedin",
     "alt": "LinkedIn",
     "url": "https://www.linkedin.com/in/alain-meunier-maep/",
@@ -25,7 +25,7 @@
   },
   {
     "id": "sitemap",
-    "image": "/images/Bouton - Site map.JPG",
+    "icon": "Network",
     "command": "cmd-SiteMap",
     "alt": "Site Map",
     "url": null,
@@ -33,7 +33,7 @@
   },
   {
     "id": "about-site",
-    "image": "/images/Bouton - Site map.JPG",
+    "icon": "Info",
     "command": "cmd-AboutSite",
     "alt": "À propos du site",
     "url": null,

@@ -1,18 +1,40 @@
-Feature: Navigation
-  Scenario: User clicks on the photo to navigate to "A propos de moi" page
-    Given the homepage is displayed
-    When the user clicks on the photo
-    Then the "A propos de moi" page is displayed
-    And it shows the text "a propos de moi"
+# language: fr
 
-  Scenario: User clicks on the site map button to navigate to "Plan du site" page
-    Given the footer is displayed
-    When the user clicks the "Site Map" button
-    Then the "Plan du site" page is displayed
-    And it shows the text "plan du site"
+Fonctionnalité: Navigation
 
-  Scenario: User navigates to the homepage
-    Given any page is displayed
-    When the user clicks on the logo
-    Then the homepage is displayed
-    And it shows the text "Home page"
+  Scénario: L'utilisateur clique sur la photo pour naviguer vers la page "A propos de moi"
+    Étant donné que le header est affiché
+    Quand l'utilisateur clique sur la photo
+    Alors la page "A propos de moi" est affichée
+    Et elle affiche le texte "a propos de moi"
+
+  Scénario: L'utilisateur clique sur le logo pour naviguer vers la page d'accueil
+    Étant donné que le header est affiché
+    Quand l'utilisateur clique sur le logo
+    Alors la page d'accueil est affichée
+    Et elle affiche le texte "Home page"
+
+  Scénario: L'utilisateur clique sur le bouton Email
+    Étant donné que le footer est affiché
+    Quand l'utilisateur clique sur le bouton "Email"
+    Alors le client de messagerie par défaut s'ouvre avec mon adresse email
+
+  Scénario: L'utilisateur clique sur le bouton YouTube
+    Étant donné que le footer est affiché
+    Quand l'utilisateur clique sur le bouton "YouTube"
+    Alors la chaîne YouTube s'ouvre dans un nouvel onglet
+
+  Scénario: L'utilisateur clique sur le bouton LinkedIn
+    Étant donné que le footer est affiché
+    Quand l'utilisateur clique sur le bouton "LinkedIn"
+    Alors le profil LinkedIn s'ouvre dans un nouvel onglet
+
+  Scénario: L'utilisateur clique sur le bouton Plan du site
+    Étant donné que le footer est affiché
+    Quand l'utilisateur clique sur le bouton "Site Map"
+    Alors la page plan du site est affichée
+
+  Scénario: L'utilisateur clique sur le bouton À propos du site
+    Étant donné que le footer est affiché
+    Quand l'utilisateur clique sur le bouton "À propos du site"
+    Alors la page à propos du site est affichée

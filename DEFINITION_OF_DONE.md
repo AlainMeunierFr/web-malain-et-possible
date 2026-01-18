@@ -1,6 +1,7 @@
 # Definition of Done (DOD)
 
-Cette Definition of Done (DOD) structure les bonnes pratiques appliquées lors du développement de ce site web. Elle a été établie par un Product Manager pilotant une IA, et est organisée par thème, du plus simple au plus complexe.
+Cette Definition of Done (DOD) structure les bonnes pratiques appliquées lors du développement de ce site web.
+Elle émerge du code au fur et à mesure des refactorisations que je demande dans mes prompts.
 
 ## 1. Structure et Organisation
 
@@ -11,7 +12,12 @@ Cette Definition of Done (DOD) structure les bonnes pratiques appliquées lors d
 - Utilisation de CSS Modules avec un fichier CSS par composant
 - Header et Footer factorisés dans le layout pour être partagés par toutes les pages
 - **Séparation backend pur (logique métier) / backend Next.js (génération HTML)** : La logique métier réutilisable (parsing, calculs, transformations) doit être dans `utils/` ou `lib/` et être utilisable en ligne de commande. Les composants Next.js (`app/`, `components/`) ne contiennent que la logique spécifique à React/Next.js (génération HTML, navigation, interactivité)
-- **Tenue du journal de bord** : Chaque prompt est documenté dans le journal quotidien (`JOURNAL_DE_BORD/YYYY-MM-DD.md`). Les prompts de modification du code sont ajoutés dans ce fichier avec le texte exact du prompt et le résultat technique. Les prompts de formation/théoriques sont documentés dans des fichiers Markdown dans le sous-dossier `JOURNAL_DE_BORD/COURS/` et référencés dans le journal du jour
+       - **Tenue du journal de bord** : Chaque prompt est documenté dans le journal quotidien (`JOURNAL_DE_BORD/YYYY-MM-DD.md`). Les prompts de modification du code sont ajoutés dans ce fichier avec le texte exact du prompt et le résultat technique. Les prompts de formation/théoriques sont documentés dans des fichiers Markdown dans le sous-dossier `JOURNAL_DE_BORD/COURS/` et référencés dans le journal du jour
+       - **Format des journaux** : Les fichiers journal utilisent une structure markdown standardisée :
+         - `### Titre du prompt` (H3, devient H4 après ajustement des niveaux)
+         - `##### Prompt` (H5) suivi du texte du prompt
+         - `##### Résultat technique` (H5) suivi du résultat technique
+         Cette structure simplifie le parsing et garantit une présentation cohérente
 
 ## 2. Types et Interfaces
 

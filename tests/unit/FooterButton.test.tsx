@@ -2,19 +2,19 @@ import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import FooterButton from '../../components/FooterButton';
 
-// Mock next/image
-jest.mock('next/image', () => ({
-  __esModule: true,
-  default: (props: any) => {
-    // eslint-disable-next-line @next/next/no-img-element, jsx-a11y/alt-text
-    return React.createElement('img', props);
-  },
+// Mock lucide-react
+jest.mock('lucide-react', () => ({
+  Mail: ({ 'aria-label': ariaLabel, 'data-testid': testId }: any) => (
+    <svg aria-label={ariaLabel} data-testid={testId}>
+      <title>Mail Icon</title>
+    </svg>
+  ),
 }));
 
 describe('FooterButton', () => {
   const mockProps = {
     id: 'email',
-    image: '/images/Bouton - email.JPG',
+    icon: 'Mail',
     command: 'cmd-email',
     alt: 'Email',
     url: 'mailto:test@example.com',
@@ -22,7 +22,8 @@ describe('FooterButton', () => {
   };
 
   it('should render button with correct attributes', () => {
-    render(<FooterButton {...mockProps} />);
+    const mockOnButtonClick = jest.fn();
+    render(<FooterButton {...mockProps} onButtonClick={mockOnButtonClick} />);
 
     const button = screen.getByTestId('footer-button-email');
     expect(button).toBeInTheDocument();
@@ -30,12 +31,12 @@ describe('FooterButton', () => {
     expect(button).toHaveAttribute('title', "M'envoyer un email");
   });
 
-  it('should render image with correct src and alt', () => {
-    render(<FooterButton {...mockProps} />);
+  it('should render icon component', () => {
+    const mockOnButtonClick = jest.fn();
+    render(<FooterButton {...mockProps} onButtonClick={mockOnButtonClick} />);
 
-    const image = screen.getByAltText('Email');
-    expect(image).toBeInTheDocument();
-    expect(image).toHaveAttribute('src', '/images/Bouton - email.JPG');
+    const icon = screen.getByTitle('Mail Icon');
+    expect(icon).toBeInTheDocument();
   });
 
   it('should call onButtonClick when clicked with URL', () => {

@@ -1,0 +1,159 @@
+.markdownContent {
+  line-height: 1.6;
+  color: #444;
+  font-size: 1rem;
+}
+
+.markdownContent h1 {
+  font-size: 2rem;
+  margin: 1.5rem 0 1rem 0;
+  color: var(--BleuFonce);
+  font-family: 'Oswald', sans-serif;
+  border-bottom: 3px solid var(--BleuFonce);
+  padding-bottom: 0.5rem;
+  font-weight: 600;
+}
+
+.markdownContent h2 {
+  font-size: 1.5rem;
+  margin: 2rem 0 1rem 0;
+  color: var(--BleuFonce);
+  font-family: 'Oswald', sans-serif;
+  border-bottom: 2px solid var(--BleuFonce);
+  padding-bottom: 0.5rem;
+  font-weight: 600;
+}
+
+.markdownContent h2:first-child {
+  margin-top: 0;
+}
+
+.markdownContent h3 {
+  font-size: 1.25rem;
+  margin: 1.5rem 0 0.75rem 0;
+  color: #1a1a1a;
+  font-family: 'Oswald', sans-serif;
+  font-weight: 600;
+}
+
+.markdownContent h4 {
+  font-size: 1.1rem;
+  margin: 1rem 0 0.5rem 0;
+  color: var(--BleuFonce);
+  font-family: 'Oswald', sans-serif;
+  font-weight: 600;
+}
+
+.markdownContent h5 {
+  font-size: 1rem;
+  margin: 0.8rem 0 0.4rem 0;
+  color: #666;
+  font-family: 'Oswald', sans-serif;
+  font-weight: 500;
+}
+
+.markdownContent p {
+  margin: 0;
+  margin-top: 0.4em;
+  padding: 0;
+  line-height: 1.4;
+  color: #444;
+  font-size: 1rem;
+}
+
+.markdownContent p + p {
+  margin-top: 0.4em;
+}
+
+/* Styles pour les listes standard (ul, li) utilisées dans CourseMarkdownRenderer */
+/* Les listes sont désactivées avec ::before pour éviter les doubles puces */
+.markdownContent > ul {
+  list-style: disc;
+  margin-left: 1.5rem;
+  margin-top: 0.4em;
+  margin-bottom: 0.8rem;
+  padding-left: 0;
+}
+
+.markdownContent > ul > li {
+  margin-bottom: 0.4rem;
+  line-height: 1.4;
+  padding-left: 0.3em;
+  list-style-position: outside;
+  /* Désactiver le ::before pour éviter la double puce */
+  position: relative;
+}
+
+.markdownContent > ul > li::before {
+  display: none !important;
+  content: none !important;
+}
+
+/* Listes imbriquées - mêmes styles que les listes principales */
+.markdownContent > ul ul {
+  list-style: disc;
+  margin-left: 1.5rem;
+  margin-top: 0.4em;
+  margin-bottom: 0.8rem;
+  padding-left: 0;
+}
+
+.markdownContent > ul ul li {
+  margin-bottom: 0.4rem;
+  line-height: 1.4;
+  padding-left: 0.3em;
+  list-style-position: outside;
+  position: relative;
+}
+
+.markdownContent > ul ul li::before {
+  display: none !important;
+  content: none !important;
+}
+
+.markdownContent h6 {
+  font-size: 0.9rem;
+  margin: 0.7rem 0 0.3rem 0;
+  color: #666;
+  font-family: 'Oswald', sans-serif;
+  font-weight: 500;
+}
+
+.markdownContent blockquote {
+  margin: 1rem 0;
+  padding: 0.5rem 1rem;
+  border-left: 3px solid var(--BleuFonce);
+  background-color: #f5f5f5;
+  font-style: italic;
+  color: #555;
+}
+
+.markdownContent pre {
+  background-color: #f5f5f5;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 1rem;
+  overflow-x: auto;
+  margin: 1rem 0;
+}
+
+.markdownContent pre code {
+  font-family: 'Courier New', monospace;
+  font-size: 0.9rem;
+  color: #333;
+}
+
+.markdownContent hr {
+  border: none;
+  border-top: 2px solid #e0e0e0;
+  margin: 2rem 0;
+}
+
+.markdownContent strong {
+  color: var(--BleuFonce);
+  font-weight: 600;
+}
+
+.markdownContent em {
+  font-style: italic;
+}
