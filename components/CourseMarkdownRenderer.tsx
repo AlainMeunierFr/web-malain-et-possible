@@ -108,13 +108,24 @@ const CourseMarkdownRenderer: React.FC<CourseMarkdownRendererProps> = ({ content
       flushQuote();
       const level = headingMatch[1].length;
       const text = headingMatch[2];
-      const HeadingTag = `h${level}` as keyof JSX.IntrinsicElements;
       const headingClass = styles[`h${level}` as keyof typeof styles] || '';
-      elements.push(
-        <HeadingTag key={`h${level}-${elements.length}`} className={headingClass}>
-          {parseInlineMarkdown(text)}
-        </HeadingTag>
-      );
+      const headingContent = parseInlineMarkdown(text);
+      const headingProps = { key: `h${level}-${elements.length}`, className: headingClass };
+      
+      // Créer le composant heading dynamiquement
+      if (level === 1) {
+        elements.push(<h1 {...headingProps}>{headingContent}</h1>);
+      } else if (level === 2) {
+        elements.push(<h2 {...headingProps}>{headingContent}</h2>);
+      } else if (level === 3) {
+        elements.push(<h3 {...headingProps}>{headingContent}</h3>);
+      } else if (level === 4) {
+        elements.push(<h4 {...headingProps}>{headingContent}</h4>);
+      } else if (level === 5) {
+        elements.push(<h5 {...headingProps}>{headingContent}</h5>);
+      } else if (level === 6) {
+        elements.push(<h6 {...headingProps}>{headingContent}</h6>);
+      }
       return;
     }
 
