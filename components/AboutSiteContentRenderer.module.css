@@ -1,0 +1,53 @@
+/* Styles pour le rendu du contenu markdown
+ * Les marges gauches sont ajustées pour que le texte soit aligné à droite des titres
+ */
+
+.normalContainer {
+  margin: 0.5rem 0;
+  margin-left: 35px; /* +35px par rapport à h1 pour le texte normal */
+}
+
+.promptContainer {
+  margin: 0.5rem 0;
+  margin-left: 35px; /* +35px par rapport à h1 pour le texte normal */
+  background-color: #e3f2fd; /* Bleu clair */
+  padding: 1rem;
+  border-radius: 4px;
+}
+
+.paragraph {
+  margin: 0.5rem 0;
+  line-height: 1.6;
+  font-size: 0.9rem;
+}
+
+.list {
+  margin: 0.5rem 0;
+  margin-left: 40px; /* +40px par rapport à h1 pour les puces et numéros */
+  padding-left: 0.5rem;
+  list-style-position: outside;
+  font-size: 0.9rem;
+}
+
+/* Styles spécifiques pour les listes numérotées */
+ol.list {
+  list-style-type: decimal;
+}
+
+/* Styles spécifiques pour les listes à puce */
+ul.list {
+  list-style-type: disc;
+}
+
+.listItem {
+  margin: 0.25rem 0;
+  line-height: 1.5;
+}
+
+.promptContainer .paragraph {
+  margin: 0.5rem 0;
+}
+
+.promptContainer .list {
+  margin: 0.5rem 0;
+}

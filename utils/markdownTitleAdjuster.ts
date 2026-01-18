@@ -4,6 +4,8 @@
  *
  * Principe : Séparation backend pur (logique métier) / backend Next.js (génération HTML)
  * Ces fonctions sont utilisables partout : ligne de commande, tests, composants React
+ * 
+ * APPROCHE TDD : Code fait émerger progressivement du simple au complexe
  */
 
 /**
@@ -13,38 +15,34 @@
  */
 export const adjustMarkdownTitleLevels = (content: string): string => {
   const lines = content.split('\n');
-  const adjustedLines = lines.map((line) => {
+  return lines.map((line) => {
     const trimmedLine = line.trim();
     
-    // Titre H1 (# Titre)
-    if (trimmedLine.startsWith('# ')) {
-      return line.replace(/^(\s*)# /, '$1## ');
-    }
-    
-    // Titre H2 (## Titre)
+    // ITÉRATION 1 : H2 → H3
     if (trimmedLine.startsWith('## ')) {
       return line.replace(/^(\s*)## /, '$1### ');
     }
     
-    // Titre H3 (### Titre)
+    // ITÉRATION 2 : H1 → H2
+    if (trimmedLine.startsWith('# ')) {
+      return line.replace(/^(\s*)# /, '$1## ');
+    }
+    
+    // ITÉRATION 3 : H3 → H4
     if (trimmedLine.startsWith('### ')) {
       return line.replace(/^(\s*)### /, '$1#### ');
     }
     
-    // Titre H4 (#### Titre)
+    // ITÉRATION 4 : H4 → H5, H5 → H6, H6 reste H6
     if (trimmedLine.startsWith('#### ')) {
       return line.replace(/^(\s*)#### /, '$1##### ');
     }
-    
-    // Titre H5 (##### Titre)
     if (trimmedLine.startsWith('##### ')) {
       return line.replace(/^(\s*)##### /, '$1###### ');
     }
+    // H6 reste H6 (on ne va pas plus loin)
     
-    // Titre H6 (###### Titre) - on ne va pas plus loin
     // Ligne inchangée si ce n'est pas un titre
     return line;
-  });
-  
-  return adjustedLines.join('\n');
+  }).join('\n');
 };

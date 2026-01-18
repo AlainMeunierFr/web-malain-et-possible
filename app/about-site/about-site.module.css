@@ -1,305 +1,41 @@
+/* Styles pour la page "À propos du site"
+ * Structure basée sur la hiérarchie HTML
+ * Style "article de bord" : texte réduit pour inviter à la lecture
+ */
+
+.main {
+  padding: 2rem;
+  /* Marge supérieure pour compenser le header fixe (hauteur minimale 80px + espacement) */
+  padding-top: calc(max(80px, 8.75vh) + 2rem);
+}
+
 .content {
-  max-width: 900px;
+  max-width: 1200px;
   margin: 0 auto;
-  padding: 2rem;
+  font-size: 0.9rem;
+  line-height: 1.6;
 }
 
-.sectionContent {
-  line-height: 1.4;
-  font-size: 1rem;
-  color: #444;
-}
-
-.sectionContent h2 {
-  font-size: 1.25rem; /* H2 - plus petit que H1 (1.75rem) */
-  margin-bottom: 1rem;
-  margin-top: 2rem;
-  color: var(--BleuFonce);
-  font-family: 'Oswald', sans-serif;
-  border-bottom: none; /* Pas de trait horizontal pour H2 */
-  padding-bottom: 0;
-  font-weight: 600;
-}
-
-.sectionContent h2:first-of-type {
-  margin-top: 0;
-}
-
-.sectionContent p {
-  margin: 0;
-  margin-top: 0.4em;
-  padding: 0;
-  line-height: 1.4;
-  color: #444;
-  font-size: 1rem;
-}
-
-.sectionContent p + p {
-  margin-top: 0.4em;
-}
-
-.sectionContent ul {
-  margin: 0;
-  padding: 0;
-  padding-left: 0;
-  list-style: none;
-}
-
-.sectionContent ul ul {
-  margin: 0;
-  padding: 0;
-  padding-left: 1.5rem;
-  list-style: none;
-}
-
-.sectionContent p + ul {
-  margin-top: 0;
-}
-
-.sectionContent ul + p {
-  margin-top: 0;
-}
-
-.sectionContent li {
-  margin: 0;
-  padding: 0;
-  padding-left: 1.5rem;
-  position: relative;
-  line-height: 1.4;
-  color: #444;
-  font-size: 1rem;
-}
-
-.sectionContent ul ul li {
-  padding-left: 1.5rem;
-}
-
-.sectionContent li::before {
-  content: '•';
-  position: absolute;
-  left: 0;
-  color: var(--BleuFonce);
-  font-weight: bold;
-  font-size: 1rem;
-}
-
-.sectionContent strong {
-  color: var(--BleuFonce);
-  font-weight: 600;
-}
-
-.title {
-  font-size: 2rem;
+.partie {
   margin-bottom: 1.5rem;
-  color: var(--BleuFonce);
-  font-family: 'Oswald', sans-serif;
-  text-align: center;
-  border-bottom: 3px solid var(--BleuFonce);
-  padding-bottom: 0.75rem;
-  font-weight: 600;
 }
 
-.intro {
-  margin: 2rem 0;
-  line-height: 1.4;
+.partieTitle {
   font-size: 1rem;
-  background-color: #ffffff;
-  padding: 2rem;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-  color: #444;
+  font-weight: 600;
+  margin: 0.75rem 0;
+  margin-left: 20px; /* +20px par rapport à h1 */
+  color: var(--foreground);
 }
 
-.intro h2 {
-  font-size: 1.25rem; /* H2 - plus petit que H1 (1.75rem) */
+.sousPartie {
   margin-bottom: 1rem;
-  margin-top: 2rem;
-  color: var(--BleuFonce);
-  font-family: 'Oswald', sans-serif;
-  border-bottom: none; /* Pas de trait horizontal pour H2 */
-  padding-bottom: 0;
-  font-weight: 600;
 }
 
-.intro h2:first-of-type {
-  margin-top: 0;
-}
-
-.intro p {
-  margin: 0;
-  margin-top: 0.4em;
-  padding: 0;
-  line-height: 1.4;
-  color: #444;
-  font-size: 1rem;
-}
-
-.intro p + p {
-  margin-top: 0.4em;
-}
-
-.intro ul {
-  margin: 0;
-  padding: 0;
-  padding-left: 0;
-  list-style: none;
-}
-
-.intro ul ul {
-  margin: 0;
-  padding: 0;
-  padding-left: 1.5rem;
-  list-style: none;
-}
-
-.intro p + ul {
-  margin-top: 0;
-}
-
-.intro ul + p {
-  margin-top: 0;
-}
-
-.intro li {
-  margin: 0;
-  padding: 0;
-  padding-left: 1.5rem;
-  position: relative;
-  line-height: 1.4;
-  color: #444;
-  font-size: 1rem;
-}
-
-.intro ul ul li {
-  padding-left: 1.5rem;
-}
-
-.intro li::before {
-  content: '•';
-  position: absolute;
-  left: 0;
-  color: var(--BleuFonce);
-  font-weight: bold;
-  font-size: 1rem;
-}
-
-.intro strong {
-  color: var(--BleuFonce);
-  font-weight: 600;
-}
-
-.dodSection {
-  margin-top: 3rem;
-  background-color: #ffffff;
-  padding: 2rem;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-  color: #444;
-}
-
-.dodSection h2 {
-  font-size: 1.25rem; /* H2 - plus petit que H1 (1.75rem) */
-  margin-bottom: 1rem;
-  color: var(--BleuFonce);
-  font-family: 'Oswald', sans-serif;
-  border-bottom: none; /* Pas de trait horizontal pour H2 */
-  padding-bottom: 0;
-  font-weight: 600;
-}
-
-.description {
-  margin: 0;
-  padding: 0;
-  font-style: italic;
-  color: #666;
-  line-height: 1.4;
-}
-
-.theme {
-  margin-bottom: 2rem;
-  padding: 1.25rem;
-  background-color: #f9f9f9;
-  border-radius: 8px;
-  border-left: 4px solid var(--BleuFonce);
-}
-
-.theme h2 {
-  font-size: 1.25rem; /* H2 - plus petit que H1 (1.75rem) */
-  margin-bottom: 1rem;
-  margin-top: 0;
-  color: var(--BleuFonce);
-  font-family: 'Oswald', sans-serif;
-  border-bottom: none; /* Pas de trait horizontal pour H2 */
-  padding-bottom: 0;
-  font-weight: 600;
-}
-
-.theme h2:first-child {
-  margin-top: 0;
-}
-
-.theme h3 {
-  font-size: 1.25rem;
-  margin-bottom: 0.75rem;
-  color: #1a1a1a;
-  font-family: 'Oswald', sans-serif;
-  font-weight: 600;
-}
-
-.theme ul {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.theme li {
-  margin: 0;
-  padding: 0;
-  padding-left: 1.5rem;
-  position: relative;
-  line-height: 1.4;
+.sousPartieTitle {
   font-size: 0.95rem;
-  color: #444;
-}
-
-.theme li::before {
-  content: '✓';
-  position: absolute;
-  left: 0;
-  color: var(--BleuFonce);
-  font-weight: bold;
-}
-
-@media (max-width: 768px) {
-  .content {
-    padding: 1rem;
-  }
-
-  .intro {
-    padding: 1.5rem;
-  }
-
-  .intro h2 {
-    font-size: 1.15rem; /* Ajusté pour mobile - plus petit que H1 */
-  }
-
-  .intro p {
-    font-size: 0.95rem;
-  }
-
-  .intro li {
-    font-size: 0.95rem;
-  }
-
-  .dodSection {
-    padding: 1.5rem;
-  }
-
-  .dodSection h2 {
-    font-size: 1.15rem; /* Ajusté pour mobile - plus petit que H1 */
-  }
-
-  .theme h3 {
-    font-size: 1.25rem;
-  }
+  font-weight: 500;
+  margin: 0.5rem 0;
+  margin-left: 30px; /* +30px par rapport à h1 */
+  color: var(--foreground);
 }

@@ -110,21 +110,23 @@ const CourseMarkdownRenderer: React.FC<CourseMarkdownRendererProps> = ({ content
       const text = headingMatch[2];
       const headingClass = styles[`h${level}` as keyof typeof styles] || '';
       const headingContent = parseInlineMarkdown(text);
-      const headingProps = { key: `h${level}-${elements.length}`, className: headingClass };
+      const headingKey = `h${level}-${elements.length}`;
+      const headingProps = { className: headingClass };
       
       // Créer le composant heading dynamiquement
+      // key doit être passée directement, pas via spread
       if (level === 1) {
-        elements.push(<h1 {...headingProps}>{headingContent}</h1>);
+        elements.push(<h1 key={headingKey} {...headingProps}>{headingContent}</h1>);
       } else if (level === 2) {
-        elements.push(<h2 {...headingProps}>{headingContent}</h2>);
+        elements.push(<h2 key={headingKey} {...headingProps}>{headingContent}</h2>);
       } else if (level === 3) {
-        elements.push(<h3 {...headingProps}>{headingContent}</h3>);
+        elements.push(<h3 key={headingKey} {...headingProps}>{headingContent}</h3>);
       } else if (level === 4) {
-        elements.push(<h4 {...headingProps}>{headingContent}</h4>);
+        elements.push(<h4 key={headingKey} {...headingProps}>{headingContent}</h4>);
       } else if (level === 5) {
-        elements.push(<h5 {...headingProps}>{headingContent}</h5>);
+        elements.push(<h5 key={headingKey} {...headingProps}>{headingContent}</h5>);
       } else if (level === 6) {
-        elements.push(<h6 {...headingProps}>{headingContent}</h6>);
+        elements.push(<h6 key={headingKey} {...headingProps}>{headingContent}</h6>);
       }
       return;
     }

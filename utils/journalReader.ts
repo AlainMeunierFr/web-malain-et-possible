@@ -4,6 +4,8 @@
  *
  * Principe : Séparation backend pur (logique métier) / backend Next.js (génération HTML)
  * Ces fonctions sont utilisables partout : ligne de commande, tests, composants React
+ * 
+ * APPROCHE TDD : Code fait émerger progressivement du simple au complexe
  */
 
 import fs from 'fs';
@@ -34,6 +36,7 @@ export interface CourseFile {
  * Exclut README.md et le dossier COURS
  */
 export const readJournalFiles = (): JournalFile[] => {
+  // ITÉRATION 1 : Code minimal pour passer le test 1 (lire un seul fichier journal)
   const journalDir = path.join(process.cwd(), 'JOURNAL_DE_BORD');
   
   if (!fs.existsSync(journalDir)) {
@@ -44,12 +47,12 @@ export const readJournalFiles = (): JournalFile[] => {
   const journalFiles: JournalFile[] = [];
 
   for (const file of files) {
-    // Ignorer README.md et les dossiers
+    // ITÉRATION 3 : Ignorer README.md et COURS
     if (file === 'README.md' || file === 'COURS') {
       continue;
     }
 
-    // Ne prendre que les fichiers .md avec format YYYY-MM-DD.md
+    // ITÉRATION 4 : Ne prendre que les fichiers .md avec format YYYY-MM-DD.md
     const datePattern = /^(\d{4}-\d{2}-\d{2})\.md$/;
     const match = file.match(datePattern);
     
@@ -57,31 +60,36 @@ export const readJournalFiles = (): JournalFile[] => {
       const filePath = path.join(journalDir, file);
       let content = fs.readFileSync(filePath, 'utf-8');
       
-      // Ajuster les niveaux de titres (ajouter un # devant chaque titre)
+      // ITÉRATION 6 : Ajuster les niveaux de titres
       content = adjustMarkdownTitleLevels(content);
       
-      // Extraire le titre (première ligne non vide qui n'est pas un commentaire)
+      // ITÉRATION 5 : Extraire le titre (première ligne non vide, peut être un titre markdown ou du texte)
       const lines = content.split('\n');
       let title = file.replace('.md', ''); // Par défaut, utiliser le nom du fichier
       
       for (const line of lines) {
         const trimmedLine = line.trim();
-        if (trimmedLine && !trimmedLine.startsWith('#') && !trimmedLine.startsWith('>')) {
-          title = trimmedLine.substring(0, 100); // Limiter à 100 caractères
+        if (trimmedLine && !trimmedLine.startsWith('>')) {
+          // Si c'est un titre markdown, extraire le texte sans les #
+          if (trimmedLine.startsWith('#')) {
+            title = trimmedLine.replace(/^#+\s+/, '').substring(0, 100);
+          } else {
+            title = trimmedLine.substring(0, 100); // Limiter à 100 caractères
+          }
           break;
         }
       }
 
       journalFiles.push({
         filename: file,
-        date: match[1], // YYYY-MM-DD
+        date: match[1], // ITÉRATION 4 : YYYY-MM-DD
         title,
         content,
       });
     }
   }
 
-  // Trier par nom de fichier alphabétique (date en format YYYY-MM-DD)
+  // ITÉRATION 7 : Trier par nom de fichier alphabétique (date en format YYYY-MM-DD)
   return journalFiles.sort((a, b) => a.date.localeCompare(b.date));
 };
 
@@ -89,6 +97,7 @@ export const readJournalFiles = (): JournalFile[] => {
  * Lit tous les fichiers cours du dossier JOURNAL_DE_BORD/COURS
  */
 export const readCourseFiles = (): CourseFile[] => {
+  // ITÉRATION 1 : Code minimal pour passer le test 1 (lire un seul fichier cours)
   const coursesDir = path.join(process.cwd(), 'JOURNAL_DE_BORD', 'COURS');
   
   if (!fs.existsSync(coursesDir)) {
@@ -107,12 +116,10 @@ export const readCourseFiles = (): CourseFile[] => {
     const filePath = path.join(coursesDir, file);
     let content = fs.readFileSync(filePath, 'utf-8');
     
-    // Les fichiers cours doivent commencer par ### (H3) dans le source
-    // On ajuste les niveaux pour que ### devienne #### (H4) après ajustement
-    // Mais le premier titre ### reste ### pour l'extraction, puis devient #### pour le rendu
+    // Ajuster les niveaux de titres
     content = adjustMarkdownTitleLevels(content);
     
-    // Extraire le titre (première ligne ### ... dans le source, devient #### après ajustement)
+    // ITÉRATION 2 : Extraire le titre (première ligne H4 après ajustement)
     const lines = content.split('\n');
     let title = file.replace('.md', ''); // Par défaut, utiliser le nom du fichier
     
@@ -137,7 +144,7 @@ export const readCourseFiles = (): CourseFile[] => {
     });
   }
 
-  // Trier par nom de fichier alphabétique (sans extension)
+  // ITÉRATION 3 : Trier par nom de fichier alphabétique (sans extension)
   return courseFiles.sort((a, b) => {
     // Comparer les noms de fichiers sans extension
     const nameA = a.filename.replace('.md', '').toLowerCase();

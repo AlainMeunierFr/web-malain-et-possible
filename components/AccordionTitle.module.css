@@ -1,0 +1,84 @@
+.accordionTitle {
+  margin-bottom: 1rem;
+}
+
+.headerH1,
+.headerH2 {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  text-align: left;
+  color: var(--foreground);
+  transition: opacity 0.2s;
+}
+
+.headerH1:hover,
+.headerH2:hover {
+  opacity: 0.8;
+}
+
+.headerH1:focus,
+.headerH2:focus {
+  outline: 2px solid var(--BleuFonce);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+.titleH1 {
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin: 0;
+  color: var(--foreground);
+}
+
+.titleH2 {
+  font-size: 1.05rem;
+  font-weight: 600;
+  margin: 0;
+  margin-left: 10px; /* +10px par rapport à h1 */
+  color: var(--foreground);
+}
+
+.icon {
+  width: 1.25rem;
+  height: 1.25rem;
+  flex-shrink: 0;
+  margin-left: 0.5rem;
+  transition: transform 0.2s;
+  color: var(--foreground);
+}
+
+.contentH1,
+.contentH2 {
+  overflow: hidden;
+  transition: max-height 0.3s ease-out, opacity 0.2s ease-out;
+}
+
+.contentH1.closed,
+.contentH2.closed {
+  max-height: 0;
+  opacity: 0;
+}
+
+.contentH1.open,
+.contentH2.open {
+  max-height: 5000px;
+  opacity: 1;
+}
+
+.contentInner {
+  padding-top: 0.75rem;
+}
+
+.contentH1 .contentInner {
+  padding-left: 0;
+}
+
+.contentH2 .contentInner {
+  padding-left: 10px; /* +10px par rapport à h1 */
+}
