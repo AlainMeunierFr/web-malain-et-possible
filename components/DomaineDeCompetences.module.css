@@ -107,6 +107,8 @@
   text-align: center;
   cursor: pointer;
   transition: background 200ms;
+  text-decoration: none;
+  display: inline-block;
 }
 
 .competenceBouton:hover {

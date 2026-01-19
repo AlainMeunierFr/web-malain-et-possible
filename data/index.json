@@ -20,7 +20,10 @@
             "alt": "Stratégie"
           },
           "description": "Agiliste depuis 2013, j'ai une approche empirique adaptée aux projets qui doivent explorer le champ des possibles qu'offre l'inconnu. Je propose de faire des pas de côté pour prendre conscience des croyances limitantes qui empêchent des stratégies innovantes d'émerger.",
-          "bouton": null
+          "bouton": {
+            "texte": "En savoir plus...",
+            "action": "/robustesse"
+          }
         },
         {
           "titre": "Conduite du changement",
@@ -30,8 +33,8 @@
           },
           "description": "J'aide les organisations à accepter de naviguer dans l'incertitude et à embrasser le changement. Mon approche consiste à impliquer toutes les parties prenantes, à lever les résistances et à ancrer les nouvelles pratiques de manière durable.",
           "bouton": {
-            "texte": "En savoir plus",
-            "action": "navigation"
+            "texte": "En savoir plus...",
+            "action": "/conduite-du-changement"
           }
         }
       ]
@@ -67,7 +70,7 @@
           "description": "**J'ai une expertise reconnue** dans le détournement de scènes cultes du cinéma. Ce média atypique permet de donner de la visibilité et créer de la viralité sur vos messages stratégiques.",
           "bouton": {
             "texte": "En savoir plus...",
-            "action": "navigation"
+            "action": "/detournement-video"
           }
         }
       ]

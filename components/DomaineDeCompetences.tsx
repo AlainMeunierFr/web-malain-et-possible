@@ -2,7 +2,10 @@
  * Composant pour afficher un Domaine de compétences
  */
 
+'use client';
+
 import React from 'react';
+import Link from 'next/link';
 import type { DomaineDeCompetences } from '../utils/indexReader';
 import styles from './DomaineDeCompetences.module.css';
 
@@ -74,9 +77,9 @@ const DomaineDeCompetences: React.FC<DomaineDeCompetencesProps> = ({ domaine }) 
               {parseInlineMarkdown(competence.description)}
             </div>
             {competence.bouton && (
-              <button className={styles.competenceBouton}>
+              <Link href={competence.bouton.action} className={styles.competenceBouton}>
                 {competence.bouton.texte}
-              </button>
+              </Link>
             )}
           </div>
         ))}
