@@ -1,9 +1,8 @@
-/* Conteneur principal : régule la largeur selon les contraintes responsive */
+/* Conteneur principal : prend toute la largeur disponible comme le header et footer */
 .container {
-  max-width: 1200px;
+  width: 100%;
   margin: 0 auto;
   padding: 20px;
-  width: 100%;
   box-sizing: border-box;
 }
 
@@ -142,9 +141,9 @@
   }
 }
 
-/* Responsive : écran très large - contrainte la largeur */
+/* Responsive : écran très large - garde toute la largeur disponible */
 @media (min-width: 1400px) {
   .container {
-    max-width: 1400px;
+    padding: 20px 40px; /* Plus de padding sur les côtés pour les très grands écrans */
   }
 }
