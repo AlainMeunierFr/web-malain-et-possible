@@ -7,6 +7,14 @@
   box-sizing: border-box;
 }
 
+/* Sur écrans normaux/grands : vidéo à 70% de la largeur */
+@media (min-width: 769px) {
+  .videoContainer {
+    width: 70%;
+    max-width: 947px;
+  }
+}
+
 /* Wrapper pour maintenir le ratio 16:9 */
 .videoWrapper {
   position: relative;
