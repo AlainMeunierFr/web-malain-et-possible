@@ -137,7 +137,7 @@ Construire la structure hiérarchique Partie → Sous-partie → Bloc
 Système backend
 
 #### Je souhaite
-Identifier les blocs avec les titres "##### Prompt" et "##### Résultat technique"
+Identifier les blocs avec les titres "##### Prompt" et "##### Résultat technique" et leur contenu
 
 #### Afin de
 Leur attribuer un typeDeContenu spécial pour le style CSS
@@ -145,6 +145,7 @@ Leur attribuer un typeDeContenu spécial pour le style CSS
 #### Critères d'acceptation :
 - Un bloc avec le titre exact "##### Prompt" a `typeDeContenu: "Prompt"`
 - Un bloc avec le titre exact "##### Résultat technique" a `typeDeContenu: "Résultat technique"`
+- Le contenu (texte, paragraphes, listes) d'un bloc "Prompt" a aussi `typeDeContenu: "Prompt"` pour l'affichage en bleu clair
 - Les autres blocs n'ont pas de typeDeContenu
 
 ---
@@ -170,7 +171,7 @@ Construire le JSON avec le contenu textuel structuré
 
 ### US-2.6 : Validation - Interdiction des titres H1 et H2 dans les fichiers MD
 #### En tant que
-Système backend
+Développeur
 
 #### Je souhaite
 Détecter et rejeter les fichiers MD contenant des titres H1 (#) ou H2 (##)
@@ -187,7 +188,7 @@ Garantir une structure cohérente et éviter les erreurs de hiérarchie
 
 ### US-2.7 : Validation - Interdiction des H4 sans H3 précédent
 #### En tant que
-Système backend
+Développeur
 
 #### Je souhaite
 Détecter et rejeter les fichiers MD contenant un H4 (####) sans H3 (###) précédent
@@ -204,7 +205,7 @@ Garantir une hiérarchie de titres cohérente
 
 ### US-2.8 : Validation - Minimum 2 sections par chapitre
 #### En tant que
-Système backend
+Développeur
 
 #### Je souhaite
 Détecter et rejeter les dossiers contenant un seul fichier MD valide
@@ -260,7 +261,7 @@ Naviguer facilement dans le contenu sans être submergé
 
 ---
 
-### US-3.2 : Affichage de la hiérarchie complète (H3, H4, H5)
+### US-3.3 : Affichage de la hiérarchie complète (H3, H4, H5)
 #### En tant que
 Visiteur de la page "À propos de ce site"
 
@@ -278,7 +279,7 @@ Comprendre la structure du contenu
 
 ---
 
-### US-3.3 : Masquage des titres "Prompt" et "Résultat technique"
+### US-3.4 : Masquage des titres "Prompt" et "Résultat technique"
 #### En tant que
 Visiteur de la page "À propos de ce site"
 
@@ -295,7 +296,7 @@ Avoir une présentation plus claire et moins répétitive
 
 ---
 
-### US-3.4 : Fond bleu clair pour le contenu des prompts
+### US-3.5 : Fond bleu clair pour le contenu des prompts
 #### En tant que
 Visiteur de la page "À propos de ce site"
 
@@ -312,7 +313,7 @@ Identifier visuellement les prompts dans les journaux
 
 ---
 
-### US-3.5 : Affichage du contenu (paragraphes, listes)
+### US-3.6 : Affichage du contenu (paragraphes, listes)
 #### En tant que
 Visiteur de la page "À propos de ce site"
 
@@ -331,7 +332,7 @@ Lire le contenu facilement
 
 ---
 
-### US-3.6 : Tailles de police adaptées à la lecture
+### US-3.7 : Tailles de police adaptées à la lecture
 #### En tant que
 Visiteur de la page "À propos de ce site"
 
