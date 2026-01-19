@@ -32,6 +32,7 @@
   font-weight: 400;
   line-height: 1.4;
   color: rgba(9, 23, 71, 1); /* var(--color_text_default) */
+  white-space: pre-line; /* Préserve les retours à la ligne (\n) du JSON */
 }
 
 /* Second bloc : contient 3 sous-blocs pour les compétences */
