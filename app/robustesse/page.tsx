@@ -13,8 +13,6 @@ export default function RobustessePage() {
 
   return (
     <main className={styles.main}>
-      <h1>Robustesse</h1>
-      
       {/* Affichage de tous les Domaines de compétences */}
       {domaines.map((domaine, index) => (
         <DomaineDeCompetences key={index} domaine={domaine} />

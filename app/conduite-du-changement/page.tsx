@@ -13,8 +13,6 @@ export default function ConduiteDuChangementPage() {
 
   return (
     <main className={styles.main}>
-      <h1>Conduite du changement</h1>
-      
       {/* Affichage de tous les Domaines de compétences */}
       {domaines.map((domaine, index) => (
         <DomaineDeCompetences key={index} domaine={domaine} />
