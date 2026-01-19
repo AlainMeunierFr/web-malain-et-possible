@@ -40,10 +40,7 @@ export default function AboutSiteContent({ structure }: AboutSiteContentProps) {
                     <h3 className={styles.partieTitle}>{partie.titre}</h3>
                     {/* Contenu de la partie */}
                     {partie.contenuParse && partie.contenuParse.length > 0 && (
-                      <AboutSiteContentRenderer 
-                        key={`${section.nom}-${partieIndex}-partie-content`}
-                        elements={partie.contenuParse} 
-                      />
+                      <AboutSiteContentRenderer elements={partie.contenuParse} />
                     )}
                     {partie.sousParties.map((sousPartie, sousPartieIndex) => {
                       // Clé unique : combiner le nom de la section, l'index de la partie, l'index de la sous-partie et le titre
@@ -61,7 +58,6 @@ export default function AboutSiteContent({ structure }: AboutSiteContentProps) {
                           {/* Contenu de la sous-partie si pas de blocs */}
                           {sousPartie.contenuParse && sousPartie.contenuParse.length > 0 && (
                             <AboutSiteContentRenderer 
-                              key={`${uniqueKey}-sous-partie-content`}
                               elements={sousPartie.contenuParse}
                             />
                           )}
@@ -79,7 +75,6 @@ export default function AboutSiteContent({ structure }: AboutSiteContentProps) {
                                 {/* Contenu du bloc avec fond bleu clair si typeDeContenu est "Prompt" */}
                                 {bloc.contenuParse && bloc.contenuParse.length > 0 && (
                                   <AboutSiteContentRenderer 
-                                    key={`${blocKey}-bloc-content`}
                                     elements={bloc.contenuParse}
                                     typeDeContenu={bloc.typeDeContenu}
                                   />
