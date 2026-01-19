@@ -7,13 +7,13 @@
   box-sizing: border-box;
 }
 
-/* Texte : même style que le titre d'un domaine de compétence */
+/* Texte : style normal (pas un titre) */
 .texteLargeText {
-  font-family: 'Oswald', sans-serif;
-  font-size: 24px;
-  font-weight: 700;
+  font-family: 'Noto Serif', serif;
+  font-size: 14px;
+  font-weight: 400;
   line-height: 1.4;
-  text-align: center;
+  text-align: left;
   margin: 0;
   color: rgba(9, 23, 71, 1); /* var(--color_text_default) */
 }
@@ -25,6 +25,6 @@
   }
 
   .texteLargeText {
-    font-size: 20px;
+    font-size: 14px;
   }
 }
