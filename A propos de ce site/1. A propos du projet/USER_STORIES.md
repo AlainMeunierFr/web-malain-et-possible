@@ -110,61 +110,29 @@ Construire la liste des sections pour chaque chapitre
 - Seuls les fichiers avec l'extension .md sont lus
 - Les fichiers non-MD sont ignorés
 - Les fichiers MD vides sont ignorés
+- Les dossiers ne contenant que des fichiers à ignorer sont ignoré aussi (#US-2.1)
 
 ---
 
-### US-2.3 : Parsing des parties (###) dans un fichier MD
+### US-2.3 : Parsing de la hiérarchie (Parties, Sous-parties, Blocs)
 #### En tant que
 Système backend
 
 #### Je souhaite
-Extraire toutes les parties (titres ###) d'un fichier MD
+Extraire la structure hiérarchique complète d'un fichier MD : parties (###), sous-parties (####) et blocs (#####)
 
 #### Afin de
 Construire la structure hiérarchique Partie → Sous-partie → Bloc
 
 #### Critères d'acceptation :
-- Chaque titre ### est détecté comme une partie
-- Le titre de la partie est extrait (texte après ###)
-- Le contenu de la partie est extrait jusqu'à la prochaine partie ou fin de fichier
+- **Parties (###)** : Chaque titre ### est détecté comme une partie, le titre est extrait, le contenu est extrait jusqu'à la prochaine partie ou fin de fichier
+- **Sous-parties (####)** : Chaque titre #### est détecté comme une sous-partie, le titre est extrait, le contenu est extrait jusqu'à la prochaine sous-partie, partie ou fin de fichier
+- **Blocs (#####)** : Chaque titre ##### est détecté comme un bloc, le titre est extrait, le contenu est extrait jusqu'au prochain bloc, sous-partie, partie ou fin de fichier
+- La hiérarchie est respectée : Bloc dans Sous-partie, Sous-partie dans Partie
 
 ---
 
-### US-2.4 : Parsing des sous-parties (####) dans une partie
-#### En tant que
-Système backend
-
-#### Je souhaite
-Extraire toutes les sous-parties (titres ####) d'une partie
-
-#### Afin de
-Construire la structure hiérarchique complète
-
-#### Critères d'acceptation :
-- Chaque titre #### est détecté comme une sous-partie
-- Le titre de la sous-partie est extrait (texte après ####)
-- Le contenu de la sous-partie est extrait jusqu'à la prochaine sous-partie, partie ou fin de fichier
-
----
-
-### US-2.5 : Parsing des blocs (#####) dans une sous-partie
-#### En tant que
-Système backend
-
-#### Je souhaite
-Extraire tous les blocs (titres #####) d'une sous-partie
-
-#### Afin de
-Construire la structure hiérarchique complète jusqu'au niveau bloc
-
-#### Critères d'acceptation :
-- Chaque titre ##### est détecté comme un bloc
-- Le titre du bloc est extrait (texte après #####)
-- Le contenu du bloc est extrait jusqu'au prochain bloc, sous-partie, partie ou fin de fichier
-
----
-
-### US-2.6 : Détection des blocs "Prompt" et "Résultat technique"
+### US-2.4 : Détection des blocs "Prompt" et "Résultat technique"
 #### En tant que
 Système backend
 
@@ -181,7 +149,7 @@ Leur attribuer un typeDeContenu spécial pour le style CSS
 
 ---
 
-### US-2.7 : Parsing du contenu texte (paragraphes, listes) dans une partie/sous-partie/bloc
+### US-2.5 : Parsing du contenu texte (paragraphes, listes) dans une partie/sous-partie/bloc
 #### En tant que
 Système backend
 
@@ -200,7 +168,7 @@ Construire le JSON avec le contenu textuel structuré
 
 ---
 
-### US-2.8 : Validation - Interdiction des titres H1 et H2 dans les fichiers MD
+### US-2.6 : Validation - Interdiction des titres H1 et H2 dans les fichiers MD
 #### En tant que
 Système backend
 
@@ -217,7 +185,7 @@ Garantir une structure cohérente et éviter les erreurs de hiérarchie
 
 ---
 
-### US-2.9 : Validation - Interdiction des H4 sans H3 précédent
+### US-2.7 : Validation - Interdiction des H4 sans H3 précédent
 #### En tant que
 Système backend
 
@@ -234,7 +202,7 @@ Garantir une hiérarchie de titres cohérente
 
 ---
 
-### US-2.10 : Validation - Minimum 2 sections par chapitre
+### US-2.8 : Validation - Minimum 2 sections par chapitre
 #### En tant que
 Système backend
 
@@ -251,7 +219,7 @@ Garantir que chaque chapitre contient au moins 2 sections
 
 ---
 
-### US-2.11 : Génération du JSON avec structure hiérarchique complète
+### US-2.9 : Génération du JSON avec structure hiérarchique complète
 #### En tant que
 Système backend
 
