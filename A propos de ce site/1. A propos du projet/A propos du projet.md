@@ -1,5 +1,5 @@
 ### Product Goal
-[À compléter : Objectif produit à long terme]
+En tant que manager technico/fonctionnel, améliorer ma capacité à interagir efficacement avec les développeurs en construisant un site web personnel qui démontre ma compréhension pratique des pratiques du software craftsmanship moderne (TDD, BDD, Clean Code, DDD). L'objectif n'est pas de devenir développeur, mais de développer une compréhension concrète des enjeux techniques, de la qualité du code, et de l'expression du métier dans le code source, afin de mieux dialoguer, challenger et collaborer avec les équipes de développement. Le site sert de laboratoire d'apprentissage où l'IA est utilisée comme partenaire pédagogique pour accélérer cette remise à niveau, tout en garantissant que je maîtrise chaque ligne de code produite.
 
 ### Contexte
 Ancien développeur (1995–2020), aujourd'hui en reprise active du code, ce projet est un laboratoire personnel de remise à niveau sur le développement web moderne.

@@ -1,7 +1,7 @@
 ### Epic 1 : Site Web - Structure de Base
 
 #### Sprint Goal
-[À compléter : Objectif du sprint pour cet Epic]
+Mettre en place la structure de base du site web avec header, footer, logo et photo, configurer le CI/CD pour un déploiement automatique sur Vercel, et implémenter une navigation fonctionnelle vers la page "À propos de moi", afin d'avoir une base solide et déployable pour les développements ultérieurs.
 
 #### US-1.1 : Affichage initial "Hello World"
 - **En tant que** Visiteur du site
@@ -57,7 +57,7 @@
 ### Epic 2 : Page "À propos de ce site" - Backend (Construction progressive du JSON)
 
 #### Sprint Goal
-[À compléter : Objectif du sprint pour cet Epic]
+Construire un backend robuste qui lit, parse et valide les fichiers Markdown du répertoire "A propos de ce site" pour générer un JSON structuré avec la hiérarchie complète (Chapitre → Section → Partie → Sous-partie → Bloc), en garantissant la qualité des données via des validations strictes (pas de H1/H2, hiérarchie cohérente, minimum 2 sections par chapitre) et en détectant les types de contenu spéciaux (Prompt, Résultat technique).
 
 #### US-2.1 : Lecture des dossiers du répertoire "A propos de ce site"
 - **En tant que** Système backend
@@ -167,10 +167,8 @@
 
 ---
 
-### Epic 3 : Page "À propos de ce site" - Frontend
-
 #### Sprint Goal
-[À compléter : Objectif du sprint pour cet Epic]
+Créer une interface utilisateur complète et interactive pour la page "À propos de ce site" qui affiche toute la hiérarchie du contenu (H1 à H5) avec un système d'accordéon pour la navigation, un rendu markdown de qualité (paragraphes, listes, styles), et une présentation visuelle claire (masquage des titres techniques, fond bleu clair pour les prompts, tailles de police adaptées), en utilisant les Server Components pour le SEO.
 
 #### US-3.1 : Récupération des données via Server Component
 - **En tant que** Système frontend
