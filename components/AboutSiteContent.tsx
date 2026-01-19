@@ -34,16 +34,13 @@ export default function AboutSiteContent() {
       });
   }, []);
 
-  if (loading) {
+  // Éviter les problèmes d'hydratation : même rendu initial serveur/client
+  if (loading || !structure) {
     return <main className={styles.main}><div className={styles.content}>Chargement...</div></main>;
   }
 
   if (error) {
     return <main className={styles.main}><div className={styles.content}>Erreur : {error}</div></main>;
-  }
-
-  if (!structure) {
-    return <main className={styles.main}><div className={styles.content}>Aucune donnée</div></main>;
   }
 
   const { chapitres } = structure;
