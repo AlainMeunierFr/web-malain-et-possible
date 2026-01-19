@@ -242,7 +242,26 @@ Exposer les données structurées pour le frontend
 
 ## Epic 3 : Page "À propos de ce site" - Frontend
 
-### US-3.1 : Accordéon pour H1 et H2
+### US-3.1 : Récupération du JSON via API
+#### En tant que
+Système frontend
+
+#### Je souhaite
+Récupérer le JSON structuré depuis une API route
+
+#### Afin de
+Consommer les données rendues disponibles par le serveur avant toute mise en page
+
+#### Critères d'acceptation :
+- Le Client Component fait un `fetch('/api/about-site')`
+- L'API route retourne le JSON généré par le backend pur
+- Un état de chargement est affiché pendant le fetch
+- Les erreurs sont gérées et affichées
+- **Note pour tests futurs** : Pour tester l'API, afficher le JSON brut dans le navigateur plutôt qu'en console
+
+---
+
+### US-3.2 : Accordéon pour H1 et H2
 #### En tant que
 Visiteur de la page "À propos de ce site"
 
@@ -352,35 +371,3 @@ Lire le contenu confortablement
 
 ---
 
-### US-3.7 : Espacement pour éviter le chevauchement avec header et footer
-#### En tant que
-Visiteur de la page "À propos de ce site"
-
-#### Je souhaite
-Voir tout le contenu sans qu'il soit masqué par le header fixe en haut ni le footer fixe en bas
-
-#### Afin de
-Pouvoir lire tout le contenu sans avoir à scroller pour voir les parties cachées
-
-#### Critères d'acceptation :
-- Le contenu a un padding-top qui compense la hauteur du header (max(80px, 8.75vh) + 2rem)
-- Le contenu a un padding-bottom qui compense la hauteur du footer (max(50px, 5.47vh) + 2rem)
-- Aucun contenu n'est masqué sous le header ou le footer
-
----
-
-### US-3.8 : Récupération du JSON via API
-#### En tant que
-Système frontend
-
-#### Je souhaite
-Récupérer le JSON structuré depuis une API route
-
-#### Afin de
-Avoir une séparation claire entre backend et frontend
-
-#### Critères d'acceptation :
-- Le Client Component fait un `fetch('/api/about-site')`
-- L'API route retourne le JSON généré par le backend pur
-- Un état de chargement est affiché pendant le fetch
-- Les erreurs sont gérées et affichées
