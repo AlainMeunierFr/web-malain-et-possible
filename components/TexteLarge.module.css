@@ -1,8 +1,9 @@
 /* Container : style titre domaine sans les compétences */
+/* Mobile-first : styles de base pour smartphone (≤768px) */
 .texteLargeContainer {
   max-width: 947px;
   margin: 0 auto;
-  padding: 2rem 1rem;
+  padding: 1.5rem 1rem;
   width: 100%;
   box-sizing: border-box;
 }
@@ -19,13 +20,9 @@
   white-space: pre-line; /* Préserve les retours à la ligne (\n) du JSON */
 }
 
-/* Responsive : ajustement pour petits écrans */
-@media (max-width: 768px) {
+/* Desktop : écrans normaux/grands (≥769px) */
+@media (min-width: 769px) {
   .texteLargeContainer {
-    padding: 1.5rem 1rem;
-  }
-
-  .texteLargeText {
-    font-size: 14px;
+    padding: 2rem 1rem;
   }
 }

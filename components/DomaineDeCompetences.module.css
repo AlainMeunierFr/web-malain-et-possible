@@ -1,8 +1,9 @@
 /* Conteneur principal : régule la largeur selon les contraintes responsive */
+/* Mobile-first : styles de base pour smartphone (≤768px) */
 .container {
   max-width: 947px;
   margin: 0 auto;
-  padding: 20px;
+  padding: 15px;
   width: 100%;
   box-sizing: border-box;
 }
@@ -16,7 +17,7 @@
 /* Ligne 1 : titre en gras */
 .domaineTitre {
   font-family: 'Oswald', sans-serif;
-  font-size: 24px;
+  font-size: 20px;
   font-weight: 700;
   line-height: 1.4;
   text-align: center;
@@ -27,7 +28,7 @@
 /* Ligne 2 : texte en normal */
 .domaineContenu {
   font-family: 'Noto Serif', serif;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 400;
   line-height: 1.4;
   color: rgba(9, 23, 71, 1); /* var(--color_text_default) */
@@ -55,7 +56,7 @@
 /* Ligne 1 : titre de la compétence */
 .competenceTitre {
   font-family: 'Oswald', sans-serif;
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 500;
   line-height: 1.4;
   text-align: center;
@@ -81,7 +82,7 @@
 /* Ligne 3 : texte (peut contenir du gras) */
 .competenceDescription {
   font-family: 'Noto Serif', serif;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 400;
   line-height: 1.4;
   color: rgba(9, 23, 71, 1); /* var(--color_text_default) */
@@ -116,37 +117,25 @@
   color: #ffffff; /* var(--color_primary_contrast_default) */
 }
 
-/* Responsive : écran pas assez large */
-@media (max-width: 768px) {
+/* Desktop : écrans normaux/grands (≥769px) */
+@media (min-width: 769px) {
   .container {
-    padding: 15px;
+    padding: 20px;
   }
 
   .domaineTitre {
-    font-size: 20px;
+    font-size: 24px;
   }
 
   .domaineContenu {
-    font-size: 13px;
-  }
-
-  .competence {
-    width: 100%;
-    min-width: unset;
+    font-size: 14px;
   }
 
   .competenceTitre {
-    font-size: 16px;
+    font-size: 18px;
   }
 
   .competenceDescription {
-    font-size: 13px;
-  }
-}
-
-/* Responsive : écran très large - contrainte la largeur à 947px */
-@media (min-width: 1400px) {
-  .container {
-    max-width: 947px;
+    font-size: 14px;
   }
 }
