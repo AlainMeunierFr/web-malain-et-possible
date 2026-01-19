@@ -1,5 +1,6 @@
 import styles from './shared.module.css';
 import { readIndexData } from '../utils/indexReader';
+import DomaineDeCompetences from '../components/DomaineDeCompetences';
 
 /**
  * Page d'accueil
@@ -15,27 +16,7 @@ export default function HomePage() {
       <h1>Home page</h1>
       
       {/* Affichage du Domaine de compétences */}
-      <section>
-        <h2>{domaine.titre}</h2>
-        <p>{domaine.contenu}</p>
-        
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '20px', justifyContent: 'center' }}>
-          {domaine.items.map((competence, index) => (
-            <div key={index} style={{ width: '33%', minWidth: '250px', padding: '20px' }}>
-              <h3>{competence.titre}</h3>
-              <img 
-                src={competence.image.src} 
-                alt={competence.image.alt}
-                style={{ width: '60%', aspectRatio: '1', objectFit: 'cover' }}
-              />
-              <p>{competence.description}</p>
-              {competence.bouton && (
-                <button>{competence.bouton.texte}</button>
-              )}
-            </div>
-          ))}
-        </div>
-      </section>
+      <DomaineDeCompetences domaine={domaine} />
     </main>
   );
 }

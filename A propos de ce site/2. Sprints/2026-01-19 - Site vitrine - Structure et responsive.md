@@ -9,5 +9,13 @@ Développer la structure hiérarchique et le responsive du site vitrine (carte d
 - Un fichier JSON `data/index.json` contient un objet "Domaine de compétences" mockup avec ses propriétés (titre, contenu, items)
 - Chaque compétence contient ses propriétés (titre, image, description, bouton optionnel)
 - Le JSON est chargé depuis le backend pur et affiché sur la page d'accueil via un composant React
-- Le Domaine de compétences s'affiche avec son titre, son contenu d'introduction et ses 3 compétences
+- **CSS responsive** :
+  - Un bloc conteneur principal qui régule la largeur selon les contraintes responsive : écran trop large = contrainte la largeur / écran pas assez large = écriture en plus petit
+  - Premier sous-bloc horizontal qui prend toute la largeur pour le "Domaine de compétences" :
+    - Ligne 1 : le titre en gras
+    - Ligne 2 : le texte en normal
+  - Second bloc qui contient 3 sous-blocs pour chacune des compétences :
+    - Ligne 1 : le titre
+    - Ligne 2 : l'image
+    - Ligne 3 : le texte (contenant éventuellement du gras sur certains mots)
 - Les données mockup sont réalistes mais factices (texte lorem ipsum, images placeholder, etc.)

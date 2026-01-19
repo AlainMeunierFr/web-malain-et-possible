@@ -4,7 +4,5 @@
   padding-top: max(80px, 8.75vh);
   padding-bottom: max(50px, 5.47vh);
   min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  width: 100%;
 }

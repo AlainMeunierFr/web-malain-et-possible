@@ -1,0 +1,140 @@
+/* Conteneur principal : régule la largeur selon les contraintes responsive */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Premier sous-bloc : Domaine de compétences (prend toute la largeur) */
+.domaineHeader {
+  width: 100%;
+  margin-bottom: 40px;
+}
+
+/* Ligne 1 : titre en gras */
+.domaineTitre {
+  font-weight: bold;
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  color: var(--BleuFonce, #0070C0);
+}
+
+/* Ligne 2 : texte en normal */
+.domaineContenu {
+  font-weight: normal;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--foreground, #171717);
+}
+
+/* Second bloc : contient 3 sous-blocs pour les compétences */
+.competencesContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
+  justify-content: center;
+  width: 100%;
+}
+
+/* Sous-bloc pour chaque compétence */
+.competence {
+  display: flex;
+  flex-direction: column;
+  width: calc(33.333% - 20px);
+  min-width: 250px;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+/* Ligne 1 : titre de la compétence */
+.competenceTitre {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  text-align: center;
+  color: var(--foreground, #171717);
+}
+
+/* Ligne 2 : image */
+.competenceImage {
+  width: 60%;
+  margin: 0 auto 1rem;
+  aspect-ratio: 1;
+  overflow: hidden;
+}
+
+.competenceImage img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Ligne 3 : texte (peut contenir du gras) */
+.competenceDescription {
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: var(--foreground, #171717);
+  margin-bottom: 1rem;
+}
+
+.competenceDescription strong {
+  font-weight: bold;
+}
+
+/* Bouton optionnel */
+.competenceBouton {
+  margin-top: auto;
+  padding: 8px 16px;
+  background-color: var(--color_primary_contrast_default, #ffffff);
+  color: var(--BleuFonce, #0070C0);
+  border: 1px solid var(--BleuFonce, #0070C0);
+  border-radius: 0;
+  font-family: 'Clint Marker', cursive;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 200ms;
+}
+
+.competenceBouton:hover {
+  background-color: var(--BleuFonce, #0070C0);
+  color: var(--color_primary_contrast_default, #ffffff);
+}
+
+/* Responsive : écran pas assez large */
+@media (max-width: 768px) {
+  .container {
+    padding: 15px;
+  }
+
+  .domaineTitre {
+    font-size: 1.5rem;
+  }
+
+  .domaineContenu {
+    font-size: 0.9rem;
+  }
+
+  .competence {
+    width: 100%;
+    min-width: unset;
+  }
+
+  .competenceTitre {
+    font-size: 1.2rem;
+  }
+
+  .competenceDescription {
+    font-size: 0.85rem;
+  }
+}
+
+/* Responsive : écran très large - contrainte la largeur */
+@media (min-width: 1400px) {
+  .container {
+    max-width: 1400px;
+  }
+}
