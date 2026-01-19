@@ -1,10 +1,13 @@
 import styles from '../shared.module.css';
-import FaisonsConnaissanceContent from '../../components/FaisonsConnaissanceContent';
+import { readPageData } from '../../utils/indexReader';
+import PageContentRenderer from '../../components/PageContentRenderer';
 
 export default function FaisonsConnaissancePage() {
+  const pageData = readPageData('faisons-connaissance.json');
+
   return (
     <main className={styles.main}>
-      <FaisonsConnaissanceContent />
+      <PageContentRenderer contenu={pageData.contenu} />
     </main>
   );
 }

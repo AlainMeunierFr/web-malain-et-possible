@@ -1,0 +1,84 @@
+/* Mobile-first : styles de base pour smartphone (≤768px) */
+.groupeBoutonsContainer {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1.5rem 1rem;
+  width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  gap: 1rem;
+}
+
+.taillePetite {
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.tailleGrande {
+  flex-direction: column;
+  align-items: stretch;
+  gap: 1.5rem;
+}
+
+.bouton {
+  background-color: transparent;
+  border: 1px solid rgba(0, 112, 192, 1); /* var(--color_bTHGN0_default) */
+  border-radius: 0;
+  cursor: pointer;
+  transition: background 200ms;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1.5rem;
+  font-family: 'Clint Marker', cursive;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.taillePetite .bouton {
+  padding: 0; /* Même padding que le footer (pas de padding) */
+  border: none; /* Pas de contours pour les petits boutons */
+  /* Taille identique au footer : icône de 30px */
+}
+
+.tailleGrande .bouton {
+  width: 400px; /* Largeur fixe de 400px pour tous les grands boutons */
+  margin: 0 auto;
+  padding: 1rem 1.5rem;
+  text-align: left;
+}
+
+.couleurInversee {
+  color: rgba(0, 112, 192, 1); /* Couleur inversée : BleuFonce sur fond clair */
+}
+
+.bouton:hover {
+  background-color: rgba(0, 112, 192, 1); /* var(--color_bTHGN0_default) */
+  color: #ffffff; /* var(--color_primary_contrast_default) */
+}
+
+.icon {
+  flex-shrink: 0;
+}
+
+.texte {
+  flex: 1;
+  text-align: left;
+}
+
+.tailleGrande .texte {
+  font-size: 22px; /* Texte plus gros pour les grands boutons */
+}
+
+/* Desktop : écrans normaux/grands (≥769px) */
+@media (min-width: 769px) {
+  .groupeBoutonsContainer {
+    padding: 2rem 1rem;
+  }
+
+  .tailleGrande .texte {
+    font-size: 24px; /* Encore plus gros sur desktop */
+  }
+}

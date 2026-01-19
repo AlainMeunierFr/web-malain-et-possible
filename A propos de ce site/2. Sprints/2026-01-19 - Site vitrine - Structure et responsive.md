@@ -49,15 +49,79 @@ Développer la structure hiérarchique et le responsive du site vitrine (carte d
 
 #### US-3.4 : Contact - Call to Action et page "Faisons connaissance"
 - **En tant que** Visiteur du site
-- **Je souhaite** Pouvoir accéder à une page "Faisons connaissance" depuis un bouton d'action visible sur toutes les pages
+- **Je souhaite** Pouvoir accéder à une page "Faisons connaissance" depuis un bouton d'action visible en bas de toutes les pages
 - **Afin de** Entrer en contact avec Alain et découvrir comment collaborer
 - **Critères d'acceptation** :
-- **Étape 1 : Accès à la page**
-  - Un nouveau type de contenu "callToAction" est créé avec un champ "action" (texte du bouton)
-  - Ce callToAction est ajouté à la fin de tous les fichiers JSON avec la valeur "Faisons connaissance..."
-  - Le rendu CSS est un bouton dans le même style que "En savoir plus..." mais qui fait la même largeur qu'un "Domaine de compétence"
-  - Un clic sur le bouton amène à la page "/faisons-connaissance"
-- **Étape 2 : Page "Faisons connaissance"**
-  - Une nouvelle page "/faisons-connaissance" est créée
-  - Le contenu de la page est basé sur le fichier HTML d'exemple "Malain et possible - Faisons connaissance.html"
-  - La page est responsive et utilise la même structure que les autres pages du site
+- **Type de contenu "callToAction"** :
+  - Un nouveau type de contenu "callToAction" est défini dans `TypeElementContenu` avec une interface `ElementCallToAction` contenant un champ "action" (string) pour le texte du bouton
+  - Ce type est ajouté à l'union type `ElementContenu` dans `utils/indexReader.ts`
+  - Le composant `PageContentRenderer` gère le rendu de ce nouveau type de contenu
+- **Ajout dans les JSON** :
+  - Un élément `callToAction` avec `action: "Faisons connaissance..."` est ajouté à la fin du tableau `contenu` de tous les fichiers JSON de pages (`index.json`, `Conduite du changement.json`, `Détournement vidéo.json`, `Robustesse.json`)
+- **Rendu CSS du bouton** :
+  - Le bouton a le même style que "En savoir plus..." : bordure bleue (`rgba(0, 112, 192, 1)`), police 'Clint Marker', fond transparent, effet hover (fond bleu, texte blanc)
+  - La largeur maximale du bouton est de 947px (identique à un "Domaine de compétence")
+  - Le bouton est centré dans son conteneur
+  - Le design est responsive (mobile-first)
+- **Comportement du bouton** :
+  - Un clic sur le bouton "Faisons connaissance..." redirige vers la page "/faisons-connaissance"
+  - La navigation utilise Next.js Link pour une navigation optimisée
+- **Page "Faisons connaissance"** :
+  - La page "/faisons-connaissance" affiche le contenu de contact
+  - Le contenu est basé sur le fichier HTML d'exemple "Malain et possible - Faisons connaissance.html"
+  - La page est responsive et utilise la même structure que les autres pages du site (Header/Footer partagés)
+
+#### US-3.5 : Page "Faisons connaissance" - Affichage et comportement des boutons de contact
+- **En tant que** Visiteur du site
+- **Je souhaite** Voir une page "Faisons connaissance" avec des boutons de contact clairs et accessibles organisés en groupes
+- **Afin de** Facilement entrer en contact avec Alain selon différents modes (déjeuner, visio, téléphone, email, réseaux sociaux)
+
+- **Critères d'acceptation** :
+
+- **Titre de la page** :
+  - La page affiche un titre "Faisons connaissance"
+
+- **Nouveau type de contenu "Groupe de boutons"** :
+  - Un nouveau type de contenu "groupeBoutons" est défini dans `TypeElementContenu` avec une interface `ElementGroupeBoutons`
+  - Un groupe de boutons contient :
+    - `taille` : "petite" ou "grande"
+    - `boutons` : tableau de boutons
+  - Chaque bouton contient : `icone` (string), `texte` (string optionnel), `url` (string), `command` (string optionnel)
+  - Le type est ajouté à l'union type `ElementContenu` dans `utils/indexReader.ts`
+  - Le composant `PageContentRenderer` gère le rendu de ce nouveau type de contenu
+
+- **Groupe de boutons "grands" (verticaux)** :
+  - Un groupe de boutons de taille "grande" s'affiche verticalement
+  - Chaque bouton large affiche une icône et un titre
+  - Les boutons sont empilés verticalement (flex-direction: column)
+  - 3 boutons dans ce groupe :
+    1. Icône "UtensilsCrossed" (couverts) + texte "Déjeuner aux alentours de Lyon" + URL "http://localhost:3000/about-site"
+    2. Icône "Video" (visioconférence) + texte "30mn de visio" + URL "http://localhost:3000/about-site"
+    3. Icône "Phone" (téléphone) + texte "+33 6.21.03.12.65" + URL "tel:+33621031265"
+  - Sur smartphone, le bouton téléphone déclenche un appel (`tel:`)
+
+- **Groupe de boutons "petits" (horizontaux)** :
+  - Un groupe de boutons de taille "petite" s'affiche horizontalement
+  - Les boutons sont sans texte, icône uniquement (comme le footer)
+  - Les boutons sont alignés horizontalement (flex-direction: row)
+  - 3 boutons dans ce groupe :
+    1. Icône "Mail" + URL "mailto:alain@maep.fr"
+    2. Icône "Youtube" + URL "https://www.youtube.com/@m-alain-et-possible"
+    3. Icône "Linkedin" + URL "https://www.linkedin.com/in/alain-meunier-maep/"
+
+- **Couleur du texte inversée** :
+  - Les boutons du footer sont blancs sur fond BleuFonce
+  - Les boutons de la page "Faisons connaissance" sont BleuFonce sur fond blanc (ou fond clair)
+  - La couleur du texte est donc inversée par rapport au footer
+
+- **Architecture des données** :
+  - Un fichier JSON `data/faisons-connaissance.json` définit le contenu de la page
+  - Structure : tableau `contenu` contenant des éléments de type "titre" et "groupeBoutons"
+  - La page utilise `readPageData` pour charger le JSON
+  - Réutilisation de la logique des boutons du footer (ButtonGroup, ButtonItem) avec paramètre de taille
+  - Factorisation des composants de boutons pour éviter la duplication
+
+- **Composants réutilisables** :
+  - Factorisation avec le footer : réutilisation de la logique de boutons (icône, URL, command)
+  - Adaptation du rendu selon la taille du groupe (petite = horizontal sans texte, grande = vertical avec icône et texte)
+  - Adaptation de la couleur selon le contexte (footer = blanc sur bleu, page = bleu sur blanc)

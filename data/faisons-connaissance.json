@@ -1,0 +1,62 @@
+{
+  "contenu": [
+    {
+      "type": "titre",
+      "texte": "Faisons connaissance"
+    },
+    {
+      "type": "groupeBoutons",
+      "taille": "grande",
+      "boutons": [
+        {
+          "id": "dejeuner",
+          "icone": "UtensilsCrossed",
+          "texte": "Déjeuner aux alentours de Lyon",
+          "url": "https://zcal.co/alain-meunier/dejeuner",
+          "command": null
+        },
+        {
+          "id": "visio",
+          "icone": "Video",
+          "texte": "30mn de visio",
+          "url": "https://zcal.co/alain-meunier/30min",
+          "command": null
+        },
+        {
+          "id": "telephone",
+          "icone": "Phone",
+          "texte": "+33 6.21.03.12.65",
+          "url": "tel:+33621031265",
+          "command": null
+        }
+      ]
+    },
+    {
+      "type": "groupeBoutons",
+      "taille": "petite",
+      "boutons": [
+        {
+          "id": "email",
+          "icone": "Mail",
+          "texte": null,
+          "url": "mailto:alain@maep.fr",
+          "command": null
+        },
+        {
+          "id": "youtube",
+          "icone": "Youtube",
+          "texte": null,
+          "url": "https://www.youtube.com/@m-alain-et-possible",
+          "command": null
+        },
+        {
+          "id": "linkedin",
+          "icone": "Linkedin",
+          "texte": null,
+          "url": "https://www.linkedin.com/in/alain-meunier-maep/",
+          "command": null
+        }
+      ]
+    }
+  ]
+}

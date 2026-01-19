@@ -35,7 +35,7 @@ export interface DomaineDeCompetences {
 /**
  * Types d'éléments de contenu de page
  */
-export type TypeElementContenu = 'titre' | 'video' | 'texteLarge' | 'domaineDeCompetence' | 'callToAction';
+export type TypeElementContenu = 'titre' | 'video' | 'texteLarge' | 'domaineDeCompetence' | 'callToAction' | 'groupeBoutons';
 
 /**
  * Interface pour un élément de type "Titre"
@@ -81,6 +81,26 @@ export interface ElementCallToAction {
 }
 
 /**
+ * Interface pour un bouton dans un groupe de boutons
+ */
+export interface BoutonGroupe {
+  id: string;
+  icone: string; // Nom de l'icône lucide-react (ex: "Mail", "Youtube")
+  texte: string | null; // Texte optionnel (null pour taille "petite")
+  url: string | null;
+  command: string | null; // Commande optionnelle pour navigation interne
+}
+
+/**
+ * Interface pour un élément de type "Groupe de boutons"
+ */
+export interface ElementGroupeBoutons {
+  type: 'groupeBoutons';
+  taille: 'petite' | 'grande';
+  boutons: BoutonGroupe[];
+}
+
+/**
  * Union type pour tous les éléments de contenu
  */
 export type ElementContenu = 
@@ -88,7 +108,8 @@ export type ElementContenu =
   | ElementVideo 
   | ElementTexteLarge 
   | ElementDomaineDeCompetence
-  | ElementCallToAction;
+  | ElementCallToAction
+  | ElementGroupeBoutons;
 
 /**
  * Interface pour la structure "contenu de page"

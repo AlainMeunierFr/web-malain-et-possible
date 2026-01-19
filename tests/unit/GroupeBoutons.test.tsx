@@ -1,0 +1,162 @@
+/**
+ * Tests unitaires pour le composant GroupeBoutons
+ * TDD : RED → GREEN → REFACTOR
+ */
+
+import React from 'react';
+import { render, screen } from '@testing-library/react';
+import GroupeBoutons from '../../components/GroupeBoutons';
+import type { ElementGroupeBoutons } from '../../utils/indexReader';
+
+// Mock next/navigation
+jest.mock('next/navigation', () => ({
+  useRouter: jest.fn(() => ({
+    push: jest.fn(),
+  })),
+}));
+
+// Mock buttonHandlers
+jest.mock('../../utils/buttonHandlers', () => ({
+  getButtonAction: jest.fn((command: string, url: string | null) => {
+    if (command === 'cmd-test') {
+      return { type: 'internal', route: '/test' };
+    }
+    if (url) {
+      return { type: 'external', url };
+    }
+    return { type: 'alert', message: 'test' };
+  }),
+}));
+
+describe('Composant GroupeBoutons', () => {
+  it('devrait afficher les boutons dans un conteneur', () => {
+    const element: ElementGroupeBoutons = {
+      type: 'groupeBoutons',
+      taille: 'petite',
+      boutons: [
+        {
+          id: 'test1',
+          icone: 'Mail',
+          texte: null,
+          url: 'mailto:test@test.com',
+          command: null,
+        },
+      ],
+    };
+
+    const { container } = render(<GroupeBoutons element={element} />);
+    const groupeContainer = container.firstChild as HTMLElement;
+
+    expect(groupeContainer).toHaveClass('groupeBoutonsContainer');
+  });
+
+  it('devrait afficher les boutons horizontalement pour taille "petite"', () => {
+    const element: ElementGroupeBoutons = {
+      type: 'groupeBoutons',
+      taille: 'petite',
+      boutons: [
+        {
+          id: 'test1',
+          icone: 'Mail',
+          texte: null,
+          url: 'mailto:test@test.com',
+          command: null,
+        },
+      ],
+    };
+
+    const { container } = render(<GroupeBoutons element={element} />);
+    const groupeContainer = container.firstChild as HTMLElement;
+
+    expect(groupeContainer).toHaveClass('groupeBoutonsContainer');
+    expect(groupeContainer).toHaveClass('taillePetite');
+  });
+
+  it('devrait afficher les boutons verticalement pour taille "grande"', () => {
+    const element: ElementGroupeBoutons = {
+      type: 'groupeBoutons',
+      taille: 'grande',
+      boutons: [
+        {
+          id: 'test1',
+          icone: 'Mail',
+          texte: 'Test',
+          url: 'mailto:test@test.com',
+          command: null,
+        },
+      ],
+    };
+
+    const { container } = render(<GroupeBoutons element={element} />);
+    const groupeContainer = container.firstChild as HTMLElement;
+
+    expect(groupeContainer).toHaveClass('groupeBoutonsContainer');
+    expect(groupeContainer).toHaveClass('tailleGrande');
+  });
+
+  it('devrait afficher uniquement les icônes pour taille "petite" (sans texte)', () => {
+    const element: ElementGroupeBoutons = {
+      type: 'groupeBoutons',
+      taille: 'petite',
+      boutons: [
+        {
+          id: 'test1',
+          icone: 'Mail',
+          texte: null,
+          url: 'mailto:test@test.com',
+          command: null,
+        },
+      ],
+    };
+
+    render(<GroupeBoutons element={element} />);
+
+    const icone = screen.getByRole('button');
+    expect(icone).toBeInTheDocument();
+    // Pas de texte visible pour les boutons "petite"
+    expect(icone).not.toHaveTextContent('Test');
+  });
+
+  it('devrait afficher icône et texte pour taille "grande"', () => {
+    const element: ElementGroupeBoutons = {
+      type: 'groupeBoutons',
+      taille: 'grande',
+      boutons: [
+        {
+          id: 'test1',
+          icone: 'Mail',
+          texte: 'Envoyer email',
+          url: 'mailto:test@test.com',
+          command: null,
+        },
+      ],
+    };
+
+    render(<GroupeBoutons element={element} />);
+
+    const bouton = screen.getByRole('button');
+    expect(bouton).toBeInTheDocument();
+    expect(bouton).toHaveTextContent('Envoyer email');
+  });
+
+  it('devrait utiliser la couleur inversée (BleuFonce sur fond clair)', () => {
+    const element: ElementGroupeBoutons = {
+      type: 'groupeBoutons',
+      taille: 'petite',
+      boutons: [
+        {
+          id: 'test1',
+          icone: 'Mail',
+          texte: null,
+          url: 'mailto:test@test.com',
+          command: null,
+        },
+      ],
+    };
+
+    const { container } = render(<GroupeBoutons element={element} />);
+    const bouton = container.querySelector('button');
+
+    expect(bouton).toHaveClass('couleurInversee');
+  });
+});
