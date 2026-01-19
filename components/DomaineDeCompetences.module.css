@@ -15,18 +15,22 @@
 
 /* Ligne 1 : titre en gras */
 .domaineTitre {
-  font-weight: bold;
-  font-size: 2rem;
+  font-family: 'Oswald', sans-serif;
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 1.4;
+  text-align: center;
   margin-bottom: 1rem;
-  color: var(--BleuFonce, #0070C0);
+  color: rgba(9, 23, 71, 1); /* var(--color_text_default) */
 }
 
 /* Ligne 2 : texte en normal */
 .domaineContenu {
-  font-weight: normal;
-  font-size: 1rem;
-  line-height: 1.6;
-  color: var(--foreground, #171717);
+  font-family: 'Noto Serif', serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.4;
+  color: rgba(9, 23, 71, 1); /* var(--color_text_default) */
 }
 
 /* Second bloc : contient 3 sous-blocs pour les compétences */
@@ -50,11 +54,13 @@
 
 /* Ligne 1 : titre de la compétence */
 .competenceTitre {
-  font-size: 1.5rem;
-  font-weight: 600;
-  margin-bottom: 1rem;
+  font-family: 'Oswald', sans-serif;
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 1.4;
   text-align: center;
-  color: var(--foreground, #171717);
+  margin-bottom: 1rem;
+  color: rgb(0, 0, 0);
 }
 
 /* Ligne 2 : image */
@@ -74,9 +80,11 @@
 
 /* Ligne 3 : texte (peut contenir du gras) */
 .competenceDescription {
-  font-size: 0.9rem;
-  line-height: 1.6;
-  color: var(--foreground, #171717);
+  font-family: 'Noto Serif', serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.4;
+  color: rgba(9, 23, 71, 1); /* var(--color_text_default) */
   margin-bottom: 1rem;
 }
 
@@ -88,20 +96,22 @@
 .competenceBouton {
   margin-top: auto;
   padding: 8px 16px;
-  background-color: var(--color_primary_contrast_default, #ffffff);
-  color: var(--BleuFonce, #0070C0);
-  border: 1px solid var(--BleuFonce, #0070C0);
+  background-color: #ffffff; /* var(--color_primary_contrast_default) */
+  color: rgba(0, 112, 192, 1); /* var(--color_bTHGN0_default) */
+  border: 1px solid rgba(0, 112, 192, 1); /* var(--color_bTHGN0_default) */
   border-radius: 0;
   font-family: 'Clint Marker', cursive;
   font-size: 18px;
   font-weight: bold;
+  line-height: 1;
+  text-align: center;
   cursor: pointer;
   transition: background 200ms;
 }
 
 .competenceBouton:hover {
-  background-color: var(--BleuFonce, #0070C0);
-  color: var(--color_primary_contrast_default, #ffffff);
+  background-color: rgba(0, 112, 192, 1); /* var(--color_bTHGN0_default) */
+  color: #ffffff; /* var(--color_primary_contrast_default) */
 }
 
 /* Responsive : écran pas assez large */
@@ -111,11 +121,11 @@
   }
 
   .domaineTitre {
-    font-size: 1.5rem;
+    font-size: 20px;
   }
 
   .domaineContenu {
-    font-size: 0.9rem;
+    font-size: 13px;
   }
 
   .competence {
@@ -124,11 +134,11 @@
   }
 
   .competenceTitre {
-    font-size: 1.2rem;
+    font-size: 16px;
   }
 
   .competenceDescription {
-    font-size: 0.85rem;
+    font-size: 13px;
   }
 }
 
