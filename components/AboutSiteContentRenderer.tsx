@@ -7,6 +7,46 @@ import React from 'react';
 import type { ContenuElement } from '../utils/aboutSiteReader';
 import styles from './AboutSiteContentRenderer.module.css';
 
+/**
+ * Parse inline markdown (bold, italic, etc.) pour convertir **texte** en <strong>texte</strong>
+ */
+function parseInlineMarkdown(text: string): React.ReactNode[] {
+  const parts: React.ReactNode[] = [];
+  let currentIndex = 0;
+
+  // Pattern pour **bold**
+  const boldPattern = /\*\*(.+?)\*\*/g;
+
+  const boldMatches: Array<{ start: number; end: number; text: string }> = [];
+
+  let match;
+  while ((match = boldPattern.exec(text)) !== null) {
+    boldMatches.push({ start: match.index, end: match.index + match[0].length, text: match[1] });
+  }
+
+  // Trier les matches par position
+  boldMatches.sort((a, b) => a.start - b.start);
+
+  boldMatches.forEach((match, index) => {
+    // Ajouter le texte avant le match
+    if (match.start > currentIndex) {
+      parts.push(text.substring(currentIndex, match.start));
+    }
+
+    // Ajouter le contenu en gras
+    parts.push(<strong key={`bold-${index}`}>{match.text}</strong>);
+
+    currentIndex = match.end;
+  });
+
+  // Ajouter le texte restant
+  if (currentIndex < text.length) {
+    parts.push(text.substring(currentIndex));
+  }
+
+  return parts.length > 0 ? parts : [text];
+}
+
 export interface AboutSiteContentRendererProps {
   elements: ContenuElement[];
   typeDeContenu?: string; // "Prompt", "Résultat technique", etc. (pour style CSS spécial)
@@ -53,7 +93,7 @@ const AboutSiteContentRenderer: React.FC<AboutSiteContentRendererProps> = ({
           return (
             <div key={index}>
               <div className={styles.userStoryElement} data-type-contenu={critereElement.typeDeContenu}>
-                <span className={styles.userStoryItem}>- {critereElement.items?.[0]}</span>
+                <span className={styles.userStoryItem}>- {parseInlineMarkdown(critereElement.items?.[0] || '')}</span>
               </div>
               {sousListes.map((sousListe, sousIndex) => (
                 <ul key={`${index}-${sousIndex}`} className={styles.list}>
@@ -82,7 +122,7 @@ const AboutSiteContentRenderer: React.FC<AboutSiteContentRendererProps> = ({
             if (element.typeDeContenu) {
               return (
                 <div key={index} className={styles.userStoryElement} data-type-contenu={element.typeDeContenu}>
-                  <span className={styles.userStoryItem}>- {element.items?.[0]}</span>
+                  <span className={styles.userStoryItem}>- {parseInlineMarkdown(element.items?.[0] || '')}</span>
                 </div>
               );
             }
