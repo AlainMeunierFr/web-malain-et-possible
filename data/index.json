@@ -1,0 +1,38 @@
+{
+  "domaineDeCompetences": {
+    "titre": "Stratégie et transformations",
+    "contenu": "Pour inscrire votre stratégie dans le long terme il faut commencer par prendre connaissance de l'état et de l'évolution de notre monde. Ce diagnostic invite chacun à challenger certaines de ses croyances. Je suis en mesure d'animer et faciliter 3 ateliers complémentaires servants cet objectif de transparence.",
+    "items": [
+      {
+        "titre": "Culture d'entreprise",
+        "image": {
+          "src": "/placeholder-competence.png",
+          "alt": "Culture d'entreprise"
+        },
+        "description": "La culture d'entreprise est l'âme de toute organisation. Après avoir vécu 3 fusions/acquisitions, je sais les dégâts que peuvent causer des différences culturelles éludées ou étouffées. Le changement ne peut s'opérer que vers un futur désirable qu'il est important d'expliquer et d'incarner.",
+        "bouton": null
+      },
+      {
+        "titre": "Stratégie",
+        "image": {
+          "src": "/placeholder-competence.png",
+          "alt": "Stratégie"
+        },
+        "description": "Agiliste depuis 2013, j'ai une approche empirique adaptée aux projets qui doivent explorer le champ des possibles qu'offre l'inconnu. Je propose de faire des pas de côté pour prendre conscience des croyances limitantes qui empêchent des stratégies innovantes d'émerger.",
+        "bouton": null
+      },
+      {
+        "titre": "Conduite du changement",
+        "image": {
+          "src": "/placeholder-competence.png",
+          "alt": "Conduite du changement"
+        },
+        "description": "J'aide les organisations à accepter de naviguer dans l'incertitude et à embrasser le changement. Mon approche consiste à impliquer toutes les parties prenantes, à lever les résistances et à ancrer les nouvelles pratiques de manière durable.",
+        "bouton": {
+          "texte": "En savoir plus",
+          "action": "navigation"
+        }
+      }
+    ]
+  }
+}

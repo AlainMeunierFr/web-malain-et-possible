@@ -14,25 +14,17 @@ Page analysée : "A propos de moi" (page la plus significative du site vitrine)
 - `padding` : object (padding top/bottom, ex: "0px 0px 20px")
 - `sousSections` : array (liste des sous-sections)
 
-##### 2. Sous-section (groupe de 3 colonnes)
+##### 2. Domaine de competences
 **Propriétés** :
 - `titre` : string (ex: "Stratégie et transformations", "Engager les équipes", "Interactions humaines")
 - `contenu` : string (texte d'introduction de la sous-section)
-- `backgroundColor` : string (couleur de fond)
-- `items` : array (liste des items en 3 colonnes)
+- `items` : array (3 {Compétence})
 
-##### 3. Item de compétence (dans une sous-section)
+##### 3. Compétence
 **Propriétés** :
 - `titre` : string (ex: "Culture d'entreprise", "Stratégie", "Conduite du changement")
 - `image` : object
-  - `src` : string (chemin vers l'image)
-  - `alt` : string (texte alternatif)
-  - `width` : string (largeur, ex: "60%")
-  - `aspectRatio` : string (ratio, ex: "100%")
-- `description` : string (texte descriptif de la compétence)
-- `lien` : object (optionnel)
-  - `url` : string
-  - `texte` : string
+- `description` : string
 - `bouton` : object (optionnel)
   - `texte` : string (ex: "En savoir plus")
   - `action` : string (type d'action)
