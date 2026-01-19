@@ -51,3 +51,37 @@ ul.list {
 .promptContainer .list {
   margin: 0.5rem 0;
 }
+
+/* Styles pour les éléments de User Story */
+.userStoryElement {
+  margin: 0.25rem 0;
+  line-height: 1.5;
+}
+
+.userStoryItem {
+  display: block;
+  font-size: 0.9rem;
+}
+
+/* Styles spécifiques pour chaque typeDeContenu de User Story */
+.userStoryElement[data-type-contenu="En tant que"] {
+  margin-top: 0.5rem;
+}
+
+.userStoryElement[data-type-contenu="Je souhaite"] {
+  margin-top: 0.25rem;
+}
+
+.userStoryElement[data-type-contenu="Afin de"] {
+  margin-top: 0.25rem;
+}
+
+.userStoryElement[data-type-contenu="Critères d'acceptation"] {
+  margin-top: 0.5rem;
+}
+
+/* Pour les critères d'acceptation, les sous-listes doivent être indentées */
+.userStoryElement[data-type-contenu="Critères d'acceptation"] .list {
+  margin-left: 1rem;
+  margin-top: 0.25rem;
+}

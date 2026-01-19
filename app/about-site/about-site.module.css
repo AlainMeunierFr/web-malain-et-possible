@@ -27,7 +27,7 @@
   font-weight: 600;
   margin: 0.75rem 0;
   margin-left: 20px; /* +20px par rapport à h1 */
-  color: var(--foreground);
+  color: var(--BleuFonce);
 }
 
 .sousPartie {
@@ -36,10 +36,10 @@
 
 .sousPartieTitle {
   font-size: 0.95rem;
-  font-weight: 500;
+  font-weight: bold;
   margin: 0.5rem 0;
   margin-left: 30px; /* +30px par rapport à h1 */
-  color: var(--foreground);
+  color: var(--BleuFonce);
 }
 
 .bloc {

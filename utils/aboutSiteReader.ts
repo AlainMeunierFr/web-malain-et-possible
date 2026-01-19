@@ -42,6 +42,7 @@ export interface ContenuElement {
   type: 'paragraph' | 'ul' | 'ol';
   content?: string; // Pour les paragraphes
   items?: string[]; // Pour les listes
+  typeDeContenu?: string; // "En tant que", "Je souhaite", "Afin de", "Critères d'acceptation" (pour User Stories)
 }
 
 /**
@@ -187,6 +188,72 @@ export const validerContenuMarkdown = (contenu: string, filePath: string): void 
 }
 
 /**
+ * Détecte si une sous-partie est une User Story et attribue les typeDeContenu
+ * Une User Story est détectée si les 4 éléments suivants sont présents dans des listes à puce :
+ * - **En tant que**
+ * - **Je souhaite**
+ * - **Afin de**
+ * - **Critères d'acceptation**
+ * 
+ * @param elements Éléments de contenu parsés
+ * @returns Éléments avec typeDeContenu attribué si c'est une User Story
+ */
+const detecterUserStory = (elements: ContenuElement[]): ContenuElement[] => {
+  // Chercher les 4 patterns dans les listes à puce
+  const patterns = {
+    'En tant que': /^\*\*En tant que\*\*\s*(.+)$/i,
+    'Je souhaite': /^\*\*Je souhaite\*\*\s*(.+)$/i,
+    'Afin de': /^\*\*Afin de\*\*\s*(.+)$/i,
+    'Critères d\'acceptation': /^\*\*Critères d'acceptation\*\*\s*:?\s*(.*)$/i
+  };
+
+  const foundPatterns: Set<string> = new Set();
+  const elementsAvecType: ContenuElement[] = [];
+
+  // Première passe : détecter les patterns
+  for (const element of elements) {
+    if (element.type === 'ul' && element.items) {
+      for (const item of element.items) {
+        for (const [typeDeContenu, pattern] of Object.entries(patterns)) {
+          if (pattern.test(item.trim())) {
+            foundPatterns.add(typeDeContenu);
+          }
+        }
+      }
+    }
+  }
+
+  // Si les 4 patterns sont présents, c'est une User Story
+  const estUserStory = foundPatterns.size === 4;
+
+  // Deuxième passe : attribuer les typeDeContenu
+  for (const element of elements) {
+    if (element.type === 'ul' && element.items && estUserStory) {
+      // Créer un élément par item de liste pour pouvoir attribuer le typeDeContenu
+      for (const item of element.items) {
+        let typeDeContenuTrouve: string | undefined = undefined;
+        for (const [typeDeContenu, pattern] of Object.entries(patterns)) {
+          if (pattern.test(item.trim())) {
+            typeDeContenuTrouve = typeDeContenu;
+            break;
+          }
+        }
+        elementsAvecType.push({
+          type: 'ul',
+          items: [item],
+          typeDeContenu: typeDeContenuTrouve
+        });
+      }
+    } else {
+      // Copier l'élément tel quel
+      elementsAvecType.push({ ...element });
+    }
+  }
+
+  return elementsAvecType;
+};
+
+/**
  * Parse le contenu markdown en éléments (paragraphes, listes)
  * 
  * @param contenu Contenu markdown à parser
@@ -305,7 +372,9 @@ export const parseSectionContent = (contenu: string): SectionContent => {
         if (sousPartieCourante) {
           // Parser le contenu de la sous-partie si pas de blocs
           if (sousPartieCourante.blocs.length === 0) {
-            sousPartieCourante.contenuParse = parseMarkdownContent(sousPartieCourante.contenu.trim());
+            const contenuParse = parseMarkdownContent(sousPartieCourante.contenu.trim());
+            // Détecter si c'est une User Story et attribuer les typeDeContenu
+            sousPartieCourante.contenuParse = detecterUserStory(contenuParse);
           }
           partieCourante.sousParties.push(sousPartieCourante);
           sousPartieCourante = null;
@@ -341,7 +410,9 @@ export const parseSectionContent = (contenu: string): SectionContent => {
         if (sousPartieCourante) {
           // Parser le contenu de la sous-partie si pas de blocs
           if (sousPartieCourante.blocs.length === 0) {
-            sousPartieCourante.contenuParse = parseMarkdownContent(sousPartieCourante.contenu.trim());
+            const contenuParse = parseMarkdownContent(sousPartieCourante.contenu.trim());
+            // Détecter si c'est une User Story et attribuer les typeDeContenu
+            sousPartieCourante.contenuParse = detecterUserStory(contenuParse);
           }
           partieCourante.sousParties.push(sousPartieCourante);
         }
@@ -419,7 +490,9 @@ export const parseSectionContent = (contenu: string): SectionContent => {
     if (sousPartieCourante) {
       // Parser le contenu de la sous-partie si pas de blocs
       if (sousPartieCourante.blocs.length === 0) {
-        sousPartieCourante.contenuParse = parseMarkdownContent(sousPartieCourante.contenu.trim());
+        const contenuParse = parseMarkdownContent(sousPartieCourante.contenu.trim());
+        // Détecter si c'est une User Story et attribuer les typeDeContenu
+        sousPartieCourante.contenuParse = detecterUserStory(contenuParse);
       }
       partieCourante.sousParties.push(sousPartieCourante);
     }
