@@ -1,6 +1,6 @@
 # User Stories extraites des journaux
 
-## Epic 1 : Site Web - Fonctionnalités Générales
+## Epic 1 : Site Web - Structure de Base
 
 ### US-1.1 : Affichage initial "Hello World"
 #### En tant que
@@ -19,29 +19,52 @@ Vérifier que le site fonctionne et que le déploiement CI/CD est opérationnel
 
 ---
 
-### US-1.2 : Navigation vers la page d'accueil
+### US-1.2 : Page avec header, footer, logo et photo
 #### En tant que
 Visiteur du site
 
 #### Je souhaite
-Pouvoir retourner à la page d'accueil en cliquant sur le logo
+Voir une page avec un header fixe en haut, un footer fixe en bas, un logo en haut à gauche et une photo en haut à droite
 
 #### Afin de
-Naviguer facilement dans le site
+Avoir une structure de base cohérente pour le site
 
 #### Critères d'acceptation :
-- Le logo en haut à gauche est cliquable
-- Un clic sur le logo redirige vers la page d'accueil
-- Un tooltip "Home page" apparaît au survol du logo
+- Le header est fixe en haut avec une hauteur responsive (8.75vh, minimum 78px)
+- Le footer est fixe en bas avec une hauteur responsive (5.47vh, minimum 53px)
+- Le logo flotte au-dessus du header en haut à gauche (position absolue, déborde vers le bas)
+- La photo flotte au-dessus du header en haut à droite (position absolue, déborde vers le bas)
+- Les proportions sont calculées de façon responsive
+- La couleur bleue (#0070C0) est définie comme variable CSS `--BleuFonce`
 
 ---
 
-### US-1.3 : Navigation vers la page "À propos de moi"
+### US-1.3 : Boutons footer configurables via JSON
+#### En tant que
+Product Manager
+
+#### Je souhaite
+Pouvoir ajouter/modifier des boutons dans le footer via un fichier JSON
+
+#### Afin de
+Faciliter l'ajout de nouveaux boutons sans modifier le code
+
+#### Critères d'acceptation :
+- Les boutons sont définis dans un fichier JSON (`data/footerButtons.json`)
+- Chaque bouton a : une icône, une commande, une URL, un tooltip
+- Les boutons sont affichés verticalement centrés dans le footer
+- Les boutons sont positionnés à 11px du bord droit
+- Les icônes ont une hauteur de 60% de la hauteur du footer
+- Un clic sur un bouton exécute l'action associée (navigation interne, lien externe, ou popup)
+
+---
+
+### US-1.4 : Navigation vers la page "À propos de moi"
 #### En tant que
 Visiteur du site
 
 #### Je souhaite
-Pouvoir accéder à la page "À propos de moi" en cliquant sur la photo
+Pouvoir accéder à une page "À propos de moi" en cliquant sur la photo
 
 #### Afin de
 Découvrir des informations sur la personne
@@ -50,95 +73,11 @@ Découvrir des informations sur la personne
 - La photo en haut à droite est cliquable
 - Un clic sur la photo redirige vers la page "À propos de moi"
 - Un tooltip "À propos de moi" apparaît au survol de la photo
+- Le header et le footer sont présents sur toutes les pages (factorisés dans layout)
 
 ---
 
-### US-1.4 : Accès à l'email depuis le footer
-#### En tant que
-Visiteur du site
-
-#### Je souhaite
-Pouvoir envoyer un email en cliquant sur le bouton email du footer
-
-#### Afin de
-Contacter la personne directement
-
-#### Critères d'acceptation :
-- Le bouton email est visible dans le footer
-- Un clic ouvre le client email avec l'adresse pré-remplie
-- Un tooltip "M'envoyer un email" apparaît au survol
-
----
-
-### US-1.5 : Accès à la chaîne YouTube depuis le footer
-#### En tant que
-Visiteur du site
-
-#### Je souhaite
-Pouvoir accéder à la chaîne YouTube en cliquant sur le bouton YouTube du footer
-
-#### Afin de
-Consulter les vidéos de la chaîne
-
-#### Critères d'acceptation :
-- Le bouton YouTube est visible dans le footer
-- Un clic ouvre la chaîne YouTube dans un nouvel onglet
-- Un tooltip "Accéder à ma chaîne YouTube" apparaît au survol
-
----
-
-### US-1.6 : Accès au profil LinkedIn depuis le footer
-#### En tant que
-Visiteur du site
-
-#### Je souhaite
-Pouvoir accéder au profil LinkedIn en cliquant sur le bouton LinkedIn du footer
-
-#### Afin de
-Consulter le profil professionnel
-
-#### Critères d'acceptation :
-- Le bouton LinkedIn est visible dans le footer
-- Un clic ouvre le profil LinkedIn dans un nouvel onglet
-- Un tooltip "Accéder à mon profil Linkedin" apparaît au survol
-
----
-
-### US-1.7 : Accès au plan du site depuis le footer
-#### En tant que
-Visiteur du site
-
-#### Je souhaite
-Pouvoir consulter le plan du site en cliquant sur le bouton "Plan du site" du footer
-
-#### Afin de
-Comprendre la structure du site et naviguer facilement
-
-#### Critères d'acceptation :
-- Le bouton "Plan du site" est visible dans le footer
-- Un clic redirige vers la page "Plan du site"
-- Un tooltip "Consulter le plan du site" apparaît au survol
-
----
-
-### US-1.8 : Header et Footer présents sur toutes les pages
-#### En tant que
-Visiteur du site
-
-#### Je souhaite
-Toujours voir le header en haut et le footer en bas, quelle que soit la page consultée
-
-#### Afin de
-Avoir accès aux fonctions de navigation depuis n'importe quelle page
-
-#### Critères d'acceptation :
-- Le header est fixe en haut de toutes les pages
-- Le footer est fixe en bas de toutes les pages
-- Les boutons de navigation fonctionnent depuis toutes les pages
-
----
-
-## Epic 2 : Page "À propos de ce site" - Backend
+## Epic 2 : Page "À propos de ce site" - Backend (Construction progressive du JSON)
 
 ### US-2.1 : Lecture des dossiers du répertoire "A propos de ce site"
 #### En tant que
@@ -174,58 +113,7 @@ Construire la liste des sections pour chaque chapitre
 
 ---
 
-### US-2.3 : Validation - Interdiction des titres H1 et H2 dans les fichiers MD
-#### En tant que
-Système backend
-
-#### Je souhaite
-Détecter et rejeter les fichiers MD contenant des titres H1 (#) ou H2 (##)
-
-#### Afin de
-Garantir une structure cohérente et éviter les erreurs de hiérarchie
-
-#### Critères d'acceptation :
-- Un fichier avec au moins un H1 déclenche une erreur de compilation
-- Un fichier avec au moins un H2 déclenche une erreur de compilation
-- L'erreur indique clairement le fichier problématique
-
----
-
-### US-2.4 : Validation - Interdiction des H4 sans H3 précédent
-#### En tant que
-Système backend
-
-#### Je souhaite
-Détecter et rejeter les fichiers MD contenant un H4 (####) sans H3 (###) précédent
-
-#### Afin de
-Garantir une hiérarchie de titres cohérente
-
-#### Critères d'acceptation :
-- Un fichier avec un H4 sans H3 déclenche une erreur de compilation
-- L'erreur indique clairement le fichier problématique
-- Les blocs de code markdown (```) sont ignorés lors de la détection
-
----
-
-### US-2.5 : Validation - Minimum 2 sections par chapitre
-#### En tant que
-Système backend
-
-#### Je souhaite
-Détecter et rejeter les dossiers contenant un seul fichier MD valide
-
-#### Afin de
-Garantir que chaque chapitre contient au moins 2 sections
-
-#### Critères d'acceptation :
-- Un dossier avec un seul fichier MD valide déclenche une erreur de compilation
-- L'erreur suggère de créer au moins "2 sections" dans "le chapitre"
-- Les dossiers sans fichiers MD valides ne sont pas affichés (pas d'erreur)
-
----
-
-### US-2.6 : Parsing des parties (###) dans un fichier MD
+### US-2.3 : Parsing des parties (###) dans un fichier MD
 #### En tant que
 Système backend
 
@@ -242,7 +130,7 @@ Construire la structure hiérarchique Partie → Sous-partie → Bloc
 
 ---
 
-### US-2.7 : Parsing des sous-parties (####) dans une partie
+### US-2.4 : Parsing des sous-parties (####) dans une partie
 #### En tant que
 Système backend
 
@@ -259,7 +147,7 @@ Construire la structure hiérarchique complète
 
 ---
 
-### US-2.8 : Parsing des blocs (#####) dans une sous-partie
+### US-2.5 : Parsing des blocs (#####) dans une sous-partie
 #### En tant que
 Système backend
 
@@ -276,7 +164,7 @@ Construire la structure hiérarchique complète jusqu'au niveau bloc
 
 ---
 
-### US-2.9 : Détection des blocs "Prompt" et "Résultat technique"
+### US-2.6 : Détection des blocs "Prompt" et "Résultat technique"
 #### En tant que
 Système backend
 
@@ -293,58 +181,77 @@ Leur attribuer un typeDeContenu spécial pour le style CSS
 
 ---
 
-### US-2.10 : Parsing du contenu texte (paragraphes) dans une partie/sous-partie/bloc
+### US-2.7 : Parsing du contenu texte (paragraphes, listes) dans une partie/sous-partie/bloc
 #### En tant que
 Système backend
 
 #### Je souhaite
-Extraire les paragraphes de texte normal dans le contenu d'une partie, sous-partie ou bloc
+Extraire les paragraphes, listes à puce et listes numérotées dans le contenu
 
 #### Afin de
 Construire le JSON avec le contenu textuel structuré
 
 #### Critères d'acceptation :
 - Chaque ligne de texte (non vide, non titre, non liste) est un paragraphe
-- Les paragraphes consécutifs sont regroupés
-- Les paragraphes sont dans l'ordre d'apparition dans le fichier
-
----
-
-### US-2.11 : Parsing des listes à puce (-) dans une partie/sous-partie/bloc
-#### En tant que
-Système backend
-
-#### Je souhaite
-Extraire les listes à puce (lignes commençant par -) dans le contenu
-
-#### Afin de
-Construire le JSON avec les listes structurées
-
-#### Critères d'acceptation :
-- Chaque ligne commençant par "- " est un item de liste
-- Les items consécutifs sont regroupés en une liste
-- Les listes sont dans l'ordre d'apparition dans le fichier
-
----
-
-### US-2.12 : Parsing des listes numérotées (1. 2. ...) dans une partie/sous-partie/bloc
-#### En tant que
-Système backend
-
-#### Je souhaite
-Extraire les listes numérotées (lignes commençant par "1. ", "2. ", etc.) dans le contenu
-
-#### Afin de
-Construire le JSON avec les listes numérotées structurées
-
-#### Critères d'acceptation :
+- Chaque ligne commençant par "- " est un item de liste à puce
 - Chaque ligne commençant par "1. ", "2. ", etc. est un item de liste numérotée
-- Les items consécutifs sont regroupés en une liste numérotée
-- Les listes sont dans l'ordre d'apparition dans le fichier
+- Les éléments consécutifs sont regroupés (paragraphes ensemble, listes ensemble)
+- Les éléments sont dans l'ordre d'apparition dans le fichier
 
 ---
 
-### US-2.13 : Génération du JSON avec structure hiérarchique complète
+### US-2.8 : Validation - Interdiction des titres H1 et H2 dans les fichiers MD
+#### En tant que
+Système backend
+
+#### Je souhaite
+Détecter et rejeter les fichiers MD contenant des titres H1 (#) ou H2 (##)
+
+#### Afin de
+Garantir une structure cohérente et éviter les erreurs de hiérarchie
+
+#### Critères d'acceptation :
+- Un fichier avec au moins un H1 déclenche une erreur de compilation
+- Un fichier avec au moins un H2 déclenche une erreur de compilation
+- L'erreur indique clairement le fichier problématique
+
+---
+
+### US-2.9 : Validation - Interdiction des H4 sans H3 précédent
+#### En tant que
+Système backend
+
+#### Je souhaite
+Détecter et rejeter les fichiers MD contenant un H4 (####) sans H3 (###) précédent
+
+#### Afin de
+Garantir une hiérarchie de titres cohérente
+
+#### Critères d'acceptation :
+- Un fichier avec un H4 sans H3 déclenche une erreur de compilation
+- L'erreur indique clairement le fichier problématique
+- Les blocs de code markdown (```) sont ignorés lors de la détection
+
+---
+
+### US-2.10 : Validation - Minimum 2 sections par chapitre
+#### En tant que
+Système backend
+
+#### Je souhaite
+Détecter et rejeter les dossiers contenant un seul fichier MD valide
+
+#### Afin de
+Garantir que chaque chapitre contient au moins 2 sections
+
+#### Critères d'acceptation :
+- Un dossier avec un seul fichier MD valide déclenche une erreur de compilation
+- L'erreur suggère de créer au moins "2 sections" dans "le chapitre"
+- Les dossiers sans fichiers MD valides ne sont pas affichés (pas d'erreur)
+
+---
+
+### US-2.11 : Génération du JSON avec structure hiérarchique complète
 #### En tant que
 Système backend
 
@@ -360,83 +267,50 @@ Exposer les données structurées pour le frontend
 - Chaque section contient un tableau "parties"
 - Chaque partie contient un tableau "sousParties"
 - Chaque sous-partie contient un tableau "blocs"
-- Chaque élément a les propriétés nécessaires (nom, titre, contenu, etc.)
+- Chaque élément a les propriétés nécessaires (nom, titre, contenu, contenuParse, typeDeContenu, etc.)
 
 ---
 
 ## Epic 3 : Page "À propos de ce site" - Frontend
 
-### US-3.1 : Affichage des chapitres (H1) avec accordion
+### US-3.1 : Accordéon pour H1 et H2
 #### En tant que
 Visiteur de la page "À propos de ce site"
 
 #### Je souhaite
-Voir la liste des chapitres avec possibilité de les déplier/replier
+Pouvoir déplier/replier les chapitres (H1) et sections (H2) avec un système d'accordéon
 
 #### Afin de
 Naviguer facilement dans le contenu sans être submergé
 
 #### Critères d'acceptation :
-- Les chapitres sont affichés en H1
-- Par défaut, tous les chapitres sont repliés
-- Un clic sur un chapitre le déplie/replie
+- Les chapitres (H1) ont un accordéon (masqué par défaut)
+- Les sections (H2) ont aussi un accordéon (masqué par défaut)
+- Un clic sur un titre masque/affiche son contenu
 - Une icône indique l'état (déplié/replié)
+- Les animations sont fluides
 
 ---
 
-### US-3.2 : Affichage des sections (H2) avec accordion
+### US-3.2 : Affichage de la hiérarchie complète (H3, H4, H5)
 #### En tant que
 Visiteur de la page "À propos de ce site"
 
 #### Je souhaite
-Voir la liste des sections dans un chapitre avec possibilité de les déplier/replier
-
-#### Afin de
-Naviguer facilement dans le contenu d'un chapitre
-
-#### Critères d'acceptation :
-- Les sections sont affichées en H2
-- Par défaut, toutes les sections sont repliées
-- Un clic sur une section la déplie/replie
-- Une icône indique l'état (déplié/replié)
-
----
-
-### US-3.3 : Affichage des parties (H3)
-#### En tant que
-Visiteur de la page "À propos de ce site"
-
-#### Je souhaite
-Voir les titres des parties (H3) dans une section
+Voir la structure complète du contenu avec les parties (H3), sous-parties (H4) et blocs (H5)
 
 #### Afin de
 Comprendre la structure du contenu
 
 #### Critères d'acceptation :
 - Les parties sont affichées en H3
-- Les titres des parties sont visibles
-- La hiérarchie visuelle est claire (marge gauche différente)
+- Les sous-parties sont affichées en H4 (sauf si typeDeContenu spécial)
+- Les blocs sont affichés en H5 (sauf si typeDeContenu spécial)
+- La hiérarchie visuelle est claire (marges gauches progressives)
 
 ---
 
-### US-3.4 : Affichage des sous-parties (H4)
-#### En tant que
-Visiteur de la page "À propos de ce site"
-
-#### Je souhaite
-Voir les titres des sous-parties (H4) dans une partie
-
-#### Afin de
-Comprendre la structure détaillée du contenu
-
-#### Critères d'acceptation :
-- Les sous-parties sont affichées en H4
-- Les titres des sous-parties sont visibles (sauf si typeDeContenu spécial)
-- La hiérarchie visuelle est claire (marge gauche différente)
-
----
-
-### US-3.5 : Masquage des titres "Prompt" et "Résultat technique"
+### US-3.3 : Masquage des titres "Prompt" et "Résultat technique"
 #### En tant que
 Visiteur de la page "À propos de ce site"
 
@@ -453,7 +327,7 @@ Avoir une présentation plus claire et moins répétitive
 
 ---
 
-### US-3.6 : Fond bleu clair pour le contenu des prompts
+### US-3.4 : Fond bleu clair pour le contenu des prompts
 #### En tant que
 Visiteur de la page "À propos de ce site"
 
@@ -470,113 +344,26 @@ Identifier visuellement les prompts dans les journaux
 
 ---
 
-### US-3.7 : Affichage des paragraphes de texte
+### US-3.5 : Affichage du contenu (paragraphes, listes)
 #### En tant que
 Visiteur de la page "À propos de ce site"
 
 #### Je souhaite
-Voir les paragraphes de texte normalement formatés
+Voir les paragraphes, listes à puce et listes numérotées correctement formatés
 
 #### Afin de
 Lire le contenu facilement
 
 #### Critères d'acceptation :
 - Les paragraphes sont affichés avec un style de texte lisible
-- Les paragraphes ont un espacement vertical approprié
-- La marge gauche est supérieure à celle des titres
-
----
-
-### US-3.8 : Affichage des listes à puce
-#### En tant que
-Visiteur de la page "À propos de ce site"
-
-#### Je souhaite
-Voir les listes à puce avec des puces visibles
-
-#### Afin de
-Lire les listes facilement
-
-#### Critères d'acceptation :
 - Les listes à puce affichent des puces (disc)
-- Les items sont indentés correctement
-- La marge gauche est supérieure à celle des paragraphes
-
----
-
-### US-3.9 : Affichage des listes numérotées
-#### En tant que
-Visiteur de la page "À propos de ce site"
-
-#### Je souhaite
-Voir les listes numérotées avec des numéros visibles
-
-#### Afin de
-Lire les listes numérotées facilement
-
-#### Critères d'acceptation :
 - Les listes numérotées affichent des numéros (1, 2, 3...)
 - Les items sont indentés correctement
-- La marge gauche est supérieure à celle des paragraphes
+- Les marges gauches sont progressives (H1: 0px, H2: 10px, H3: 20px, H4: 30px, texte: 35px, listes: 40px)
 
 ---
 
-### US-3.10 : Espacement pour éviter le chevauchement avec le header
-#### En tant que
-Visiteur de la page "À propos de ce site"
-
-#### Je souhaite
-Voir tout le contenu sans qu'il soit masqué par le header fixe
-
-#### Afin de
-Pouvoir lire tout le contenu sans avoir à scroller pour voir les parties cachées
-
-#### Critères d'acceptation :
-- Le contenu a un padding-top qui compense la hauteur du header
-- Le calcul est responsive (max(80px, 8.75vh) + 2rem)
-- Aucun contenu n'est masqué sous le header
-
----
-
-### US-3.11 : Espacement pour éviter le chevauchement avec le footer
-#### En tant que
-Visiteur de la page "À propos de ce site"
-
-#### Je souhaite
-Voir tout le contenu sans qu'il soit masqué par le footer fixe
-
-#### Afin de
-Pouvoir lire tout le contenu jusqu'en bas
-
-#### Critères d'acceptation :
-- Le contenu a un padding-bottom qui compense la hauteur du footer
-- Le calcul est responsive (max(50px, 5.47vh) + 2rem)
-- Aucun contenu n'est masqué sous le footer
-
----
-
-### US-3.12 : Marges gauches progressives pour la hiérarchie
-#### En tant que
-Visiteur de la page "À propos de ce site"
-
-#### Je souhaite
-Voir une indentation progressive selon le niveau hiérarchique
-
-#### Afin de
-Comprendre visuellement la structure du contenu
-
-#### Critères d'acceptation :
-- H1 : marge gauche 0px
-- H2 : marge gauche 10px
-- H3 : marge gauche 20px
-- H4 : marge gauche 30px
-- Texte normal : marge gauche 35px
-- Listes : marge gauche 40px
-- Les marges sont fixes en pixels (pas en rem/em) pour le responsive
-
----
-
-### US-3.13 : Tailles de police adaptées à la lecture
+### US-3.6 : Tailles de police adaptées à la lecture
 #### En tant que
 Visiteur de la page "À propos de ce site"
 
@@ -596,7 +383,24 @@ Lire le contenu confortablement
 
 ---
 
-### US-3.14 : Récupération du JSON via API
+### US-3.7 : Espacement pour éviter le chevauchement avec header et footer
+#### En tant que
+Visiteur de la page "À propos de ce site"
+
+#### Je souhaite
+Voir tout le contenu sans qu'il soit masqué par le header fixe en haut ni le footer fixe en bas
+
+#### Afin de
+Pouvoir lire tout le contenu sans avoir à scroller pour voir les parties cachées
+
+#### Critères d'acceptation :
+- Le contenu a un padding-top qui compense la hauteur du header (max(80px, 8.75vh) + 2rem)
+- Le contenu a un padding-bottom qui compense la hauteur du footer (max(50px, 5.47vh) + 2rem)
+- Aucun contenu n'est masqué sous le header ou le footer
+
+---
+
+### US-3.8 : Récupération du JSON via API
 #### En tant que
 Système frontend
 
@@ -611,5 +415,3 @@ Avoir une séparation claire entre backend et frontend
 - L'API route retourne le JSON généré par le backend pur
 - Un état de chargement est affiché pendant le fetch
 - Les erreurs sont gérées et affichées
-
----
