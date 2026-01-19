@@ -6,6 +6,7 @@ export const ROUTES = {
   CONDUITE_DU_CHANGEMENT: '/conduite-du-changement',
   DETOURNEMENT_VIDEO: '/detournement-video',
   ROBUSTESSE: '/robustesse',
+  FAISONS_CONNAISSANCE: '/faisons-connaissance',
 } as const;
 
 export type Route = typeof ROUTES[keyof typeof ROUTES];

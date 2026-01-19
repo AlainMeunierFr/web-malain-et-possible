@@ -263,6 +263,10 @@
           "bouton": null
         }
       ]
+    },
+    {
+      "type": "callToAction",
+      "action": "Faisons connaissance..."
     }
   ]
 }

@@ -46,3 +46,18 @@ Développer la structure hiérarchique et le responsive du site vitrine (carte d
 - **Nouveau Type "Texte large"** :
   - Data : un texte
   - CSS : un texte qui se comporte comme le titre d'un domaine de compétence (947 de largeur max) mais qui n'a pas "3 compétences"
+
+#### US-3.4 : Contact - Call to Action et page "Faisons connaissance"
+- **En tant que** Visiteur du site
+- **Je souhaite** Pouvoir accéder à une page "Faisons connaissance" depuis un bouton d'action visible sur toutes les pages
+- **Afin de** Entrer en contact avec Alain et découvrir comment collaborer
+- **Critères d'acceptation** :
+- **Étape 1 : Accès à la page**
+  - Un nouveau type de contenu "callToAction" est créé avec un champ "action" (texte du bouton)
+  - Ce callToAction est ajouté à la fin de tous les fichiers JSON avec la valeur "Faisons connaissance..."
+  - Le rendu CSS est un bouton dans le même style que "En savoir plus..." mais qui fait la même largeur qu'un "Domaine de compétence"
+  - Un clic sur le bouton amène à la page "/faisons-connaissance"
+- **Étape 2 : Page "Faisons connaissance"**
+  - Une nouvelle page "/faisons-connaissance" est créée
+  - Le contenu de la page est basé sur le fichier HTML d'exemple "Malain et possible - Faisons connaissance.html"
+  - La page est responsive et utilise la même structure que les autres pages du site

@@ -8,6 +8,7 @@ import Titre from './Titre';
 import Video from './Video';
 import TexteLarge from './TexteLarge';
 import DomaineDeCompetences from './DomaineDeCompetences';
+import CallToAction from './CallToAction';
 
 export interface PageContentRendererProps {
   contenu: ElementContenu[];
@@ -35,6 +36,8 @@ const PageContentRenderer: React.FC<PageContentRendererProps> = ({ contenu }) =>
                 }}
               />
             );
+          case 'callToAction':
+            return <CallToAction key={index} element={element} />;
           default:
             // TypeScript devrait empêcher ce cas, mais on le gère pour la sécurité
             return null;

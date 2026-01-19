@@ -1,0 +1,42 @@
+/* Mobile-first : styles de base pour smartphone (≤768px) */
+.callToActionContainer {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1.5rem 1rem;
+  width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.callToActionButton {
+  background-color: transparent;
+  padding: 0.75rem 1.5rem;
+  color: rgba(0, 112, 192, 1); /* var(--color_bTHGN0_default) */
+  border: 1px solid rgba(0, 112, 192, 1); /* var(--color_bTHGN0_default) */
+  border-radius: 0;
+  font-family: 'Clint Marker', cursive;
+  font-size: 18px;
+  font-weight: bold;
+  line-height: 1;
+  text-align: center;
+  cursor: pointer;
+  transition: background 200ms;
+  text-decoration: none;
+  display: inline-block;
+  width: 100%;
+  max-width: 947px; /* Même largeur max qu'un Domaine de compétence */
+}
+
+.callToActionButton:hover {
+  background-color: rgba(0, 112, 192, 1); /* var(--color_bTHGN0_default) */
+  color: #ffffff; /* var(--color_primary_contrast_default) */
+}
+
+/* Desktop : écrans normaux/grands (≥769px) */
+@media (min-width: 769px) {
+  .callToActionContainer {
+    padding: 2rem 1rem;
+  }
+}

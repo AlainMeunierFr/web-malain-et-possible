@@ -35,7 +35,7 @@ export interface DomaineDeCompetences {
 /**
  * Types d'éléments de contenu de page
  */
-export type TypeElementContenu = 'titre' | 'video' | 'texteLarge' | 'domaineDeCompetence';
+export type TypeElementContenu = 'titre' | 'video' | 'texteLarge' | 'domaineDeCompetence' | 'callToAction';
 
 /**
  * Interface pour un élément de type "Titre"
@@ -73,13 +73,22 @@ export interface ElementDomaineDeCompetence {
 }
 
 /**
+ * Interface pour un élément de type "Call to Action"
+ */
+export interface ElementCallToAction {
+  type: 'callToAction';
+  action: string; // Texte du bouton
+}
+
+/**
  * Union type pour tous les éléments de contenu
  */
 export type ElementContenu = 
   | ElementTitre 
   | ElementVideo 
   | ElementTexteLarge 
-  | ElementDomaineDeCompetence;
+  | ElementDomaineDeCompetence
+  | ElementCallToAction;
 
 /**
  * Interface pour la structure "contenu de page"
