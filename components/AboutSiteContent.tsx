@@ -67,7 +67,7 @@ export default function AboutSiteContent({ structure }: AboutSiteContentProps) {
                             const estPrompt = bloc.typeDeContenu === 'Prompt';
                             
                             return (
-                              <div key={blocKey} className={styles.bloc} {...(bloc.typeDeContenu ? { 'data-type-contenu': bloc.typeDeContenu } : {})}>
+                              <div key={blocKey} className={styles.bloc}>
                                 {/* Masquer le titre si typeDeContenu est "Prompt" ou "Résultat technique" */}
                                 {bloc.typeDeContenu !== 'Prompt' && bloc.typeDeContenu !== 'Résultat technique' && (
                                   <h5 className={styles.blocTitle}>{bloc.titre}</h5>
