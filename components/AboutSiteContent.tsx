@@ -1,48 +1,21 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import styles from '../app/about-site/about-site.module.css';
 import AboutSiteContentRenderer from './AboutSiteContentRenderer';
 import AccordionTitle from './AccordionTitle';
 import type { AboutSiteStructure } from '../utils/aboutSiteReader';
 
+interface AboutSiteContentProps {
+  structure: AboutSiteStructure;
+}
+
 /**
  * Composant client pour afficher le contenu "À propos du site"
- * Stratégie B : Fetch le JSON depuis l'API et l'affiche via CSS
+ * Reçoit les données via props (générées par le Server Component)
+ * Gère les interactions (accordéon H1/H2)
  */
-export default function AboutSiteContent() {
-  const [structure, setStructure] = useState<AboutSiteStructure | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    // Fetch le JSON depuis l'API
-    fetch('/api/about-site')
-      .then((res) => {
-        if (!res.ok) {
-          throw new Error('Failed to fetch about site structure');
-        }
-        return res.json();
-      })
-      .then((data: AboutSiteStructure) => {
-        setStructure(data);
-        setLoading(false);
-      })
-      .catch((err) => {
-        setError(err.message);
-        setLoading(false);
-      });
-  }, []);
-
-  // Éviter les problèmes d'hydratation : même rendu initial serveur/client
-  if (loading || !structure) {
-    return <main className={styles.main}><div className={styles.content}>Chargement...</div></main>;
-  }
-
-  if (error) {
-    return <main className={styles.main}><div className={styles.content}>Erreur : {error}</div></main>;
-  }
-
+export default function AboutSiteContent({ structure }: AboutSiteContentProps) {
   const { chapitres } = structure;
 
 

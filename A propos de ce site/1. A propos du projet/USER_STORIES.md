@@ -1,4 +1,4 @@
-# User Stories extraites des journaux
+### User Stories extraites des journaux
 
 ## Epic 1 : Site Web - Structure de Base
 
@@ -93,6 +93,7 @@ Construire la structure hiérarchique des chapitres
 - La fonction retourne un tableau avec les noms des dossiers
 - Les fichiers (non-dossiers) sont ignorés
 - Les dossiers vides sont ignorés
+- Les dossiers ne contenant que des fichiers à ignorer sont ignorés aussi (#US-2.1)
 
 ---
 
@@ -110,7 +111,7 @@ Construire la liste des sections pour chaque chapitre
 - Seuls les fichiers avec l'extension .md sont lus
 - Les fichiers non-MD sont ignorés
 - Les fichiers MD vides sont ignorés
-- Les dossiers ne contenant que des fichiers à ignorer sont ignoré aussi (#US-2.1)
+- Les dossiers ne contenant que des fichiers à ignorer sont ignorés aussi (#US-2.1)
 
 ---
 
@@ -242,22 +243,22 @@ Exposer les données structurées pour le frontend
 
 ## Epic 3 : Page "À propos de ce site" - Frontend
 
-### US-3.1 : Récupération du JSON via API
+### US-3.1 : Récupération des données via Server Component
 #### En tant que
 Système frontend
 
 #### Je souhaite
-Récupérer le JSON structuré depuis une API route
+Récupérer le JSON structuré depuis le backend pur via un Server Component
 
 #### Afin de
-Consommer les données rendues disponibles par le serveur avant toute mise en page
+Générer le HTML complet côté serveur pour le SEO et faciliter le travail des crawlers
 
 #### Critères d'acceptation :
-- Le Client Component fait un `fetch('/api/about-site')`
-- L'API route retourne le JSON généré par le backend pur
-- Un état de chargement est affiché pendant le fetch
-- Les erreurs sont gérées et affichées
-- **Note pour tests futurs** : Pour tester l'API, afficher le JSON brut dans le navigateur plutôt qu'en console
+- Le Server Component (`app/about-site/page.tsx`) appelle `readAboutSiteStructure()` côté serveur
+- Le JSON est généré par le backend pur (raison pédagogique d'architecture)
+- Le HTML complet est généré côté serveur avec tout le contenu
+- Les données sont passées au Client Component via props (pas de fetch côté client)
+- L'API route (`/api/about-site`) est conservée pour debug/tests
 
 ---
 
@@ -368,6 +369,3 @@ Lire le contenu confortablement
 - H3 : 1rem
 - H4 : 0.95rem
 - Paragraphes/listes : 0.9rem
-
----
-
