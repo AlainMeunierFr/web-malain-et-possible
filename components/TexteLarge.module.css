@@ -1,7 +1,7 @@
 /* Container : style titre domaine sans les compétences */
 /* Mobile-first : styles de base pour smartphone (≤768px) */
 .texteLargeContainer {
-  max-width: 947px;
+  max-width: 1200px; /* Augmenté pour mieux exploiter la largeur sur grand écran */
   margin: 0 auto;
   padding: 1.5rem 1rem;
   width: 100%;
@@ -24,5 +24,9 @@
 @media (min-width: 769px) {
   .texteLargeContainer {
     padding: 2rem 1rem;
+  }
+
+  .texteLargeText {
+    font-size: 16px; /* Augmenté pour meilleure lisibilité */
   }
 }

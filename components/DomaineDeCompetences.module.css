@@ -1,7 +1,7 @@
 /* Conteneur principal : régule la largeur selon les contraintes responsive */
 /* Mobile-first : styles de base pour smartphone (≤768px) */
 .container {
-  max-width: 947px;
+  max-width: 1200px; /* Augmenté pour mieux exploiter la largeur sur grand écran */
   margin: 0 auto;
   padding: 15px;
   width: 100%;
@@ -128,7 +128,7 @@
   }
 
   .domaineContenu {
-    font-size: 14px;
+    font-size: 16px; /* Augmenté pour meilleure lisibilité */
   }
 
   .competenceTitre {
@@ -136,6 +136,6 @@
   }
 
   .competenceDescription {
-    font-size: 14px;
+    font-size: 16px; /* Augmenté pour meilleure lisibilité */
   }
 }
