@@ -16,19 +16,10 @@ import AboutSiteContent from '../../components/AboutSiteContent';
  * - Pas de problème d'hydratation : données identiques serveur/client
  */
 export default function AboutSitePage() {
-  try {
-    // Appel côté serveur : le backend pur génère le JSON
-    const structure = readAboutSiteStructure();
-    
-    // Passage des données au Client Component via props
-    return <AboutSiteContent structure={structure} />;
-  } catch (error) {
-    // En cas d'erreur de validation, faire échouer le build explicitement
-    if (error instanceof Error && error.name === 'ValidationError') {
-      // Next.js fait échouer le build si on throw une erreur dans un Server Component
-      throw error;
-    }
-    // Pour les autres erreurs, les propager aussi
-    throw error;
-  }
+  // Appel côté serveur : le backend pur génère le JSON
+  // Si une ValidationError est lancée, Next.js fera échouer le build automatiquement
+  const structure = readAboutSiteStructure();
+  
+  // Passage des données au Client Component via props
+  return <AboutSiteContent structure={structure} />;
 }
