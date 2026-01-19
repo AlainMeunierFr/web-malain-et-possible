@@ -45,13 +45,24 @@ export interface ContenuElement {
 }
 
 /**
+ * Interface pour un bloc (##### dans le fichier MD)
+ */
+export interface Bloc {
+  titre: string; // Titre du bloc (texte après #####)
+  contenu: string; // Contenu brut du bloc jusqu'à la prochaine sous-partie/bloc ou fin
+  contenuParse: ContenuElement[]; // Contenu parsé en éléments (paragraphes, listes)
+  typeDeContenu?: string; // "Prompt", "Résultat technique", etc. (pour style CSS spécial)
+}
+
+/**
  * Interface pour une sous-partie (#### dans le fichier MD)
  */
 export interface SousPartie {
   titre: string; // Titre de la sous-partie (texte après ####)
   contenu: string; // Contenu brut de la sous-partie jusqu'à la prochaine partie/sous-partie ou fin
   contenuParse: ContenuElement[]; // Contenu parsé en éléments (paragraphes, listes)
-  estSpecial?: boolean; // Si true, titre à masquer (Prompt, Résultat technique) - pour SEO seulement
+  typeDeContenu?: string; // "Prompt", "Résultat technique", etc. (pour masquer le titre en affichage, mais garder pour SEO)
+  blocs: Bloc[]; // Blocs (#####) dans cette sous-partie
 }
 
 /**
@@ -269,20 +280,33 @@ export const parseSectionContent = (contenu: string): SectionContent => {
   let contenuInitial = '';
   let partieCourante: Partie | null = null;
   let sousPartieCourante: SousPartie | null = null;
+  let blocCourant: Bloc | null = null;
   let dansContenuInitial = true;
 
   for (let i = 0; i < lignes.length; i++) {
     const ligne = lignes[i];
+    const trimmedLine = ligne.trim();
 
-    // Détecter une partie (###)
-    if (ligne.startsWith('### ') && !ligne.startsWith('#### ')) {
+    // Détecter une partie (###) - mais pas ####, #####, ######
+    if (trimmedLine.startsWith('### ') && !trimmedLine.startsWith('#### ')) {
       dansContenuInitial = false;
       
       // Finaliser la partie précédente si elle existe
       if (partieCourante) {
+        // Finaliser le bloc courant si il existe
+        if (blocCourant) {
+          blocCourant.contenuParse = parseMarkdownContent(blocCourant.contenu.trim());
+          if (sousPartieCourante) {
+            sousPartieCourante.blocs.push(blocCourant);
+          }
+          blocCourant = null;
+        }
         // Finaliser la sous-partie courante si elle existe
         if (sousPartieCourante) {
-          sousPartieCourante.contenuParse = parseMarkdownContent(sousPartieCourante.contenu.trim());
+          // Parser le contenu de la sous-partie si pas de blocs
+          if (sousPartieCourante.blocs.length === 0) {
+            sousPartieCourante.contenuParse = parseMarkdownContent(sousPartieCourante.contenu.trim());
+          }
           partieCourante.sousParties.push(sousPartieCourante);
           sousPartieCourante = null;
         }
@@ -292,7 +316,7 @@ export const parseSectionContent = (contenu: string): SectionContent => {
       }
 
       // Créer une nouvelle partie
-      const titre = ligne.substring(4).trim(); // Enlever "### "
+      const titre = trimmedLine.substring(4).trim(); // Enlever "### "
       partieCourante = {
         titre,
         contenu: '',
@@ -300,26 +324,68 @@ export const parseSectionContent = (contenu: string): SectionContent => {
         sousParties: []
       };
       sousPartieCourante = null;
+      blocCourant = null;
     }
-    // Détecter une sous-partie (####)
-    else if (ligne.startsWith('#### ')) {
+    // Détecter une sous-partie (####) - mais pas #####, ######
+    else if (trimmedLine.startsWith('#### ') && !trimmedLine.startsWith('##### ')) {
       if (partieCourante) {
+        // Finaliser le bloc courant si il existe
+        if (blocCourant) {
+          blocCourant.contenuParse = parseMarkdownContent(blocCourant.contenu.trim());
+          if (sousPartieCourante) {
+            sousPartieCourante.blocs.push(blocCourant);
+          }
+          blocCourant = null;
+        }
         // Finaliser la sous-partie précédente si elle existe
         if (sousPartieCourante) {
-          sousPartieCourante.contenuParse = parseMarkdownContent(sousPartieCourante.contenu.trim());
+          // Parser le contenu de la sous-partie si pas de blocs
+          if (sousPartieCourante.blocs.length === 0) {
+            sousPartieCourante.contenuParse = parseMarkdownContent(sousPartieCourante.contenu.trim());
+          }
           partieCourante.sousParties.push(sousPartieCourante);
         }
 
         // Créer une nouvelle sous-partie
-        const titre = ligne.substring(5).trim(); // Enlever "#### "
+        const titre = trimmedLine.substring(5).trim(); // Enlever "#### "
         // Détecter si c'est une sous-partie spéciale (Prompt ou Résultat technique)
-        const estSpecial = titre.toLowerCase() === 'prompt' || titre.toLowerCase() === 'résultat technique';
+        const titreLower = titre.toLowerCase();
+        const typeDeContenu = (titreLower === 'prompt' || titreLower === 'résultat technique' || titreLower === 'resultat technique') 
+          ? (titreLower === 'prompt' ? 'Prompt' : 'Résultat technique')
+          : undefined;
         
         sousPartieCourante = {
           titre,
           contenu: '',
           contenuParse: [],
-          estSpecial: estSpecial || undefined // undefined si false pour ne pas polluer le JSON
+          typeDeContenu, // "Prompt", "Résultat technique", ou undefined
+          blocs: []
+        };
+        blocCourant = null;
+      }
+    }
+    // Détecter un bloc (#####) - mais pas ######
+    else if (trimmedLine.startsWith('##### ') && !trimmedLine.startsWith('###### ')) {
+      if (sousPartieCourante) {
+        // Finaliser le bloc précédent si il existe
+        if (blocCourant) {
+          blocCourant.contenuParse = parseMarkdownContent(blocCourant.contenu.trim());
+          sousPartieCourante.blocs.push(blocCourant);
+        }
+
+        // Créer un nouveau bloc
+        const titre = trimmedLine.substring(6).trim(); // Enlever "##### "
+        // Détecter si c'est un bloc spécial (Prompt ou Résultat technique)
+        const titreLower = titre.toLowerCase();
+        const typeDeContenu = (titreLower === 'prompt' || titreLower === 'résultat technique' || titreLower === 'resultat technique') 
+          ? (titreLower === 'prompt' ? 'Prompt' : 'Résultat technique')
+          : undefined;
+        
+        blocCourant = {
+          titre,
+          contenu: '',
+          contenuParse: [],
+          typeDeContenu // "Prompt", "Résultat technique", ou undefined
         };
       }
     }
@@ -328,7 +394,10 @@ export const parseSectionContent = (contenu: string): SectionContent => {
       if (dansContenuInitial) {
         contenuInitial += ligne + '\n';
       } else if (partieCourante) {
-        if (sousPartieCourante) {
+        if (blocCourant) {
+          // Ajouter au contenu du bloc courant
+          blocCourant.contenu += ligne + '\n';
+        } else if (sousPartieCourante) {
           // Ajouter au contenu de la sous-partie courante
           sousPartieCourante.contenu += ligne + '\n';
         } else {
@@ -339,10 +408,19 @@ export const parseSectionContent = (contenu: string): SectionContent => {
     }
   }
 
-  // Sauvegarder la dernière partie et sous-partie
+  // Sauvegarder la dernière partie, sous-partie et bloc
   if (partieCourante) {
+    if (blocCourant) {
+      blocCourant.contenuParse = parseMarkdownContent(blocCourant.contenu.trim());
+      if (sousPartieCourante) {
+        sousPartieCourante.blocs.push(blocCourant);
+      }
+    }
     if (sousPartieCourante) {
-      sousPartieCourante.contenuParse = parseMarkdownContent(sousPartieCourante.contenu.trim());
+      // Parser le contenu de la sous-partie si pas de blocs
+      if (sousPartieCourante.blocs.length === 0) {
+        sousPartieCourante.contenuParse = parseMarkdownContent(sousPartieCourante.contenu.trim());
+      }
       partieCourante.sousParties.push(sousPartieCourante);
     }
     partieCourante.contenuParse = parseMarkdownContent(partieCourante.contenu.trim());

@@ -17,10 +17,6 @@ interface AboutSiteContentProps {
 export default function AboutSiteContent({ structure }: AboutSiteContentProps) {
   const { chapitres } = structure;
 
-  // Fonction pour vérifier si une sous-partie est un "Prompt"
-  const isPrompt = (titre: string): boolean => {
-    return titre.toLowerCase().includes('prompt');
-  };
 
   return (
     <main className={styles.main}>
@@ -47,28 +43,45 @@ export default function AboutSiteContent({ structure }: AboutSiteContentProps) {
                       <AboutSiteContentRenderer elements={partie.contenuParse} />
                     )}
                     {partie.sousParties.map((sousPartie, sousPartieIndex) => {
-                      // Vérifier si c'est une sous-partie spéciale (Prompt ou Résultat technique) - pour masquer le titre
-                      const isSpecial = sousPartie.estSpecial || isPrompt(sousPartie.titre);
-                      
-                      // Vérifier si c'est un "Prompt" - pour appliquer le fond bleu clair
-                      const isPromptSection = isPrompt(sousPartie.titre);
-                      
                       // Clé unique : combiner le nom de la section, l'index de la partie, l'index de la sous-partie et le titre
                       const uniqueKey = `${section.nom}-${partieIndex}-${sousPartieIndex}-${sousPartie.titre}`;
                       
+                      // Masquer le titre si typeDeContenu est "Prompt" ou "Résultat technique"
+                      const doitMasquerTitre = sousPartie.typeDeContenu === 'Prompt' || sousPartie.typeDeContenu === 'Résultat technique';
+                      
                       return (
                         <div key={uniqueKey} className={styles.sousPartie}>
-                          {/* Masquer le titre pour les sous-parties spéciales (mais présent dans le JSON pour SEO) */}
-                          {!isSpecial && (
+                          {/* Masquer le titre pour les sous-parties avec typeDeContenu (mais présent dans le JSON pour SEO) */}
+                          {!doitMasquerTitre && (
                             <h4 className={styles.sousPartieTitle}>{sousPartie.titre}</h4>
                           )}
-                          {/* Contenu avec fond bleu clair uniquement pour Prompt */}
+                          {/* Contenu de la sous-partie si pas de blocs */}
                           {sousPartie.contenuParse && sousPartie.contenuParse.length > 0 && (
                             <AboutSiteContentRenderer 
-                              elements={sousPartie.contenuParse} 
-                              isPrompt={isPromptSection}
+                              elements={sousPartie.contenuParse}
                             />
                           )}
+                          {/* Afficher les blocs (h5) */}
+                          {sousPartie.blocs && sousPartie.blocs.map((bloc, blocIndex) => {
+                            const blocKey = `${uniqueKey}-bloc-${blocIndex}`;
+                            const estPrompt = bloc.typeDeContenu === 'Prompt';
+                            
+                            return (
+                              <div key={blocKey} className={styles.bloc} data-type-contenu={bloc.typeDeContenu || ''}>
+                                {/* Masquer le titre si typeDeContenu est "Prompt" ou "Résultat technique" */}
+                                {bloc.typeDeContenu !== 'Prompt' && bloc.typeDeContenu !== 'Résultat technique' && (
+                                  <h5 className={styles.blocTitle}>{bloc.titre}</h5>
+                                )}
+                                {/* Contenu du bloc avec fond bleu clair si typeDeContenu est "Prompt" */}
+                                {bloc.contenuParse && bloc.contenuParse.length > 0 && (
+                                  <AboutSiteContentRenderer 
+                                    elements={bloc.contenuParse}
+                                    typeDeContenu={bloc.typeDeContenu}
+                                  />
+                                )}
+                              </div>
+                            );
+                          })}
                         </div>
                       );
                     })}

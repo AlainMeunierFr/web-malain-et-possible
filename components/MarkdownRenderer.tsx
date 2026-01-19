@@ -1,8 +1,7 @@
 import React from 'react';
 import styles from './MarkdownRenderer.module.css';
-import TechnicalResult from './TechnicalResult';
-import Prompt from './Prompt';
 import CourseMarkdownRenderer from './CourseMarkdownRenderer';
+import AboutSiteContentRenderer from './AboutSiteContentRenderer';
 import { parseJournalMarkdown, type ParsedJournal } from '../utils/journalMarkdownParser';
 
 export interface MarkdownRendererProps {
@@ -11,62 +10,75 @@ export interface MarkdownRendererProps {
 
 /**
  * Composant pour afficher du markdown formaté
- * Utilise le parser journalMarkdownParser pour extraire la structure (sections, prompts, résultats techniques)
- * et affiche les éléments avec les composants appropriés
+ * Utilise la structure unifiée : même hiérarchie que aboutSiteReader.ts
+ * Partie (h3) → Sous-partie (h4) → Bloc (h5)
  */
 const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content }) => {
-  // Parser le markdown pour extraire la structure
+  // Parser le markdown pour extraire la structure unifiée
   const parsed: ParsedJournal = parseJournalMarkdown(content);
   const elements: React.ReactNode[] = [];
 
-  parsed.sections.forEach((section, sectionIndex) => {
-    // Titre de section H3 (après ajustement dans journalReader, était H2 dans le fichier source)
+  parsed.parties.forEach((partie, partieIndex) => {
+    // Titre de partie H3
     elements.push(
-      <h3 key={`section-${sectionIndex}`} className={styles.h3}>
-        {section.title}
+      <h3 key={`partie-${partieIndex}`} className={styles.h3}>
+        {partie.titre}
       </h3>
     );
 
-    // Afficher le contenu libre de la section (s'il existe)
-    if (section.content.trim()) {
+    // Afficher le contenu libre de la partie (s'il existe)
+    if (partie.contenuParse && partie.contenuParse.length > 0) {
       elements.push(
-        <CourseMarkdownRenderer 
-          key={`section-content-${sectionIndex}`} 
-          content={section.content.trim()} 
+        <AboutSiteContentRenderer 
+          key={`partie-content-${partieIndex}`} 
+          elements={partie.contenuParse}
         />
       );
     }
 
-    // Afficher les prompts de cette section
-    section.prompts.forEach((prompt, promptIndex) => {
-      // Titre de prompt H4 (après ajustement dans journalReader) - seulement s'il existe
-      if (prompt.title.trim()) {
-        elements.push(
-          <h4 key={`prompt-title-${sectionIndex}-${promptIndex}`} className={styles.h4}>
-            {prompt.title}
-          </h4>
-        );
-      }
+    // Afficher les sous-parties
+    partie.sousParties.forEach((sousPartie, sousPartieIndex) => {
+      // Titre de sous-partie H4 (toujours affiché, même si typeDeContenu existe)
+      elements.push(
+        <h4 key={`sous-partie-${partieIndex}-${sousPartieIndex}`} className={styles.h4}>
+          {sousPartie.titre}
+        </h4>
+      );
 
-      // Contenu du prompt (si présent)
-      if (prompt.text.trim()) {
+      // Afficher le contenu libre de la sous-partie (s'il existe et pas de blocs)
+      if (sousPartie.contenuParse && sousPartie.contenuParse.length > 0) {
         elements.push(
-          <Prompt
-            key={`prompt-${sectionIndex}-${promptIndex}`}
-            content={prompt.text.trim()}
+          <AboutSiteContentRenderer 
+            key={`sous-partie-content-${partieIndex}-${sousPartieIndex}`}
+            elements={sousPartie.contenuParse}
           />
         );
       }
 
-      // Résultat technique (si présent)
-      if (prompt.technicalResult.trim()) {
-        elements.push(
-          <TechnicalResult
-            key={`tech-result-${sectionIndex}-${promptIndex}`}
-            content={prompt.technicalResult.trim()}
-          />
-        );
-      }
+      // Afficher les blocs
+      sousPartie.blocs.forEach((bloc, blocIndex) => {
+        // Masquer le titre si typeDeContenu est "Prompt" ou "Résultat technique"
+        const doitMasquerTitre = bloc.typeDeContenu === 'Prompt' || bloc.typeDeContenu === 'Résultat technique';
+        
+        if (!doitMasquerTitre) {
+          elements.push(
+            <h5 key={`bloc-title-${partieIndex}-${sousPartieIndex}-${blocIndex}`} className={styles.h5}>
+              {bloc.titre}
+            </h5>
+          );
+        }
+
+        // Afficher le contenu du bloc avec le typeDeContenu pour le style
+        if (bloc.contenuParse && bloc.contenuParse.length > 0) {
+          elements.push(
+            <AboutSiteContentRenderer 
+              key={`bloc-content-${partieIndex}-${sousPartieIndex}-${blocIndex}`}
+              elements={bloc.contenuParse}
+              typeDeContenu={bloc.typeDeContenu}
+            />
+          );
+        }
+      });
     });
   });
 

@@ -4,8 +4,8 @@
  * 
  * Test 1 : Détecter une sous-partie "#### Prompt"
  * Test 2 : Détecter une sous-partie "#### Résultat technique"
- * Test 3 : Les sous-parties spéciales doivent avoir estSpecial = true
- * Test 4 : Les autres sous-parties ne doivent pas avoir estSpecial
+ * Test 3 : Les sous-parties spéciales doivent avoir typeDeContenu = "Prompt" ou "Résultat technique"
+ * Test 4 : Les autres sous-parties ne doivent pas avoir typeDeContenu
  */
 
 import { parseSectionContent } from '../../utils/aboutSiteReader';
@@ -24,7 +24,7 @@ Contenu du prompt.`;
       // ASSERT
       expect(result.parties[0].sousParties).toHaveLength(1);
       expect(result.parties[0].sousParties[0].titre).toBe('Prompt');
-      expect(result.parties[0].sousParties[0].estSpecial).toBe(true);
+      expect(result.parties[0].sousParties[0].typeDeContenu).toBe('Prompt');
     });
   });
 
@@ -41,7 +41,7 @@ Contenu du résultat technique.`;
       // ASSERT
       expect(result.parties[0].sousParties).toHaveLength(1);
       expect(result.parties[0].sousParties[0].titre).toBe('Résultat technique');
-      expect(result.parties[0].sousParties[0].estSpecial).toBe(true);
+      expect(result.parties[0].sousParties[0].typeDeContenu).toBe('Résultat technique');
     });
   });
 
@@ -58,7 +58,7 @@ Contenu normal.`;
       // ASSERT
       expect(result.parties[0].sousParties).toHaveLength(1);
       expect(result.parties[0].sousParties[0].titre).toBe('Autre sous-partie');
-      expect(result.parties[0].sousParties[0].estSpecial).toBeUndefined();
+      expect(result.parties[0].sousParties[0].typeDeContenu).toBeUndefined();
     });
   });
 
@@ -73,7 +73,7 @@ Contenu.`;
       const result = parseSectionContent(contenu);
 
       // ASSERT
-      expect(result.parties[0].sousParties[0].estSpecial).toBe(true);
+      expect(result.parties[0].sousParties[0].typeDeContenu).toBe('Prompt');
     });
   });
 });

@@ -9,17 +9,17 @@ import styles from './AboutSiteContentRenderer.module.css';
 
 export interface AboutSiteContentRendererProps {
   elements: ContenuElement[];
-  isPrompt?: boolean; // Si true, affiche avec fond bleu clair (pour les sous-parties "Prompt")
+  typeDeContenu?: string; // "Prompt", "Résultat technique", etc. (pour style CSS spécial)
 }
 
 const AboutSiteContentRenderer: React.FC<AboutSiteContentRendererProps> = ({ 
   elements, 
-  isPrompt = false 
+  typeDeContenu 
 }) => {
-  const containerClass = isPrompt ? styles.promptContainer : styles.normalContainer;
+  const containerClass = typeDeContenu === 'Prompt' ? styles.promptContainer : styles.normalContainer;
 
   return (
-    <div className={containerClass}>
+    <div className={containerClass} data-type-contenu={typeDeContenu || ''}>
       {elements.map((element, index) => {
         switch (element.type) {
           case 'paragraph':
