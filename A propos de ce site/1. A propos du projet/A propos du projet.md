@@ -1,3 +1,6 @@
+### Product Goal
+[À compléter : Objectif produit à long terme]
+
 ### Contexte
 Ancien développeur (1995–2020), aujourd'hui en reprise active du code, ce projet est un laboratoire personnel de remise à niveau sur le développement web moderne.
 Je cherche à m'acculturer encore plus, via la pratique, à la programmation orientée objet, TDD, CI/CD, BDD (Gherkin) et des principes issus du clean code et du DDD.

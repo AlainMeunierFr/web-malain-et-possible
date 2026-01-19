@@ -1,5 +1,8 @@
 ### Epic 1 : Site Web - Structure de Base
 
+#### Sprint Goal
+[À compléter : Objectif du sprint pour cet Epic]
+
 #### US-1.1 : Affichage initial "Hello World"
 - **En tant que** Visiteur du site
 - **Je souhaite** Voir une page "Hello World" s'afficher
@@ -52,6 +55,9 @@
 ---
 
 ### Epic 2 : Page "À propos de ce site" - Backend (Construction progressive du JSON)
+
+#### Sprint Goal
+[À compléter : Objectif du sprint pour cet Epic]
 
 #### US-2.1 : Lecture des dossiers du répertoire "A propos de ce site"
 - **En tant que** Système backend
@@ -162,6 +168,9 @@
 ---
 
 ### Epic 3 : Page "À propos de ce site" - Frontend
+
+#### Sprint Goal
+[À compléter : Objectif du sprint pour cet Epic]
 
 #### US-3.1 : Récupération des données via Server Component
 - **En tant que** Système frontend
