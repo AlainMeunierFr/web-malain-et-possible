@@ -6,6 +6,15 @@
 
 import React from 'react';
 import Link from 'next/link';
+import {
+  Rocket,
+  Globe,
+  MessageCircle,
+  Puzzle,
+  Binoculars,
+  Users,
+  type LucideIcon,
+} from 'lucide-react';
 import type { DomaineDeCompetences } from '../utils/indexReader';
 import styles from './DomaineDeCompetences.module.css';
 
@@ -49,6 +58,18 @@ function parseInlineMarkdown(text: string): React.ReactNode[] {
   return parts.length > 0 ? parts : [text];
 }
 
+/**
+ * Mapping des noms d'icônes vers les composants lucide-react
+ */
+const iconMap: Record<string, LucideIcon> = {
+  Rocket,
+  Globe,
+  MessageCircle,
+  Puzzle,
+  Binoculars,
+  Users,
+};
+
 export interface DomaineDeCompetencesProps {
   domaine: DomaineDeCompetences;
 }
@@ -64,25 +85,39 @@ const DomaineDeCompetences: React.FC<DomaineDeCompetencesProps> = ({ domaine }) 
 
       {/* Second bloc : 3 compétences */}
       <div className={styles.competencesContainer}>
-        {domaine.items.map((competence, index) => (
-          <div key={index} className={styles.competence}>
-            <h3 className={styles.competenceTitre}>{competence.titre}</h3>
-            <div className={styles.competenceImage}>
-              <img 
-                src={competence.image.src} 
-                alt={competence.image.alt}
-              />
+        {domaine.items.map((competence, index) => {
+          // Récupère l'icône lucide-react si elle existe
+          const IconComponent = competence.icon ? iconMap[competence.icon] : null;
+
+          return (
+            <div key={index} className={styles.competence}>
+              <h3 className={styles.competenceTitre}>{competence.titre}</h3>
+              <div className={styles.competenceImage}>
+                {IconComponent ? (
+                  <IconComponent
+                    size={120}
+                    color="rgba(9, 23, 71, 1)"
+                    strokeWidth={1.5}
+                    className={styles.competenceIcon}
+                  />
+                ) : competence.image ? (
+                  <img 
+                    src={competence.image.src} 
+                    alt={competence.image.alt}
+                  />
+                ) : null}
+              </div>
+              <div className={styles.competenceDescription}>
+                {parseInlineMarkdown(competence.description)}
+              </div>
+              {competence.bouton && (
+                <Link href={competence.bouton.action} className={styles.competenceBouton}>
+                  {competence.bouton.texte}
+                </Link>
+              )}
             </div>
-            <div className={styles.competenceDescription}>
-              {parseInlineMarkdown(competence.description)}
-            </div>
-            {competence.bouton && (
-              <Link href={competence.bouton.action} className={styles.competenceBouton}>
-                {competence.bouton.texte}
-              </Link>
-            )}
-          </div>
-        ))}
+          );
+        })}
       </div>
     </div>
   );
