@@ -1,17 +1,18 @@
 /* Container : responsive pour la vidéo */
+/* Mobile-first : styles de base pour smartphone (≤768px) */
 .videoContainer {
   width: 100%;
-  max-width: 947px;
   margin: 0 auto;
-  padding: 2rem 1rem;
+  padding: 1rem;
   box-sizing: border-box;
 }
 
-/* Sur écrans normaux/grands : vidéo plus petite (comme le site d'origine) */
+/* Desktop : écrans normaux/grands (≥769px) - vidéo plus petite */
 @media (min-width: 769px) {
   .videoContainer {
-    width: 50%;
+    width: 70%;
     max-width: 600px;
+    padding: 2rem 1rem;
   }
 }
 
@@ -34,9 +35,3 @@
   border: none;
 }
 
-/* Responsive : ajustement pour petits écrans */
-@media (max-width: 768px) {
-  .videoContainer {
-    padding: 1rem;
-  }
-}
