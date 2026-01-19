@@ -34,7 +34,7 @@ export interface DomaineDeCompetences {
 /**
  * Types d'éléments de contenu de page
  */
-export type TypeElementContenu = 'titre' | 'video' | 'teteLarge' | 'domaineDeCompetence';
+export type TypeElementContenu = 'titre' | 'video' | 'texteLarge' | 'domaineDeCompetence';
 
 /**
  * Interface pour un élément de type "Titre"
@@ -54,10 +54,10 @@ export interface ElementVideo {
 }
 
 /**
- * Interface pour un élément de type "Tête large"
+ * Interface pour un élément de type "Texte large"
  */
-export interface ElementTeteLarge {
-  type: 'teteLarge';
+export interface ElementTexteLarge {
+  type: 'texteLarge';
   texte: string;
 }
 
@@ -77,7 +77,7 @@ export interface ElementDomaineDeCompetence {
 export type ElementContenu = 
   | ElementTitre 
   | ElementVideo 
-  | ElementTeteLarge 
+  | ElementTexteLarge 
   | ElementDomaineDeCompetence;
 
 /**

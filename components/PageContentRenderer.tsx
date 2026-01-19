@@ -6,7 +6,7 @@ import React from 'react';
 import type { ElementContenu } from '../utils/indexReader';
 import Titre from './Titre';
 import Video from './Video';
-import TeteLarge from './TeteLarge';
+import TexteLarge from './TexteLarge';
 import DomaineDeCompetences from './DomaineDeCompetences';
 
 export interface PageContentRendererProps {
@@ -22,8 +22,8 @@ const PageContentRenderer: React.FC<PageContentRendererProps> = ({ contenu }) =>
             return <Titre key={index} element={element} />;
           case 'video':
             return <Video key={index} element={element} />;
-          case 'teteLarge':
-            return <TeteLarge key={index} element={element} />;
+          case 'texteLarge':
+            return <TexteLarge key={index} element={element} />;
           case 'domaineDeCompetence':
             return (
               <DomaineDeCompetences

@@ -1,5 +1,5 @@
 /* Container : style titre domaine sans les compétences */
-.teteLargeContainer {
+.texteLargeContainer {
   max-width: 947px;
   margin: 0 auto;
   padding: 2rem 1rem;
@@ -8,7 +8,7 @@
 }
 
 /* Texte : même style que le titre d'un domaine de compétence */
-.teteLargeText {
+.texteLargeText {
   font-family: 'Oswald', sans-serif;
   font-size: 24px;
   font-weight: 700;
@@ -20,11 +20,11 @@
 
 /* Responsive : ajustement pour petits écrans */
 @media (max-width: 768px) {
-  .teteLargeContainer {
+  .texteLargeContainer {
     padding: 1.5rem 1rem;
   }
 
-  .teteLargeText {
+  .texteLargeText {
     font-size: 20px;
   }
 }

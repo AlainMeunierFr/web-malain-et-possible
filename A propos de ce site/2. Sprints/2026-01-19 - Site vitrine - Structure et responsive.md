@@ -43,6 +43,6 @@ Développer la structure hiérarchique et le responsive du site vitrine (carte d
 - **Nouveau type "Vidéo"** :
   - Data : URL YouTube / Lancement automatique = Oui/Non
   - CSS : incrustation de vidéo YouTube
-- **Nouveau Type "Tête large"** :
+- **Nouveau Type "Texte large"** :
   - Data : un texte
   - CSS : un texte qui se comporte comme le titre d'un domaine de compétence (947 de largeur max) mais qui n'a pas "3 compétences"

@@ -23,8 +23,8 @@ Feature: Affichage de différents types de contenu sur les pages
     Alors je vois une incrustation de vidéo YouTube
     Et la vidéo respecte la configuration de lancement automatique
 
-  Scenario: Affichage d'un type "Tête large"
-    Étant donné que le JSON contient un élément de type "Tête large" avec un texte
+  Scenario: Affichage d'un type "Texte large"
+    Étant donné que le JSON contient un élément de type "Texte large" avec un texte
     Quand la page est chargée
     Alors je vois un texte qui se comporte comme le titre d'un domaine de compétence
     Et la largeur maximale est de 947px
@@ -38,7 +38,7 @@ Feature: Affichage de différents types de contenu sur les pages
 
   Scenario: Structure JSON "contenu de page" avec plusieurs types
     Étant donné que le JSON a une structure "contenu de page"
-    Et que ce contenu contient plusieurs types différents (Titre, Vidéo, Tête large, Domaine de compétence)
+    Et que ce contenu contient plusieurs types différents (Titre, Vidéo, Texte large, Domaine de compétence)
     Quand la page est chargée
     Alors tous les types de contenu s'affichent dans l'ordre défini dans le JSON
     Et chaque type utilise son composant et son style CSS approprié
