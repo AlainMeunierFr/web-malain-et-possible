@@ -47,14 +47,22 @@ console.log(`\nJSON sauvegardé dans: ${jsonPath}`);
 
 // Statistiques
 console.log('\n=== STATISTIQUES ===');
-console.log(`Nombre de sections: ${result.sections.length}`);
-result.sections.forEach((section, idx) => {
-  console.log(`\nSection ${idx + 1}: "${section.title}"`);
-  console.log(`  - Nombre de prompts: ${section.prompts.length}`);
-  section.prompts.forEach((prompt, pIdx) => {
-    console.log(`  - Prompt ${pIdx + 1}:`);
-    console.log(`    Titre: "${prompt.title || '(sans titre)'}"`);
-    console.log(`    Texte: "${prompt.text.substring(0, 50)}${prompt.text.length > 50 ? '...' : ''}" (${prompt.text.length} chars)`);
-    console.log(`    Résultat: "${prompt.technicalResult.substring(0, 50)}${prompt.technicalResult.length > 50 ? '...' : ''}" (${prompt.technicalResult.length} chars)`);
+console.log(`Nombre de parties: ${result.parties.length}`);
+result.parties.forEach((partie, idx) => {
+  console.log(`\nPartie ${idx + 1}: "${partie.titre}"`);
+  console.log(`  - Nombre de sous-parties: ${partie.sousParties.length}`);
+  partie.sousParties.forEach((sousPartie, spIdx) => {
+    console.log(`  - Sous-partie ${spIdx + 1}: "${sousPartie.titre}"`);
+    console.log(`    - Nombre de blocs: ${sousPartie.blocs.length}`);
+    sousPartie.blocs.forEach((bloc, bIdx) => {
+      console.log(`    - Bloc ${bIdx + 1}: "${bloc.titre}" (type: ${bloc.typeDeContenu || 'normal'})`);
+      if (bloc.contenuParse && bloc.contenuParse.length > 0) {
+        const firstContent = bloc.contenuParse[0];
+        const preview = firstContent.type === 'paragraph' 
+          ? (firstContent.content || '').substring(0, 50)
+          : firstContent.items?.[0]?.substring(0, 50) || '';
+        console.log(`      Contenu: "${preview}${preview.length >= 50 ? '...' : ''}"`);
+      }
+    });
   });
 });

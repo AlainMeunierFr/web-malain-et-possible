@@ -19,7 +19,7 @@ const AboutSiteContentRenderer: React.FC<AboutSiteContentRendererProps> = ({
   const containerClass = typeDeContenu === 'Prompt' ? styles.promptContainer : styles.normalContainer;
 
   return (
-    <div className={containerClass} data-type-contenu={typeDeContenu || ''}>
+    <div className={containerClass} {...(typeDeContenu ? { 'data-type-contenu': typeDeContenu } : {})}>
       {elements.map((element, index) => {
         switch (element.type) {
           case 'paragraph':
