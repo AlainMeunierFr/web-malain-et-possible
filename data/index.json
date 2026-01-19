@@ -1,6 +1,24 @@
 {
-  "domainesDeCompetences": [
+  "contenu": [
     {
+      "type": "titre",
+      "texte": "Mon parcours, mes transformations"
+    },
+    {
+      "type": "video",
+      "urlYouTube": "https://youtu.be/wcvG-WfKckU",
+      "lancementAuto": false
+    },
+    {
+      "type": "texteLarge",
+      "texte": "Je suis un passionné de la résolution de problèmes complexes avec une expérience riche et variée en tant qu'entrepreneur. Mon profil multi compétences m'a permis d'acquérir des compétences dans divers domaines, de la gestion de projet à l'optimisation des processus, en passant par l'innovation stratégique. Cette diversité me permet de voir les choses sous différents angles et d'apporter des solutions créatives pour faire face à vos défis, tout en vous accompagnant dans la mise en place des outils et méthodes nécessaires pour engager vos équipes et soutenir ce changement.\nAvec une vision globale, pragmatique et transverse, je prends en compte dans le traitement d'un sujet toutes les dimensions, depuis la conception jusqu'à la mise en œuvre sur le terrain et la perception des utilisateurs.\nJe nourris ma curiosité vers de nombreux sujets aussi bien dans l'entreprenariat, que les sciences dures ou les sciences humaines...\nCela me permet de créer des ponts et tisser des liens entre ces sujets pour faire émerger de nouvelles solutions."
+    },
+    {
+      "type": "titre",
+      "texte": "Mes convictions acquises par empirisme"
+    },
+    {
+      "type": "domaineDeCompetence",
       "titre": "Stratégie et transformations",
       "contenu": "Pour inscrire votre stratégie dans le long terme il faut commencer par prendre connaissance de l'état et de l'évolution de notre monde. Ce diagnostic invite chacun à challenger certaines de ses croyances. Je suis en mesure d'animer et faciliter 3 ateliers complémentaires servants cet objectif de transparence.",
       "items": [
@@ -40,6 +58,7 @@
       ]
     },
     {
+      "type": "domaineDeCompetence",
       "titre": "Engager les équipes",
       "contenu": "Les dynamiques collaboratives, et donc relationnelles, doivent être au cœur du programme de transformation.",
       "items": [
@@ -76,6 +95,7 @@
       ]
     },
     {
+      "type": "domaineDeCompetence",
       "titre": "Interactions humaines",
       "contenu": "« Lorsque les gens sont financièrement investis, ils veulent un retour. Lorsque les gens sont émotionnellement investis, ils veulent contribuer. »\n*Simon Sinek*",
       "items": [
@@ -109,6 +129,7 @@
       ]
     },
     {
+      "type": "domaineDeCompetence",
       "titre": "Faire avec les équipes",
       "contenu": "Par souci d'exemplarité je préfère \"faire avec\" que \"faire faire\".",
       "items": [
@@ -142,6 +163,7 @@
       ]
     },
     {
+      "type": "domaineDeCompetence",
       "titre": "Développement informatique",
       "contenu": "",
       "items": [
@@ -175,6 +197,7 @@
       ]
     },
     {
+      "type": "domaineDeCompetence",
       "titre": "Diagnostic civilisationnel",
       "contenu": "« Comment est-il possible que nous construisions collectivement ce qu'individuellement aucun d'entre nous ne voudrions ? »\n*Otto Scharmer*\n\nPour inscrire votre **stratégie dans le long terme** il faut commencer par prendre connaissance de l'état et de l'évolution de notre monde. Ce diagnostic invite chacun à **challenger certaines de ses croyances**. Je suis en mesure d'animer et faciliter 3 ateliers complémentaires servants cet objectif de transparence :",
       "items": [
@@ -208,6 +231,7 @@
       ]
     },
     {
+      "type": "domaineDeCompetence",
       "titre": "Activités extra-professionnelles... au service de ma profession",
       "contenu": "",
       "items": [
