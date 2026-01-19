@@ -137,8 +137,16 @@ describe('parseSectionContent - Détection User Stories', () => {
         .filter(e => e.typeDeContenu)
         .map(e => e.typeDeContenu);
       
-      expect(typeDeContenus1.length).toBe(4);
-      expect(typeDeContenus2.length).toBe(4);
+      // Vérifier que les 4 éléments de base sont présents (les thèmes/critères sont des éléments supplémentaires)
+      expect(typeDeContenus1).toContain('En tant que');
+      expect(typeDeContenus1).toContain('Je souhaite');
+      expect(typeDeContenus1).toContain('Afin de');
+      expect(typeDeContenus1).toContain('Critères d\'acceptation');
+      
+      expect(typeDeContenus2).toContain('En tant que');
+      expect(typeDeContenus2).toContain('Je souhaite');
+      expect(typeDeContenus2).toContain('Afin de');
+      expect(typeDeContenus2).toContain('Critères d\'acceptation');
     });
   });
 });

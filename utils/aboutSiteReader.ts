@@ -195,10 +195,20 @@ export const validerContenuMarkdown = (contenu: string, filePath: string): void 
  * - **Afin de**
  * - **Critères d'acceptation**
  * 
+ * Dans la section "Critères d'acceptation", détecte également :
+ * - Les thèmes de critères : lignes commençant par `- **` (sauf `- **Critères d'acceptation**`)
+ * - Les critères : lignes commençant par `- ` (sans `**` au début)
+ * 
+ * La section "Critères d'acceptation" se termine à :
+ * - La prochaine User Story (ligne commençant par `#### US-`)
+ * - Un séparateur `---`
+ * - La fin de la sous-partie (H4)
+ * 
  * @param elements Éléments de contenu parsés
+ * @param contenuBrut Contenu brut de la sous-partie (pour détecter les fins de section)
  * @returns Éléments avec typeDeContenu attribué si c'est une User Story
  */
-const detecterUserStory = (elements: ContenuElement[]): ContenuElement[] => {
+const detecterUserStory = (elements: ContenuElement[], contenuBrut?: string): ContenuElement[] => {
   // Chercher les 4 patterns dans les listes à puce
   const patterns = {
     'En tant que': /^\*\*En tant que\*\*\s*(.+)$/i,
@@ -227,17 +237,43 @@ const detecterUserStory = (elements: ContenuElement[]): ContenuElement[] => {
   const estUserStory = foundPatterns.size === 4;
 
   // Deuxième passe : attribuer les typeDeContenu
+  // Même logique simple que pour "En tant que", "Je souhaite", "Afin de", "Critères d'acceptation"
+  let dansCriteresAcceptation = false;
+  
   for (const element of elements) {
     if (element.type === 'ul' && element.items && estUserStory) {
       // Créer un élément par item de liste pour pouvoir attribuer le typeDeContenu
       for (const item of element.items) {
+        const itemTrimmed = item.trim();
         let typeDeContenuTrouve: string | undefined = undefined;
+        
+        // Vérifier si c'est un pattern standard (En tant que, Je souhaite, etc.)
         for (const [typeDeContenu, pattern] of Object.entries(patterns)) {
-          if (pattern.test(item.trim())) {
+          if (pattern.test(itemTrimmed)) {
             typeDeContenuTrouve = typeDeContenu;
+            // Si c'est "Critères d'acceptation", on entre dans cette section
+            if (typeDeContenu === "Critères d'acceptation") {
+              dansCriteresAcceptation = true;
+            } else {
+              // Si on rencontre un autre pattern standard après "Critères d'acceptation", on sort de la section
+              dansCriteresAcceptation = false;
+            }
             break;
           }
         }
+        
+        // Si on est dans la section "Critères d'acceptation" et que ce n'est pas un pattern standard
+        if (dansCriteresAcceptation && !typeDeContenuTrouve) {
+          // Même logique simple : 
+          // - Si ça commence par `**` (mais pas `**Critères d'acceptation**`) → thème de critère
+          // - Sinon → critère normal
+          if (/^\*\*/.test(itemTrimmed) && !/^\*\*Critères d'acceptation\*\*/i.test(itemTrimmed)) {
+            typeDeContenuTrouve = 'themeCritere';
+          } else {
+            typeDeContenuTrouve = 'critere';
+          }
+        }
+        
         elementsAvecType.push({
           type: 'ul',
           items: [item],
@@ -245,6 +281,10 @@ const detecterUserStory = (elements: ContenuElement[]): ContenuElement[] => {
         });
       }
     } else {
+      // Si on rencontre un élément non-UL (paragraphe, autre liste), on sort de la section "Critères d'acceptation"
+      if (element.type !== 'ul' && element.type !== 'ol') {
+        dansCriteresAcceptation = false;
+      }
       // Copier l'élément tel quel
       elementsAvecType.push({ ...element });
     }
@@ -372,9 +412,11 @@ export const parseSectionContent = (contenu: string): SectionContent => {
         if (sousPartieCourante) {
           // Parser le contenu de la sous-partie si pas de blocs
           if (sousPartieCourante.blocs.length === 0) {
-            const contenuParse = parseMarkdownContent(sousPartieCourante.contenu.trim());
+            const contenuBrut = sousPartieCourante.contenu.trim();
+            const contenuParse = parseMarkdownContent(contenuBrut);
             // Détecter si c'est une User Story et attribuer les typeDeContenu
-            sousPartieCourante.contenuParse = detecterUserStory(contenuParse);
+            // Passer le contenu brut pour détecter les fins de section
+            sousPartieCourante.contenuParse = detecterUserStory(contenuParse, contenuBrut);
           }
           partieCourante.sousParties.push(sousPartieCourante);
           sousPartieCourante = null;
@@ -410,9 +452,11 @@ export const parseSectionContent = (contenu: string): SectionContent => {
         if (sousPartieCourante) {
           // Parser le contenu de la sous-partie si pas de blocs
           if (sousPartieCourante.blocs.length === 0) {
-            const contenuParse = parseMarkdownContent(sousPartieCourante.contenu.trim());
+            const contenuBrut = sousPartieCourante.contenu.trim();
+            const contenuParse = parseMarkdownContent(contenuBrut);
             // Détecter si c'est une User Story et attribuer les typeDeContenu
-            sousPartieCourante.contenuParse = detecterUserStory(contenuParse);
+            // Passer le contenu brut pour détecter les fins de section
+            sousPartieCourante.contenuParse = detecterUserStory(contenuParse, contenuBrut);
           }
           partieCourante.sousParties.push(sousPartieCourante);
         }

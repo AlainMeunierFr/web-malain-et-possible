@@ -1,6 +1,7 @@
 /**
- * Composant pour rendre le contenu markdown des parties et sous-parties
- * Utilise les styles HTML standards
+ * Composant pour rendre le contenu markdown
+ * HTML minimal : juste le texte et son typeDeContenu
+ * La CSS fait le reste
  */
 
 import React from 'react';
@@ -14,9 +15,7 @@ function parseInlineMarkdown(text: string): React.ReactNode[] {
   const parts: React.ReactNode[] = [];
   let currentIndex = 0;
 
-  // Pattern pour **bold**
   const boldPattern = /\*\*(.+?)\*\*/g;
-
   const boldMatches: Array<{ start: number; end: number; text: string }> = [];
 
   let match;
@@ -24,22 +23,16 @@ function parseInlineMarkdown(text: string): React.ReactNode[] {
     boldMatches.push({ start: match.index, end: match.index + match[0].length, text: match[1] });
   }
 
-  // Trier les matches par position
   boldMatches.sort((a, b) => a.start - b.start);
 
   boldMatches.forEach((match, index) => {
-    // Ajouter le texte avant le match
     if (match.start > currentIndex) {
       parts.push(text.substring(currentIndex, match.start));
     }
-
-    // Ajouter le contenu en gras
     parts.push(<strong key={`bold-${index}`}>{match.text}</strong>);
-
     currentIndex = match.end;
   });
 
-  // Ajouter le texte restant
   if (currentIndex < text.length) {
     parts.push(text.substring(currentIndex));
   }
@@ -49,108 +42,54 @@ function parseInlineMarkdown(text: string): React.ReactNode[] {
 
 export interface AboutSiteContentRendererProps {
   elements: ContenuElement[];
-  typeDeContenu?: string; // "Prompt", "Résultat technique", etc. (pour style CSS spécial)
+  typeDeContenu?: string;
 }
 
 const AboutSiteContentRenderer: React.FC<AboutSiteContentRendererProps> = ({ 
   elements, 
   typeDeContenu 
 }) => {
-  const containerClass = typeDeContenu === 'Prompt' ? styles.promptContainer : styles.normalContainer;
-
-  // Grouper les éléments pour gérer les sous-listes après "Critères d'acceptation"
-  const elementsGroupes: (ContenuElement | ContenuElement[])[] = [];
-  let dansCriteres = false;
-  let criteresIndex = -1;
-
-  for (let i = 0; i < elements.length; i++) {
-    const element = elements[i];
-    
-    if (element.typeDeContenu === "Critères d'acceptation") {
-      dansCriteres = true;
-      criteresIndex = elementsGroupes.length;
-      elementsGroupes.push(element);
-    } else if (dansCriteres && (element.type === 'ul' || element.type === 'ol')) {
-      // Grouper les sous-listes avec les critères d'acceptation
-      if (criteresIndex >= 0 && Array.isArray(elementsGroupes[criteresIndex])) {
-        (elementsGroupes[criteresIndex] as ContenuElement[]).push(element);
-      } else {
-        elementsGroupes[criteresIndex] = [elementsGroupes[criteresIndex] as ContenuElement, element];
-      }
-    } else {
-      dansCriteres = false;
-      criteresIndex = -1;
-      elementsGroupes.push(element);
-    }
-  }
+  const containerDataAttr = typeDeContenu === 'Prompt' ? { 'data-type-contenu': 'prompt' } : {};
 
   return (
-    <div className={containerClass}>
-      {elementsGroupes.map((elementOrGroup, index) => {
-        // Si c'est un groupe (tableau), afficher le premier élément puis les sous-listes
-        if (Array.isArray(elementOrGroup)) {
-          const [critereElement, ...sousListes] = elementOrGroup;
+    <div className={typeDeContenu === 'Prompt' ? styles.promptContainer : styles.normalContainer}>
+      {elements.map((element, index) => {
+        // Paragraphe
+        if (element.type === 'paragraph') {
           return (
-            <div key={index}>
-              <div className={styles.userStoryElement} data-type-contenu={critereElement.typeDeContenu}>
-                <span className={styles.userStoryItem}>- {parseInlineMarkdown(critereElement.items?.[0] || '')}</span>
-              </div>
-              {sousListes.map((sousListe, sousIndex) => (
-                <ul key={`${index}-${sousIndex}`} className={styles.list}>
-                  {sousListe.items?.map((item, itemIndex) => (
-                    <li key={itemIndex} className={styles.listItem}>
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-              ))}
-            </div>
+            <p key={index} className={styles.paragraph}>
+              {element.content}
+            </p>
           );
         }
 
-        const element = elementOrGroup;
-        switch (element.type) {
-          case 'paragraph':
+        // Liste (ul ou ol)
+        if (element.type === 'ul' || element.type === 'ol') {
+          // Si typeDeContenu existe, afficher comme élément de liste avec data-type-contenu (HTML minimal)
+          if (element.typeDeContenu) {
+            const text = element.items?.[0] || '';
             return (
-              <p key={index} className={styles.paragraph}>
-                {element.content}
-              </p>
-            );
-
-          case 'ul':
-            // Si l'élément a un typeDeContenu (User Story), afficher chaque item séparément
-            if (element.typeDeContenu) {
-              return (
-                <div key={index} className={styles.userStoryElement} data-type-contenu={element.typeDeContenu}>
-                  <span className={styles.userStoryItem}>- {parseInlineMarkdown(element.items?.[0] || '')}</span>
-                </div>
-              );
-            }
-            // Sinon, afficher comme une liste normale
-            return (
-              <ul key={index} className={styles.list}>
-                {element.items?.map((item, itemIndex) => (
-                  <li key={itemIndex} className={styles.listItem}>
-                    {item}
-                  </li>
-                ))}
+              <ul key={index} className={styles[element.typeDeContenu] || styles.userStoryElement} data-type-contenu={element.typeDeContenu}>
+                <li>
+                  {parseInlineMarkdown(text)}
+                </li>
               </ul>
             );
-
-          case 'ol':
-            return (
-              <ol key={index} className={styles.list}>
-                {element.items?.map((item, itemIndex) => (
-                  <li key={itemIndex} className={styles.listItem}>
-                    {item}
-                  </li>
-                ))}
-              </ol>
-            );
-
-          default:
-            return null;
+          }
+          // Sinon, liste normale
+          const Tag = element.type === 'ul' ? 'ul' : 'ol';
+          return (
+            <Tag key={index} className={styles.list}>
+              {element.items?.map((item, itemIndex) => (
+                <li key={itemIndex} className={styles.listItem}>
+                  {item}
+                </li>
+              ))}
+            </Tag>
+          );
         }
+
+        return null;
       })}
     </div>
   );

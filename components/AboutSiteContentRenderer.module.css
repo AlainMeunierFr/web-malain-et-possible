@@ -1,87 +1,100 @@
-/* Styles pour le rendu du contenu markdown
- * Les marges gauches sont ajustées pour que le texte soit aligné à droite des titres
- */
+/* HTML minimal : juste data-type-contenu, la CSS fait le reste */
 
-.normalContainer {
-  margin: 0.5rem 0;
-  margin-left: 35px; /* +35px par rapport à h1 pour le texte normal */
-}
-
+/* Container Prompt (fond bleu clair) */
 .promptContainer {
-  margin: 0.5rem 0;
-  margin-left: 35px; /* +35px par rapport à h1 pour le texte normal */
-  background-color: #e3f2fd; /* Bleu clair */
+  margin: 0.5rem 0 !important;
+  margin-left: 35px !important;
+  background-color: #e3f2fd;
   padding: 1rem;
   border-radius: 4px;
 }
 
+/* Container normal */
+.normalContainer {
+  margin: 0.5rem 0 !important;
+  margin-left: 35px !important;
+}
+
+/* Paragraphe */
 .paragraph {
-  margin: 0.5rem 0;
+  margin: 0.5rem 0 !important;
   line-height: 1.6;
   font-size: 0.9rem;
 }
 
+/* Liste normale */
 .list {
-  margin: 0.5rem 0;
-  margin-left: 40px; /* +40px par rapport à h1 pour les puces et numéros */
-  padding-left: 0.5rem;
-  list-style-position: outside;
+  margin: 0.5rem 0 !important;
+  margin-left: 40px !important;
+  padding-left: 1.5rem !important;
+  list-style-type: disc !important;
+  list-style-position: outside !important;
   font-size: 0.9rem;
 }
 
-/* Styles spécifiques pour les listes numérotées */
 ol.list {
-  list-style-type: decimal;
-}
-
-/* Styles spécifiques pour les listes à puce */
-ul.list {
-  list-style-type: disc;
+  list-style-type: decimal !important;
 }
 
 .listItem {
-  margin: 0.25rem 0;
+  margin: 0.25rem 0 !important;
   line-height: 1.5;
+  display: list-item !important;
 }
 
-.promptContainer .paragraph {
-  margin: 0.5rem 0;
-}
-
-.promptContainer .list {
-  margin: 0.5rem 0;
-}
-
-/* Styles pour les éléments de User Story */
+/* User Story - En tant que, Je souhaite, Afin de */
 .userStoryElement {
-  margin: 0.25rem 0;
+  margin: 0.25rem 0 !important;
+  margin-left: 35px !important;
+  padding-left: 1.5rem !important;
+  list-style-type: disc !important;
+  list-style-position: outside !important;
+  font-size: 0.9rem;
   line-height: 1.5;
 }
 
-.userStoryItem {
-  display: block;
-  font-size: 0.9rem;
-}
-
-/* Styles spécifiques pour chaque typeDeContenu de User Story */
 .userStoryElement[data-type-contenu="En tant que"] {
-  margin-top: 0.5rem;
+  margin-top: 0.5rem !important;
 }
 
-.userStoryElement[data-type-contenu="Je souhaite"] {
-  margin-top: 0.25rem;
+.userStoryElement li {
+  display: list-item !important;
 }
 
-.userStoryElement[data-type-contenu="Afin de"] {
-  margin-top: 0.25rem;
-}
-
+/* Critères d'acceptation */
 .userStoryElement[data-type-contenu="Critères d'acceptation"] {
-  margin-top: 0.5rem;
+  margin: 0.5rem 0 !important;
 }
 
-/* Pour les critères d'acceptation, les sous-listes doivent être indentées */
-.userStoryElement[data-type-contenu="Critères d'acceptation"] .list {
-  margin-left: 1rem;
-  margin-top: 0.25rem;
+/* Thème de critère (en gras, bleu foncé, puce niveau 1) */
+.themeCritere {
+  margin: 0.75rem 0 0.5rem 0 !important;
+  margin-left: 35px !important;
+  padding-left: 1.5rem !important;
+  list-style-type: disc !important;
+  list-style-position: outside !important;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.themeCritere li {
+  display: list-item !important;
+  font-weight: 700;
+}
+
+/* Critère normal (indenté, puce cercle ouvert niveau 2) */
+.critere {
+  margin: 0.25rem 0 !important;
+  margin-left: 55px !important;
+  padding-left: 1.5rem !important;
+  list-style-type: circle !important;
+  list-style-position: outside !important;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.critere li {
+  display: list-item !important;
+  font-weight: 400;
+  color: inherit;
 }
