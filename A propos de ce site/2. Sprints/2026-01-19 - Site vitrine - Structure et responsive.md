@@ -1,0 +1,2 @@
+### Sprint Goal
+Développer la structure hiérarchique et le responsive du site vitrine (carte de visite) en reprenant le contenu d'une version existante développée sous Bubble. L'approche sera de créer d'abord les "contenants" (composants React) pour décrire le comportement et la mise en page, puis d'injecter le contenu via du JSON. Le sprint se déroulera en trois étapes : création d'un JSON exemple (mockup) pour concevoir le responsive, développement du responsive pour tous les composants, puis remplacement du contenu mockup par le vrai contenu dans le JSON.
