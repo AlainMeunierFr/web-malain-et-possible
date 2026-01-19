@@ -1,8 +1,8 @@
-# Comparaison architectures : Actuelle vs Proposée
+### Comparaison architectures : Actuelle vs Proposée
 
-## STRUCTURE ACTUELLE
+#### STRUCTURE ACTUELLE
 
-### "A propos de ce site" (`aboutSiteReader.ts`)
+##### "A propos de ce site" (`aboutSiteReader.ts`)
 
 ```
 AboutSiteStructure
@@ -21,7 +21,7 @@ AboutSiteStructure
 
 **Manque** : Niveau "Bloc" (h5 - #####)
 
-### Journaux (`journalMarkdownParser.ts`)
+##### Journaux (`journalMarkdownParser.ts`)
 
 ```
 ParsedJournal
@@ -38,9 +38,9 @@ ParsedJournal
 
 ---
 
-## STRUCTURE PROPOSÉE (Votre vision)
+#### STRUCTURE PROPOSÉE (Votre vision)
 
-### Structure unifiée pour TOUS les fichiers MD
+##### Structure unifiée pour TOUS les fichiers MD
 
 ```
 ParsedFolder
@@ -62,7 +62,7 @@ ParsedFolder
                                         └── estSpecial?: boolean            ← Attribut pour masquer
 ```
 
-### Pour un journal (avec attributs spéciaux)
+##### Pour un journal (avec attributs spéciaux)
 
 ```
 ParsedFolder
@@ -92,7 +92,7 @@ ParsedFolder
 
 ---
 
-## COMPARAISON DÉTAILLÉE
+#### COMPARAISON DÉTAILLÉE
 
 | Niveau HTML | Structure proposée | "A propos" actuel | Journaux actuel |
 |-------------|-------------------|-------------------|-----------------|
@@ -105,24 +105,24 @@ ParsedFolder
 
 ---
 
-## AVANTAGES STRUCTURE UNIFIÉE
+#### AVANTAGES STRUCTURE UNIFIÉE
 
-### 1. Un seul parseur MD
+##### 1. Un seul parseur MD
 - `parseMarkdown()` générique
 - Parse h1 → h2 → h3 → h4 → h5
 - Détecte automatiquement les attributs spéciaux
 
-### 2. CSS uniforme
+##### 2. CSS uniforme
 - Un seul fichier CSS pour tous les types
 - Styles basés sur h1/h2/h3/h4/h5
 - Styles spéciaux via attributs : `[data-est-prompt="true"]`
 
-### 3. Structure JSON cohérente
+##### 3. Structure JSON cohérente
 - Même hiérarchie pour tous les fichiers MD
 - Extensible (nouveaux types de fichiers)
 - Attributs comme métadonnées (comme XML)
 
-### 4. Version "dérivée" pour spécificités
+##### 4. Version "dérivée" pour spécificités
 ```
 parseMarkdown() → ParsedFolder (générique)
     ↓
@@ -131,9 +131,9 @@ enrichirPourJournaux(ParsedFolder) → ParsedFolder (avec estPrompt/estResultatT
 
 ---
 
-## RÉPONSE À VOS QUESTIONS
+#### RÉPONSE À VOS QUESTIONS
 
-### Est-ce que le code est actuellement construit ainsi ?
+##### Est-ce que le code est actuellement construit ainsi ?
 
 **NON** :
 - ❌ Deux structures JSON différentes
@@ -142,7 +142,7 @@ enrichirPourJournaux(ParsedFolder) → ParsedFolder (avec estPrompt/estResultatT
 - ❌ Journaux : structure plate, pas de hiérarchie complète
 - ❌ CSS non unifié
 
-### Pourquoi la stratégie actuelle serait meilleure ?
+##### Pourquoi la stratégie actuelle serait meilleure ?
 
 **Elle ne l'est pas**. Votre proposition est meilleure car :
 - ✅ Un seul parseur (DRY)
@@ -153,7 +153,7 @@ enrichirPourJournaux(ParsedFolder) → ParsedFolder (avec estPrompt/estResultatT
 
 ---
 
-## RECOMMANDATION
+#### RECOMMANDATION
 
 **Adopter votre structure unifiée** pour :
 - Maintenabilité (un seul parseur)

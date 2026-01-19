@@ -1,12 +1,12 @@
-# Stratégies pour éviter la perte de données lors d'un "Undo All"
+### Stratégies pour éviter la perte de données lors d'un "Undo All"
 
-## Problème rencontré
+#### Problème rencontré
 
 Un "Undo All" dans Cursor a supprimé tout le travail de la matinée (journal `2026-01-19.md` et modifications non committées).
 
-## Stratégies préventives
+#### Stratégies préventives
 
-### 1. **Commits Git fréquents** (RECOMMANDÉ)
+##### 1. **Commits Git fréquents** (RECOMMANDÉ)
 
 **Principe** : Commit régulièrement après chaque tâche terminée, même si elle n'est pas parfaite.
 
@@ -24,7 +24,7 @@ git commit -m "feat: description de la tâche"
 
 **Règle DOD** : Ajouter une règle dans la DOD : "Commit Git après chaque tâche terminée ou changement significatif"
 
-### 2. **Branches Git pour chaque session**
+##### 2. **Branches Git pour chaque session**
 
 **Principe** : Créer une branche pour chaque session de travail.
 
@@ -45,7 +45,7 @@ git commit -m "WIP: travail en cours"
 git checkout session-2026-01-19
 ```
 
-### 3. **Stash Git avant undo**
+##### 3. **Stash Git avant undo**
 
 **Principe** : Utiliser `git stash` pour sauvegarder les modifications avant tout undo.
 
@@ -61,7 +61,7 @@ git stash push -m "Sauvegarde avant undo"
 git stash pop
 ```
 
-### 4. **Journal dans un fichier séparé et auto-sauvegarde**
+##### 4. **Journal dans un fichier séparé et auto-sauvegarde**
 
 **Principe** : Le journal est toujours créé/mis à jour immédiatement et committé.
 
@@ -70,7 +70,7 @@ git stash pop
 - Commit immédiat après création
 - Mettre à jour régulièrement et commit après chaque mise à jour importante
 
-### 5. **Utilisation de l'historique Cursor**
+##### 5. **Utilisation de l'historique Cursor**
 
 **Principe** : Cursor garde un historique local des fichiers (mais limité).
 
@@ -78,9 +78,9 @@ git stash pop
 - L'historique local peut être perdu
 - Non fiable pour récupération longue
 
-## Stratégie recommandée pour ce projet
+#### Stratégie recommandée pour ce projet
 
-### Combinaison des stratégies 1, 2 et 4 :
+##### Combinaison des stratégies 1, 2 et 4 :
 
 1. **Au début de chaque session** :
    - Créer une branche Git : `git checkout -b session-YYYY-MM-DD`
@@ -105,17 +105,17 @@ git stash pop
    git stash apply <stash-index>
    ```
 
-## Ajout à la DOD
+#### Ajout à la DOD
 
 **Règle à ajouter dans "1. Règles générales.md"** :
 
-### Gestion Git et sauvegarde
+##### Gestion Git et sauvegarde
 - Commit Git après chaque tâche terminée ou changement significatif
 - Le journal doit être committé immédiatement après création
 - Utiliser des branches Git pour les sessions de travail importantes
 - En cas de doute avant un undo, faire `git stash` ou un commit WIP
 
-## Leçon apprise
+#### Leçon apprise
 
 **Cause** : Modifications non committées + "Undo All" = perte de données
 
