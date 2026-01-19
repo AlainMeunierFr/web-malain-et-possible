@@ -3,6 +3,9 @@ export const ROUTES = {
   ABOUT: '/about',
   SITEMAP: '/sitemap',
   ABOUT_SITE: '/about-site',
+  CONDUITE_DU_CHANGEMENT: '/conduite-du-changement',
+  DETOURNEMENT_VIDEO: '/detournement-video',
+  ROBUSTESSE: '/robustesse',
 } as const;
 
 export type Route = typeof ROUTES[keyof typeof ROUTES];

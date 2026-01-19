@@ -53,3 +53,20 @@ export const readIndexData = (): IndexData => {
 
   return data;
 };
+
+/**
+ * Lit un fichier JSON de domaine de compétences et retourne les données
+ * @param filename Nom du fichier JSON (ex: "Conduite du changement.json")
+ */
+export const readDomaineData = (filename: string): IndexData => {
+  const filePath = path.join(process.cwd(), 'data', filename);
+  
+  if (!fs.existsSync(filePath)) {
+    throw new Error(`Le fichier ${filename} n'existe pas dans le dossier data/`);
+  }
+
+  const fileContent = fs.readFileSync(filePath, 'utf8');
+  const data: IndexData = JSON.parse(fileContent);
+
+  return data;
+};
