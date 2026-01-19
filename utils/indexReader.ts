@@ -35,7 +35,7 @@ export interface DomaineDeCompetences {
  * Interface pour la structure complète du fichier index.json
  */
 export interface IndexData {
-  domaineDeCompetences: DomaineDeCompetences;
+  domainesDeCompetences: DomaineDeCompetences[];
 }
 
 /**

@@ -1,38 +1,112 @@
 {
-  "domaineDeCompetences": {
-    "titre": "Stratégie et transformations",
-    "contenu": "Pour inscrire votre stratégie dans le long terme il faut commencer par prendre connaissance de l'état et de l'évolution de notre monde. Ce diagnostic invite chacun à challenger certaines de ses croyances. Je suis en mesure d'animer et faciliter 3 ateliers complémentaires servants cet objectif de transparence.",
-    "items": [
-      {
-        "titre": "Culture d'entreprise",
-        "image": {
-          "src": "/placeholder-competence.png",
-          "alt": "Culture d'entreprise"
+  "domainesDeCompetences": [
+    {
+      "titre": "Stratégie et transformations",
+      "contenu": "Pour inscrire votre stratégie dans le long terme il faut commencer par prendre connaissance de l'état et de l'évolution de notre monde. Ce diagnostic invite chacun à challenger certaines de ses croyances. Je suis en mesure d'animer et faciliter 3 ateliers complémentaires servants cet objectif de transparence.",
+      "items": [
+        {
+          "titre": "Culture d'entreprise",
+          "image": {
+            "src": "/placeholder-competence.png",
+            "alt": "Culture d'entreprise"
+          },
+          "description": "La culture d'entreprise est l'âme de toute organisation. Après avoir vécu 3 fusions/acquisitions, je sais les dégâts que peuvent causer des différences culturelles éludées ou étouffées. Le changement ne peut s'opérer que vers un futur désirable qu'il est important d'expliquer et d'incarner.",
+          "bouton": null
         },
-        "description": "La culture d'entreprise est l'âme de toute organisation. Après avoir vécu 3 fusions/acquisitions, je sais les dégâts que peuvent causer des différences culturelles éludées ou étouffées. Le changement ne peut s'opérer que vers un futur désirable qu'il est important d'expliquer et d'incarner.",
-        "bouton": null
-      },
-      {
-        "titre": "Stratégie",
-        "image": {
-          "src": "/placeholder-competence.png",
-          "alt": "Stratégie"
+        {
+          "titre": "Stratégie",
+          "image": {
+            "src": "/placeholder-competence.png",
+            "alt": "Stratégie"
+          },
+          "description": "Agiliste depuis 2013, j'ai une approche empirique adaptée aux projets qui doivent explorer le champ des possibles qu'offre l'inconnu. Je propose de faire des pas de côté pour prendre conscience des croyances limitantes qui empêchent des stratégies innovantes d'émerger.",
+          "bouton": null
         },
-        "description": "Agiliste depuis 2013, j'ai une approche empirique adaptée aux projets qui doivent explorer le champ des possibles qu'offre l'inconnu. Je propose de faire des pas de côté pour prendre conscience des croyances limitantes qui empêchent des stratégies innovantes d'émerger.",
-        "bouton": null
-      },
-      {
-        "titre": "Conduite du changement",
-        "image": {
-          "src": "/placeholder-competence.png",
-          "alt": "Conduite du changement"
-        },
-        "description": "J'aide les organisations à accepter de naviguer dans l'incertitude et à embrasser le changement. Mon approche consiste à impliquer toutes les parties prenantes, à lever les résistances et à ancrer les nouvelles pratiques de manière durable.",
-        "bouton": {
-          "texte": "En savoir plus",
-          "action": "navigation"
+        {
+          "titre": "Conduite du changement",
+          "image": {
+            "src": "/placeholder-competence.png",
+            "alt": "Conduite du changement"
+          },
+          "description": "J'aide les organisations à accepter de naviguer dans l'incertitude et à embrasser le changement. Mon approche consiste à impliquer toutes les parties prenantes, à lever les résistances et à ancrer les nouvelles pratiques de manière durable.",
+          "bouton": {
+            "texte": "En savoir plus",
+            "action": "navigation"
+          }
         }
-      }
-    ]
-  }
+      ]
+    },
+    {
+      "titre": "Engager les équipes",
+      "contenu": "Les dynamiques collaboratives, et donc relationnelles, doivent être au cœur du programme de transformation. Pour réussir une transformation, il est essentiel d'impliquer et d'engager toutes les équipes dans le processus.",
+      "items": [
+        {
+          "titre": "Facilitation",
+          "image": {
+            "src": "/placeholder-competence.png",
+            "alt": "Facilitation"
+          },
+          "description": "Je facilite les échanges et les prises de décision collectives. Mon approche permet de créer un espace de dialogue où chacun peut s'exprimer et contribuer à la construction d'une vision commune.",
+          "bouton": null
+        },
+        {
+          "titre": "Animation d'équipe",
+          "image": {
+            "src": "/placeholder-competence.png",
+            "alt": "Animation d'équipe"
+          },
+          "description": "J'anime les équipes pour créer de la cohésion et de l'engagement. Je mets en place des rituels et des pratiques qui renforcent la collaboration et la performance collective.",
+          "bouton": null
+        },
+        {
+          "titre": "Développement des talents",
+          "image": {
+            "src": "/placeholder-competence.png",
+            "alt": "Développement des talents"
+          },
+          "description": "Je contribue au développement des talents en identifiant les potentiels et en créant les conditions pour que chacun puisse s'épanouir et progresser dans son rôle.",
+          "bouton": {
+            "texte": "En savoir plus",
+            "action": "navigation"
+          }
+        }
+      ]
+    },
+    {
+      "titre": "Interactions humaines",
+      "contenu": "Les interactions humaines sont au cœur de toute transformation réussie. Comprendre et améliorer la qualité des relations interpersonnelles permet de créer un environnement propice au changement et à l'innovation.",
+      "items": [
+        {
+          "titre": "Communication interpersonnelle",
+          "image": {
+            "src": "/placeholder-competence.png",
+            "alt": "Communication interpersonnelle"
+          },
+          "description": "Je travaille sur l'amélioration de la communication entre les individus et les équipes. J'aide à développer l'écoute active, l'empathie et la capacité à exprimer clairement ses idées et ses besoins.",
+          "bouton": null
+        },
+        {
+          "titre": "Gestion des conflits",
+          "image": {
+            "src": "/placeholder-competence.png",
+            "alt": "Gestion des conflits"
+          },
+          "description": "Je facilite la résolution des conflits en créant un espace de dialogue constructif. Mon approche permet de transformer les tensions en opportunités d'amélioration et de renforcement des relations.",
+          "bouton": null
+        },
+        {
+          "titre": "Intelligence collective",
+          "image": {
+            "src": "/placeholder-competence.png",
+            "alt": "Intelligence collective"
+          },
+          "description": "Je favorise l'émergence de l'intelligence collective en créant les conditions pour que le groupe puisse produire des solutions innovantes et performantes ensemble.",
+          "bouton": {
+            "texte": "En savoir plus",
+            "action": "navigation"
+          }
+        }
+      ]
+    }
+  ]
 }
