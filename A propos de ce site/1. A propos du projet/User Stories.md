@@ -1,7 +1,4 @@
-### Epic 1 : Site Web - Structure de Base
-
-#### Sprint Goal
-Mettre en place la structure de base du site web avec header, footer, logo et photo, configurer le CI/CD pour un déploiement automatique sur Vercel, et implémenter une navigation fonctionnelle vers la page "À propos de moi", afin d'avoir une base solide et déployable pour les développements ultérieurs.
+### Sprint 1 : Site Web - Structure de Base
 
 #### US-1.1 : Affichage initial "Hello World"
 - **En tant que** Visiteur du site
@@ -54,10 +51,7 @@ Mettre en place la structure de base du site web avec header, footer, logo et ph
 
 ---
 
-### Epic 2 : Page "À propos de ce site" - Backend (Construction progressive du JSON)
-
-#### Sprint Goal
-Construire un backend robuste qui lit, parse et valide les fichiers Markdown du répertoire "A propos de ce site" pour générer un JSON structuré avec la hiérarchie complète (Chapitre → Section → Partie → Sous-partie → Bloc), en garantissant la qualité des données via des validations strictes (pas de H1/H2, hiérarchie cohérente, minimum 2 sections par chapitre) et en détectant les types de contenu spéciaux (Prompt, Résultat technique).
+### Sprint 2 : Page "À propos de ce site" - Affichage du contenu
 
 #### US-2.1 : Lecture des dossiers du répertoire "A propos de ce site"
 - **En tant que** Système backend
@@ -138,7 +132,7 @@ Construire un backend robuste qui lit, parse et valide les fichiers Markdown du 
 - **Critères d'acceptation** :
 - Un fichier avec un H4 sans H3 déclenche une erreur de compilation
 - L'erreur indique clairement le fichier problématique
-- Les blocs de code markdown (```) sont ignorés lors de la détection
+- Les blocs de code markdown sont ignorés lors de la détection
 
 ---
 
@@ -167,10 +161,7 @@ Construire un backend robuste qui lit, parse et valide les fichiers Markdown du 
 
 ---
 
-#### Sprint Goal
-Créer une interface utilisateur complète et interactive pour la page "À propos de ce site" qui affiche toute la hiérarchie du contenu (H1 à H5) avec un système d'accordéon pour la navigation, un rendu markdown de qualité (paragraphes, listes, styles), et une présentation visuelle claire (masquage des titres techniques, fond bleu clair pour les prompts, tailles de police adaptées), en utilisant les Server Components pour le SEO.
-
-#### US-3.1 : Récupération des données via Server Component
+#### US-2.10 : Récupération des données via Server Component
 - **En tant que** Système frontend
 - **Je souhaite** Récupérer le JSON structuré depuis le backend pur via un Server Component
 - **Afin de** Générer le HTML complet côté serveur pour le SEO et faciliter le travail des crawlers
@@ -183,7 +174,7 @@ Créer une interface utilisateur complète et interactive pour la page "À propo
 
 ---
 
-#### US-3.2 : Accordéon pour H1 et H2
+#### US-2.11 : Accordéon pour H1 et H2
 - **En tant que** Visiteur de la page "À propos de ce site"
 - **Je souhaite** Pouvoir déplier/replier les chapitres (H1) et sections (H2) avec un système d'accordéon
 - **Afin de** Naviguer facilement dans le contenu sans être submergé
@@ -196,7 +187,7 @@ Créer une interface utilisateur complète et interactive pour la page "À propo
 
 ---
 
-#### US-3.3 : Affichage de la hiérarchie complète (H3, H4, H5)
+#### US-2.12 : Affichage de la hiérarchie complète (H3, H4, H5)
 - **En tant que** Visiteur de la page "À propos de ce site"
 - **Je souhaite** Voir la structure complète du contenu avec les parties (H3), sous-parties (H4) et blocs (H5)
 - **Afin de** Comprendre la structure du contenu
@@ -208,7 +199,7 @@ Créer une interface utilisateur complète et interactive pour la page "À propo
 
 ---
 
-#### US-3.4 : Masquage des titres "Prompt" et "Résultat technique"
+#### US-2.13 : Masquage des titres "Prompt" et "Résultat technique"
 - **En tant que** Visiteur de la page "À propos de ce site"
 - **Je souhaite** Ne pas voir les titres "Prompt" et "Résultat technique" affichés
 - **Afin de** Avoir une présentation plus claire et moins répétitive
@@ -219,7 +210,7 @@ Créer une interface utilisateur complète et interactive pour la page "À propo
 
 ---
 
-#### US-3.5 : Fond bleu clair pour le contenu des prompts
+#### US-2.14 : Fond bleu clair pour le contenu des prompts
 - **En tant que** Visiteur de la page "À propos de ce site"
 - **Je souhaite** Voir le contenu des prompts avec un fond bleu clair
 - **Afin de** Identifier visuellement les prompts dans les journaux
@@ -230,7 +221,7 @@ Créer une interface utilisateur complète et interactive pour la page "À propo
 
 ---
 
-#### US-3.6 : Affichage du contenu (paragraphes, listes)
+#### US-2.15 : Affichage du contenu (paragraphes, listes)
 - **En tant que** Visiteur de la page "À propos de ce site"
 - **Je souhaite** Voir les paragraphes, listes à puce et listes numérotées correctement formatés
 - **Afin de** Lire le contenu facilement
@@ -243,7 +234,7 @@ Créer une interface utilisateur complète et interactive pour la page "À propo
 
 ---
 
-#### US-3.7 : Tailles de police adaptées à la lecture
+#### US-2.16 : Tailles de police adaptées à la lecture
 - **En tant que** Visiteur de la page "À propos de ce site"
 - **Je souhaite** Voir un texte de taille adaptée à la lecture (style blog/article)
 - **Afin de** Lire le contenu confortablement
