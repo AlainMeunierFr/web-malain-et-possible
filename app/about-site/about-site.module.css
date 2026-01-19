@@ -7,6 +7,8 @@
   padding: 2rem;
   /* Marge supérieure pour compenser le header fixe (hauteur minimale 80px + espacement) */
   padding-top: calc(max(80px, 8.75vh) + 2rem);
+  /* Marge inférieure pour compenser le footer fixe (hauteur minimale 50px + espacement) */
+  padding-bottom: calc(max(50px, 5.47vh) + 2rem);
 }
 
 .content {
