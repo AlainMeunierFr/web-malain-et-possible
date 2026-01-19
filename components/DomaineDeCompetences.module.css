@@ -87,6 +87,7 @@
   line-height: 1.4;
   color: rgba(9, 23, 71, 1); /* var(--color_text_default) */
   margin-bottom: 1rem;
+  white-space: pre-line; /* Préserve les retours à la ligne (\n) du JSON */
 }
 
 .competenceDescription strong {

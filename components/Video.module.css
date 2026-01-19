@@ -11,7 +11,7 @@
 @media (min-width: 769px) {
   .videoContainer {
     width: 50%;
-    max-width: 600px;
+    max-width: 760px;
     padding: 2rem 1rem;
   }
 }

@@ -2,66 +2,66 @@
   "domainesDeCompetences": [
     {
       "titre": "Et si nous rendions votre entreprise stable malgré les fluctuations ?",
-      "contenu": "Dans un monde en constante évolution, la stabilité de votre entreprise face aux fluctuations est essentielle. Je vous accompagne pour développer la résilience et l'adaptabilité nécessaires pour naviguer dans l'incertitude.",
+      "contenu": "",
       "items": [
         {
-          "titre": "Résilience organisationnelle",
+          "titre": "Performence",
           "image": {
-            "src": "/images/Excellence.png",
-            "alt": "Résilience organisationnelle"
+            "src": "/images/1 - Performence.JPG",
+            "alt": "Performence"
           },
-          "description": "La **résilience organisationnelle** permet à votre entreprise de résister aux chocs et de rebondir rapidement. J'aide à identifier les points de fragilité et à mettre en place des mécanismes de protection et de récupération.",
+          "description": "Notre civilisation est devenue experte dans la mesure de la performance (notation scolaire, concours grandes écoles, classements sportifs, EBITDA, PIB...).\n\n**Mais vous, quel temps consacrez vous a explorer vos vulnérabilités ?**",
           "bouton": null
         },
         {
-          "titre": "Adaptabilité stratégique",
+          "titre": "Polycrises",
           "image": {
-            "src": "/images/Vision.png",
-            "alt": "Adaptabilité stratégique"
+            "src": "/images/2 - Monde.JPG",
+            "alt": "Polycrises"
           },
-          "description": "L'**adaptabilité stratégique** consiste à ajuster rapidement votre stratégie face aux changements. Je vous accompagne pour développer une capacité de pivot et d'évolution continue de votre modèle d'affaires.",
+          "description": "Notre monde est confronté à des polycrises (pandémie, approvisionnement énergétique, inflation, guerrres, désinformation, polarisation, inondations, sécheresses, mégafeux).\n\n**Et vous, avez-vous intégré les enjeux systémiques dans votre stratégie ?**",
           "bouton": null
         },
         {
-          "titre": "Anticipation des risques",
+          "titre": "Santé",
           "image": {
-            "src": "/images/Engagement.png",
-            "alt": "Anticipation des risques"
+            "src": "/images/3 - Santé.JPG",
+            "alt": "Santé"
           },
-          "description": "**Anticiper les risques** permet de se préparer aux fluctuations avant qu'elles n'impactent votre entreprise. J'aide à mettre en place des systèmes de veille et d'alerte pour détecter les signaux faibles.",
+          "description": "De nombreuses études démontrent que la santé physique et mentale de chacun se dégrade dans les pays occidentaux.\n\n**Chez vous, avez-vous mis la qualité des interactions humaines au cœur de vos projets collectifs ?**",
           "bouton": null
         }
       ]
     },
     {
-      "titre": "La ROBUSTESSE est la réponse opérationnelle à un monde fluctuant !",
-      "contenu": "La robustesse opérationnelle permet à votre entreprise de maintenir ses performances malgré les perturbations. C'est la capacité à continuer à fonctionner efficacement dans un environnement instable et imprévisible.",
+      "titre": "La ROBUSTESSE est la réponse opérationnelle à un monde fluctuant !*",
+      "contenu": "*Olivier Hamant, Chercheur à l’INRAE, directeur de l’institut Michel Serres et auteur de « La troisième voie du vivant » et « Antidote à la performance ».",
       "items": [
         {
-          "titre": "Architecture robuste",
+          "titre": "Key Robustness Incentive",
           "image": {
-            "src": "/images/Excellence.png",
-            "alt": "Architecture robuste"
+            "src": "/images/4 - KRI.JPG",
+            "alt": "KRI"
           },
-          "description": "Une **architecture robuste** est conçue pour résister aux perturbations. J'aide à concevoir des systèmes, des processus et des organisations qui peuvent absorber les chocs sans se dégrader.",
+          "description": "Nous vous aidons à déployer des KRI (Key Robustness Incentive), en regard de vos KPI, afin de renforcer votre adaptabilité et votre capacité de résistance aux chocs.",
           "bouton": null
         },
         {
-          "titre": "Processus flexibles",
+          "titre": "Exploration",
           "image": {
-            "src": "/images/Vision partagée.png",
-            "alt": "Processus flexibles"
+            "src": "/images/5 - Exploration.JPG",
+            "alt": "Exploration"
           },
-          "description": "Des **processus flexibles** peuvent s'adapter rapidement aux changements sans perdre en efficacité. Je vous accompagne pour transformer vos processus rigides en systèmes agiles et réactifs.",
+          "description": "Nous vous accompagnons dans l'exploration de nouveaux paradigmes pour embrasser et intégrer la complexité systémique dans votre stratégie.",
           "bouton": null
         },
         {
-          "titre": "Culture de la robustesse",
+          "titre": "Cadre",
           "image": {
-            "src": "/images/Engagement.png",
-            "alt": "Culture de la robustesse"
+            "src": "/images/6 - Cadre.JPG",
+            "alt": "cadre"
           },
-          "description": "Une **culture de la robustesse** imprègne toute l'organisation. J'aide à développer une mentalité qui valorise la préparation, la réactivité et la capacité à rebondir face aux défis.",
+          "description": "Nous vous aidons à préciser (et peut être agrandir) le cadre dans lequel chacun de vos collaborateurs peuvent agir et interagir, afin de construire un collectif au service de votre mission et de votre vision.",
           "bouton": null
         }
       ]
