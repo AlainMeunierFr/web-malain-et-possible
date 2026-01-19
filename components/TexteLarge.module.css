@@ -16,6 +16,7 @@
   text-align: left;
   margin: 0;
   color: rgba(9, 23, 71, 1); /* var(--color_text_default) */
+  white-space: pre-line; /* Préserve les retours à la ligne (\n) du JSON */
 }
 
 /* Responsive : ajustement pour petits écrans */
