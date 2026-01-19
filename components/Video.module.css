@@ -7,11 +7,11 @@
   box-sizing: border-box;
 }
 
-/* Sur écrans normaux/grands : vidéo à 70% de la largeur */
+/* Sur écrans normaux/grands : vidéo plus petite (comme le site d'origine) */
 @media (min-width: 769px) {
   .videoContainer {
-    width: 70%;
-    max-width: 947px;
+    width: 50%;
+    max-width: 600px;
   }
 }
 
