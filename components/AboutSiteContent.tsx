@@ -1,20 +1,51 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from '../app/about-site/about-site.module.css';
 import AboutSiteContentRenderer from './AboutSiteContentRenderer';
 import AccordionTitle from './AccordionTitle';
 import type { AboutSiteStructure } from '../utils/aboutSiteReader';
 
-interface AboutSiteContentProps {
-  structure: AboutSiteStructure;
-}
-
 /**
  * Composant client pour afficher le contenu "À propos du site"
- * avec accordion pour h1 et h2
+ * Stratégie B : Fetch le JSON depuis l'API et l'affiche via CSS
  */
-export default function AboutSiteContent({ structure }: AboutSiteContentProps) {
+export default function AboutSiteContent() {
+  const [structure, setStructure] = useState<AboutSiteStructure | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    // Fetch le JSON depuis l'API
+    fetch('/api/about-site')
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error('Failed to fetch about site structure');
+        }
+        return res.json();
+      })
+      .then((data: AboutSiteStructure) => {
+        setStructure(data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        setError(err.message);
+        setLoading(false);
+      });
+  }, []);
+
+  if (loading) {
+    return <main className={styles.main}><div className={styles.content}>Chargement...</div></main>;
+  }
+
+  if (error) {
+    return <main className={styles.main}><div className={styles.content}>Erreur : {error}</div></main>;
+  }
+
+  if (!structure) {
+    return <main className={styles.main}><div className={styles.content}>Aucune donnée</div></main>;
+  }
+
   const { chapitres } = structure;
 
 
