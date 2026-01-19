@@ -1,0 +1,34 @@
+/* Container : responsive pour la vidéo */
+.videoContainer {
+  width: 100%;
+  max-width: 947px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+  box-sizing: border-box;
+}
+
+/* Wrapper pour maintenir le ratio 16:9 */
+.videoWrapper {
+  position: relative;
+  width: 100%;
+  padding-bottom: 56.25%; /* Ratio 16:9 */
+  height: 0;
+  overflow: hidden;
+}
+
+/* Iframe YouTube */
+.videoIframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+/* Responsive : ajustement pour petits écrans */
+@media (max-width: 768px) {
+  .videoContainer {
+    padding: 1rem;
+  }
+}

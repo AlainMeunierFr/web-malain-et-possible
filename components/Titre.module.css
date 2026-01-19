@@ -1,0 +1,30 @@
+/* Container : bande bleue foncée pleine largeur */
+.titreContainer {
+  width: 100%;
+  background-color: var(--BleuFonce);
+  padding: 2rem 1rem;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+/* Texte en h1 */
+.titreText {
+  font-family: 'Oswald', sans-serif;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #ffffff;
+  text-align: center;
+  margin: 0;
+  line-height: 1.2;
+}
+
+/* Responsive : ajustement pour petits écrans */
+@media (max-width: 768px) {
+  .titreContainer {
+    padding: 1.5rem 1rem;
+  }
+
+  .titreText {
+    font-size: 1.5rem;
+  }
+}

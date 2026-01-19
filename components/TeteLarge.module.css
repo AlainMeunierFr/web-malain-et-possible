@@ -1,0 +1,30 @@
+/* Container : style titre domaine sans les compétences */
+.teteLargeContainer {
+  max-width: 947px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Texte : même style que le titre d'un domaine de compétence */
+.teteLargeText {
+  font-family: 'Oswald', sans-serif;
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 1.4;
+  text-align: center;
+  margin: 0;
+  color: rgba(9, 23, 71, 1); /* var(--color_text_default) */
+}
+
+/* Responsive : ajustement pour petits écrans */
+@media (max-width: 768px) {
+  .teteLargeContainer {
+    padding: 1.5rem 1rem;
+  }
+
+  .teteLargeText {
+    font-size: 20px;
+  }
+}
