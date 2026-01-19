@@ -1,305 +1,703 @@
 # User Stories extraites des journaux
 
-## Epic 1 : Structure et Organisation du Site
+## Epic 1 : Site Web - Fonctionnalités Générales
 
-### US-1.1 : Affichage des sections du site avec accordion
+### US-1.1 : Affichage initial "Hello World"
 #### En tant que
 Visiteur du site
 
 #### Je souhaite
-Pouvoir consulter les différentes sections ("À propos du site", "Journal de bord", "Cours") avec un système d'accordion qui permet de masquer/afficher le contenu
+Voir une page "Hello World" s'afficher
 
 #### Afin de
-Naviguer facilement dans le contenu sans être submergé par toutes les informations en même temps
+Vérifier que le site fonctionne et que le déploiement CI/CD est opérationnel
 
 #### Critères d'acceptation :
-- Les sections principales (h1) ont un accordion (masqué par défaut)
-- Les sous-sections (h2) ont aussi un accordion (masqué par défaut)
-- Un clic sur un titre masque/affiche son contenu
-- Le contenu est lu dynamiquement depuis les dossiers "A propos de ce site"
+- La page d'accueil affiche "Hello World"
+- Le site se déploie automatiquement sur Vercel après chaque commit
+- Aucune erreur de build
 
 ---
 
-### US-1.2 : Affichage uniforme du contenu Markdown
+### US-1.2 : Navigation vers la page d'accueil
 #### En tant que
 Visiteur du site
 
 #### Je souhaite
-Que tous les fichiers Markdown (Journaux, Cours, DOD) s'affichent avec la même structure et le même style CSS
+Pouvoir retourner à la page d'accueil en cliquant sur le logo
 
 #### Afin de
-Avoir une expérience de lecture cohérente et professionnelle, quel que soit le type de contenu consulté
+Naviguer facilement dans le site
 
 #### Critères d'acceptation :
-- Tous les fichiers MD utilisent la même hiérarchie HTML (h1 → h2 → h3 → h4 → h5)
-- Le CSS s'applique de façon identique quelque soit la nature du fichier
-- Des attributs spéciaux (typeDeContenu) permettent d'appliquer des styles spécifiques (ex: fond bleu clair pour les prompts)
-- Le parseur MD est unifié pour tous les types de fichiers
+- Le logo en haut à gauche est cliquable
+- Un clic sur le logo redirige vers la page d'accueil
+- Un tooltip "Home page" apparaît au survol du logo
 
 ---
 
-## Epic 2 : Architecture Technique
-
-### US-2.1 : Séparation backend pur / frontend
-#### En tant que
-Développeur
-
-#### Je souhaite
-Avoir une séparation claire entre la logique métier (backend pur) et la présentation (frontend)
-
-#### Afin de
-Pouvoir tester la logique métier indépendamment, réutiliser le code en ligne de commande, et éviter les problèmes d'hydratation React
-
-#### Critères d'acceptation :
-- Les fonctions backend pur sont dans `utils/` et sont testables en ligne de commande
-- Les API routes Next.js exposent le JSON via HTTP (stratégie B)
-- Les Client Components font un `fetch` pour obtenir le JSON
-- Le CSS applique les styles, pas la génération HTML côté serveur
-
----
-
-### US-2.2 : Architecture unifiée pour tous les types de fichiers MD
-#### En tant que
-Développeur
-
-#### Je souhaite
-Que tous les types de fichiers MD (Journaux, Cours, DOD) utilisent la même structure JSON et le même parseur
-
-#### Afin de
-Maintenir un code cohérent, faciliter l'évolution, et garantir que le CSS s'applique uniformément
-
-#### Critères d'acceptation :
-- Structure JSON unifiée : Chapitre (h1) → Section (h2) → Partie (h3) → Sous-partie (h4) → Bloc (h5)
-- Un seul parseur MD générique pour tous les types de fichiers
-- Des attributs spéciaux (typeDeContenu) permettent de gérer les cas particuliers (Prompt, Résultat technique)
-- Les spécificités (ex: journaux) sont gérées via une version "dérivée" du parseur
-
----
-
-## Epic 3 : Affichage et Présentation
-
-### US-3.1 : Affichage des prompts avec style spécial
+### US-1.3 : Navigation vers la page "À propos de moi"
 #### En tant que
 Visiteur du site
 
 #### Je souhaite
-Que les sections "Prompt" soient affichées avec un fond bleu clair pour les distinguer visuellement
+Pouvoir accéder à la page "À propos de moi" en cliquant sur la photo
 
 #### Afin de
-Identifier rapidement les prompts dans les journaux et comprendre la structure du dialogue avec l'IA
+Découvrir des informations sur la personne
 
 #### Critères d'acceptation :
-- Les blocs avec `typeDeContenu === "Prompt"` ont un fond bleu clair
-- Les titres "Prompt" et "Résultat technique" sont masqués en affichage (mais présents dans le JSON pour SEO)
-- Le style est appliqué via CSS uniquement, pas via attributs HTML conditionnels
+- La photo en haut à droite est cliquable
+- Un clic sur la photo redirige vers la page "À propos de moi"
+- Un tooltip "À propos de moi" apparaît au survol de la photo
 
 ---
 
-### US-3.2 : Espacement correct du contenu
+### US-1.4 : Accès à l'email depuis le footer
 #### En tant que
 Visiteur du site
 
 #### Je souhaite
-Que le contenu ne soit pas masqué par le header fixe en haut ni par le footer fixe en bas
+Pouvoir envoyer un email en cliquant sur le bouton email du footer
+
+#### Afin de
+Contacter la personne directement
+
+#### Critères d'acceptation :
+- Le bouton email est visible dans le footer
+- Un clic ouvre le client email avec l'adresse pré-remplie
+- Un tooltip "M'envoyer un email" apparaît au survol
+
+---
+
+### US-1.5 : Accès à la chaîne YouTube depuis le footer
+#### En tant que
+Visiteur du site
+
+#### Je souhaite
+Pouvoir accéder à la chaîne YouTube en cliquant sur le bouton YouTube du footer
+
+#### Afin de
+Consulter les vidéos de la chaîne
+
+#### Critères d'acceptation :
+- Le bouton YouTube est visible dans le footer
+- Un clic ouvre la chaîne YouTube dans un nouvel onglet
+- Un tooltip "Accéder à ma chaîne YouTube" apparaît au survol
+
+---
+
+### US-1.6 : Accès au profil LinkedIn depuis le footer
+#### En tant que
+Visiteur du site
+
+#### Je souhaite
+Pouvoir accéder au profil LinkedIn en cliquant sur le bouton LinkedIn du footer
+
+#### Afin de
+Consulter le profil professionnel
+
+#### Critères d'acceptation :
+- Le bouton LinkedIn est visible dans le footer
+- Un clic ouvre le profil LinkedIn dans un nouvel onglet
+- Un tooltip "Accéder à mon profil Linkedin" apparaît au survol
+
+---
+
+### US-1.7 : Accès au plan du site depuis le footer
+#### En tant que
+Visiteur du site
+
+#### Je souhaite
+Pouvoir consulter le plan du site en cliquant sur le bouton "Plan du site" du footer
+
+#### Afin de
+Comprendre la structure du site et naviguer facilement
+
+#### Critères d'acceptation :
+- Le bouton "Plan du site" est visible dans le footer
+- Un clic redirige vers la page "Plan du site"
+- Un tooltip "Consulter le plan du site" apparaît au survol
+
+---
+
+### US-1.8 : Header et Footer présents sur toutes les pages
+#### En tant que
+Visiteur du site
+
+#### Je souhaite
+Toujours voir le header en haut et le footer en bas, quelle que soit la page consultée
+
+#### Afin de
+Avoir accès aux fonctions de navigation depuis n'importe quelle page
+
+#### Critères d'acceptation :
+- Le header est fixe en haut de toutes les pages
+- Le footer est fixe en bas de toutes les pages
+- Les boutons de navigation fonctionnent depuis toutes les pages
+
+---
+
+## Epic 2 : Page "À propos de ce site" - Backend
+
+### US-2.1 : Lecture des dossiers du répertoire "A propos de ce site"
+#### En tant que
+Système backend
+
+#### Je souhaite
+Lire la liste des dossiers présents dans "A propos de ce site"
+
+#### Afin de
+Construire la structure hiérarchique des chapitres
+
+#### Critères d'acceptation :
+- La fonction retourne un tableau avec les noms des dossiers
+- Les fichiers (non-dossiers) sont ignorés
+- Les dossiers vides sont ignorés
+
+---
+
+### US-2.2 : Lecture des fichiers Markdown dans chaque dossier
+#### En tant que
+Système backend
+
+#### Je souhaite
+Lire tous les fichiers Markdown (.md) présents dans chaque dossier
+
+#### Afin de
+Construire la liste des sections pour chaque chapitre
+
+#### Critères d'acceptation :
+- Seuls les fichiers avec l'extension .md sont lus
+- Les fichiers non-MD sont ignorés
+- Les fichiers MD vides sont ignorés
+
+---
+
+### US-2.3 : Validation - Interdiction des titres H1 et H2 dans les fichiers MD
+#### En tant que
+Système backend
+
+#### Je souhaite
+Détecter et rejeter les fichiers MD contenant des titres H1 (#) ou H2 (##)
+
+#### Afin de
+Garantir une structure cohérente et éviter les erreurs de hiérarchie
+
+#### Critères d'acceptation :
+- Un fichier avec au moins un H1 déclenche une erreur de compilation
+- Un fichier avec au moins un H2 déclenche une erreur de compilation
+- L'erreur indique clairement le fichier problématique
+
+---
+
+### US-2.4 : Validation - Interdiction des H4 sans H3 précédent
+#### En tant que
+Système backend
+
+#### Je souhaite
+Détecter et rejeter les fichiers MD contenant un H4 (####) sans H3 (###) précédent
+
+#### Afin de
+Garantir une hiérarchie de titres cohérente
+
+#### Critères d'acceptation :
+- Un fichier avec un H4 sans H3 déclenche une erreur de compilation
+- L'erreur indique clairement le fichier problématique
+- Les blocs de code markdown (```) sont ignorés lors de la détection
+
+---
+
+### US-2.5 : Validation - Minimum 2 sections par chapitre
+#### En tant que
+Système backend
+
+#### Je souhaite
+Détecter et rejeter les dossiers contenant un seul fichier MD valide
+
+#### Afin de
+Garantir que chaque chapitre contient au moins 2 sections
+
+#### Critères d'acceptation :
+- Un dossier avec un seul fichier MD valide déclenche une erreur de compilation
+- L'erreur suggère de créer au moins "2 sections" dans "le chapitre"
+- Les dossiers sans fichiers MD valides ne sont pas affichés (pas d'erreur)
+
+---
+
+### US-2.6 : Parsing des parties (###) dans un fichier MD
+#### En tant que
+Système backend
+
+#### Je souhaite
+Extraire toutes les parties (titres ###) d'un fichier MD
+
+#### Afin de
+Construire la structure hiérarchique Partie → Sous-partie → Bloc
+
+#### Critères d'acceptation :
+- Chaque titre ### est détecté comme une partie
+- Le titre de la partie est extrait (texte après ###)
+- Le contenu de la partie est extrait jusqu'à la prochaine partie ou fin de fichier
+
+---
+
+### US-2.7 : Parsing des sous-parties (####) dans une partie
+#### En tant que
+Système backend
+
+#### Je souhaite
+Extraire toutes les sous-parties (titres ####) d'une partie
+
+#### Afin de
+Construire la structure hiérarchique complète
+
+#### Critères d'acceptation :
+- Chaque titre #### est détecté comme une sous-partie
+- Le titre de la sous-partie est extrait (texte après ####)
+- Le contenu de la sous-partie est extrait jusqu'à la prochaine sous-partie, partie ou fin de fichier
+
+---
+
+### US-2.8 : Parsing des blocs (#####) dans une sous-partie
+#### En tant que
+Système backend
+
+#### Je souhaite
+Extraire tous les blocs (titres #####) d'une sous-partie
+
+#### Afin de
+Construire la structure hiérarchique complète jusqu'au niveau bloc
+
+#### Critères d'acceptation :
+- Chaque titre ##### est détecté comme un bloc
+- Le titre du bloc est extrait (texte après #####)
+- Le contenu du bloc est extrait jusqu'au prochain bloc, sous-partie, partie ou fin de fichier
+
+---
+
+### US-2.9 : Détection des blocs "Prompt" et "Résultat technique"
+#### En tant que
+Système backend
+
+#### Je souhaite
+Identifier les blocs avec les titres "##### Prompt" et "##### Résultat technique"
+
+#### Afin de
+Leur attribuer un typeDeContenu spécial pour le style CSS
+
+#### Critères d'acceptation :
+- Un bloc avec le titre exact "##### Prompt" a `typeDeContenu: "Prompt"`
+- Un bloc avec le titre exact "##### Résultat technique" a `typeDeContenu: "Résultat technique"`
+- Les autres blocs n'ont pas de typeDeContenu
+
+---
+
+### US-2.10 : Parsing du contenu texte (paragraphes) dans une partie/sous-partie/bloc
+#### En tant que
+Système backend
+
+#### Je souhaite
+Extraire les paragraphes de texte normal dans le contenu d'une partie, sous-partie ou bloc
+
+#### Afin de
+Construire le JSON avec le contenu textuel structuré
+
+#### Critères d'acceptation :
+- Chaque ligne de texte (non vide, non titre, non liste) est un paragraphe
+- Les paragraphes consécutifs sont regroupés
+- Les paragraphes sont dans l'ordre d'apparition dans le fichier
+
+---
+
+### US-2.11 : Parsing des listes à puce (-) dans une partie/sous-partie/bloc
+#### En tant que
+Système backend
+
+#### Je souhaite
+Extraire les listes à puce (lignes commençant par -) dans le contenu
+
+#### Afin de
+Construire le JSON avec les listes structurées
+
+#### Critères d'acceptation :
+- Chaque ligne commençant par "- " est un item de liste
+- Les items consécutifs sont regroupés en une liste
+- Les listes sont dans l'ordre d'apparition dans le fichier
+
+---
+
+### US-2.12 : Parsing des listes numérotées (1. 2. ...) dans une partie/sous-partie/bloc
+#### En tant que
+Système backend
+
+#### Je souhaite
+Extraire les listes numérotées (lignes commençant par "1. ", "2. ", etc.) dans le contenu
+
+#### Afin de
+Construire le JSON avec les listes numérotées structurées
+
+#### Critères d'acceptation :
+- Chaque ligne commençant par "1. ", "2. ", etc. est un item de liste numérotée
+- Les items consécutifs sont regroupés en une liste numérotée
+- Les listes sont dans l'ordre d'apparition dans le fichier
+
+---
+
+### US-2.13 : Génération du JSON avec structure hiérarchique complète
+#### En tant que
+Système backend
+
+#### Je souhaite
+Générer un JSON avec la structure Chapitre → Section → Partie → Sous-partie → Bloc
+
+#### Afin de
+Exposer les données structurées pour le frontend
+
+#### Critères d'acceptation :
+- Le JSON contient un tableau "chapitres"
+- Chaque chapitre contient un tableau "sections"
+- Chaque section contient un tableau "parties"
+- Chaque partie contient un tableau "sousParties"
+- Chaque sous-partie contient un tableau "blocs"
+- Chaque élément a les propriétés nécessaires (nom, titre, contenu, etc.)
+
+---
+
+## Epic 3 : Page "À propos de ce site" - Frontend
+
+### US-3.1 : Affichage des chapitres (H1) avec accordion
+#### En tant que
+Visiteur de la page "À propos de ce site"
+
+#### Je souhaite
+Voir la liste des chapitres avec possibilité de les déplier/replier
+
+#### Afin de
+Naviguer facilement dans le contenu sans être submergé
+
+#### Critères d'acceptation :
+- Les chapitres sont affichés en H1
+- Par défaut, tous les chapitres sont repliés
+- Un clic sur un chapitre le déplie/replie
+- Une icône indique l'état (déplié/replié)
+
+---
+
+### US-3.2 : Affichage des sections (H2) avec accordion
+#### En tant que
+Visiteur de la page "À propos de ce site"
+
+#### Je souhaite
+Voir la liste des sections dans un chapitre avec possibilité de les déplier/replier
+
+#### Afin de
+Naviguer facilement dans le contenu d'un chapitre
+
+#### Critères d'acceptation :
+- Les sections sont affichées en H2
+- Par défaut, toutes les sections sont repliées
+- Un clic sur une section la déplie/replie
+- Une icône indique l'état (déplié/replié)
+
+---
+
+### US-3.3 : Affichage des parties (H3)
+#### En tant que
+Visiteur de la page "À propos de ce site"
+
+#### Je souhaite
+Voir les titres des parties (H3) dans une section
+
+#### Afin de
+Comprendre la structure du contenu
+
+#### Critères d'acceptation :
+- Les parties sont affichées en H3
+- Les titres des parties sont visibles
+- La hiérarchie visuelle est claire (marge gauche différente)
+
+---
+
+### US-3.4 : Affichage des sous-parties (H4)
+#### En tant que
+Visiteur de la page "À propos de ce site"
+
+#### Je souhaite
+Voir les titres des sous-parties (H4) dans une partie
+
+#### Afin de
+Comprendre la structure détaillée du contenu
+
+#### Critères d'acceptation :
+- Les sous-parties sont affichées en H4
+- Les titres des sous-parties sont visibles (sauf si typeDeContenu spécial)
+- La hiérarchie visuelle est claire (marge gauche différente)
+
+---
+
+### US-3.5 : Masquage des titres "Prompt" et "Résultat technique"
+#### En tant que
+Visiteur de la page "À propos de ce site"
+
+#### Je souhaite
+Ne pas voir les titres "Prompt" et "Résultat technique" affichés
+
+#### Afin de
+Avoir une présentation plus claire et moins répétitive
+
+#### Critères d'acceptation :
+- Les titres "##### Prompt" ne sont pas affichés (mais présents dans le JSON pour SEO)
+- Les titres "##### Résultat technique" ne sont pas affichés (mais présents dans le JSON pour SEO)
+- Le contenu des blocs est toujours affiché
+
+---
+
+### US-3.6 : Fond bleu clair pour le contenu des prompts
+#### En tant que
+Visiteur de la page "À propos de ce site"
+
+#### Je souhaite
+Voir le contenu des prompts avec un fond bleu clair
+
+#### Afin de
+Identifier visuellement les prompts dans les journaux
+
+#### Critères d'acceptation :
+- Le contenu des blocs avec `typeDeContenu === "Prompt"` a un fond bleu clair
+- Le texte reste lisible (noir sur bleu clair)
+- Les listes et paragraphes dans les prompts ont aussi le fond bleu clair
+
+---
+
+### US-3.7 : Affichage des paragraphes de texte
+#### En tant que
+Visiteur de la page "À propos de ce site"
+
+#### Je souhaite
+Voir les paragraphes de texte normalement formatés
+
+#### Afin de
+Lire le contenu facilement
+
+#### Critères d'acceptation :
+- Les paragraphes sont affichés avec un style de texte lisible
+- Les paragraphes ont un espacement vertical approprié
+- La marge gauche est supérieure à celle des titres
+
+---
+
+### US-3.8 : Affichage des listes à puce
+#### En tant que
+Visiteur de la page "À propos de ce site"
+
+#### Je souhaite
+Voir les listes à puce avec des puces visibles
+
+#### Afin de
+Lire les listes facilement
+
+#### Critères d'acceptation :
+- Les listes à puce affichent des puces (disc)
+- Les items sont indentés correctement
+- La marge gauche est supérieure à celle des paragraphes
+
+---
+
+### US-3.9 : Affichage des listes numérotées
+#### En tant que
+Visiteur de la page "À propos de ce site"
+
+#### Je souhaite
+Voir les listes numérotées avec des numéros visibles
+
+#### Afin de
+Lire les listes numérotées facilement
+
+#### Critères d'acceptation :
+- Les listes numérotées affichent des numéros (1, 2, 3...)
+- Les items sont indentés correctement
+- La marge gauche est supérieure à celle des paragraphes
+
+---
+
+### US-3.10 : Espacement pour éviter le chevauchement avec le header
+#### En tant que
+Visiteur de la page "À propos de ce site"
+
+#### Je souhaite
+Voir tout le contenu sans qu'il soit masqué par le header fixe
 
 #### Afin de
 Pouvoir lire tout le contenu sans avoir à scroller pour voir les parties cachées
 
 #### Critères d'acceptation :
-- Le contenu a un `padding-top` qui compense la hauteur du header fixe
-- Le contenu a un `padding-bottom` qui compense la hauteur du footer fixe
-- Les marges sont calculées de façon responsive (max(50px, 5.47vh) pour le footer, max(80px, 8.75vh) pour le header)
+- Le contenu a un padding-top qui compense la hauteur du header
+- Le calcul est responsive (max(80px, 8.75vh) + 2rem)
+- Aucun contenu n'est masqué sous le header
 
 ---
 
-## Epic 4 : Qualité et Tests
-
-### US-4.1 : Tests unitaires pour toutes les fonctions backend
+### US-3.11 : Espacement pour éviter le chevauchement avec le footer
 #### En tant que
-Développeur
+Visiteur de la page "À propos de ce site"
 
 #### Je souhaite
-Que toutes les fonctions dans `utils/` aient des tests unitaires
+Voir tout le contenu sans qu'il soit masqué par le footer fixe
 
 #### Afin de
-Garantir la qualité du code et pouvoir refactoriser en toute confiance
+Pouvoir lire tout le contenu jusqu'en bas
 
 #### Critères d'acceptation :
-- Chaque fonction dans `utils/` a au moins un test unitaire
-- Les tests suivent l'approche TDD (RED → GREEN → REFACTOR)
-- Les tests sont écrits du simple au complexe
-- Les tests sont maintenus à jour avec le code
+- Le contenu a un padding-bottom qui compense la hauteur du footer
+- Le calcul est responsive (max(50px, 5.47vh) + 2rem)
+- Aucun contenu n'est masqué sous le footer
 
 ---
 
-### US-4.2 : Tests BDD pour les fonctionnalités métier
+### US-3.12 : Marges gauches progressives pour la hiérarchie
 #### En tant que
-Product Manager / Développeur
+Visiteur de la page "À propos de ce site"
 
 #### Je souhaite
-Avoir des scénarios BDD qui décrivent le comportement attendu du site du point de vue utilisateur
+Voir une indentation progressive selon le niveau hiérarchique
 
 #### Afin de
-Valider que le site répond bien aux besoins métier et faciliter la communication entre les parties prenantes
+Comprendre visuellement la structure du contenu
 
 #### Critères d'acceptation :
-- Les scénarios BDD sont en français (format Gherkin)
-- Les scénarios couvrent les fonctionnalités principales (navigation, affichage des contenus)
-- Les scénarios sont exécutables avec Cucumber
-- Les scénarios sont maintenus à jour avec les évolutions
+- H1 : marge gauche 0px
+- H2 : marge gauche 10px
+- H3 : marge gauche 20px
+- H4 : marge gauche 30px
+- Texte normal : marge gauche 35px
+- Listes : marge gauche 40px
+- Les marges sont fixes en pixels (pas en rem/em) pour le responsive
 
 ---
 
-## Epic 5 : Documentation et Traçabilité
-
-### US-5.1 : Journal de bord automatique
+### US-3.13 : Tailles de police adaptées à la lecture
 #### En tant que
-Product Manager
+Visiteur de la page "À propos de ce site"
 
 #### Je souhaite
-Que tous les prompts et leurs résultats techniques soient automatiquement documentés dans un journal quotidien
+Voir un texte de taille adaptée à la lecture (style blog/article)
 
 #### Afin de
-Pouvoir retracer l'évolution du projet, comprendre les décisions prises, et réutiliser les solutions trouvées
+Lire le contenu confortablement
 
 #### Critères d'acceptation :
-- Un fichier journal est créé chaque jour (format `YYYY-MM-DD.md`)
-- Chaque prompt qui modifie le code est ajouté au journal avec son résultat technique
-- Le format est standardisé : `### Partie` → `#### Sous-partie` → `##### Prompt` → `##### Résultat technique`
-- Le journal est mis à jour automatiquement à chaque prompt
+- Les tailles de police sont réduites (style blog)
+- H1 : 1.2rem
+- H2 : 1.05rem
+- H3 : 1rem
+- H4 : 0.95rem
+- Paragraphes/listes : 0.9rem
 
 ---
 
-### US-5.2 : Documentation des cours théoriques
+### US-3.14 : Récupération du JSON via API
 #### En tant que
-Product Manager en formation
+Système frontend
 
 #### Je souhaite
-Que les explications théoriques soient documentées dans des fichiers de cours
+Récupérer le JSON structuré depuis une API route
 
 #### Afin de
-Pouvoir réviser les concepts appris et partager les connaissances acquises
+Avoir une séparation claire entre backend et frontend
 
 #### Critères d'acceptation :
-- Les prompts théoriques/formation créent un fichier dans `4. Cours/`
-- Le format est standardisé avec numérotation chronologique (`##. Titre du cours.md`)
+- Le Client Component fait un `fetch('/api/about-site')`
+- L'API route retourne le JSON généré par le backend pur
+- Un état de chargement est affiché pendant le fetch
+- Les erreurs sont gérées et affichées
+
+---
+
+## Epic 4 : Journal de bord - Documentation automatique
+
+### US-4.1 : Création automatique du fichier journal quotidien
+#### En tant que
+Système de documentation
+
+#### Je souhaite
+Créer automatiquement un fichier journal pour chaque jour (format YYYY-MM-DD.md)
+
+#### Afin de
+Documenter automatiquement l'évolution du projet
+
+#### Critères d'acceptation :
+- Le fichier est créé dans "A propos de ce site/3. Journal de bord/"
+- Le nom du fichier suit le format YYYY-MM-DD.md
+- Le fichier est créé au premier prompt du jour si inexistant
+
+---
+
+### US-4.2 : Enregistrement automatique des prompts dans le journal
+#### En tant que
+Système de documentation
+
+#### Je souhaite
+Enregistrer automatiquement chaque prompt qui modifie le code dans le journal du jour
+
+#### Afin de
+Avoir une traçabilité complète des décisions et évolutions
+
+#### Critères d'acceptation :
+- Chaque prompt qui modifie le code est ajouté au journal
+- Le format est respecté : `### Partie` → `#### Sous-partie` → `##### Prompt` → `##### Résultat technique`
+- Les prompts de diagnostic/question sont aussi enregistrés
+- Les prompts théoriques/formation ne sont pas dans le journal (mais dans Cours/)
+
+---
+
+### US-4.3 : Enregistrement automatique des résultats techniques
+#### En tant que
+Système de documentation
+
+#### Je souhaite
+Enregistrer automatiquement le résultat technique de chaque prompt dans le journal
+
+#### Afin de
+Comprendre ce qui a été fait et comment
+
+#### Critères d'acceptation :
+- Chaque résultat technique est ajouté après le prompt correspondant
+- Le format est respecté : `##### Résultat technique`
+- Le résumé technique décrit les changements apportés
+
+---
+
+## Epic 5 : Cours - Documentation théorique
+
+### US-5.1 : Création automatique des fichiers de cours
+#### En tant que
+Système de documentation
+
+#### Je souhaite
+Créer automatiquement un fichier de cours pour chaque question théorique/formation
+
+#### Afin de
+Documenter les connaissances acquises
+
+#### Critères d'acceptation :
+- Le fichier est créé dans "A propos de ce site/4. Cours/"
+- Le format est `##. Titre du cours.md` (numérotation chronologique)
 - Le contenu utilise des titres maximum H3 (###)
-- Les cours sont référencés dans le journal du jour
 
 ---
 
-## Epic 6 : Gestion des Erreurs et Robustesse
-
-### US-6.1 : Gestion des erreurs d'hydratation React
+### US-5.2 : Référencement des cours dans le journal
 #### En tant que
-Développeur
+Système de documentation
 
 #### Je souhaite
-Que le site ne génère pas d'erreurs d'hydratation React
+Référencer les cours créés dans le journal du jour
 
 #### Afin de
-Garantir une expérience utilisateur fluide et éviter les problèmes de rendu
+Avoir une trace de quand et pourquoi le cours a été créé
 
 #### Critères d'acceptation :
-- Aucune erreur d'hydratation dans la console
-- Le HTML rendu côté serveur correspond exactement au HTML rendu côté client
-- L'architecture utilise la stratégie B (API JSON + Client Component) pour éviter les problèmes d'hydratation
-- Les attributs HTML conditionnels sont évités ou gérés de façon sûre
-
----
-
-### US-6.2 : Validation des règles métier
-#### En tant que
-Product Manager
-
-#### Je souhaite
-Que les règles métier soient validées automatiquement lors de la compilation
-
-#### Afin de
-Détecter les erreurs de structure dans les fichiers Markdown avant la publication
-
-#### Critères d'acceptation :
-- Un fichier MD contenant H1 ou H2 déclenche une erreur de compilation
-- Un fichier MD contenant H4 sans H3 déclenche une erreur de compilation
-- Un dossier contenant un seul fichier MD valide déclenche une erreur (au moins 2 sections requises)
-- Les fichiers vides ou non-MD sont ignorés
-- Les erreurs sont claires et indiquent le fichier problématique
-
----
-
-## Epic 7 : Expérience Utilisateur
-
-### US-7.1 : Navigation intuitive
-#### En tant que
-Visiteur du site
-
-#### Je souhaite
-Pouvoir naviguer facilement entre les différentes pages du site
-
-#### Afin de
-Trouver rapidement l'information recherchée
-
-#### Critères d'acceptation :
-- Le logo en haut à gauche permet de retourner à la page d'accueil
-- La photo en haut à droite permet d'accéder à la page "À propos de moi"
-- Les boutons du footer permettent d'accéder aux différentes sections (email, YouTube, LinkedIn, Plan du site)
-- Les tooltips expliquent l'action de chaque bouton
-
----
-
-### US-7.2 : Affichage responsive
-#### En tant que
-Visiteur du site
-
-#### Je souhaite
-Que le site s'affiche correctement sur tous les types d'écrans (desktop, tablette, mobile)
-
-#### Afin de
-Pouvoir consulter le site depuis n'importe quel appareil
-
-#### Critères d'acceptation :
-- Les marges et espacements sont calculés de façon responsive (vh, vw, max(), clamp())
-- Le header et le footer s'adaptent à la taille de l'écran
-- Le contenu reste lisible sur petits écrans
-- Les images sont optimisées avec `next/image`
-
----
-
-## Epic 8 : Maintenance et Évolutivité
-
-### US-8.1 : Code propre et maintenable
-#### En tant que
-Développeur
-
-#### Je souhaite
-Que le code soit propre, bien organisé et facile à maintenir
-
-#### Afin de
-Pouvoir faire évoluer le site facilement et rapidement
-
-#### Critères d'acceptation :
-- Pas de code mort (fichiers et imports inutilisés supprimés)
-- Pas de duplication (factorisation des styles et logique commune)
-- Composants avec responsabilités uniques (Single Responsibility Principle)
-- Noms de variables et fonctions explicites
-- Code documenté avec commentaires pédagogiques
-
----
-
-### US-8.2 : Respect des bonnes pratiques
-#### En tant que
-Développeur / Product Manager
-
-#### Je souhaite
-Que le code respecte les bonnes pratiques de développement (TDD, BDD, Clean Code, etc.)
-
-#### Afin de
-Garantir la qualité du code et faciliter la collaboration
-
-#### Critères d'acceptation :
-- TDD strict : RED → GREEN → REFACTOR, progression du simple au complexe
-- BDD pour les fonctionnalités métier
-- Séparation backend pur / frontend
-- Tests unitaires pour toutes les fonctions backend
-- Pas d'erreurs de linting
-- Build réussi sans avertissements critiques
+- Le journal du jour mentionne la création du cours
+- Le nom du fichier de cours est indiqué
+- Le contexte (prompt qui a déclenché la création) est documenté
