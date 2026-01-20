@@ -1,0 +1,87 @@
+/**
+ * Tests pour CourseMarkdownRenderer - TDD (tests basiques)
+ */
+
+import React from 'react';
+import { render, screen } from '@testing-library/react';
+import CourseMarkdownRenderer from '../../components/CourseMarkdownRenderer';
+
+describe('CourseMarkdownRenderer', () => {
+  it('devrait afficher un paragraphe simple', () => {
+    render(<CourseMarkdownRenderer content="Simple text" />);
+    
+    expect(screen.getByText('Simple text')).toBeInTheDocument();
+  });
+
+  it('devrait afficher un titre h3', () => {
+    const { container } = render(<CourseMarkdownRenderer content="### Titre niveau 3" />);
+    
+    const h3 = container.querySelector('h3');
+    expect(h3).toBeInTheDocument();
+    expect(h3?.textContent).toBe('Titre niveau 3');
+  });
+
+  it('devrait afficher un titre h4', () => {
+    const { container } = render(<CourseMarkdownRenderer content="#### Titre niveau 4" />);
+    
+    const h4 = container.querySelector('h4');
+    expect(h4).toBeInTheDocument();
+    expect(h4?.textContent).toBe('Titre niveau 4');
+  });
+
+  it('devrait afficher un titre h5', () => {
+    const { container } = render(<CourseMarkdownRenderer content="##### Titre niveau 5" />);
+    
+    const h5 = container.querySelector('h5');
+    expect(h5).toBeInTheDocument();
+    expect(h5?.textContent).toBe('Titre niveau 5');
+  });
+
+  it('devrait afficher une liste', () => {
+    const content = '- Item 1\n- Item 2';
+    const { container } = render(<CourseMarkdownRenderer content={content} />);
+    
+    const ul = container.querySelector('ul');
+    expect(ul).toBeInTheDocument();
+    expect(screen.getByText('Item 1')).toBeInTheDocument();
+    expect(screen.getByText('Item 2')).toBeInTheDocument();
+  });
+
+  it('devrait afficher du texte en gras', () => {
+    const { container } = render(<CourseMarkdownRenderer content="Text with **bold** content" />);
+    
+    const strong = container.querySelector('strong');
+    expect(strong).toBeInTheDocument();
+    expect(strong?.textContent).toBe('bold');
+  });
+
+  it('devrait afficher un bloc de code', () => {
+    const content = '```\nconst x = 1;\n```';
+    const { container } = render(<CourseMarkdownRenderer content={content} />);
+    
+    const pre = container.querySelector('pre');
+    expect(pre).toBeInTheDocument();
+  });
+
+  it('devrait afficher une citation', () => {
+    const { container } = render(<CourseMarkdownRenderer content="> Quote text" />);
+    
+    const blockquote = container.querySelector('blockquote');
+    expect(blockquote).toBeInTheDocument();
+    expect(screen.getByText('Quote text')).toBeInTheDocument();
+  });
+
+  it('devrait gérer du contenu vide', () => {
+    const { container } = render(<CourseMarkdownRenderer content="" />);
+    
+    expect(container.querySelector('.markdownContent')).toBeInTheDocument();
+  });
+
+  it('devrait gérer plusieurs paragraphes', () => {
+    const content = 'Para 1\n\nPara 2';
+    render(<CourseMarkdownRenderer content={content} />);
+    
+    expect(screen.getByText('Para 1')).toBeInTheDocument();
+    expect(screen.getByText('Para 2')).toBeInTheDocument();
+  });
+});
