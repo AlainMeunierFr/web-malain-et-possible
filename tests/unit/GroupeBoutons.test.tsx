@@ -159,4 +159,142 @@ describe('Composant GroupeBoutons', () => {
 
     expect(bouton).toHaveClass('couleurInversee');
   });
+
+  it('ne devrait rien afficher si icône inconnue', () => {
+    const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+    
+    const element: ElementGroupeBoutons = {
+      type: 'groupeBoutons',
+      taille: 'petite',
+      boutons: [
+        {
+          id: 'test1',
+          icone: 'IconeInconnue',
+          texte: null,
+          url: null,
+          command: null,
+        },
+      ],
+    };
+
+    const { container } = render(<GroupeBoutons element={element} />);
+    const bouton = container.querySelector('button');
+
+    expect(bouton).not.toBeInTheDocument();
+    expect(consoleErrorSpy).toHaveBeenCalledWith('Icon "IconeInconnue" not found in iconMap');
+    
+    consoleErrorSpy.mockRestore();
+  });
+
+  it('devrait naviguer en interne via router.push pour command', () => {
+    const mockPush = jest.fn();
+    const useRouter = require('next/navigation').useRouter;
+    useRouter.mockReturnValue({ push: mockPush });
+
+    const element: ElementGroupeBoutons = {
+      type: 'groupeBoutons',
+      taille: 'petite',
+      boutons: [
+        {
+          id: 'test1',
+          icone: 'Mail',
+          texte: null,
+          url: null,
+          command: 'cmd-test',
+        },
+      ],
+    };
+
+    render(<GroupeBoutons element={element} />);
+    const bouton = screen.getByRole('button');
+    bouton.click();
+
+    expect(mockPush).toHaveBeenCalledWith('/test');
+  });
+
+  it('devrait ouvrir une URL externe via window.open', () => {
+    const mockOpen = jest.fn();
+    window.open = mockOpen;
+
+    const element: ElementGroupeBoutons = {
+      type: 'groupeBoutons',
+      taille: 'petite',
+      boutons: [
+        {
+          id: 'test1',
+          icone: 'Youtube',
+          texte: null,
+          url: 'https://youtube.com',
+          command: null,
+        },
+      ],
+    };
+
+    render(<GroupeBoutons element={element} />);
+    const bouton = screen.getByRole('button');
+    bouton.click();
+
+    expect(mockOpen).toHaveBeenCalledWith('https://youtube.com', '_blank', 'noopener,noreferrer');
+  });
+
+  // Note: Tests pour mailto: et tel: (window.location.href) non testables avec JSDOM
+  // Ces cas sont couverts par les tests E2E
+
+  it('devrait naviguer en interne pour URL locale commençant par /', () => {
+    const mockPush = jest.fn();
+    const useRouter = require('next/navigation').useRouter;
+    useRouter.mockReturnValue({ push: mockPush });
+
+    delete (window as any).location;
+    (window as any).location = { hostname: 'localhost' };
+
+    const element: ElementGroupeBoutons = {
+      type: 'groupeBoutons',
+      taille: 'petite',
+      boutons: [
+        {
+          id: 'test1',
+          icone: 'Mail',
+          texte: null,
+          url: '/about',
+          command: null,
+        },
+      ],
+    };
+
+    render(<GroupeBoutons element={element} />);
+    const bouton = screen.getByRole('button');
+    bouton.click();
+
+    expect(mockPush).toHaveBeenCalledWith('/about');
+  });
+
+  it('devrait naviguer en interne pour URL localhost', () => {
+    const mockPush = jest.fn();
+    const useRouter = require('next/navigation').useRouter;
+    useRouter.mockReturnValue({ push: mockPush });
+
+    delete (window as any).location;
+    (window as any).location = { hostname: 'localhost' };
+
+    const element: ElementGroupeBoutons = {
+      type: 'groupeBoutons',
+      taille: 'petite',
+      boutons: [
+        {
+          id: 'test1',
+          icone: 'Mail',
+          texte: null,
+          url: 'http://localhost:3000/about',
+          command: null,
+        },
+      ],
+    };
+
+    render(<GroupeBoutons element={element} />);
+    const bouton = screen.getByRole('button');
+    bouton.click();
+
+    expect(mockPush).toHaveBeenCalledWith('/about');
+  });
 });
