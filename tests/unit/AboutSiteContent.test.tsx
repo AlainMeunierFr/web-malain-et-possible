@@ -108,4 +108,63 @@ describe('AboutSiteContent', () => {
     expect(screen.getByText('1. Premier Chapitre')).toBeInTheDocument();
     expect(screen.getByText('2. Deuxième Chapitre')).toBeInTheDocument();
   });
+
+  it('devrait afficher les blocs (h5) avec leur contenu', () => {
+    // ARRANGE
+    const structureAvecBlocs: AboutSiteStructure = {
+      chapitres: [
+        {
+          nom: '1. Chapitre',
+          sections: [
+            {
+              nom: '1.1 Section',
+              parties: [
+                {
+                  titre: 'Partie',
+                  sousParties: [
+                    {
+                      titre: 'Sous-partie',
+                      blocs: [
+                        {
+                          titre: 'Bloc 1',
+                          typeDeContenu: 'Prompt',
+                          contenuParse: [
+                            {
+                              type: 'paragraph',
+                              content: 'Contenu bloc prompt',
+                            },
+                          ],
+                        },
+                        {
+                          titre: 'Bloc 2',
+                          typeDeContenu: null,
+                          contenuParse: [
+                            {
+                              type: 'paragraph',
+                              content: 'Contenu bloc normal',
+                            },
+                          ],
+                        },
+                      ],
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    };
+
+    // ACT
+    const { container } = render(<AboutSiteContent structure={structureAvecBlocs} />);
+    
+    // ASSERT
+    // Le titre "Bloc 1" ne doit PAS être affiché (typeDeContenu = "Prompt")
+    expect(screen.queryByText('Bloc 1')).not.toBeInTheDocument();
+    // Le titre "Bloc 2" doit être affiché (typeDeContenu = null)
+    expect(screen.getByText('Bloc 2')).toBeInTheDocument();
+    // Les h5 doivent être présents
+    expect(container.querySelector('h5')).toBeInTheDocument();
+  });
 });
