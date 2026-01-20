@@ -206,4 +206,34 @@ describe('Composant VideoDetournement', () => {
     expect(src1).toContain('abc123def45');
     expect(src2).toContain('xyz789uvw01');
   });
+
+  it('ne devrait pas afficher d\'iframe pour URL YouTube invalide', () => {
+    const elementWithInvalidUrl: ElementVideoDetournement = {
+      type: 'videoDetournement',
+      items: [
+        {
+          id: 4,
+          titreVideoDetournee: 'Test URL invalide',
+          videoDetournee: 'https://invalid-url.com/video',
+          titreVideoOriginale: 'Original invalide',
+          videoOriginale: 'not-a-youtube-url',
+          droitsAuteur: '',
+          linkedin: '',
+          pourLeCompteDe: 'Client Invalide',
+          date: '1/1/2024',
+          pitch: 'Pitch invalide',
+        },
+      ],
+    };
+
+    render(<VideoDetournement element={elementWithInvalidUrl} />);
+
+    // Le titre et le pitch doivent être affichés
+    expect(screen.getByText('Test URL invalide')).toBeInTheDocument();
+    expect(screen.getByText('Pitch invalide')).toBeInTheDocument();
+    
+    // Mais aucune iframe ne doit être présente (URLs invalides)
+    const iframes = screen.queryAllByTitle(/Vidéo (détournée|originale)/);
+    expect(iframes.length).toBe(0);
+  });
 });
