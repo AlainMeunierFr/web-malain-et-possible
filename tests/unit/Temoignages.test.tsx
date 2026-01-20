@@ -94,8 +94,7 @@ describe('Composant Temoignages', () => {
 
     const { container } = render(<Temoignages element={emptyElement} />);
     
-    // Vérifier que le composant se rend sans erreur
-    expect(container.firstChild).toBeInTheDocument();
-    expect(container.querySelector('.container')).toBeInTheDocument();
+    // Le composant retourne null quand items est vide
+    expect(container.firstChild).toBeNull();
   });
 });

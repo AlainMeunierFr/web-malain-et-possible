@@ -1,7 +1,11 @@
 {
-  "items": [
+  "titre": "Témoignages",
+  "contenu": [
     {
-      "nom": "Florent Grosmaitre",
+      "type": "temoignages",
+      "items": [
+        {
+          "nom": "Florent Grosmaitre",
       "fonction": "CEO chez CryptoNext Security",
       "photo": "/images/Florent Grosmaitre.jpeg",
       "temoignage": "« J'ai eu la chance de travailler avec Alain pour l'entreprise Actibase qu'il avait fondé.\n\nAlain a un profil transverse capable d'appréhender les problématiques variées de toute entreprise IT depuis les enjeux de R&D jusqu'aux éléments financiers en passant par les aspects produits, marketing et commerciaux.\n\nAlain a des qualités exceptionnelles d'analyse approfondie, de compréhension des aspects technologiques, de pro-activité pour trouver des solutions, d'implication dans ses missions, de qualité des livrables… Et en plus, c'est sympa de travailler avec lui ! »"
@@ -29,6 +33,8 @@
       "fonction": "Technicienne de support technique",
       "photo": "/images/Delphine Alexandre.jpg",
       "temoignage": "« J'ai travaillé sous la direction d'Alain pendant 4 ans lorsqu'il était dirigeant de la société Actibase.\nAlain est réellement un excellent manager. C'est une personne humaine et bienveillante qui sait fédérer et encourager ses équipes avec brio. Il a su tirer le meilleur parti de chacun d'entre nous. A ses côtés, j'ai grandement amélioré ma confiance en moi ainsi que mes compétences. J'ai beaucoup appris.\nCette expérience reste de loin la meilleure expérience professionnelle de ma vie.\nJe le recommande chaudement. »"
+        }
+      ]
     }
   ]
 }

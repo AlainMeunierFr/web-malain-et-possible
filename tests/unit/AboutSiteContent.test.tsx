@@ -1,0 +1,111 @@
+/**
+ * Tests pour AboutSiteContent
+ * Approche TDD : Tests pour atteindre 100% de couverture
+ */
+
+import React from 'react';
+import { render, screen } from '@testing-library/react';
+import AboutSiteContent from '../../components/AboutSiteContent';
+import type { AboutSiteStructure } from '../../utils/aboutSiteReader';
+
+describe('AboutSiteContent', () => {
+  // MOCK : Structure minimale valide
+  const mockStructureSimple: AboutSiteStructure = {
+    chapitres: [
+      {
+        nom: '1. Chapitre Test',
+        sections: [
+          {
+            nom: '1.1 Section Test',
+            parties: [
+              {
+                titre: 'Partie Test',
+                sousParties: [
+                  {
+                    titre: 'Sous-partie Test',
+                    contenuParse: [
+                      {
+                        typeDeBloc: 'paragraphe',
+                        texte: 'Contenu de test',
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
+    ],
+  };
+
+  it('devrait afficher le composant sans erreur', () => {
+    // ACT
+    const { container } = render(<AboutSiteContent structure={mockStructureSimple} />);
+    
+    // ASSERT
+    expect(container).toBeInTheDocument();
+  });
+
+  it('devrait afficher le nom du chapitre', () => {
+    // ACT
+    render(<AboutSiteContent structure={mockStructureSimple} />);
+    
+    // ASSERT
+    expect(screen.getByText('1. Chapitre Test')).toBeInTheDocument();
+  });
+
+  it('devrait afficher le nom de la section', () => {
+    // ACT
+    render(<AboutSiteContent structure={mockStructureSimple} />);
+    
+    // ASSERT
+    expect(screen.getByText('1.1 Section Test')).toBeInTheDocument();
+  });
+
+  it('devrait gérer une structure vide', () => {
+    // ARRANGE
+    const structureVide: AboutSiteStructure = {
+      chapitres: [],
+    };
+
+    // ACT
+    const { container } = render(<AboutSiteContent structure={structureVide} />);
+    
+    // ASSERT
+    expect(container.querySelector('main')).toBeInTheDocument();
+  });
+
+  it('devrait gérer plusieurs chapitres', () => {
+    // ARRANGE
+    const structureMultiple: AboutSiteStructure = {
+      chapitres: [
+        {
+          nom: '1. Premier Chapitre',
+          sections: [
+            {
+              nom: '1.1 Section 1',
+              parties: [],
+            },
+          ],
+        },
+        {
+          nom: '2. Deuxième Chapitre',
+          sections: [
+            {
+              nom: '2.1 Section 2',
+              parties: [],
+            },
+          ],
+        },
+      ],
+    };
+
+    // ACT
+    render(<AboutSiteContent structure={structureMultiple} />);
+    
+    // ASSERT
+    expect(screen.getByText('1. Premier Chapitre')).toBeInTheDocument();
+    expect(screen.getByText('2. Deuxième Chapitre')).toBeInTheDocument();
+  });
+});

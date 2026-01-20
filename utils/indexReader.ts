@@ -263,7 +263,9 @@ export const readPageData = (filename: string = 'index.json'): PageData => {
         if (fs.existsSync(sourceFilePath)) {
           const sourceContent = fs.readFileSync(sourceFilePath, 'utf8');
           const sourceData = JSON.parse(sourceContent);
-          return { ...element, items: sourceData.items };
+          // Support à la fois l'ancienne structure (items direct) et la nouvelle (PageData avec contenu)
+          const items = sourceData.items || (sourceData.contenu && sourceData.contenu[0] && sourceData.contenu[0].items) || [];
+          return { ...element, items };
         }
       }
       
