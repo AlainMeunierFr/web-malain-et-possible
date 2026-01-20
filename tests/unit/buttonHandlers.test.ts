@@ -25,13 +25,13 @@ describe('buttonHandlers - Approche TDD (simple → complexe)', () => {
     it('should return route for one known command', () => {
       const route = getRouteForCommand(COMMANDS.SITEMAP);
       
-      expect(route).toBe(ROUTES.SITEMAP);
+      expect(route).toBe(ROUTES.ABOUT);
     });
 
     // ITÉRATION 2 : Ajouter une deuxième commande
     it('should return route for multiple known commands', () => {
-      expect(getRouteForCommand(COMMANDS.SITEMAP)).toBe(ROUTES.SITEMAP);
-      expect(getRouteForCommand(COMMANDS.ABOUT_SITE)).toBe(ROUTES.ABOUT_SITE);
+      expect(getRouteForCommand(COMMANDS.SITEMAP)).toBe(ROUTES.ABOUT);
+      expect(getRouteForCommand(COMMANDS.ABOUT_SITE)).toBe(ROUTES.ABOUT);
     });
 
     // ITÉRATION 3 : Gérer les commandes inconnues
@@ -81,7 +81,7 @@ describe('buttonHandlers - Approche TDD (simple → complexe)', () => {
       
       expect(action.type).toBe('internal');
       if (action.type === 'internal') {
-        expect(action.route).toBe(ROUTES.SITEMAP);
+        expect(action.route).toBe(ROUTES.ABOUT);
       }
     });
 
@@ -96,7 +96,7 @@ describe('buttonHandlers - Approche TDD (simple → complexe)', () => {
       const action2 = getButtonAction(COMMANDS.ABOUT_SITE, null);
       expect(action2.type).toBe('internal');
       if (action2.type === 'internal') {
-        expect(action2.route).toBe(ROUTES.ABOUT_SITE);
+        expect(action2.route).toBe(ROUTES.ABOUT);
       }
     });
 
@@ -128,7 +128,7 @@ describe('buttonHandlers - Approche TDD (simple → complexe)', () => {
       // Internal navigation should take priority
       expect(action.type).toBe('internal');
       if (action.type === 'internal') {
-        expect(action.route).toBe(ROUTES.SITEMAP);
+        expect(action.route).toBe(ROUTES.ABOUT);
       }
     });
 

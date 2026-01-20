@@ -1,0 +1,260 @@
+/* Container principal : plus large que les domaines de compétence sur grands écrans */
+.container {
+  max-width: 947px; /* Mobile et tablette : même largeur qu'un Domaine de compétence */
+  margin: 0 auto;
+  padding: 15px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Chaque détournement prend toute la largeur et est empilé verticalement */
+.detournement {
+  margin-bottom: 3rem;
+  width: 100%;
+}
+
+/* Titre du détournement (H2) - fond bleu clair avec texte noir, comme H1 avec fond bleu foncé */
+.detournementTitle {
+  font-family: 'Oswald', sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.4;
+  text-align: center;
+  margin-bottom: 0.25rem; /* Réduit encore plus pour rapprocher du descriptif */
+  background-color: var(--BleuClair);
+  color: #000000;
+  padding: 0.75rem 1rem; /* Même padding que H1 */
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Style spécifique pour TexteLarge dans les détournements - réduire les espaces */
+.detournement :global(.texteLargeContainer) {
+  padding: 0.25rem 1rem !important; /* Encore plus réduit pour rapprocher du titre et des vidéos */
+  margin: 0 !important;
+}
+
+/* Container pour les deux vidéos côte à côte */
+.videosContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px; /* 30 pixels entre les deux vidéos */
+  justify-content: center;
+  width: 100%;
+  margin-top: 0.25rem; /* Réduit encore plus pour rapprocher du descriptif */
+}
+
+/* Section vidéo (gauche ou droite) */
+.videoSection {
+  display: flex;
+  flex-direction: column;
+  width: calc(50% - 15px);
+  min-width: 300px;
+  box-sizing: border-box;
+  align-items: center; /* Centrer les titres et boutons par rapport à la vidéo */
+}
+
+/* Titre de la section vidéo (H3) - même police que titre domaine de compétence */
+.videoTitle {
+  font-family: 'Oswald', sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.2;
+  margin: 0 0 0.25rem 0; /* Réduit de 0.5rem à 0.25rem */
+  text-align: center;
+  color: var(--BleuFonce);
+  width: 100%; /* Prendre toute la largeur pour centrer le texte */
+}
+
+/* Sous-titre en italique */
+.videoSubtitle {
+  font-family: 'Noto Serif', serif;
+  font-size: 14px;
+  font-style: italic;
+  line-height: 1.4;
+  margin: 0 0 0.5rem 0; /* Réduit de 1rem à 0.5rem */
+  text-align: center;
+  color: rgba(9, 23, 71, 1); /* var(--color_text_default) */
+  width: 100%; /* Prendre toute la largeur pour centrer le texte */
+}
+
+/* Wrapper pour la vidéo YouTube - prendre 100% de la largeur de la colonne avec padding */
+.videoWrapper {
+  position: relative;
+  width: 100%;
+  padding: 0 1.5%; /* 1.5% de chaque côté = 97% au total */
+  padding-bottom: 54.5625%; /* Ratio 16:9 : (97% * 56.25%) pour maintenir le ratio avec le padding */
+  height: 0;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+/* Iframe YouTube - prendre toute la largeur et hauteur du wrapper */
+.videoIframe {
+  position: absolute;
+  top: 0;
+  left: 1.5%; /* Compenser le padding gauche du wrapper */
+  width: 97%; /* 100% - 3% de padding total */
+  height: 100%;
+  border: none;
+}
+
+/* Container pour bouton LinkedIn et icône d'alerte - centré ensemble, horizontal */
+.videoActions {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 0.5rem; /* Réduit de 1rem à 0.5rem */
+  width: 100%;
+  padding: 0 1.5%; /* Même padding que la vidéo pour alignement */
+  box-sizing: border-box;
+}
+
+/* Bouton LinkedIn */
+.linkedinButton {
+  padding: 8px 16px;
+  background-color: #ffffff;
+  color: rgba(0, 112, 192, 1); /* var(--color_bTHGN0_default) */
+  border: 1px solid rgba(0, 112, 192, 1);
+  border-radius: 0;
+  font-family: 'Clint Marker', cursive;
+  font-size: 18px;
+  font-weight: bold;
+  line-height: 1;
+  text-align: center;
+  cursor: pointer;
+  transition: background 200ms;
+  text-decoration: none;
+  display: inline-block;
+  order: 2; /* À droite de l'icône d'alerte */
+}
+
+.linkedinButton:hover {
+  background-color: rgba(0, 112, 192, 1);
+  color: #ffffff;
+}
+
+/* Container pour l'icône d'alerte droits d'auteur */
+.droitsAuteurContainer {
+  position: relative;
+  display: inline-block;
+  order: 1; /* À gauche du bouton LinkedIn */
+}
+
+/* Bouton icône d'alerte */
+.alertButton {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.alertIcon {
+  width: 24px;
+  height: 24px;
+  color: #dc2626; /* Rouge */
+  transition: transform 0.2s;
+}
+
+.alertButton:hover .alertIcon {
+  transform: scale(1.1);
+}
+
+/* Popup pour afficher les droits d'auteur */
+.droitsAuteurPopup {
+  position: absolute;
+  bottom: 100%;
+  left: 0;
+  margin-bottom: 10px;
+  width: 400px;
+  max-width: 90vw;
+  background-color: #ffffff;
+  border: 2px solid #dc2626;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 1rem;
+  z-index: 1000;
+}
+
+.closeButton {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  background: none;
+  border: none;
+  font-size: 24px;
+  line-height: 1;
+  cursor: pointer;
+  color: #666;
+  padding: 0;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.closeButton:hover {
+  color: #000;
+}
+
+.droitsAuteurContent {
+  font-family: 'Noto Serif', serif;
+  font-size: 13px;
+  line-height: 1.6;
+  color: rgba(9, 23, 71, 1);
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.droitsAuteurContent p {
+  margin: 0 0 0.75rem 0;
+}
+
+.droitsAuteurContent p:last-child {
+  margin-bottom: 0;
+}
+
+/* Mobile : une seule colonne */
+@media (max-width: 768px) {
+  .videoSection {
+    width: 100%;
+    min-width: unset;
+  }
+  
+  .droitsAuteurPopup {
+    width: calc(100vw - 40px);
+    max-width: 400px;
+  }
+}
+
+/* Desktop : écrans normaux/grands (≥769px) */
+@media (min-width: 769px) {
+  .container {
+    padding: 20px;
+    max-width: 1300px; /* Plus large que les domaines de compétence (947px) sur grands écrans */
+  }
+
+  .detournementTitle {
+    font-size: 24px;
+    padding: 1rem 1rem; /* Même padding que H1 sur desktop */
+  }
+
+  /* TexteLarge dans les détournements - padding réduit aussi sur desktop */
+  .detournement :global(.texteLargeContainer) {
+    padding: 0.5rem 1rem !important; /* Réduit encore plus sur desktop */
+  }
+
+  .videoTitle {
+    font-size: 20px;
+  }
+
+  .videoSubtitle {
+    font-size: 16px;
+  }
+}

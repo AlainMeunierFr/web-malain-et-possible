@@ -14,10 +14,6 @@ const Header: React.FC = () => {
     router.push(ROUTES.HOME);
   };
 
-  const handlePhotoClick = () => {
-    router.push(ROUTES.ABOUT);
-  };
-
   return (
     <header className={styles.header}>
       <div className={styles.logoContainer}>
@@ -41,17 +37,7 @@ const Header: React.FC = () => {
         <Image
           {...HEADER_IMAGES.photo}
           className={styles.photo}
-          priority
-          onClick={handlePhotoClick}
-          style={{ cursor: 'pointer' }}
-          role="button"
-          tabIndex={0}
-          onKeyDown={(e) => {
-            if (e.key === 'Enter' || e.key === ' ') {
-              e.preventDefault();
-              handlePhotoClick();
-            }
-          }}
+          loading="lazy"
         />
       </div>
     </header>

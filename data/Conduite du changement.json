@@ -10,7 +10,8 @@
             "src": "/images/Vision partagée.png",
             "alt": "Faire émerger une vision partagée"
           },
-          "description": "« Si tu veux construire un bateau, fais naître dans le cœur de tes hommes et femmes le désir de la mer. »\n*Antoine de Saint Exupéry*",
+          "description": "« Si tu veux construire un bateau, fais naître dans le cœur de tes hommes et femmes le désir de la mer. »",
+          "auteur": "Antoine de Saint Exupéry",
           "bouton": null
         },
         {
@@ -19,7 +20,8 @@
             "src": "/images/Diagnostic.png",
             "alt": "Réaliser un diagnostic sincère"
           },
-          "description": "« Pour savoir où on va, il faut savoir où l'on est. »\n*Proverbe tchadien*",
+          "description": "« Pour savoir où on va, il faut savoir où l'on est. »",
+          "auteur": "Proverbe tchadien",
           "bouton": null
         },
         {
@@ -28,7 +30,8 @@
             "src": "/images/Engagement.png",
             "alt": "Générer de l'engagement"
           },
-          "description": "« Rêver seul ne reste qu'un rêve. Rêver ensemble devient la réalité. »\n*John Lennon*",
+          "description": "« Rêver seul ne reste qu'un rêve. Rêver ensemble devient la réalité. »",
+          "auteur": "John Lennon",
           "bouton": null
         }
       ]
@@ -46,7 +49,8 @@
             "src": "/images/Vision partagée.png",
             "alt": "Faire émerger une vision partagée"
           },
-          "description": "« Si tu veux construire un bateau, fais naître dans le cœur de tes hommes et femmes le désir de la mer. »\n*Antoine de Saint Exupéry*",
+          "description": "« Si tu veux construire un bateau, fais naître dans le cœur de tes hommes et femmes le désir de la mer. »",
+          "auteur": "Antoine de Saint Exupéry",
           "bouton": null
         },
         {
@@ -55,7 +59,8 @@
             "src": "/images/Diagnostic.png",
             "alt": "Réaliser un diagnostic sincère"
           },
-          "description": "« Pour savoir où on va, il faut savoir où l'on est. »\n*Proverbe tchadien*",
+          "description": "« Pour savoir où on va, il faut savoir où l'on est. »",
+          "auteur": "Proverbe tchadien",
           "bouton": null
         },
         {
@@ -64,7 +69,8 @@
             "src": "/images/Engagement.png",
             "alt": "Générer de l'engagement"
           },
-          "description": "« Rêver seul ne reste qu'un rêve. Rêver ensemble devient la réalité. »\n*John Lennon*",
+          "description": "« Rêver seul ne reste qu'un rêve. Rêver ensemble devient la réalité. »",
+          "auteur": "John Lennon",
           "bouton": null
         }
       ]

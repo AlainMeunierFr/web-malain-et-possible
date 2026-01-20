@@ -3,9 +3,7 @@
  * Incrustation YouTube responsive avec gestion du lancement automatique
  */
 
-'use client';
-
-import React, { useMemo } from 'react';
+import React from 'react';
 import type { ElementVideo } from '../utils/indexReader';
 import styles from './Video.module.css';
 
@@ -36,7 +34,7 @@ function extraireIdYouTube(url: string): string | null {
 }
 
 const Video: React.FC<VideoProps> = ({ element }) => {
-  const videoId = useMemo(() => extraireIdYouTube(element.urlYouTube), [element.urlYouTube]);
+  const videoId = extraireIdYouTube(element.urlYouTube);
 
   if (!videoId) {
     return (
@@ -53,6 +51,9 @@ const Video: React.FC<VideoProps> = ({ element }) => {
 
   return (
     <div className={styles.videoContainer}>
+      {element.titre && (
+        <h2 className={styles.videoTitre}>{element.titre}</h2>
+      )}
       <div className={styles.videoWrapper}>
         <iframe
           className={styles.videoIframe}

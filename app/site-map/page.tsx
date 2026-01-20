@@ -1,6 +1,6 @@
 import styles from '../shared.module.css';
 
-export default function SitemapPage() {
+export default function SiteMapPage() {
   return (
     <main className={styles.main}>
       <h1>plan du site</h1>

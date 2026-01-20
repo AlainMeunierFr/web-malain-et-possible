@@ -7,6 +7,25 @@
   box-sizing: border-box;
 }
 
+/* Titre de la vidéo (optionnel) : h2, gras, centré, largeur comme domaine de compétence */
+.videoTitre {
+  font-family: 'Oswald', sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  text-align: center;
+  margin: 0 auto 1rem;
+  color: rgba(9, 23, 71, 1); /* var(--color_text_default) */
+  max-width: 947px;
+  width: 100%;
+}
+
+/* Desktop : écrans normaux/grands (≥769px) */
+@media (min-width: 769px) {
+  .videoTitre {
+    font-size: 24px;
+  }
+}
+
 /* Desktop : écrans normaux/grands (≥769px) - vidéo plus petite */
 @media (min-width: 769px) {
   .videoContainer {

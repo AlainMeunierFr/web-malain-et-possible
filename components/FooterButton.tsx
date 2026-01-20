@@ -7,6 +7,7 @@ import {
   Linkedin,
   Network,
   Info,
+  BarChart3,
   type LucideIcon,
 } from 'lucide-react';
 import styles from './Footer.module.css';
@@ -23,6 +24,7 @@ const iconMap: Record<string, LucideIcon> = {
   Linkedin,
   Network, // Pour "Sitemap" (plan du site)
   Info,
+  BarChart3, // Pour "Métriques"
 };
 
 const FooterButton: React.FC<FooterButtonProps> = ({

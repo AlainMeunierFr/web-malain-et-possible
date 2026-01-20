@@ -2,8 +2,6 @@
  * Composant pour afficher un Domaine de compétences
  */
 
-'use client';
-
 import React from 'react';
 import Link from 'next/link';
 import {
@@ -101,6 +99,7 @@ const DomaineDeCompetences: React.FC<DomaineDeCompetencesProps> = ({ domaine }) 
                     className={styles.competenceIcon}
                   />
                 ) : competence.image ? (
+                  // eslint-disable-next-line @next/next/no-img-element
                   <img 
                     src={competence.image.src} 
                     alt={competence.image.alt}
@@ -110,6 +109,11 @@ const DomaineDeCompetences: React.FC<DomaineDeCompetencesProps> = ({ domaine }) 
               <div className={styles.competenceDescription}>
                 {parseInlineMarkdown(competence.description)}
               </div>
+              {competence.auteur && (
+                <div className={styles.competenceAuteur}>
+                  {competence.auteur}
+                </div>
+              )}
               {competence.bouton && (
                 <Link href={competence.bouton.action} className={styles.competenceBouton}>
                   {competence.bouton.texte}

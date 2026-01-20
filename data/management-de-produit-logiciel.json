@@ -1,0 +1,63 @@
+{
+  "contenu": [
+    {
+      "type": "video",
+      "urlYouTube": "https://youtu.be/iUv6e256AVk",
+      "lancementAuto": true
+    },
+    {
+      "type": "titre",
+      "texte": "Management de produit logiciel - Product Owner"
+    },
+    {
+      "type": "domaineDeCompetence",
+      "titre": "Bien appliqué, l'agilité est un cadre puissant pour délivrer de la valeur.",
+      "contenu": "",
+      "items": [
+        {
+          "titre": "Vision produit",
+          "image": {
+            "src": "/images/Vision.png",
+            "alt": "Vision produit"
+          },
+          "description": "« Si j'avais demandé aux gens ce qu'ils voulaient, ils m'auraient répondu des chevaux plus rapides. »",
+          "auteur": "Henry Ford",
+          "bouton": null
+        },
+        {
+          "titre": "Empirisme",
+          "image": {
+            "src": "/images/Empirisme.png",
+            "alt": "Empirisme"
+          },
+          "description": "« Les gens ne savent pas ce qu'ils veulent jusqu'à ce que vous le leur montriez. »",
+          "auteur": "Steve Jobs",
+          "bouton": null
+        },
+        {
+          "titre": "Excellence technique",
+          "image": {
+            "src": "/images/Excellence.png",
+            "alt": "Excellence technique"
+          },
+          "description": "« On améliore rarement la qualité en diminuant les coûts, mais on peut souvent diminuer les coûts en améliorant la qualité. »",
+          "auteur": "Karl Albrecht",
+          "bouton": null
+        }
+      ]
+    },
+    {
+      "type": "texteLarge",
+      "texte": "Le manifeste agile vu par la communauté de l'anneau..."
+    },
+    {
+      "type": "video",
+      "urlYouTube": "https://youtu.be/mPif5EjzFYg",
+      "lancementAuto": false
+    },
+    {
+      "type": "callToAction",
+      "action": "Faisons connaissance..."
+    }
+  ]
+}

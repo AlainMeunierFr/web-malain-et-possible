@@ -1,0 +1,609 @@
+{
+  "snapshots": [
+    {
+      "timestamp": "2026-01-20T17:38:23.137Z",
+      "version": "0.1.0",
+      "branch": "main",
+      "commit": "9ececff",
+      "tests": {
+        "unitTests": 26,
+        "integrationTests": 2,
+        "bddFeatures": 8,
+        "bddScenarios": 33,
+        "bddSteps": 0,
+        "totalTests": 28,
+        "passingTests": 28,
+        "failingTests": 0,
+        "testDuration": 0
+      },
+      "coverage": {
+        "lines": {
+          "total": 0,
+          "covered": 0,
+          "percentage": 0
+        },
+        "statements": {
+          "total": 0,
+          "covered": 0,
+          "percentage": 0
+        },
+        "functions": {
+          "total": 0,
+          "covered": 0,
+          "percentage": 0
+        },
+        "branches": {
+          "total": 0,
+          "covered": 0,
+          "percentage": 0
+        }
+      },
+      "quality": {
+        "eslintErrors": 0,
+        "eslintWarnings": 0,
+        "typeCoverage": 95,
+        "cyclomaticComplexity": 5,
+        "maintainabilityIndex": 75,
+        "technicalDebt": "2h"
+      },
+      "size": {
+        "totalFiles": 43,
+        "totalLines": 4251,
+        "sourceLines": 4251,
+        "commentLines": 0,
+        "blankLines": 0,
+        "components": 23,
+        "pages": 11,
+        "utils": 9,
+        "tests": 26
+      },
+      "dependencies": {
+        "total": 30,
+        "production": 4,
+        "development": 26,
+        "outdated": 0,
+        "vulnerabilities": {
+          "low": 0,
+          "moderate": 0,
+          "high": 0,
+          "critical": 0,
+          "total": 0
+        }
+      },
+      "performance": {
+        "bundleSize": 1093655,
+        "buildTime": 0
+      }
+    },
+    {
+      "timestamp": "2026-01-20T17:50:50.429Z",
+      "version": "0.1.0",
+      "branch": "main",
+      "commit": "9ececff",
+      "tests": {
+        "unitTests": 209,
+        "integrationTests": 10,
+        "bddFeatures": 8,
+        "bddScenarios": 33,
+        "bddSteps": 0,
+        "totalTests": 219,
+        "passingTests": 219,
+        "failingTests": 0,
+        "testDuration": 0
+      },
+      "coverage": {
+        "lines": {
+          "total": 0,
+          "covered": 0,
+          "percentage": 0
+        },
+        "statements": {
+          "total": 0,
+          "covered": 0,
+          "percentage": 0
+        },
+        "functions": {
+          "total": 0,
+          "covered": 0,
+          "percentage": 0
+        },
+        "branches": {
+          "total": 0,
+          "covered": 0,
+          "percentage": 0
+        }
+      },
+      "quality": {
+        "eslintErrors": 0,
+        "eslintWarnings": 0,
+        "typeCoverage": 95,
+        "cyclomaticComplexity": 5,
+        "maintainabilityIndex": 75,
+        "technicalDebt": "2h"
+      },
+      "size": {
+        "totalFiles": 43,
+        "totalLines": 4254,
+        "sourceLines": 4254,
+        "commentLines": 0,
+        "blankLines": 0,
+        "components": 23,
+        "pages": 11,
+        "utils": 9,
+        "tests": 27
+      },
+      "dependencies": {
+        "total": 30,
+        "production": 4,
+        "development": 26,
+        "outdated": 0,
+        "vulnerabilities": {
+          "low": 0,
+          "moderate": 0,
+          "high": 0,
+          "critical": 0,
+          "total": 0
+        }
+      },
+      "performance": {
+        "bundleSize": 1092119,
+        "buildTime": 0
+      }
+    },
+    {
+      "timestamp": "2026-01-20T19:35:22.413Z",
+      "version": "0.1.0",
+      "branch": "main",
+      "commit": "9ececff",
+      "tests": {
+        "unitTests": 209,
+        "integrationTests": 10,
+        "bddFeatures": 8,
+        "bddScenarios": 33,
+        "bddSteps": 0,
+        "totalTests": 219,
+        "passingTests": 219,
+        "failingTests": 0,
+        "testDuration": 0
+      },
+      "coverage": {
+        "lines": {
+          "total": 0,
+          "covered": 0,
+          "percentage": 0
+        },
+        "statements": {
+          "total": 0,
+          "covered": 0,
+          "percentage": 0
+        },
+        "functions": {
+          "total": 0,
+          "covered": 0,
+          "percentage": 0
+        },
+        "branches": {
+          "total": 0,
+          "covered": 0,
+          "percentage": 0
+        }
+      },
+      "quality": {
+        "eslintErrors": 0,
+        "eslintWarnings": 0,
+        "typeCoverage": 95,
+        "cyclomaticComplexity": 5,
+        "maintainabilityIndex": 75,
+        "technicalDebt": "2h"
+      },
+      "size": {
+        "totalFiles": 43,
+        "totalLines": 4254,
+        "sourceLines": 4254,
+        "commentLines": 0,
+        "blankLines": 0,
+        "components": 23,
+        "pages": 11,
+        "utils": 9,
+        "tests": 27
+      },
+      "dependencies": {
+        "total": 30,
+        "production": 4,
+        "development": 26,
+        "outdated": 0,
+        "vulnerabilities": {
+          "low": 0,
+          "moderate": 0,
+          "high": 0,
+          "critical": 0,
+          "total": 0
+        }
+      },
+      "performance": {
+        "bundleSize": 1028719,
+        "buildTime": 0
+      }
+    },
+    {
+      "timestamp": "2026-01-20T21:57:48.715Z",
+      "version": "0.1.0",
+      "branch": "main",
+      "commit": "9ececff",
+      "tests": {
+        "unitTests": 209,
+        "integrationTests": 10,
+        "bddFeatures": 8,
+        "bddScenarios": 33,
+        "bddSteps": 0,
+        "totalTests": 219,
+        "passingTests": 219,
+        "failingTests": 0,
+        "testDuration": 0
+      },
+      "coverage": {
+        "lines": {
+          "total": 1151,
+          "covered": 635,
+          "percentage": 55.16
+        },
+        "statements": {
+          "total": 1202,
+          "covered": 676,
+          "percentage": 56.23
+        },
+        "functions": {
+          "total": 144,
+          "covered": 65,
+          "percentage": 45.13
+        },
+        "branches": {
+          "total": 714,
+          "covered": 369,
+          "percentage": 51.68
+        }
+      },
+      "quality": {
+        "eslintErrors": 0,
+        "eslintWarnings": 0,
+        "typeCoverage": 95,
+        "cyclomaticComplexity": 5,
+        "maintainabilityIndex": 75,
+        "technicalDebt": "2h"
+      },
+      "size": {
+        "totalFiles": 43,
+        "totalLines": 4254,
+        "sourceLines": 4254,
+        "commentLines": 0,
+        "blankLines": 0,
+        "components": 23,
+        "pages": 11,
+        "utils": 9,
+        "tests": 27
+      },
+      "dependencies": {
+        "total": 30,
+        "production": 4,
+        "development": 26,
+        "outdated": 0,
+        "vulnerabilities": {
+          "low": 0,
+          "moderate": 0,
+          "high": 0,
+          "critical": 0,
+          "total": 0
+        }
+      },
+      "performance": {
+        "bundleSize": 1034927,
+        "buildTime": 0
+      }
+    },
+    {
+      "timestamp": "2026-01-20T21:58:59.378Z",
+      "version": "0.1.0",
+      "branch": "main",
+      "commit": "9ececff",
+      "tests": {
+        "unitTests": 209,
+        "integrationTests": 10,
+        "bddFeatures": 8,
+        "bddScenarios": 33,
+        "bddSteps": 0,
+        "totalTests": 219,
+        "passingTests": 219,
+        "failingTests": 0,
+        "testDuration": 0
+      },
+      "coverage": {
+        "lines": {
+          "total": 1151,
+          "covered": 635,
+          "percentage": 55.16
+        },
+        "statements": {
+          "total": 1202,
+          "covered": 676,
+          "percentage": 56.23
+        },
+        "functions": {
+          "total": 144,
+          "covered": 65,
+          "percentage": 45.13
+        },
+        "branches": {
+          "total": 714,
+          "covered": 369,
+          "percentage": 51.68
+        }
+      },
+      "quality": {
+        "eslintErrors": 0,
+        "eslintWarnings": 0,
+        "typeCoverage": 95,
+        "cyclomaticComplexity": 5,
+        "maintainabilityIndex": 75,
+        "technicalDebt": "2h"
+      },
+      "size": {
+        "totalFiles": 43,
+        "totalLines": 4254,
+        "sourceLines": 4254,
+        "commentLines": 0,
+        "blankLines": 0,
+        "components": 23,
+        "pages": 11,
+        "utils": 9,
+        "tests": 27
+      },
+      "dependencies": {
+        "total": 30,
+        "production": 4,
+        "development": 26,
+        "outdated": 0,
+        "vulnerabilities": {
+          "low": 0,
+          "moderate": 0,
+          "high": 0,
+          "critical": 0,
+          "total": 0
+        }
+      },
+      "performance": {
+        "bundleSize": 1037431,
+        "buildTime": 0
+      }
+    },
+    {
+      "timestamp": "2026-01-20T21:59:37.668Z",
+      "version": "0.1.0",
+      "branch": "main",
+      "commit": "9ececff",
+      "tests": {
+        "unitTests": 209,
+        "integrationTests": 10,
+        "bddFeatures": 8,
+        "bddScenarios": 33,
+        "bddSteps": 0,
+        "totalTests": 219,
+        "passingTests": 219,
+        "failingTests": 0,
+        "testDuration": 0
+      },
+      "coverage": {
+        "lines": {
+          "total": 1151,
+          "covered": 635,
+          "percentage": 55.16
+        },
+        "statements": {
+          "total": 1202,
+          "covered": 676,
+          "percentage": 56.23
+        },
+        "functions": {
+          "total": 144,
+          "covered": 65,
+          "percentage": 45.13
+        },
+        "branches": {
+          "total": 714,
+          "covered": 369,
+          "percentage": 51.68
+        }
+      },
+      "quality": {
+        "eslintErrors": 0,
+        "eslintWarnings": 0,
+        "typeCoverage": 95,
+        "cyclomaticComplexity": 5,
+        "maintainabilityIndex": 75,
+        "technicalDebt": "2h"
+      },
+      "size": {
+        "totalFiles": 43,
+        "totalLines": 4254,
+        "sourceLines": 4254,
+        "commentLines": 0,
+        "blankLines": 0,
+        "components": 23,
+        "pages": 11,
+        "utils": 9,
+        "tests": 27
+      },
+      "dependencies": {
+        "total": 30,
+        "production": 4,
+        "development": 26,
+        "outdated": 0,
+        "vulnerabilities": {
+          "low": 0,
+          "moderate": 0,
+          "high": 0,
+          "critical": 0,
+          "total": 0
+        }
+      },
+      "performance": {
+        "bundleSize": 1039263,
+        "buildTime": 0
+      }
+    },
+    {
+      "timestamp": "2026-01-20T22:00:33.382Z",
+      "version": "0.1.0",
+      "branch": "main",
+      "commit": "9ececff",
+      "tests": {
+        "unitTests": 209,
+        "integrationTests": 10,
+        "bddFeatures": 8,
+        "bddScenarios": 33,
+        "bddSteps": 0,
+        "totalTests": 219,
+        "passingTests": 219,
+        "failingTests": 0,
+        "testDuration": 0
+      },
+      "coverage": {
+        "lines": {
+          "total": 1151,
+          "covered": 635,
+          "percentage": 55.16
+        },
+        "statements": {
+          "total": 1202,
+          "covered": 676,
+          "percentage": 56.23
+        },
+        "functions": {
+          "total": 144,
+          "covered": 65,
+          "percentage": 45.13
+        },
+        "branches": {
+          "total": 714,
+          "covered": 369,
+          "percentage": 51.68
+        }
+      },
+      "quality": {
+        "eslintErrors": 0,
+        "eslintWarnings": 0,
+        "typeCoverage": 95,
+        "cyclomaticComplexity": 5,
+        "maintainabilityIndex": 75,
+        "technicalDebt": "2h"
+      },
+      "size": {
+        "totalFiles": 43,
+        "totalLines": 4254,
+        "sourceLines": 4254,
+        "commentLines": 0,
+        "blankLines": 0,
+        "components": 23,
+        "pages": 11,
+        "utils": 9,
+        "tests": 27
+      },
+      "dependencies": {
+        "total": 30,
+        "production": 4,
+        "development": 26,
+        "outdated": 0,
+        "vulnerabilities": {
+          "low": 0,
+          "moderate": 0,
+          "high": 0,
+          "critical": 0,
+          "total": 0
+        }
+      },
+      "performance": {
+        "bundleSize": 1041098,
+        "buildTime": 0
+      }
+    }
+  ],
+  "latest": {
+    "timestamp": "2026-01-20T22:00:33.382Z",
+    "version": "0.1.0",
+    "branch": "main",
+    "commit": "9ececff",
+    "tests": {
+      "unitTests": 209,
+      "integrationTests": 10,
+      "bddFeatures": 8,
+      "bddScenarios": 33,
+      "bddSteps": 0,
+      "totalTests": 219,
+      "passingTests": 219,
+      "failingTests": 0,
+      "testDuration": 0
+    },
+    "coverage": {
+      "lines": {
+        "total": 1151,
+        "covered": 635,
+        "percentage": 55.16
+      },
+      "statements": {
+        "total": 1202,
+        "covered": 676,
+        "percentage": 56.23
+      },
+      "functions": {
+        "total": 144,
+        "covered": 65,
+        "percentage": 45.13
+      },
+      "branches": {
+        "total": 714,
+        "covered": 369,
+        "percentage": 51.68
+      }
+    },
+    "quality": {
+      "eslintErrors": 0,
+      "eslintWarnings": 0,
+      "typeCoverage": 95,
+      "cyclomaticComplexity": 5,
+      "maintainabilityIndex": 75,
+      "technicalDebt": "2h"
+    },
+    "size": {
+      "totalFiles": 43,
+      "totalLines": 4254,
+      "sourceLines": 4254,
+      "commentLines": 0,
+      "blankLines": 0,
+      "components": 23,
+      "pages": 11,
+      "utils": 9,
+      "tests": 27
+    },
+    "dependencies": {
+      "total": 30,
+      "production": 4,
+      "development": 26,
+      "outdated": 0,
+      "vulnerabilities": {
+        "low": 0,
+        "moderate": 0,
+        "high": 0,
+        "critical": 0,
+        "total": 0
+      }
+    },
+    "performance": {
+      "bundleSize": 1041098,
+      "buildTime": 0
+    }
+  },
+  "trends": {
+    "tests": "stable",
+    "coverage": "stable",
+    "quality": "stable"
+  }
+}

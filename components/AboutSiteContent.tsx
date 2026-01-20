@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import styles from '../app/about-site/about-site.module.css';
+import styles from '../app/about/about.module.css';
 import AboutSiteContentRenderer from './AboutSiteContentRenderer';
 import AccordionTitle from './AccordionTitle';
 import type { AboutSiteStructure } from '../utils/aboutSiteReader';

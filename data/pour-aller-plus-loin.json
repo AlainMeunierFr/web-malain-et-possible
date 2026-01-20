@@ -1,0 +1,46 @@
+{
+  "contenu": [
+    {
+      "type": "titre",
+      "texte": "Pour aller plus loin, je vous propose une expérience..."
+    },
+    {
+      "type": "texteLarge",
+      "texte": "Je vais être cash : en tant que citoyen du monde je pense que nous devrions consacrer plus de temps à correctement nous documenter sur son état et sa dynamique.\nMais :\n- ce n'était pas à l'ordre du jour de la Freelance Journey\n- 20mn ça aurait été trop court\n\nAlors que vous propose de trouver et prendre le temps d'écouter Arthur Keller nous parler de \"résilience\" et Olivier Hamant nous parler de \"robustesse\"."
+    },
+    {
+      "type": "video",
+      "urlYouTube": "https://youtu.be/xqtMFUF0Bpo",
+      "lancementAuto": false,
+      "titre": "Arthur Keller et \"résilience\""
+    },
+    {
+      "type": "video",
+      "urlYouTube": "https://youtu.be/Ql2_sO30ITY",
+      "lancementAuto": false,
+      "titre": "Olivier Hamant et \"Robustesse\""
+    },
+    {
+      "type": "texteLarge",
+      "texte": "Alors ? Faut-il être résilient ou robuste ?\nPire, ces notions ne s'opposent-elles pas ?\nD'autant qu'Olivier Hamant a pu expliquer lors de certaines interviews que la résilience n'est pas une solution et Arthur Keller que la robustesse ne suffira pas.\nGuidé par leur égo, se sont ils invectivé pour déterminer qui avait raison ? Non. Probablement savent-ils que les mots sont imparfaits pour exprimer sa pensée. Ils ont donc préféré prendre le temps de s'écouter et de laisser à l'autre le temps de préciser sa pensée.\nMon sentiment à la fin de cet échange est de 1+1=3.\nVoilà ce qui se passe lorsqu'on prend le temps : le désaccord devient fécond !"
+    },
+    {
+      "type": "video",
+      "urlYouTube": "https://youtu.be/5T8pzfT68mk",
+      "lancementAuto": false,
+      "titre": "Master class de désaccord fécond !"
+    },
+    {
+      "type": "titre",
+      "texte": "A propos de moi"
+    },
+    {
+      "type": "texteLarge",
+      "texte": "Si vous vous êtes adonnées à l'exercice et que vous êtes arrivé jusque là, je serais ravi d'avoir votre feed-back. (vous trouverez dans la barre d'icônes en bas plusieurs canaux pour me contacter).\n\nSi vous voulez en savoir plus sur moi, cliquez sur ma photo en haut à droite."
+    },
+    {
+      "type": "callToAction",
+      "action": "Faisons connaissance..."
+    }
+  ]
+}

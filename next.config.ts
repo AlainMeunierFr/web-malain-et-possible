@@ -1,7 +1,64 @@
 import type { NextConfig } from "next";
+// eslint-disable-next-line @typescript-eslint/no-require-imports
+const withBundleAnalyzer = require('@next/bundle-analyzer')({
+  enabled: process.env.ANALYZE === 'true',
+});
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  /* Optimisations de performance */
+  compress: true, // Active la compression gzip/brotli
+  
+  // Optimisation des images
+  images: {
+    formats: ['image/avif', 'image/webp'], // Formats modernes
+    deviceSizes: [640, 750, 828, 1080, 1200, 1920], // Breakpoints responsive
+    imageSizes: [16, 32, 48, 64, 96, 128, 256, 384], // Tailles d'icônes
+    minimumCacheTTL: 60 * 60 * 24 * 30, // Cache 30 jours
+  },
+  
+  // Optimisation du build
+  reactStrictMode: true,
+  poweredByHeader: false, // Retire header X-Powered-By
+  
+  // Redirections
+  async redirects() {
+    return [
+      {
+        source: '/a-propos',
+        destination: '/',
+        permanent: true, // 301 redirect
+      },
+    ];
+  },
+  
+  // Headers de sécurité et cache
+  async headers() {
+    return [
+      {
+        source: '/:path*',
+        headers: [
+          {
+            key: 'X-DNS-Prefetch-Control',
+            value: 'on'
+          },
+          {
+            key: 'X-Frame-Options',
+            value: 'SAMEORIGIN'
+          },
+        ],
+      },
+      {
+        // Cache agressif pour les assets statiques
+        source: '/images/:path*',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+        ],
+      },
+    ];
+  },
 };
 
-export default nextConfig;
+export default withBundleAnalyzer(nextConfig);

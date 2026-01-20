@@ -15,7 +15,8 @@ import { ROUTES, COMMANDS } from '../constants/routes';
 export const getRouteForCommand = (command: string): string | null => {
   const commandToRouteMap: Record<string, string> = {
     [COMMANDS.SITEMAP]: ROUTES.SITEMAP,
-    [COMMANDS.ABOUT_SITE]: ROUTES.ABOUT_SITE,
+    [COMMANDS.ABOUT_SITE]: ROUTES.ABOUT,
+    [COMMANDS.METRICS]: ROUTES.METRICS,
   };
 
   return commandToRouteMap[command] || null;

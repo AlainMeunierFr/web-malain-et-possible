@@ -159,3 +159,218 @@ Développer la structure hiérarchique et le responsive du site vitrine (carte d
     - `- **Thème de critère**` pour les thèmes (ex: `- **CSS responsive** :`)
     - `- Critère normal` (sans `**` au début) pour les critères sous ce thème
   - La règle est ajoutée dans la DOD "Comportement implicite de l'IA" (section sur l'écriture des User Stories)
+
+#### US-3.7 : Reprise du contenu manquant avec les types de contenu existants
+- **En tant que** Visiteur du site
+- **Je souhaite** Voir tout le contenu de l'ancien site repris dans le nouveau site en utilisant les types de contenu déjà implémentés (titre, video, texteLarge, domaineDeCompetence, callToAction, groupeBoutons)
+- **Afin de** Avoir un site complet avec tout le contenu de l'ancien site disponible
+
+- **Critères d'acceptation** :
+
+- **Analyse du contenu manquant** :
+  - Comparer le contenu de l'ancien site avec le contenu actuel du nouveau site
+  - Identifier les éléments de contenu qui ne sont pas encore repris
+  - Lister les éléments qui peuvent être créés avec les types de contenu existants (titre, video, texteLarge, domaineDeCompetence, callToAction, groupeBoutons)
+
+- **Reprise du contenu** :
+  - Créer les fichiers JSON nécessaires pour les pages manquantes
+  - Utiliser les types de contenu existants pour structurer le contenu
+  - Respecter la structure hiérarchique et l'ordre du contenu de l'ancien site
+  - Vérifier que tous les textes, images et liens sont correctement repris
+
+- **Validation** :
+  - Toutes les pages de l'ancien site ont leur équivalent dans le nouveau site
+  - Le contenu est fidèle à l'original (textes, images, structure)
+  - Les types de contenu utilisés sont appropriés et cohérents
+
+#### US-3.8a : Création du type de contenu "témoignage"
+- **En tant que** Visiteur du site
+- **Je souhaite** Voir des témoignages de clients ou partenaires sur le site
+- **Afin de** Avoir une preuve sociale et crédibilité pour les services proposés
+
+- **Critères d'acceptation** :
+
+- **Structure de données** :
+  - Définir l'interface TypeScript `ElementTemoignage` dans `utils/indexReader.ts`
+  - Structure : `type: 'temoignage'`, `auteur` (string), `fonction` (string optionnel), `entreprise` (string optionnel), `texte` (string), `photo` (string optionnel pour URL d'image)
+  - Ajouter le type à l'union type `ElementContenu`
+
+- **Composant React** :
+  - Créer le composant `Temoignage.tsx` avec son CSS module `Temoignage.module.css`
+  - Intégrer le composant dans `PageContentRenderer`
+  - Le témoignage affiche : photo (si présente), texte, auteur, fonction/entreprise
+
+- **CSS** :
+  - Design cohérent avec le reste du site
+  - Responsive (mobile-first)
+  - Mise en page claire et lisible
+
+- **Tests** :
+  - Tests unitaires pour le composant `Temoignage`
+  - Tests pour la lecture du JSON avec type "temoignage"
+
+#### US-3.8b : Création du type de contenu "portfolio détournements"
+- **En tant que** Visiteur du site
+- **Je souhaite** Voir une galerie de détournements vidéo avec des images et des liens vers les vidéos
+- **Afin de** Découvrir les réalisations créatives d'Alain
+
+- **Critères d'acceptation** :
+
+- **Structure de données** :
+  - Définir l'interface TypeScript `ElementPortfolioDetournements` dans `utils/indexReader.ts`
+  - Structure : `type: 'portfolioDetournements'`, `items` (tableau d'objets)
+  - Chaque item contient : `titre` (string), `image` (string pour URL), `videoUrl` (string optionnel pour URL YouTube), `description` (string optionnel)
+  - Ajouter le type à l'union type `ElementContenu`
+
+- **Composant React** :
+  - Créer le composant `PortfolioDetournements.tsx` avec son CSS module `PortfolioDetournements.module.css`
+  - Intégrer le composant dans `PageContentRenderer`
+  - La galerie affiche les items en grille responsive
+
+- **CSS** :
+  - Grille responsive (mobile-first)
+  - Images avec effet hover si lien vidéo présent
+  - Design cohérent avec le reste du site
+
+- **Tests** :
+  - Tests unitaires pour le composant `PortfolioDetournements`
+  - Tests pour la lecture du JSON avec type "portfolioDetournements"
+
+#### US-3.9 : Conservation des URLs de l'ancien site
+- **En tant que** Visiteur ayant des liens vers l'ancien site
+- **Je souhaite** Que toutes les URLs de l'ancien site (partagées dans des CV, lettres de motivation, etc.) fonctionnent à l'identique dans le nouveau site
+- **Afin de** Ne pas perdre les liens existants et maintenir la continuité de référencement
+
+- **Critères d'acceptation** :
+
+- **Inventaire des URL à cloner** :
+    - `https://m-alain-et-possible.fr/`
+    - `https://m-alain-et-possible.fr/a-propos`
+    - `https://m-alain-et-possible.fr/detournement-video`
+    - `https://m-alain-et-possible.fr/faisons-connaissance`
+    - `https://m-alain-et-possible.fr/management-de-produit-logiciel`
+    - `https://m-alain-et-possible.fr/portfolio-detournements`
+    - `https://m-alain-et-possible.fr/pour_aller_plus_loin`
+    - `https://m-alain-et-possible.fr/site-map`
+    - `https://m-alain-et-possible.fr/transformation`
+    
+   - **Cas 1 - URLs identiques (route existe avec le même nom)** :
+    - Vérifier que la route fonctionne correctement
+    - Aucune action nécessaire si la route existe déjà avec le bon nom
+  - **Cas 2 - Pages existantes mais avec un nom différent (à renommer)** :
+    - Renommer les dossiers/routes Next.js pour correspondre aux URLs de l'ancien site
+    - Créer des redirections 301 depuis l'ancienne route vers la nouvelle route (si nécessaire)
+    - Mettre à jour les références dans le code (constants/routes.ts, liens internes, etc.)
+  - **Cas 3 - Pages qui n'existent pas encore (créer des pages "En construction")"** :
+    - Créer les routes Next.js manquantes
+    - Créer des pages "En construction" avec un design cohérent
+    - Les pages affichent un message indiquant que le contenu est en cours de développement
+    - Structure : Header/Footer partagés, message centré, design responsive
+
+- **Redirections et routes** :
+  - Créer toutes les routes Next.js correspondant aux anciennes URLs
+  - Implémenter des redirections 301 si nécessaire (pour SEO, quand une route a été renommée)
+  - Vérifier que toutes les ressources (images, fichiers) sont accessibles aux mêmes chemins relatifs
+
+- **Validation** :
+  - Toutes les URLs de l'ancien site sont accessibles dans le nouveau site
+  - Les redirections fonctionnent correctement (test manuel + vérification HTTP 301)
+  - Les pages "En construction" sont accessibles et affichent un message clair
+  - Aucun lien cassé pour les visiteurs ayant des liens vers l'ancien site
+
+#### US-3.10a : Génération automatique du plan du site et validation de conformité
+- **En tant que** Développeur
+- **Je souhaite** Avoir un test d'intégration qui génère automatiquement un plan du site (pages + liens internes) et valide sa conformité avec un JSON de référence
+- **Afin de** Maintenir automatiquement le plan du site à jour et préparer la structure pour le rendu visuel futur
+
+- **Critères d'acceptation** :
+
+- **Détection automatique des pages** :
+  - Une fonction détecte automatiquement toutes les pages Next.js dans le dossier `app/`
+  - Chaque page détectée a son URL (chemin relatif) et un titre déduit (depuis le fichier JSON associé ou le nom de la route)
+  - Les pages détectées incluent : HomePage (/), /about, /site-map, /transformation, /robustesse, /detournement-video, /faisons-connaissance, /management-de-produit-logiciel, /portfolio-detournements, /pour_aller_plus_loin
+
+- **Détection automatique des liens internes** :
+  - Une fonction détecte automatiquement tous les liens internes entre pages :
+    - Liens dans les boutons de compétences (dans les JSON de pages)
+    - Liens dans les CallToAction (toujours vers /faisons-connaissance)
+    - Liens dans les boutons du footer (via footerButtons.json)
+    - Liens dans le header (si présents)
+    - Liens dans les boutons des domaines de compétences
+  - Seuls les liens internes au site sont pris en compte (commençant par `/` et non externes)
+  - Chaque lien est représenté par un couple (page source, page destination)
+
+- **Structure JSON du plan du site** :
+  - Un fichier JSON `data/site-map.json` (ou équivalent) décrit le plan du site
+  - Structure : `{ pages: [...], liens: [...] }`
+  - **Objets "Page"** :
+    - `url` : URL de la page (ex: "/", "/about")
+    - `titre` : Titre de la page (déduit automatiquement ou fourni manuellement)
+    - `x` : Position X pour le rendu futur (optionnel, peut être null)
+    - `y` : Position Y pour le rendu futur (optionnel, peut être null)
+  - **Objets "Lien"** :
+    - `source` : URL de la page source
+    - `destination` : URL de la page destination
+    - `label` : Texte du lien/bouton (optionnel, pour information)
+
+- **Test d'intégration de conformité** :
+  - Un test d'intégration compare le plan détecté automatiquement (depuis le code) avec le plan JSON existant
+  - Le test vérifie que :
+    - Toutes les pages détectées sont présentes dans le JSON
+    - Tous les liens détectés sont présents dans le JSON
+    - Les pages qui n'existent plus sont supprimées du JSON sans contrôle humain
+    - Les liens qui n'existent plus sont supprimés du JSON sans contrôle humain
+    - Les pages nouvelles sont ajoutées du JSON sans contrôle humain
+    - Les liens nouveaux sont ajoutés du JSON sans contrôle humain
+ 
+- **Validation des emplacements** :
+  - Le test vérifie que chaque page a un emplacement défini (`x` et `y` non null)
+  - Si une page n'a pas d'emplacement :
+    - Le test **échoue** avec un message indiquant les pages à placer
+    - Le test indique qu'un placement manuel est nécessaire (pas de valeurs par défaut proposées)
+  - Les emplacements sont toujours fixés manuellement par un humain
+  - Cette validation permet de préparer le rendu visuel futur (US-3.10b)
+
+- **Initialisation et régénération du plan** :
+  - Si le fichier JSON n'existe pas, le test crée automatiquement un JSON initial avec toutes les pages détectées et tous les liens détectés (emplacements x/y à null)
+  - Si le fichier JSON existe déjà :
+    - Le test met à jour automatiquement les pages et liens (ajout/suppression) pour rester conforme au code
+    - Les emplacements (x, y) existants sont préservés pour les pages qui restent
+    - Les nouvelles pages sont ajoutées avec x/y à null (à placer ensuite)
+  - Cette approche garantit que le plan JSON reste toujours synchronisé avec le code, seul le positionnement visuel nécessite une intervention humaine
+
+#### US-3.10b : Rendu visuel du plan du site (futur)
+- **En tant que** Visiteur du site
+- **Je souhaite** Voir une visualisation graphique du plan du site avec des rectangles (pages) et des flèches (liens)
+- **Afin de** Naviguer facilement et découvrir tout le contenu disponible
+
+- **Note** : Cette US sera traitée après US-3.10a, une fois la structure de données validée
+
+#### US-3.10 : Création de la page "Plan du site" (version originale - reportée)
+- **Note** : Cette US originale a été décomposée en US-3.10a (structure) et US-3.10b (rendu visuel)
+
+- **Critères d'acceptation** (version originale - référence future) :
+
+- **JSON** :
+  - Un fichier JSON decrit le plan du site
+  - Des objets de type "Page", avec un "Tites" et "URL" liste les pages
+  - Des objets de type "Lien", avec "Page source" et "Page destination" listes les chemins d'une page vers l'autres
+  
+- **Test d'intégration** :
+  - Un test d'intégration vérfifie que toutes les pages sont listées
+  - Un test d'intégration vérifie que toutes liens entre pages sont listés
+  - Les liens dans le "header" et le "footer" ne doivent pas être oubliés
+  - Seuls les liens interne au site sont géré. Les liens externes ne font pris en compte
+
+- **Structure de la page** :
+  - La page "Plan du site" est accessible via la route `/site-map`
+  - La page affiche un rectangle avec le nom de la page au milieu (centré en hauteur et largeur) pour représenter les de objets de type "Page"
+  - Une flèche relie le rectangle A vers le rectangle B si un lien ou bouton permet de passer de A à B pour représenter les objets de type "Lien"
+  - Chaque rectangle est un bouton clicable vers la page correspondante
+  - Utiliser une librarie SVG
+  - Il faudra explorer, discuter et arbitrer d'une solution pour placer les rectangles et rendre le plan lisible (bibliothèque SVG + coordonnées relative des rectangles à ajouter dans le JSON ?)
+
+- **Design et accessibilité** :
+  - Le design est cohérent avec le reste du site (Header/Footer partagés)
+  - La page est responsive (mobile-first)
+  - La structure est claire et facile à parcourir

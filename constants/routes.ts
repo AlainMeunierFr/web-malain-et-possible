@@ -1,12 +1,12 @@
 export const ROUTES = {
   HOME: '/',
   ABOUT: '/about',
-  SITEMAP: '/sitemap',
-  ABOUT_SITE: '/about-site',
-  CONDUITE_DU_CHANGEMENT: '/conduite-du-changement',
+  SITEMAP: '/site-map',
+  TRANSFORMATION: '/transformation',
   DETOURNEMENT_VIDEO: '/detournement-video',
   ROBUSTESSE: '/robustesse',
   FAISONS_CONNAISSANCE: '/faisons-connaissance',
+  METRICS: '/metrics',
 } as const;
 
 export type Route = typeof ROUTES[keyof typeof ROUTES];
@@ -17,6 +17,7 @@ export const COMMANDS = {
   LINKEDIN: 'cmd-Linkedin',
   SITEMAP: 'cmd-SiteMap',
   ABOUT_SITE: 'cmd-AboutSite',
+  METRICS: 'cmd-Metrics',
 } as const;
 
 export type Command = typeof COMMANDS[keyof typeof COMMANDS];

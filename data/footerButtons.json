@@ -32,6 +32,14 @@
     "tooltip": "Consulter le plan du site"
   },
   {
+    "id": "metrics",
+    "icon": "BarChart3",
+    "command": "cmd-Metrics",
+    "alt": "Métriques",
+    "url": null,
+    "tooltip": "Consulter les métriques de qualité du code"
+  },
+  {
     "id": "about-site",
     "icon": "Info",
     "command": "cmd-AboutSite",

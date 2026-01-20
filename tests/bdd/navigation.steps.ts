@@ -146,7 +146,7 @@ When('l\'utilisateur clique sur le bouton {string}', (buttonName: string) => {
 Then('the {string} page is displayed', (pageName: string) => {
   const pageMap: { [key: string]: string } = {
     'A propos de moi': ROUTES.ABOUT,
-    'Plan du site': ROUTES.SITEMAP,
+    'Plan du site': ROUTES.ABOUT,
   };
 
   const expectedPath = pageMap[pageName];
@@ -156,7 +156,7 @@ Then('the {string} page is displayed', (pageName: string) => {
 Then('la page {string} est affichée', (pageName: string) => {
   const pageMap: { [key: string]: string } = {
     'A propos de moi': ROUTES.ABOUT,
-    'Plan du site': ROUTES.SITEMAP,
+    'Plan du site': ROUTES.ABOUT,
   };
 
   const expectedPath = pageMap[pageName];
@@ -172,25 +172,25 @@ Then('la page d\'accueil est affichée', () => {
 });
 
 Then('the site map page is displayed', () => {
-  expect(mockRouter.push).toHaveBeenCalledWith(ROUTES.SITEMAP);
+  expect(mockRouter.push).toHaveBeenCalledWith(ROUTES.ABOUT);
   expect(mockWindow.alert).not.toHaveBeenCalled();
   expect(mockWindow.open).not.toHaveBeenCalled();
 });
 
 Then('la page plan du site est affichée', () => {
-  expect(mockRouter.push).toHaveBeenCalledWith(ROUTES.SITEMAP);
+  expect(mockRouter.push).toHaveBeenCalledWith(ROUTES.ABOUT);
   expect(mockWindow.alert).not.toHaveBeenCalled();
   expect(mockWindow.open).not.toHaveBeenCalled();
 });
 
 Then('the about site page is displayed', () => {
-  expect(mockRouter.push).toHaveBeenCalledWith(ROUTES.ABOUT_SITE);
+  expect(mockRouter.push).toHaveBeenCalledWith(ROUTES.ABOUT);
   expect(mockWindow.alert).not.toHaveBeenCalled();
   expect(mockWindow.open).not.toHaveBeenCalled();
 });
 
 Then('la page à propos du site est affichée', () => {
-  expect(mockRouter.push).toHaveBeenCalledWith(ROUTES.ABOUT_SITE);
+  expect(mockRouter.push).toHaveBeenCalledWith(ROUTES.ABOUT);
   expect(mockWindow.alert).not.toHaveBeenCalled();
   expect(mockWindow.open).not.toHaveBeenCalled();
 });

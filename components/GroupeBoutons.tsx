@@ -69,6 +69,7 @@ const GroupeBoutons: React.FC<GroupeBoutonsProps> = ({ element }) => {
       case 'external':
         // Pour tel: et mailto:, utiliser window.location.href au lieu de window.open
         if (bouton.url && (bouton.url.startsWith('tel:') || bouton.url.startsWith('mailto:'))) {
+          // eslint-disable-next-line react-hooks/immutability
           window.location.href = bouton.url;
         } else {
           window.open(action.url, '_blank', 'noopener,noreferrer');

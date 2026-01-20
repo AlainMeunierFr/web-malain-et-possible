@@ -3,36 +3,48 @@
 .container {
   max-width: 1200px; /* Augmenté pour mieux exploiter la largeur sur grand écran */
   margin: 0 auto;
-  padding: 15px;
+  padding: 0 5%; /* Mobile : 5% de chaque côté pour centrer le contenu */
   width: 100%;
   box-sizing: border-box;
 }
 
 /* Premier sous-bloc : Domaine de compétences (prend toute la largeur) */
 .domaineHeader {
-  width: 100%;
-  margin-bottom: 40px;
+  width: 100%; /* Prend toute la largeur du container */
+  margin: 0 auto 40px auto; /* Centré avec marge bottom */
+  box-sizing: border-box;
+}
+
+/* Mobile : le domaineHeader prend 90-95% de la largeur de l'écran */
+@media (max-width: 768px) {
+  .container {
+    padding: 0 2.5%; /* 2.5% de chaque côté = 5% total, donc 95% de largeur interne */
+  }
+
+  .domaineHeader {
+    width: 100%; /* 100% du container = 95% de l'écran (entre 90-95%) */
+  }
 }
 
 /* Ligne 1 : titre en gras */
 .domaineTitre {
-  font-family: 'Oswald', sans-serif;
+  font-family: var(--font-sans);
   font-size: 20px;
   font-weight: 700;
   line-height: 1.4;
   text-align: center;
   margin-bottom: 1rem;
-  color: rgba(9, 23, 71, 1); /* var(--color_text_default) */
+  color: var(--color-text-default);
 }
 
 /* Ligne 2 : texte en normal */
 .domaineContenu {
-  font-family: 'Noto Serif', serif;
+  font-family: var(--font-serif);
   font-size: 13px;
   font-weight: 400;
   line-height: 1.4;
-  color: rgba(9, 23, 71, 1); /* var(--color_text_default) */
-  white-space: pre-line; /* Préserve les retours à la ligne (\n) du JSON */
+  color: var(--color-text-default);
+  white-space: pre-line;
 }
 
 /* Second bloc : contient 3 sous-blocs pour les compétences */
@@ -54,9 +66,19 @@
   box-sizing: border-box;
 }
 
+/* Mobile : compétences empilées verticalement avec 80-85% de largeur de l'écran */
+@media (max-width: 768px) {
+  .competence {
+    width: 85%; /* 85% du container, qui fait 95% de l'écran = ~81% de l'écran (entre 80-85%) */
+    max-width: 85%; /* Limite max à 85% du container */
+    margin: 0 auto; /* Centré */
+    padding: 15px; /* Réduit le padding sur mobile */
+  }
+}
+
 /* Ligne 1 : titre de la compétence */
 .competenceTitre {
-  font-family: 'Oswald', sans-serif;
+  font-family: var(--font-sans);
   font-size: 16px;
   font-weight: 500;
   line-height: 1.4;
@@ -89,28 +111,47 @@
 
 /* Ligne 3 : texte (peut contenir du gras) */
 .competenceDescription {
-  font-family: 'Noto Serif', serif;
+  font-family: var(--font-serif);
   font-size: 13px;
   font-weight: 400;
   line-height: 1.4;
-  color: rgba(9, 23, 71, 1); /* var(--color_text_default) */
+  color: var(--color-text-default);
   margin-bottom: 1rem;
-  white-space: pre-line; /* Préserve les retours à la ligne (\n) du JSON */
+  white-space: pre-line;
 }
 
 .competenceDescription strong {
   font-weight: bold;
 }
 
+/* Auteur (optionnel) : aligné à droite en italique */
+.competenceAuteur {
+  font-family: var(--font-serif);
+  font-size: 13px;
+  font-weight: 400;
+  font-style: italic;
+  text-align: right;
+  color: var(--color-text-default);
+  margin-top: 0;
+  margin-bottom: 1rem;
+}
+
+/* Desktop : écrans normaux/grands (≥769px) */
+@media (min-width: 769px) {
+  .competenceAuteur {
+    font-size: 16px; /* Augmenté pour meilleure lisibilité */
+  }
+}
+
 /* Bouton optionnel */
 .competenceBouton {
   margin-top: auto;
   padding: 8px 16px;
-  background-color: #ffffff; /* var(--color_primary_contrast_default) */
-  color: rgba(0, 112, 192, 1); /* var(--color_bTHGN0_default) */
-  border: 1px solid rgba(0, 112, 192, 1); /* var(--color_bTHGN0_default) */
+  background-color: var(--color-primary-contrast);
+  color: var(--color-primary);
+  border: 1px solid var(--color-primary);
   border-radius: 0;
-  font-family: 'Clint Marker', cursive;
+  font-family: var(--font-handwriting);
   font-size: 18px;
   font-weight: bold;
   line-height: 1;
@@ -122,14 +163,19 @@
 }
 
 .competenceBouton:hover {
-  background-color: rgba(0, 112, 192, 1); /* var(--color_bTHGN0_default) */
-  color: #ffffff; /* var(--color_primary_contrast_default) */
+  background-color: var(--color-primary);
+  color: var(--color-primary-contrast);
 }
 
 /* Desktop : écrans normaux/grands (≥769px) */
 @media (min-width: 769px) {
   .container {
     padding: 20px;
+  }
+
+  .domaineHeader {
+    width: 100%; /* Reprend toute la largeur sur desktop */
+    max-width: 100%;
   }
 
   .domaineTitre {

@@ -18,5 +18,13 @@ module.exports = {
         },
       }],
     },
+    collectCoverageFrom: [
+      'components/**/*.{ts,tsx}',
+      'utils/**/*.{ts,tsx}',
+      '!**/*.d.ts',
+      '!**/*.test.{ts,tsx}',
+      '!**/node_modules/**',
+    ],
+    coverageReporters: ['json-summary', 'text', 'lcov', 'html'],
   };
   
