@@ -1,39 +1,39 @@
 {
-  "timestamp": "2026-01-20T23:07:01.281Z",
+  "timestamp": "2026-01-20T23:19:46.569Z",
   "version": "0.1.0",
   "branch": "main",
-  "commit": "b3bf81a",
+  "commit": "3fa988c",
   "tests": {
-    "unitTests": 294,
+    "unitTests": 322,
     "integrationTests": 9,
     "bddFeatures": 8,
     "bddScenarios": 33,
     "bddSteps": 0,
-    "totalTests": 303,
-    "passingTests": 303,
+    "totalTests": 331,
+    "passingTests": 331,
     "failingTests": 0,
     "testDuration": 0
   },
   "coverage": {
     "lines": {
       "total": 1152,
-      "covered": 997,
-      "percentage": 86.54
+      "covered": 1043,
+      "percentage": 90.53
     },
     "statements": {
       "total": 1203,
-      "covered": 1039,
-      "percentage": 86.36
+      "covered": 1086,
+      "percentage": 90.27
     },
     "functions": {
       "total": 144,
-      "covered": 119,
-      "percentage": 82.63
+      "covered": 127,
+      "percentage": 88.19
     },
     "branches": {
       "total": 719,
-      "covered": 527,
-      "percentage": 73.29
+      "covered": 572,
+      "percentage": 79.55
     }
   },
   "quality": {
@@ -53,7 +53,7 @@
     "components": 23,
     "pages": 11,
     "utils": 9,
-    "tests": 41
+    "tests": 43
   },
   "dependencies": {
     "total": 30,
@@ -69,7 +69,7 @@
     }
   },
   "performance": {
-    "bundleSize": 1114678,
+    "bundleSize": 1129118,
     "buildTime": 0
   }
 }
