@@ -150,4 +150,41 @@ describe('AboutSiteContentRenderer', () => {
     expect(screen.getByText('Item liste')).toBeInTheDocument();
     expect(screen.getByText('Item numéroté')).toBeInTheDocument();
   });
+
+  it('devrait parser du texte avant le gras', () => {
+    // ARRANGE - Texte normal suivi de gras
+    const elements: ContenuElement[] = [
+      {
+        type: 'ul',
+        typeDeContenu: 'En tant que',
+        items: ['Texte normal avant **gras**'],
+      },
+    ];
+
+    // ACT
+    const { container } = render(<AboutSiteContentRenderer elements={elements} />);
+    
+    // ASSERT - Vérifier que le texte avant et le gras sont présents
+    expect(container.textContent).toContain('Texte normal avant');
+    const strong = container.querySelector('strong');
+    expect(strong?.textContent).toBe('gras');
+  });
+
+  it('devrait gérer une liste vide avec typeDeContenu', () => {
+    // ARRANGE - Liste avec typeDeContenu mais items vide
+    const elements: ContenuElement[] = [
+      {
+        type: 'ul',
+        typeDeContenu: 'En tant que',
+        items: [],
+      },
+    ];
+
+    // ACT
+    const { container } = render(<AboutSiteContentRenderer elements={elements} />);
+    
+    // ASSERT - Le composant doit rendre un ul vide
+    const ul = container.querySelector('ul[data-type-contenu="En tant que"]');
+    expect(ul).toBeInTheDocument();
+  });
 });
