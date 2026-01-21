@@ -240,25 +240,31 @@ Mettre en place une page Metrics pour suivre automatiquement la qualité du code
   - Comparer les tendances avant/après une fonctionnalité ou un refactoring
   - Utiliser les métriques pour valider l'amélioration continue de la qualité du code
 
-#### US-4.5 : Ajout d'un lien vers la page Metrics dans la navigation (futur)
+#### US-4.5 : Ajout d'un lien vers la page Metrics dans la navigation ✅ COMPLÉTÉ
 - **En tant que** Développeur ou Manager
 - **Je souhaite** Accéder facilement à la page Metrics depuis n'importe quelle page du site
 - **Afin de** Consulter les métriques sans avoir à taper l'URL manuellement
 
-- **Note** : Cette US sera traitée ultérieurement, une fois que la navigation globale du site sera définie
+- **Statut** : ✅ Implémenté et validé avec tests TDD
 
 - **Critères d'acceptation** :
 
 - **Ajout d'un lien dans le footer (développeurs)** :
-  - Un bouton "Metrics" est ajouté dans le footer du site
-  - Le bouton est visible uniquement en environnement de développement (`process.env.NODE_ENV === 'development'`)
-  - Le bouton redirige vers `/metrics`
-  - Icône : 📊 ou icône appropriée (BarChart3 de lucide-react)
+  - ✅ Un bouton "Metrics" est ajouté dans le footer du site (fichier `data/footerButtons.json`)
+  - ✅ Le bouton est visible uniquement en environnement de développement (`process.env.NODE_ENV === 'development'`) - filtré dans `Footer.tsx`
+  - ✅ Le bouton redirige vers `/metrics` via la commande `cmd-Metrics` gérée dans `FooterButton.tsx`
+  - ✅ Icône : BarChart3 de lucide-react
+  - ✅ Tooltip : "Consulter les métriques de qualité du code"
 
 - **Conditions d'affichage** :
-  - Le lien n'est PAS visible en production
-  - Le lien est visible en développement et pré-production
-  - Justification : La page Metrics est un outil pour l'équipe de développement, pas pour les visiteurs
+  - ✅ Le lien n'est PAS visible en production (filtré dans Footer.tsx ligne 12-14)
+  - ✅ Le lien est visible en développement
+  - ✅ Justification : La page Metrics est un outil pour l'équipe de développement, pas pour les visiteurs
+
+- **Tests** :
+  - ✅ Test unitaire ajouté dans `tests/unit/FooterButton.test.tsx`
+  - ✅ Vérifie que le clic sur le bouton Metrics redirige vers `/metrics`
+  - ✅ TDD strict : RED → GREEN → REFACTOR respecté
 
 #### US-4.6 : Graphiques d'évolution des métriques dans le temps (futur)
 - **En tant que** Manager technico-fonctionnel

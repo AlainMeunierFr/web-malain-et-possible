@@ -18,6 +18,25 @@ Développer la structure hiérarchique et le responsive du site vitrine (carte d
     - Ligne 1 : le titre
     - Ligne 2 : l'image
     - Ligne 3 : le texte (contenant éventuellement du gras sur certains mots)
+  - **Taille des images** :
+    - Les images dans les 3 blocs de compétence doivent occuper 80% de l'espace qui leur est réservé
+    - Les images doivent être centrées dans leur conteneur
+    - Le ratio hauteur/largeur doit être préservé (height: auto)
+  - **Alignement des boutons** :
+    - Les boutons "EN SAVOIR PLUS..." doivent être alignés horizontalement sur la même ligne
+    - Structure en 2 blocs : bloc de contenu (titre + image + texte) et bloc de boutons séparé
+    - Les boutons doivent s'afficher correctement même si les textes ont des hauteurs différentes
+    - Sur mobile, les boutons restent centrés sous leur contenu respectif (une colonne)
+  - **Centrage des titres de compétences** :
+    - Les titres H3 des 3 compétences doivent être centrés dans leur colonne respective
+  - **Largeur du texte d'introduction du domaine** :
+    - Sur desktop/tablette (> 768px) : le texte d'introduction (`domaine.contenu`) doit occuper 80% de la largeur du conteneur, centré
+    - Sur smartphone (≤ 768px) : le texte d'introduction occupe 100% de la largeur disponible
+    - Objectif : améliorer la lisibilité sur grands écrans en évitant les lignes de texte trop longues
+  - **Formatting du texte** :
+    - **Gras markdown** : Tous les textes (contenu du domaine, descriptions des compétences) doivent supporter le format `**texte**` pour afficher du texte en gras
+    - **Citations avec auteur** : Le format `"citation\n*auteur*"` doit être reconnu et affiché avec l'auteur en italique, sur une nouvelle ligne, aligné à droite
+    - **Texte non centré** : Le texte des descriptions ne doit PAS être centré (seuls les titres H3 des compétences sont centrés)
 - Les données mockup sont réalistes mais factices (texte lorem ipsum, images placeholder, etc.)
 
 #### US-3.2 : Navigation depuis les boutons "En savoir plus..." vers des pages dédiées
@@ -345,32 +364,3 @@ Développer la structure hiérarchique et le responsive du site vitrine (carte d
 - **Afin de** Naviguer facilement et découvrir tout le contenu disponible
 
 - **Note** : Cette US sera traitée après US-3.10a, une fois la structure de données validée
-
-#### US-3.10 : Création de la page "Plan du site" (version originale - reportée)
-- **Note** : Cette US originale a été décomposée en US-3.10a (structure) et US-3.10b (rendu visuel)
-
-- **Critères d'acceptation** (version originale - référence future) :
-
-- **JSON** :
-  - Un fichier JSON decrit le plan du site
-  - Des objets de type "Page", avec un "Tites" et "URL" liste les pages
-  - Des objets de type "Lien", avec "Page source" et "Page destination" listes les chemins d'une page vers l'autres
-  
-- **Test d'intégration** :
-  - Un test d'intégration vérfifie que toutes les pages sont listées
-  - Un test d'intégration vérifie que toutes liens entre pages sont listés
-  - Les liens dans le "header" et le "footer" ne doivent pas être oubliés
-  - Seuls les liens interne au site sont géré. Les liens externes ne font pris en compte
-
-- **Structure de la page** :
-  - La page "Plan du site" est accessible via la route `/site-map`
-  - La page affiche un rectangle avec le nom de la page au milieu (centré en hauteur et largeur) pour représenter les de objets de type "Page"
-  - Une flèche relie le rectangle A vers le rectangle B si un lien ou bouton permet de passer de A à B pour représenter les objets de type "Lien"
-  - Chaque rectangle est un bouton clicable vers la page correspondante
-  - Utiliser une librarie SVG
-  - Il faudra explorer, discuter et arbitrer d'une solution pour placer les rectangles et rendre le plan lisible (bibliothèque SVG + coordonnées relative des rectangles à ajouter dans le JSON ?)
-
-- **Design et accessibilité** :
-  - Le design est cohérent avec le reste du site (Header/Footer partagés)
-  - La page est responsive (mobile-first)
-  - La structure est claire et facile à parcourir

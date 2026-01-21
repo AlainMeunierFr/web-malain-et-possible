@@ -1,7 +1,7 @@
 ### Sprint Goal
 Garantir la qualité et la cohérence des fichiers Markdown et JSON du projet en ajoutant des tests d'intégration qui détectent les erreurs de structure et de contenu avant qu'elles ne causent des bugs au runtime.
 
-#### US-4.1 : Extension des tests d'intégration pour tous les fichiers Markdown
+#### US-5.1 : Extension des tests d'intégration pour tous les fichiers Markdown
 - **En tant que** Développeur
 - **Je souhaite** Avoir des tests d'intégration qui valident TOUS les fichiers Markdown dans "A propos de ce site"
 - **Afin de** Détecter les erreurs de structure (H1/H2 interdits, formatage incorrect) avant qu'elles ne causent des problèmes au runtime
@@ -28,7 +28,7 @@ Garantir la qualité et la cohérence des fichiers Markdown et JSON du projet en
   - Parcours récursif de tous les sous-dossiers dans "A propos de ce site"
   - Exclusion de `node_modules` et `.next`
 
-#### US-4.2 : Tests d'intégration pour valider tous les fichiers JSON du dossier data/
+#### US-5.2 : Tests d'intégration pour valider tous les fichiers JSON du dossier data/
 - **En tant que** Développeur
 - **Je souhaite** Avoir des tests d'intégration qui valident tous les fichiers JSON dans le dossier `data/`
 - **Afin de** Détecter les erreurs de structure, de syntaxe et les types inconnus avant qu'ils ne causent des bugs au runtime
@@ -90,7 +90,7 @@ Garantir la qualité et la cohérence des fichiers Markdown et JSON du projet en
   - Créer `tests/integration/jsonValidation.integration.test.ts`
   - Utiliser `fs` réel (non mocké) pour lire les vrais fichiers du projet
 
-#### US-4.3 : Correction des fichiers JSON non conformes
+#### US-5.3 : Correction des fichiers JSON non conformes
 - **En tant que** Développeur
 - **Je souhaite** Corriger tous les fichiers JSON qui ne passent pas les tests de validation
 - **Afin de** Garantir que tous les JSON sont conformes et ne causeront pas de bugs au runtime
@@ -122,7 +122,7 @@ Garantir la qualité et la cohérence des fichiers Markdown et JSON du projet en
   - Si des types ont été supprimés, documenter la raison dans le commit
   - Si des types ont été ajoutés à `PageContentRenderer`, créer les composants React correspondants
 
-#### US-4.4 : Intégration des tests de validation dans le workflow CI/CD
+#### US-5.4 : Intégration des tests de validation dans le workflow CI/CD
 - **En tant que** Lead Developer
 - **Je souhaite** Que les tests de validation MD/JSON soient exécutés automatiquement lors des builds
 - **Afin de** Bloquer les merges et les déploiements si des fichiers non conformes sont détectés
@@ -155,7 +155,7 @@ Garantir la qualité et la cohérence des fichiers Markdown et JSON du projet en
     - Comment interpréter les erreurs
     - Comment ajouter un nouveau type de contenu (étapes : 1. TypeScript interface, 2. PageContentRenderer switch, 3. Composant React, 4. Tests)
 
-#### US-4.5 : Documentation des types de contenu supportés (futur)
+#### US-5.5 : Documentation des types de contenu supportés (futur)
 - **En tant que** Développeur
 - **Je souhaite** Avoir une documentation claire de tous les types de contenu supportés par l'application
 - **Afin de** Faciliter l'ajout de nouveaux contenus et éviter les erreurs de typage
