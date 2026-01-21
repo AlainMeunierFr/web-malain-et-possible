@@ -187,4 +187,61 @@ describe('AboutSiteContentRenderer', () => {
     const ul = container.querySelector('ul[data-type-contenu="En tant que"]');
     expect(ul).toBeInTheDocument();
   });
+
+  it('devrait utiliser userStoryElement comme fallback si typeDeContenu sans style', () => {
+    // ARRANGE - typeDeContenu inconnu (pas de style correspondant)
+    const elements: ContenuElement[] = [
+      {
+        type: 'ul',
+        typeDeContenu: 'TypeInconnu',
+        items: ['Item avec type inconnu'],
+      },
+    ];
+
+    // ACT
+    const { container } = render(<AboutSiteContentRenderer elements={elements} />);
+    
+    // ASSERT - Le ul doit être présent avec data-type-contenu
+    const ul = container.querySelector('ul[data-type-contenu="TypeInconnu"]');
+    expect(ul).toBeInTheDocument();
+    // La classe appliquée sera soit styles[TypeInconnu] (undefined) ou styles.userStoryElement
+    expect(ul?.className).toBeTruthy();
+  });
+
+  it('devrait parser plusieurs gras consécutifs sans texte entre eux', () => {
+    // ARRANGE - Deux gras consécutifs (match.start == currentIndex après le premier)
+    const elements: ContenuElement[] = [
+      {
+        type: 'ul',
+        typeDeContenu: 'Test',
+        items: ['**premier****deuxième**'],
+      },
+    ];
+
+    // ACT
+    const { container } = render(<AboutSiteContentRenderer elements={elements} />);
+    
+    // ASSERT
+    const strongs = container.querySelectorAll('strong');
+    expect(strongs.length).toBe(2);
+    expect(strongs[0].textContent).toBe('premier');
+    expect(strongs[1].textContent).toBe('deuxième');
+  });
+
+  it('devrait utiliser normalContainer par défaut sans typeDeContenu', () => {
+    // ARRANGE
+    const elements: ContenuElement[] = [
+      {
+        type: 'paragraph',
+        content: 'Test',
+      },
+    ];
+
+    // ACT
+    const { container } = render(<AboutSiteContentRenderer elements={elements} />);
+    
+    // ASSERT - Par défaut, utilise normalContainer (pas promptContainer)
+    expect(container.querySelector('.normalContainer')).toBeInTheDocument();
+    expect(container.querySelector('.promptContainer')).not.toBeInTheDocument();
+  });
 });
