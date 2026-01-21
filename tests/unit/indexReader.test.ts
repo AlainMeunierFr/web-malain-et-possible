@@ -123,7 +123,7 @@ describe('indexReader', () => {
 
       expect(result).toEqual(mockData.détournements);
       expect(mockFs.existsSync).toHaveBeenCalledWith(
-        expect.stringContaining('Détournements vidéo.json')
+        expect.stringContaining('Détournement vidéo.json')
       );
     });
 
@@ -131,7 +131,7 @@ describe('indexReader', () => {
       mockFs.existsSync.mockReturnValue(false);
 
       expect(() => readDetournementsVideo()).toThrow(
-        "Le fichier Détournements vidéo.json n'existe pas"
+        "Le fichier Détournement vidéo.json n'existe pas"
       );
     });
   });

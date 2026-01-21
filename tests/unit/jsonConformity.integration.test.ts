@@ -12,7 +12,7 @@ describe('Conformité JSON - Tous les fichiers', () => {
   const jsonFiles = fs.readdirSync(dataDir).filter((file) => file.endsWith('.json'));
 
   // Fichiers à ignorer (non conformes à la structure PageData)
-  const filesToIgnore = ['footerButtons.json', 'Détournements vidéo.json']; // Détournements vidéo.json a une structure différente (lu via readDetournementsVideo)
+  const filesToIgnore = ['footerButtons.json', 'Détournement vidéo.json']; // Détournement vidéo.json a une structure différente (lu via readDetournementsVideo)
 
   // Types de contenu valides
   const validTypes: TypeElementContenu[] = [

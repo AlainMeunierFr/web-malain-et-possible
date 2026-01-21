@@ -1,6 +1,6 @@
 /**
  * Tests pour la lecture du JSON avec type "videoDetournement"
- * Vérifie que readDetournementsVideo peut lire et parser correctement le fichier Détournements vidéo.json
+ * Vérifie que readDetournementsVideo peut lire et parser correctement le fichier Détournement vidéo.json
  */
 
 import { readDetournementsVideo, readPageData } from '../../utils/indexReader';
@@ -9,9 +9,9 @@ import * as fs from 'fs';
 import * as path from 'path';
 
 describe('Lecture JSON avec type "videoDetournement"', () => {
-  const detournementsFilePath = path.join(process.cwd(), 'data', 'Détournements vidéo.json');
+  const detournementsFilePath = path.join(process.cwd(), 'data', 'Détournement vidéo.json');
 
-  it('devrait pouvoir lire le fichier Détournements vidéo.json', () => {
+  it('devrait pouvoir lire le fichier Détournement vidéo.json', () => {
     expect(fs.existsSync(detournementsFilePath)).toBe(true);
 
     const detournements = readDetournementsVideo();

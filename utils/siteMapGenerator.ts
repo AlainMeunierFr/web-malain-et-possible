@@ -164,7 +164,7 @@ export const detecterLiensInternes = (): PlanLien[] => {
   const fichiersJSON = fs.readdirSync(dataDir).filter((f) => 
     f.endsWith('.json') && 
     f !== 'footerButtons.json' && 
-    f !== 'Détournements vidéo.json' &&
+    f !== 'Détournement vidéo.json' &&
     f !== 'site-map.json'
   );
 

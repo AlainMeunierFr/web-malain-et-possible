@@ -1,10 +1,10 @@
-# Deux projets parallèles : Deux approches de développement
+### Deux projets parallèles : Deux approches de développement
 
-## Vue d'ensemble
+#### Vue d'ensemble
 
 Ce site web "Malain et Possible" existe en **deux versions distinctes**, représentant deux approches de développement différentes :
 
-### 1. Version itérative (ce dépôt)
+##### 1. Version itérative (ce dépôt)
 - **Dépôt Git** : `web-malain-et-possible`
 - **Vercel** : `web-malain-et-possible`
 - **Approche** : Développement itératif classique en 4 jours
@@ -15,7 +15,7 @@ Ce site web "Malain et Possible" existe en **deux versions distinctes**, représ
   - Tests BDD avec Cucumber
   - Développement incrémental avec métriques
 
-### 2. Version expérimentale (autre dépôt)
+##### 2. Version expérimentale (autre dépôt)
 - **Dépôt Git** : `web-malain-et-possible-clone`
 - **Vercel** : `web-malain-et-possible-clone`
 - **Approche** : Reconstruction complète à partir des US uniquement
@@ -25,9 +25,9 @@ Ce site web "Malain et Possible" existe en **deux versions distinctes**, représ
   - Approche top-down
   - Focus sur les critères d'acceptation
 
-## Objectif de l'expérience
+#### Objectif de l'expérience
 
-### Pourquoi deux projets ?
+##### Pourquoi deux projets ?
 
 Cette expérience vise à **comparer deux méthodes de développement** :
 
@@ -43,21 +43,21 @@ Cette expérience vise à **comparer deux méthodes de développement** :
    - Moins de tests unitaires
    - Rapidité de mise en œuvre
 
-### Résultats observés
+##### Résultats observés
 
 - **Code différent** : Les deux projets ont des implémentations différentes
 - **Résultat similaire** : Le rendu final est visuellement proche
 - **Approches complémentaires** : Chaque méthode a ses avantages
 
-## Important : Les deux projets sont INDÉPENDANTS
+#### Important : Les deux projets sont INDÉPENDANTS
 
 ⚠️ **Ces deux dépôts ne doivent PAS être synchronisés !**
 
 Ils représentent deux expériences parallèles avec des historiques Git complètement différents.
 
-## Workflow de développement (ce dépôt uniquement)
+#### Workflow de développement (ce dépôt uniquement)
 
-### Configuration Git
+##### Configuration Git
 
 Ce dépôt pousse uniquement vers `origin` :
 
@@ -66,7 +66,7 @@ git remote -v
 # origin  https://github.com/AlainMeunierFr/web-malain-et-possible.git
 ```
 
-### Déploiement standard
+##### Déploiement standard
 
 ```bash
 # 1. Développement
@@ -88,13 +88,13 @@ git push origin main
 
 Vercel déploie automatiquement sur `web-malain-et-possible`.
 
-## Pour travailler sur le projet clone
+#### Pour travailler sur le projet clone
 
 Le projet `web-malain-et-possible-clone` est dans un **dépôt séparé** avec son propre workspace local.
 
 **Ce ne sont pas le même projet !**
 
-## Conclusion
+#### Conclusion
 
 Cette expérience de deux projets parallèles permet de :
 - Comparer concrètement deux approches de développement

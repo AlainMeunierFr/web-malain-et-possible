@@ -211,20 +211,20 @@ export const readIndexData = (): IndexData => {
 };
 
 /**
- * Interface pour le fichier Détournements vidéo.json
+ * Interface pour le fichier Détournement vidéo.json
  */
 export interface DetournementsVideoData {
   détournements: DetournementVideo[];
 }
 
 /**
- * Lit le fichier Détournements vidéo.json et retourne les détournements
+ * Lit le fichier Détournement vidéo.json et retourne les détournements
  */
 export const readDetournementsVideo = (): DetournementVideo[] => {
-  const filePath = path.join(process.cwd(), 'data', 'Détournements vidéo.json');
+  const filePath = path.join(process.cwd(), 'data', 'Détournement vidéo.json');
   
   if (!fs.existsSync(filePath)) {
-    throw new Error(`Le fichier Détournements vidéo.json n'existe pas dans le dossier data/`);
+    throw new Error(`Le fichier Détournement vidéo.json n'existe pas dans le dossier data/`);
   }
 
   const fileContent = fs.readFileSync(filePath, 'utf8');
