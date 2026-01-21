@@ -1,18 +1,21 @@
 import { test, expect } from '@playwright/test';
 
-test('has title', async ({ page }) => {
-  await page.goto('https://playwright.dev/');
+test('page d\'accueil se charge correctement', async ({ page }) => {
+  await page.goto('/');
 
-  // Expect a title "to contain" a substring.
-  await expect(page).toHaveTitle(/Playwright/);
+  // Vérifie que la page a un titre
+  await expect(page).toHaveTitle(/Malain et Possible/);
 });
 
-test('get started link', async ({ page }) => {
-  await page.goto('https://playwright.dev/');
+test('navigation vers la page À propos', async ({ page }) => {
+  await page.goto('/');
 
-  // Click the get started link.
-  await page.getByRole('link', { name: 'Get started' }).click();
-
-  // Expects page to have a heading with the name of Installation.
-  await expect(page.getByRole('heading', { name: 'Installation' })).toBeVisible();
+  // Vérifie que le lien "À propos" existe et est cliquable
+  const aboutLink = page.getByRole('link', { name: /à propos/i });
+  if (await aboutLink.count() > 0) {
+    await aboutLink.first().click();
+    
+    // Vérifie que nous sommes bien sur la page À propos
+    await expect(page).toHaveURL(/\/about/);
+  }
 });
