@@ -108,6 +108,20 @@ describe('Header', () => {
     expect(backgroundColor).toBeTruthy();
   });
 
+  it('devrait rester fixe au-dessus du contenu qui scroll (US-1.2)', () => {
+    // ARRANGE - Lire le fichier CSS du Header
+    const cssPath = path.join(__dirname, '../../components/Header.module.css');
+    const cssContent = fs.readFileSync(cssPath, 'utf-8');
+    
+    // ACT - Extraire la valeur de position du CSS
+    const positionMatch = cssContent.match(/\.header\s*\{[^}]*position:\s*([^;]+);/s);
+    
+    // ASSERT - Vérifier que position est fixed
+    expect(positionMatch).not.toBeNull();
+    const position = positionMatch![1].trim();
+    expect(position).toBe('fixed');
+  });
+
   // ITÉRATION 1 : Test tooltip logo (US-1.4b)
   it('devrait afficher un tooltip "Accueil" au survol du logo (US-1.4b)', () => {
     // ARRANGE
