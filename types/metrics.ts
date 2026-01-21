@@ -20,6 +20,7 @@ export interface TestMetrics {
     passed: number;             // Tests réussis
     failed: number;             // Tests échoués
     duration: number;           // Durée d'exécution (ms)
+    lastRunDate?: string;       // Date du dernier run (ISO 8601)
   };
 }
 

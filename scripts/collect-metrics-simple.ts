@@ -103,13 +103,21 @@ function countTestsInFiles(dir: string): number {
 /**
  * Collecte les métriques E2E depuis les résultats Playwright
  */
-function collectE2EMetrics(): { total: number; passed: number; failed: number; duration: number } | undefined {
+function collectE2EMetrics(): { total: number; passed: number; failed: number; duration: number; lastRunDate?: string } | undefined {
   try {
+    let lastRunDate: Date | null = null;
+    let resultData: { total: number; passed: number; failed: number; duration: number } | null = null;
+    
     // Playwright stocke les résultats dans playwright-report/data.json (reporter HTML)
     const playwrightReportData = path.join(process.cwd(), 'playwright-report', 'data.json');
     
     if (fs.existsSync(playwrightReportData)) {
       try {
+        const stats = fs.statSync(playwrightReportData);
+        if (!lastRunDate || stats.mtime > lastRunDate) {
+          lastRunDate = stats.mtime;
+        }
+        
         const content = fs.readFileSync(playwrightReportData, 'utf-8');
         const data = JSON.parse(content);
         
@@ -143,7 +151,7 @@ function collectE2EMetrics(): { total: number; passed: number; failed: number; d
           }
           
           if (total > 0) {
-            return {
+            resultData = {
               total,
               passed,
               failed,
@@ -164,6 +172,7 @@ function collectE2EMetrics(): { total: number; passed: number; failed: number; d
       let passed = 0;
       let failed = 0;
       let totalDuration = 0;
+      let latestFileDate: Date | null = null;
       
       function walkResultsDir(currentPath: string) {
         try {
@@ -176,6 +185,11 @@ function collectE2EMetrics(): { total: number; passed: number; failed: number; d
               walkResultsDir(entryPath);
             } else if (entry.isFile() && entry.name.endsWith('.json')) {
               try {
+                const stats = fs.statSync(entryPath);
+                if (!latestFileDate || stats.mtime > latestFileDate) {
+                  latestFileDate = stats.mtime;
+                }
+                
                 const content = fs.readFileSync(entryPath, 'utf-8');
                 const result = JSON.parse(content);
                 
@@ -205,13 +219,24 @@ function collectE2EMetrics(): { total: number; passed: number; failed: number; d
       walkResultsDir(testResultsDir);
       
       if (total > 0) {
-        return {
+        if (!lastRunDate || (latestFileDate && latestFileDate > lastRunDate)) {
+          lastRunDate = latestFileDate;
+        }
+        resultData = {
           total,
           passed,
           failed,
           duration: totalDuration,
         };
       }
+    }
+    
+    // Si on a des données, retourner avec la date
+    if (resultData) {
+      return {
+        ...resultData,
+        lastRunDate: lastRunDate ? lastRunDate.toISOString() : undefined,
+      };
     }
     
     // Aucun résultat trouvé

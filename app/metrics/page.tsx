@@ -88,6 +88,28 @@ function ProgressBar({
 }
 
 /**
+ * Trouve le dernier snapshot avec des données E2E dans l'historique
+ */
+function findLastE2ERun(history: MetricsHistory): MetricsSnapshot['tests']['e2eTests'] | null {
+  // Chercher dans le snapshot actuel d'abord
+  if (history.latest?.tests?.e2eTests) {
+    return history.latest.tests.e2eTests;
+  }
+  
+  // Chercher dans l'historique (du plus récent au plus ancien)
+  if (history.snapshots && Array.isArray(history.snapshots)) {
+    for (let i = history.snapshots.length - 1; i >= 0; i--) {
+      const snapshot = history.snapshots[i];
+      if (snapshot.tests?.e2eTests) {
+        return snapshot.tests.e2eTests;
+      }
+    }
+  }
+  
+  return null;
+}
+
+/**
  * Page principale
  */
 export default function MetricsPage() {
@@ -106,6 +128,9 @@ export default function MetricsPage() {
       </main>
     );
   }
+  
+  // Trouver le dernier run E2E (actuel ou historique)
+  const lastE2ERun = findLastE2ERun(metricsData);
 
   const latest = metricsData.latest;
   const trends = metricsData.trends;
@@ -147,11 +172,15 @@ export default function MetricsPage() {
               value={latest.tests.bddFeatures}
               subtitle={`${latest.tests.bddScenarios} scénarios, ${latest.tests.bddSteps} steps`}
             />
-            {latest.tests.e2eTests ? (
+            {lastE2ERun ? (
               <MetricCard 
                 title="Tests E2E (Playwright)" 
-                value={latest.tests.e2eTests.total}
-                subtitle={`${latest.tests.e2eTests.passed} réussis, ${latest.tests.e2eTests.failed} échoués • ${(latest.tests.e2eTests.duration / 1000).toFixed(2)}s`}
+                value={lastE2ERun.total}
+                subtitle={
+                  lastE2ERun.lastRunDate
+                    ? `${lastE2ERun.passed} réussis, ${lastE2ERun.failed} échoués • ${(lastE2ERun.duration / 1000).toFixed(2)}s • ${new Date(lastE2ERun.lastRunDate).toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' })}`
+                    : `${lastE2ERun.passed} réussis, ${lastE2ERun.failed} échoués • ${(lastE2ERun.duration / 1000).toFixed(2)}s`
+                }
               />
             ) : (
               <MetricCard 
