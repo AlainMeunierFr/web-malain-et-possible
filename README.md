@@ -147,6 +147,251 @@ npm test
 
 Si tous les tests passent, le nouveau type est prêt à être utilisé.
 
+## Types de contenu supportés
+
+L'application supporte 8 types de contenu distincts pour composer les pages. Chaque type est défini par une interface TypeScript dans `utils/indexReader.ts`.
+
+### 1. Titre (`titre`)
+
+**Description** : Affiche un titre de section principal
+
+**Interface** : `ElementTitre`
+
+**Champs obligatoires** :
+- `type`: `"titre"` (string)
+- `texte`: Texte du titre (string)
+
+**Exemple JSON** :
+```json
+{
+  "type": "titre",
+  "texte": "Bienvenue sur mon site"
+}
+```
+
+### 2. Vidéo (`video`)
+
+**Description** : Intègre une vidéo YouTube avec lecture optionnelle automatique
+
+**Interface** : `ElementVideo`
+
+**Champs obligatoires** :
+- `type`: `"video"` (string)
+- `urlYouTube`: URL complète de la vidéo YouTube (string)
+- `lancementAuto`: Lancement automatique de la vidéo (boolean)
+
+**Champs optionnels** :
+- `titre`: Titre affiché au-dessus de la vidéo (string, h2, gras, centré)
+
+**Exemple JSON** :
+```json
+{
+  "type": "video",
+  "urlYouTube": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+  "lancementAuto": false,
+  "titre": "Ma vidéo de présentation"
+}
+```
+
+### 3. Texte large (`texteLarge`)
+
+**Description** : Affiche un bloc de texte large
+
+**Interface** : `ElementTexteLarge`
+
+**Champs obligatoires** :
+- `type`: `"texteLarge"` (string)
+- `texte`: Contenu du texte (string)
+
+**Exemple JSON** :
+```json
+{
+  "type": "texteLarge",
+  "texte": "Ceci est un texte d'introduction large qui s'affiche sur toute la largeur."
+}
+```
+
+### 4. Domaine de compétences (`domaineDeCompetence`)
+
+**Description** : Affiche un domaine de compétences avec une liste d'items (compétences)
+
+**Interface** : `ElementDomaineDeCompetence`
+
+**Champs obligatoires** :
+- `type`: `"domaineDeCompetence"` (string)
+- `titre`: Titre du domaine (string)
+- `contenu`: Description du domaine (string)
+- `items`: Liste de compétences (array de `Competence`)
+
+**Structure d'une compétence (`Competence`)** :
+- `titre`: Titre de la compétence (string, obligatoire)
+- `image`: Objet avec `src` et `alt` (optionnel, mutuellement exclusif avec `icon`)
+- `icon`: Nom de l'icône lucide-react (string, optionnel, ex: `"Rocket"`, `"Globe"`)
+- `description`: Description de la compétence (string, obligatoire)
+- `auteur`: Nom de l'auteur (string, optionnel, affiché en italique aligné à droite)
+- `bouton`: Objet avec `texte` et `action` ou `null` (obligatoire)
+
+**Exemple JSON** :
+```json
+{
+  "type": "domaineDeCompetence",
+  "titre": "Développement Web",
+  "contenu": "Expertise en développement frontend et backend",
+  "items": [
+    {
+      "titre": "React & Next.js",
+      "icon": "Code",
+      "description": "Développement d'applications web modernes",
+      "bouton": {
+        "texte": "Voir mes projets",
+        "action": "/portfolio"
+      }
+    }
+  ]
+}
+```
+
+### 5. Call to Action (`callToAction`)
+
+**Description** : Affiche un bouton d'appel à l'action
+
+**Interface** : `ElementCallToAction`
+
+**Champs obligatoires** :
+- `type`: `"callToAction"` (string)
+- `action`: Texte du bouton (string)
+
+**Exemple JSON** :
+```json
+{
+  "type": "callToAction",
+  "action": "Contactez-moi"
+}
+```
+
+### 6. Groupe de boutons (`groupeBoutons`)
+
+**Description** : Affiche un groupe de boutons de contact ou navigation
+
+**Interface** : `ElementGroupeBoutons`
+
+**Champs obligatoires** :
+- `type`: `"groupeBoutons"` (string)
+- `taille`: Taille des boutons (`"petite"` ou `"grande"`)
+- `boutons`: Liste de boutons (array de `BoutonGroupe`)
+
+**Structure d'un bouton (`BoutonGroupe`)** :
+- `id`: Identifiant unique (string, obligatoire)
+- `icone`: Nom de l'icône lucide-react (string, obligatoire, ex: `"Mail"`, `"Youtube"`)
+- `texte`: Texte du bouton (string ou `null`, `null` pour taille `"petite"`)
+- `url`: URL externe (string ou `null`, obligatoire)
+- `command`: Commande de navigation interne (string ou `null`, obligatoire)
+
+**Exemple JSON** :
+```json
+{
+  "type": "groupeBoutons",
+  "taille": "grande",
+  "boutons": [
+    {
+      "id": "email",
+      "icone": "Mail",
+      "texte": "Email",
+      "url": "mailto:contact@example.com",
+      "command": null
+    },
+    {
+      "id": "linkedin",
+      "icone": "Linkedin",
+      "texte": "LinkedIn",
+      "url": "https://linkedin.com/in/...",
+      "command": null
+    }
+  ]
+}
+```
+
+### 7. Témoignages (`temoignages`)
+
+**Description** : Affiche une liste de témoignages clients
+
+**Interface** : `ElementTemoignages`
+
+**Champs obligatoires** :
+- `type`: `"temoignages"` (string)
+
+**Champs optionnels** (au moins l'un des deux requis) :
+- `items`: Liste de témoignages inline (array de `Temoignage`)
+- `source`: Nom du fichier JSON source contenant les témoignages (string, ex: `"temoignages.json"`)
+
+**Structure d'un témoignage (`Temoignage`)** :
+- `nom`: Nom de la personne (string, obligatoire)
+- `fonction`: Fonction de la personne (string, obligatoire)
+- `photo`: Chemin vers la photo (string, obligatoire, ex: `"/images/photo.jpeg"`)
+- `temoignage`: Texte du témoignage (string, obligatoire)
+
+**Exemple JSON (inline)** :
+```json
+{
+  "type": "temoignages",
+  "items": [
+    {
+      "nom": "Jean Dupont",
+      "fonction": "Directeur Technique",
+      "photo": "/images/jean-dupont.jpeg",
+      "temoignage": "Excellent travail, très professionnel."
+    }
+  ]
+}
+```
+
+**Exemple JSON (source externe)** :
+```json
+{
+  "type": "temoignages",
+  "source": "temoignages.json"
+}
+```
+
+### 8. Vidéo détournement (`videoDetournement`)
+
+**Description** : Affiche une liste de détournements vidéo (portfolio)
+
+**Interface** : `ElementVideoDetournement`
+
+**Champs obligatoires** :
+- `type`: `"videoDetournement"` (string)
+
+**Champs optionnels** (au moins l'un des deux requis) :
+- `items`: Liste de détournements inline (array de `DetournementVideo`)
+- `source`: Nom du fichier JSON source contenant les détournements (string, ex: `"Détournement vidéo.json"`)
+
+**Structure d'un détournement (`DetournementVideo`)** :
+- `id`: Identifiant unique (number, obligatoire)
+- `titreVideoDetournee`: Titre de la vidéo détournée (string, obligatoire)
+- `videoDetournee`: ID YouTube de la vidéo détournée (string, obligatoire)
+- `titreVideoOriginale`: Titre de la vidéo originale (string, obligatoire)
+- `videoOriginale`: ID YouTube de la vidéo originale (string, obligatoire)
+- `pourLeCompteDe`: Nom du client (string, obligatoire)
+- `date`: Date du détournement (string, obligatoire)
+- `pitch`: Contexte/pitch du détournement (string, obligatoire)
+- `droitsAuteur`: Texte long pour les alertes de droits d'auteur (string, optionnel)
+- `linkedin`: URL LinkedIn (string, optionnel)
+
+**Exemple JSON (source externe)** :
+```json
+{
+  "type": "videoDetournement",
+  "source": "Détournement vidéo.json"
+}
+```
+
+### Références
+
+- **Interfaces complètes** : Voir `utils/indexReader.ts` pour les définitions TypeScript détaillées
+- **Validation automatique** : Tous les types sont validés automatiquement par les tests d'intégration (`tests/integration/jsonValidation.integration.test.ts`)
+- **Ajout de nouveaux types** : Voir la section "Ajouter un nouveau type de contenu" ci-dessus
+
 ## Workflow CI/CD
 
 Le workflow GitHub Actions (`.github/workflows/playwright.yml`) exécute automatiquement lors des push et pull requests :
