@@ -101,6 +101,128 @@ function countTestsInFiles(dir: string): number {
 }
 
 /**
+ * Collecte les métriques E2E depuis les résultats Playwright
+ */
+function collectE2EMetrics(): { total: number; passed: number; failed: number; duration: number } | undefined {
+  try {
+    // Playwright stocke les résultats dans playwright-report/data.json (reporter HTML)
+    const playwrightReportData = path.join(process.cwd(), 'playwright-report', 'data.json');
+    
+    if (fs.existsSync(playwrightReportData)) {
+      try {
+        const content = fs.readFileSync(playwrightReportData, 'utf-8');
+        const data = JSON.parse(content);
+        
+        // Structure de playwright-report/data.json
+        if (data.files && Array.isArray(data.files)) {
+          let total = 0;
+          let passed = 0;
+          let failed = 0;
+          let totalDuration = 0;
+          
+          for (const file of data.files) {
+            if (file.tests && Array.isArray(file.tests)) {
+              for (const test of file.tests) {
+                if (test.results && Array.isArray(test.results)) {
+                  for (const result of test.results) {
+                    total++;
+                    if (result.status === 'passed') {
+                      passed++;
+                    } else if (result.status === 'failed' || result.status === 'timedOut') {
+                      failed++;
+                    }
+                    
+                    // Durée en millisecondes
+                    if (result.duration !== undefined) {
+                      totalDuration += result.duration;
+                    }
+                  }
+                }
+              }
+            }
+          }
+          
+          if (total > 0) {
+            return {
+              total,
+              passed,
+              failed,
+              duration: totalDuration,
+            };
+          }
+        }
+      } catch (e) {
+        // Si le parsing échoue, continuer avec test-results
+      }
+    }
+    
+    // Fallback : chercher dans test-results/
+    const testResultsDir = path.join(process.cwd(), 'test-results');
+    
+    if (fs.existsSync(testResultsDir)) {
+      let total = 0;
+      let passed = 0;
+      let failed = 0;
+      let totalDuration = 0;
+      
+      function walkResultsDir(currentPath: string) {
+        try {
+          const entries = fs.readdirSync(currentPath, { withFileTypes: true });
+          
+          for (const entry of entries) {
+            const entryPath = path.join(currentPath, entry.name);
+            
+            if (entry.isDirectory()) {
+              walkResultsDir(entryPath);
+            } else if (entry.isFile() && entry.name.endsWith('.json')) {
+              try {
+                const content = fs.readFileSync(entryPath, 'utf-8');
+                const result = JSON.parse(content);
+                
+                // Structure alternative : chercher status et duration
+                if (result.status) {
+                  total++;
+                  if (result.status === 'passed') {
+                    passed++;
+                  } else if (result.status === 'failed' || result.status === 'timedOut') {
+                    failed++;
+                  }
+                  
+                  if (result.duration !== undefined) {
+                    totalDuration += result.duration;
+                  }
+                }
+              } catch (e) {
+                // Ignorer les fichiers JSON invalides
+              }
+            }
+          }
+        } catch (e) {
+          // Ignorer les erreurs de lecture
+        }
+      }
+      
+      walkResultsDir(testResultsDir);
+      
+      if (total > 0) {
+        return {
+          total,
+          passed,
+          failed,
+          duration: totalDuration,
+        };
+      }
+    }
+    
+    // Aucun résultat trouvé
+    return undefined;
+  } catch (error) {
+    console.warn('⚠️  Impossible de lire les résultats E2E Playwright');
+    return undefined;
+  }
+}
+
+/**
  * Collecte les métriques de tests
  */
 function collectTestMetrics() {
@@ -146,6 +268,9 @@ function collectTestMetrics() {
     console.warn('⚠️  Erreur lors du comptage BDD');
   }
 
+  // Collecter les métriques E2E
+  const e2eTests = collectE2EMetrics();
+
   return {
     unitTests,
     integrationTests,
@@ -156,6 +281,7 @@ function collectTestMetrics() {
     passingTests: unitTests + integrationTests, // Placeholder
     failingTests: 0,
     testDuration: 0,
+    e2eTests,
   };
 }
 
@@ -481,6 +607,11 @@ async function main() {
   console.log('\n📈 Résumé:');
   console.log(`  Tests: ${snapshot.tests.totalTests}`);
   console.log(`  Features BDD: ${snapshot.tests.bddFeatures} (${snapshot.tests.bddScenarios} scénarios)`);
+  if (snapshot.tests.e2eTests) {
+    console.log(`  Tests E2E: ${snapshot.tests.e2eTests.total} (${snapshot.tests.e2eTests.passed} réussis, ${snapshot.tests.e2eTests.failed} échoués)`);
+  } else {
+    console.log('  Tests E2E: Aucune exécution récente');
+  }
   console.log(`  Couverture: ${snapshot.coverage.lines.percentage}%`);
   console.log(`  ESLint: ${snapshot.quality.eslintErrors} erreurs, ${snapshot.quality.eslintWarnings} warnings`);
   console.log(`  Composants: ${snapshot.size.components}`);

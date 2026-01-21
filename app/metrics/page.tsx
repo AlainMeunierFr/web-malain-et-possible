@@ -147,6 +147,19 @@ export default function MetricsPage() {
               value={latest.tests.bddFeatures}
               subtitle={`${latest.tests.bddScenarios} scénarios, ${latest.tests.bddSteps} steps`}
             />
+            {latest.tests.e2eTests ? (
+              <MetricCard 
+                title="Tests E2E (Playwright)" 
+                value={latest.tests.e2eTests.total}
+                subtitle={`${latest.tests.e2eTests.passed} réussis, ${latest.tests.e2eTests.failed} échoués • ${(latest.tests.e2eTests.duration / 1000).toFixed(2)}s`}
+              />
+            ) : (
+              <MetricCard 
+                title="Tests E2E (Playwright)" 
+                value="N/A"
+                subtitle="Aucune exécution récente"
+              />
+            )}
           </div>
         </section>
 

@@ -15,6 +15,12 @@ export interface TestMetrics {
   passingTests: number;        // Tests réussis
   failingTests: number;        // Tests échoués
   testDuration: number;        // Durée des tests (ms)
+  e2eTests?: {                 // Métriques des tests E2E Playwright (optionnel)
+    total: number;             // Nombre total de tests E2E
+    passed: number;             // Tests réussis
+    failed: number;             // Tests échoués
+    duration: number;           // Durée d'exécution (ms)
+  };
 }
 
 /**
