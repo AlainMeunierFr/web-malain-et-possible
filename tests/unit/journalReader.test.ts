@@ -185,6 +185,22 @@ describe('journalReader - Approche TDD (simple → complexe)', () => {
       expect(result).toHaveLength(0);
       expect(mockFs.readdirSync).not.toHaveBeenCalled();
     });
+
+    // Test couverture : Titre sans markdown (ligne 77)
+    it('should extract title from plain text (not markdown)', () => {
+      const journalDir = 'JOURNAL_DE_BORD';
+      const mockCwd = '/project';
+      
+      mockPath.join.mockReturnValueOnce(`${mockCwd}/${journalDir}`);
+      mockFs.existsSync.mockReturnValueOnce(true);
+      mockFs.readdirSync.mockReturnValueOnce(['2026-01-18.md'] as any);
+      mockFs.readFileSync.mockReturnValueOnce('Simple plain text title\n\nContenu du journal...');
+      mockAdjustMarkdownTitleLevels.mockReturnValueOnce('Simple plain text title\n\nContenu du journal...');
+      
+      const result = readJournalFiles();
+      
+      expect(result[0].title).toBe('Simple plain text title');
+    });
   });
 
   describe('readCourseFiles', () => {
@@ -258,6 +274,40 @@ describe('journalReader - Approche TDD (simple → complexe)', () => {
       
       expect(result).toHaveLength(0);
       expect(mockFs.readdirSync).not.toHaveBeenCalled();
+    });
+
+    // NOUVELLE ITÉRATION : Ignorer les fichiers non-.md
+    it('should ignore non-.md files', () => {
+      const coursesDir = 'JOURNAL_DE_BORD/COURS';
+      const mockCwd = '/project';
+      
+      mockPath.join.mockReturnValueOnce(`${mockCwd}/${coursesDir}`);
+      mockFs.existsSync.mockReturnValueOnce(true);
+      mockFs.readdirSync.mockReturnValueOnce(['README.txt', '01. Git.md', 'image.png'] as any);
+      mockFs.readFileSync.mockReturnValueOnce('### Git');
+      mockAdjustMarkdownTitleLevels.mockReturnValueOnce('#### Git');
+      
+      const result = readCourseFiles();
+      
+      expect(result).toHaveLength(1);
+      expect(result[0].filename).toBe('01. Git.md');
+      expect(mockFs.readFileSync).toHaveBeenCalledTimes(1);
+    });
+
+    // NOUVELLE ITÉRATION : Fallback pour titre H3 (non ajusté)
+    it('should extract title from H3 as fallback', () => {
+      const coursesDir = 'JOURNAL_DE_BORD/COURS';
+      const mockCwd = '/project';
+      
+      mockPath.join.mockReturnValueOnce(`${mockCwd}/${coursesDir}`);
+      mockFs.existsSync.mockReturnValueOnce(true);
+      mockFs.readdirSync.mockReturnValueOnce(['01. Git.md'] as any);
+      mockFs.readFileSync.mockReturnValueOnce('### Git Basics');
+      mockAdjustMarkdownTitleLevels.mockReturnValueOnce('### Git Basics\n\nContent...'); // Pas ajusté
+      
+      const result = readCourseFiles();
+      
+      expect(result[0].title).toBe('Git Basics');
     });
   });
 });
