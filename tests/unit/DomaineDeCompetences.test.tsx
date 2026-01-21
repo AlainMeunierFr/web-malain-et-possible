@@ -108,4 +108,90 @@ describe('DomaineDeCompetences', () => {
     
     expect(container.querySelector('h2')).toBeInTheDocument();
   });
+
+  it('devrait aligner les boutons "EN SAVOIR PLUS..." horizontalement sur la même ligne (US-3.1)', () => {
+    // ARRANGE - Importer les modules nécessaires
+    const fs = require('fs');
+    const path = require('path');
+    
+    // ARRANGE - Lire le fichier CSS
+    const cssPath = path.join(__dirname, '../../components/DomaineDeCompetences.module.css');
+    const cssContent = fs.readFileSync(cssPath, 'utf-8');
+    
+    // ACT - Vérifier que le conteneur des compétences utilise flex ou grid
+    const competencesContainerMatch = cssContent.match(/\.competencesContainer\s*\{[^}]*display:\s*([^;]+);/s);
+    
+    // ASSERT - Vérifier flex ou grid pour l'alignement
+    expect(competencesContainerMatch).not.toBeNull();
+    const display = competencesContainerMatch![1].trim();
+    expect(['grid', 'flex']).toContain(display);
+    
+    // ACT - Vérifier que les compétences utilisent flexbox avec column
+    const competenceMatch = cssContent.match(/\.competence\s*\{[^}]*display:\s*flex;[^}]*flex-direction:\s*column;/s);
+    expect(competenceMatch).not.toBeNull();
+    
+    // ACT - Vérifier que les boutons ont margin-top: auto pour alignement en bas
+    const boutonMatch = cssContent.match(/\.competenceBouton\s*\{[^}]*margin-top:\s*auto;/s);
+    expect(boutonMatch).not.toBeNull();
+  });
+
+  it('devrait limiter la largeur du texte d\'introduction à 80% sur desktop (US-3.1)', () => {
+    // ARRANGE - Importer les modules nécessaires
+    const fs = require('fs');
+    const path = require('path');
+    
+    // ARRANGE - Lire le fichier CSS
+    const cssPath = path.join(__dirname, '../../components/DomaineDeCompetences.module.css');
+    const cssContent = fs.readFileSync(cssPath, 'utf-8');
+    
+    // ACT - Vérifier que dans @media (min-width: 769px), .domaineContenu a width: 80%
+    const hasWidth80 = cssContent.includes('@media (min-width: 769px)') && 
+                       cssContent.match(/@media[\s\S]*?\.domaineContenu[\s\S]*?width:\s*80%/);
+    
+    // ASSERT - Vérifier que la largeur 80% existe dans la media query desktop
+    expect(hasWidth80).not.toBeNull();
+    
+    // ACT - Vérifier que .domaineContenu a margin: 0 auto dans la media query
+    const hasMarginAuto = cssContent.match(/@media[\s\S]*?\.domaineContenu[\s\S]*?margin:\s*0\s+auto/);
+    
+    // ASSERT - Vérifier que le centrage existe
+    expect(hasMarginAuto).not.toBeNull();
+  });
+
+  it('devrait formater les citations avec auteur en italique aligné à droite (US-3.1)', () => {
+    // ARRANGE
+    const fs = require('fs');
+    const path = require('path');
+    
+    const competence = {
+      titre: 'Test',
+      description: '"Ceci est une citation\n*Nom de l\'auteur*"',
+      bouton: null,
+    };
+    
+    const domaine = {
+      titre: 'Test',
+      contenu: '',
+      items: [competence],
+    };
+    
+    // ACT
+    render(<DomaineDeCompetences domaine={domaine} />);
+    
+    // ASSERT - Vérifier que l'auteur est affiché
+    const auteur = screen.queryByText(/Nom de l'auteur/i);
+    expect(auteur).toBeInTheDocument();
+    
+    // Vérifier que l'élément a la classe CSS pour auteur
+    expect(auteur?.className).toContain('competenceAuteur');
+    
+    // Vérifier le CSS pour italique et alignement à droite
+    const cssPath = path.join(__dirname, '../../components/DomaineDeCompetences.module.css');
+    const cssContent = fs.readFileSync(cssPath, 'utf-8');
+    const auteurStyleMatch = cssContent.match(/\.competenceAuteur[\s\S]*?font-style:\s*italic;/);
+    expect(auteurStyleMatch).not.toBeNull();
+    
+    const auteurAlignMatch = cssContent.match(/\.competenceAuteur[\s\S]*?text-align:\s*right;/);
+    expect(auteurAlignMatch).not.toBeNull();
+  });
 });

@@ -17,6 +17,25 @@ import type { DomaineDeCompetences } from '../utils/indexReader';
 import styles from './DomaineDeCompetences.module.css';
 
 /**
+ * Parse le format citation avec auteur : "citation\n*auteur*"
+ * Retourne { description, auteur } si le format est détecté, sinon { description, auteur: undefined }
+ */
+function parseQuoteWithAuthor(text: string): { description: string; auteur?: string } {
+  // Pattern pour détecter "citation\n*auteur*"
+  const quotePattern = /^"(.+)\n\*(.+)\*"$/s;
+  const match = text.match(quotePattern);
+  
+  if (match) {
+    return {
+      description: `"${match[1]}"`,
+      auteur: match[2],
+    };
+  }
+  
+  return { description: text };
+}
+
+/**
  * Parse inline markdown (bold) pour convertir **texte** en <strong>texte</strong>
  */
 function parseInlineMarkdown(text: string): React.ReactNode[] {
@@ -87,6 +106,10 @@ const DomaineDeCompetences: React.FC<DomaineDeCompetencesProps> = ({ domaine }) 
           // Récupère l'icône lucide-react si elle existe
           const IconComponent = competence.icon ? iconMap[competence.icon] : null;
 
+          // Parse la description pour détecter le format citation avec auteur
+          const parsed = parseQuoteWithAuthor(competence.description);
+          const finalAuteur = parsed.auteur || competence.auteur;
+
           return (
             <div key={index} className={styles.competence}>
               <h3 className={styles.competenceTitre}>{competence.titre}</h3>
@@ -107,11 +130,11 @@ const DomaineDeCompetences: React.FC<DomaineDeCompetencesProps> = ({ domaine }) 
                 ) : null}
               </div>
               <div className={styles.competenceDescription}>
-                {parseInlineMarkdown(competence.description)}
+                {parseInlineMarkdown(parsed.description)}
               </div>
-              {competence.auteur && (
+              {finalAuteur && (
                 <div className={styles.competenceAuteur}>
-                  {competence.auteur}
+                  {finalAuteur}
                 </div>
               )}
               {competence.bouton && (
