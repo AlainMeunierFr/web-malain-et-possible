@@ -9,25 +9,31 @@
       "taille": "grande",
       "boutons": [
         {
+          "type": "bouton",
           "id": "dejeuner",
           "icone": "UtensilsCrossed",
           "texte": "Déjeuner aux alentours de Lyon",
           "url": "https://zcal.co/alain-meunier/dejeuner",
-          "command": null
+          "command": null,
+          "e2eID": "b4"
         },
         {
+          "type": "bouton",
           "id": "visio",
           "icone": "Video",
           "texte": "30mn de visio",
           "url": "https://zcal.co/alain-meunier/30min",
-          "command": null
+          "command": null,
+          "e2eID": "b5"
         },
         {
+          "type": "bouton",
           "id": "telephone",
           "icone": "Phone",
           "texte": "+33 6.21.03.12.65",
           "url": "tel:+33621031265",
-          "command": null
+          "command": null,
+          "e2eID": "b6"
         }
       ]
     },
@@ -36,25 +42,31 @@
       "taille": "petite",
       "boutons": [
         {
+          "type": "bouton",
           "id": "email",
           "icone": "Mail",
           "texte": null,
           "url": "mailto:alain@maep.fr",
-          "command": null
+          "command": null,
+          "e2eID": "b7"
         },
         {
+          "type": "bouton",
           "id": "youtube",
           "icone": "Youtube",
           "texte": null,
           "url": "https://www.youtube.com/@m-alain-et-possible",
-          "command": null
+          "command": null,
+          "e2eID": "b8"
         },
         {
+          "type": "bouton",
           "id": "linkedin",
           "icone": "Linkedin",
           "texte": null,
           "url": "https://www.linkedin.com/in/alain-meunier-maep/",
-          "command": null
+          "command": null,
+          "e2eID": "b9"
         }
       ]
     }

@@ -3,7 +3,8 @@
     {
       "type": "video",
       "urlYouTube": "https://youtu.be/iUv6e256AVk",
-      "lancementAuto": true
+      "lancementAuto": true,
+      "e2eID": "v18"
     },
     {
       "type": "titre",
@@ -13,7 +14,7 @@
       "type": "domaineDeCompetence",
       "titre": "Bien appliqué, l'agilité est un cadre puissant pour délivrer de la valeur.",
       "contenu": "",
-      "items": [
+      "competences": [
         {
           "titre": "Vision produit",
           "image": {
@@ -22,7 +23,8 @@
           },
           "description": "« Si j'avais demandé aux gens ce qu'ils voulaient, ils m'auraient répondu des chevaux plus rapides. »",
           "auteur": "Henry Ford",
-          "bouton": null
+          "bouton": null,
+          "type": "competence"
         },
         {
           "titre": "Empirisme",
@@ -32,7 +34,8 @@
           },
           "description": "« Les gens ne savent pas ce qu'ils veulent jusqu'à ce que vous le leur montriez. »",
           "auteur": "Steve Jobs",
-          "bouton": null
+          "bouton": null,
+          "type": "competence"
         },
         {
           "titre": "Excellence technique",
@@ -42,7 +45,8 @@
           },
           "description": "« On améliore rarement la qualité en diminuant les coûts, mais on peut souvent diminuer les coûts en améliorant la qualité. »",
           "auteur": "Karl Albrecht",
-          "bouton": null
+          "bouton": null,
+          "type": "competence"
         }
       ]
     },
@@ -53,11 +57,13 @@
     {
       "type": "video",
       "urlYouTube": "https://youtu.be/mPif5EjzFYg",
-      "lancementAuto": false
+      "lancementAuto": false,
+      "e2eID": "v19"
     },
     {
       "type": "callToAction",
-      "action": "Faisons connaissance..."
+      "action": "Faisons connaissance...",
+      "e2eID": "a20"
     }
   ]
 }

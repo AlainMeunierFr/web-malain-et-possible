@@ -42,7 +42,7 @@
       "type": "domaineDeCompetence",
       "titre": "Transformation & conduite du changement",
       "contenu": "La distance entre rêve et réalité s'appelle l'action.",
-      "items": [
+      "competences": [
         {
           "titre": "Faire émerger une vision partagée",
           "image": {
@@ -51,7 +51,8 @@
           },
           "description": "« Si tu veux construire un bateau, fais naître dans le cœur de tes hommes et femmes le désir de la mer. »",
           "auteur": "Antoine de Saint Exupéry",
-          "bouton": null
+          "bouton": null,
+          "type": "competence"
         },
         {
           "titre": "Réaliser un diagnostic sincère",
@@ -61,7 +62,8 @@
           },
           "description": "« Pour savoir où on va, il faut savoir où l'on est. »",
           "auteur": "Proverbe tchadien",
-          "bouton": null
+          "bouton": null,
+          "type": "competence"
         },
         {
           "titre": "Générer de l'engagement",
@@ -71,13 +73,15 @@
           },
           "description": "« Rêver seul ne reste qu'un rêve. Rêver ensemble devient la réalité. »",
           "auteur": "John Lennon",
-          "bouton": null
+          "bouton": null,
+          "type": "competence"
         }
       ]
     },
     {
       "type": "callToAction",
-      "action": "Faisons connaissance..."
+      "action": "Faisons connaissance...",
+      "e2eID": "a1"
     }
   ]
 }

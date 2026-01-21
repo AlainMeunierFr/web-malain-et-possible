@@ -1,0 +1,11 @@
+{
+  "contenu": [
+    {
+      "type": "titre",
+      "texte": "Liste des pages du site"
+    },
+    {
+      "type": "listeDesPages"
+    }
+  ]
+}

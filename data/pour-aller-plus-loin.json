@@ -12,13 +12,15 @@
       "type": "video",
       "urlYouTube": "https://youtu.be/xqtMFUF0Bpo",
       "lancementAuto": false,
-      "titre": "Arthur Keller et \"résilience\""
+      "titre": "Arthur Keller et \"résilience\"",
+      "e2eID": "v22"
     },
     {
       "type": "video",
       "urlYouTube": "https://youtu.be/Ql2_sO30ITY",
       "lancementAuto": false,
-      "titre": "Olivier Hamant et \"Robustesse\""
+      "titre": "Olivier Hamant et \"Robustesse\"",
+      "e2eID": "v23"
     },
     {
       "type": "texteLarge",
@@ -28,7 +30,8 @@
       "type": "video",
       "urlYouTube": "https://youtu.be/5T8pzfT68mk",
       "lancementAuto": false,
-      "titre": "Master class de désaccord fécond !"
+      "titre": "Master class de désaccord fécond !",
+      "e2eID": "v24"
     },
     {
       "type": "titre",
@@ -40,7 +43,8 @@
     },
     {
       "type": "callToAction",
-      "action": "Faisons connaissance..."
+      "action": "Faisons connaissance...",
+      "e2eID": "a25"
     }
   ]
 }

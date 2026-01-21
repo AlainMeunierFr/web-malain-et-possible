@@ -54,24 +54,27 @@
       "type": "domaineDeCompetence",
       "titre": "Et si nous rendions votre entreprise stable malgré les fluctuations ?",
       "contenu": "",
-      "items": [
+      "competences": [
         {
           "titre": "Performance",
           "icon": "Rocket",
           "description": "Notre civilisation est devenue experte dans la mesure de la performance (notation scolaire, concours grandes écoles, classements sportifs, EBITDA, PIB...).\n\n**Mais vous, quel temps consacrez vous a explorer vos vulnérabilités ?**",
-          "bouton": null
+          "bouton": null,
+          "type": "competence"
         },
         {
           "titre": "Polycrises",
           "icon": "Globe",
           "description": "Notre monde est confronté à des polycrises (pandémie, approvisionnement énergétique, inflation, guerres, désinformation, polarisation, inondations, sécheresses, mégafeux).\n\n**Et vous, avez-vous intégré les enjeux systémiques dans votre stratégie ?**",
-          "bouton": null
+          "bouton": null,
+          "type": "competence"
         },
         {
           "titre": "Santé",
           "icon": "MessageCircle",
           "description": "De nombreuses études démontrent que la santé physique et mentale de chacun se dégrade dans les pays occidentaux.\n\n**Chez vous, avez-vous mis la qualité des interactions humaines au cœur de vos projets collectifs ?**",
-          "bouton": null
+          "bouton": null,
+          "type": "competence"
         }
       ]
     },
@@ -79,30 +82,34 @@
       "type": "domaineDeCompetence",
       "titre": "La ROBUSTESSE est la réponse opérationnelle à un monde fluctuant !*",
       "contenu": "*Olivier Hamant, Chercheur à l'INRAE, directeur de l'institut Michel Serres et auteur de « La troisième voie du vivant » et « Antidote à la performance ».",
-      "items": [
+      "competences": [
         {
           "titre": "Key Robustness Incentive",
           "icon": "Puzzle",
           "description": "Nous vous aidons à déployer des KRI (Key Robustness Incentive), en regard de vos KPI, afin de renforcer votre adaptabilité et votre capacité de résistance aux chocs.",
-          "bouton": null
+          "bouton": null,
+          "type": "competence"
         },
         {
           "titre": "Exploration",
           "icon": "Binoculars",
           "description": "Nous vous accompagnons dans l'exploration de nouveaux paradigmes pour embrasser et intégrer la complexité systémique dans votre stratégie.",
-          "bouton": null
+          "bouton": null,
+          "type": "competence"
         },
         {
           "titre": "Cadre",
           "icon": "Users",
           "description": "Nous vous aidons à préciser (et peut être agrandir) le cadre dans lequel chacun de vos collaborateurs peuvent agir et interagir, afin de construire un collectif au service de votre mission et de votre vision.",
-          "bouton": null
+          "bouton": null,
+          "type": "competence"
         }
       ]
     },
     {
       "type": "callToAction",
-      "action": "Faisons connaissance..."
+      "action": "Faisons connaissance...",
+      "e2eID": "a26"
     }
   ]
 }

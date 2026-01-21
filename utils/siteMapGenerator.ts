@@ -15,6 +15,9 @@ export interface PlanPage {
   titre: string;
   x: number | null;
   y: number | null;
+  numero?: number; // Numéro d'ordre pour l'affichage dans le plan du site
+  dessiner?: 'Oui' | 'Non'; // Indique si la page doit être dessinée sur le plan
+  e2eIDs?: string[]; // Liste des e2eID présents sur la page (un e2eID par élément interactif)
 }
 
 /**
@@ -23,6 +26,8 @@ export interface PlanPage {
 export interface PlanLien {
   source: string;
   destination: string;
+  sourceSide?: 'Haut' | 'Bas' | 'Droite' | 'Gauche'; // Côté du rectangle source où la flèche part
+  destinationSide?: 'Haut' | 'Bas' | 'Droite' | 'Gauche'; // Côté du rectangle destination où la flèche arrive
   label?: string;
 }
 
@@ -33,6 +38,38 @@ export interface PlanSite {
   pages: PlanPage[];
   liens: PlanLien[];
 }
+
+/**
+ * Convertit une URL en nom de fichier JSON correspondant
+ * @param url URL de la page (ex: '/transformation', '/detournement-video')
+ * @returns Nom du fichier JSON correspondant (ex: 'Conduite du changement.json', 'Détournement vidéo.json')
+ */
+const urlVersNomFichierJSON = (url: string): string | null => {
+  if (url === '/') {
+    return 'index.json';
+  }
+  
+  // Enlever le slash initial
+  const urlSansSlash = url.substring(1);
+  
+  // Mapping explicite URL -> nom de fichier JSON
+  const mapping: Record<string, string> = {
+    'transformation': 'Conduite du changement.json',
+    'detournement-video': 'Détournement vidéo.json',
+    'faisons-connaissance': 'faisons-connaissance.json',
+    'robustesse': 'Robustesse.json',
+    'management-de-produit-logiciel': 'management-de-produit-logiciel.json',
+    'portfolio-detournements': 'portfolio-detournements.json',
+    'pour_aller_plus_loin': 'pour-aller-plus-loin.json',
+  };
+  
+  if (mapping[urlSansSlash]) {
+    return mapping[urlSansSlash];
+  }
+  
+  // Par défaut, convertir l'URL en nom de fichier (remplacer _ par - et ajouter .json)
+  return urlSansSlash.replace(/_/g, '-') + '.json';
+};
 
 /**
  * Détecte automatiquement toutes les pages Next.js dans le dossier app/
@@ -69,51 +106,42 @@ export const detecterPages = (): PlanPage[] => {
             ? `/${fichier.name}` 
             : `${urlPrefix}/${fichier.name}`;
 
+          // Exclure la page "Faisons connaissance..." car toutes les pages y amènent
+          // et ça rend le plan illisible
+          if (url === '/faisons-connaissance') {
+            continue;
+          }
+
           // Essayer de déduire le titre depuis le JSON associé
           let titre = fichier.name;
           
-          // Pour la HomePage, chercher dans index.json
-          if (url === '/') {
-            try {
-              const indexData = JSON.parse(fs.readFileSync(path.join(process.cwd(), 'data', 'index.json'), 'utf8'));
-              const titreElement = indexData.contenu?.find((el: any) => el.type === 'titre');
-              if (titreElement) {
-                titre = titreElement.texte;
-              }
-            } catch (e) {
-              // Si erreur, garder le titre par défaut
-            }
-          } else {
-            // Pour les autres pages, chercher le JSON correspondant
-            const nomFichier = fichier.name.replace(/-/g, ' ');
-            // Essayer de trouver un JSON avec un nom similaire
-            try {
-              const dataDir = path.join(process.cwd(), 'data');
-              const fichiersJSON = fs.readdirSync(dataDir).filter((f) => f.endsWith('.json') && f !== 'index.json' && f !== 'footerButtons.json');
-              
-              // Chercher un JSON qui pourrait correspondre
-              for (const fichierJSON of fichiersJSON) {
-                try {
-                  const contenuJSON = JSON.parse(fs.readFileSync(path.join(dataDir, fichierJSON), 'utf8'));
-                  const titreElement = contenuJSON.contenu?.find((el: any) => el.type === 'titre');
-                  if (titreElement) {
-                    titre = titreElement.texte;
-                    break;
-                  }
-                } catch (e) {
-                  // Continuer
+          try {
+            const nomFichierJSON = urlVersNomFichierJSON(url);
+            if (nomFichierJSON) {
+              const cheminJSON = path.join(process.cwd(), 'data', nomFichierJSON);
+              if (fs.existsSync(cheminJSON)) {
+                const contenuJSON = JSON.parse(fs.readFileSync(cheminJSON, 'utf8'));
+                const titreElement = contenuJSON.contenu?.find((el: any) => el.type === 'titre');
+                if (titreElement) {
+                  titre = titreElement.texte;
                 }
               }
-            } catch (e) {
-              // Si erreur, garder le titre par défaut
             }
+          } catch (e) {
+            // Si erreur, garder le titre par défaut
           }
+
+          // Déterminer si la page doit être dessinée
+          // Accueil et pages du footer : "Non", autres : "Oui"
+          const pagesNonDessinees = ['/', '/a-propos-du-site', '/plan-du-site', '/metrics'];
+          const dessiner = pagesNonDessinees.includes(url) ? 'Non' : 'Oui';
 
           pages.push({
             url,
             titre,
             x: null,
             y: null,
+            dessiner,
           });
         } else {
           // Continuer à scanner récursivement
@@ -139,7 +167,7 @@ export const detecterPages = (): PlanPage[] => {
     } catch (e) {
       // Garder le titre par défaut
     }
-    pages.unshift({ url: '/', titre: titreHome, x: null, y: null });
+    pages.unshift({ url: '/', titre: titreHome, x: null, y: null, dessiner: 'Non' });
   }
 
   return pages;
@@ -165,7 +193,7 @@ export const detecterLiensInternes = (): PlanLien[] => {
     f.endsWith('.json') && 
     f !== 'footerButtons.json' && 
     f !== 'Détournement vidéo.json' &&
-    f !== 'site-map.json'
+    f !== 'Pages-Et-Lien.json'
   );
 
   for (const fichierJSON of fichiersJSON) {
@@ -179,8 +207,6 @@ export const detecterLiensInternes = (): PlanLien[] => {
         pageSource = '/';
       } else {
         // Convertir le nom de fichier en URL
-        // Ex: "Conduite du changement.json" -> "/transformation"
-        // Ex: "management-de-produit-logiciel.json" -> "/management-de-produit-logiciel"
         const nomSansExt = fichierJSON.replace('.json', '');
         if (nomSansExt === 'Conduite du changement') {
           pageSource = '/transformation';
@@ -206,20 +232,21 @@ export const detecterLiensInternes = (): PlanLien[] => {
       if (data.contenu && Array.isArray(data.contenu)) {
         for (const element of data.contenu) {
           // CallToAction : toujours vers /faisons-connaissance
-          if (element.type === 'callToAction') {
-            liens.push({
-              source: pageSource,
-              destination: '/faisons-connaissance',
-              label: element.action,
-            });
-          }
+          // Exclu du plan car toutes les pages y amènent et ça rend le plan illisible
+          // if (element.type === 'callToAction') {
+          //   liens.push({
+          //     source: pageSource,
+          //     destination: '/faisons-connaissance',
+          //     label: element.action,
+          //   });
+          // }
 
           // Domaines de compétences : boutons dans les compétences
-          if (element.type === 'domaineDeCompetence' && element.items) {
-            for (const competence of element.items) {
+          if (element.type === 'domaineDeCompetence' && element.competences) {
+            for (const competence of element.competences) {
               if (competence.bouton && competence.bouton.action) {
                 const action = competence.bouton.action;
-                if (estLienInterne(action)) {
+                if (estLienInterne(action) && action !== '/faisons-connaissance') {
                   liens.push({
                     source: pageSource,
                     destination: action,
@@ -243,18 +270,19 @@ export const detecterLiensInternes = (): PlanLien[] => {
     if (fs.existsSync(footerButtonsPath)) {
       const footerButtons = JSON.parse(fs.readFileSync(footerButtonsPath, 'utf8'));
       
-      for (const button of footerButtons) {
-        if (button.command) {
-          const route = getRouteForCommand(button.command);
-          if (route) {
-            // Le footer est présent sur toutes les pages, donc on crée un lien depuis chaque page
-            // Pour simplifier, on considère que le footer est accessible depuis toutes les pages
-            // On ajoutera les liens depuis chaque page détectée
-            liens.push({
-              source: '*', // Spécial : signifie "toutes les pages"
-              destination: route,
-              label: button.tooltip || button.alt,
-            });
+      // Vérifier si c'est la nouvelle structure (groupeBoutons)
+      if (footerButtons.type === 'groupeBoutons' && footerButtons.boutons) {
+        for (const button of footerButtons.boutons) {
+          if (button.command) {
+            const route = getRouteForCommand(button.command);
+            if (route && route !== '/faisons-connaissance') {
+              // Le footer est présent sur toutes les pages, donc on crée un lien depuis chaque page
+              liens.push({
+                source: '*', // Spécial : signifie "toutes les pages"
+                destination: route,
+                label: button.texte || button.icone,
+              });
+            }
           }
         }
       }
@@ -282,11 +310,14 @@ export const detecterLiensInternes = (): PlanLien[] => {
     }
   }
 
-  // 4. Dédupliquer les liens (même source + destination)
+  // 4. Filtrer les liens vers /faisons-connaissance (exclus du plan)
+  const liensFiltres = liensResolus.filter((lien) => lien.destination !== '/faisons-connaissance');
+
+  // 5. Dédupliquer les liens (même source + destination)
   const liensUniques: PlanLien[] = [];
   const liensVus = new Set<string>();
   
-  for (const lien of liensResolus) {
+  for (const lien of liensFiltres) {
     const cle = `${lien.source}->${lien.destination}`;
     if (!liensVus.has(cle)) {
       liensVus.add(cle);
@@ -308,7 +339,7 @@ export const detecterLiensInternes = (): PlanLien[] => {
  * @param liens Liens détectés
  */
 export const mettreAJourPlanJSON = (pages: PlanPage[], liens: PlanLien[]): void => {
-  const siteMapPath = path.join(process.cwd(), 'data', 'site-map.json');
+  const siteMapPath = path.join(process.cwd(), 'data', 'Pages-Et-Lien.json');
   
   let planExistant: PlanSite = { pages: [], liens: [] };
   
@@ -332,20 +363,26 @@ export const mettreAJourPlanJSON = (pages: PlanPage[], liens: PlanLien[]): void 
     const pageExistante = planExistant.pages.find((p) => p.url === pageDetectee.url);
     
     if (pageExistante) {
-      // Conserver l'emplacement existant si présent
+      // Conserver l'emplacement existant si présent, et la propriété dessiner si elle existe
+      // Sinon utiliser la valeur détectée, ou 'Oui' par défaut
+      const dessiner = pageExistante.dessiner || pageDetectee.dessiner || 'Oui';
       pagesMisesAJour.push({
         url: pageDetectee.url,
         titre: pageDetectee.titre, // Mettre à jour le titre au cas où
         x: pageExistante.x,
         y: pageExistante.y,
+        dessiner, // Toujours présent dans le JSON
       });
     } else {
       // Nouvelle page : ajouter avec x et y null
+      // Toujours définir dessiner explicitement : utiliser la valeur détectée ou 'Oui' par défaut
+      const dessiner = pageDetectee.dessiner || 'Oui';
       pagesMisesAJour.push({
         url: pageDetectee.url,
         titre: pageDetectee.titre,
         x: null,
         y: null,
+        dessiner, // Toujours présent dans le JSON, 'Oui' par défaut pour les nouvelles pages
       });
     }
   }
@@ -400,7 +437,7 @@ export const validerEmplacements = (plan: PlanSite): void => {
     const urlsSansEmplacement = pagesSansEmplacement.map((p) => p.url).join(', ');
     throw new Error(
       `Les pages suivantes n'ont pas d'emplacement défini (x, y) : ${urlsSansEmplacement}. ` +
-      `Veuillez remplir manuellement les coordonnées dans le fichier site-map.json.`
+      `Veuillez remplir manuellement les coordonnées dans le fichier Pages-Et-Lien.json.`
     );
   }
 };

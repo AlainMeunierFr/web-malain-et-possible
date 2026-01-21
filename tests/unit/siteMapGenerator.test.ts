@@ -10,7 +10,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 
 const getSiteMapPath = () => {
-  return path.join(process.cwd(), 'data', 'site-map.json');
+  return path.join(process.cwd(), 'data', 'Pages-Et-Lien.json');
 };
 
 // Nettoyer le fichier de test après chaque test

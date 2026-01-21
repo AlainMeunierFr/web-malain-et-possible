@@ -46,9 +46,9 @@ describe('Lecture JSON avec type "temoignages"', () => {
       (element) => element.type === 'temoignages'
     ) as ElementTemoignages;
 
-    expect(temoignagesElement.items.length).toBeGreaterThan(0);
+    expect(temoignagesElement.items && temoignagesElement.items.length).toBeGreaterThan(0);
 
-    temoignagesElement.items.forEach((temoignage: Temoignage) => {
+    temoignagesElement.items?.forEach((temoignage: Temoignage) => {
       expect(temoignage).toHaveProperty('nom');
       expect(temoignage).toHaveProperty('fonction');
       expect(temoignage).toHaveProperty('photo');
@@ -71,7 +71,7 @@ describe('Lecture JSON avec type "temoignages"', () => {
 
     // Si TypeScript compile, c'est que la structure est correcte
     expect(temoignagesElement.type satisfies 'temoignages').toBe('temoignages');
-    temoignagesElement.items.forEach((temoignage) => {
+    temoignagesElement.items?.forEach((temoignage) => {
       expect(temoignage.nom).toBeDefined();
       expect(temoignage.fonction).toBeDefined();
       expect(temoignage.photo).toBeDefined();

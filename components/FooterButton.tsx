@@ -23,13 +23,14 @@ const iconMap: Record<string, LucideIcon> = {
   Youtube,
   Linkedin,
   Network, // Pour "Sitemap" (plan du site)
+  'Plan du site': Network, // Alias français pour Network
   Info,
-  BarChart3, // Pour "Métriques"
+  BarChart3, // Pour "Metrics"
 };
 
 const FooterButton: React.FC<FooterButtonProps> = ({
   id,
-  icon,
+  icone,
   command,
   alt,
   url,
@@ -40,11 +41,18 @@ const FooterButton: React.FC<FooterButtonProps> = ({
     onButtonClick(command, url);
   };
 
+  // Vérifier que icone est défini
+  if (!icone) {
+    console.error(`Button "${id}" has no icon defined`);
+    return null;
+  }
+
   // Récupère dynamiquement l'icône lucide-react par son nom
-  const IconComponent = iconMap[icon];
+  // Le JSON utilise "icone" (avec un "e")
+  const IconComponent = iconMap[icone];
 
   if (!IconComponent) {
-    console.error(`Icon "${icon}" not found in iconMap`);
+    console.error(`Icon "${icone}" not found in iconMap for button "${id}"`);
     return null;
   }
 
@@ -52,8 +60,8 @@ const FooterButton: React.FC<FooterButtonProps> = ({
     <button
       className={styles.iconButton}
       onClick={handleClick}
-      aria-label={alt}
-      title={tooltip}
+      aria-label={alt || icone}
+      title={tooltip || icone}
       data-testid={`footer-button-${id}`}
       type="button"
     >

@@ -19,7 +19,7 @@ let planJSON: PlanSite | null = null;
 let erreurValidation: string | null = null;
 
 const getSiteMapPath = () => {
-  return path.join(process.cwd(), 'data', 'site-map.json');
+  return path.join(process.cwd(), 'data', 'Pages-Et-Lien.json');
 };
 
 // Scénario: Détection automatique de toutes les pages du site
@@ -37,8 +37,8 @@ Then('toutes les routes Next.js sont détectées', () => {
   // Vérifier que les pages principales sont détectées
   const urls = pagesDetectees.map((p) => p.url);
   expect(urls).toContain('/');
-  expect(urls).toContain('/about');
-  expect(urls).toContain('/site-map');
+  expect(urls).toContain('/a-propos-du-site');
+  expect(urls).toContain('/plan-du-site');
 });
 
 Then('chaque page a une URL unique', () => {
@@ -104,7 +104,7 @@ Given('que le système analyse le fichier footerButtons.json', () => {
 
 Then('tous les liens internes dans le footer sont détectés', () => {
   // Vérifier qu'il y a des liens du footer détectés (ex: vers /about, /site-map)
-  const urlsFooter = ['/about', '/site-map'];
+  const urlsFooter = ['/a-propos-du-site', '/plan-du-site'];
   const liensFooter = liensDetectes.filter((l) => urlsFooter.includes(l.destination));
   expect(liensFooter.length).toBeGreaterThan(0);
 });
@@ -119,7 +119,7 @@ Then('les liens externes du footer sont exclus', () => {
 });
 
 // Scénario: Mise à jour automatique du plan JSON avec les pages détectées
-Given('qu\'un plan JSON existe dans data/site-map.json', () => {
+Given('qu\'un plan JSON existe dans data/Pages-Et-Lien.json', () => {
   // Créer un plan JSON de test s'il n'existe pas
   const siteMapPath = getSiteMapPath();
   if (!fs.existsSync(siteMapPath)) {
@@ -286,14 +286,14 @@ Then('le test échoue si au moins une page n\'a pas d\'emplacement', () => {
 });
 
 // Scénario: Création initiale du plan JSON s'il n'existe pas
-Given('que le fichier data/site-map.json n\'existe pas', () => {
+Given('que le fichier data/Pages-Et-Lien.json n\'existe pas', () => {
   const siteMapPath = getSiteMapPath();
   if (fs.existsSync(siteMapPath)) {
     fs.unlinkSync(siteMapPath);
   }
 });
 
-Then('un nouveau fichier data/site-map.json est créé', () => {
+Then('un nouveau fichier data/Pages-Et-Lien.json est créé', () => {
   const siteMapPath = getSiteMapPath();
   expect(fs.existsSync(siteMapPath)).toBe(true);
 });

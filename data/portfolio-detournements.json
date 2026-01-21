@@ -300,10 +300,10 @@
         }
       ]
     },
-    
     {
       "type": "callToAction",
-      "action": "Faisons connaissance..."
+      "action": "Faisons connaissance...",
+      "e2eID": "a21"
     }
   ]
 }

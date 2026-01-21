@@ -11,27 +11,41 @@
 }
 
 .callToActionButton {
-  background-color: transparent;
+  /* État normal = aspect actuel de "active" (fond bleu clair, transform, ombre) */
+  background-color: var(--BoutonCouleurFondHover);
   padding: 0.75rem 1.5rem;
-  color: rgba(0, 112, 192, 1); /* var(--color_bTHGN0_default) */
-  border: 1px solid rgba(0, 112, 192, 1); /* var(--color_bTHGN0_default) */
-  border-radius: 0;
-  font-family: 'Clint Marker', cursive;
-  font-size: 18px;
-  font-weight: bold;
+  color: var(--BoutonCouleurTexteHover);
+  border: var(--BoutonContour);
+  border-radius: var(--BoutonContourRadius);
+  font-family: var(--BoutonPolice);
+  font-size: 18px; /* Taille spécifique pour CallToAction */
+  font-weight: var(--BoutonPoidsPolice);
   line-height: 1;
   text-align: center;
   cursor: pointer;
-  transition: background 200ms;
+  transition: var(--BoutonTransition);
   text-decoration: none;
   display: inline-block;
   width: 100%;
   max-width: 947px; /* Même largeur max qu'un Domaine de compétence */
+  transform: var(--BoutonTransformHover);
+  box-shadow: var(--BoutonOmbreHover);
 }
 
 .callToActionButton:hover {
-  background-color: rgba(0, 112, 192, 1); /* var(--color_bTHGN0_default) */
-  color: #ffffff; /* var(--color_primary_contrast_default) */
+  /* Hover = aspect actuel de "normal" (fond blanc, texte bleu, pas de transform, pas d'ombre) */
+  background-color: var(--BoutonCouleurFond);
+  color: var(--BoutonCouleur);
+  transform: translateY(0);
+  box-shadow: none;
+}
+
+.callToActionButton:active {
+  /* Active = aspect actuel de "normal" (fond blanc, texte bleu, pas de transform, pas d'ombre) */
+  background-color: var(--BoutonCouleurFond);
+  color: var(--BoutonCouleur);
+  transform: translateY(0);
+  box-shadow: none;
 }
 
 /* Desktop : écrans normaux/grands (≥769px) */

@@ -10,7 +10,7 @@ import { ROUTES, COMMANDS } from '../constants/routes';
 
 /**
  * Détermine la route associée à une commande (logique métier pure)
- * Utilisable en ligne de commande : getRouteForCommand('cmd-SiteMap') => '/sitemap'
+ * Utilisable en ligne de commande : getRouteForCommand('cmd-PlanDuSite') => '/plan-du-site'
  */
 export const getRouteForCommand = (command: string): string | null => {
   const commandToRouteMap: Record<string, string> = {

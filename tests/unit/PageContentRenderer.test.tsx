@@ -100,7 +100,7 @@ describe('PageContentRenderer', () => {
         type: 'domaineDeCompetence',
         titre: 'Test Domaine',
         contenu: 'Description',
-        items: [],
+        competences: [],
       },
     ];
 

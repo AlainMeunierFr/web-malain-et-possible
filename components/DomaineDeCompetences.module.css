@@ -147,24 +147,38 @@
 .competenceBouton {
   margin-top: auto;
   padding: 8px 16px;
-  background-color: var(--color-primary-contrast);
-  color: var(--color-primary);
-  border: 1px solid var(--color-primary);
-  border-radius: 0;
-  font-family: var(--font-handwriting);
-  font-size: 18px;
-  font-weight: bold;
+  /* État normal = aspect actuel de "active" (fond bleu clair, transform, ombre) */
+  background-color: var(--BoutonCouleurFondHover);
+  color: var(--BoutonCouleurTexteHover);
+  border: var(--BoutonContour);
+  border-radius: var(--BoutonContourRadius);
+  font-family: var(--BoutonPolice);
+  font-size: 18px; /* Taille spécifique pour En savoir plus */
+  font-weight: var(--BoutonPoidsPolice);
   line-height: 1;
   text-align: center;
   cursor: pointer;
-  transition: background 200ms;
+  transition: var(--BoutonTransition);
   text-decoration: none;
   display: inline-block;
+  transform: var(--BoutonTransformHover);
+  box-shadow: var(--BoutonOmbreHover);
 }
 
 .competenceBouton:hover {
-  background-color: var(--color-primary);
-  color: var(--color-primary-contrast);
+  /* Hover = aspect actuel de "normal" (fond blanc, texte bleu, pas de transform, pas d'ombre) */
+  background-color: var(--BoutonCouleurFond);
+  color: var(--BoutonCouleur);
+  transform: translateY(0);
+  box-shadow: none;
+}
+
+.competenceBouton:active {
+  /* Active = aspect actuel de "normal" (fond blanc, texte bleu, pas de transform, pas d'ombre) */
+  background-color: var(--BoutonCouleurFond);
+  color: var(--BoutonCouleur);
+  transform: translateY(0);
+  box-shadow: none;
 }
 
 /* Desktop : écrans normaux/grands (≥769px) */

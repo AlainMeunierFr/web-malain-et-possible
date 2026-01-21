@@ -9,7 +9,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 
 const getSiteMapPath = () => {
-  return path.join(process.cwd(), 'data', 'site-map.json');
+  return path.join(process.cwd(), 'data', 'Pages-Et-Lien.json');
 };
 
 // Nettoyer le fichier de test après chaque test
@@ -28,8 +28,8 @@ describe('siteMapGenerator - Tests d\'intégration avec données réelles', () =
       // Vérifier que toutes les pages attendues sont détectées
       const urlsAttendues = [
         '/',
-        '/about',
-        '/site-map',
+        '/a-propos-du-site',
+        '/plan-du-site',
         '/transformation',
         '/detournement-video',
         '/faisons-connaissance',
@@ -160,10 +160,10 @@ describe('siteMapGenerator - Tests d\'intégration avec données réelles', () =
       expect(liensVersManagement.length).toBeGreaterThan(0);
     });
 
-    it('devrait détecter les liens vers /about depuis les compétences', () => {
+    it('devrait détecter les liens vers /a-propos-du-site depuis les compétences', () => {
       const liens = detecterLiensInternes();
       
-      const liensVersAbout = liens.filter((l) => l.destination === '/about');
+      const liensVersAbout = liens.filter((l) => l.destination === '/a-propos-du-site');
       
       expect(liensVersAbout.length).toBeGreaterThan(0);
     });
@@ -178,31 +178,31 @@ describe('siteMapGenerator - Tests d\'intégration avec données réelles', () =
   });
 
   describe('Détection des liens depuis le footer', () => {
-    it('devrait détecter les liens depuis le footer vers /about', () => {
+    it('devrait détecter les liens depuis le footer vers /a-propos-du-site', () => {
       const liens = detecterLiensInternes();
       
-      // Le footer est présent sur toutes les pages, donc on devrait avoir plusieurs liens vers /about
-      const liensVersAbout = liens.filter((l) => l.destination === '/about');
+      // Le footer est présent sur toutes les pages, donc on devrait avoir plusieurs liens vers /a-propos-du-site
+      const liensVersAbout = liens.filter((l) => l.destination === '/a-propos-du-site');
       
       expect(liensVersAbout.length).toBeGreaterThan(0);
       
-      // Vérifier qu'au moins quelques pages ont un lien vers /about (via footer)
+      // Vérifier qu'au moins quelques pages ont un lien vers /a-propos-du-site (via footer)
       const sourcesVersAbout = liensVersAbout.map((l) => l.source);
       expect(sourcesVersAbout.length).toBeGreaterThan(0);
     });
 
-    it('devrait avoir des liens depuis plusieurs pages vers /about (footer présent partout)', () => {
+    it('devrait avoir des liens depuis plusieurs pages vers /a-propos-du-site (footer présent partout)', () => {
       const liens = detecterLiensInternes();
       const pages = detecterPages();
       
-      const liensVersAbout = liens.filter((l) => l.destination === '/about');
+      const liensVersAbout = liens.filter((l) => l.destination === '/a-propos-du-site');
       const sourcesVersAbout = liensVersAbout.map((l) => l.source);
       
-      // Le footer devrait créer un lien depuis chaque page vers /about
+      // Le footer devrait créer un lien depuis chaque page vers /a-propos-du-site
       // (au moins pour les pages principales)
       expect(sourcesVersAbout.length).toBeGreaterThanOrEqual(1);
       
-      // Vérifier que la HomePage a un lien vers /about via le footer
+      // Vérifier que la HomePage a un lien vers /a-propos-du-site via le footer
       expect(sourcesVersAbout).toContain('/');
     });
   });
@@ -364,7 +364,7 @@ describe('siteMapGenerator - Tests d\'intégration avec données réelles', () =
       // Vérifier qu'au moins quelques pages principales sont des destinations de liens
       const pagesPrincipales = [
         '/faisons-connaissance',
-        '/about',
+        '/a-propos-du-site',
         '/robustesse',
         '/transformation',
         '/detournement-video',

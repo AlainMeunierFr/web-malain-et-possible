@@ -31,7 +31,7 @@ describe('AboutSiteContentRenderer', () => {
       {
         type: 'ul',
         typeDeContenu: 'En tant que',
-        items: ['Texte avec **gras** dedans'],
+        competences: ['Texte avec **gras** dedans'],
       },
     ];
 
@@ -49,7 +49,7 @@ describe('AboutSiteContentRenderer', () => {
     const elements: ContenuElement[] = [
       {
         type: 'ol',
-        items: ['Premier élément', 'Deuxième élément'],
+        competences: ['Premier élément', 'Deuxième élément'],
       },
     ];
 
@@ -67,7 +67,7 @@ describe('AboutSiteContentRenderer', () => {
       {
         type: 'ul',
         typeDeContenu: 'En tant que',
-        items: ['Utilisateur du site'],
+        competences: ['Utilisateur du site'],
       },
     ];
 
@@ -84,7 +84,7 @@ describe('AboutSiteContentRenderer', () => {
     const elements: ContenuElement[] = [
       {
         type: 'ul',
-        items: ['Item de liste 1', 'Item de liste 2'],
+        competences: ['Item de liste 1', 'Item de liste 2'],
       },
     ];
 
@@ -134,11 +134,11 @@ describe('AboutSiteContentRenderer', () => {
       },
       {
         type: 'ul',
-        items: ['Item liste'],
+        competences: ['Item liste'],
       },
       {
         type: 'ol',
-        items: ['Item numéroté'],
+        competences: ['Item numéroté'],
       },
     ];
 
@@ -157,7 +157,7 @@ describe('AboutSiteContentRenderer', () => {
       {
         type: 'ul',
         typeDeContenu: 'En tant que',
-        items: ['Texte normal avant **gras**'],
+        competences: ['Texte normal avant **gras**'],
       },
     ];
 
@@ -176,7 +176,7 @@ describe('AboutSiteContentRenderer', () => {
       {
         type: 'ul',
         typeDeContenu: 'En tant que',
-        items: [],
+        competences: [],
       },
     ];
 
@@ -194,7 +194,7 @@ describe('AboutSiteContentRenderer', () => {
       {
         type: 'ul',
         typeDeContenu: 'TypeInconnu',
-        items: ['Item avec type inconnu'],
+        competences: ['Item avec type inconnu'],
       },
     ];
 
@@ -214,7 +214,7 @@ describe('AboutSiteContentRenderer', () => {
       {
         type: 'ul',
         typeDeContenu: 'Test',
-        items: ['**premier****deuxième**'],
+        competences: ['**premier****deuxième**'],
       },
     ];
 

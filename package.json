@@ -19,6 +19,7 @@
     "metrics:full": "npm run metrics:collect && npm run dev"
   },
   "dependencies": {
+    "@xyflow/react": "^12.10.0",
     "lucide-react": "^0.562.0",
     "next": "16.1.3",
     "playwright-bdd": "^8.4.2",

@@ -89,8 +89,8 @@ describe('Lecture JSON avec type "videoDetournement"', () => {
     };
 
     expect(element.type).toBe('videoDetournement');
-    expect(Array.isArray(element.items)).toBe(true);
-    expect(element.items.length).toBe(detournements.length);
+    expect(Array.isArray(element.competences)).toBe(true);
+    expect(element.competences.length).toBe(detournements.length);
   });
 
   it('devrait détecter un élément de type "videoDetournement" dans portfolio-detournements.json si présent', () => {

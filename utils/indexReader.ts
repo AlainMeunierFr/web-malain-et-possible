@@ -17,7 +17,6 @@ export interface Competence {
   };
   icon?: string; // Nom de l'icône lucide-react (ex: "Rocket", "Globe")
   description: string;
-  auteur?: string; // Nom de l'auteur (optionnel, affiché en italique aligné à droite)
   bouton: {
     texte: string;
     action: string;
@@ -36,7 +35,7 @@ export interface DomaineDeCompetences {
 /**
  * Types d'éléments de contenu de page
  */
-export type TypeElementContenu = 'titre' | 'video' | 'texteLarge' | 'domaineDeCompetence' | 'callToAction' | 'groupeBoutons' | 'temoignages' | 'videoDetournement';
+export type TypeElementContenu = 'titre' | 'video' | 'texteLarge' | 'domaineDeCompetence' | 'callToAction' | 'groupeBoutons' | 'listeDesPages';
 
 /**
  * Interface pour un élément de type "Titre"
@@ -53,7 +52,6 @@ export interface ElementVideo {
   type: 'video';
   urlYouTube: string;
   lancementAuto: boolean;
-  titre?: string; // Titre optionnel (h2, gras, centré, largeur comme domaine de compétence)
 }
 
 /**
@@ -103,47 +101,10 @@ export interface ElementGroupeBoutons {
 }
 
 /**
- * Interface pour un Témoignage individuel
+ * Interface pour un élément de type "Liste des pages"
  */
-export interface Temoignage {
-  nom: string;
-  fonction: string;
-  photo: string; // Chemin vers l'image (ex: "/images/Florent Grosmaitre.jpeg")
-  temoignage: string; // Texte du témoignage
-}
-
-/**
- * Interface pour un élément de type "Témoignages"
- */
-export interface ElementTemoignages {
-  type: 'temoignages';
-  items?: Temoignage[]; // Optionnel si on utilise source
-  source?: string; // Optionnel : nom du fichier JSON source
-}
-
-/**
- * Interface pour un Détournement vidéo individuel
- */
-export interface DetournementVideo {
-  id: number;
-  titreVideoDetournee: string;
-  videoDetournee: string; // ID YouTube
-  titreVideoOriginale: string;
-  droitsAuteur?: string; // Optionnel, texte long pour les alertes
-  linkedin?: string; // Optionnel, URL LinkedIn
-  videoOriginale: string; // ID YouTube
-  pourLeCompteDe: string; // Nom du client
-  date: string;
-  pitch: string; // Contexte/pitch
-}
-
-/**
- * Interface pour un élément de type "Vidéo détournement" (liste de détournements)
- */
-export interface ElementVideoDetournement {
-  type: 'videoDetournement';
-  items?: DetournementVideo[]; // Optionnel si on utilise source
-  source?: string; // Optionnel : nom du fichier JSON source
+export interface ElementListeDesPages {
+  type: 'listeDesPages';
 }
 
 /**
@@ -156,8 +117,7 @@ export type ElementContenu =
   | ElementDomaineDeCompetence
   | ElementCallToAction
   | ElementGroupeBoutons
-  | ElementTemoignages
-  | ElementVideoDetournement;
+  | ElementListeDesPages;
 
 /**
  * Interface pour la structure "contenu de page"
@@ -211,32 +171,8 @@ export const readIndexData = (): IndexData => {
 };
 
 /**
- * Interface pour le fichier Détournement vidéo.json
- */
-export interface DetournementsVideoData {
-  détournements: DetournementVideo[];
-}
-
-/**
- * Lit le fichier Détournement vidéo.json et retourne les détournements
- */
-export const readDetournementsVideo = (): DetournementVideo[] => {
-  const filePath = path.join(process.cwd(), 'data', 'Détournement vidéo.json');
-  
-  if (!fs.existsSync(filePath)) {
-    throw new Error(`Le fichier Détournement vidéo.json n'existe pas dans le dossier data/`);
-  }
-
-  const fileContent = fs.readFileSync(filePath, 'utf8');
-  const data: DetournementsVideoData = JSON.parse(fileContent);
-
-  return data.détournements;
-};
-
-/**
  * Lit le fichier JSON et retourne les données en structure "contenu de page"
  * Supporte à la fois l'ancienne structure (domainesDeCompetences) et la nouvelle (contenu)
- * Résout automatiquement les références externes (source) pour les témoignages et détournements
  */
 export const readPageData = (filename: string = 'index.json'): PageData => {
   const filePath = path.join(process.cwd(), 'data', filename);
@@ -253,32 +189,20 @@ export const readPageData = (filename: string = 'index.json'): PageData => {
     return convertirIndexDataEnPageData(data as IndexData);
   }
 
-  // Résoudre les références externes dans le contenu
+  // Normaliser la nouvelle structure : convertir "competences" en "items" pour les domaines de compétences
   const pageData = data as PageData;
-  if (pageData.contenu) {
-    pageData.contenu = pageData.contenu.map(element => {
-      // Résoudre les témoignages depuis un fichier source
-      if (element.type === 'temoignages' && element.source && !element.items) {
-        const sourceFilePath = path.join(process.cwd(), 'data', element.source);
-        if (fs.existsSync(sourceFilePath)) {
-          const sourceContent = fs.readFileSync(sourceFilePath, 'utf8');
-          const sourceData = JSON.parse(sourceContent);
-          // Support à la fois l'ancienne structure (items direct) et la nouvelle (PageData avec contenu)
-          const items = sourceData.items || (sourceData.contenu && sourceData.contenu[0] && sourceData.contenu[0].items) || [];
-          return { ...element, items };
+  if (pageData.contenu && Array.isArray(pageData.contenu)) {
+    pageData.contenu = pageData.contenu.map((element) => {
+      if (element.type === 'domaineDeCompetence') {
+        // Si l'élément a "competences" au lieu de "items", le mapper
+        const domaineElement = element as any;
+        if ('competences' in domaineElement && !('items' in domaineElement)) {
+          return {
+            ...element,
+            items: domaineElement.competences,
+          } as ElementDomaineDeCompetence;
         }
       }
-      
-      // Résoudre les détournements vidéo depuis un fichier source
-      if (element.type === 'videoDetournement' && element.source && !element.items) {
-        const sourceFilePath = path.join(process.cwd(), 'data', element.source);
-        if (fs.existsSync(sourceFilePath)) {
-          const sourceContent = fs.readFileSync(sourceFilePath, 'utf8');
-          const sourceData = JSON.parse(sourceContent);
-          return { ...element, items: sourceData.détournements || sourceData.items };
-        }
-      }
-      
       return element;
     });
   }

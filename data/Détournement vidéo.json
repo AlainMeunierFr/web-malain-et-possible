@@ -45,7 +45,7 @@
       "type": "domaineDeCompetence",
       "titre": "Détournement de scènes cultes du cinéma",
       "contenu": "L'usage des visuels au service des interactions pour soutenir un processus de travail.",
-      "items": [
+      "competences": [
         {
           "titre": "Créativité",
           "image": {
@@ -55,9 +55,12 @@
           "description": "« L'imagination est plus importante que le savoir. Car le savoir est limité, tandis que l'imagination embrasse le monde entier, stimulant le progrès, donnant naissance à l'évolution. »",
           "auteur": "Albert Einstein",
           "bouton": {
+            "type": "bouton",
             "texte": "Voir le portfolio",
-            "action": "/portfolio-detournements"
-          }
+            "action": "/portfolio-detournements",
+            "e2eID": "c2"
+          },
+          "type": "competence"
         },
         {
           "titre": "Viralité",
@@ -67,7 +70,8 @@
           },
           "description": "« Le succès viral n'est pas seulement une question de nombre de vues. Il s'agit de l'impact que ces vues ont et de l'interaction qu'elles génèrent. »",
           "auteur": "Malcolm Gladwell",
-          "bouton": null
+          "bouton": null,
+          "type": "competence"
         },
         {
           "titre": "Engagement",
@@ -77,13 +81,15 @@
           },
           "description": "« Lorsque les gens sont financièrement investis, ils veulent un retour. Lorsque les gens sont émotionnellement investis, ils veulent contribuer. »",
           "auteur": "Simon Sinek",
-          "bouton": null
+          "bouton": null,
+          "type": "competence"
         }
       ]
     },
     {
       "type": "callToAction",
-      "action": "Faisons connaissance..."
+      "action": "Faisons connaissance...",
+      "e2eID": "a3"
     }
   ]
 }

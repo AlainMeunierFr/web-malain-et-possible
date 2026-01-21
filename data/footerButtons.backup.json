@@ -1,0 +1,60 @@
+{
+  "type": "groupeBoutons",
+  "taille": "petite",
+  "boutons": [
+    {
+      "type": "bouton",
+      "id": "email",
+      "icone": "Mail",
+      "texte": null,
+      "url": "mailto:alain@maep.fr",
+      "command": "cmd-email",
+      "e2eID": null
+    },
+    {
+      "type": "bouton",
+      "id": "youtube",
+      "icone": "Youtube",
+      "texte": null,
+      "url": "https://www.youtube.com/@m-alain-et-possible",
+      "command": "cmd-YouTube",
+      "e2eID": null
+    },
+    {
+      "type": "bouton",
+      "id": "linkedin",
+      "icone": "Linkedin",
+      "texte": null,
+      "url": "https://www.linkedin.com/in/alain-meunier-maep/",
+      "command": "cmd-Linkedin",
+      "e2eID": null
+    },
+    {
+      "type": "bouton",
+      "id": "PlanDuSite",
+      "icone": "Network",
+      "texte": null,
+      "url": null,
+      "command": "cmd-PlanDuSite",
+      "e2eID": null
+    },
+    {
+      "type": "bouton",
+      "id": "metrics",
+      "icone": "BarChart3",
+      "texte": null,
+      "url": null,
+      "command": "cmd-Metrics",
+      "e2eID": null
+    },
+    {
+      "type": "bouton",
+      "id": "a-propos-du-site",
+      "icone": "Info",
+      "texte": null,
+      "url": null,
+      "command": "cmd-AProposDuSite",
+      "e2eID": null
+    }
+  ]
+}

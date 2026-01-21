@@ -1,50 +1,60 @@
-[
-  {
-    "id": "email",
-    "icon": "Mail",
-    "command": "cmd-email",
-    "alt": "Email",
-    "url": "mailto:alain@maep.fr",
-    "tooltip": "M'envoyer un email"
-  },
-  {
-    "id": "youtube",
-    "icon": "Youtube",
-    "command": "cmd-YouTube",
-    "alt": "YouTube",
-    "url": "https://www.youtube.com/@m-alain-et-possible",
-    "tooltip": "Accéder à ma chaine YouTube"
-  },
-  {
-    "id": "linkedin",
-    "icon": "Linkedin",
-    "command": "cmd-Linkedin",
-    "alt": "LinkedIn",
-    "url": "https://www.linkedin.com/in/alain-meunier-maep/",
-    "tooltip": "Accéder à mon profil Linkedin"
-  },
-  {
-    "id": "sitemap",
-    "icon": "Network",
-    "command": "cmd-SiteMap",
-    "alt": "Site Map",
-    "url": null,
-    "tooltip": "Consulter le plan du site"
-  },
-  {
-    "id": "metrics",
-    "icon": "BarChart3",
-    "command": "cmd-Metrics",
-    "alt": "Métriques",
-    "url": null,
-    "tooltip": "Consulter les métriques de qualité du code"
-  },
-  {
-    "id": "about-site",
-    "icon": "Info",
-    "command": "cmd-AboutSite",
-    "alt": "À propos du site",
-    "url": null,
-    "tooltip": "À propos du site et de sa construction"
-  }
-]
+{
+  "type": "groupeBoutons",
+  "taille": "petite",
+  "boutons": [
+    {
+      "type": "bouton",
+      "id": "email",
+      "icone": "Mail",
+      "texte": null,
+      "url": "mailto:alain@maep.fr",
+      "command": "cmd-email",
+      "e2eID": "b10"
+    },
+    {
+      "type": "bouton",
+      "id": "youtube",
+      "icone": "Youtube",
+      "texte": null,
+      "url": "https://www.youtube.com/@m-alain-et-possible",
+      "command": "cmd-YouTube",
+      "e2eID": "b11"
+    },
+    {
+      "type": "bouton",
+      "id": "linkedin",
+      "icone": "Linkedin",
+      "texte": null,
+      "url": "https://www.linkedin.com/in/alain-meunier-maep/",
+      "command": "cmd-Linkedin",
+      "e2eID": "b12"
+    },
+    {
+      "type": "bouton",
+      "id": "sitemap",
+      "icone": "Plan du site",
+      "texte": null,
+      "url": null,
+      "command": "cmd-PlanDuSite",
+      "e2eID": "b13"
+    },
+    {
+      "type": "bouton",
+      "id": "metrics",
+      "icone": "BarChart3",
+      "texte": null,
+      "url": null,
+      "command": "cmd-Metrics",
+      "e2eID": "b14"
+    },
+    {
+      "type": "bouton",
+      "id": "about-site",
+      "icone": "Info",
+      "texte": null,
+      "url": null,
+      "command": "cmd-AProposDuSite",
+      "e2eID": "b15"
+    }
+  ]
+}

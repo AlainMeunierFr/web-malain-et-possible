@@ -1,8 +1,11 @@
 export interface FooterButton {
   id: string;
-  icon: string; // Nom de l'icône lucide-react (ex: "Mail", "Youtube")
+  icone: string; // Nom de l'icône lucide-react (ex: "Mail", "Youtube")
+  texte: string | null;
   command: string;
-  alt: string;
   url: string | null;
-  tooltip: string;
+  e2eID?: string;
+  // Champs optionnels pour compatibilité
+  alt?: string;
+  tooltip?: string;
 }
