@@ -143,9 +143,19 @@ export const validerContenuMarkdown = (contenu: string, filePath: string): void 
   for (const ligne of lignes) {
     const trimmed = ligne.trim();
     
-    // ITÉRATION 4 : Détecter les blocs de code markdown (```)
+    // ITÉRATION 4 : Détecter les blocs de code markdown (``` ou ````)
+    // Gérer les blocs avec 3 ou 4 backticks
     if (trimmed.startsWith('```')) {
-      dansBlocCode = !dansBlocCode;
+      // Compter le nombre de backticks consécutifs
+      let backtickCount = 0;
+      for (let j = 0; j < trimmed.length && trimmed[j] === '`'; j++) {
+        backtickCount++;
+      }
+      // Si c'est un nombre pair de backticks (4, 6, etc.), c'est un bloc de code imbriqué
+      // Sinon (3, 5, etc.), c'est un bloc de code normal
+      if (backtickCount >= 3) {
+        dansBlocCode = !dansBlocCode;
+      }
       continue; // Ignorer la ligne de délimitation
     }
     

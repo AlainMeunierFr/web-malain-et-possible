@@ -172,23 +172,15 @@ export default function MetricsPage() {
               value={latest.tests.bddFeatures}
               subtitle={`${latest.tests.bddScenarios} scénarios, ${latest.tests.bddSteps} steps`}
             />
-            {lastE2ERun ? (
-              <MetricCard 
-                title="Tests E2E (Playwright)" 
-                value={lastE2ERun.total}
-                subtitle={
-                  lastE2ERun.lastRunDate
-                    ? `${lastE2ERun.passed} réussis, ${lastE2ERun.failed} échoués • ${(lastE2ERun.duration / 1000).toFixed(2)}s • ${new Date(lastE2ERun.lastRunDate).toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' })}`
-                    : `${lastE2ERun.passed} réussis, ${lastE2ERun.failed} échoués • ${(lastE2ERun.duration / 1000).toFixed(2)}s`
-                }
-              />
-            ) : (
-              <MetricCard 
-                title="Tests E2E (Playwright)" 
-                value="N/A"
-                subtitle="Aucune exécution récente"
-              />
-            )}
+            <MetricCard 
+              title="Tests E2E (Playwright)" 
+              value={latest.tests.e2eSteps || 0}
+              subtitle={
+                lastE2ERun
+                  ? `${lastE2ERun.passed} réussis, ${lastE2ERun.failed} échoués • ${(lastE2ERun.duration / 1000).toFixed(2)}s${lastE2ERun.lastRunDate ? ` • ${new Date(lastE2ERun.lastRunDate).toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' })}` : ''}`
+                  : 'Aucune exécution récente'
+              }
+            />
           </div>
         </section>
 

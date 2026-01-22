@@ -9,6 +9,7 @@ import styles from './Video.module.css';
 
 export interface VideoProps {
   element: ElementVideo;
+  backgroundColor?: 'white' | 'light';
 }
 
 /**
@@ -33,12 +34,16 @@ function extraireIdYouTube(url: string): string | null {
   return null;
 }
 
-const Video: React.FC<VideoProps> = ({ element }) => {
+const Video: React.FC<VideoProps> = ({ element, backgroundColor = 'white' }) => {
   const videoId = extraireIdYouTube(element.urlYouTube);
+
+  const containerClass = backgroundColor === 'light'
+    ? `${styles.videoContainer} ${styles.videoContainerLight}`
+    : styles.videoContainer;
 
   if (!videoId) {
     return (
-      <div className={styles.videoContainer}>
+      <div className={containerClass}>
         <p>URL YouTube invalide : {element.urlYouTube}</p>
       </div>
     );
@@ -50,7 +55,7 @@ const Video: React.FC<VideoProps> = ({ element }) => {
   }rel=0&modestbranding=1`;
 
   return (
-    <div className={styles.videoContainer}>
+    <div className={containerClass}>
       {(element as any).titre && (
         <h2 className={styles.videoTitre}>{(element as any).titre}</h2>
       )}

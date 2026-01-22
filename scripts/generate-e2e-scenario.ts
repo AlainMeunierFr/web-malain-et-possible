@@ -207,6 +207,9 @@ const genererCodeTest = (chemin: string[], liens: PlanLien[], inventory: E2eIdIn
       const escapedLabel = JSON.stringify(label).slice(1, -1); // Enlever les guillemets externes
       lignes.push(`  await test.step("Étape ${i + 1}: Navigation de ${pagePrecedente} vers ${page} (${escapedLabel})", async () => {`);
       
+      // Préparer les variables d'échappement pour les regex
+      const pageEscaped = page.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      
       // Essayer de trouver le lien par son label ou par son rôle
       // Le footer (plan-du-site) et le header (logo vers accueil) sont toujours disponibles
       if (label && label !== '') {
@@ -230,8 +233,8 @@ const genererCodeTest = (chemin: string[], liens: PlanLien[], inventory: E2eIdIn
         lignes.push(`      if (lienTrouve) {`);
         lignes.push(`        await lienTrouve.click();`);
         lignes.push(`      } else {`);
-        lignes.push(`        // Aucun lien trouvé vers la destination exacte, utiliser la navigation directe`);
-        lignes.push(`        await page.goto('${page}');`);
+        lignes.push(`        // Aucun lien trouvé vers la destination exacte, échouer pour détecter les incohérences`);
+        lignes.push(`        throw new Error(\`Impossible de trouver un lien vers ${page} depuis ${pagePrecedente} (label: "${escapedLabel}"). Vérifiez que le lien existe et est accessible depuis cette page.\`);`);
         lignes.push(`      }`);
         lignes.push(`    } else {`);
         lignes.push(`      // Lien non trouvé par label, navigation via plan-du-site ou accueil`);
@@ -241,8 +244,12 @@ const genererCodeTest = (chemin: string[], liens: PlanLien[], inventory: E2eIdIn
         lignes.push(`      if (await lienPlanDuSite.count() > 0) {`);
         lignes.push(`        await lienPlanDuSite.first().click();`);
         lignes.push(`        await expect(page).toHaveURL('/plan-du-site');`);
-        lignes.push(`        // Depuis le plan du site, naviguer vers la destination`);
-        lignes.push(`        await page.goto('${page}');`);
+        lignes.push(`        // Depuis le plan du site, chercher le lien vers la destination`);
+        lignes.push(`        const lienDepuisPlan${i} = page.getByRole('link', { name: new RegExp(\`${pageEscaped}\`, 'i') });`);
+        lignes.push(`        if (await lienDepuisPlan${i}.count() === 0) {`);
+        lignes.push(`          throw new Error(\`Impossible de trouver un lien vers ${page} depuis le plan du site. La page n'est peut-être pas accessible ou le lien est manquant dans le plan du site.\`);`);
+        lignes.push(`        }`);
+        lignes.push(`        await lienDepuisPlan${i}.first().click();`);
         lignes.push(`      } else {`);
         lignes.push(`        // Option 2 : Via le logo (header) vers l'accueil`);
         lignes.push(`        const logo = page.getByAltText('Logo Malain et possible');`);
@@ -253,8 +260,19 @@ const genererCodeTest = (chemin: string[], liens: PlanLien[], inventory: E2eIdIn
         lignes.push(`          // Fallback : navigation directe vers l'accueil`);
         lignes.push(`          await page.goto('/');`);
         lignes.push(`        }`);
-        lignes.push(`        // Depuis l'accueil, naviguer vers la destination`);
-        lignes.push(`        await page.goto('${page}');`);
+        lignes.push(`        // Depuis l'accueil, chercher le lien vers la destination`);
+        lignes.push(`        const lienDepuisAccueil${i} = page.getByRole('link', { name: new RegExp(\`${pageEscaped}\`, 'i') });`);
+        lignes.push(`        if (await lienDepuisAccueil${i}.count() === 0) {`);
+        const labelEscaped = label.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        lignes.push(`          // Essayer aussi par le label original si disponible`);
+        lignes.push(`          const lienParLabel${i} = page.getByRole('link', { name: new RegExp(\`${labelEscaped}\`, 'i') });`);
+        lignes.push(`          if (await lienParLabel${i}.count() === 0) {`);
+        lignes.push(`            throw new Error(\`Impossible de trouver un lien vers ${page} depuis l'accueil (label: "${escapedLabel}"). La page n'est peut-être pas accessible depuis l'accueil ou le lien est manquant.\`);`);
+        lignes.push(`          }`);
+        lignes.push(`          await lienParLabel${i}.first().click();`);
+        lignes.push(`        } else {`);
+        lignes.push(`          await lienDepuisAccueil${i}.first().click();`);
+        lignes.push(`        }`);
         lignes.push(`      }`);
         lignes.push(`    }`);
       } else {
@@ -264,7 +282,12 @@ const genererCodeTest = (chemin: string[], liens: PlanLien[], inventory: E2eIdIn
         lignes.push(`    if (await lienPlanDuSite.count() > 0) {`);
         lignes.push(`      await lienPlanDuSite.first().click();`);
         lignes.push(`      await expect(page).toHaveURL('/plan-du-site');`);
-        lignes.push(`      await page.goto('${page}');`);
+        lignes.push(`      // Depuis le plan du site, chercher le lien vers la destination`);
+        lignes.push(`      const lienDepuisPlan${i} = page.getByRole('link', { name: new RegExp(\`${pageEscaped}\`, 'i') });`);
+        lignes.push(`      if (await lienDepuisPlan${i}.count() === 0) {`);
+        lignes.push(`        throw new Error(\`Impossible de trouver un lien vers ${page} depuis le plan du site. La page n'est peut-être pas accessible ou le lien est manquant dans le plan du site.\`);`);
+        lignes.push(`      }`);
+        lignes.push(`      await lienDepuisPlan${i}.first().click();`);
         lignes.push(`    } else {`);
         lignes.push(`      // Via le logo (header) vers l'accueil`);
         lignes.push(`      const logo = page.getByAltText('Logo Malain et possible');`);
@@ -275,7 +298,12 @@ const genererCodeTest = (chemin: string[], liens: PlanLien[], inventory: E2eIdIn
         lignes.push(`        // Fallback : navigation directe vers l'accueil`);
         lignes.push(`        await page.goto('/');`);
         lignes.push(`      }`);
-        lignes.push(`      await page.goto('${page}');`);
+        lignes.push(`      // Depuis l'accueil, chercher le lien vers la destination`);
+        lignes.push(`      const lienDepuisAccueil${i} = page.getByRole('link', { name: new RegExp(\`${pageEscaped}\`, 'i') });`);
+        lignes.push(`      if (await lienDepuisAccueil${i}.count() === 0) {`);
+        lignes.push(`        throw new Error(\`Impossible de trouver un lien vers ${page} depuis l'accueil. La page n'est peut-être pas accessible depuis l'accueil ou le lien est manquant.\`);`);
+        lignes.push(`      }`);
+        lignes.push(`      await lienDepuisAccueil${i}.first().click();`);
         lignes.push(`    }`);
       }
       

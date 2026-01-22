@@ -101,6 +101,41 @@ function countTestsInFiles(dir: string): number {
 }
 
 /**
+ * Compte les étapes E2E dans les fichiers de test E2E
+ * Une étape est un appel à await page.* (goto, click, fill, etc.)
+ */
+function countE2ESteps(dir: string): number {
+  let count = 0;
+  
+  function walk(currentPath: string) {
+    try {
+      const files = fs.readdirSync(currentPath);
+      files.forEach(file => {
+        const filePath = path.join(currentPath, file);
+        const stat = fs.statSync(filePath);
+        
+        if (stat.isDirectory() && !file.startsWith('.') && file !== 'node_modules') {
+          walk(filePath);
+        } else if (stat.isFile() && /\.spec\.(ts|tsx)$/.test(file)) {
+          const content = fs.readFileSync(filePath, 'utf-8');
+          // Compter les appels await page.* (étapes Playwright)
+          // Pattern: await page.goto, await page.click, await page.fill, etc.
+          const stepMatches = content.match(/await\s+page\.\w+/g);
+          if (stepMatches) {
+            count += stepMatches.length;
+          }
+        }
+      });
+    } catch (e) {
+      // Ignorer les erreurs
+    }
+  }
+  
+  walk(dir);
+  return count;
+}
+
+/**
  * Collecte les métriques E2E depuis les résultats Playwright
  */
 function collectE2EMetrics(): { total: number; passed: number; failed: number; duration: number; lastRunDate?: string } | undefined {
@@ -309,6 +344,9 @@ function collectTestMetrics() {
 
   // Collecter les métriques E2E
   const e2eTests = collectE2EMetrics();
+  
+  // Compter les étapes E2E dans les fichiers de test
+  const e2eSteps = countE2ESteps(path.join(testsDir, 'end-to-end'));
 
   return {
     unitTests,
@@ -321,6 +359,7 @@ function collectTestMetrics() {
     failingTests: 0,
     testDuration: 0,
     e2eTests,
+    e2eSteps,
   };
 }
 
@@ -646,10 +685,11 @@ async function main() {
   console.log('\n📈 Résumé:');
   console.log(`  Tests: ${snapshot.tests.totalTests}`);
   console.log(`  Features BDD: ${snapshot.tests.bddFeatures} (${snapshot.tests.bddScenarios} scénarios)`);
+  console.log(`  Étapes E2E: ${snapshot.tests.e2eSteps || 0}`);
   if (snapshot.tests.e2eTests) {
-    console.log(`  Tests E2E: ${snapshot.tests.e2eTests.total} (${snapshot.tests.e2eTests.passed} réussis, ${snapshot.tests.e2eTests.failed} échoués)`);
+    console.log(`  Tests E2E exécutés: ${snapshot.tests.e2eTests.total} (${snapshot.tests.e2eTests.passed} réussis, ${snapshot.tests.e2eTests.failed} échoués)`);
   } else {
-    console.log('  Tests E2E: Aucune exécution récente');
+    console.log('  Tests E2E exécutés: Aucune exécution récente');
   }
   console.log(`  Couverture: ${snapshot.coverage.lines.percentage}%`);
   console.log(`  ESLint: ${snapshot.quality.eslintErrors} erreurs, ${snapshot.quality.eslintWarnings} warnings`);

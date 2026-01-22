@@ -12,7 +12,15 @@
   min-height: 50px;
   display: flex;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: space-between;
+}
+
+.version {
+  color: white;
+  font-size: 0.875rem;
+  font-weight: 400;
+  margin-left: 60px;
+  opacity: 0.8;
 }
 
 .buttonsContainer {
@@ -52,4 +60,12 @@
   flex-shrink: 0;
   /* Transparence et couleur gérées par lucide-react */
   color: white;
+}
+
+/* Responsive : sur très petits écrans, garder 60px mais réduire la taille de police */
+@media (max-width: 480px) {
+  .version {
+    margin-left: 60px;
+    font-size: 0.75rem;
+  }
 }

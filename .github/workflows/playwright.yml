@@ -8,8 +8,14 @@ jobs:
   test:
     timeout-minutes: 60
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: read
     steps:
     - uses: actions/checkout@v4
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        fetch-depth: 0
     - uses: actions/setup-node@v4
       with:
         node-version: lts/*
@@ -19,11 +25,34 @@ jobs:
       run: npm test
     - name: Install Playwright Browsers
       run: npx playwright install --with-deps
+    - name: Generate BDD test files
+      run: npm run test:bdd:generate
     - name: Run Playwright tests
       run: npx playwright test
+    - name: Collect metrics
+      run: npm run metrics:collect
+      continue-on-error: true
+    - name: Commit and push metrics
+      if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git add public/metrics/
+        if git diff --staged --quiet; then
+          echo "No metrics changes to commit"
+        else
+          git commit -m "chore: update metrics [skip ci]"
+          git push
+        fi
     - uses: actions/upload-artifact@v4
       if: ${{ !cancelled() }}
       with:
         name: playwright-report
         path: playwright-report/
+        retention-days: 30
+    - uses: actions/upload-artifact@v4
+      if: ${{ !cancelled() }}
+      with:
+        name: metrics
+        path: public/metrics/
         retention-days: 30

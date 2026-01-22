@@ -22,6 +22,7 @@ export interface TestMetrics {
     duration: number;           // Durée d'exécution (ms)
     lastRunDate?: string;       // Date du dernier run (ISO 8601)
   };
+  e2eSteps?: number;           // Nombre total d'étapes E2E dans les fichiers de test
 }
 
 /**

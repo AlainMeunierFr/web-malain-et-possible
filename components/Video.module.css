@@ -5,6 +5,12 @@
   margin: 0 auto;
   padding: 1rem;
   box-sizing: border-box;
+  background-color: var(--background);
+}
+
+/* Variante avec fond bleu clair */
+.videoContainerLight {
+  background-color: var(--BleuClair);
 }
 
 /* Titre de la vidéo (optionnel) : h2, gras, centré, largeur comme domaine de compétence */

@@ -35,7 +35,7 @@ export interface DomaineDeCompetences {
 /**
  * Types d'éléments de contenu de page
  */
-export type TypeElementContenu = 'titre' | 'video' | 'texteLarge' | 'domaineDeCompetence' | 'callToAction' | 'groupeBoutons' | 'listeDesPages';
+export type TypeElementContenu = 'titre' | 'video' | 'texteLarge' | 'domaineDeCompetence' | 'callToAction' | 'groupeBoutons' | 'listeDesPages' | 'videoDetournement' | 'temoignages';
 
 /**
  * Interface pour un élément de type "Titre"
@@ -108,6 +108,32 @@ export interface ElementListeDesPages {
 }
 
 /**
+ * Interface pour un élément de type "Vidéo détournement"
+ */
+export interface ElementVideoDetournement {
+  type: 'videoDetournement';
+  items: any[]; // Structure flexible pour les détournements
+}
+
+/**
+ * Interface pour un témoignage
+ */
+export interface Temoignage {
+  nom: string;
+  fonction: string;
+  photo: string;
+  temoignage: string;
+}
+
+/**
+ * Interface pour un élément de type "Témoignages"
+ */
+export interface ElementTemoignages {
+  type: 'temoignages';
+  items: Temoignage[];
+}
+
+/**
  * Union type pour tous les éléments de contenu
  */
 export type ElementContenu = 
@@ -117,7 +143,9 @@ export type ElementContenu =
   | ElementDomaineDeCompetence
   | ElementCallToAction
   | ElementGroupeBoutons
-  | ElementListeDesPages;
+  | ElementListeDesPages
+  | ElementVideoDetournement
+  | ElementTemoignages;
 
 /**
  * Interface pour la structure "contenu de page"

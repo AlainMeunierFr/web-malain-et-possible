@@ -72,58 +72,92 @@ const iconMap: Record<string, LucideIcon> = {
 
 export interface DomaineDeCompetencesProps {
   domaine: DomaineDeCompetences;
+  backgroundColor?: 'white' | 'light';
 }
 
-const DomaineDeCompetences: React.FC<DomaineDeCompetencesProps> = ({ domaine }) => {
+const DomaineDeCompetences: React.FC<DomaineDeCompetencesProps> = ({ domaine, backgroundColor = 'white' }) => {
   // Protection : vérifier que items existe et est un tableau
   if (!domaine.items || !Array.isArray(domaine.items)) {
     console.error('DomaineDeCompetences: items is missing or not an array', domaine);
     return null;
   }
 
+  const containerClass = backgroundColor === 'light' 
+    ? `${styles.container} ${styles.containerLight}`
+    : styles.container;
+
   return (
-    <div className={styles.container}>
+    <div className={containerClass}>
       {/* Premier sous-bloc : Domaine de compétences */}
       <div className={styles.domaineHeader}>
         <h2 className={styles.domaineTitre}>{domaine.titre}</h2>
-        <p className={styles.domaineContenu}>{domaine.contenu}</p>
+        {domaine.contenu && domaine.contenu.trim() && (
+          <p className={styles.domaineContenu}>{domaine.contenu}</p>
+        )}
       </div>
 
-      {/* Second bloc : 3 compétences */}
+      {/* Second bloc : éléments alignés horizontalement */}
       <div className={styles.competencesContainer}>
-        {domaine.items.map((competence, index) => {
-          // Récupère l'icône lucide-react si elle existe
-          const IconComponent = competence.icon ? iconMap[competence.icon] : null;
-
-          return (
-            <div key={index} className={styles.competence}>
+        {/* Bloc des titres */}
+        <div className={styles.competencesRow}>
+          {domaine.items.map((competence, index) => (
+            <div key={`titre-${index}`} className={styles.competenceCell}>
               <h3 className={styles.competenceTitre}>{competence.titre}</h3>
-              <div className={styles.competenceImage}>
-                {IconComponent ? (
-                  <IconComponent
-                    size={120}
-                    color="rgba(9, 23, 71, 1)"
-                    strokeWidth={1.5}
-                    className={styles.competenceIcon}
-                  />
-                ) : competence.image ? (
-                  <img 
-                    src={competence.image.src} 
-                    alt={competence.image.alt}
-                  />
-                ) : null}
+            </div>
+          ))}
+        </div>
+
+        {/* Bloc des images */}
+        <div className={styles.competencesRow}>
+          {domaine.items.map((competence, index) => {
+            const IconComponent = competence.icon ? iconMap[competence.icon] : null;
+            return (
+              <div key={`image-${index}`} className={styles.competenceCell}>
+                <div className={styles.competenceImage}>
+                  {IconComponent ? (
+                    <IconComponent
+                      size={120}
+                      color="rgba(9, 23, 71, 1)"
+                      strokeWidth={1.5}
+                      className={styles.competenceIcon}
+                    />
+                  ) : competence.image ? (
+                    <img 
+                      src={competence.image.src} 
+                      alt={competence.image.alt}
+                    />
+                  ) : null}
+                </div>
               </div>
+            );
+          })}
+        </div>
+
+        {/* Bloc des descriptions */}
+        <div className={styles.competencesRow}>
+          {domaine.items.map((competence, index) => (
+            <div key={`description-${index}`} className={styles.competenceCell}>
               <div className={styles.competenceDescription}>
                 {parseInlineMarkdown(competence.description)}
               </div>
-              {competence.bouton && (
-                <Link href={competence.bouton.action} className={styles.competenceBouton}data-e2eid={null}>
+            </div>
+          ))}
+        </div>
+
+        {/* Bloc des boutons */}
+        <div className={styles.competencesRow}>
+          {domaine.items.map((competence, index) => (
+            <div key={`bouton-${index}`} className={styles.competenceCell}>
+              {competence.bouton ? (
+                <Link href={competence.bouton.action} className={styles.competenceBouton} data-e2eid={null}>
                   {competence.bouton.texte}
                 </Link>
+              ) : (
+                <div className={styles.competenceBoutonPlaceholder}></div>
               )}
             </div>
-          );
-        })}
+          ))}
+        </div>
       </div>
     </div>
   );

@@ -13,14 +13,17 @@
     "test:e2e:ui": "playwright test --ui",
     "test:e2e:report": "playwright show-report",
     "test:e2e:generate": "ts-node scripts/generate-e2e-scenario.ts",
-    "build": "next build",
-    "build:analyze": "ANALYZE=true next build",
+    "build": "ts-node scripts/increment-site-version.ts sync && ts-node scripts/increment-site-version.ts patch && next build",
+    "build:analyze": "ANALYZE=true ts-node scripts/increment-site-version.ts sync && ts-node scripts/increment-site-version.ts patch && next build",
     "start": "next start",
     "lint": "eslint",
     "metrics:collect": "ts-node scripts/collect-metrics-simple.ts",
     "metrics:view": "npm run dev",
     "metrics:full": "npm run metrics:collect && npm run dev",
-    "precommit": "ts-node scripts/pre-commit-generate-e2e.ts"
+    "precommit": "ts-node scripts/pre-commit-generate-e2e.ts",
+    "version:patch": "ts-node scripts/increment-site-version.ts patch",
+    "version:minor": "ts-node scripts/increment-site-version.ts minor",
+    "version:sync": "ts-node scripts/increment-site-version.ts sync"
   },
   "dependencies": {
     "@xyflow/react": "^12.10.0",

@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import styles from './Footer.module.css';
 import footerButtonsData from '../data/footerButtons.json';
@@ -17,6 +17,15 @@ interface FooterButtonsData {
 const Footer: React.FC = () => {
   const router = useRouter();
   const footerButtons = footerButtonsData as FooterButtonsData;
+  const [version, setVersion] = useState<string>('');
+
+  useEffect(() => {
+    // Charger la version depuis l'API
+    fetch('/api/version')
+      .then(res => res.json())
+      .then(data => setVersion(data.version || ''))
+      .catch(() => setVersion(''));
+  }, []);
 
   const handleButtonClick = (command: string, url: string | null) => {
     // Backend pur : détermine l'action (logique métier)
@@ -44,6 +53,11 @@ const Footer: React.FC = () => {
 
   return (
     <footer className={styles.footer}>
+      {version && (
+        <div className={styles.version}>
+          v{version}
+        </div>
+      )}
       <div className={styles.buttonsContainer}>
         {footerButtons.boutons.map((button) => {
           // Vérifier que chaque bouton a les propriétés requises
