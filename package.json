@@ -18,7 +18,7 @@
     "metrics:collect": "ts-node scripts/collect-metrics-simple.ts",
     "metrics:view": "npm run dev",
     "metrics:full": "npm run metrics:collect && npm run dev",
-    "precommit": "npm run test:e2e:generate && npm run test -- tests/integration/generate-e2e-plan.integration.test.ts"
+    "precommit": "ts-node scripts/pre-commit-generate-e2e.ts"
   },
   "dependencies": {
     "@xyflow/react": "^12.10.0",
