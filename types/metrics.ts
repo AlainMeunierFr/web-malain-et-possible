@@ -14,7 +14,10 @@ export interface TestMetrics {
   totalTests: number;          // Total des tests
   passingTests: number;        // Tests réussis
   failingTests: number;        // Tests échoués
-  testDuration: number;        // Durée des tests (ms)
+  testDuration: number;        // Durée totale des tests (ms)
+  unitTestDuration?: number;   // Durée des tests unitaires (ms)
+  integrationTestDuration?: number; // Durée des tests d'intégration (ms)
+  bddTestDuration?: number;    // Durée des tests BDD (ms)
   e2eTests?: {                 // Métriques des tests E2E Playwright (optionnel)
     total: number;             // Nombre total de tests E2E
     passed: number;             // Tests réussis

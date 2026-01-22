@@ -1,46 +1,40 @@
 {
-  "timestamp": "2026-01-22T07:05:27.491Z",
+  "timestamp": "2026-01-22T23:30:15.467Z",
   "version": "0.1.0",
   "branch": "main",
-  "commit": "acf448c",
+  "commit": "c073917",
   "tests": {
-    "unitTests": 341,
-    "integrationTests": 1,
-    "bddFeatures": 9,
-    "bddScenarios": 33,
+    "unitTests": 383,
+    "integrationTests": 35,
+    "bddFeatures": 4,
+    "bddScenarios": 11,
     "bddSteps": 0,
-    "totalTests": 342,
-    "passingTests": 342,
+    "totalTests": 418,
+    "passingTests": 418,
     "failingTests": 0,
     "testDuration": 0,
-    "e2eTests": {
-      "total": 1,
-      "passed": 1,
-      "failed": 0,
-      "duration": 0,
-      "lastRunDate": "2026-01-21T18:13:34.130Z"
-    }
+    "e2eSteps": 61
   },
   "coverage": {
     "lines": {
-      "total": 1263,
-      "covered": 1035,
-      "percentage": 81.94
+      "total": 1701,
+      "covered": 1388,
+      "percentage": 81.59
     },
     "statements": {
-      "total": 1316,
-      "covered": 1077,
-      "percentage": 81.83
+      "total": 1773,
+      "covered": 1448,
+      "percentage": 81.66
     },
     "functions": {
-      "total": 157,
-      "covered": 119,
-      "percentage": 75.79
+      "total": 200,
+      "covered": 158,
+      "percentage": 79
     },
     "branches": {
-      "total": 786,
-      "covered": 586,
-      "percentage": 74.55
+      "total": 1105,
+      "covered": 783,
+      "percentage": 70.85
     }
   },
   "quality": {
@@ -52,20 +46,20 @@
     "technicalDebt": "2h"
   },
   "size": {
-    "totalFiles": 48,
-    "totalLines": 4759,
-    "sourceLines": 4759,
+    "totalFiles": 52,
+    "totalLines": 6117,
+    "sourceLines": 6117,
     "commentLines": 0,
     "blankLines": 0,
     "components": 25,
     "pages": 12,
-    "utils": 11,
-    "tests": 47
+    "utils": 15,
+    "tests": 54
   },
   "dependencies": {
-    "total": 33,
+    "total": 31,
     "production": 6,
-    "development": 27,
+    "development": 25,
     "outdated": 0,
     "vulnerabilities": {
       "low": 0,
@@ -76,7 +70,7 @@
     }
   },
   "performance": {
-    "bundleSize": 1395101,
+    "bundleSize": 412127,
     "buildTime": 0
   }
 }

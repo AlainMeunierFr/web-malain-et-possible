@@ -132,18 +132,58 @@ npm test -- --coverage --collectCoverageFrom="utils/**/*.ts" --collectCoverageFr
 
 ---
 
-#### Conclusion
+#### État de la couverture après corrections
 
-La dégradation de la couverture de code est due à :
-1. Des tests qui échouent (fonctions manquantes, logique incomplète)
-2. Possible inclusion du dossier `continue/` dans le calcul de couverture
-3. Non-respect de la DOD (couverture < 90%)
+**Couverture actuelle** (après exclusion de `continue/` et correction des tests) :
+- **Statements** : 76.76% (objectif : 90%) ❌
+- **Branches** : 67.51% (objectif : 90%) ❌
+- **Functions** : 75% (objectif : 90%) ❌
+- **Lines** : 76.77% (objectif : 90%) ❌
 
-**Actions immédiates** :
-1. Corriger les tests qui échouent
-2. Vérifier l'exclusion de `continue/` dans `jest.config.js`
-3. Obtenir la couverture réelle du code du projet
-4. Corriger la couverture si < 90% selon la DOD
+**Conclusion** : Tous les critères sont en dessous de 90%, ce qui viole la DOD.
+
+#### Actions correctives effectuées
+
+✅ **1. Exclusion du dossier `continue/`**
+- Ajout de `'!**/continue/**'` dans `collectCoverageFrom` de `jest.config.js`
+
+✅ **2. Correction des tests obsolètes**
+- Suppression des tests qui référencent `readDetournementsVideo()` (fonction inexistante)
+- Réécriture de `tests/unit/videoDetournementJson.test.ts` pour utiliser `readPageData()`
+- Correction des tests de résolution de références externes pour témoignages et détournements
+
+✅ **3. Correction du fichier MD avec titre H1**
+- Correction de `A propos de ce site/2. Sprints/2026-01-22 - Orchestration et automatisation des tests.md` (ligne 107 : `#` remplacé par texte normal)
+
+✅ **4. Création de tests manquants selon TDD strict**
+- **`tests/unit/passwordUtils.test.ts`** : Tests complets pour `hashMD5`, `getStoredPasswordHash`, `verifyPassword` (10 tests)
+- **`tests/unit/e2eIdCounter.test.ts`** : Tests complets pour `calculateMaxCounter`, `getNextAvailableId` (10 tests)
+- **`tests/unit/e2eIdDetector.test.ts`** : Tests pour `detectMissingE2eIds`, `generateAuditFile` (9 tests)
+- **`tests/unit/e2eIdGenerator.test.ts`** : Tests pour `generateE2eIdsFromAudit` (6 tests)
+- **`tests/unit/e2eIdInventory.test.ts`** : Tests pour `generateE2eIdInventory`, `extractE2eIdsFromTestFile` (8 tests)
+
+**Total** : 43 nouveaux tests créés selon TDD strict avec progression visible du simple au complexe.
+
+#### Actions restantes nécessaires
+
+**Priorité haute** : Atteindre 90% de couverture sur tous les critères
+
+**Gap à combler** :
+- **Statements** : 82.45% → 90% (manque 7.55%)
+- **Branches** : 72.12% → 90% (manque 17.88%)
+- **Functions** : 79% → 90% (manque 11%)
+- **Lines** : 82.42% → 90% (manque 7.58%)
+
+**Plan d'action** :
+1. Identifier les fichiers `utils/` et `components/` avec faible couverture (notamment les branches)
+2. Pour chaque fichier :
+   - Vérifier qu'il y a un fichier de test correspondant
+   - Si non, créer le fichier de test selon TDD strict
+   - Si oui, compléter les tests pour couvrir toutes les branches (if/else, switch cases, etc.)
+3. Vérifier que tous les tests passent
+4. Relancer la couverture et vérifier que 90% est atteint
+
+**Focus prioritaire** : Les branches (72.12%) nécessitent le plus d'effort (+17.88%).
 
 **Prévention** :
 - Ajouter une vérification automatique de couverture dans CI/CD

@@ -42,10 +42,10 @@ function countCompletedUS(): { count: number; usList: CompletedUS[] } {
     let currentUS: { id: string; title: string; startLine: number } | null = null;
     
     for (let i = 0; i < lines.length; i++) {
-      const line = lines[i];
+      const line = lines[i].replace(/\r$/, ''); // Supprimer le \r en fin de ligne (Windows)
       
-      // Détecter une User Story (format: #### US-X.Y : Titre)
-      const usMatch = line.match(/^####\s+(US-\d+\.\d+)\s*:\s*(.+)$/);
+      // Détecter une User Story (format: #### US-X.Y : Titre ou #### US-X.Ya : Titre)
+      const usMatch = line.match(/^####\s+(US-\d+\.\d+[a-z]?)\s*:\s*(.+)$/);
       if (usMatch) {
         // Vérifier si l'US précédente était complétée avant de passer à la suivante
         if (currentUS) {
@@ -58,8 +58,15 @@ function countCompletedUS(): { count: number; usList: CompletedUS[] } {
         // Supporte les variantes : "✅ COMPLÉTÉ", "✅ COMPLETÉ", avec ou sans espace
         // Le caractère ✅ peut être encodé différemment, donc on cherche aussi sans l'emoji
         // Utilise une regex insensible à la casse pour détecter "COMPLÉTÉ" ou "COMPLETÉ"
+        // Normalise le texte pour gérer les problèmes d'encodage (É peut être encodé différemment)
+        const normalizedTitle = usTitle.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
         const isCompletedInTitle = 
-          /COMPL[EÉ]T[EÉ]/i.test(usTitle);
+          /COMPL[EÉ]T[EÉ]/i.test(usTitle) || 
+          /COMPLETE/i.test(normalizedTitle) ||
+          usTitle.includes('✅ COMPLÉTÉ') ||
+          usTitle.includes('✅ COMPLETÉ') ||
+          usTitle.includes('COMPLÉTÉ') ||
+          usTitle.includes('COMPLETÉ');
         
         if (isCompletedInTitle) {
           // US complétée directement dans le titre

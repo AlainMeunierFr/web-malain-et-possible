@@ -10,7 +10,7 @@ const filesToFix = [
   'components/DomaineDeCompetences.tsx',
   'tests/unit/videoDetournementJson.test.ts',
   'tests/unit/indexReader.test.ts',
-  'tests/unit/jsonConformity.integration.test.ts',
+  'tests/integration/jsonConformity.integration.test.ts',
   'utils/siteMapGenerator.ts',
   'utils/indexReader.ts',
   'tests/integration/jsonValidation.integration.test.ts',

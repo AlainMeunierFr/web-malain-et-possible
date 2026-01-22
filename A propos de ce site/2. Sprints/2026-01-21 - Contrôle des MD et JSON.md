@@ -24,7 +24,7 @@ Garantir la qualité et la cohérence des fichiers Markdown et JSON du projet en
   - Tous les fichiers MD doivent passer la validation pour que le test soit vert
 
 - **Couverture** :
-  - Test d'intégration existant : `tests/unit/aboutSiteReader.integration.test.ts`
+  - Test d'intégration existant : `tests/integration/aboutSiteReader.integration.test.ts`
   - Parcours récursif de tous les sous-dossiers dans "A propos de ce site"
   - Exclusion de `node_modules` et `.next`
 

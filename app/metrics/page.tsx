@@ -152,32 +152,34 @@ export default function MetricsPage() {
         {/* Section Tests */}
         <section className={styles.section}>
           <h2 className={styles.sectionTitle}>🧪 Tests</h2>
-          <div className={styles.grid}>
+          <div className={styles.gridTests}>
             <MetricCard 
               title="Total Tests" 
-              value={latest.tests.totalTests} 
+              value={latest.tests.unitTests + latest.tests.integrationTests + latest.tests.bddScenarios + latest.tests.bddSteps} 
               trend={trends.tests}
-              subtitle={`${latest.tests.passingTests} réussis, ${latest.tests.failingTests} échoués`}
+              subtitle={`${latest.tests.passingTests} réussis, ${latest.tests.failingTests} échoués • ${(latest.tests.testDuration / 1000).toFixed(2)}s`}
+            />
+            <MetricCard 
+              title="Scénarios BDD" 
+              value={latest.tests.bddScenarios}
+              subtitle={`${latest.tests.bddFeatures} features • ${((latest.tests.bddTestDuration || 0) / 1000).toFixed(2)}s`}
             />
             <MetricCard 
               title="Tests Unitaires" 
               value={latest.tests.unitTests}
+              subtitle={`${((latest.tests.unitTestDuration || 0) / 1000).toFixed(2)}s`}
             />
             <MetricCard 
               title="Tests Intégration" 
               value={latest.tests.integrationTests}
+              subtitle={`${((latest.tests.integrationTestDuration || 0) / 1000).toFixed(2)}s`}
             />
             <MetricCard 
-              title="Features BDD" 
-              value={latest.tests.bddFeatures}
-              subtitle={`${latest.tests.bddScenarios} scénarios, ${latest.tests.bddSteps} steps`}
-            />
-            <MetricCard 
-              title="Tests E2E (Playwright)" 
+              title="Test end to end : steps" 
               value={latest.tests.e2eSteps || 0}
               subtitle={
                 lastE2ERun
-                  ? `${lastE2ERun.passed} réussis, ${lastE2ERun.failed} échoués • ${(lastE2ERun.duration / 1000).toFixed(2)}s${lastE2ERun.lastRunDate ? ` • ${new Date(lastE2ERun.lastRunDate).toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' })}` : ''}`
+                  ? `${lastE2ERun.total || 0} scénarios • ${(lastE2ERun.duration / 1000).toFixed(2)}s`
                   : 'Aucune exécution récente'
               }
             />

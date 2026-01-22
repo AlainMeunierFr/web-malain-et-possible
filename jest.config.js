@@ -24,6 +24,7 @@ module.exports = {
       '!**/*.d.ts',
       '!**/*.test.{ts,tsx}',
       '!**/node_modules/**',
+      '!**/continue/**',
     ],
     coverageReporters: ['json-summary', 'text', 'lcov', 'html'],
   };

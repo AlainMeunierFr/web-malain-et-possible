@@ -39,11 +39,11 @@ export function countCompletedUS(): { count: number; usList: CompletedUS[] } {
     let currentUS: { id: string; title: string; startLine: number } | null = null;
     
     for (let i = 0; i < lines.length; i++) {
-      const line = lines[i];
+      const line = lines[i].replace(/\r$/, ''); // Supprimer le \r en fin de ligne (Windows)
       
-      // Détecter une User Story (format: #### US-X.Y : Titre)
+      // Détecter une User Story (format: #### US-X.Y : Titre ou #### US-X.Ya : Titre)
       // Supporte aussi les variantes avec ou sans espace avant le deux-points
-      const usMatch = line.match(/^####\s+(US-\d+\.\d+)\s*:\s*(.+)$/);
+      const usMatch = line.match(/^####\s+(US-\d+\.\d+[a-z]?)\s*:\s*(.+)$/);
       if (usMatch) {
         // Vérifier si l'US précédente était complétée avant de passer à la suivante
         if (currentUS) {
@@ -54,7 +54,11 @@ export function countCompletedUS(): { count: number; usList: CompletedUS[] } {
         const usTitle = usMatch[2].trim();
         // Vérifier si le marqueur de complétion est dans le titre lui-même
         // Supporte les variantes : "✅ COMPLÉTÉ", "✅ COMPLETÉ", avec ou sans espace
+        // Normalise le texte pour gérer les problèmes d'encodage (É peut être encodé différemment)
+        const normalizedTitle = usTitle.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
         const isCompletedInTitle = 
+          /COMPL[EÉ]T[EÉ]/i.test(usTitle) || 
+          /COMPLETE/i.test(normalizedTitle) ||
           usTitle.includes('✅ COMPLÉTÉ') || 
           usTitle.includes('✅ COMPLETÉ') ||
           usTitle.includes('✅ COMPLETE') ||

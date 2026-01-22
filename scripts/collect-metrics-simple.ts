@@ -297,6 +297,61 @@ function collectE2EMetrics(): { total: number; passed: number; failed: number; d
 }
 
 /**
+ * Collecte les durées des tests depuis les résultats Jest
+ */
+function collectJestTestDurations(): { unitDuration: number; integrationDuration: number; totalDuration: number; passingTests: number; failingTests: number } {
+  let unitDuration = 0;
+  let integrationDuration = 0;
+  let totalDuration = 0;
+  let passingTests = 0;
+  let failingTests = 0;
+
+  try {
+    // Jest peut générer un fichier JSON avec --json --outputFile
+    // Vérifier si un fichier test-results.json existe (généré par Jest)
+    const jestResultsPath = path.join(process.cwd(), 'test-results.json');
+    
+    if (fs.existsSync(jestResultsPath)) {
+      const jestResults = JSON.parse(fs.readFileSync(jestResultsPath, 'utf-8'));
+      
+      // Structure Jest JSON : { numTotalTests, numPassedTests, numFailedTests, testResults: [...] }
+      if (jestResults.testResults && Array.isArray(jestResults.testResults)) {
+        passingTests = jestResults.numPassedTests || 0;
+        failingTests = jestResults.numFailedTests || 0;
+        
+        for (const testResult of jestResults.testResults) {
+          const filePath = testResult.name || '';
+          const isIntegration = filePath.includes('integration') || filePath.includes('.integration.test.');
+          
+          // Durée du fichier de test (en millisecondes)
+          const fileDuration = testResult.endTime && testResult.startTime 
+            ? testResult.endTime - testResult.startTime 
+            : 0;
+          
+          totalDuration += fileDuration;
+          
+          if (isIntegration) {
+            integrationDuration += fileDuration;
+          } else {
+            unitDuration += fileDuration;
+          }
+        }
+      }
+    }
+  } catch (e) {
+    console.warn('⚠️  Impossible de lire les durées Jest (test-results.json non trouvé ou invalide)');
+  }
+
+  return {
+    unitDuration,
+    integrationDuration,
+    totalDuration,
+    passingTests,
+    failingTests,
+  };
+}
+
+/**
  * Collecte les métriques de tests
  */
 function collectTestMetrics() {
@@ -310,6 +365,15 @@ function collectTestMetrics() {
   // Compter les tests d'intégration spécifiquement
   let integrationTests = 0;
   try {
+    const integrationDir = path.join(testsDir, 'integration');
+    if (fs.existsSync(integrationDir)) {
+      const files = fs.readdirSync(integrationDir).filter(f => /\.integration\.test\.(ts|tsx)$/.test(f));
+      files.forEach(file => {
+        const content = fs.readFileSync(path.join(integrationDir, file), 'utf-8');
+        integrationTests += (content.match(/\b(it|test)\s*\(/g) || []).length;
+      });
+    }
+    // Aussi chercher dans tests/unit pour les fichiers .integration.test.*
     const unitDir = path.join(testsDir, 'unit');
     if (fs.existsSync(unitDir)) {
       const files = fs.readdirSync(unitDir).filter(f => /\.integration\.test\.(ts|tsx)$/.test(f));
@@ -342,11 +406,18 @@ function collectTestMetrics() {
     console.warn('⚠️  Erreur lors du comptage BDD');
   }
 
-  // Collecter les métriques E2E
+  // Collecter les métriques E2E (qui incluent aussi les tests BDD exécutés avec Playwright)
   const e2eTests = collectE2EMetrics();
   
   // Compter les étapes E2E dans les fichiers de test
   const e2eSteps = countE2ESteps(path.join(testsDir, 'end-to-end'));
+
+  // Collecter les durées depuis Jest
+  const jestDurations = collectJestTestDurations();
+  
+  // La durée BDD peut être approximée depuis les métriques E2E si disponibles
+  // Les tests BDD sont exécutés avec Playwright via playwright-bdd
+  const bddDuration = e2eTests?.duration || 0;
 
   return {
     unitTests,
@@ -355,9 +426,12 @@ function collectTestMetrics() {
     bddScenarios,
     bddSteps,
     totalTests: unitTests + integrationTests,
-    passingTests: unitTests + integrationTests, // Placeholder
-    failingTests: 0,
-    testDuration: 0,
+    passingTests: jestDurations.passingTests || (unitTests + integrationTests),
+    failingTests: jestDurations.failingTests || 0,
+    testDuration: jestDurations.totalDuration,
+    unitTestDuration: jestDurations.unitDuration,
+    integrationTestDuration: jestDurations.integrationDuration,
+    bddTestDuration: bddDuration, // Durée depuis Playwright (tests BDD exécutés avec playwright-bdd)
     e2eTests,
     e2eSteps,
   };
@@ -607,8 +681,9 @@ async function main() {
   // Générer la couverture de code AVANT de collecter les métriques
   console.log('📊 Génération de la couverture de code...');
   try {
+    // Utiliser --json pour générer test-results.json avec les durées
     // Utiliser --coverageReporters=json-summary pour générer coverage-summary.json
-    execSync('npm test -- --coverage --coverageReporters=json-summary --coverageReporters=text --silent', { 
+    execSync('npm test -- --coverage --coverageReporters=json-summary --coverageReporters=text --json --outputFile=test-results.json --silent', { 
       encoding: 'utf-8', 
       stdio: 'inherit' 
     });

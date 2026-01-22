@@ -13,6 +13,7 @@
 .container {
   max-width: 1400px;
   margin: 0 auto;
+  width: 100%;
 }
 
 /* Header */
@@ -68,6 +69,14 @@
   gap: 1.5rem;
 }
 
+/* Grid Layout pour les tests - 5 colonnes sur une ligne */
+.gridTests {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 1.5rem;
+  width: 100%;
+}
+
 /* Metric Cards */
 .card {
   background: linear-gradient(135deg, var(--BleuFonce) 0%, #005a99 100%);
@@ -75,6 +84,7 @@
   padding: 1.5rem;
   color: white;
   transition: transform 0.2s;
+  min-width: 0;
 }
 
 .card:hover {
@@ -225,6 +235,16 @@
 
   .grid {
     grid-template-columns: 1fr;
+  }
+
+  .gridTests {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    overflow-x: auto;
+  }
+  
+  .gridTests .card {
+    min-width: 180px;
+    flex-shrink: 0;
   }
 
   .meta {

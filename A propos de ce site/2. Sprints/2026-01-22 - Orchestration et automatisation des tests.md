@@ -100,13 +100,16 @@ Automatiser la génération et l'orchestration des tests end-to-end (E2E) pour g
   - `major` : Fixé à 1
   - `minor` : Nombre total de User Stories complétées depuis le début du projet
   - `patch` : Numéro de build (incrémenté à chaque build)
-- **Comptage automatique** : Script `scripts/count-completed-us.ts` qui compte toutes les US marquées "✅ COMPLÉTÉ" ou "✅ COMPLETÉ" dans tous les fichiers du dossier "2. Sprints"
-- **Détection dans le titre** : Les US complétées peuvent être marquées directement dans le titre (format `#### US-X.Y : Titre ✅ COMPLÉTÉ`)
+- **Comptage automatique** : Script `scripts/count-completed-us.ts` qui compte toutes les US marquées "✅ COMPLETE" ou "✅ COMPLETE" dans tous les fichiers du dossier "2. Sprints"
+- **Détection dans le titre** : Les US complétées peuvent être marquées directement dans le titre (format `#### US-X.Y : Titre ✅ COMPLETE`)
 - **Synchronisation** : Script `scripts/increment-site-version.ts sync` qui synchronise le `minor` avec le nombre d'US complétées
 - **Incrémentation automatique** : Le `patch` est incrémenté automatiquement à chaque build via `npm run version:patch`
 - **Stockage** : Version stockée dans `site-version.json` et accessible via l'API `/api/version`
 - **Affichage** : Version affichée dans le footer du site
 - **Intégration CI/CD** : Synchronisation et incrémentation automatiques lors des builds sur Vercel
+
+#### US-4.X : Graphiques pour métriques (À TRAITER ULTÉRIEUREMENT)
+
 - **En tant que** Manager technico-fonctionnel
 - **Je souhaite** Voir l'évolution des métriques sous forme de graphiques (courbes, barres)
 - **Afin de** Identifier rapidement les tendances et les anomalies sur une période donnée

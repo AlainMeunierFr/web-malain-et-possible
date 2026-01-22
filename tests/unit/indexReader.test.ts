@@ -8,7 +8,6 @@ import path from 'path';
 import {
   convertirIndexDataEnPageData,
   readIndexData,
-  readDetournementsVideo,
   readPageData,
   readDomaineData,
   type IndexData,
@@ -103,38 +102,6 @@ describe('indexReader', () => {
     });
   });
 
-  describe('readDetournementsVideo', () => {
-    it('devrait lire les détournements vidéo', () => {
-      const mockData = {
-        détournements: [
-          {
-            id: 'det1',
-            titre: 'Détournement 1',
-            description: 'Description 1',
-            urlYouTube: 'https://youtube.com/watch?v=abc',
-          },
-        ],
-      };
-
-      mockFs.existsSync.mockReturnValue(true);
-      mockFs.readFileSync.mockReturnValue(JSON.stringify(mockData));
-
-      const result = readDetournementsVideo();
-
-      expect(result).toEqual(mockData.détournements);
-      expect(mockFs.existsSync).toHaveBeenCalledWith(
-        expect.stringContaining('Détournements vidéo.json')
-      );
-    });
-
-    it('devrait lever une erreur si fichier inexistant', () => {
-      mockFs.existsSync.mockReturnValue(false);
-
-      expect(() => readDetournementsVideo()).toThrow(
-        "Le fichier Détournements vidéo.json n'existe pas"
-      );
-    });
-  });
 
   describe('readPageData', () => {
     it('devrait lire PageData avec nouvelle structure', () => {
@@ -193,13 +160,19 @@ describe('indexReader', () => {
         ],
       };
 
+      // Structure réelle : le fichier source a contenu[] avec un élément temoignages qui a items[]
       const mockTemoignagesData = {
-        items: [
+        contenu: [
           {
-            id: 'tem1',
-            nom: 'Test',
-            fonction: 'Fonction',
-            citation: 'Citation',
+            type: 'temoignages',
+            items: [
+              {
+                nom: 'Test',
+                fonction: 'Fonction',
+                photo: '/images/test.jpeg',
+                temoignage: 'Citation',
+              },
+            ],
           },
         ],
       };
@@ -220,7 +193,7 @@ describe('indexReader', () => {
 
       const result = readPageData('test.json');
 
-      expect(result.contenu[0].items).toEqual(mockTemoignagesData.items);
+      expect(result.contenu[0].items).toEqual(mockTemoignagesData.contenu[0].items);
     });
 
     it('devrait résoudre les références externes pour détournements', () => {
@@ -233,12 +206,23 @@ describe('indexReader', () => {
         ],
       };
 
+      // Structure réelle : le fichier source a contenu[] avec un élément videoDetournement qui a items[]
       const mockDetournementsData = {
-        détournements: [
+        contenu: [
           {
-            id: 'det1',
-            titre: 'Détournement',
-            urlYouTube: 'https://youtube.com/watch?v=xyz',
+            type: 'videoDetournement',
+            items: [
+              {
+                id: 1,
+                titreVideoDetournee: 'Détournement',
+                videoDetournee: 'abc123',
+                titreVideoOriginale: 'Original',
+                videoOriginale: 'xyz789',
+                pourLeCompteDe: 'Client',
+                date: '2023-01-01',
+                pitch: 'Description',
+              },
+            ],
           },
         ],
       };
@@ -259,7 +243,7 @@ describe('indexReader', () => {
 
       const result = readPageData('test.json');
 
-      expect(result.contenu[0].items).toEqual(mockDetournementsData.détournements);
+      expect(result.contenu[0].items).toEqual(mockDetournementsData.contenu[0].items);
     });
   });
 
