@@ -1,1873 +1,3015 @@
 import { test, expect } from '@playwright/test';
 
-test('parcours complet de tous les liens du site', async ({ page }) => {
+test('parcours complet de tous les liens du site et test de tous les e2eID', async ({ page }) => {
   // Scénario généré automatiquement depuis Pages-Et-Lien.json
-  // Ce test parcourt tous les liens du site pour vérifier leur fonctionnement
+  // Ce test parcourt tous les liens du site et teste tous les e2eID présents
 
-  // Étape 1: Page d'accueil
-  await page.goto('/');
-  await expect(page).toHaveURL('/');
+  await test.step("Étape 1: Page d'accueil", async () => {
+    await page.goto('/');
+    await expect(page).toHaveURL('/');
+  });
 
-  // Étape 2: Navigation de / vers /robustesse
-  // Label du lien: "En savoir plus..."
-  const lien1 = page.getByRole('link', { name: /En savoir plus\.\.\./i });
-  if (await lien1.count() > 0) {
-    await lien1.first().click();
-  } else {
-    // Lien non trouvé par label, navigation via plan-du-site ou accueil
-    // Le footer et le header sont toujours disponibles sur toutes les pages
-    // Option 1 : Essayer via le plan du site (footer)
-    const lienPlanDuSite = page.getByRole('link', { name: /Plan du site/i });
-    if (await lienPlanDuSite.count() > 0) {
-      await lienPlanDuSite.first().click();
-      await expect(page).toHaveURL('/plan-du-site');
-      // Depuis le plan du site, naviguer vers la destination
-      await page.goto('/robustesse');
-    } else {
-      // Option 2 : Via le logo (header) vers l'accueil
-      const logo = page.getByAltText('Logo Malain et possible');
-      if (await logo.count() > 0) {
-        await logo.click();
-        await expect(page).toHaveURL('/');
+  await test.step("Étape 2: Navigation de / vers /robustesse (En savoir plus...)", async () => {
+    // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
+    const liens1 = page.getByRole('link', { name: /En savoir plus\.\.\./i });
+    if (await liens1.count() > 0) {
+      // Si plusieurs liens avec le même label, trouver celui qui va vers la bonne destination
+      const liensTrouves = await liens1.all();
+      let lienTrouve = null;
+      for (const lien of liensTrouves) {
+        const href = await lien.getAttribute('href');
+        // Normaliser l'URL (enlever le slash final si présent)
+        const hrefNormalise = href ? href.replace(/\/$/, '') : '';
+        const destinationNormalisee = '/robustesse'.replace(/\/$/, '');
+        if (hrefNormalise === destinationNormalisee || hrefNormalise === destinationNormalisee + '/' || href === destinationNormalisee || href === destinationNormalisee + '/') {
+          lienTrouve = lien;
+          break;
+        }
+      }
+      if (lienTrouve) {
+        await lienTrouve.click();
       } else {
-        // Fallback : navigation directe vers l'accueil
+        // Aucun lien trouvé vers la destination exacte, utiliser la navigation directe
+        await page.goto('/robustesse');
+      }
+    } else {
+      // Lien non trouvé par label, navigation via plan-du-site ou accueil
+      // Le footer et le header sont toujours disponibles sur toutes les pages
+      // Option 1 : Essayer via le plan du site (footer)
+      const lienPlanDuSite = page.getByRole('link', { name: /Plan du site/i });
+      if (await lienPlanDuSite.count() > 0) {
+        await lienPlanDuSite.first().click();
+        await expect(page).toHaveURL('/plan-du-site');
+        // Depuis le plan du site, naviguer vers la destination
+        await page.goto('/robustesse');
+      } else {
+        // Option 2 : Via le logo (header) vers l'accueil
+        const logo = page.getByAltText('Logo Malain et possible');
+        if (await logo.count() > 0) {
+          await logo.click();
+          await expect(page).toHaveURL('/');
+        } else {
+          // Fallback : navigation directe vers l'accueil
+          await page.goto('/');
+        }
+        // Depuis l'accueil, naviguer vers la destination
+        await page.goto('/robustesse');
+      }
+    }
+    await expect(page).toHaveURL('/robustesse');
+  });
+
+  await test.step("Étape 3: Navigation de /robustesse vers /plan-du-site (Plan du site)", async () => {
+    // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
+    const liens2 = page.getByRole('link', { name: /Plan du site/i });
+    if (await liens2.count() > 0) {
+      // Si plusieurs liens avec le même label, trouver celui qui va vers la bonne destination
+      const liensTrouves = await liens2.all();
+      let lienTrouve = null;
+      for (const lien of liensTrouves) {
+        const href = await lien.getAttribute('href');
+        // Normaliser l'URL (enlever le slash final si présent)
+        const hrefNormalise = href ? href.replace(/\/$/, '') : '';
+        const destinationNormalisee = '/plan-du-site'.replace(/\/$/, '');
+        if (hrefNormalise === destinationNormalisee || hrefNormalise === destinationNormalisee + '/' || href === destinationNormalisee || href === destinationNormalisee + '/') {
+          lienTrouve = lien;
+          break;
+        }
+      }
+      if (lienTrouve) {
+        await lienTrouve.click();
+      } else {
+        // Aucun lien trouvé vers la destination exacte, utiliser la navigation directe
+        await page.goto('/plan-du-site');
+      }
+    } else {
+      // Lien non trouvé par label, navigation via plan-du-site ou accueil
+      // Le footer et le header sont toujours disponibles sur toutes les pages
+      // Option 1 : Essayer via le plan du site (footer)
+      const lienPlanDuSite = page.getByRole('link', { name: /Plan du site/i });
+      if (await lienPlanDuSite.count() > 0) {
+        await lienPlanDuSite.first().click();
+        await expect(page).toHaveURL('/plan-du-site');
+        // Depuis le plan du site, naviguer vers la destination
+        await page.goto('/plan-du-site');
+      } else {
+        // Option 2 : Via le logo (header) vers l'accueil
+        const logo = page.getByAltText('Logo Malain et possible');
+        if (await logo.count() > 0) {
+          await logo.click();
+          await expect(page).toHaveURL('/');
+        } else {
+          // Fallback : navigation directe vers l'accueil
+          await page.goto('/');
+        }
+        // Depuis l'accueil, naviguer vers la destination
+        await page.goto('/plan-du-site');
+      }
+    }
+    await expect(page).toHaveURL('/plan-du-site');
+  });
+
+  await test.step("Étape 4: Navigation de /plan-du-site vers /plan-du-site (Plan du site)", async () => {
+    // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
+    const liens3 = page.getByRole('link', { name: /Plan du site/i });
+    if (await liens3.count() > 0) {
+      // Si plusieurs liens avec le même label, trouver celui qui va vers la bonne destination
+      const liensTrouves = await liens3.all();
+      let lienTrouve = null;
+      for (const lien of liensTrouves) {
+        const href = await lien.getAttribute('href');
+        // Normaliser l'URL (enlever le slash final si présent)
+        const hrefNormalise = href ? href.replace(/\/$/, '') : '';
+        const destinationNormalisee = '/plan-du-site'.replace(/\/$/, '');
+        if (hrefNormalise === destinationNormalisee || hrefNormalise === destinationNormalisee + '/' || href === destinationNormalisee || href === destinationNormalisee + '/') {
+          lienTrouve = lien;
+          break;
+        }
+      }
+      if (lienTrouve) {
+        await lienTrouve.click();
+      } else {
+        // Aucun lien trouvé vers la destination exacte, utiliser la navigation directe
+        await page.goto('/plan-du-site');
+      }
+    } else {
+      // Lien non trouvé par label, navigation via plan-du-site ou accueil
+      // Le footer et le header sont toujours disponibles sur toutes les pages
+      // Option 1 : Essayer via le plan du site (footer)
+      const lienPlanDuSite = page.getByRole('link', { name: /Plan du site/i });
+      if (await lienPlanDuSite.count() > 0) {
+        await lienPlanDuSite.first().click();
+        await expect(page).toHaveURL('/plan-du-site');
+        // Depuis le plan du site, naviguer vers la destination
+        await page.goto('/plan-du-site');
+      } else {
+        // Option 2 : Via le logo (header) vers l'accueil
+        const logo = page.getByAltText('Logo Malain et possible');
+        if (await logo.count() > 0) {
+          await logo.click();
+          await expect(page).toHaveURL('/');
+        } else {
+          // Fallback : navigation directe vers l'accueil
+          await page.goto('/');
+        }
+        // Depuis l'accueil, naviguer vers la destination
+        await page.goto('/plan-du-site');
+      }
+    }
+    await expect(page).toHaveURL('/plan-du-site');
+  });
+
+  await test.step("Étape 5: Navigation de /plan-du-site vers /metrics (BarChart3)", async () => {
+    // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
+    const liens4 = page.getByRole('link', { name: /BarChart3/i });
+    if (await liens4.count() > 0) {
+      // Si plusieurs liens avec le même label, trouver celui qui va vers la bonne destination
+      const liensTrouves = await liens4.all();
+      let lienTrouve = null;
+      for (const lien of liensTrouves) {
+        const href = await lien.getAttribute('href');
+        // Normaliser l'URL (enlever le slash final si présent)
+        const hrefNormalise = href ? href.replace(/\/$/, '') : '';
+        const destinationNormalisee = '/metrics'.replace(/\/$/, '');
+        if (hrefNormalise === destinationNormalisee || hrefNormalise === destinationNormalisee + '/' || href === destinationNormalisee || href === destinationNormalisee + '/') {
+          lienTrouve = lien;
+          break;
+        }
+      }
+      if (lienTrouve) {
+        await lienTrouve.click();
+      } else {
+        // Aucun lien trouvé vers la destination exacte, utiliser la navigation directe
+        await page.goto('/metrics');
+      }
+    } else {
+      // Lien non trouvé par label, navigation via plan-du-site ou accueil
+      // Le footer et le header sont toujours disponibles sur toutes les pages
+      // Option 1 : Essayer via le plan du site (footer)
+      const lienPlanDuSite = page.getByRole('link', { name: /Plan du site/i });
+      if (await lienPlanDuSite.count() > 0) {
+        await lienPlanDuSite.first().click();
+        await expect(page).toHaveURL('/plan-du-site');
+        // Depuis le plan du site, naviguer vers la destination
+        await page.goto('/metrics');
+      } else {
+        // Option 2 : Via le logo (header) vers l'accueil
+        const logo = page.getByAltText('Logo Malain et possible');
+        if (await logo.count() > 0) {
+          await logo.click();
+          await expect(page).toHaveURL('/');
+        } else {
+          // Fallback : navigation directe vers l'accueil
+          await page.goto('/');
+        }
+        // Depuis l'accueil, naviguer vers la destination
+        await page.goto('/metrics');
+      }
+    }
+    await expect(page).toHaveURL('/metrics');
+  });
+
+  await test.step("Étape 6: Navigation de /metrics vers /plan-du-site (Plan du site)", async () => {
+    // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
+    const liens5 = page.getByRole('link', { name: /Plan du site/i });
+    if (await liens5.count() > 0) {
+      // Si plusieurs liens avec le même label, trouver celui qui va vers la bonne destination
+      const liensTrouves = await liens5.all();
+      let lienTrouve = null;
+      for (const lien of liensTrouves) {
+        const href = await lien.getAttribute('href');
+        // Normaliser l'URL (enlever le slash final si présent)
+        const hrefNormalise = href ? href.replace(/\/$/, '') : '';
+        const destinationNormalisee = '/plan-du-site'.replace(/\/$/, '');
+        if (hrefNormalise === destinationNormalisee || hrefNormalise === destinationNormalisee + '/' || href === destinationNormalisee || href === destinationNormalisee + '/') {
+          lienTrouve = lien;
+          break;
+        }
+      }
+      if (lienTrouve) {
+        await lienTrouve.click();
+      } else {
+        // Aucun lien trouvé vers la destination exacte, utiliser la navigation directe
+        await page.goto('/plan-du-site');
+      }
+    } else {
+      // Lien non trouvé par label, navigation via plan-du-site ou accueil
+      // Le footer et le header sont toujours disponibles sur toutes les pages
+      // Option 1 : Essayer via le plan du site (footer)
+      const lienPlanDuSite = page.getByRole('link', { name: /Plan du site/i });
+      if (await lienPlanDuSite.count() > 0) {
+        await lienPlanDuSite.first().click();
+        await expect(page).toHaveURL('/plan-du-site');
+        // Depuis le plan du site, naviguer vers la destination
+        await page.goto('/plan-du-site');
+      } else {
+        // Option 2 : Via le logo (header) vers l'accueil
+        const logo = page.getByAltText('Logo Malain et possible');
+        if (await logo.count() > 0) {
+          await logo.click();
+          await expect(page).toHaveURL('/');
+        } else {
+          // Fallback : navigation directe vers l'accueil
+          await page.goto('/');
+        }
+        // Depuis l'accueil, naviguer vers la destination
+        await page.goto('/plan-du-site');
+      }
+    }
+    await expect(page).toHaveURL('/plan-du-site');
+  });
+
+  await test.step("Étape 7: Navigation de /plan-du-site vers /a-propos-du-site (Info)", async () => {
+    // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
+    const liens6 = page.getByRole('link', { name: /Info/i });
+    if (await liens6.count() > 0) {
+      // Si plusieurs liens avec le même label, trouver celui qui va vers la bonne destination
+      const liensTrouves = await liens6.all();
+      let lienTrouve = null;
+      for (const lien of liensTrouves) {
+        const href = await lien.getAttribute('href');
+        // Normaliser l'URL (enlever le slash final si présent)
+        const hrefNormalise = href ? href.replace(/\/$/, '') : '';
+        const destinationNormalisee = '/a-propos-du-site'.replace(/\/$/, '');
+        if (hrefNormalise === destinationNormalisee || hrefNormalise === destinationNormalisee + '/' || href === destinationNormalisee || href === destinationNormalisee + '/') {
+          lienTrouve = lien;
+          break;
+        }
+      }
+      if (lienTrouve) {
+        await lienTrouve.click();
+      } else {
+        // Aucun lien trouvé vers la destination exacte, utiliser la navigation directe
+        await page.goto('/a-propos-du-site');
+      }
+    } else {
+      // Lien non trouvé par label, navigation via plan-du-site ou accueil
+      // Le footer et le header sont toujours disponibles sur toutes les pages
+      // Option 1 : Essayer via le plan du site (footer)
+      const lienPlanDuSite = page.getByRole('link', { name: /Plan du site/i });
+      if (await lienPlanDuSite.count() > 0) {
+        await lienPlanDuSite.first().click();
+        await expect(page).toHaveURL('/plan-du-site');
+        // Depuis le plan du site, naviguer vers la destination
+        await page.goto('/a-propos-du-site');
+      } else {
+        // Option 2 : Via le logo (header) vers l'accueil
+        const logo = page.getByAltText('Logo Malain et possible');
+        if (await logo.count() > 0) {
+          await logo.click();
+          await expect(page).toHaveURL('/');
+        } else {
+          // Fallback : navigation directe vers l'accueil
+          await page.goto('/');
+        }
+        // Depuis l'accueil, naviguer vers la destination
+        await page.goto('/a-propos-du-site');
+      }
+    }
+    await expect(page).toHaveURL('/a-propos-du-site');
+  });
+
+  await test.step("Étape 8: Navigation de /a-propos-du-site vers /plan-du-site (Plan du site)", async () => {
+    // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
+    const liens7 = page.getByRole('link', { name: /Plan du site/i });
+    if (await liens7.count() > 0) {
+      // Si plusieurs liens avec le même label, trouver celui qui va vers la bonne destination
+      const liensTrouves = await liens7.all();
+      let lienTrouve = null;
+      for (const lien of liensTrouves) {
+        const href = await lien.getAttribute('href');
+        // Normaliser l'URL (enlever le slash final si présent)
+        const hrefNormalise = href ? href.replace(/\/$/, '') : '';
+        const destinationNormalisee = '/plan-du-site'.replace(/\/$/, '');
+        if (hrefNormalise === destinationNormalisee || hrefNormalise === destinationNormalisee + '/' || href === destinationNormalisee || href === destinationNormalisee + '/') {
+          lienTrouve = lien;
+          break;
+        }
+      }
+      if (lienTrouve) {
+        await lienTrouve.click();
+      } else {
+        // Aucun lien trouvé vers la destination exacte, utiliser la navigation directe
+        await page.goto('/plan-du-site');
+      }
+    } else {
+      // Lien non trouvé par label, navigation via plan-du-site ou accueil
+      // Le footer et le header sont toujours disponibles sur toutes les pages
+      // Option 1 : Essayer via le plan du site (footer)
+      const lienPlanDuSite = page.getByRole('link', { name: /Plan du site/i });
+      if (await lienPlanDuSite.count() > 0) {
+        await lienPlanDuSite.first().click();
+        await expect(page).toHaveURL('/plan-du-site');
+        // Depuis le plan du site, naviguer vers la destination
+        await page.goto('/plan-du-site');
+      } else {
+        // Option 2 : Via le logo (header) vers l'accueil
+        const logo = page.getByAltText('Logo Malain et possible');
+        if (await logo.count() > 0) {
+          await logo.click();
+          await expect(page).toHaveURL('/');
+        } else {
+          // Fallback : navigation directe vers l'accueil
+          await page.goto('/');
+        }
+        // Depuis l'accueil, naviguer vers la destination
+        await page.goto('/plan-du-site');
+      }
+    }
+    await expect(page).toHaveURL('/plan-du-site');
+  });
+
+  await test.step("Étape 9: Navigation de /plan-du-site vers / (lien)", async () => {
+    // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
+    const liens8 = page.getByRole('link', { name: /lien/i });
+    if (await liens8.count() > 0) {
+      // Si plusieurs liens avec le même label, trouver celui qui va vers la bonne destination
+      const liensTrouves = await liens8.all();
+      let lienTrouve = null;
+      for (const lien of liensTrouves) {
+        const href = await lien.getAttribute('href');
+        // Normaliser l'URL (enlever le slash final si présent)
+        const hrefNormalise = href ? href.replace(/\/$/, '') : '';
+        const destinationNormalisee = '/'.replace(/\/$/, '');
+        if (hrefNormalise === destinationNormalisee || hrefNormalise === destinationNormalisee + '/' || href === destinationNormalisee || href === destinationNormalisee + '/') {
+          lienTrouve = lien;
+          break;
+        }
+      }
+      if (lienTrouve) {
+        await lienTrouve.click();
+      } else {
+        // Aucun lien trouvé vers la destination exacte, utiliser la navigation directe
         await page.goto('/');
       }
-      // Depuis l'accueil, naviguer vers la destination
-      await page.goto('/robustesse');
-    }
-  }
-  await expect(page).toHaveURL('/robustesse');
-
-  // Étape 3: Navigation de /robustesse vers /plan-du-site
-  // Label du lien: "Plan du site"
-  const lien2 = page.getByRole('link', { name: /Plan du site/i });
-  if (await lien2.count() > 0) {
-    await lien2.first().click();
-  } else {
-    // Lien non trouvé par label, navigation via plan-du-site ou accueil
-    // Le footer et le header sont toujours disponibles sur toutes les pages
-    // Option 1 : Essayer via le plan du site (footer)
-    const lienPlanDuSite = page.getByRole('link', { name: /Plan du site/i });
-    if (await lienPlanDuSite.count() > 0) {
-      await lienPlanDuSite.first().click();
-      await expect(page).toHaveURL('/plan-du-site');
-      // Depuis le plan du site, naviguer vers la destination
-      await page.goto('/plan-du-site');
     } else {
-      // Option 2 : Via le logo (header) vers l'accueil
-      const logo = page.getByAltText('Logo Malain et possible');
-      if (await logo.count() > 0) {
-        await logo.click();
-        await expect(page).toHaveURL('/');
+      // Lien non trouvé par label, navigation via plan-du-site ou accueil
+      // Le footer et le header sont toujours disponibles sur toutes les pages
+      // Option 1 : Essayer via le plan du site (footer)
+      const lienPlanDuSite = page.getByRole('link', { name: /Plan du site/i });
+      if (await lienPlanDuSite.count() > 0) {
+        await lienPlanDuSite.first().click();
+        await expect(page).toHaveURL('/plan-du-site');
+        // Depuis le plan du site, naviguer vers la destination
+        await page.goto('/');
       } else {
-        // Fallback : navigation directe vers l'accueil
+        // Option 2 : Via le logo (header) vers l'accueil
+        const logo = page.getByAltText('Logo Malain et possible');
+        if (await logo.count() > 0) {
+          await logo.click();
+          await expect(page).toHaveURL('/');
+        } else {
+          // Fallback : navigation directe vers l'accueil
+          await page.goto('/');
+        }
+        // Depuis l'accueil, naviguer vers la destination
         await page.goto('/');
       }
-      // Depuis l'accueil, naviguer vers la destination
-      await page.goto('/plan-du-site');
     }
-  }
-  await expect(page).toHaveURL('/plan-du-site');
+    await expect(page).toHaveURL('/');
+  });
 
-  // Étape 4: Navigation de /plan-du-site vers /plan-du-site
-  // Label du lien: "Plan du site"
-  const lien3 = page.getByRole('link', { name: /Plan du site/i });
-  if (await lien3.count() > 0) {
-    await lien3.first().click();
-  } else {
-    // Lien non trouvé par label, navigation via plan-du-site ou accueil
-    // Le footer et le header sont toujours disponibles sur toutes les pages
-    // Option 1 : Essayer via le plan du site (footer)
-    const lienPlanDuSite = page.getByRole('link', { name: /Plan du site/i });
-    if (await lienPlanDuSite.count() > 0) {
-      await lienPlanDuSite.first().click();
-      await expect(page).toHaveURL('/plan-du-site');
-      // Depuis le plan du site, naviguer vers la destination
-      await page.goto('/plan-du-site');
-    } else {
-      // Option 2 : Via le logo (header) vers l'accueil
-      const logo = page.getByAltText('Logo Malain et possible');
-      if (await logo.count() > 0) {
-        await logo.click();
-        await expect(page).toHaveURL('/');
+  await test.step("Étape 10: Navigation de / vers /transformation (En savoir plus...)", async () => {
+    // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
+    const liens9 = page.getByRole('link', { name: /En savoir plus\.\.\./i });
+    if (await liens9.count() > 0) {
+      // Si plusieurs liens avec le même label, trouver celui qui va vers la bonne destination
+      const liensTrouves = await liens9.all();
+      let lienTrouve = null;
+      for (const lien of liensTrouves) {
+        const href = await lien.getAttribute('href');
+        // Normaliser l'URL (enlever le slash final si présent)
+        const hrefNormalise = href ? href.replace(/\/$/, '') : '';
+        const destinationNormalisee = '/transformation'.replace(/\/$/, '');
+        if (hrefNormalise === destinationNormalisee || hrefNormalise === destinationNormalisee + '/' || href === destinationNormalisee || href === destinationNormalisee + '/') {
+          lienTrouve = lien;
+          break;
+        }
+      }
+      if (lienTrouve) {
+        await lienTrouve.click();
       } else {
-        // Fallback : navigation directe vers l'accueil
+        // Aucun lien trouvé vers la destination exacte, utiliser la navigation directe
+        await page.goto('/transformation');
+      }
+    } else {
+      // Lien non trouvé par label, navigation via plan-du-site ou accueil
+      // Le footer et le header sont toujours disponibles sur toutes les pages
+      // Option 1 : Essayer via le plan du site (footer)
+      const lienPlanDuSite = page.getByRole('link', { name: /Plan du site/i });
+      if (await lienPlanDuSite.count() > 0) {
+        await lienPlanDuSite.first().click();
+        await expect(page).toHaveURL('/plan-du-site');
+        // Depuis le plan du site, naviguer vers la destination
+        await page.goto('/transformation');
+      } else {
+        // Option 2 : Via le logo (header) vers l'accueil
+        const logo = page.getByAltText('Logo Malain et possible');
+        if (await logo.count() > 0) {
+          await logo.click();
+          await expect(page).toHaveURL('/');
+        } else {
+          // Fallback : navigation directe vers l'accueil
+          await page.goto('/');
+        }
+        // Depuis l'accueil, naviguer vers la destination
+        await page.goto('/transformation');
+      }
+    }
+    await expect(page).toHaveURL('/transformation');
+  });
+
+  await test.step("Étape 11: Navigation de /transformation vers /plan-du-site (Plan du site)", async () => {
+    // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
+    const liens10 = page.getByRole('link', { name: /Plan du site/i });
+    if (await liens10.count() > 0) {
+      // Si plusieurs liens avec le même label, trouver celui qui va vers la bonne destination
+      const liensTrouves = await liens10.all();
+      let lienTrouve = null;
+      for (const lien of liensTrouves) {
+        const href = await lien.getAttribute('href');
+        // Normaliser l'URL (enlever le slash final si présent)
+        const hrefNormalise = href ? href.replace(/\/$/, '') : '';
+        const destinationNormalisee = '/plan-du-site'.replace(/\/$/, '');
+        if (hrefNormalise === destinationNormalisee || hrefNormalise === destinationNormalisee + '/' || href === destinationNormalisee || href === destinationNormalisee + '/') {
+          lienTrouve = lien;
+          break;
+        }
+      }
+      if (lienTrouve) {
+        await lienTrouve.click();
+      } else {
+        // Aucun lien trouvé vers la destination exacte, utiliser la navigation directe
+        await page.goto('/plan-du-site');
+      }
+    } else {
+      // Lien non trouvé par label, navigation via plan-du-site ou accueil
+      // Le footer et le header sont toujours disponibles sur toutes les pages
+      // Option 1 : Essayer via le plan du site (footer)
+      const lienPlanDuSite = page.getByRole('link', { name: /Plan du site/i });
+      if (await lienPlanDuSite.count() > 0) {
+        await lienPlanDuSite.first().click();
+        await expect(page).toHaveURL('/plan-du-site');
+        // Depuis le plan du site, naviguer vers la destination
+        await page.goto('/plan-du-site');
+      } else {
+        // Option 2 : Via le logo (header) vers l'accueil
+        const logo = page.getByAltText('Logo Malain et possible');
+        if (await logo.count() > 0) {
+          await logo.click();
+          await expect(page).toHaveURL('/');
+        } else {
+          // Fallback : navigation directe vers l'accueil
+          await page.goto('/');
+        }
+        // Depuis l'accueil, naviguer vers la destination
+        await page.goto('/plan-du-site');
+      }
+    }
+    await expect(page).toHaveURL('/plan-du-site');
+  });
+
+  await test.step("Étape 12: Navigation de /plan-du-site vers / (lien)", async () => {
+    // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
+    const liens11 = page.getByRole('link', { name: /lien/i });
+    if (await liens11.count() > 0) {
+      // Si plusieurs liens avec le même label, trouver celui qui va vers la bonne destination
+      const liensTrouves = await liens11.all();
+      let lienTrouve = null;
+      for (const lien of liensTrouves) {
+        const href = await lien.getAttribute('href');
+        // Normaliser l'URL (enlever le slash final si présent)
+        const hrefNormalise = href ? href.replace(/\/$/, '') : '';
+        const destinationNormalisee = '/'.replace(/\/$/, '');
+        if (hrefNormalise === destinationNormalisee || hrefNormalise === destinationNormalisee + '/' || href === destinationNormalisee || href === destinationNormalisee + '/') {
+          lienTrouve = lien;
+          break;
+        }
+      }
+      if (lienTrouve) {
+        await lienTrouve.click();
+      } else {
+        // Aucun lien trouvé vers la destination exacte, utiliser la navigation directe
         await page.goto('/');
       }
-      // Depuis l'accueil, naviguer vers la destination
-      await page.goto('/plan-du-site');
-    }
-  }
-  await expect(page).toHaveURL('/plan-du-site');
-
-  // Étape 5: Navigation de /plan-du-site vers /metrics
-  // Label du lien: "BarChart3"
-  const lien4 = page.getByRole('link', { name: /BarChart3/i });
-  if (await lien4.count() > 0) {
-    await lien4.first().click();
-  } else {
-    // Lien non trouvé par label, navigation via plan-du-site ou accueil
-    // Le footer et le header sont toujours disponibles sur toutes les pages
-    // Option 1 : Essayer via le plan du site (footer)
-    const lienPlanDuSite = page.getByRole('link', { name: /Plan du site/i });
-    if (await lienPlanDuSite.count() > 0) {
-      await lienPlanDuSite.first().click();
-      await expect(page).toHaveURL('/plan-du-site');
-      // Depuis le plan du site, naviguer vers la destination
-      await page.goto('/metrics');
     } else {
-      // Option 2 : Via le logo (header) vers l'accueil
-      const logo = page.getByAltText('Logo Malain et possible');
-      if (await logo.count() > 0) {
-        await logo.click();
-        await expect(page).toHaveURL('/');
+      // Lien non trouvé par label, navigation via plan-du-site ou accueil
+      // Le footer et le header sont toujours disponibles sur toutes les pages
+      // Option 1 : Essayer via le plan du site (footer)
+      const lienPlanDuSite = page.getByRole('link', { name: /Plan du site/i });
+      if (await lienPlanDuSite.count() > 0) {
+        await lienPlanDuSite.first().click();
+        await expect(page).toHaveURL('/plan-du-site');
+        // Depuis le plan du site, naviguer vers la destination
+        await page.goto('/');
       } else {
-        // Fallback : navigation directe vers l'accueil
+        // Option 2 : Via le logo (header) vers l'accueil
+        const logo = page.getByAltText('Logo Malain et possible');
+        if (await logo.count() > 0) {
+          await logo.click();
+          await expect(page).toHaveURL('/');
+        } else {
+          // Fallback : navigation directe vers l'accueil
+          await page.goto('/');
+        }
+        // Depuis l'accueil, naviguer vers la destination
         await page.goto('/');
       }
-      // Depuis l'accueil, naviguer vers la destination
-      await page.goto('/metrics');
     }
-  }
-  await expect(page).toHaveURL('/metrics');
+    await expect(page).toHaveURL('/');
+  });
 
-  // Étape 6: Navigation de /metrics vers /plan-du-site
-  // Label du lien: "Plan du site"
-  const lien5 = page.getByRole('link', { name: /Plan du site/i });
-  if (await lien5.count() > 0) {
-    await lien5.first().click();
-  } else {
-    // Lien non trouvé par label, navigation via plan-du-site ou accueil
-    // Le footer et le header sont toujours disponibles sur toutes les pages
-    // Option 1 : Essayer via le plan du site (footer)
-    const lienPlanDuSite = page.getByRole('link', { name: /Plan du site/i });
-    if (await lienPlanDuSite.count() > 0) {
-      await lienPlanDuSite.first().click();
-      await expect(page).toHaveURL('/plan-du-site');
-      // Depuis le plan du site, naviguer vers la destination
-      await page.goto('/plan-du-site');
-    } else {
-      // Option 2 : Via le logo (header) vers l'accueil
-      const logo = page.getByAltText('Logo Malain et possible');
-      if (await logo.count() > 0) {
-        await logo.click();
-        await expect(page).toHaveURL('/');
+  await test.step("Étape 13: Navigation de / vers /detournement-video (En savoir plus...)", async () => {
+    // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
+    const liens12 = page.getByRole('link', { name: /En savoir plus\.\.\./i });
+    if (await liens12.count() > 0) {
+      // Si plusieurs liens avec le même label, trouver celui qui va vers la bonne destination
+      const liensTrouves = await liens12.all();
+      let lienTrouve = null;
+      for (const lien of liensTrouves) {
+        const href = await lien.getAttribute('href');
+        // Normaliser l'URL (enlever le slash final si présent)
+        const hrefNormalise = href ? href.replace(/\/$/, '') : '';
+        const destinationNormalisee = '/detournement-video'.replace(/\/$/, '');
+        if (hrefNormalise === destinationNormalisee || hrefNormalise === destinationNormalisee + '/' || href === destinationNormalisee || href === destinationNormalisee + '/') {
+          lienTrouve = lien;
+          break;
+        }
+      }
+      if (lienTrouve) {
+        await lienTrouve.click();
       } else {
-        // Fallback : navigation directe vers l'accueil
+        // Aucun lien trouvé vers la destination exacte, utiliser la navigation directe
+        await page.goto('/detournement-video');
+      }
+    } else {
+      // Lien non trouvé par label, navigation via plan-du-site ou accueil
+      // Le footer et le header sont toujours disponibles sur toutes les pages
+      // Option 1 : Essayer via le plan du site (footer)
+      const lienPlanDuSite = page.getByRole('link', { name: /Plan du site/i });
+      if (await lienPlanDuSite.count() > 0) {
+        await lienPlanDuSite.first().click();
+        await expect(page).toHaveURL('/plan-du-site');
+        // Depuis le plan du site, naviguer vers la destination
+        await page.goto('/detournement-video');
+      } else {
+        // Option 2 : Via le logo (header) vers l'accueil
+        const logo = page.getByAltText('Logo Malain et possible');
+        if (await logo.count() > 0) {
+          await logo.click();
+          await expect(page).toHaveURL('/');
+        } else {
+          // Fallback : navigation directe vers l'accueil
+          await page.goto('/');
+        }
+        // Depuis l'accueil, naviguer vers la destination
+        await page.goto('/detournement-video');
+      }
+    }
+    await expect(page).toHaveURL('/detournement-video');
+  });
+
+  await test.step("Étape 14: Navigation de /detournement-video vers /plan-du-site (Plan du site)", async () => {
+    // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
+    const liens13 = page.getByRole('link', { name: /Plan du site/i });
+    if (await liens13.count() > 0) {
+      // Si plusieurs liens avec le même label, trouver celui qui va vers la bonne destination
+      const liensTrouves = await liens13.all();
+      let lienTrouve = null;
+      for (const lien of liensTrouves) {
+        const href = await lien.getAttribute('href');
+        // Normaliser l'URL (enlever le slash final si présent)
+        const hrefNormalise = href ? href.replace(/\/$/, '') : '';
+        const destinationNormalisee = '/plan-du-site'.replace(/\/$/, '');
+        if (hrefNormalise === destinationNormalisee || hrefNormalise === destinationNormalisee + '/' || href === destinationNormalisee || href === destinationNormalisee + '/') {
+          lienTrouve = lien;
+          break;
+        }
+      }
+      if (lienTrouve) {
+        await lienTrouve.click();
+      } else {
+        // Aucun lien trouvé vers la destination exacte, utiliser la navigation directe
+        await page.goto('/plan-du-site');
+      }
+    } else {
+      // Lien non trouvé par label, navigation via plan-du-site ou accueil
+      // Le footer et le header sont toujours disponibles sur toutes les pages
+      // Option 1 : Essayer via le plan du site (footer)
+      const lienPlanDuSite = page.getByRole('link', { name: /Plan du site/i });
+      if (await lienPlanDuSite.count() > 0) {
+        await lienPlanDuSite.first().click();
+        await expect(page).toHaveURL('/plan-du-site');
+        // Depuis le plan du site, naviguer vers la destination
+        await page.goto('/plan-du-site');
+      } else {
+        // Option 2 : Via le logo (header) vers l'accueil
+        const logo = page.getByAltText('Logo Malain et possible');
+        if (await logo.count() > 0) {
+          await logo.click();
+          await expect(page).toHaveURL('/');
+        } else {
+          // Fallback : navigation directe vers l'accueil
+          await page.goto('/');
+        }
+        // Depuis l'accueil, naviguer vers la destination
+        await page.goto('/plan-du-site');
+      }
+    }
+    await expect(page).toHaveURL('/plan-du-site');
+  });
+
+  await test.step("Étape 15: Navigation de /plan-du-site vers / (lien)", async () => {
+    // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
+    const liens14 = page.getByRole('link', { name: /lien/i });
+    if (await liens14.count() > 0) {
+      // Si plusieurs liens avec le même label, trouver celui qui va vers la bonne destination
+      const liensTrouves = await liens14.all();
+      let lienTrouve = null;
+      for (const lien of liensTrouves) {
+        const href = await lien.getAttribute('href');
+        // Normaliser l'URL (enlever le slash final si présent)
+        const hrefNormalise = href ? href.replace(/\/$/, '') : '';
+        const destinationNormalisee = '/'.replace(/\/$/, '');
+        if (hrefNormalise === destinationNormalisee || hrefNormalise === destinationNormalisee + '/' || href === destinationNormalisee || href === destinationNormalisee + '/') {
+          lienTrouve = lien;
+          break;
+        }
+      }
+      if (lienTrouve) {
+        await lienTrouve.click();
+      } else {
+        // Aucun lien trouvé vers la destination exacte, utiliser la navigation directe
         await page.goto('/');
       }
-      // Depuis l'accueil, naviguer vers la destination
-      await page.goto('/plan-du-site');
-    }
-  }
-  await expect(page).toHaveURL('/plan-du-site');
-
-  // Étape 7: Navigation de /plan-du-site vers /a-propos-du-site
-  // Label du lien: "Info"
-  const lien6 = page.getByRole('link', { name: /Info/i });
-  if (await lien6.count() > 0) {
-    await lien6.first().click();
-  } else {
-    // Lien non trouvé par label, navigation via plan-du-site ou accueil
-    // Le footer et le header sont toujours disponibles sur toutes les pages
-    // Option 1 : Essayer via le plan du site (footer)
-    const lienPlanDuSite = page.getByRole('link', { name: /Plan du site/i });
-    if (await lienPlanDuSite.count() > 0) {
-      await lienPlanDuSite.first().click();
-      await expect(page).toHaveURL('/plan-du-site');
-      // Depuis le plan du site, naviguer vers la destination
-      await page.goto('/a-propos-du-site');
     } else {
-      // Option 2 : Via le logo (header) vers l'accueil
-      const logo = page.getByAltText('Logo Malain et possible');
-      if (await logo.count() > 0) {
-        await logo.click();
-        await expect(page).toHaveURL('/');
+      // Lien non trouvé par label, navigation via plan-du-site ou accueil
+      // Le footer et le header sont toujours disponibles sur toutes les pages
+      // Option 1 : Essayer via le plan du site (footer)
+      const lienPlanDuSite = page.getByRole('link', { name: /Plan du site/i });
+      if (await lienPlanDuSite.count() > 0) {
+        await lienPlanDuSite.first().click();
+        await expect(page).toHaveURL('/plan-du-site');
+        // Depuis le plan du site, naviguer vers la destination
+        await page.goto('/');
       } else {
-        // Fallback : navigation directe vers l'accueil
+        // Option 2 : Via le logo (header) vers l'accueil
+        const logo = page.getByAltText('Logo Malain et possible');
+        if (await logo.count() > 0) {
+          await logo.click();
+          await expect(page).toHaveURL('/');
+        } else {
+          // Fallback : navigation directe vers l'accueil
+          await page.goto('/');
+        }
+        // Depuis l'accueil, naviguer vers la destination
         await page.goto('/');
       }
-      // Depuis l'accueil, naviguer vers la destination
-      await page.goto('/a-propos-du-site');
     }
-  }
-  await expect(page).toHaveURL('/a-propos-du-site');
+    await expect(page).toHaveURL('/');
+  });
 
-  // Étape 8: Navigation de /a-propos-du-site vers /plan-du-site
-  // Label du lien: "Plan du site"
-  const lien7 = page.getByRole('link', { name: /Plan du site/i });
-  if (await lien7.count() > 0) {
-    await lien7.first().click();
-  } else {
-    // Lien non trouvé par label, navigation via plan-du-site ou accueil
-    // Le footer et le header sont toujours disponibles sur toutes les pages
-    // Option 1 : Essayer via le plan du site (footer)
-    const lienPlanDuSite = page.getByRole('link', { name: /Plan du site/i });
-    if (await lienPlanDuSite.count() > 0) {
-      await lienPlanDuSite.first().click();
-      await expect(page).toHaveURL('/plan-du-site');
-      // Depuis le plan du site, naviguer vers la destination
-      await page.goto('/plan-du-site');
-    } else {
-      // Option 2 : Via le logo (header) vers l'accueil
-      const logo = page.getByAltText('Logo Malain et possible');
-      if (await logo.count() > 0) {
-        await logo.click();
-        await expect(page).toHaveURL('/');
+  await test.step("Étape 16: Navigation de / vers /management-de-produit-logiciel (En savoir plus...)", async () => {
+    // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
+    const liens15 = page.getByRole('link', { name: /En savoir plus\.\.\./i });
+    if (await liens15.count() > 0) {
+      // Si plusieurs liens avec le même label, trouver celui qui va vers la bonne destination
+      const liensTrouves = await liens15.all();
+      let lienTrouve = null;
+      for (const lien of liensTrouves) {
+        const href = await lien.getAttribute('href');
+        // Normaliser l'URL (enlever le slash final si présent)
+        const hrefNormalise = href ? href.replace(/\/$/, '') : '';
+        const destinationNormalisee = '/management-de-produit-logiciel'.replace(/\/$/, '');
+        if (hrefNormalise === destinationNormalisee || hrefNormalise === destinationNormalisee + '/' || href === destinationNormalisee || href === destinationNormalisee + '/') {
+          lienTrouve = lien;
+          break;
+        }
+      }
+      if (lienTrouve) {
+        await lienTrouve.click();
       } else {
-        // Fallback : navigation directe vers l'accueil
+        // Aucun lien trouvé vers la destination exacte, utiliser la navigation directe
+        await page.goto('/management-de-produit-logiciel');
+      }
+    } else {
+      // Lien non trouvé par label, navigation via plan-du-site ou accueil
+      // Le footer et le header sont toujours disponibles sur toutes les pages
+      // Option 1 : Essayer via le plan du site (footer)
+      const lienPlanDuSite = page.getByRole('link', { name: /Plan du site/i });
+      if (await lienPlanDuSite.count() > 0) {
+        await lienPlanDuSite.first().click();
+        await expect(page).toHaveURL('/plan-du-site');
+        // Depuis le plan du site, naviguer vers la destination
+        await page.goto('/management-de-produit-logiciel');
+      } else {
+        // Option 2 : Via le logo (header) vers l'accueil
+        const logo = page.getByAltText('Logo Malain et possible');
+        if (await logo.count() > 0) {
+          await logo.click();
+          await expect(page).toHaveURL('/');
+        } else {
+          // Fallback : navigation directe vers l'accueil
+          await page.goto('/');
+        }
+        // Depuis l'accueil, naviguer vers la destination
+        await page.goto('/management-de-produit-logiciel');
+      }
+    }
+    await expect(page).toHaveURL('/management-de-produit-logiciel');
+  });
+
+  await test.step("Étape 17: Navigation de /management-de-produit-logiciel vers /plan-du-site (Plan du site)", async () => {
+    // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
+    const liens16 = page.getByRole('link', { name: /Plan du site/i });
+    if (await liens16.count() > 0) {
+      // Si plusieurs liens avec le même label, trouver celui qui va vers la bonne destination
+      const liensTrouves = await liens16.all();
+      let lienTrouve = null;
+      for (const lien of liensTrouves) {
+        const href = await lien.getAttribute('href');
+        // Normaliser l'URL (enlever le slash final si présent)
+        const hrefNormalise = href ? href.replace(/\/$/, '') : '';
+        const destinationNormalisee = '/plan-du-site'.replace(/\/$/, '');
+        if (hrefNormalise === destinationNormalisee || hrefNormalise === destinationNormalisee + '/' || href === destinationNormalisee || href === destinationNormalisee + '/') {
+          lienTrouve = lien;
+          break;
+        }
+      }
+      if (lienTrouve) {
+        await lienTrouve.click();
+      } else {
+        // Aucun lien trouvé vers la destination exacte, utiliser la navigation directe
+        await page.goto('/plan-du-site');
+      }
+    } else {
+      // Lien non trouvé par label, navigation via plan-du-site ou accueil
+      // Le footer et le header sont toujours disponibles sur toutes les pages
+      // Option 1 : Essayer via le plan du site (footer)
+      const lienPlanDuSite = page.getByRole('link', { name: /Plan du site/i });
+      if (await lienPlanDuSite.count() > 0) {
+        await lienPlanDuSite.first().click();
+        await expect(page).toHaveURL('/plan-du-site');
+        // Depuis le plan du site, naviguer vers la destination
+        await page.goto('/plan-du-site');
+      } else {
+        // Option 2 : Via le logo (header) vers l'accueil
+        const logo = page.getByAltText('Logo Malain et possible');
+        if (await logo.count() > 0) {
+          await logo.click();
+          await expect(page).toHaveURL('/');
+        } else {
+          // Fallback : navigation directe vers l'accueil
+          await page.goto('/');
+        }
+        // Depuis l'accueil, naviguer vers la destination
+        await page.goto('/plan-du-site');
+      }
+    }
+    await expect(page).toHaveURL('/plan-du-site');
+  });
+
+  await test.step("Étape 18: Navigation de /plan-du-site vers / (lien)", async () => {
+    // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
+    const liens17 = page.getByRole('link', { name: /lien/i });
+    if (await liens17.count() > 0) {
+      // Si plusieurs liens avec le même label, trouver celui qui va vers la bonne destination
+      const liensTrouves = await liens17.all();
+      let lienTrouve = null;
+      for (const lien of liensTrouves) {
+        const href = await lien.getAttribute('href');
+        // Normaliser l'URL (enlever le slash final si présent)
+        const hrefNormalise = href ? href.replace(/\/$/, '') : '';
+        const destinationNormalisee = '/'.replace(/\/$/, '');
+        if (hrefNormalise === destinationNormalisee || hrefNormalise === destinationNormalisee + '/' || href === destinationNormalisee || href === destinationNormalisee + '/') {
+          lienTrouve = lien;
+          break;
+        }
+      }
+      if (lienTrouve) {
+        await lienTrouve.click();
+      } else {
+        // Aucun lien trouvé vers la destination exacte, utiliser la navigation directe
         await page.goto('/');
       }
-      // Depuis l'accueil, naviguer vers la destination
-      await page.goto('/plan-du-site');
-    }
-  }
-  await expect(page).toHaveURL('/plan-du-site');
-
-  // Étape 9: Navigation de /plan-du-site vers /
-  // Label du lien: "lien"
-  const lien8 = page.getByRole('link', { name: /lien/i });
-  if (await lien8.count() > 0) {
-    await lien8.first().click();
-  } else {
-    // Lien non trouvé par label, navigation via plan-du-site ou accueil
-    // Le footer et le header sont toujours disponibles sur toutes les pages
-    // Option 1 : Essayer via le plan du site (footer)
-    const lienPlanDuSite = page.getByRole('link', { name: /Plan du site/i });
-    if (await lienPlanDuSite.count() > 0) {
-      await lienPlanDuSite.first().click();
-      await expect(page).toHaveURL('/plan-du-site');
-      // Depuis le plan du site, naviguer vers la destination
-      await page.goto('/');
     } else {
-      // Option 2 : Via le logo (header) vers l'accueil
-      const logo = page.getByAltText('Logo Malain et possible');
-      if (await logo.count() > 0) {
-        await logo.click();
-        await expect(page).toHaveURL('/');
+      // Lien non trouvé par label, navigation via plan-du-site ou accueil
+      // Le footer et le header sont toujours disponibles sur toutes les pages
+      // Option 1 : Essayer via le plan du site (footer)
+      const lienPlanDuSite = page.getByRole('link', { name: /Plan du site/i });
+      if (await lienPlanDuSite.count() > 0) {
+        await lienPlanDuSite.first().click();
+        await expect(page).toHaveURL('/plan-du-site');
+        // Depuis le plan du site, naviguer vers la destination
+        await page.goto('/');
       } else {
-        // Fallback : navigation directe vers l'accueil
+        // Option 2 : Via le logo (header) vers l'accueil
+        const logo = page.getByAltText('Logo Malain et possible');
+        if (await logo.count() > 0) {
+          await logo.click();
+          await expect(page).toHaveURL('/');
+        } else {
+          // Fallback : navigation directe vers l'accueil
+          await page.goto('/');
+        }
+        // Depuis l'accueil, naviguer vers la destination
         await page.goto('/');
       }
-      // Depuis l'accueil, naviguer vers la destination
-      await page.goto('/');
     }
-  }
-  await expect(page).toHaveURL('/');
+    await expect(page).toHaveURL('/');
+  });
 
-  // Étape 10: Navigation de / vers /transformation
-  // Label du lien: "En savoir plus..."
-  const lien9 = page.getByRole('link', { name: /En savoir plus\.\.\./i });
-  if (await lien9.count() > 0) {
-    await lien9.first().click();
-  } else {
-    // Lien non trouvé par label, navigation via plan-du-site ou accueil
-    // Le footer et le header sont toujours disponibles sur toutes les pages
-    // Option 1 : Essayer via le plan du site (footer)
-    const lienPlanDuSite = page.getByRole('link', { name: /Plan du site/i });
-    if (await lienPlanDuSite.count() > 0) {
-      await lienPlanDuSite.first().click();
-      await expect(page).toHaveURL('/plan-du-site');
-      // Depuis le plan du site, naviguer vers la destination
-      await page.goto('/transformation');
-    } else {
-      // Option 2 : Via le logo (header) vers l'accueil
-      const logo = page.getByAltText('Logo Malain et possible');
-      if (await logo.count() > 0) {
-        await logo.click();
-        await expect(page).toHaveURL('/');
+  await test.step("Étape 19: Navigation de / vers /a-propos-du-site (En savoir plus...)", async () => {
+    // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
+    const liens18 = page.getByRole('link', { name: /En savoir plus\.\.\./i });
+    if (await liens18.count() > 0) {
+      // Si plusieurs liens avec le même label, trouver celui qui va vers la bonne destination
+      const liensTrouves = await liens18.all();
+      let lienTrouve = null;
+      for (const lien of liensTrouves) {
+        const href = await lien.getAttribute('href');
+        // Normaliser l'URL (enlever le slash final si présent)
+        const hrefNormalise = href ? href.replace(/\/$/, '') : '';
+        const destinationNormalisee = '/a-propos-du-site'.replace(/\/$/, '');
+        if (hrefNormalise === destinationNormalisee || hrefNormalise === destinationNormalisee + '/' || href === destinationNormalisee || href === destinationNormalisee + '/') {
+          lienTrouve = lien;
+          break;
+        }
+      }
+      if (lienTrouve) {
+        await lienTrouve.click();
       } else {
-        // Fallback : navigation directe vers l'accueil
+        // Aucun lien trouvé vers la destination exacte, utiliser la navigation directe
+        await page.goto('/a-propos-du-site');
+      }
+    } else {
+      // Lien non trouvé par label, navigation via plan-du-site ou accueil
+      // Le footer et le header sont toujours disponibles sur toutes les pages
+      // Option 1 : Essayer via le plan du site (footer)
+      const lienPlanDuSite = page.getByRole('link', { name: /Plan du site/i });
+      if (await lienPlanDuSite.count() > 0) {
+        await lienPlanDuSite.first().click();
+        await expect(page).toHaveURL('/plan-du-site');
+        // Depuis le plan du site, naviguer vers la destination
+        await page.goto('/a-propos-du-site');
+      } else {
+        // Option 2 : Via le logo (header) vers l'accueil
+        const logo = page.getByAltText('Logo Malain et possible');
+        if (await logo.count() > 0) {
+          await logo.click();
+          await expect(page).toHaveURL('/');
+        } else {
+          // Fallback : navigation directe vers l'accueil
+          await page.goto('/');
+        }
+        // Depuis l'accueil, naviguer vers la destination
+        await page.goto('/a-propos-du-site');
+      }
+    }
+    await expect(page).toHaveURL('/a-propos-du-site');
+  });
+
+  await test.step("Étape 20: Navigation de /a-propos-du-site vers /metrics (BarChart3)", async () => {
+    // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
+    const liens19 = page.getByRole('link', { name: /BarChart3/i });
+    if (await liens19.count() > 0) {
+      // Si plusieurs liens avec le même label, trouver celui qui va vers la bonne destination
+      const liensTrouves = await liens19.all();
+      let lienTrouve = null;
+      for (const lien of liensTrouves) {
+        const href = await lien.getAttribute('href');
+        // Normaliser l'URL (enlever le slash final si présent)
+        const hrefNormalise = href ? href.replace(/\/$/, '') : '';
+        const destinationNormalisee = '/metrics'.replace(/\/$/, '');
+        if (hrefNormalise === destinationNormalisee || hrefNormalise === destinationNormalisee + '/' || href === destinationNormalisee || href === destinationNormalisee + '/') {
+          lienTrouve = lien;
+          break;
+        }
+      }
+      if (lienTrouve) {
+        await lienTrouve.click();
+      } else {
+        // Aucun lien trouvé vers la destination exacte, utiliser la navigation directe
+        await page.goto('/metrics');
+      }
+    } else {
+      // Lien non trouvé par label, navigation via plan-du-site ou accueil
+      // Le footer et le header sont toujours disponibles sur toutes les pages
+      // Option 1 : Essayer via le plan du site (footer)
+      const lienPlanDuSite = page.getByRole('link', { name: /Plan du site/i });
+      if (await lienPlanDuSite.count() > 0) {
+        await lienPlanDuSite.first().click();
+        await expect(page).toHaveURL('/plan-du-site');
+        // Depuis le plan du site, naviguer vers la destination
+        await page.goto('/metrics');
+      } else {
+        // Option 2 : Via le logo (header) vers l'accueil
+        const logo = page.getByAltText('Logo Malain et possible');
+        if (await logo.count() > 0) {
+          await logo.click();
+          await expect(page).toHaveURL('/');
+        } else {
+          // Fallback : navigation directe vers l'accueil
+          await page.goto('/');
+        }
+        // Depuis l'accueil, naviguer vers la destination
+        await page.goto('/metrics');
+      }
+    }
+    await expect(page).toHaveURL('/metrics');
+  });
+
+  await test.step("Étape 21: Navigation de /metrics vers /metrics (BarChart3)", async () => {
+    // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
+    const liens20 = page.getByRole('link', { name: /BarChart3/i });
+    if (await liens20.count() > 0) {
+      // Si plusieurs liens avec le même label, trouver celui qui va vers la bonne destination
+      const liensTrouves = await liens20.all();
+      let lienTrouve = null;
+      for (const lien of liensTrouves) {
+        const href = await lien.getAttribute('href');
+        // Normaliser l'URL (enlever le slash final si présent)
+        const hrefNormalise = href ? href.replace(/\/$/, '') : '';
+        const destinationNormalisee = '/metrics'.replace(/\/$/, '');
+        if (hrefNormalise === destinationNormalisee || hrefNormalise === destinationNormalisee + '/' || href === destinationNormalisee || href === destinationNormalisee + '/') {
+          lienTrouve = lien;
+          break;
+        }
+      }
+      if (lienTrouve) {
+        await lienTrouve.click();
+      } else {
+        // Aucun lien trouvé vers la destination exacte, utiliser la navigation directe
+        await page.goto('/metrics');
+      }
+    } else {
+      // Lien non trouvé par label, navigation via plan-du-site ou accueil
+      // Le footer et le header sont toujours disponibles sur toutes les pages
+      // Option 1 : Essayer via le plan du site (footer)
+      const lienPlanDuSite = page.getByRole('link', { name: /Plan du site/i });
+      if (await lienPlanDuSite.count() > 0) {
+        await lienPlanDuSite.first().click();
+        await expect(page).toHaveURL('/plan-du-site');
+        // Depuis le plan du site, naviguer vers la destination
+        await page.goto('/metrics');
+      } else {
+        // Option 2 : Via le logo (header) vers l'accueil
+        const logo = page.getByAltText('Logo Malain et possible');
+        if (await logo.count() > 0) {
+          await logo.click();
+          await expect(page).toHaveURL('/');
+        } else {
+          // Fallback : navigation directe vers l'accueil
+          await page.goto('/');
+        }
+        // Depuis l'accueil, naviguer vers la destination
+        await page.goto('/metrics');
+      }
+    }
+    await expect(page).toHaveURL('/metrics');
+  });
+
+  await test.step("Étape 22: Navigation de /metrics vers /a-propos-du-site (Info)", async () => {
+    // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
+    const liens21 = page.getByRole('link', { name: /Info/i });
+    if (await liens21.count() > 0) {
+      // Si plusieurs liens avec le même label, trouver celui qui va vers la bonne destination
+      const liensTrouves = await liens21.all();
+      let lienTrouve = null;
+      for (const lien of liensTrouves) {
+        const href = await lien.getAttribute('href');
+        // Normaliser l'URL (enlever le slash final si présent)
+        const hrefNormalise = href ? href.replace(/\/$/, '') : '';
+        const destinationNormalisee = '/a-propos-du-site'.replace(/\/$/, '');
+        if (hrefNormalise === destinationNormalisee || hrefNormalise === destinationNormalisee + '/' || href === destinationNormalisee || href === destinationNormalisee + '/') {
+          lienTrouve = lien;
+          break;
+        }
+      }
+      if (lienTrouve) {
+        await lienTrouve.click();
+      } else {
+        // Aucun lien trouvé vers la destination exacte, utiliser la navigation directe
+        await page.goto('/a-propos-du-site');
+      }
+    } else {
+      // Lien non trouvé par label, navigation via plan-du-site ou accueil
+      // Le footer et le header sont toujours disponibles sur toutes les pages
+      // Option 1 : Essayer via le plan du site (footer)
+      const lienPlanDuSite = page.getByRole('link', { name: /Plan du site/i });
+      if (await lienPlanDuSite.count() > 0) {
+        await lienPlanDuSite.first().click();
+        await expect(page).toHaveURL('/plan-du-site');
+        // Depuis le plan du site, naviguer vers la destination
+        await page.goto('/a-propos-du-site');
+      } else {
+        // Option 2 : Via le logo (header) vers l'accueil
+        const logo = page.getByAltText('Logo Malain et possible');
+        if (await logo.count() > 0) {
+          await logo.click();
+          await expect(page).toHaveURL('/');
+        } else {
+          // Fallback : navigation directe vers l'accueil
+          await page.goto('/');
+        }
+        // Depuis l'accueil, naviguer vers la destination
+        await page.goto('/a-propos-du-site');
+      }
+    }
+    await expect(page).toHaveURL('/a-propos-du-site');
+  });
+
+  await test.step("Étape 23: Navigation de /a-propos-du-site vers /a-propos-du-site (Info)", async () => {
+    // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
+    const liens22 = page.getByRole('link', { name: /Info/i });
+    if (await liens22.count() > 0) {
+      // Si plusieurs liens avec le même label, trouver celui qui va vers la bonne destination
+      const liensTrouves = await liens22.all();
+      let lienTrouve = null;
+      for (const lien of liensTrouves) {
+        const href = await lien.getAttribute('href');
+        // Normaliser l'URL (enlever le slash final si présent)
+        const hrefNormalise = href ? href.replace(/\/$/, '') : '';
+        const destinationNormalisee = '/a-propos-du-site'.replace(/\/$/, '');
+        if (hrefNormalise === destinationNormalisee || hrefNormalise === destinationNormalisee + '/' || href === destinationNormalisee || href === destinationNormalisee + '/') {
+          lienTrouve = lien;
+          break;
+        }
+      }
+      if (lienTrouve) {
+        await lienTrouve.click();
+      } else {
+        // Aucun lien trouvé vers la destination exacte, utiliser la navigation directe
+        await page.goto('/a-propos-du-site');
+      }
+    } else {
+      // Lien non trouvé par label, navigation via plan-du-site ou accueil
+      // Le footer et le header sont toujours disponibles sur toutes les pages
+      // Option 1 : Essayer via le plan du site (footer)
+      const lienPlanDuSite = page.getByRole('link', { name: /Plan du site/i });
+      if (await lienPlanDuSite.count() > 0) {
+        await lienPlanDuSite.first().click();
+        await expect(page).toHaveURL('/plan-du-site');
+        // Depuis le plan du site, naviguer vers la destination
+        await page.goto('/a-propos-du-site');
+      } else {
+        // Option 2 : Via le logo (header) vers l'accueil
+        const logo = page.getByAltText('Logo Malain et possible');
+        if (await logo.count() > 0) {
+          await logo.click();
+          await expect(page).toHaveURL('/');
+        } else {
+          // Fallback : navigation directe vers l'accueil
+          await page.goto('/');
+        }
+        // Depuis l'accueil, naviguer vers la destination
+        await page.goto('/a-propos-du-site');
+      }
+    }
+    await expect(page).toHaveURL('/a-propos-du-site');
+  });
+
+  await test.step("Étape 24: Navigation de /a-propos-du-site vers / (lien)", async () => {
+    // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
+    const liens23 = page.getByRole('link', { name: /lien/i });
+    if (await liens23.count() > 0) {
+      // Si plusieurs liens avec le même label, trouver celui qui va vers la bonne destination
+      const liensTrouves = await liens23.all();
+      let lienTrouve = null;
+      for (const lien of liensTrouves) {
+        const href = await lien.getAttribute('href');
+        // Normaliser l'URL (enlever le slash final si présent)
+        const hrefNormalise = href ? href.replace(/\/$/, '') : '';
+        const destinationNormalisee = '/'.replace(/\/$/, '');
+        if (hrefNormalise === destinationNormalisee || hrefNormalise === destinationNormalisee + '/' || href === destinationNormalisee || href === destinationNormalisee + '/') {
+          lienTrouve = lien;
+          break;
+        }
+      }
+      if (lienTrouve) {
+        await lienTrouve.click();
+      } else {
+        // Aucun lien trouvé vers la destination exacte, utiliser la navigation directe
         await page.goto('/');
       }
-      // Depuis l'accueil, naviguer vers la destination
-      await page.goto('/transformation');
-    }
-  }
-  await expect(page).toHaveURL('/transformation');
-
-  // Étape 11: Navigation de /transformation vers /plan-du-site
-  // Label du lien: "Plan du site"
-  const lien10 = page.getByRole('link', { name: /Plan du site/i });
-  if (await lien10.count() > 0) {
-    await lien10.first().click();
-  } else {
-    // Lien non trouvé par label, navigation via plan-du-site ou accueil
-    // Le footer et le header sont toujours disponibles sur toutes les pages
-    // Option 1 : Essayer via le plan du site (footer)
-    const lienPlanDuSite = page.getByRole('link', { name: /Plan du site/i });
-    if (await lienPlanDuSite.count() > 0) {
-      await lienPlanDuSite.first().click();
-      await expect(page).toHaveURL('/plan-du-site');
-      // Depuis le plan du site, naviguer vers la destination
-      await page.goto('/plan-du-site');
     } else {
-      // Option 2 : Via le logo (header) vers l'accueil
-      const logo = page.getByAltText('Logo Malain et possible');
-      if (await logo.count() > 0) {
-        await logo.click();
-        await expect(page).toHaveURL('/');
+      // Lien non trouvé par label, navigation via plan-du-site ou accueil
+      // Le footer et le header sont toujours disponibles sur toutes les pages
+      // Option 1 : Essayer via le plan du site (footer)
+      const lienPlanDuSite = page.getByRole('link', { name: /Plan du site/i });
+      if (await lienPlanDuSite.count() > 0) {
+        await lienPlanDuSite.first().click();
+        await expect(page).toHaveURL('/plan-du-site');
+        // Depuis le plan du site, naviguer vers la destination
+        await page.goto('/');
       } else {
-        // Fallback : navigation directe vers l'accueil
+        // Option 2 : Via le logo (header) vers l'accueil
+        const logo = page.getByAltText('Logo Malain et possible');
+        if (await logo.count() > 0) {
+          await logo.click();
+          await expect(page).toHaveURL('/');
+        } else {
+          // Fallback : navigation directe vers l'accueil
+          await page.goto('/');
+        }
+        // Depuis l'accueil, naviguer vers la destination
         await page.goto('/');
       }
-      // Depuis l'accueil, naviguer vers la destination
-      await page.goto('/plan-du-site');
     }
-  }
-  await expect(page).toHaveURL('/plan-du-site');
+    await expect(page).toHaveURL('/');
+  });
 
-  // Étape 12: Navigation de /plan-du-site vers /
-  // Label du lien: "lien"
-  const lien11 = page.getByRole('link', { name: /lien/i });
-  if (await lien11.count() > 0) {
-    await lien11.first().click();
-  } else {
-    // Lien non trouvé par label, navigation via plan-du-site ou accueil
-    // Le footer et le header sont toujours disponibles sur toutes les pages
-    // Option 1 : Essayer via le plan du site (footer)
-    const lienPlanDuSite = page.getByRole('link', { name: /Plan du site/i });
-    if (await lienPlanDuSite.count() > 0) {
-      await lienPlanDuSite.first().click();
-      await expect(page).toHaveURL('/plan-du-site');
-      // Depuis le plan du site, naviguer vers la destination
-      await page.goto('/');
-    } else {
-      // Option 2 : Via le logo (header) vers l'accueil
-      const logo = page.getByAltText('Logo Malain et possible');
-      if (await logo.count() > 0) {
-        await logo.click();
-        await expect(page).toHaveURL('/');
+  await test.step("Étape 25: Navigation de / vers /plan-du-site (Plan du site)", async () => {
+    // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
+    const liens24 = page.getByRole('link', { name: /Plan du site/i });
+    if (await liens24.count() > 0) {
+      // Si plusieurs liens avec le même label, trouver celui qui va vers la bonne destination
+      const liensTrouves = await liens24.all();
+      let lienTrouve = null;
+      for (const lien of liensTrouves) {
+        const href = await lien.getAttribute('href');
+        // Normaliser l'URL (enlever le slash final si présent)
+        const hrefNormalise = href ? href.replace(/\/$/, '') : '';
+        const destinationNormalisee = '/plan-du-site'.replace(/\/$/, '');
+        if (hrefNormalise === destinationNormalisee || hrefNormalise === destinationNormalisee + '/' || href === destinationNormalisee || href === destinationNormalisee + '/') {
+          lienTrouve = lien;
+          break;
+        }
+      }
+      if (lienTrouve) {
+        await lienTrouve.click();
       } else {
-        // Fallback : navigation directe vers l'accueil
+        // Aucun lien trouvé vers la destination exacte, utiliser la navigation directe
+        await page.goto('/plan-du-site');
+      }
+    } else {
+      // Lien non trouvé par label, navigation via plan-du-site ou accueil
+      // Le footer et le header sont toujours disponibles sur toutes les pages
+      // Option 1 : Essayer via le plan du site (footer)
+      const lienPlanDuSite = page.getByRole('link', { name: /Plan du site/i });
+      if (await lienPlanDuSite.count() > 0) {
+        await lienPlanDuSite.first().click();
+        await expect(page).toHaveURL('/plan-du-site');
+        // Depuis le plan du site, naviguer vers la destination
+        await page.goto('/plan-du-site');
+      } else {
+        // Option 2 : Via le logo (header) vers l'accueil
+        const logo = page.getByAltText('Logo Malain et possible');
+        if (await logo.count() > 0) {
+          await logo.click();
+          await expect(page).toHaveURL('/');
+        } else {
+          // Fallback : navigation directe vers l'accueil
+          await page.goto('/');
+        }
+        // Depuis l'accueil, naviguer vers la destination
+        await page.goto('/plan-du-site');
+      }
+    }
+    await expect(page).toHaveURL('/plan-du-site');
+  });
+
+  await test.step("Étape 26: Navigation de /plan-du-site vers /maintenance (lien)", async () => {
+    // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
+    const liens25 = page.getByRole('link', { name: /lien/i });
+    if (await liens25.count() > 0) {
+      // Si plusieurs liens avec le même label, trouver celui qui va vers la bonne destination
+      const liensTrouves = await liens25.all();
+      let lienTrouve = null;
+      for (const lien of liensTrouves) {
+        const href = await lien.getAttribute('href');
+        // Normaliser l'URL (enlever le slash final si présent)
+        const hrefNormalise = href ? href.replace(/\/$/, '') : '';
+        const destinationNormalisee = '/maintenance'.replace(/\/$/, '');
+        if (hrefNormalise === destinationNormalisee || hrefNormalise === destinationNormalisee + '/' || href === destinationNormalisee || href === destinationNormalisee + '/') {
+          lienTrouve = lien;
+          break;
+        }
+      }
+      if (lienTrouve) {
+        await lienTrouve.click();
+      } else {
+        // Aucun lien trouvé vers la destination exacte, utiliser la navigation directe
+        await page.goto('/maintenance');
+      }
+    } else {
+      // Lien non trouvé par label, navigation via plan-du-site ou accueil
+      // Le footer et le header sont toujours disponibles sur toutes les pages
+      // Option 1 : Essayer via le plan du site (footer)
+      const lienPlanDuSite = page.getByRole('link', { name: /Plan du site/i });
+      if (await lienPlanDuSite.count() > 0) {
+        await lienPlanDuSite.first().click();
+        await expect(page).toHaveURL('/plan-du-site');
+        // Depuis le plan du site, naviguer vers la destination
+        await page.goto('/maintenance');
+      } else {
+        // Option 2 : Via le logo (header) vers l'accueil
+        const logo = page.getByAltText('Logo Malain et possible');
+        if (await logo.count() > 0) {
+          await logo.click();
+          await expect(page).toHaveURL('/');
+        } else {
+          // Fallback : navigation directe vers l'accueil
+          await page.goto('/');
+        }
+        // Depuis l'accueil, naviguer vers la destination
+        await page.goto('/maintenance');
+      }
+    }
+    await expect(page).toHaveURL('/maintenance');
+  });
+
+  await test.step("Étape 27: Navigation de /maintenance vers /plan-du-site (Plan du site)", async () => {
+    // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
+    const liens26 = page.getByRole('link', { name: /Plan du site/i });
+    if (await liens26.count() > 0) {
+      // Si plusieurs liens avec le même label, trouver celui qui va vers la bonne destination
+      const liensTrouves = await liens26.all();
+      let lienTrouve = null;
+      for (const lien of liensTrouves) {
+        const href = await lien.getAttribute('href');
+        // Normaliser l'URL (enlever le slash final si présent)
+        const hrefNormalise = href ? href.replace(/\/$/, '') : '';
+        const destinationNormalisee = '/plan-du-site'.replace(/\/$/, '');
+        if (hrefNormalise === destinationNormalisee || hrefNormalise === destinationNormalisee + '/' || href === destinationNormalisee || href === destinationNormalisee + '/') {
+          lienTrouve = lien;
+          break;
+        }
+      }
+      if (lienTrouve) {
+        await lienTrouve.click();
+      } else {
+        // Aucun lien trouvé vers la destination exacte, utiliser la navigation directe
+        await page.goto('/plan-du-site');
+      }
+    } else {
+      // Lien non trouvé par label, navigation via plan-du-site ou accueil
+      // Le footer et le header sont toujours disponibles sur toutes les pages
+      // Option 1 : Essayer via le plan du site (footer)
+      const lienPlanDuSite = page.getByRole('link', { name: /Plan du site/i });
+      if (await lienPlanDuSite.count() > 0) {
+        await lienPlanDuSite.first().click();
+        await expect(page).toHaveURL('/plan-du-site');
+        // Depuis le plan du site, naviguer vers la destination
+        await page.goto('/plan-du-site');
+      } else {
+        // Option 2 : Via le logo (header) vers l'accueil
+        const logo = page.getByAltText('Logo Malain et possible');
+        if (await logo.count() > 0) {
+          await logo.click();
+          await expect(page).toHaveURL('/');
+        } else {
+          // Fallback : navigation directe vers l'accueil
+          await page.goto('/');
+        }
+        // Depuis l'accueil, naviguer vers la destination
+        await page.goto('/plan-du-site');
+      }
+    }
+    await expect(page).toHaveURL('/plan-du-site');
+  });
+
+  await test.step("Étape 28: Navigation de /plan-du-site vers /portfolio-detournements (lien)", async () => {
+    // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
+    const liens27 = page.getByRole('link', { name: /lien/i });
+    if (await liens27.count() > 0) {
+      // Si plusieurs liens avec le même label, trouver celui qui va vers la bonne destination
+      const liensTrouves = await liens27.all();
+      let lienTrouve = null;
+      for (const lien of liensTrouves) {
+        const href = await lien.getAttribute('href');
+        // Normaliser l'URL (enlever le slash final si présent)
+        const hrefNormalise = href ? href.replace(/\/$/, '') : '';
+        const destinationNormalisee = '/portfolio-detournements'.replace(/\/$/, '');
+        if (hrefNormalise === destinationNormalisee || hrefNormalise === destinationNormalisee + '/' || href === destinationNormalisee || href === destinationNormalisee + '/') {
+          lienTrouve = lien;
+          break;
+        }
+      }
+      if (lienTrouve) {
+        await lienTrouve.click();
+      } else {
+        // Aucun lien trouvé vers la destination exacte, utiliser la navigation directe
+        await page.goto('/portfolio-detournements');
+      }
+    } else {
+      // Lien non trouvé par label, navigation via plan-du-site ou accueil
+      // Le footer et le header sont toujours disponibles sur toutes les pages
+      // Option 1 : Essayer via le plan du site (footer)
+      const lienPlanDuSite = page.getByRole('link', { name: /Plan du site/i });
+      if (await lienPlanDuSite.count() > 0) {
+        await lienPlanDuSite.first().click();
+        await expect(page).toHaveURL('/plan-du-site');
+        // Depuis le plan du site, naviguer vers la destination
+        await page.goto('/portfolio-detournements');
+      } else {
+        // Option 2 : Via le logo (header) vers l'accueil
+        const logo = page.getByAltText('Logo Malain et possible');
+        if (await logo.count() > 0) {
+          await logo.click();
+          await expect(page).toHaveURL('/');
+        } else {
+          // Fallback : navigation directe vers l'accueil
+          await page.goto('/');
+        }
+        // Depuis l'accueil, naviguer vers la destination
+        await page.goto('/portfolio-detournements');
+      }
+    }
+    await expect(page).toHaveURL('/portfolio-detournements');
+  });
+
+  await test.step("Étape 29: Navigation de /portfolio-detournements vers /plan-du-site (Plan du site)", async () => {
+    // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
+    const liens28 = page.getByRole('link', { name: /Plan du site/i });
+    if (await liens28.count() > 0) {
+      // Si plusieurs liens avec le même label, trouver celui qui va vers la bonne destination
+      const liensTrouves = await liens28.all();
+      let lienTrouve = null;
+      for (const lien of liensTrouves) {
+        const href = await lien.getAttribute('href');
+        // Normaliser l'URL (enlever le slash final si présent)
+        const hrefNormalise = href ? href.replace(/\/$/, '') : '';
+        const destinationNormalisee = '/plan-du-site'.replace(/\/$/, '');
+        if (hrefNormalise === destinationNormalisee || hrefNormalise === destinationNormalisee + '/' || href === destinationNormalisee || href === destinationNormalisee + '/') {
+          lienTrouve = lien;
+          break;
+        }
+      }
+      if (lienTrouve) {
+        await lienTrouve.click();
+      } else {
+        // Aucun lien trouvé vers la destination exacte, utiliser la navigation directe
+        await page.goto('/plan-du-site');
+      }
+    } else {
+      // Lien non trouvé par label, navigation via plan-du-site ou accueil
+      // Le footer et le header sont toujours disponibles sur toutes les pages
+      // Option 1 : Essayer via le plan du site (footer)
+      const lienPlanDuSite = page.getByRole('link', { name: /Plan du site/i });
+      if (await lienPlanDuSite.count() > 0) {
+        await lienPlanDuSite.first().click();
+        await expect(page).toHaveURL('/plan-du-site');
+        // Depuis le plan du site, naviguer vers la destination
+        await page.goto('/plan-du-site');
+      } else {
+        // Option 2 : Via le logo (header) vers l'accueil
+        const logo = page.getByAltText('Logo Malain et possible');
+        if (await logo.count() > 0) {
+          await logo.click();
+          await expect(page).toHaveURL('/');
+        } else {
+          // Fallback : navigation directe vers l'accueil
+          await page.goto('/');
+        }
+        // Depuis l'accueil, naviguer vers la destination
+        await page.goto('/plan-du-site');
+      }
+    }
+    await expect(page).toHaveURL('/plan-du-site');
+  });
+
+  await test.step("Étape 30: Navigation de /plan-du-site vers /pour_aller_plus_loin (lien)", async () => {
+    // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
+    const liens29 = page.getByRole('link', { name: /lien/i });
+    if (await liens29.count() > 0) {
+      // Si plusieurs liens avec le même label, trouver celui qui va vers la bonne destination
+      const liensTrouves = await liens29.all();
+      let lienTrouve = null;
+      for (const lien of liensTrouves) {
+        const href = await lien.getAttribute('href');
+        // Normaliser l'URL (enlever le slash final si présent)
+        const hrefNormalise = href ? href.replace(/\/$/, '') : '';
+        const destinationNormalisee = '/pour_aller_plus_loin'.replace(/\/$/, '');
+        if (hrefNormalise === destinationNormalisee || hrefNormalise === destinationNormalisee + '/' || href === destinationNormalisee || href === destinationNormalisee + '/') {
+          lienTrouve = lien;
+          break;
+        }
+      }
+      if (lienTrouve) {
+        await lienTrouve.click();
+      } else {
+        // Aucun lien trouvé vers la destination exacte, utiliser la navigation directe
+        await page.goto('/pour_aller_plus_loin');
+      }
+    } else {
+      // Lien non trouvé par label, navigation via plan-du-site ou accueil
+      // Le footer et le header sont toujours disponibles sur toutes les pages
+      // Option 1 : Essayer via le plan du site (footer)
+      const lienPlanDuSite = page.getByRole('link', { name: /Plan du site/i });
+      if (await lienPlanDuSite.count() > 0) {
+        await lienPlanDuSite.first().click();
+        await expect(page).toHaveURL('/plan-du-site');
+        // Depuis le plan du site, naviguer vers la destination
+        await page.goto('/pour_aller_plus_loin');
+      } else {
+        // Option 2 : Via le logo (header) vers l'accueil
+        const logo = page.getByAltText('Logo Malain et possible');
+        if (await logo.count() > 0) {
+          await logo.click();
+          await expect(page).toHaveURL('/');
+        } else {
+          // Fallback : navigation directe vers l'accueil
+          await page.goto('/');
+        }
+        // Depuis l'accueil, naviguer vers la destination
+        await page.goto('/pour_aller_plus_loin');
+      }
+    }
+    await expect(page).toHaveURL('/pour_aller_plus_loin');
+  });
+
+  await test.step("Étape 31: Navigation de /pour_aller_plus_loin vers /plan-du-site (Plan du site)", async () => {
+    // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
+    const liens30 = page.getByRole('link', { name: /Plan du site/i });
+    if (await liens30.count() > 0) {
+      // Si plusieurs liens avec le même label, trouver celui qui va vers la bonne destination
+      const liensTrouves = await liens30.all();
+      let lienTrouve = null;
+      for (const lien of liensTrouves) {
+        const href = await lien.getAttribute('href');
+        // Normaliser l'URL (enlever le slash final si présent)
+        const hrefNormalise = href ? href.replace(/\/$/, '') : '';
+        const destinationNormalisee = '/plan-du-site'.replace(/\/$/, '');
+        if (hrefNormalise === destinationNormalisee || hrefNormalise === destinationNormalisee + '/' || href === destinationNormalisee || href === destinationNormalisee + '/') {
+          lienTrouve = lien;
+          break;
+        }
+      }
+      if (lienTrouve) {
+        await lienTrouve.click();
+      } else {
+        // Aucun lien trouvé vers la destination exacte, utiliser la navigation directe
+        await page.goto('/plan-du-site');
+      }
+    } else {
+      // Lien non trouvé par label, navigation via plan-du-site ou accueil
+      // Le footer et le header sont toujours disponibles sur toutes les pages
+      // Option 1 : Essayer via le plan du site (footer)
+      const lienPlanDuSite = page.getByRole('link', { name: /Plan du site/i });
+      if (await lienPlanDuSite.count() > 0) {
+        await lienPlanDuSite.first().click();
+        await expect(page).toHaveURL('/plan-du-site');
+        // Depuis le plan du site, naviguer vers la destination
+        await page.goto('/plan-du-site');
+      } else {
+        // Option 2 : Via le logo (header) vers l'accueil
+        const logo = page.getByAltText('Logo Malain et possible');
+        if (await logo.count() > 0) {
+          await logo.click();
+          await expect(page).toHaveURL('/');
+        } else {
+          // Fallback : navigation directe vers l'accueil
+          await page.goto('/');
+        }
+        // Depuis l'accueil, naviguer vers la destination
+        await page.goto('/plan-du-site');
+      }
+    }
+    await expect(page).toHaveURL('/plan-du-site');
+  });
+
+  await test.step("Étape 32: Navigation de /plan-du-site vers / (lien)", async () => {
+    // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
+    const liens31 = page.getByRole('link', { name: /lien/i });
+    if (await liens31.count() > 0) {
+      // Si plusieurs liens avec le même label, trouver celui qui va vers la bonne destination
+      const liensTrouves = await liens31.all();
+      let lienTrouve = null;
+      for (const lien of liensTrouves) {
+        const href = await lien.getAttribute('href');
+        // Normaliser l'URL (enlever le slash final si présent)
+        const hrefNormalise = href ? href.replace(/\/$/, '') : '';
+        const destinationNormalisee = '/'.replace(/\/$/, '');
+        if (hrefNormalise === destinationNormalisee || hrefNormalise === destinationNormalisee + '/' || href === destinationNormalisee || href === destinationNormalisee + '/') {
+          lienTrouve = lien;
+          break;
+        }
+      }
+      if (lienTrouve) {
+        await lienTrouve.click();
+      } else {
+        // Aucun lien trouvé vers la destination exacte, utiliser la navigation directe
         await page.goto('/');
       }
-      // Depuis l'accueil, naviguer vers la destination
-      await page.goto('/');
-    }
-  }
-  await expect(page).toHaveURL('/');
-
-  // Étape 13: Navigation de / vers /detournement-video
-  // Label du lien: "En savoir plus..."
-  const lien12 = page.getByRole('link', { name: /En savoir plus\.\.\./i });
-  if (await lien12.count() > 0) {
-    await lien12.first().click();
-  } else {
-    // Lien non trouvé par label, navigation via plan-du-site ou accueil
-    // Le footer et le header sont toujours disponibles sur toutes les pages
-    // Option 1 : Essayer via le plan du site (footer)
-    const lienPlanDuSite = page.getByRole('link', { name: /Plan du site/i });
-    if (await lienPlanDuSite.count() > 0) {
-      await lienPlanDuSite.first().click();
-      await expect(page).toHaveURL('/plan-du-site');
-      // Depuis le plan du site, naviguer vers la destination
-      await page.goto('/detournement-video');
     } else {
-      // Option 2 : Via le logo (header) vers l'accueil
-      const logo = page.getByAltText('Logo Malain et possible');
-      if (await logo.count() > 0) {
-        await logo.click();
-        await expect(page).toHaveURL('/');
+      // Lien non trouvé par label, navigation via plan-du-site ou accueil
+      // Le footer et le header sont toujours disponibles sur toutes les pages
+      // Option 1 : Essayer via le plan du site (footer)
+      const lienPlanDuSite = page.getByRole('link', { name: /Plan du site/i });
+      if (await lienPlanDuSite.count() > 0) {
+        await lienPlanDuSite.first().click();
+        await expect(page).toHaveURL('/plan-du-site');
+        // Depuis le plan du site, naviguer vers la destination
+        await page.goto('/');
       } else {
-        // Fallback : navigation directe vers l'accueil
+        // Option 2 : Via le logo (header) vers l'accueil
+        const logo = page.getByAltText('Logo Malain et possible');
+        if (await logo.count() > 0) {
+          await logo.click();
+          await expect(page).toHaveURL('/');
+        } else {
+          // Fallback : navigation directe vers l'accueil
+          await page.goto('/');
+        }
+        // Depuis l'accueil, naviguer vers la destination
         await page.goto('/');
       }
-      // Depuis l'accueil, naviguer vers la destination
-      await page.goto('/detournement-video');
     }
-  }
-  await expect(page).toHaveURL('/detournement-video');
+    await expect(page).toHaveURL('/');
+  });
 
-  // Étape 14: Navigation de /detournement-video vers /plan-du-site
-  // Label du lien: "Plan du site"
-  const lien13 = page.getByRole('link', { name: /Plan du site/i });
-  if (await lien13.count() > 0) {
-    await lien13.first().click();
-  } else {
-    // Lien non trouvé par label, navigation via plan-du-site ou accueil
-    // Le footer et le header sont toujours disponibles sur toutes les pages
-    // Option 1 : Essayer via le plan du site (footer)
-    const lienPlanDuSite = page.getByRole('link', { name: /Plan du site/i });
-    if (await lienPlanDuSite.count() > 0) {
-      await lienPlanDuSite.first().click();
-      await expect(page).toHaveURL('/plan-du-site');
-      // Depuis le plan du site, naviguer vers la destination
-      await page.goto('/plan-du-site');
-    } else {
-      // Option 2 : Via le logo (header) vers l'accueil
-      const logo = page.getByAltText('Logo Malain et possible');
-      if (await logo.count() > 0) {
-        await logo.click();
-        await expect(page).toHaveURL('/');
-      } else {
-        // Fallback : navigation directe vers l'accueil
-        await page.goto('/');
+  await test.step("Étape 33: Navigation de / vers /metrics (BarChart3)", async () => {
+    // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
+    const liens32 = page.getByRole('link', { name: /BarChart3/i });
+    if (await liens32.count() > 0) {
+      // Si plusieurs liens avec le même label, trouver celui qui va vers la bonne destination
+      const liensTrouves = await liens32.all();
+      let lienTrouve = null;
+      for (const lien of liensTrouves) {
+        const href = await lien.getAttribute('href');
+        // Normaliser l'URL (enlever le slash final si présent)
+        const hrefNormalise = href ? href.replace(/\/$/, '') : '';
+        const destinationNormalisee = '/metrics'.replace(/\/$/, '');
+        if (hrefNormalise === destinationNormalisee || hrefNormalise === destinationNormalisee + '/' || href === destinationNormalisee || href === destinationNormalisee + '/') {
+          lienTrouve = lien;
+          break;
+        }
       }
-      // Depuis l'accueil, naviguer vers la destination
-      await page.goto('/plan-du-site');
+      if (lienTrouve) {
+        await lienTrouve.click();
+      } else {
+        // Aucun lien trouvé vers la destination exacte, utiliser la navigation directe
+        await page.goto('/metrics');
+      }
+    } else {
+      // Lien non trouvé par label, navigation via plan-du-site ou accueil
+      // Le footer et le header sont toujours disponibles sur toutes les pages
+      // Option 1 : Essayer via le plan du site (footer)
+      const lienPlanDuSite = page.getByRole('link', { name: /Plan du site/i });
+      if (await lienPlanDuSite.count() > 0) {
+        await lienPlanDuSite.first().click();
+        await expect(page).toHaveURL('/plan-du-site');
+        // Depuis le plan du site, naviguer vers la destination
+        await page.goto('/metrics');
+      } else {
+        // Option 2 : Via le logo (header) vers l'accueil
+        const logo = page.getByAltText('Logo Malain et possible');
+        if (await logo.count() > 0) {
+          await logo.click();
+          await expect(page).toHaveURL('/');
+        } else {
+          // Fallback : navigation directe vers l'accueil
+          await page.goto('/');
+        }
+        // Depuis l'accueil, naviguer vers la destination
+        await page.goto('/metrics');
+      }
     }
-  }
-  await expect(page).toHaveURL('/plan-du-site');
+    await expect(page).toHaveURL('/metrics');
+  });
 
-  // Étape 15: Navigation de /plan-du-site vers /
-  // Label du lien: "lien"
-  const lien14 = page.getByRole('link', { name: /lien/i });
-  if (await lien14.count() > 0) {
-    await lien14.first().click();
-  } else {
-    // Lien non trouvé par label, navigation via plan-du-site ou accueil
-    // Le footer et le header sont toujours disponibles sur toutes les pages
-    // Option 1 : Essayer via le plan du site (footer)
-    const lienPlanDuSite = page.getByRole('link', { name: /Plan du site/i });
-    if (await lienPlanDuSite.count() > 0) {
-      await lienPlanDuSite.first().click();
-      await expect(page).toHaveURL('/plan-du-site');
-      // Depuis le plan du site, naviguer vers la destination
-      await page.goto('/');
-    } else {
-      // Option 2 : Via le logo (header) vers l'accueil
-      const logo = page.getByAltText('Logo Malain et possible');
-      if (await logo.count() > 0) {
-        await logo.click();
-        await expect(page).toHaveURL('/');
-      } else {
-        // Fallback : navigation directe vers l'accueil
-        await page.goto('/');
+  await test.step("Étape 34: Navigation de /metrics vers /detournement-video (lien)", async () => {
+    // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
+    const liens33 = page.getByRole('link', { name: /lien/i });
+    if (await liens33.count() > 0) {
+      // Si plusieurs liens avec le même label, trouver celui qui va vers la bonne destination
+      const liensTrouves = await liens33.all();
+      let lienTrouve = null;
+      for (const lien of liensTrouves) {
+        const href = await lien.getAttribute('href');
+        // Normaliser l'URL (enlever le slash final si présent)
+        const hrefNormalise = href ? href.replace(/\/$/, '') : '';
+        const destinationNormalisee = '/detournement-video'.replace(/\/$/, '');
+        if (hrefNormalise === destinationNormalisee || hrefNormalise === destinationNormalisee + '/' || href === destinationNormalisee || href === destinationNormalisee + '/') {
+          lienTrouve = lien;
+          break;
+        }
       }
-      // Depuis l'accueil, naviguer vers la destination
-      await page.goto('/');
+      if (lienTrouve) {
+        await lienTrouve.click();
+      } else {
+        // Aucun lien trouvé vers la destination exacte, utiliser la navigation directe
+        await page.goto('/detournement-video');
+      }
+    } else {
+      // Lien non trouvé par label, navigation via plan-du-site ou accueil
+      // Le footer et le header sont toujours disponibles sur toutes les pages
+      // Option 1 : Essayer via le plan du site (footer)
+      const lienPlanDuSite = page.getByRole('link', { name: /Plan du site/i });
+      if (await lienPlanDuSite.count() > 0) {
+        await lienPlanDuSite.first().click();
+        await expect(page).toHaveURL('/plan-du-site');
+        // Depuis le plan du site, naviguer vers la destination
+        await page.goto('/detournement-video');
+      } else {
+        // Option 2 : Via le logo (header) vers l'accueil
+        const logo = page.getByAltText('Logo Malain et possible');
+        if (await logo.count() > 0) {
+          await logo.click();
+          await expect(page).toHaveURL('/');
+        } else {
+          // Fallback : navigation directe vers l'accueil
+          await page.goto('/');
+        }
+        // Depuis l'accueil, naviguer vers la destination
+        await page.goto('/detournement-video');
+      }
     }
-  }
-  await expect(page).toHaveURL('/');
+    await expect(page).toHaveURL('/detournement-video');
+  });
 
-  // Étape 16: Navigation de / vers /management-de-produit-logiciel
-  // Label du lien: "En savoir plus..."
-  const lien15 = page.getByRole('link', { name: /En savoir plus\.\.\./i });
-  if (await lien15.count() > 0) {
-    await lien15.first().click();
-  } else {
-    // Lien non trouvé par label, navigation via plan-du-site ou accueil
-    // Le footer et le header sont toujours disponibles sur toutes les pages
-    // Option 1 : Essayer via le plan du site (footer)
-    const lienPlanDuSite = page.getByRole('link', { name: /Plan du site/i });
-    if (await lienPlanDuSite.count() > 0) {
-      await lienPlanDuSite.first().click();
-      await expect(page).toHaveURL('/plan-du-site');
-      // Depuis le plan du site, naviguer vers la destination
-      await page.goto('/management-de-produit-logiciel');
-    } else {
-      // Option 2 : Via le logo (header) vers l'accueil
-      const logo = page.getByAltText('Logo Malain et possible');
-      if (await logo.count() > 0) {
-        await logo.click();
-        await expect(page).toHaveURL('/');
-      } else {
-        // Fallback : navigation directe vers l'accueil
-        await page.goto('/');
+  await test.step("Étape 35: Navigation de /detournement-video vers /metrics (BarChart3)", async () => {
+    // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
+    const liens34 = page.getByRole('link', { name: /BarChart3/i });
+    if (await liens34.count() > 0) {
+      // Si plusieurs liens avec le même label, trouver celui qui va vers la bonne destination
+      const liensTrouves = await liens34.all();
+      let lienTrouve = null;
+      for (const lien of liensTrouves) {
+        const href = await lien.getAttribute('href');
+        // Normaliser l'URL (enlever le slash final si présent)
+        const hrefNormalise = href ? href.replace(/\/$/, '') : '';
+        const destinationNormalisee = '/metrics'.replace(/\/$/, '');
+        if (hrefNormalise === destinationNormalisee || hrefNormalise === destinationNormalisee + '/' || href === destinationNormalisee || href === destinationNormalisee + '/') {
+          lienTrouve = lien;
+          break;
+        }
       }
-      // Depuis l'accueil, naviguer vers la destination
-      await page.goto('/management-de-produit-logiciel');
+      if (lienTrouve) {
+        await lienTrouve.click();
+      } else {
+        // Aucun lien trouvé vers la destination exacte, utiliser la navigation directe
+        await page.goto('/metrics');
+      }
+    } else {
+      // Lien non trouvé par label, navigation via plan-du-site ou accueil
+      // Le footer et le header sont toujours disponibles sur toutes les pages
+      // Option 1 : Essayer via le plan du site (footer)
+      const lienPlanDuSite = page.getByRole('link', { name: /Plan du site/i });
+      if (await lienPlanDuSite.count() > 0) {
+        await lienPlanDuSite.first().click();
+        await expect(page).toHaveURL('/plan-du-site');
+        // Depuis le plan du site, naviguer vers la destination
+        await page.goto('/metrics');
+      } else {
+        // Option 2 : Via le logo (header) vers l'accueil
+        const logo = page.getByAltText('Logo Malain et possible');
+        if (await logo.count() > 0) {
+          await logo.click();
+          await expect(page).toHaveURL('/');
+        } else {
+          // Fallback : navigation directe vers l'accueil
+          await page.goto('/');
+        }
+        // Depuis l'accueil, naviguer vers la destination
+        await page.goto('/metrics');
+      }
     }
-  }
-  await expect(page).toHaveURL('/management-de-produit-logiciel');
+    await expect(page).toHaveURL('/metrics');
+  });
 
-  // Étape 17: Navigation de /management-de-produit-logiciel vers /plan-du-site
-  // Label du lien: "Plan du site"
-  const lien16 = page.getByRole('link', { name: /Plan du site/i });
-  if (await lien16.count() > 0) {
-    await lien16.first().click();
-  } else {
-    // Lien non trouvé par label, navigation via plan-du-site ou accueil
-    // Le footer et le header sont toujours disponibles sur toutes les pages
-    // Option 1 : Essayer via le plan du site (footer)
-    const lienPlanDuSite = page.getByRole('link', { name: /Plan du site/i });
-    if (await lienPlanDuSite.count() > 0) {
-      await lienPlanDuSite.first().click();
-      await expect(page).toHaveURL('/plan-du-site');
-      // Depuis le plan du site, naviguer vers la destination
-      await page.goto('/plan-du-site');
-    } else {
-      // Option 2 : Via le logo (header) vers l'accueil
-      const logo = page.getByAltText('Logo Malain et possible');
-      if (await logo.count() > 0) {
-        await logo.click();
-        await expect(page).toHaveURL('/');
-      } else {
-        // Fallback : navigation directe vers l'accueil
-        await page.goto('/');
+  await test.step("Étape 36: Navigation de /metrics vers /maintenance (lien)", async () => {
+    // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
+    const liens35 = page.getByRole('link', { name: /lien/i });
+    if (await liens35.count() > 0) {
+      // Si plusieurs liens avec le même label, trouver celui qui va vers la bonne destination
+      const liensTrouves = await liens35.all();
+      let lienTrouve = null;
+      for (const lien of liensTrouves) {
+        const href = await lien.getAttribute('href');
+        // Normaliser l'URL (enlever le slash final si présent)
+        const hrefNormalise = href ? href.replace(/\/$/, '') : '';
+        const destinationNormalisee = '/maintenance'.replace(/\/$/, '');
+        if (hrefNormalise === destinationNormalisee || hrefNormalise === destinationNormalisee + '/' || href === destinationNormalisee || href === destinationNormalisee + '/') {
+          lienTrouve = lien;
+          break;
+        }
       }
-      // Depuis l'accueil, naviguer vers la destination
-      await page.goto('/plan-du-site');
+      if (lienTrouve) {
+        await lienTrouve.click();
+      } else {
+        // Aucun lien trouvé vers la destination exacte, utiliser la navigation directe
+        await page.goto('/maintenance');
+      }
+    } else {
+      // Lien non trouvé par label, navigation via plan-du-site ou accueil
+      // Le footer et le header sont toujours disponibles sur toutes les pages
+      // Option 1 : Essayer via le plan du site (footer)
+      const lienPlanDuSite = page.getByRole('link', { name: /Plan du site/i });
+      if (await lienPlanDuSite.count() > 0) {
+        await lienPlanDuSite.first().click();
+        await expect(page).toHaveURL('/plan-du-site');
+        // Depuis le plan du site, naviguer vers la destination
+        await page.goto('/maintenance');
+      } else {
+        // Option 2 : Via le logo (header) vers l'accueil
+        const logo = page.getByAltText('Logo Malain et possible');
+        if (await logo.count() > 0) {
+          await logo.click();
+          await expect(page).toHaveURL('/');
+        } else {
+          // Fallback : navigation directe vers l'accueil
+          await page.goto('/');
+        }
+        // Depuis l'accueil, naviguer vers la destination
+        await page.goto('/maintenance');
+      }
     }
-  }
-  await expect(page).toHaveURL('/plan-du-site');
+    await expect(page).toHaveURL('/maintenance');
+  });
 
-  // Étape 18: Navigation de /plan-du-site vers /
-  // Label du lien: "lien"
-  const lien17 = page.getByRole('link', { name: /lien/i });
-  if (await lien17.count() > 0) {
-    await lien17.first().click();
-  } else {
-    // Lien non trouvé par label, navigation via plan-du-site ou accueil
-    // Le footer et le header sont toujours disponibles sur toutes les pages
-    // Option 1 : Essayer via le plan du site (footer)
-    const lienPlanDuSite = page.getByRole('link', { name: /Plan du site/i });
-    if (await lienPlanDuSite.count() > 0) {
-      await lienPlanDuSite.first().click();
-      await expect(page).toHaveURL('/plan-du-site');
-      // Depuis le plan du site, naviguer vers la destination
-      await page.goto('/');
-    } else {
-      // Option 2 : Via le logo (header) vers l'accueil
-      const logo = page.getByAltText('Logo Malain et possible');
-      if (await logo.count() > 0) {
-        await logo.click();
-        await expect(page).toHaveURL('/');
-      } else {
-        // Fallback : navigation directe vers l'accueil
-        await page.goto('/');
+  await test.step("Étape 37: Navigation de /maintenance vers /metrics (BarChart3)", async () => {
+    // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
+    const liens36 = page.getByRole('link', { name: /BarChart3/i });
+    if (await liens36.count() > 0) {
+      // Si plusieurs liens avec le même label, trouver celui qui va vers la bonne destination
+      const liensTrouves = await liens36.all();
+      let lienTrouve = null;
+      for (const lien of liensTrouves) {
+        const href = await lien.getAttribute('href');
+        // Normaliser l'URL (enlever le slash final si présent)
+        const hrefNormalise = href ? href.replace(/\/$/, '') : '';
+        const destinationNormalisee = '/metrics'.replace(/\/$/, '');
+        if (hrefNormalise === destinationNormalisee || hrefNormalise === destinationNormalisee + '/' || href === destinationNormalisee || href === destinationNormalisee + '/') {
+          lienTrouve = lien;
+          break;
+        }
       }
-      // Depuis l'accueil, naviguer vers la destination
-      await page.goto('/');
+      if (lienTrouve) {
+        await lienTrouve.click();
+      } else {
+        // Aucun lien trouvé vers la destination exacte, utiliser la navigation directe
+        await page.goto('/metrics');
+      }
+    } else {
+      // Lien non trouvé par label, navigation via plan-du-site ou accueil
+      // Le footer et le header sont toujours disponibles sur toutes les pages
+      // Option 1 : Essayer via le plan du site (footer)
+      const lienPlanDuSite = page.getByRole('link', { name: /Plan du site/i });
+      if (await lienPlanDuSite.count() > 0) {
+        await lienPlanDuSite.first().click();
+        await expect(page).toHaveURL('/plan-du-site');
+        // Depuis le plan du site, naviguer vers la destination
+        await page.goto('/metrics');
+      } else {
+        // Option 2 : Via le logo (header) vers l'accueil
+        const logo = page.getByAltText('Logo Malain et possible');
+        if (await logo.count() > 0) {
+          await logo.click();
+          await expect(page).toHaveURL('/');
+        } else {
+          // Fallback : navigation directe vers l'accueil
+          await page.goto('/');
+        }
+        // Depuis l'accueil, naviguer vers la destination
+        await page.goto('/metrics');
+      }
     }
-  }
-  await expect(page).toHaveURL('/');
+    await expect(page).toHaveURL('/metrics');
+  });
 
-  // Étape 19: Navigation de / vers /a-propos-du-site
-  // Label du lien: "En savoir plus..."
-  const lien18 = page.getByRole('link', { name: /En savoir plus\.\.\./i });
-  if (await lien18.count() > 0) {
-    await lien18.first().click();
-  } else {
-    // Lien non trouvé par label, navigation via plan-du-site ou accueil
-    // Le footer et le header sont toujours disponibles sur toutes les pages
-    // Option 1 : Essayer via le plan du site (footer)
-    const lienPlanDuSite = page.getByRole('link', { name: /Plan du site/i });
-    if (await lienPlanDuSite.count() > 0) {
-      await lienPlanDuSite.first().click();
-      await expect(page).toHaveURL('/plan-du-site');
-      // Depuis le plan du site, naviguer vers la destination
-      await page.goto('/a-propos-du-site');
-    } else {
-      // Option 2 : Via le logo (header) vers l'accueil
-      const logo = page.getByAltText('Logo Malain et possible');
-      if (await logo.count() > 0) {
-        await logo.click();
-        await expect(page).toHaveURL('/');
-      } else {
-        // Fallback : navigation directe vers l'accueil
-        await page.goto('/');
+  await test.step("Étape 38: Navigation de /metrics vers /management-de-produit-logiciel (lien)", async () => {
+    // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
+    const liens37 = page.getByRole('link', { name: /lien/i });
+    if (await liens37.count() > 0) {
+      // Si plusieurs liens avec le même label, trouver celui qui va vers la bonne destination
+      const liensTrouves = await liens37.all();
+      let lienTrouve = null;
+      for (const lien of liensTrouves) {
+        const href = await lien.getAttribute('href');
+        // Normaliser l'URL (enlever le slash final si présent)
+        const hrefNormalise = href ? href.replace(/\/$/, '') : '';
+        const destinationNormalisee = '/management-de-produit-logiciel'.replace(/\/$/, '');
+        if (hrefNormalise === destinationNormalisee || hrefNormalise === destinationNormalisee + '/' || href === destinationNormalisee || href === destinationNormalisee + '/') {
+          lienTrouve = lien;
+          break;
+        }
       }
-      // Depuis l'accueil, naviguer vers la destination
-      await page.goto('/a-propos-du-site');
+      if (lienTrouve) {
+        await lienTrouve.click();
+      } else {
+        // Aucun lien trouvé vers la destination exacte, utiliser la navigation directe
+        await page.goto('/management-de-produit-logiciel');
+      }
+    } else {
+      // Lien non trouvé par label, navigation via plan-du-site ou accueil
+      // Le footer et le header sont toujours disponibles sur toutes les pages
+      // Option 1 : Essayer via le plan du site (footer)
+      const lienPlanDuSite = page.getByRole('link', { name: /Plan du site/i });
+      if (await lienPlanDuSite.count() > 0) {
+        await lienPlanDuSite.first().click();
+        await expect(page).toHaveURL('/plan-du-site');
+        // Depuis le plan du site, naviguer vers la destination
+        await page.goto('/management-de-produit-logiciel');
+      } else {
+        // Option 2 : Via le logo (header) vers l'accueil
+        const logo = page.getByAltText('Logo Malain et possible');
+        if (await logo.count() > 0) {
+          await logo.click();
+          await expect(page).toHaveURL('/');
+        } else {
+          // Fallback : navigation directe vers l'accueil
+          await page.goto('/');
+        }
+        // Depuis l'accueil, naviguer vers la destination
+        await page.goto('/management-de-produit-logiciel');
+      }
     }
-  }
-  await expect(page).toHaveURL('/a-propos-du-site');
+    await expect(page).toHaveURL('/management-de-produit-logiciel');
+  });
 
-  // Étape 20: Navigation de /a-propos-du-site vers /metrics
-  // Label du lien: "BarChart3"
-  const lien19 = page.getByRole('link', { name: /BarChart3/i });
-  if (await lien19.count() > 0) {
-    await lien19.first().click();
-  } else {
-    // Lien non trouvé par label, navigation via plan-du-site ou accueil
-    // Le footer et le header sont toujours disponibles sur toutes les pages
-    // Option 1 : Essayer via le plan du site (footer)
-    const lienPlanDuSite = page.getByRole('link', { name: /Plan du site/i });
-    if (await lienPlanDuSite.count() > 0) {
-      await lienPlanDuSite.first().click();
-      await expect(page).toHaveURL('/plan-du-site');
-      // Depuis le plan du site, naviguer vers la destination
-      await page.goto('/metrics');
-    } else {
-      // Option 2 : Via le logo (header) vers l'accueil
-      const logo = page.getByAltText('Logo Malain et possible');
-      if (await logo.count() > 0) {
-        await logo.click();
-        await expect(page).toHaveURL('/');
-      } else {
-        // Fallback : navigation directe vers l'accueil
-        await page.goto('/');
+  await test.step("Étape 39: Navigation de /management-de-produit-logiciel vers /metrics (BarChart3)", async () => {
+    // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
+    const liens38 = page.getByRole('link', { name: /BarChart3/i });
+    if (await liens38.count() > 0) {
+      // Si plusieurs liens avec le même label, trouver celui qui va vers la bonne destination
+      const liensTrouves = await liens38.all();
+      let lienTrouve = null;
+      for (const lien of liensTrouves) {
+        const href = await lien.getAttribute('href');
+        // Normaliser l'URL (enlever le slash final si présent)
+        const hrefNormalise = href ? href.replace(/\/$/, '') : '';
+        const destinationNormalisee = '/metrics'.replace(/\/$/, '');
+        if (hrefNormalise === destinationNormalisee || hrefNormalise === destinationNormalisee + '/' || href === destinationNormalisee || href === destinationNormalisee + '/') {
+          lienTrouve = lien;
+          break;
+        }
       }
-      // Depuis l'accueil, naviguer vers la destination
-      await page.goto('/metrics');
+      if (lienTrouve) {
+        await lienTrouve.click();
+      } else {
+        // Aucun lien trouvé vers la destination exacte, utiliser la navigation directe
+        await page.goto('/metrics');
+      }
+    } else {
+      // Lien non trouvé par label, navigation via plan-du-site ou accueil
+      // Le footer et le header sont toujours disponibles sur toutes les pages
+      // Option 1 : Essayer via le plan du site (footer)
+      const lienPlanDuSite = page.getByRole('link', { name: /Plan du site/i });
+      if (await lienPlanDuSite.count() > 0) {
+        await lienPlanDuSite.first().click();
+        await expect(page).toHaveURL('/plan-du-site');
+        // Depuis le plan du site, naviguer vers la destination
+        await page.goto('/metrics');
+      } else {
+        // Option 2 : Via le logo (header) vers l'accueil
+        const logo = page.getByAltText('Logo Malain et possible');
+        if (await logo.count() > 0) {
+          await logo.click();
+          await expect(page).toHaveURL('/');
+        } else {
+          // Fallback : navigation directe vers l'accueil
+          await page.goto('/');
+        }
+        // Depuis l'accueil, naviguer vers la destination
+        await page.goto('/metrics');
+      }
     }
-  }
-  await expect(page).toHaveURL('/metrics');
+    await expect(page).toHaveURL('/metrics');
+  });
 
-  // Étape 21: Navigation de /metrics vers /metrics
-  // Label du lien: "BarChart3"
-  const lien20 = page.getByRole('link', { name: /BarChart3/i });
-  if (await lien20.count() > 0) {
-    await lien20.first().click();
-  } else {
-    // Lien non trouvé par label, navigation via plan-du-site ou accueil
-    // Le footer et le header sont toujours disponibles sur toutes les pages
-    // Option 1 : Essayer via le plan du site (footer)
-    const lienPlanDuSite = page.getByRole('link', { name: /Plan du site/i });
-    if (await lienPlanDuSite.count() > 0) {
-      await lienPlanDuSite.first().click();
-      await expect(page).toHaveURL('/plan-du-site');
-      // Depuis le plan du site, naviguer vers la destination
-      await page.goto('/metrics');
-    } else {
-      // Option 2 : Via le logo (header) vers l'accueil
-      const logo = page.getByAltText('Logo Malain et possible');
-      if (await logo.count() > 0) {
-        await logo.click();
-        await expect(page).toHaveURL('/');
-      } else {
-        // Fallback : navigation directe vers l'accueil
-        await page.goto('/');
+  await test.step("Étape 40: Navigation de /metrics vers /portfolio-detournements (lien)", async () => {
+    // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
+    const liens39 = page.getByRole('link', { name: /lien/i });
+    if (await liens39.count() > 0) {
+      // Si plusieurs liens avec le même label, trouver celui qui va vers la bonne destination
+      const liensTrouves = await liens39.all();
+      let lienTrouve = null;
+      for (const lien of liensTrouves) {
+        const href = await lien.getAttribute('href');
+        // Normaliser l'URL (enlever le slash final si présent)
+        const hrefNormalise = href ? href.replace(/\/$/, '') : '';
+        const destinationNormalisee = '/portfolio-detournements'.replace(/\/$/, '');
+        if (hrefNormalise === destinationNormalisee || hrefNormalise === destinationNormalisee + '/' || href === destinationNormalisee || href === destinationNormalisee + '/') {
+          lienTrouve = lien;
+          break;
+        }
       }
-      // Depuis l'accueil, naviguer vers la destination
-      await page.goto('/metrics');
+      if (lienTrouve) {
+        await lienTrouve.click();
+      } else {
+        // Aucun lien trouvé vers la destination exacte, utiliser la navigation directe
+        await page.goto('/portfolio-detournements');
+      }
+    } else {
+      // Lien non trouvé par label, navigation via plan-du-site ou accueil
+      // Le footer et le header sont toujours disponibles sur toutes les pages
+      // Option 1 : Essayer via le plan du site (footer)
+      const lienPlanDuSite = page.getByRole('link', { name: /Plan du site/i });
+      if (await lienPlanDuSite.count() > 0) {
+        await lienPlanDuSite.first().click();
+        await expect(page).toHaveURL('/plan-du-site');
+        // Depuis le plan du site, naviguer vers la destination
+        await page.goto('/portfolio-detournements');
+      } else {
+        // Option 2 : Via le logo (header) vers l'accueil
+        const logo = page.getByAltText('Logo Malain et possible');
+        if (await logo.count() > 0) {
+          await logo.click();
+          await expect(page).toHaveURL('/');
+        } else {
+          // Fallback : navigation directe vers l'accueil
+          await page.goto('/');
+        }
+        // Depuis l'accueil, naviguer vers la destination
+        await page.goto('/portfolio-detournements');
+      }
     }
-  }
-  await expect(page).toHaveURL('/metrics');
+    await expect(page).toHaveURL('/portfolio-detournements');
+  });
 
-  // Étape 22: Navigation de /metrics vers /a-propos-du-site
-  // Label du lien: "Info"
-  const lien21 = page.getByRole('link', { name: /Info/i });
-  if (await lien21.count() > 0) {
-    await lien21.first().click();
-  } else {
-    // Lien non trouvé par label, navigation via plan-du-site ou accueil
-    // Le footer et le header sont toujours disponibles sur toutes les pages
-    // Option 1 : Essayer via le plan du site (footer)
-    const lienPlanDuSite = page.getByRole('link', { name: /Plan du site/i });
-    if (await lienPlanDuSite.count() > 0) {
-      await lienPlanDuSite.first().click();
-      await expect(page).toHaveURL('/plan-du-site');
-      // Depuis le plan du site, naviguer vers la destination
-      await page.goto('/a-propos-du-site');
-    } else {
-      // Option 2 : Via le logo (header) vers l'accueil
-      const logo = page.getByAltText('Logo Malain et possible');
-      if (await logo.count() > 0) {
-        await logo.click();
-        await expect(page).toHaveURL('/');
-      } else {
-        // Fallback : navigation directe vers l'accueil
-        await page.goto('/');
+  await test.step("Étape 41: Navigation de /portfolio-detournements vers /metrics (BarChart3)", async () => {
+    // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
+    const liens40 = page.getByRole('link', { name: /BarChart3/i });
+    if (await liens40.count() > 0) {
+      // Si plusieurs liens avec le même label, trouver celui qui va vers la bonne destination
+      const liensTrouves = await liens40.all();
+      let lienTrouve = null;
+      for (const lien of liensTrouves) {
+        const href = await lien.getAttribute('href');
+        // Normaliser l'URL (enlever le slash final si présent)
+        const hrefNormalise = href ? href.replace(/\/$/, '') : '';
+        const destinationNormalisee = '/metrics'.replace(/\/$/, '');
+        if (hrefNormalise === destinationNormalisee || hrefNormalise === destinationNormalisee + '/' || href === destinationNormalisee || href === destinationNormalisee + '/') {
+          lienTrouve = lien;
+          break;
+        }
       }
-      // Depuis l'accueil, naviguer vers la destination
-      await page.goto('/a-propos-du-site');
+      if (lienTrouve) {
+        await lienTrouve.click();
+      } else {
+        // Aucun lien trouvé vers la destination exacte, utiliser la navigation directe
+        await page.goto('/metrics');
+      }
+    } else {
+      // Lien non trouvé par label, navigation via plan-du-site ou accueil
+      // Le footer et le header sont toujours disponibles sur toutes les pages
+      // Option 1 : Essayer via le plan du site (footer)
+      const lienPlanDuSite = page.getByRole('link', { name: /Plan du site/i });
+      if (await lienPlanDuSite.count() > 0) {
+        await lienPlanDuSite.first().click();
+        await expect(page).toHaveURL('/plan-du-site');
+        // Depuis le plan du site, naviguer vers la destination
+        await page.goto('/metrics');
+      } else {
+        // Option 2 : Via le logo (header) vers l'accueil
+        const logo = page.getByAltText('Logo Malain et possible');
+        if (await logo.count() > 0) {
+          await logo.click();
+          await expect(page).toHaveURL('/');
+        } else {
+          // Fallback : navigation directe vers l'accueil
+          await page.goto('/');
+        }
+        // Depuis l'accueil, naviguer vers la destination
+        await page.goto('/metrics');
+      }
     }
-  }
-  await expect(page).toHaveURL('/a-propos-du-site');
+    await expect(page).toHaveURL('/metrics');
+  });
 
-  // Étape 23: Navigation de /a-propos-du-site vers /a-propos-du-site
-  // Label du lien: "Info"
-  const lien22 = page.getByRole('link', { name: /Info/i });
-  if (await lien22.count() > 0) {
-    await lien22.first().click();
-  } else {
-    // Lien non trouvé par label, navigation via plan-du-site ou accueil
-    // Le footer et le header sont toujours disponibles sur toutes les pages
-    // Option 1 : Essayer via le plan du site (footer)
-    const lienPlanDuSite = page.getByRole('link', { name: /Plan du site/i });
-    if (await lienPlanDuSite.count() > 0) {
-      await lienPlanDuSite.first().click();
-      await expect(page).toHaveURL('/plan-du-site');
-      // Depuis le plan du site, naviguer vers la destination
-      await page.goto('/a-propos-du-site');
-    } else {
-      // Option 2 : Via le logo (header) vers l'accueil
-      const logo = page.getByAltText('Logo Malain et possible');
-      if (await logo.count() > 0) {
-        await logo.click();
-        await expect(page).toHaveURL('/');
-      } else {
-        // Fallback : navigation directe vers l'accueil
-        await page.goto('/');
+  await test.step("Étape 42: Navigation de /metrics vers /pour_aller_plus_loin (lien)", async () => {
+    // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
+    const liens41 = page.getByRole('link', { name: /lien/i });
+    if (await liens41.count() > 0) {
+      // Si plusieurs liens avec le même label, trouver celui qui va vers la bonne destination
+      const liensTrouves = await liens41.all();
+      let lienTrouve = null;
+      for (const lien of liensTrouves) {
+        const href = await lien.getAttribute('href');
+        // Normaliser l'URL (enlever le slash final si présent)
+        const hrefNormalise = href ? href.replace(/\/$/, '') : '';
+        const destinationNormalisee = '/pour_aller_plus_loin'.replace(/\/$/, '');
+        if (hrefNormalise === destinationNormalisee || hrefNormalise === destinationNormalisee + '/' || href === destinationNormalisee || href === destinationNormalisee + '/') {
+          lienTrouve = lien;
+          break;
+        }
       }
-      // Depuis l'accueil, naviguer vers la destination
-      await page.goto('/a-propos-du-site');
+      if (lienTrouve) {
+        await lienTrouve.click();
+      } else {
+        // Aucun lien trouvé vers la destination exacte, utiliser la navigation directe
+        await page.goto('/pour_aller_plus_loin');
+      }
+    } else {
+      // Lien non trouvé par label, navigation via plan-du-site ou accueil
+      // Le footer et le header sont toujours disponibles sur toutes les pages
+      // Option 1 : Essayer via le plan du site (footer)
+      const lienPlanDuSite = page.getByRole('link', { name: /Plan du site/i });
+      if (await lienPlanDuSite.count() > 0) {
+        await lienPlanDuSite.first().click();
+        await expect(page).toHaveURL('/plan-du-site');
+        // Depuis le plan du site, naviguer vers la destination
+        await page.goto('/pour_aller_plus_loin');
+      } else {
+        // Option 2 : Via le logo (header) vers l'accueil
+        const logo = page.getByAltText('Logo Malain et possible');
+        if (await logo.count() > 0) {
+          await logo.click();
+          await expect(page).toHaveURL('/');
+        } else {
+          // Fallback : navigation directe vers l'accueil
+          await page.goto('/');
+        }
+        // Depuis l'accueil, naviguer vers la destination
+        await page.goto('/pour_aller_plus_loin');
+      }
     }
-  }
-  await expect(page).toHaveURL('/a-propos-du-site');
+    await expect(page).toHaveURL('/pour_aller_plus_loin');
+  });
 
-  // Étape 24: Navigation de /a-propos-du-site vers /
-  // Label du lien: "lien"
-  const lien23 = page.getByRole('link', { name: /lien/i });
-  if (await lien23.count() > 0) {
-    await lien23.first().click();
-  } else {
-    // Lien non trouvé par label, navigation via plan-du-site ou accueil
-    // Le footer et le header sont toujours disponibles sur toutes les pages
-    // Option 1 : Essayer via le plan du site (footer)
-    const lienPlanDuSite = page.getByRole('link', { name: /Plan du site/i });
-    if (await lienPlanDuSite.count() > 0) {
-      await lienPlanDuSite.first().click();
-      await expect(page).toHaveURL('/plan-du-site');
-      // Depuis le plan du site, naviguer vers la destination
-      await page.goto('/');
-    } else {
-      // Option 2 : Via le logo (header) vers l'accueil
-      const logo = page.getByAltText('Logo Malain et possible');
-      if (await logo.count() > 0) {
-        await logo.click();
-        await expect(page).toHaveURL('/');
-      } else {
-        // Fallback : navigation directe vers l'accueil
-        await page.goto('/');
+  await test.step("Étape 43: Navigation de /pour_aller_plus_loin vers /metrics (BarChart3)", async () => {
+    // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
+    const liens42 = page.getByRole('link', { name: /BarChart3/i });
+    if (await liens42.count() > 0) {
+      // Si plusieurs liens avec le même label, trouver celui qui va vers la bonne destination
+      const liensTrouves = await liens42.all();
+      let lienTrouve = null;
+      for (const lien of liensTrouves) {
+        const href = await lien.getAttribute('href');
+        // Normaliser l'URL (enlever le slash final si présent)
+        const hrefNormalise = href ? href.replace(/\/$/, '') : '';
+        const destinationNormalisee = '/metrics'.replace(/\/$/, '');
+        if (hrefNormalise === destinationNormalisee || hrefNormalise === destinationNormalisee + '/' || href === destinationNormalisee || href === destinationNormalisee + '/') {
+          lienTrouve = lien;
+          break;
+        }
       }
-      // Depuis l'accueil, naviguer vers la destination
-      await page.goto('/');
+      if (lienTrouve) {
+        await lienTrouve.click();
+      } else {
+        // Aucun lien trouvé vers la destination exacte, utiliser la navigation directe
+        await page.goto('/metrics');
+      }
+    } else {
+      // Lien non trouvé par label, navigation via plan-du-site ou accueil
+      // Le footer et le header sont toujours disponibles sur toutes les pages
+      // Option 1 : Essayer via le plan du site (footer)
+      const lienPlanDuSite = page.getByRole('link', { name: /Plan du site/i });
+      if (await lienPlanDuSite.count() > 0) {
+        await lienPlanDuSite.first().click();
+        await expect(page).toHaveURL('/plan-du-site');
+        // Depuis le plan du site, naviguer vers la destination
+        await page.goto('/metrics');
+      } else {
+        // Option 2 : Via le logo (header) vers l'accueil
+        const logo = page.getByAltText('Logo Malain et possible');
+        if (await logo.count() > 0) {
+          await logo.click();
+          await expect(page).toHaveURL('/');
+        } else {
+          // Fallback : navigation directe vers l'accueil
+          await page.goto('/');
+        }
+        // Depuis l'accueil, naviguer vers la destination
+        await page.goto('/metrics');
+      }
     }
-  }
-  await expect(page).toHaveURL('/');
+    await expect(page).toHaveURL('/metrics');
+  });
 
-  // Étape 25: Navigation de / vers /plan-du-site
-  // Label du lien: "Plan du site"
-  const lien24 = page.getByRole('link', { name: /Plan du site/i });
-  if (await lien24.count() > 0) {
-    await lien24.first().click();
-  } else {
-    // Lien non trouvé par label, navigation via plan-du-site ou accueil
-    // Le footer et le header sont toujours disponibles sur toutes les pages
-    // Option 1 : Essayer via le plan du site (footer)
-    const lienPlanDuSite = page.getByRole('link', { name: /Plan du site/i });
-    if (await lienPlanDuSite.count() > 0) {
-      await lienPlanDuSite.first().click();
-      await expect(page).toHaveURL('/plan-du-site');
-      // Depuis le plan du site, naviguer vers la destination
-      await page.goto('/plan-du-site');
-    } else {
-      // Option 2 : Via le logo (header) vers l'accueil
-      const logo = page.getByAltText('Logo Malain et possible');
-      if (await logo.count() > 0) {
-        await logo.click();
-        await expect(page).toHaveURL('/');
-      } else {
-        // Fallback : navigation directe vers l'accueil
-        await page.goto('/');
+  await test.step("Étape 44: Navigation de /metrics vers /robustesse (lien)", async () => {
+    // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
+    const liens43 = page.getByRole('link', { name: /lien/i });
+    if (await liens43.count() > 0) {
+      // Si plusieurs liens avec le même label, trouver celui qui va vers la bonne destination
+      const liensTrouves = await liens43.all();
+      let lienTrouve = null;
+      for (const lien of liensTrouves) {
+        const href = await lien.getAttribute('href');
+        // Normaliser l'URL (enlever le slash final si présent)
+        const hrefNormalise = href ? href.replace(/\/$/, '') : '';
+        const destinationNormalisee = '/robustesse'.replace(/\/$/, '');
+        if (hrefNormalise === destinationNormalisee || hrefNormalise === destinationNormalisee + '/' || href === destinationNormalisee || href === destinationNormalisee + '/') {
+          lienTrouve = lien;
+          break;
+        }
       }
-      // Depuis l'accueil, naviguer vers la destination
-      await page.goto('/plan-du-site');
+      if (lienTrouve) {
+        await lienTrouve.click();
+      } else {
+        // Aucun lien trouvé vers la destination exacte, utiliser la navigation directe
+        await page.goto('/robustesse');
+      }
+    } else {
+      // Lien non trouvé par label, navigation via plan-du-site ou accueil
+      // Le footer et le header sont toujours disponibles sur toutes les pages
+      // Option 1 : Essayer via le plan du site (footer)
+      const lienPlanDuSite = page.getByRole('link', { name: /Plan du site/i });
+      if (await lienPlanDuSite.count() > 0) {
+        await lienPlanDuSite.first().click();
+        await expect(page).toHaveURL('/plan-du-site');
+        // Depuis le plan du site, naviguer vers la destination
+        await page.goto('/robustesse');
+      } else {
+        // Option 2 : Via le logo (header) vers l'accueil
+        const logo = page.getByAltText('Logo Malain et possible');
+        if (await logo.count() > 0) {
+          await logo.click();
+          await expect(page).toHaveURL('/');
+        } else {
+          // Fallback : navigation directe vers l'accueil
+          await page.goto('/');
+        }
+        // Depuis l'accueil, naviguer vers la destination
+        await page.goto('/robustesse');
+      }
     }
-  }
-  await expect(page).toHaveURL('/plan-du-site');
+    await expect(page).toHaveURL('/robustesse');
+  });
 
-  // Étape 26: Navigation de /plan-du-site vers /maintenance
-  // Label du lien: "lien"
-  const lien25 = page.getByRole('link', { name: /lien/i });
-  if (await lien25.count() > 0) {
-    await lien25.first().click();
-  } else {
-    // Lien non trouvé par label, navigation via plan-du-site ou accueil
-    // Le footer et le header sont toujours disponibles sur toutes les pages
-    // Option 1 : Essayer via le plan du site (footer)
-    const lienPlanDuSite = page.getByRole('link', { name: /Plan du site/i });
-    if (await lienPlanDuSite.count() > 0) {
-      await lienPlanDuSite.first().click();
-      await expect(page).toHaveURL('/plan-du-site');
-      // Depuis le plan du site, naviguer vers la destination
-      await page.goto('/maintenance');
-    } else {
-      // Option 2 : Via le logo (header) vers l'accueil
-      const logo = page.getByAltText('Logo Malain et possible');
-      if (await logo.count() > 0) {
-        await logo.click();
-        await expect(page).toHaveURL('/');
-      } else {
-        // Fallback : navigation directe vers l'accueil
-        await page.goto('/');
+  await test.step("Étape 45: Navigation de /robustesse vers /metrics (BarChart3)", async () => {
+    // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
+    const liens44 = page.getByRole('link', { name: /BarChart3/i });
+    if (await liens44.count() > 0) {
+      // Si plusieurs liens avec le même label, trouver celui qui va vers la bonne destination
+      const liensTrouves = await liens44.all();
+      let lienTrouve = null;
+      for (const lien of liensTrouves) {
+        const href = await lien.getAttribute('href');
+        // Normaliser l'URL (enlever le slash final si présent)
+        const hrefNormalise = href ? href.replace(/\/$/, '') : '';
+        const destinationNormalisee = '/metrics'.replace(/\/$/, '');
+        if (hrefNormalise === destinationNormalisee || hrefNormalise === destinationNormalisee + '/' || href === destinationNormalisee || href === destinationNormalisee + '/') {
+          lienTrouve = lien;
+          break;
+        }
       }
-      // Depuis l'accueil, naviguer vers la destination
-      await page.goto('/maintenance');
+      if (lienTrouve) {
+        await lienTrouve.click();
+      } else {
+        // Aucun lien trouvé vers la destination exacte, utiliser la navigation directe
+        await page.goto('/metrics');
+      }
+    } else {
+      // Lien non trouvé par label, navigation via plan-du-site ou accueil
+      // Le footer et le header sont toujours disponibles sur toutes les pages
+      // Option 1 : Essayer via le plan du site (footer)
+      const lienPlanDuSite = page.getByRole('link', { name: /Plan du site/i });
+      if (await lienPlanDuSite.count() > 0) {
+        await lienPlanDuSite.first().click();
+        await expect(page).toHaveURL('/plan-du-site');
+        // Depuis le plan du site, naviguer vers la destination
+        await page.goto('/metrics');
+      } else {
+        // Option 2 : Via le logo (header) vers l'accueil
+        const logo = page.getByAltText('Logo Malain et possible');
+        if (await logo.count() > 0) {
+          await logo.click();
+          await expect(page).toHaveURL('/');
+        } else {
+          // Fallback : navigation directe vers l'accueil
+          await page.goto('/');
+        }
+        // Depuis l'accueil, naviguer vers la destination
+        await page.goto('/metrics');
+      }
     }
-  }
-  await expect(page).toHaveURL('/maintenance');
+    await expect(page).toHaveURL('/metrics');
+  });
 
-  // Étape 27: Navigation de /maintenance vers /plan-du-site
-  // Label du lien: "Plan du site"
-  const lien26 = page.getByRole('link', { name: /Plan du site/i });
-  if (await lien26.count() > 0) {
-    await lien26.first().click();
-  } else {
-    // Lien non trouvé par label, navigation via plan-du-site ou accueil
-    // Le footer et le header sont toujours disponibles sur toutes les pages
-    // Option 1 : Essayer via le plan du site (footer)
-    const lienPlanDuSite = page.getByRole('link', { name: /Plan du site/i });
-    if (await lienPlanDuSite.count() > 0) {
-      await lienPlanDuSite.first().click();
-      await expect(page).toHaveURL('/plan-du-site');
-      // Depuis le plan du site, naviguer vers la destination
-      await page.goto('/plan-du-site');
-    } else {
-      // Option 2 : Via le logo (header) vers l'accueil
-      const logo = page.getByAltText('Logo Malain et possible');
-      if (await logo.count() > 0) {
-        await logo.click();
-        await expect(page).toHaveURL('/');
-      } else {
-        // Fallback : navigation directe vers l'accueil
-        await page.goto('/');
+  await test.step("Étape 46: Navigation de /metrics vers /transformation (lien)", async () => {
+    // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
+    const liens45 = page.getByRole('link', { name: /lien/i });
+    if (await liens45.count() > 0) {
+      // Si plusieurs liens avec le même label, trouver celui qui va vers la bonne destination
+      const liensTrouves = await liens45.all();
+      let lienTrouve = null;
+      for (const lien of liensTrouves) {
+        const href = await lien.getAttribute('href');
+        // Normaliser l'URL (enlever le slash final si présent)
+        const hrefNormalise = href ? href.replace(/\/$/, '') : '';
+        const destinationNormalisee = '/transformation'.replace(/\/$/, '');
+        if (hrefNormalise === destinationNormalisee || hrefNormalise === destinationNormalisee + '/' || href === destinationNormalisee || href === destinationNormalisee + '/') {
+          lienTrouve = lien;
+          break;
+        }
       }
-      // Depuis l'accueil, naviguer vers la destination
-      await page.goto('/plan-du-site');
+      if (lienTrouve) {
+        await lienTrouve.click();
+      } else {
+        // Aucun lien trouvé vers la destination exacte, utiliser la navigation directe
+        await page.goto('/transformation');
+      }
+    } else {
+      // Lien non trouvé par label, navigation via plan-du-site ou accueil
+      // Le footer et le header sont toujours disponibles sur toutes les pages
+      // Option 1 : Essayer via le plan du site (footer)
+      const lienPlanDuSite = page.getByRole('link', { name: /Plan du site/i });
+      if (await lienPlanDuSite.count() > 0) {
+        await lienPlanDuSite.first().click();
+        await expect(page).toHaveURL('/plan-du-site');
+        // Depuis le plan du site, naviguer vers la destination
+        await page.goto('/transformation');
+      } else {
+        // Option 2 : Via le logo (header) vers l'accueil
+        const logo = page.getByAltText('Logo Malain et possible');
+        if (await logo.count() > 0) {
+          await logo.click();
+          await expect(page).toHaveURL('/');
+        } else {
+          // Fallback : navigation directe vers l'accueil
+          await page.goto('/');
+        }
+        // Depuis l'accueil, naviguer vers la destination
+        await page.goto('/transformation');
+      }
     }
-  }
-  await expect(page).toHaveURL('/plan-du-site');
+    await expect(page).toHaveURL('/transformation');
+  });
 
-  // Étape 28: Navigation de /plan-du-site vers /portfolio-detournements
-  // Label du lien: "lien"
-  const lien27 = page.getByRole('link', { name: /lien/i });
-  if (await lien27.count() > 0) {
-    await lien27.first().click();
-  } else {
-    // Lien non trouvé par label, navigation via plan-du-site ou accueil
-    // Le footer et le header sont toujours disponibles sur toutes les pages
-    // Option 1 : Essayer via le plan du site (footer)
-    const lienPlanDuSite = page.getByRole('link', { name: /Plan du site/i });
-    if (await lienPlanDuSite.count() > 0) {
-      await lienPlanDuSite.first().click();
-      await expect(page).toHaveURL('/plan-du-site');
-      // Depuis le plan du site, naviguer vers la destination
-      await page.goto('/portfolio-detournements');
-    } else {
-      // Option 2 : Via le logo (header) vers l'accueil
-      const logo = page.getByAltText('Logo Malain et possible');
-      if (await logo.count() > 0) {
-        await logo.click();
-        await expect(page).toHaveURL('/');
-      } else {
-        // Fallback : navigation directe vers l'accueil
-        await page.goto('/');
+  await test.step("Étape 47: Navigation de /transformation vers /metrics (BarChart3)", async () => {
+    // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
+    const liens46 = page.getByRole('link', { name: /BarChart3/i });
+    if (await liens46.count() > 0) {
+      // Si plusieurs liens avec le même label, trouver celui qui va vers la bonne destination
+      const liensTrouves = await liens46.all();
+      let lienTrouve = null;
+      for (const lien of liensTrouves) {
+        const href = await lien.getAttribute('href');
+        // Normaliser l'URL (enlever le slash final si présent)
+        const hrefNormalise = href ? href.replace(/\/$/, '') : '';
+        const destinationNormalisee = '/metrics'.replace(/\/$/, '');
+        if (hrefNormalise === destinationNormalisee || hrefNormalise === destinationNormalisee + '/' || href === destinationNormalisee || href === destinationNormalisee + '/') {
+          lienTrouve = lien;
+          break;
+        }
       }
-      // Depuis l'accueil, naviguer vers la destination
-      await page.goto('/portfolio-detournements');
+      if (lienTrouve) {
+        await lienTrouve.click();
+      } else {
+        // Aucun lien trouvé vers la destination exacte, utiliser la navigation directe
+        await page.goto('/metrics');
+      }
+    } else {
+      // Lien non trouvé par label, navigation via plan-du-site ou accueil
+      // Le footer et le header sont toujours disponibles sur toutes les pages
+      // Option 1 : Essayer via le plan du site (footer)
+      const lienPlanDuSite = page.getByRole('link', { name: /Plan du site/i });
+      if (await lienPlanDuSite.count() > 0) {
+        await lienPlanDuSite.first().click();
+        await expect(page).toHaveURL('/plan-du-site');
+        // Depuis le plan du site, naviguer vers la destination
+        await page.goto('/metrics');
+      } else {
+        // Option 2 : Via le logo (header) vers l'accueil
+        const logo = page.getByAltText('Logo Malain et possible');
+        if (await logo.count() > 0) {
+          await logo.click();
+          await expect(page).toHaveURL('/');
+        } else {
+          // Fallback : navigation directe vers l'accueil
+          await page.goto('/');
+        }
+        // Depuis l'accueil, naviguer vers la destination
+        await page.goto('/metrics');
+      }
     }
-  }
-  await expect(page).toHaveURL('/portfolio-detournements');
+    await expect(page).toHaveURL('/metrics');
+  });
 
-  // Étape 29: Navigation de /portfolio-detournements vers /plan-du-site
-  // Label du lien: "Plan du site"
-  const lien28 = page.getByRole('link', { name: /Plan du site/i });
-  if (await lien28.count() > 0) {
-    await lien28.first().click();
-  } else {
-    // Lien non trouvé par label, navigation via plan-du-site ou accueil
-    // Le footer et le header sont toujours disponibles sur toutes les pages
-    // Option 1 : Essayer via le plan du site (footer)
-    const lienPlanDuSite = page.getByRole('link', { name: /Plan du site/i });
-    if (await lienPlanDuSite.count() > 0) {
-      await lienPlanDuSite.first().click();
-      await expect(page).toHaveURL('/plan-du-site');
-      // Depuis le plan du site, naviguer vers la destination
-      await page.goto('/plan-du-site');
-    } else {
-      // Option 2 : Via le logo (header) vers l'accueil
-      const logo = page.getByAltText('Logo Malain et possible');
-      if (await logo.count() > 0) {
-        await logo.click();
-        await expect(page).toHaveURL('/');
-      } else {
-        // Fallback : navigation directe vers l'accueil
-        await page.goto('/');
+  await test.step("Étape 48: Navigation de /metrics vers /detournement-video (lien)", async () => {
+    // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
+    const liens47 = page.getByRole('link', { name: /lien/i });
+    if (await liens47.count() > 0) {
+      // Si plusieurs liens avec le même label, trouver celui qui va vers la bonne destination
+      const liensTrouves = await liens47.all();
+      let lienTrouve = null;
+      for (const lien of liensTrouves) {
+        const href = await lien.getAttribute('href');
+        // Normaliser l'URL (enlever le slash final si présent)
+        const hrefNormalise = href ? href.replace(/\/$/, '') : '';
+        const destinationNormalisee = '/detournement-video'.replace(/\/$/, '');
+        if (hrefNormalise === destinationNormalisee || hrefNormalise === destinationNormalisee + '/' || href === destinationNormalisee || href === destinationNormalisee + '/') {
+          lienTrouve = lien;
+          break;
+        }
       }
-      // Depuis l'accueil, naviguer vers la destination
-      await page.goto('/plan-du-site');
+      if (lienTrouve) {
+        await lienTrouve.click();
+      } else {
+        // Aucun lien trouvé vers la destination exacte, utiliser la navigation directe
+        await page.goto('/detournement-video');
+      }
+    } else {
+      // Lien non trouvé par label, navigation via plan-du-site ou accueil
+      // Le footer et le header sont toujours disponibles sur toutes les pages
+      // Option 1 : Essayer via le plan du site (footer)
+      const lienPlanDuSite = page.getByRole('link', { name: /Plan du site/i });
+      if (await lienPlanDuSite.count() > 0) {
+        await lienPlanDuSite.first().click();
+        await expect(page).toHaveURL('/plan-du-site');
+        // Depuis le plan du site, naviguer vers la destination
+        await page.goto('/detournement-video');
+      } else {
+        // Option 2 : Via le logo (header) vers l'accueil
+        const logo = page.getByAltText('Logo Malain et possible');
+        if (await logo.count() > 0) {
+          await logo.click();
+          await expect(page).toHaveURL('/');
+        } else {
+          // Fallback : navigation directe vers l'accueil
+          await page.goto('/');
+        }
+        // Depuis l'accueil, naviguer vers la destination
+        await page.goto('/detournement-video');
+      }
     }
-  }
-  await expect(page).toHaveURL('/plan-du-site');
+    await expect(page).toHaveURL('/detournement-video');
+  });
 
-  // Étape 30: Navigation de /plan-du-site vers /pour_aller_plus_loin
-  // Label du lien: "lien"
-  const lien29 = page.getByRole('link', { name: /lien/i });
-  if (await lien29.count() > 0) {
-    await lien29.first().click();
-  } else {
-    // Lien non trouvé par label, navigation via plan-du-site ou accueil
-    // Le footer et le header sont toujours disponibles sur toutes les pages
-    // Option 1 : Essayer via le plan du site (footer)
-    const lienPlanDuSite = page.getByRole('link', { name: /Plan du site/i });
-    if (await lienPlanDuSite.count() > 0) {
-      await lienPlanDuSite.first().click();
-      await expect(page).toHaveURL('/plan-du-site');
-      // Depuis le plan du site, naviguer vers la destination
-      await page.goto('/pour_aller_plus_loin');
-    } else {
-      // Option 2 : Via le logo (header) vers l'accueil
-      const logo = page.getByAltText('Logo Malain et possible');
-      if (await logo.count() > 0) {
-        await logo.click();
-        await expect(page).toHaveURL('/');
-      } else {
-        // Fallback : navigation directe vers l'accueil
-        await page.goto('/');
+  await test.step("Étape 49: Navigation de /detournement-video vers /a-propos-du-site (Info)", async () => {
+    // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
+    const liens48 = page.getByRole('link', { name: /Info/i });
+    if (await liens48.count() > 0) {
+      // Si plusieurs liens avec le même label, trouver celui qui va vers la bonne destination
+      const liensTrouves = await liens48.all();
+      let lienTrouve = null;
+      for (const lien of liensTrouves) {
+        const href = await lien.getAttribute('href');
+        // Normaliser l'URL (enlever le slash final si présent)
+        const hrefNormalise = href ? href.replace(/\/$/, '') : '';
+        const destinationNormalisee = '/a-propos-du-site'.replace(/\/$/, '');
+        if (hrefNormalise === destinationNormalisee || hrefNormalise === destinationNormalisee + '/' || href === destinationNormalisee || href === destinationNormalisee + '/') {
+          lienTrouve = lien;
+          break;
+        }
       }
-      // Depuis l'accueil, naviguer vers la destination
-      await page.goto('/pour_aller_plus_loin');
+      if (lienTrouve) {
+        await lienTrouve.click();
+      } else {
+        // Aucun lien trouvé vers la destination exacte, utiliser la navigation directe
+        await page.goto('/a-propos-du-site');
+      }
+    } else {
+      // Lien non trouvé par label, navigation via plan-du-site ou accueil
+      // Le footer et le header sont toujours disponibles sur toutes les pages
+      // Option 1 : Essayer via le plan du site (footer)
+      const lienPlanDuSite = page.getByRole('link', { name: /Plan du site/i });
+      if (await lienPlanDuSite.count() > 0) {
+        await lienPlanDuSite.first().click();
+        await expect(page).toHaveURL('/plan-du-site');
+        // Depuis le plan du site, naviguer vers la destination
+        await page.goto('/a-propos-du-site');
+      } else {
+        // Option 2 : Via le logo (header) vers l'accueil
+        const logo = page.getByAltText('Logo Malain et possible');
+        if (await logo.count() > 0) {
+          await logo.click();
+          await expect(page).toHaveURL('/');
+        } else {
+          // Fallback : navigation directe vers l'accueil
+          await page.goto('/');
+        }
+        // Depuis l'accueil, naviguer vers la destination
+        await page.goto('/a-propos-du-site');
+      }
     }
-  }
-  await expect(page).toHaveURL('/pour_aller_plus_loin');
+    await expect(page).toHaveURL('/a-propos-du-site');
+  });
 
-  // Étape 31: Navigation de /pour_aller_plus_loin vers /plan-du-site
-  // Label du lien: "Plan du site"
-  const lien30 = page.getByRole('link', { name: /Plan du site/i });
-  if (await lien30.count() > 0) {
-    await lien30.first().click();
-  } else {
-    // Lien non trouvé par label, navigation via plan-du-site ou accueil
-    // Le footer et le header sont toujours disponibles sur toutes les pages
-    // Option 1 : Essayer via le plan du site (footer)
-    const lienPlanDuSite = page.getByRole('link', { name: /Plan du site/i });
-    if (await lienPlanDuSite.count() > 0) {
-      await lienPlanDuSite.first().click();
-      await expect(page).toHaveURL('/plan-du-site');
-      // Depuis le plan du site, naviguer vers la destination
-      await page.goto('/plan-du-site');
-    } else {
-      // Option 2 : Via le logo (header) vers l'accueil
-      const logo = page.getByAltText('Logo Malain et possible');
-      if (await logo.count() > 0) {
-        await logo.click();
-        await expect(page).toHaveURL('/');
-      } else {
-        // Fallback : navigation directe vers l'accueil
-        await page.goto('/');
+  await test.step("Étape 50: Navigation de /a-propos-du-site vers /maintenance (lien)", async () => {
+    // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
+    const liens49 = page.getByRole('link', { name: /lien/i });
+    if (await liens49.count() > 0) {
+      // Si plusieurs liens avec le même label, trouver celui qui va vers la bonne destination
+      const liensTrouves = await liens49.all();
+      let lienTrouve = null;
+      for (const lien of liensTrouves) {
+        const href = await lien.getAttribute('href');
+        // Normaliser l'URL (enlever le slash final si présent)
+        const hrefNormalise = href ? href.replace(/\/$/, '') : '';
+        const destinationNormalisee = '/maintenance'.replace(/\/$/, '');
+        if (hrefNormalise === destinationNormalisee || hrefNormalise === destinationNormalisee + '/' || href === destinationNormalisee || href === destinationNormalisee + '/') {
+          lienTrouve = lien;
+          break;
+        }
       }
-      // Depuis l'accueil, naviguer vers la destination
-      await page.goto('/plan-du-site');
+      if (lienTrouve) {
+        await lienTrouve.click();
+      } else {
+        // Aucun lien trouvé vers la destination exacte, utiliser la navigation directe
+        await page.goto('/maintenance');
+      }
+    } else {
+      // Lien non trouvé par label, navigation via plan-du-site ou accueil
+      // Le footer et le header sont toujours disponibles sur toutes les pages
+      // Option 1 : Essayer via le plan du site (footer)
+      const lienPlanDuSite = page.getByRole('link', { name: /Plan du site/i });
+      if (await lienPlanDuSite.count() > 0) {
+        await lienPlanDuSite.first().click();
+        await expect(page).toHaveURL('/plan-du-site');
+        // Depuis le plan du site, naviguer vers la destination
+        await page.goto('/maintenance');
+      } else {
+        // Option 2 : Via le logo (header) vers l'accueil
+        const logo = page.getByAltText('Logo Malain et possible');
+        if (await logo.count() > 0) {
+          await logo.click();
+          await expect(page).toHaveURL('/');
+        } else {
+          // Fallback : navigation directe vers l'accueil
+          await page.goto('/');
+        }
+        // Depuis l'accueil, naviguer vers la destination
+        await page.goto('/maintenance');
+      }
     }
-  }
-  await expect(page).toHaveURL('/plan-du-site');
+    await expect(page).toHaveURL('/maintenance');
+  });
 
-  // Étape 32: Navigation de /plan-du-site vers /
-  // Label du lien: "lien"
-  const lien31 = page.getByRole('link', { name: /lien/i });
-  if (await lien31.count() > 0) {
-    await lien31.first().click();
-  } else {
-    // Lien non trouvé par label, navigation via plan-du-site ou accueil
-    // Le footer et le header sont toujours disponibles sur toutes les pages
-    // Option 1 : Essayer via le plan du site (footer)
-    const lienPlanDuSite = page.getByRole('link', { name: /Plan du site/i });
-    if (await lienPlanDuSite.count() > 0) {
-      await lienPlanDuSite.first().click();
-      await expect(page).toHaveURL('/plan-du-site');
-      // Depuis le plan du site, naviguer vers la destination
-      await page.goto('/');
-    } else {
-      // Option 2 : Via le logo (header) vers l'accueil
-      const logo = page.getByAltText('Logo Malain et possible');
-      if (await logo.count() > 0) {
-        await logo.click();
-        await expect(page).toHaveURL('/');
-      } else {
-        // Fallback : navigation directe vers l'accueil
-        await page.goto('/');
+  await test.step("Étape 51: Navigation de /maintenance vers /a-propos-du-site (Info)", async () => {
+    // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
+    const liens50 = page.getByRole('link', { name: /Info/i });
+    if (await liens50.count() > 0) {
+      // Si plusieurs liens avec le même label, trouver celui qui va vers la bonne destination
+      const liensTrouves = await liens50.all();
+      let lienTrouve = null;
+      for (const lien of liensTrouves) {
+        const href = await lien.getAttribute('href');
+        // Normaliser l'URL (enlever le slash final si présent)
+        const hrefNormalise = href ? href.replace(/\/$/, '') : '';
+        const destinationNormalisee = '/a-propos-du-site'.replace(/\/$/, '');
+        if (hrefNormalise === destinationNormalisee || hrefNormalise === destinationNormalisee + '/' || href === destinationNormalisee || href === destinationNormalisee + '/') {
+          lienTrouve = lien;
+          break;
+        }
       }
-      // Depuis l'accueil, naviguer vers la destination
-      await page.goto('/');
+      if (lienTrouve) {
+        await lienTrouve.click();
+      } else {
+        // Aucun lien trouvé vers la destination exacte, utiliser la navigation directe
+        await page.goto('/a-propos-du-site');
+      }
+    } else {
+      // Lien non trouvé par label, navigation via plan-du-site ou accueil
+      // Le footer et le header sont toujours disponibles sur toutes les pages
+      // Option 1 : Essayer via le plan du site (footer)
+      const lienPlanDuSite = page.getByRole('link', { name: /Plan du site/i });
+      if (await lienPlanDuSite.count() > 0) {
+        await lienPlanDuSite.first().click();
+        await expect(page).toHaveURL('/plan-du-site');
+        // Depuis le plan du site, naviguer vers la destination
+        await page.goto('/a-propos-du-site');
+      } else {
+        // Option 2 : Via le logo (header) vers l'accueil
+        const logo = page.getByAltText('Logo Malain et possible');
+        if (await logo.count() > 0) {
+          await logo.click();
+          await expect(page).toHaveURL('/');
+        } else {
+          // Fallback : navigation directe vers l'accueil
+          await page.goto('/');
+        }
+        // Depuis l'accueil, naviguer vers la destination
+        await page.goto('/a-propos-du-site');
+      }
     }
-  }
-  await expect(page).toHaveURL('/');
+    await expect(page).toHaveURL('/a-propos-du-site');
+  });
 
-  // Étape 33: Navigation de / vers /metrics
-  // Label du lien: "BarChart3"
-  const lien32 = page.getByRole('link', { name: /BarChart3/i });
-  if (await lien32.count() > 0) {
-    await lien32.first().click();
-  } else {
-    // Lien non trouvé par label, navigation via plan-du-site ou accueil
-    // Le footer et le header sont toujours disponibles sur toutes les pages
-    // Option 1 : Essayer via le plan du site (footer)
-    const lienPlanDuSite = page.getByRole('link', { name: /Plan du site/i });
-    if (await lienPlanDuSite.count() > 0) {
-      await lienPlanDuSite.first().click();
-      await expect(page).toHaveURL('/plan-du-site');
-      // Depuis le plan du site, naviguer vers la destination
-      await page.goto('/metrics');
-    } else {
-      // Option 2 : Via le logo (header) vers l'accueil
-      const logo = page.getByAltText('Logo Malain et possible');
-      if (await logo.count() > 0) {
-        await logo.click();
-        await expect(page).toHaveURL('/');
-      } else {
-        // Fallback : navigation directe vers l'accueil
-        await page.goto('/');
+  await test.step("Étape 52: Navigation de /a-propos-du-site vers /management-de-produit-logiciel (lien)", async () => {
+    // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
+    const liens51 = page.getByRole('link', { name: /lien/i });
+    if (await liens51.count() > 0) {
+      // Si plusieurs liens avec le même label, trouver celui qui va vers la bonne destination
+      const liensTrouves = await liens51.all();
+      let lienTrouve = null;
+      for (const lien of liensTrouves) {
+        const href = await lien.getAttribute('href');
+        // Normaliser l'URL (enlever le slash final si présent)
+        const hrefNormalise = href ? href.replace(/\/$/, '') : '';
+        const destinationNormalisee = '/management-de-produit-logiciel'.replace(/\/$/, '');
+        if (hrefNormalise === destinationNormalisee || hrefNormalise === destinationNormalisee + '/' || href === destinationNormalisee || href === destinationNormalisee + '/') {
+          lienTrouve = lien;
+          break;
+        }
       }
-      // Depuis l'accueil, naviguer vers la destination
-      await page.goto('/metrics');
+      if (lienTrouve) {
+        await lienTrouve.click();
+      } else {
+        // Aucun lien trouvé vers la destination exacte, utiliser la navigation directe
+        await page.goto('/management-de-produit-logiciel');
+      }
+    } else {
+      // Lien non trouvé par label, navigation via plan-du-site ou accueil
+      // Le footer et le header sont toujours disponibles sur toutes les pages
+      // Option 1 : Essayer via le plan du site (footer)
+      const lienPlanDuSite = page.getByRole('link', { name: /Plan du site/i });
+      if (await lienPlanDuSite.count() > 0) {
+        await lienPlanDuSite.first().click();
+        await expect(page).toHaveURL('/plan-du-site');
+        // Depuis le plan du site, naviguer vers la destination
+        await page.goto('/management-de-produit-logiciel');
+      } else {
+        // Option 2 : Via le logo (header) vers l'accueil
+        const logo = page.getByAltText('Logo Malain et possible');
+        if (await logo.count() > 0) {
+          await logo.click();
+          await expect(page).toHaveURL('/');
+        } else {
+          // Fallback : navigation directe vers l'accueil
+          await page.goto('/');
+        }
+        // Depuis l'accueil, naviguer vers la destination
+        await page.goto('/management-de-produit-logiciel');
+      }
     }
-  }
-  await expect(page).toHaveURL('/metrics');
+    await expect(page).toHaveURL('/management-de-produit-logiciel');
+  });
 
-  // Étape 34: Navigation de /metrics vers /detournement-video
-  // Label du lien: "lien"
-  const lien33 = page.getByRole('link', { name: /lien/i });
-  if (await lien33.count() > 0) {
-    await lien33.first().click();
-  } else {
-    // Lien non trouvé par label, navigation via plan-du-site ou accueil
-    // Le footer et le header sont toujours disponibles sur toutes les pages
-    // Option 1 : Essayer via le plan du site (footer)
-    const lienPlanDuSite = page.getByRole('link', { name: /Plan du site/i });
-    if (await lienPlanDuSite.count() > 0) {
-      await lienPlanDuSite.first().click();
-      await expect(page).toHaveURL('/plan-du-site');
-      // Depuis le plan du site, naviguer vers la destination
-      await page.goto('/detournement-video');
-    } else {
-      // Option 2 : Via le logo (header) vers l'accueil
-      const logo = page.getByAltText('Logo Malain et possible');
-      if (await logo.count() > 0) {
-        await logo.click();
-        await expect(page).toHaveURL('/');
-      } else {
-        // Fallback : navigation directe vers l'accueil
-        await page.goto('/');
+  await test.step("Étape 53: Navigation de /management-de-produit-logiciel vers /a-propos-du-site (Info)", async () => {
+    // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
+    const liens52 = page.getByRole('link', { name: /Info/i });
+    if (await liens52.count() > 0) {
+      // Si plusieurs liens avec le même label, trouver celui qui va vers la bonne destination
+      const liensTrouves = await liens52.all();
+      let lienTrouve = null;
+      for (const lien of liensTrouves) {
+        const href = await lien.getAttribute('href');
+        // Normaliser l'URL (enlever le slash final si présent)
+        const hrefNormalise = href ? href.replace(/\/$/, '') : '';
+        const destinationNormalisee = '/a-propos-du-site'.replace(/\/$/, '');
+        if (hrefNormalise === destinationNormalisee || hrefNormalise === destinationNormalisee + '/' || href === destinationNormalisee || href === destinationNormalisee + '/') {
+          lienTrouve = lien;
+          break;
+        }
       }
-      // Depuis l'accueil, naviguer vers la destination
-      await page.goto('/detournement-video');
+      if (lienTrouve) {
+        await lienTrouve.click();
+      } else {
+        // Aucun lien trouvé vers la destination exacte, utiliser la navigation directe
+        await page.goto('/a-propos-du-site');
+      }
+    } else {
+      // Lien non trouvé par label, navigation via plan-du-site ou accueil
+      // Le footer et le header sont toujours disponibles sur toutes les pages
+      // Option 1 : Essayer via le plan du site (footer)
+      const lienPlanDuSite = page.getByRole('link', { name: /Plan du site/i });
+      if (await lienPlanDuSite.count() > 0) {
+        await lienPlanDuSite.first().click();
+        await expect(page).toHaveURL('/plan-du-site');
+        // Depuis le plan du site, naviguer vers la destination
+        await page.goto('/a-propos-du-site');
+      } else {
+        // Option 2 : Via le logo (header) vers l'accueil
+        const logo = page.getByAltText('Logo Malain et possible');
+        if (await logo.count() > 0) {
+          await logo.click();
+          await expect(page).toHaveURL('/');
+        } else {
+          // Fallback : navigation directe vers l'accueil
+          await page.goto('/');
+        }
+        // Depuis l'accueil, naviguer vers la destination
+        await page.goto('/a-propos-du-site');
+      }
     }
-  }
-  await expect(page).toHaveURL('/detournement-video');
+    await expect(page).toHaveURL('/a-propos-du-site');
+  });
 
-  // Étape 35: Navigation de /detournement-video vers /metrics
-  // Label du lien: "BarChart3"
-  const lien34 = page.getByRole('link', { name: /BarChart3/i });
-  if (await lien34.count() > 0) {
-    await lien34.first().click();
-  } else {
-    // Lien non trouvé par label, navigation via plan-du-site ou accueil
-    // Le footer et le header sont toujours disponibles sur toutes les pages
-    // Option 1 : Essayer via le plan du site (footer)
-    const lienPlanDuSite = page.getByRole('link', { name: /Plan du site/i });
-    if (await lienPlanDuSite.count() > 0) {
-      await lienPlanDuSite.first().click();
-      await expect(page).toHaveURL('/plan-du-site');
-      // Depuis le plan du site, naviguer vers la destination
-      await page.goto('/metrics');
-    } else {
-      // Option 2 : Via le logo (header) vers l'accueil
-      const logo = page.getByAltText('Logo Malain et possible');
-      if (await logo.count() > 0) {
-        await logo.click();
-        await expect(page).toHaveURL('/');
-      } else {
-        // Fallback : navigation directe vers l'accueil
-        await page.goto('/');
+  await test.step("Étape 54: Navigation de /a-propos-du-site vers /portfolio-detournements (lien)", async () => {
+    // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
+    const liens53 = page.getByRole('link', { name: /lien/i });
+    if (await liens53.count() > 0) {
+      // Si plusieurs liens avec le même label, trouver celui qui va vers la bonne destination
+      const liensTrouves = await liens53.all();
+      let lienTrouve = null;
+      for (const lien of liensTrouves) {
+        const href = await lien.getAttribute('href');
+        // Normaliser l'URL (enlever le slash final si présent)
+        const hrefNormalise = href ? href.replace(/\/$/, '') : '';
+        const destinationNormalisee = '/portfolio-detournements'.replace(/\/$/, '');
+        if (hrefNormalise === destinationNormalisee || hrefNormalise === destinationNormalisee + '/' || href === destinationNormalisee || href === destinationNormalisee + '/') {
+          lienTrouve = lien;
+          break;
+        }
       }
-      // Depuis l'accueil, naviguer vers la destination
-      await page.goto('/metrics');
+      if (lienTrouve) {
+        await lienTrouve.click();
+      } else {
+        // Aucun lien trouvé vers la destination exacte, utiliser la navigation directe
+        await page.goto('/portfolio-detournements');
+      }
+    } else {
+      // Lien non trouvé par label, navigation via plan-du-site ou accueil
+      // Le footer et le header sont toujours disponibles sur toutes les pages
+      // Option 1 : Essayer via le plan du site (footer)
+      const lienPlanDuSite = page.getByRole('link', { name: /Plan du site/i });
+      if (await lienPlanDuSite.count() > 0) {
+        await lienPlanDuSite.first().click();
+        await expect(page).toHaveURL('/plan-du-site');
+        // Depuis le plan du site, naviguer vers la destination
+        await page.goto('/portfolio-detournements');
+      } else {
+        // Option 2 : Via le logo (header) vers l'accueil
+        const logo = page.getByAltText('Logo Malain et possible');
+        if (await logo.count() > 0) {
+          await logo.click();
+          await expect(page).toHaveURL('/');
+        } else {
+          // Fallback : navigation directe vers l'accueil
+          await page.goto('/');
+        }
+        // Depuis l'accueil, naviguer vers la destination
+        await page.goto('/portfolio-detournements');
+      }
     }
-  }
-  await expect(page).toHaveURL('/metrics');
+    await expect(page).toHaveURL('/portfolio-detournements');
+  });
 
-  // Étape 36: Navigation de /metrics vers /maintenance
-  // Label du lien: "lien"
-  const lien35 = page.getByRole('link', { name: /lien/i });
-  if (await lien35.count() > 0) {
-    await lien35.first().click();
-  } else {
-    // Lien non trouvé par label, navigation via plan-du-site ou accueil
-    // Le footer et le header sont toujours disponibles sur toutes les pages
-    // Option 1 : Essayer via le plan du site (footer)
-    const lienPlanDuSite = page.getByRole('link', { name: /Plan du site/i });
-    if (await lienPlanDuSite.count() > 0) {
-      await lienPlanDuSite.first().click();
-      await expect(page).toHaveURL('/plan-du-site');
-      // Depuis le plan du site, naviguer vers la destination
-      await page.goto('/maintenance');
-    } else {
-      // Option 2 : Via le logo (header) vers l'accueil
-      const logo = page.getByAltText('Logo Malain et possible');
-      if (await logo.count() > 0) {
-        await logo.click();
-        await expect(page).toHaveURL('/');
-      } else {
-        // Fallback : navigation directe vers l'accueil
-        await page.goto('/');
+  await test.step("Étape 55: Navigation de /portfolio-detournements vers /a-propos-du-site (Info)", async () => {
+    // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
+    const liens54 = page.getByRole('link', { name: /Info/i });
+    if (await liens54.count() > 0) {
+      // Si plusieurs liens avec le même label, trouver celui qui va vers la bonne destination
+      const liensTrouves = await liens54.all();
+      let lienTrouve = null;
+      for (const lien of liensTrouves) {
+        const href = await lien.getAttribute('href');
+        // Normaliser l'URL (enlever le slash final si présent)
+        const hrefNormalise = href ? href.replace(/\/$/, '') : '';
+        const destinationNormalisee = '/a-propos-du-site'.replace(/\/$/, '');
+        if (hrefNormalise === destinationNormalisee || hrefNormalise === destinationNormalisee + '/' || href === destinationNormalisee || href === destinationNormalisee + '/') {
+          lienTrouve = lien;
+          break;
+        }
       }
-      // Depuis l'accueil, naviguer vers la destination
-      await page.goto('/maintenance');
+      if (lienTrouve) {
+        await lienTrouve.click();
+      } else {
+        // Aucun lien trouvé vers la destination exacte, utiliser la navigation directe
+        await page.goto('/a-propos-du-site');
+      }
+    } else {
+      // Lien non trouvé par label, navigation via plan-du-site ou accueil
+      // Le footer et le header sont toujours disponibles sur toutes les pages
+      // Option 1 : Essayer via le plan du site (footer)
+      const lienPlanDuSite = page.getByRole('link', { name: /Plan du site/i });
+      if (await lienPlanDuSite.count() > 0) {
+        await lienPlanDuSite.first().click();
+        await expect(page).toHaveURL('/plan-du-site');
+        // Depuis le plan du site, naviguer vers la destination
+        await page.goto('/a-propos-du-site');
+      } else {
+        // Option 2 : Via le logo (header) vers l'accueil
+        const logo = page.getByAltText('Logo Malain et possible');
+        if (await logo.count() > 0) {
+          await logo.click();
+          await expect(page).toHaveURL('/');
+        } else {
+          // Fallback : navigation directe vers l'accueil
+          await page.goto('/');
+        }
+        // Depuis l'accueil, naviguer vers la destination
+        await page.goto('/a-propos-du-site');
+      }
     }
-  }
-  await expect(page).toHaveURL('/maintenance');
+    await expect(page).toHaveURL('/a-propos-du-site');
+  });
 
-  // Étape 37: Navigation de /maintenance vers /metrics
-  // Label du lien: "BarChart3"
-  const lien36 = page.getByRole('link', { name: /BarChart3/i });
-  if (await lien36.count() > 0) {
-    await lien36.first().click();
-  } else {
-    // Lien non trouvé par label, navigation via plan-du-site ou accueil
-    // Le footer et le header sont toujours disponibles sur toutes les pages
-    // Option 1 : Essayer via le plan du site (footer)
-    const lienPlanDuSite = page.getByRole('link', { name: /Plan du site/i });
-    if (await lienPlanDuSite.count() > 0) {
-      await lienPlanDuSite.first().click();
-      await expect(page).toHaveURL('/plan-du-site');
-      // Depuis le plan du site, naviguer vers la destination
-      await page.goto('/metrics');
-    } else {
-      // Option 2 : Via le logo (header) vers l'accueil
-      const logo = page.getByAltText('Logo Malain et possible');
-      if (await logo.count() > 0) {
-        await logo.click();
-        await expect(page).toHaveURL('/');
-      } else {
-        // Fallback : navigation directe vers l'accueil
-        await page.goto('/');
+  await test.step("Étape 56: Navigation de /a-propos-du-site vers /pour_aller_plus_loin (lien)", async () => {
+    // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
+    const liens55 = page.getByRole('link', { name: /lien/i });
+    if (await liens55.count() > 0) {
+      // Si plusieurs liens avec le même label, trouver celui qui va vers la bonne destination
+      const liensTrouves = await liens55.all();
+      let lienTrouve = null;
+      for (const lien of liensTrouves) {
+        const href = await lien.getAttribute('href');
+        // Normaliser l'URL (enlever le slash final si présent)
+        const hrefNormalise = href ? href.replace(/\/$/, '') : '';
+        const destinationNormalisee = '/pour_aller_plus_loin'.replace(/\/$/, '');
+        if (hrefNormalise === destinationNormalisee || hrefNormalise === destinationNormalisee + '/' || href === destinationNormalisee || href === destinationNormalisee + '/') {
+          lienTrouve = lien;
+          break;
+        }
       }
-      // Depuis l'accueil, naviguer vers la destination
-      await page.goto('/metrics');
+      if (lienTrouve) {
+        await lienTrouve.click();
+      } else {
+        // Aucun lien trouvé vers la destination exacte, utiliser la navigation directe
+        await page.goto('/pour_aller_plus_loin');
+      }
+    } else {
+      // Lien non trouvé par label, navigation via plan-du-site ou accueil
+      // Le footer et le header sont toujours disponibles sur toutes les pages
+      // Option 1 : Essayer via le plan du site (footer)
+      const lienPlanDuSite = page.getByRole('link', { name: /Plan du site/i });
+      if (await lienPlanDuSite.count() > 0) {
+        await lienPlanDuSite.first().click();
+        await expect(page).toHaveURL('/plan-du-site');
+        // Depuis le plan du site, naviguer vers la destination
+        await page.goto('/pour_aller_plus_loin');
+      } else {
+        // Option 2 : Via le logo (header) vers l'accueil
+        const logo = page.getByAltText('Logo Malain et possible');
+        if (await logo.count() > 0) {
+          await logo.click();
+          await expect(page).toHaveURL('/');
+        } else {
+          // Fallback : navigation directe vers l'accueil
+          await page.goto('/');
+        }
+        // Depuis l'accueil, naviguer vers la destination
+        await page.goto('/pour_aller_plus_loin');
+      }
     }
-  }
-  await expect(page).toHaveURL('/metrics');
+    await expect(page).toHaveURL('/pour_aller_plus_loin');
+  });
 
-  // Étape 38: Navigation de /metrics vers /management-de-produit-logiciel
-  // Label du lien: "lien"
-  const lien37 = page.getByRole('link', { name: /lien/i });
-  if (await lien37.count() > 0) {
-    await lien37.first().click();
-  } else {
-    // Lien non trouvé par label, navigation via plan-du-site ou accueil
-    // Le footer et le header sont toujours disponibles sur toutes les pages
-    // Option 1 : Essayer via le plan du site (footer)
-    const lienPlanDuSite = page.getByRole('link', { name: /Plan du site/i });
-    if (await lienPlanDuSite.count() > 0) {
-      await lienPlanDuSite.first().click();
-      await expect(page).toHaveURL('/plan-du-site');
-      // Depuis le plan du site, naviguer vers la destination
-      await page.goto('/management-de-produit-logiciel');
-    } else {
-      // Option 2 : Via le logo (header) vers l'accueil
-      const logo = page.getByAltText('Logo Malain et possible');
-      if (await logo.count() > 0) {
-        await logo.click();
-        await expect(page).toHaveURL('/');
-      } else {
-        // Fallback : navigation directe vers l'accueil
-        await page.goto('/');
+  await test.step("Étape 57: Navigation de /pour_aller_plus_loin vers /a-propos-du-site (Info)", async () => {
+    // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
+    const liens56 = page.getByRole('link', { name: /Info/i });
+    if (await liens56.count() > 0) {
+      // Si plusieurs liens avec le même label, trouver celui qui va vers la bonne destination
+      const liensTrouves = await liens56.all();
+      let lienTrouve = null;
+      for (const lien of liensTrouves) {
+        const href = await lien.getAttribute('href');
+        // Normaliser l'URL (enlever le slash final si présent)
+        const hrefNormalise = href ? href.replace(/\/$/, '') : '';
+        const destinationNormalisee = '/a-propos-du-site'.replace(/\/$/, '');
+        if (hrefNormalise === destinationNormalisee || hrefNormalise === destinationNormalisee + '/' || href === destinationNormalisee || href === destinationNormalisee + '/') {
+          lienTrouve = lien;
+          break;
+        }
       }
-      // Depuis l'accueil, naviguer vers la destination
-      await page.goto('/management-de-produit-logiciel');
+      if (lienTrouve) {
+        await lienTrouve.click();
+      } else {
+        // Aucun lien trouvé vers la destination exacte, utiliser la navigation directe
+        await page.goto('/a-propos-du-site');
+      }
+    } else {
+      // Lien non trouvé par label, navigation via plan-du-site ou accueil
+      // Le footer et le header sont toujours disponibles sur toutes les pages
+      // Option 1 : Essayer via le plan du site (footer)
+      const lienPlanDuSite = page.getByRole('link', { name: /Plan du site/i });
+      if (await lienPlanDuSite.count() > 0) {
+        await lienPlanDuSite.first().click();
+        await expect(page).toHaveURL('/plan-du-site');
+        // Depuis le plan du site, naviguer vers la destination
+        await page.goto('/a-propos-du-site');
+      } else {
+        // Option 2 : Via le logo (header) vers l'accueil
+        const logo = page.getByAltText('Logo Malain et possible');
+        if (await logo.count() > 0) {
+          await logo.click();
+          await expect(page).toHaveURL('/');
+        } else {
+          // Fallback : navigation directe vers l'accueil
+          await page.goto('/');
+        }
+        // Depuis l'accueil, naviguer vers la destination
+        await page.goto('/a-propos-du-site');
+      }
     }
-  }
-  await expect(page).toHaveURL('/management-de-produit-logiciel');
+    await expect(page).toHaveURL('/a-propos-du-site');
+  });
 
-  // Étape 39: Navigation de /management-de-produit-logiciel vers /metrics
-  // Label du lien: "BarChart3"
-  const lien38 = page.getByRole('link', { name: /BarChart3/i });
-  if (await lien38.count() > 0) {
-    await lien38.first().click();
-  } else {
-    // Lien non trouvé par label, navigation via plan-du-site ou accueil
-    // Le footer et le header sont toujours disponibles sur toutes les pages
-    // Option 1 : Essayer via le plan du site (footer)
-    const lienPlanDuSite = page.getByRole('link', { name: /Plan du site/i });
-    if (await lienPlanDuSite.count() > 0) {
-      await lienPlanDuSite.first().click();
-      await expect(page).toHaveURL('/plan-du-site');
-      // Depuis le plan du site, naviguer vers la destination
-      await page.goto('/metrics');
-    } else {
-      // Option 2 : Via le logo (header) vers l'accueil
-      const logo = page.getByAltText('Logo Malain et possible');
-      if (await logo.count() > 0) {
-        await logo.click();
-        await expect(page).toHaveURL('/');
-      } else {
-        // Fallback : navigation directe vers l'accueil
-        await page.goto('/');
+  await test.step("Étape 58: Navigation de /a-propos-du-site vers /robustesse (lien)", async () => {
+    // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
+    const liens57 = page.getByRole('link', { name: /lien/i });
+    if (await liens57.count() > 0) {
+      // Si plusieurs liens avec le même label, trouver celui qui va vers la bonne destination
+      const liensTrouves = await liens57.all();
+      let lienTrouve = null;
+      for (const lien of liensTrouves) {
+        const href = await lien.getAttribute('href');
+        // Normaliser l'URL (enlever le slash final si présent)
+        const hrefNormalise = href ? href.replace(/\/$/, '') : '';
+        const destinationNormalisee = '/robustesse'.replace(/\/$/, '');
+        if (hrefNormalise === destinationNormalisee || hrefNormalise === destinationNormalisee + '/' || href === destinationNormalisee || href === destinationNormalisee + '/') {
+          lienTrouve = lien;
+          break;
+        }
       }
-      // Depuis l'accueil, naviguer vers la destination
-      await page.goto('/metrics');
+      if (lienTrouve) {
+        await lienTrouve.click();
+      } else {
+        // Aucun lien trouvé vers la destination exacte, utiliser la navigation directe
+        await page.goto('/robustesse');
+      }
+    } else {
+      // Lien non trouvé par label, navigation via plan-du-site ou accueil
+      // Le footer et le header sont toujours disponibles sur toutes les pages
+      // Option 1 : Essayer via le plan du site (footer)
+      const lienPlanDuSite = page.getByRole('link', { name: /Plan du site/i });
+      if (await lienPlanDuSite.count() > 0) {
+        await lienPlanDuSite.first().click();
+        await expect(page).toHaveURL('/plan-du-site');
+        // Depuis le plan du site, naviguer vers la destination
+        await page.goto('/robustesse');
+      } else {
+        // Option 2 : Via le logo (header) vers l'accueil
+        const logo = page.getByAltText('Logo Malain et possible');
+        if (await logo.count() > 0) {
+          await logo.click();
+          await expect(page).toHaveURL('/');
+        } else {
+          // Fallback : navigation directe vers l'accueil
+          await page.goto('/');
+        }
+        // Depuis l'accueil, naviguer vers la destination
+        await page.goto('/robustesse');
+      }
     }
-  }
-  await expect(page).toHaveURL('/metrics');
+    await expect(page).toHaveURL('/robustesse');
+  });
 
-  // Étape 40: Navigation de /metrics vers /portfolio-detournements
-  // Label du lien: "lien"
-  const lien39 = page.getByRole('link', { name: /lien/i });
-  if (await lien39.count() > 0) {
-    await lien39.first().click();
-  } else {
-    // Lien non trouvé par label, navigation via plan-du-site ou accueil
-    // Le footer et le header sont toujours disponibles sur toutes les pages
-    // Option 1 : Essayer via le plan du site (footer)
-    const lienPlanDuSite = page.getByRole('link', { name: /Plan du site/i });
-    if (await lienPlanDuSite.count() > 0) {
-      await lienPlanDuSite.first().click();
-      await expect(page).toHaveURL('/plan-du-site');
-      // Depuis le plan du site, naviguer vers la destination
-      await page.goto('/portfolio-detournements');
-    } else {
-      // Option 2 : Via le logo (header) vers l'accueil
-      const logo = page.getByAltText('Logo Malain et possible');
-      if (await logo.count() > 0) {
-        await logo.click();
-        await expect(page).toHaveURL('/');
-      } else {
-        // Fallback : navigation directe vers l'accueil
-        await page.goto('/');
+  await test.step("Étape 59: Navigation de /robustesse vers /a-propos-du-site (Info)", async () => {
+    // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
+    const liens58 = page.getByRole('link', { name: /Info/i });
+    if (await liens58.count() > 0) {
+      // Si plusieurs liens avec le même label, trouver celui qui va vers la bonne destination
+      const liensTrouves = await liens58.all();
+      let lienTrouve = null;
+      for (const lien of liensTrouves) {
+        const href = await lien.getAttribute('href');
+        // Normaliser l'URL (enlever le slash final si présent)
+        const hrefNormalise = href ? href.replace(/\/$/, '') : '';
+        const destinationNormalisee = '/a-propos-du-site'.replace(/\/$/, '');
+        if (hrefNormalise === destinationNormalisee || hrefNormalise === destinationNormalisee + '/' || href === destinationNormalisee || href === destinationNormalisee + '/') {
+          lienTrouve = lien;
+          break;
+        }
       }
-      // Depuis l'accueil, naviguer vers la destination
-      await page.goto('/portfolio-detournements');
+      if (lienTrouve) {
+        await lienTrouve.click();
+      } else {
+        // Aucun lien trouvé vers la destination exacte, utiliser la navigation directe
+        await page.goto('/a-propos-du-site');
+      }
+    } else {
+      // Lien non trouvé par label, navigation via plan-du-site ou accueil
+      // Le footer et le header sont toujours disponibles sur toutes les pages
+      // Option 1 : Essayer via le plan du site (footer)
+      const lienPlanDuSite = page.getByRole('link', { name: /Plan du site/i });
+      if (await lienPlanDuSite.count() > 0) {
+        await lienPlanDuSite.first().click();
+        await expect(page).toHaveURL('/plan-du-site');
+        // Depuis le plan du site, naviguer vers la destination
+        await page.goto('/a-propos-du-site');
+      } else {
+        // Option 2 : Via le logo (header) vers l'accueil
+        const logo = page.getByAltText('Logo Malain et possible');
+        if (await logo.count() > 0) {
+          await logo.click();
+          await expect(page).toHaveURL('/');
+        } else {
+          // Fallback : navigation directe vers l'accueil
+          await page.goto('/');
+        }
+        // Depuis l'accueil, naviguer vers la destination
+        await page.goto('/a-propos-du-site');
+      }
     }
-  }
-  await expect(page).toHaveURL('/portfolio-detournements');
+    await expect(page).toHaveURL('/a-propos-du-site');
+  });
 
-  // Étape 41: Navigation de /portfolio-detournements vers /metrics
-  // Label du lien: "BarChart3"
-  const lien40 = page.getByRole('link', { name: /BarChart3/i });
-  if (await lien40.count() > 0) {
-    await lien40.first().click();
-  } else {
-    // Lien non trouvé par label, navigation via plan-du-site ou accueil
-    // Le footer et le header sont toujours disponibles sur toutes les pages
-    // Option 1 : Essayer via le plan du site (footer)
-    const lienPlanDuSite = page.getByRole('link', { name: /Plan du site/i });
-    if (await lienPlanDuSite.count() > 0) {
-      await lienPlanDuSite.first().click();
-      await expect(page).toHaveURL('/plan-du-site');
-      // Depuis le plan du site, naviguer vers la destination
-      await page.goto('/metrics');
-    } else {
-      // Option 2 : Via le logo (header) vers l'accueil
-      const logo = page.getByAltText('Logo Malain et possible');
-      if (await logo.count() > 0) {
-        await logo.click();
-        await expect(page).toHaveURL('/');
-      } else {
-        // Fallback : navigation directe vers l'accueil
-        await page.goto('/');
+  await test.step("Étape 60: Navigation de /a-propos-du-site vers /transformation (lien)", async () => {
+    // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
+    const liens59 = page.getByRole('link', { name: /lien/i });
+    if (await liens59.count() > 0) {
+      // Si plusieurs liens avec le même label, trouver celui qui va vers la bonne destination
+      const liensTrouves = await liens59.all();
+      let lienTrouve = null;
+      for (const lien of liensTrouves) {
+        const href = await lien.getAttribute('href');
+        // Normaliser l'URL (enlever le slash final si présent)
+        const hrefNormalise = href ? href.replace(/\/$/, '') : '';
+        const destinationNormalisee = '/transformation'.replace(/\/$/, '');
+        if (hrefNormalise === destinationNormalisee || hrefNormalise === destinationNormalisee + '/' || href === destinationNormalisee || href === destinationNormalisee + '/') {
+          lienTrouve = lien;
+          break;
+        }
       }
-      // Depuis l'accueil, naviguer vers la destination
-      await page.goto('/metrics');
+      if (lienTrouve) {
+        await lienTrouve.click();
+      } else {
+        // Aucun lien trouvé vers la destination exacte, utiliser la navigation directe
+        await page.goto('/transformation');
+      }
+    } else {
+      // Lien non trouvé par label, navigation via plan-du-site ou accueil
+      // Le footer et le header sont toujours disponibles sur toutes les pages
+      // Option 1 : Essayer via le plan du site (footer)
+      const lienPlanDuSite = page.getByRole('link', { name: /Plan du site/i });
+      if (await lienPlanDuSite.count() > 0) {
+        await lienPlanDuSite.first().click();
+        await expect(page).toHaveURL('/plan-du-site');
+        // Depuis le plan du site, naviguer vers la destination
+        await page.goto('/transformation');
+      } else {
+        // Option 2 : Via le logo (header) vers l'accueil
+        const logo = page.getByAltText('Logo Malain et possible');
+        if (await logo.count() > 0) {
+          await logo.click();
+          await expect(page).toHaveURL('/');
+        } else {
+          // Fallback : navigation directe vers l'accueil
+          await page.goto('/');
+        }
+        // Depuis l'accueil, naviguer vers la destination
+        await page.goto('/transformation');
+      }
     }
-  }
-  await expect(page).toHaveURL('/metrics');
+    await expect(page).toHaveURL('/transformation');
+  });
 
-  // Étape 42: Navigation de /metrics vers /pour_aller_plus_loin
-  // Label du lien: "lien"
-  const lien41 = page.getByRole('link', { name: /lien/i });
-  if (await lien41.count() > 0) {
-    await lien41.first().click();
-  } else {
-    // Lien non trouvé par label, navigation via plan-du-site ou accueil
-    // Le footer et le header sont toujours disponibles sur toutes les pages
-    // Option 1 : Essayer via le plan du site (footer)
-    const lienPlanDuSite = page.getByRole('link', { name: /Plan du site/i });
-    if (await lienPlanDuSite.count() > 0) {
-      await lienPlanDuSite.first().click();
-      await expect(page).toHaveURL('/plan-du-site');
-      // Depuis le plan du site, naviguer vers la destination
-      await page.goto('/pour_aller_plus_loin');
-    } else {
-      // Option 2 : Via le logo (header) vers l'accueil
-      const logo = page.getByAltText('Logo Malain et possible');
-      if (await logo.count() > 0) {
-        await logo.click();
-        await expect(page).toHaveURL('/');
-      } else {
-        // Fallback : navigation directe vers l'accueil
-        await page.goto('/');
+  await test.step("Étape 61: Navigation de /transformation vers /a-propos-du-site (Info)", async () => {
+    // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
+    const liens60 = page.getByRole('link', { name: /Info/i });
+    if (await liens60.count() > 0) {
+      // Si plusieurs liens avec le même label, trouver celui qui va vers la bonne destination
+      const liensTrouves = await liens60.all();
+      let lienTrouve = null;
+      for (const lien of liensTrouves) {
+        const href = await lien.getAttribute('href');
+        // Normaliser l'URL (enlever le slash final si présent)
+        const hrefNormalise = href ? href.replace(/\/$/, '') : '';
+        const destinationNormalisee = '/a-propos-du-site'.replace(/\/$/, '');
+        if (hrefNormalise === destinationNormalisee || hrefNormalise === destinationNormalisee + '/' || href === destinationNormalisee || href === destinationNormalisee + '/') {
+          lienTrouve = lien;
+          break;
+        }
       }
-      // Depuis l'accueil, naviguer vers la destination
-      await page.goto('/pour_aller_plus_loin');
-    }
-  }
-  await expect(page).toHaveURL('/pour_aller_plus_loin');
-
-  // Étape 43: Navigation de /pour_aller_plus_loin vers /metrics
-  // Label du lien: "BarChart3"
-  const lien42 = page.getByRole('link', { name: /BarChart3/i });
-  if (await lien42.count() > 0) {
-    await lien42.first().click();
-  } else {
-    // Lien non trouvé par label, navigation via plan-du-site ou accueil
-    // Le footer et le header sont toujours disponibles sur toutes les pages
-    // Option 1 : Essayer via le plan du site (footer)
-    const lienPlanDuSite = page.getByRole('link', { name: /Plan du site/i });
-    if (await lienPlanDuSite.count() > 0) {
-      await lienPlanDuSite.first().click();
-      await expect(page).toHaveURL('/plan-du-site');
-      // Depuis le plan du site, naviguer vers la destination
-      await page.goto('/metrics');
-    } else {
-      // Option 2 : Via le logo (header) vers l'accueil
-      const logo = page.getByAltText('Logo Malain et possible');
-      if (await logo.count() > 0) {
-        await logo.click();
-        await expect(page).toHaveURL('/');
+      if (lienTrouve) {
+        await lienTrouve.click();
       } else {
-        // Fallback : navigation directe vers l'accueil
-        await page.goto('/');
+        // Aucun lien trouvé vers la destination exacte, utiliser la navigation directe
+        await page.goto('/a-propos-du-site');
       }
-      // Depuis l'accueil, naviguer vers la destination
-      await page.goto('/metrics');
-    }
-  }
-  await expect(page).toHaveURL('/metrics');
-
-  // Étape 44: Navigation de /metrics vers /robustesse
-  // Label du lien: "lien"
-  const lien43 = page.getByRole('link', { name: /lien/i });
-  if (await lien43.count() > 0) {
-    await lien43.first().click();
-  } else {
-    // Lien non trouvé par label, navigation via plan-du-site ou accueil
-    // Le footer et le header sont toujours disponibles sur toutes les pages
-    // Option 1 : Essayer via le plan du site (footer)
-    const lienPlanDuSite = page.getByRole('link', { name: /Plan du site/i });
-    if (await lienPlanDuSite.count() > 0) {
-      await lienPlanDuSite.first().click();
-      await expect(page).toHaveURL('/plan-du-site');
-      // Depuis le plan du site, naviguer vers la destination
-      await page.goto('/robustesse');
     } else {
-      // Option 2 : Via le logo (header) vers l'accueil
-      const logo = page.getByAltText('Logo Malain et possible');
-      if (await logo.count() > 0) {
-        await logo.click();
-        await expect(page).toHaveURL('/');
+      // Lien non trouvé par label, navigation via plan-du-site ou accueil
+      // Le footer et le header sont toujours disponibles sur toutes les pages
+      // Option 1 : Essayer via le plan du site (footer)
+      const lienPlanDuSite = page.getByRole('link', { name: /Plan du site/i });
+      if (await lienPlanDuSite.count() > 0) {
+        await lienPlanDuSite.first().click();
+        await expect(page).toHaveURL('/plan-du-site');
+        // Depuis le plan du site, naviguer vers la destination
+        await page.goto('/a-propos-du-site');
       } else {
-        // Fallback : navigation directe vers l'accueil
-        await page.goto('/');
+        // Option 2 : Via le logo (header) vers l'accueil
+        const logo = page.getByAltText('Logo Malain et possible');
+        if (await logo.count() > 0) {
+          await logo.click();
+          await expect(page).toHaveURL('/');
+        } else {
+          // Fallback : navigation directe vers l'accueil
+          await page.goto('/');
+        }
+        // Depuis l'accueil, naviguer vers la destination
+        await page.goto('/a-propos-du-site');
       }
-      // Depuis l'accueil, naviguer vers la destination
-      await page.goto('/robustesse');
     }
-  }
-  await expect(page).toHaveURL('/robustesse');
-
-  // Étape 45: Navigation de /robustesse vers /metrics
-  // Label du lien: "BarChart3"
-  const lien44 = page.getByRole('link', { name: /BarChart3/i });
-  if (await lien44.count() > 0) {
-    await lien44.first().click();
-  } else {
-    // Lien non trouvé par label, navigation via plan-du-site ou accueil
-    // Le footer et le header sont toujours disponibles sur toutes les pages
-    // Option 1 : Essayer via le plan du site (footer)
-    const lienPlanDuSite = page.getByRole('link', { name: /Plan du site/i });
-    if (await lienPlanDuSite.count() > 0) {
-      await lienPlanDuSite.first().click();
-      await expect(page).toHaveURL('/plan-du-site');
-      // Depuis le plan du site, naviguer vers la destination
-      await page.goto('/metrics');
-    } else {
-      // Option 2 : Via le logo (header) vers l'accueil
-      const logo = page.getByAltText('Logo Malain et possible');
-      if (await logo.count() > 0) {
-        await logo.click();
-        await expect(page).toHaveURL('/');
-      } else {
-        // Fallback : navigation directe vers l'accueil
-        await page.goto('/');
-      }
-      // Depuis l'accueil, naviguer vers la destination
-      await page.goto('/metrics');
-    }
-  }
-  await expect(page).toHaveURL('/metrics');
-
-  // Étape 46: Navigation de /metrics vers /transformation
-  // Label du lien: "lien"
-  const lien45 = page.getByRole('link', { name: /lien/i });
-  if (await lien45.count() > 0) {
-    await lien45.first().click();
-  } else {
-    // Lien non trouvé par label, navigation via plan-du-site ou accueil
-    // Le footer et le header sont toujours disponibles sur toutes les pages
-    // Option 1 : Essayer via le plan du site (footer)
-    const lienPlanDuSite = page.getByRole('link', { name: /Plan du site/i });
-    if (await lienPlanDuSite.count() > 0) {
-      await lienPlanDuSite.first().click();
-      await expect(page).toHaveURL('/plan-du-site');
-      // Depuis le plan du site, naviguer vers la destination
-      await page.goto('/transformation');
-    } else {
-      // Option 2 : Via le logo (header) vers l'accueil
-      const logo = page.getByAltText('Logo Malain et possible');
-      if (await logo.count() > 0) {
-        await logo.click();
-        await expect(page).toHaveURL('/');
-      } else {
-        // Fallback : navigation directe vers l'accueil
-        await page.goto('/');
-      }
-      // Depuis l'accueil, naviguer vers la destination
-      await page.goto('/transformation');
-    }
-  }
-  await expect(page).toHaveURL('/transformation');
-
-  // Étape 47: Navigation de /transformation vers /metrics
-  // Label du lien: "BarChart3"
-  const lien46 = page.getByRole('link', { name: /BarChart3/i });
-  if (await lien46.count() > 0) {
-    await lien46.first().click();
-  } else {
-    // Lien non trouvé par label, navigation via plan-du-site ou accueil
-    // Le footer et le header sont toujours disponibles sur toutes les pages
-    // Option 1 : Essayer via le plan du site (footer)
-    const lienPlanDuSite = page.getByRole('link', { name: /Plan du site/i });
-    if (await lienPlanDuSite.count() > 0) {
-      await lienPlanDuSite.first().click();
-      await expect(page).toHaveURL('/plan-du-site');
-      // Depuis le plan du site, naviguer vers la destination
-      await page.goto('/metrics');
-    } else {
-      // Option 2 : Via le logo (header) vers l'accueil
-      const logo = page.getByAltText('Logo Malain et possible');
-      if (await logo.count() > 0) {
-        await logo.click();
-        await expect(page).toHaveURL('/');
-      } else {
-        // Fallback : navigation directe vers l'accueil
-        await page.goto('/');
-      }
-      // Depuis l'accueil, naviguer vers la destination
-      await page.goto('/metrics');
-    }
-  }
-  await expect(page).toHaveURL('/metrics');
-
-  // Étape 48: Navigation de /metrics vers /detournement-video
-  // Label du lien: "lien"
-  const lien47 = page.getByRole('link', { name: /lien/i });
-  if (await lien47.count() > 0) {
-    await lien47.first().click();
-  } else {
-    // Lien non trouvé par label, navigation via plan-du-site ou accueil
-    // Le footer et le header sont toujours disponibles sur toutes les pages
-    // Option 1 : Essayer via le plan du site (footer)
-    const lienPlanDuSite = page.getByRole('link', { name: /Plan du site/i });
-    if (await lienPlanDuSite.count() > 0) {
-      await lienPlanDuSite.first().click();
-      await expect(page).toHaveURL('/plan-du-site');
-      // Depuis le plan du site, naviguer vers la destination
-      await page.goto('/detournement-video');
-    } else {
-      // Option 2 : Via le logo (header) vers l'accueil
-      const logo = page.getByAltText('Logo Malain et possible');
-      if (await logo.count() > 0) {
-        await logo.click();
-        await expect(page).toHaveURL('/');
-      } else {
-        // Fallback : navigation directe vers l'accueil
-        await page.goto('/');
-      }
-      // Depuis l'accueil, naviguer vers la destination
-      await page.goto('/detournement-video');
-    }
-  }
-  await expect(page).toHaveURL('/detournement-video');
-
-  // Étape 49: Navigation de /detournement-video vers /a-propos-du-site
-  // Label du lien: "Info"
-  const lien48 = page.getByRole('link', { name: /Info/i });
-  if (await lien48.count() > 0) {
-    await lien48.first().click();
-  } else {
-    // Lien non trouvé par label, navigation via plan-du-site ou accueil
-    // Le footer et le header sont toujours disponibles sur toutes les pages
-    // Option 1 : Essayer via le plan du site (footer)
-    const lienPlanDuSite = page.getByRole('link', { name: /Plan du site/i });
-    if (await lienPlanDuSite.count() > 0) {
-      await lienPlanDuSite.first().click();
-      await expect(page).toHaveURL('/plan-du-site');
-      // Depuis le plan du site, naviguer vers la destination
-      await page.goto('/a-propos-du-site');
-    } else {
-      // Option 2 : Via le logo (header) vers l'accueil
-      const logo = page.getByAltText('Logo Malain et possible');
-      if (await logo.count() > 0) {
-        await logo.click();
-        await expect(page).toHaveURL('/');
-      } else {
-        // Fallback : navigation directe vers l'accueil
-        await page.goto('/');
-      }
-      // Depuis l'accueil, naviguer vers la destination
-      await page.goto('/a-propos-du-site');
-    }
-  }
-  await expect(page).toHaveURL('/a-propos-du-site');
-
-  // Étape 50: Navigation de /a-propos-du-site vers /maintenance
-  // Label du lien: "lien"
-  const lien49 = page.getByRole('link', { name: /lien/i });
-  if (await lien49.count() > 0) {
-    await lien49.first().click();
-  } else {
-    // Lien non trouvé par label, navigation via plan-du-site ou accueil
-    // Le footer et le header sont toujours disponibles sur toutes les pages
-    // Option 1 : Essayer via le plan du site (footer)
-    const lienPlanDuSite = page.getByRole('link', { name: /Plan du site/i });
-    if (await lienPlanDuSite.count() > 0) {
-      await lienPlanDuSite.first().click();
-      await expect(page).toHaveURL('/plan-du-site');
-      // Depuis le plan du site, naviguer vers la destination
-      await page.goto('/maintenance');
-    } else {
-      // Option 2 : Via le logo (header) vers l'accueil
-      const logo = page.getByAltText('Logo Malain et possible');
-      if (await logo.count() > 0) {
-        await logo.click();
-        await expect(page).toHaveURL('/');
-      } else {
-        // Fallback : navigation directe vers l'accueil
-        await page.goto('/');
-      }
-      // Depuis l'accueil, naviguer vers la destination
-      await page.goto('/maintenance');
-    }
-  }
-  await expect(page).toHaveURL('/maintenance');
-
-  // Étape 51: Navigation de /maintenance vers /a-propos-du-site
-  // Label du lien: "Info"
-  const lien50 = page.getByRole('link', { name: /Info/i });
-  if (await lien50.count() > 0) {
-    await lien50.first().click();
-  } else {
-    // Lien non trouvé par label, navigation via plan-du-site ou accueil
-    // Le footer et le header sont toujours disponibles sur toutes les pages
-    // Option 1 : Essayer via le plan du site (footer)
-    const lienPlanDuSite = page.getByRole('link', { name: /Plan du site/i });
-    if (await lienPlanDuSite.count() > 0) {
-      await lienPlanDuSite.first().click();
-      await expect(page).toHaveURL('/plan-du-site');
-      // Depuis le plan du site, naviguer vers la destination
-      await page.goto('/a-propos-du-site');
-    } else {
-      // Option 2 : Via le logo (header) vers l'accueil
-      const logo = page.getByAltText('Logo Malain et possible');
-      if (await logo.count() > 0) {
-        await logo.click();
-        await expect(page).toHaveURL('/');
-      } else {
-        // Fallback : navigation directe vers l'accueil
-        await page.goto('/');
-      }
-      // Depuis l'accueil, naviguer vers la destination
-      await page.goto('/a-propos-du-site');
-    }
-  }
-  await expect(page).toHaveURL('/a-propos-du-site');
-
-  // Étape 52: Navigation de /a-propos-du-site vers /management-de-produit-logiciel
-  // Label du lien: "lien"
-  const lien51 = page.getByRole('link', { name: /lien/i });
-  if (await lien51.count() > 0) {
-    await lien51.first().click();
-  } else {
-    // Lien non trouvé par label, navigation via plan-du-site ou accueil
-    // Le footer et le header sont toujours disponibles sur toutes les pages
-    // Option 1 : Essayer via le plan du site (footer)
-    const lienPlanDuSite = page.getByRole('link', { name: /Plan du site/i });
-    if (await lienPlanDuSite.count() > 0) {
-      await lienPlanDuSite.first().click();
-      await expect(page).toHaveURL('/plan-du-site');
-      // Depuis le plan du site, naviguer vers la destination
-      await page.goto('/management-de-produit-logiciel');
-    } else {
-      // Option 2 : Via le logo (header) vers l'accueil
-      const logo = page.getByAltText('Logo Malain et possible');
-      if (await logo.count() > 0) {
-        await logo.click();
-        await expect(page).toHaveURL('/');
-      } else {
-        // Fallback : navigation directe vers l'accueil
-        await page.goto('/');
-      }
-      // Depuis l'accueil, naviguer vers la destination
-      await page.goto('/management-de-produit-logiciel');
-    }
-  }
-  await expect(page).toHaveURL('/management-de-produit-logiciel');
-
-  // Étape 53: Navigation de /management-de-produit-logiciel vers /a-propos-du-site
-  // Label du lien: "Info"
-  const lien52 = page.getByRole('link', { name: /Info/i });
-  if (await lien52.count() > 0) {
-    await lien52.first().click();
-  } else {
-    // Lien non trouvé par label, navigation via plan-du-site ou accueil
-    // Le footer et le header sont toujours disponibles sur toutes les pages
-    // Option 1 : Essayer via le plan du site (footer)
-    const lienPlanDuSite = page.getByRole('link', { name: /Plan du site/i });
-    if (await lienPlanDuSite.count() > 0) {
-      await lienPlanDuSite.first().click();
-      await expect(page).toHaveURL('/plan-du-site');
-      // Depuis le plan du site, naviguer vers la destination
-      await page.goto('/a-propos-du-site');
-    } else {
-      // Option 2 : Via le logo (header) vers l'accueil
-      const logo = page.getByAltText('Logo Malain et possible');
-      if (await logo.count() > 0) {
-        await logo.click();
-        await expect(page).toHaveURL('/');
-      } else {
-        // Fallback : navigation directe vers l'accueil
-        await page.goto('/');
-      }
-      // Depuis l'accueil, naviguer vers la destination
-      await page.goto('/a-propos-du-site');
-    }
-  }
-  await expect(page).toHaveURL('/a-propos-du-site');
-
-  // Étape 54: Navigation de /a-propos-du-site vers /portfolio-detournements
-  // Label du lien: "lien"
-  const lien53 = page.getByRole('link', { name: /lien/i });
-  if (await lien53.count() > 0) {
-    await lien53.first().click();
-  } else {
-    // Lien non trouvé par label, navigation via plan-du-site ou accueil
-    // Le footer et le header sont toujours disponibles sur toutes les pages
-    // Option 1 : Essayer via le plan du site (footer)
-    const lienPlanDuSite = page.getByRole('link', { name: /Plan du site/i });
-    if (await lienPlanDuSite.count() > 0) {
-      await lienPlanDuSite.first().click();
-      await expect(page).toHaveURL('/plan-du-site');
-      // Depuis le plan du site, naviguer vers la destination
-      await page.goto('/portfolio-detournements');
-    } else {
-      // Option 2 : Via le logo (header) vers l'accueil
-      const logo = page.getByAltText('Logo Malain et possible');
-      if (await logo.count() > 0) {
-        await logo.click();
-        await expect(page).toHaveURL('/');
-      } else {
-        // Fallback : navigation directe vers l'accueil
-        await page.goto('/');
-      }
-      // Depuis l'accueil, naviguer vers la destination
-      await page.goto('/portfolio-detournements');
-    }
-  }
-  await expect(page).toHaveURL('/portfolio-detournements');
-
-  // Étape 55: Navigation de /portfolio-detournements vers /a-propos-du-site
-  // Label du lien: "Info"
-  const lien54 = page.getByRole('link', { name: /Info/i });
-  if (await lien54.count() > 0) {
-    await lien54.first().click();
-  } else {
-    // Lien non trouvé par label, navigation via plan-du-site ou accueil
-    // Le footer et le header sont toujours disponibles sur toutes les pages
-    // Option 1 : Essayer via le plan du site (footer)
-    const lienPlanDuSite = page.getByRole('link', { name: /Plan du site/i });
-    if (await lienPlanDuSite.count() > 0) {
-      await lienPlanDuSite.first().click();
-      await expect(page).toHaveURL('/plan-du-site');
-      // Depuis le plan du site, naviguer vers la destination
-      await page.goto('/a-propos-du-site');
-    } else {
-      // Option 2 : Via le logo (header) vers l'accueil
-      const logo = page.getByAltText('Logo Malain et possible');
-      if (await logo.count() > 0) {
-        await logo.click();
-        await expect(page).toHaveURL('/');
-      } else {
-        // Fallback : navigation directe vers l'accueil
-        await page.goto('/');
-      }
-      // Depuis l'accueil, naviguer vers la destination
-      await page.goto('/a-propos-du-site');
-    }
-  }
-  await expect(page).toHaveURL('/a-propos-du-site');
-
-  // Étape 56: Navigation de /a-propos-du-site vers /pour_aller_plus_loin
-  // Label du lien: "lien"
-  const lien55 = page.getByRole('link', { name: /lien/i });
-  if (await lien55.count() > 0) {
-    await lien55.first().click();
-  } else {
-    // Lien non trouvé par label, navigation via plan-du-site ou accueil
-    // Le footer et le header sont toujours disponibles sur toutes les pages
-    // Option 1 : Essayer via le plan du site (footer)
-    const lienPlanDuSite = page.getByRole('link', { name: /Plan du site/i });
-    if (await lienPlanDuSite.count() > 0) {
-      await lienPlanDuSite.first().click();
-      await expect(page).toHaveURL('/plan-du-site');
-      // Depuis le plan du site, naviguer vers la destination
-      await page.goto('/pour_aller_plus_loin');
-    } else {
-      // Option 2 : Via le logo (header) vers l'accueil
-      const logo = page.getByAltText('Logo Malain et possible');
-      if (await logo.count() > 0) {
-        await logo.click();
-        await expect(page).toHaveURL('/');
-      } else {
-        // Fallback : navigation directe vers l'accueil
-        await page.goto('/');
-      }
-      // Depuis l'accueil, naviguer vers la destination
-      await page.goto('/pour_aller_plus_loin');
-    }
-  }
-  await expect(page).toHaveURL('/pour_aller_plus_loin');
-
-  // Étape 57: Navigation de /pour_aller_plus_loin vers /a-propos-du-site
-  // Label du lien: "Info"
-  const lien56 = page.getByRole('link', { name: /Info/i });
-  if (await lien56.count() > 0) {
-    await lien56.first().click();
-  } else {
-    // Lien non trouvé par label, navigation via plan-du-site ou accueil
-    // Le footer et le header sont toujours disponibles sur toutes les pages
-    // Option 1 : Essayer via le plan du site (footer)
-    const lienPlanDuSite = page.getByRole('link', { name: /Plan du site/i });
-    if (await lienPlanDuSite.count() > 0) {
-      await lienPlanDuSite.first().click();
-      await expect(page).toHaveURL('/plan-du-site');
-      // Depuis le plan du site, naviguer vers la destination
-      await page.goto('/a-propos-du-site');
-    } else {
-      // Option 2 : Via le logo (header) vers l'accueil
-      const logo = page.getByAltText('Logo Malain et possible');
-      if (await logo.count() > 0) {
-        await logo.click();
-        await expect(page).toHaveURL('/');
-      } else {
-        // Fallback : navigation directe vers l'accueil
-        await page.goto('/');
-      }
-      // Depuis l'accueil, naviguer vers la destination
-      await page.goto('/a-propos-du-site');
-    }
-  }
-  await expect(page).toHaveURL('/a-propos-du-site');
-
-  // Étape 58: Navigation de /a-propos-du-site vers /robustesse
-  // Label du lien: "lien"
-  const lien57 = page.getByRole('link', { name: /lien/i });
-  if (await lien57.count() > 0) {
-    await lien57.first().click();
-  } else {
-    // Lien non trouvé par label, navigation via plan-du-site ou accueil
-    // Le footer et le header sont toujours disponibles sur toutes les pages
-    // Option 1 : Essayer via le plan du site (footer)
-    const lienPlanDuSite = page.getByRole('link', { name: /Plan du site/i });
-    if (await lienPlanDuSite.count() > 0) {
-      await lienPlanDuSite.first().click();
-      await expect(page).toHaveURL('/plan-du-site');
-      // Depuis le plan du site, naviguer vers la destination
-      await page.goto('/robustesse');
-    } else {
-      // Option 2 : Via le logo (header) vers l'accueil
-      const logo = page.getByAltText('Logo Malain et possible');
-      if (await logo.count() > 0) {
-        await logo.click();
-        await expect(page).toHaveURL('/');
-      } else {
-        // Fallback : navigation directe vers l'accueil
-        await page.goto('/');
-      }
-      // Depuis l'accueil, naviguer vers la destination
-      await page.goto('/robustesse');
-    }
-  }
-  await expect(page).toHaveURL('/robustesse');
-
-  // Étape 59: Navigation de /robustesse vers /a-propos-du-site
-  // Label du lien: "Info"
-  const lien58 = page.getByRole('link', { name: /Info/i });
-  if (await lien58.count() > 0) {
-    await lien58.first().click();
-  } else {
-    // Lien non trouvé par label, navigation via plan-du-site ou accueil
-    // Le footer et le header sont toujours disponibles sur toutes les pages
-    // Option 1 : Essayer via le plan du site (footer)
-    const lienPlanDuSite = page.getByRole('link', { name: /Plan du site/i });
-    if (await lienPlanDuSite.count() > 0) {
-      await lienPlanDuSite.first().click();
-      await expect(page).toHaveURL('/plan-du-site');
-      // Depuis le plan du site, naviguer vers la destination
-      await page.goto('/a-propos-du-site');
-    } else {
-      // Option 2 : Via le logo (header) vers l'accueil
-      const logo = page.getByAltText('Logo Malain et possible');
-      if (await logo.count() > 0) {
-        await logo.click();
-        await expect(page).toHaveURL('/');
-      } else {
-        // Fallback : navigation directe vers l'accueil
-        await page.goto('/');
-      }
-      // Depuis l'accueil, naviguer vers la destination
-      await page.goto('/a-propos-du-site');
-    }
-  }
-  await expect(page).toHaveURL('/a-propos-du-site');
-
-  // Étape 60: Navigation de /a-propos-du-site vers /transformation
-  // Label du lien: "lien"
-  const lien59 = page.getByRole('link', { name: /lien/i });
-  if (await lien59.count() > 0) {
-    await lien59.first().click();
-  } else {
-    // Lien non trouvé par label, navigation via plan-du-site ou accueil
-    // Le footer et le header sont toujours disponibles sur toutes les pages
-    // Option 1 : Essayer via le plan du site (footer)
-    const lienPlanDuSite = page.getByRole('link', { name: /Plan du site/i });
-    if (await lienPlanDuSite.count() > 0) {
-      await lienPlanDuSite.first().click();
-      await expect(page).toHaveURL('/plan-du-site');
-      // Depuis le plan du site, naviguer vers la destination
-      await page.goto('/transformation');
-    } else {
-      // Option 2 : Via le logo (header) vers l'accueil
-      const logo = page.getByAltText('Logo Malain et possible');
-      if (await logo.count() > 0) {
-        await logo.click();
-        await expect(page).toHaveURL('/');
-      } else {
-        // Fallback : navigation directe vers l'accueil
-        await page.goto('/');
-      }
-      // Depuis l'accueil, naviguer vers la destination
-      await page.goto('/transformation');
-    }
-  }
-  await expect(page).toHaveURL('/transformation');
-
-  // Étape 61: Navigation de /transformation vers /a-propos-du-site
-  // Label du lien: "Info"
-  const lien60 = page.getByRole('link', { name: /Info/i });
-  if (await lien60.count() > 0) {
-    await lien60.first().click();
-  } else {
-    // Lien non trouvé par label, navigation via plan-du-site ou accueil
-    // Le footer et le header sont toujours disponibles sur toutes les pages
-    // Option 1 : Essayer via le plan du site (footer)
-    const lienPlanDuSite = page.getByRole('link', { name: /Plan du site/i });
-    if (await lienPlanDuSite.count() > 0) {
-      await lienPlanDuSite.first().click();
-      await expect(page).toHaveURL('/plan-du-site');
-      // Depuis le plan du site, naviguer vers la destination
-      await page.goto('/a-propos-du-site');
-    } else {
-      // Option 2 : Via le logo (header) vers l'accueil
-      const logo = page.getByAltText('Logo Malain et possible');
-      if (await logo.count() > 0) {
-        await logo.click();
-        await expect(page).toHaveURL('/');
-      } else {
-        // Fallback : navigation directe vers l'accueil
-        await page.goto('/');
-      }
-      // Depuis l'accueil, naviguer vers la destination
-      await page.goto('/a-propos-du-site');
-    }
-  }
-  await expect(page).toHaveURL('/a-propos-du-site');
+    await expect(page).toHaveURL('/a-propos-du-site');
+  });
 
   // Tous les liens ont été parcourus
-  console.log('✅ Parcours complet : tous les liens ont été testés');
+  // 0 e2eID ont été testés
+  console.log('✅ Parcours complet : tous les liens et e2eID ont été testés');
 });

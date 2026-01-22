@@ -1,4 +1,5 @@
 import { defineConfig, devices } from '@playwright/test';
+import { defineBddConfig } from 'playwright-bdd';
 
 /**
  * Read environment variables from file.
@@ -9,10 +10,36 @@ import { defineConfig, devices } from '@playwright/test';
 // dotenv.config({ path: path.resolve(__dirname, '.env') });
 
 /**
+ * Configuration BDD avec playwright-bdd
+ * Les fichiers .feature sont réutilisables avec d'autres outils (C#, Python, etc.)
+ * 
+ * COMPORTEMENT AUTOMATIQUE : Tous les fichiers .feature dans tests/bdd/ sont automatiquement testés
+ * (comme Cucumber qui testait tous les .feature dans le dossier)
+ * 
+ * NOTE : Les tests E2E (navigation, about-site, faisons-connaissance, call-to-action, page-content-types)
+ * ont été déplacés vers tests/end-to-end/ en syntaxe Playwright standard (.spec.ts)
+ */
+defineBddConfig({
+  // Charger AUTOMATIQUEMENT tous les fichiers .feature dans tests/bdd/
+  // Pattern glob : tous les fichiers .feature dans tests/bdd/ et ses sous-dossiers
+  // EXCLUS : navigation, about-site, faisons-connaissance, call-to-action, page-content-types (déplacés vers E2E)
+  features: 'tests/bdd/**/*.feature',
+  // Charger AUTOMATIQUEMENT tous les fichiers .steps.ts dans tests/bdd/
+  // Pattern glob : tous les fichiers .steps.ts dans tests/bdd/ et ses sous-dossiers
+  steps: 'tests/bdd/**/*.steps.ts',
+  outputDir: '.features-gen',
+});
+
+/**
  * See https://playwright.dev/docs/test-configuration.
  */
 export default defineConfig({
-  testDir: './tests/end-to-end',
+  // Tests BDD générés dans .features-gen/ + Tests E2E dans tests/end-to-end/
+  // Utiliser testMatch pour inclure les deux types de tests
+  testMatch: [
+    '.features-gen/**/*.spec.js',
+    'tests/end-to-end/**/*.spec.ts',
+  ],
   /* Run tests in files in parallel */
   fullyParallel: true,
   /* Fail the build on CI if you accidentally left test.only in the source code. */
@@ -30,6 +57,10 @@ export default defineConfig({
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
+    
+    /* Timeout pour les actions (augmenté pour les tests longs) */
+    actionTimeout: 10000,
+    navigationTimeout: 30000,
   },
 
   /* Configure projects for major browsers */
@@ -76,5 +107,10 @@ export default defineConfig({
     url: 'http://localhost:3000',
     reuseExistingServer: !process.env.CI,
     timeout: 120 * 1000,
+    stdout: 'ignore',
+    stderr: 'pipe',
   },
+  
+  /* Timeout global pour les tests (augmenté pour le test long) */
+  timeout: 300000, // 5 minutes pour le test complet
 });

@@ -49,13 +49,11 @@ const PasswordModal: React.FC<PasswordModalProps> = ({ isOpen, onClose }) => {
         onClose();
         // router.push peut retourner une promesse ou undefined selon la version de Next.js
         try {
-          const pushResult = router.push('/maintenance');
-          // Si c'est une promesse, gérer les erreurs
-          if (pushResult && typeof pushResult.catch === 'function') {
-            pushResult.catch((navigationError) => {
-              console.error('Erreur lors de la navigation:', navigationError);
-              setError('Erreur lors de l\'accès au module');
-            });
+          try {
+            router.push('/maintenance');
+          } catch (navigationError) {
+            console.error('Erreur lors de la navigation:', navigationError);
+            setError('Erreur lors de l\'accès au module');
           }
         } catch (navigationError) {
           console.error('Erreur lors de la navigation:', navigationError);

@@ -8,7 +8,7 @@ Ce site web "Malain et Possible" existe en **deux versions distinctes**, représ
 - **Dépôt Git** : `web-malain-et-possible`
 - **Vercel** : `web-malain-et-possible`
 - **Approche** : Développement itératif classique en 4 jours
-- **Méthode** : US → BDD → TDD → Implémentation
+- **Méthode** : US → Plan de test → TDD → Implémentation
 - **Caractéristiques** :
   - 400 tests automatisés
   - 91.23% de couverture de code

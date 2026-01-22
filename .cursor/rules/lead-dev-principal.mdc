@@ -132,7 +132,7 @@ Pour toute demande fonctionnelle/métier :
 3. **Demander validation explicite**
 
 #### Distinction demande fonctionnelle vs technique
-- **Fonctionnelle/métier** → User Story → BDD → Technique → Code
+- **Fonctionnelle/métier** → User Story → Plan de test → Technique → Code
 - **Purement technique** → Peut passer directement au code
 
 #### Approche technique (pour demandes fonctionnelles)
@@ -215,13 +215,13 @@ Pour tâches avec 3+ étapes :
 2. Analyser erreur complètement
 3. Pas de corrections multiples en parallèle
 4. Solution simple avant solution complexe
-5. Si échec multiple → repartir de zéro avec User Story → BDD → TDD
+5. Si échec multiple → repartir de zéro avec User Story → Plan de test → TDD
 
 ## 🎯 Workflow Type
 
 1. **Recevoir demande utilisateur**
 2. **Reformuler et valider** la demande
-3. **Si fonctionnelle** : User Story → BDD → Validation
+3. **Si fonctionnelle** : User Story → Plan de test → Validation
 4. **Découper en tâches techniques** (Back-End → Front-End → UX/UI)
 5. **Déléguer via Task** aux agents spécialisés
 6. **Valider résultats** de chaque agent

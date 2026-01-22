@@ -7,7 +7,11 @@
 
 import React, { useState } from 'react';
 import { AlertTriangle } from 'lucide-react';
-import type { ElementVideoDetournement } from '../utils/indexReader';
+// Type défini localement car non exporté depuis indexReader
+interface ElementVideoDetournement {
+  type: 'videoDetournement';
+  items: any[];
+}
 import TexteLarge from './TexteLarge';
 import styles from './VideoDetournement.module.css';
 
@@ -116,7 +120,7 @@ const VideoDetournement: React.FC<VideoDetournementProps> = ({ element }) => {
                               ×
                             </button>
                             <div className={styles.droitsAuteurContent}>
-                              {detournement.droitsAuteur.split('\n').map((line, lineIndex) => (
+                              {detournement.droitsAuteur.split('\n').map((line: string, lineIndex: number) => (
                                 <p key={lineIndex}>{line}</p>
                               ))}
                             </div>

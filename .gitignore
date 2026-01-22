@@ -12,6 +12,7 @@
 
 # testing
 /coverage
+cucumber-report.html
 
 # next.js
 /.next/
@@ -39,6 +40,12 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# playwright-bdd generated files
+.features-gen/
+
+# Configuration sécurité Cursor (menu.ps1)
+.cursor-security-config.json
 
 # Playwright
 node_modules/

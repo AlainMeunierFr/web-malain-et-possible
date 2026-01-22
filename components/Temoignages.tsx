@@ -5,8 +5,19 @@
 
 import React from 'react';
 import Image from 'next/image';
-import type { ElementTemoignages } from '../utils/indexReader';
 import styles from './Temoignages.module.css';
+
+interface Temoignage {
+  nom: string;
+  fonction: string;
+  photo: string;
+  temoignage: string;
+}
+
+interface ElementTemoignages {
+  type: 'temoignages';
+  items: Temoignage[];
+}
 
 export interface TemoignagesProps {
   element: ElementTemoignages;

@@ -1,5 +1,5 @@
 import styles from '../shared.module.css';
-import { readPageData, readDetournementsVideo } from '../../utils/indexReader';
+import { readPageData } from '../../utils/indexReader';
 import PageContentRenderer from '../../components/PageContentRenderer';
 
 /**
@@ -9,7 +9,16 @@ import PageContentRenderer from '../../components/PageContentRenderer';
 export default function PortfolioDetournementsPage() {
   // Appel côté serveur : le backend pur lit les fichiers JSON
   const pageData = readPageData('portfolio-detournements.json');
-  const detournements = readDetournementsVideo();
+  
+  // Extraire les détournements depuis le contenu JSON
+  // Note: Le JSON contient des propriétés non typées ('détournement-original' et 'détournements')
+  const detournementsElement = pageData.contenu.find((el) => {
+    const elAny = el as any;
+    return elAny['détournement-original'] || elAny['détournements'];
+  }) as any;
+  const detournements = detournementsElement?.['détournement-original'] || 
+                        detournementsElement?.['détournements'] || 
+                        [];
   
   // Ajouter les détournements au contenu (avant le CallToAction)
   // Le contenu actuel contient : [titre, callToAction]
@@ -24,7 +33,7 @@ export default function PortfolioDetournementsPage() {
       items: detournements,
     },
     callToAction!,
-  ].filter(Boolean);
+  ].filter(Boolean) as any;
 
   return (
     <main className={styles.main}>

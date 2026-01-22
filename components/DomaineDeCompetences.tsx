@@ -117,7 +117,7 @@ const DomaineDeCompetences: React.FC<DomaineDeCompetencesProps> = ({ domaine }) 
                 {parseInlineMarkdown(competence.description)}
               </div>
               {competence.bouton && (
-                <Link href={competence.bouton.action} className={styles.competenceBouton}>
+                <Link href={competence.bouton.action} className={styles.competenceBouton}data-e2eid={null}>
                   {competence.bouton.texte}
                 </Link>
               )}

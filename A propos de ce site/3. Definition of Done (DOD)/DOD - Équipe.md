@@ -75,9 +75,9 @@
     1. Reformuler la demande en User Story (format : "En tant que [rôle], je veux [action] afin de [bénéfice]")
     2. Identifier le problème métier réel à résoudre
     3. **Valider la User Story avec l'utilisateur avant de continuer**
-    4. Une fois la User Story validée, créer les scénarios BDD (format Gherkin en français)
-    5. Scénarios avec Given/When/Then
-    6. **Valider les scénarios BDD avec l'utilisateur avant de continuer**
+    4. Une fois la User Story validée, créer le plan de test (BDD métier en format Gherkin français, ou tests E2E selon le besoin)
+    5. Pour BDD métier : Scénarios avec Given/When/Then (format Gherkin en français)
+    6. **Valider le plan de test avec l'utilisateur avant de continuer**
   - Les scénarios Gherkin expriment les intentions métier et sont lisibles par les non-développeurs
   - **Accent fort sur l'expression du métier** : Le code doit exprimer l'intention métier de manière explicite
   - Les intentions doivent être "dans le code source" pour faciliter la compréhension et la maintenance
@@ -123,7 +123,7 @@
     - Identifier les ambiguïtés ou les points non clairs
     - **Demander validation explicite** avant de continuer
   - **Distinguer demande fonctionnelle vs technique** :
-    - **Demande fonctionnelle/métier** → Suivre le processus complet User Story → BDD → Technique → Code
+    - **Demande fonctionnelle/métier** → Suivre le processus complet User Story → Plan de test → Technique → Code
     - **Demande purement technique** (syntaxe, erreur évidente) → Peut passer directement au code
   - **Éviter la complexité inutile** :
     - Quand une demande semble simple, proposer d'abord la solution la plus simple possible
@@ -181,7 +181,7 @@
     2. Analyser l'erreur complètement avant de proposer une solution
     3. Ne pas faire de corrections multiples en parallèle sans comprendre la cause
     4. Proposer une solution simple avant une solution complexe
-    5. Si plusieurs tentatives échouent, proposer de repartir de zéro avec User Story → BDD → TDD
+    5. Si plusieurs tentatives échouent, proposer de repartir de zéro avec User Story → Plan de test → TDD
 
 - **Amélioration des ajustements CSS** :
   - Pour éviter les aller-retours longs sur les ajustements CSS :

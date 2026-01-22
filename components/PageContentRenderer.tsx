@@ -11,6 +11,8 @@ import DomaineDeCompetences from './DomaineDeCompetences';
 import CallToAction from './CallToAction';
 import GroupeBoutons from './GroupeBoutons';
 import ListeDesPages from './ListeDesPages';
+import VideoDetournement from './VideoDetournement';
+import Temoignages from './Temoignages';
 
 export interface PageContentRendererProps {
   contenu: ElementContenu[];
@@ -20,6 +22,8 @@ const PageContentRenderer: React.FC<PageContentRendererProps> = ({ contenu }) =>
   return (
     <>
       {contenu.map((element, index) => {
+        const elementAny = element as any;
+        
         switch (element.type) {
           case 'titre':
             return <Titre key={index} element={element} />;
@@ -44,6 +48,10 @@ const PageContentRenderer: React.FC<PageContentRendererProps> = ({ contenu }) =>
             return <GroupeBoutons key={index} element={element} />;
           case 'listeDesPages':
             return <ListeDesPages key={index} />;
+          case 'videoDetournement':
+            return <VideoDetournement key={index} element={elementAny} />;
+          case 'temoignages':
+            return <Temoignages key={index} element={elementAny} />;
           default:
             // TypeScript devrait empêcher ce cas, mais on le gère pour la sécurité
             return null;

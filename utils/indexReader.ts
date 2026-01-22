@@ -193,16 +193,40 @@ export const readPageData = (filename: string = 'index.json'): PageData => {
   const pageData = data as PageData;
   if (pageData.contenu && Array.isArray(pageData.contenu)) {
     pageData.contenu = pageData.contenu.map((element) => {
+      const elementAny = element as any;
+      
       if (element.type === 'domaineDeCompetence') {
         // Si l'élément a "competences" au lieu de "items", le mapper
-        const domaineElement = element as any;
-        if ('competences' in domaineElement && !('items' in domaineElement)) {
+        if ('competences' in elementAny && !('items' in elementAny)) {
           return {
             ...element,
-            items: domaineElement.competences,
+            items: elementAny.competences,
           } as ElementDomaineDeCompetence;
         }
       }
+      
+      // Si l'élément a une propriété "source" (ex: temoignages), charger le fichier externe
+      if ('source' in elementAny && typeof elementAny.source === 'string') {
+        const sourceFile = elementAny.source;
+        const sourcePath = path.join(process.cwd(), 'data', sourceFile);
+        
+        if (fs.existsSync(sourcePath)) {
+          const sourceContent = fs.readFileSync(sourcePath, 'utf8');
+          const sourceData = JSON.parse(sourceContent);
+          
+          // Si le fichier source contient un élément du même type, utiliser ses items
+          if (sourceData.contenu && Array.isArray(sourceData.contenu)) {
+            const sourceElement = sourceData.contenu.find((el: any) => el.type === element.type);
+            if (sourceElement && sourceElement.items) {
+              return {
+                ...element,
+                items: sourceElement.items,
+              };
+            }
+          }
+        }
+      }
+      
       return element;
     });
   }

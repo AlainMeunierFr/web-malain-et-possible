@@ -51,8 +51,8 @@ const Video: React.FC<VideoProps> = ({ element }) => {
 
   return (
     <div className={styles.videoContainer}>
-      {element.titre && (
-        <h2 className={styles.videoTitre}>{element.titre}</h2>
+      {(element as any).titre && (
+        <h2 className={styles.videoTitre}>{(element as any).titre}</h2>
       )}
       <div className={styles.videoWrapper}>
         <iframe
