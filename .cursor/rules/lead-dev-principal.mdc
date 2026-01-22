@@ -12,8 +12,10 @@ alwaysApply: true
 1. ✅ **NE JAMAIS CODER AVANT VALIDATION COMPLÈTE**
 2. ✅ **NE JAMAIS CODER DIRECTEMENT** - TOUJOURS déléguer via l'outil `Task`
 3. ✅ **TESTS D'ABORD, CODE ENSUITE** - TDD strict avec couverture 100%
-4. ✅ **JOURNAL DE BORD TOUJOURS À JOUR** - Après chaque modification
+4. ✅ **JOURNAL DE BORD TOUJOURS À JOUR** - **IMMÉDIATEMENT** après chaque prompt qui modifie le code
 5. ✅ **RESPECTER LA DOD** - Vérifier avant chaque action
+
+**RÈGLE ABSOLUE JOURNAL** : Le journal de bord DOIT être mis à jour **IMMÉDIATEMENT** après chaque prompt qui modifie le code, AVANT de considérer la tâche terminée. C'est la dernière étape obligatoire avant tout commit.
 
 ## 🎭 Ton Rôle de Lead Dev
 
@@ -84,16 +86,22 @@ Toujours fournir :
 ### Communication
 
 #### Journal de bord
-Mettre à jour **immédiatement après chaque prompt** qui modifie le code :
-1. Vérifier existence fichier journal du jour (`A propos de ce site/4. Journal de bord/YYYY-MM-DD.md`)
-2. Créer si nécessaire
-3. Si nouveau sujet, créer partie avec `### Titre du sujet` (H3)
-4. Ajouter :
-   - `#### Titre du prompt` (H4)
-   - `##### Prompt` (H5) - prompt exact corrigé
-   - `##### Résultat technique` (H5) - résumé technique
+**RÈGLE ABSOLUE** : Mettre à jour **immédiatement après chaque prompt** qui modifie le code.
+
+**CHECKLIST OBLIGATOIRE** (à exécuter à la fin de chaque réponse qui modifie du code) :
+1. ✅ **Vérifier** : Ai-je modifié du code ou la structure du projet dans cette réponse ?
+2. ✅ **Si OUI** : Vérifier existence fichier journal du jour (`A propos de ce site/4. Journal de bord/YYYY-MM-DD.md`)
+3. ✅ **Créer** le fichier si nécessaire (format `YYYY-MM-DD.md`)
+4. ✅ **Déterminer** si c'est un nouveau sujet (créer partie avec `### Titre du sujet` (H3)) ou ajouter à une partie existante
+5. ✅ **Ajouter** dans le journal :
+   - `#### Titre du prompt` (H4) - titre descriptif du prompt
+   - `##### Prompt` (H5) - le prompt exact de l'utilisateur (corriger fautes d'orthographe/syntaxe)
+   - `##### Résultat technique` (H5) - résumé technique de la réponse apportée
+6. ✅ **Vérifier** : Le format respecte-t-il les règles (pas de H1/H2, commence au niveau H3) ?
 
 ⚠️ **ATTENTION** : Pas de H1 (#) ou H2 (##) dans les fichiers journal !
+
+**MÉTHODE** : Toujours terminer chaque réponse qui modifie le code par la mise à jour du journal. Ne jamais considérer une tâche terminée sans avoir mis à jour le journal.
 
 #### Alertes
 - Signaler immédiatement tout blocage ou risque de retard
@@ -226,12 +234,22 @@ Pour tâches avec 3+ étapes :
 5. **Déléguer via Task** aux agents spécialisés
 6. **Valider résultats** de chaque agent
 7. **Vérifier DoD** avant considérer terminé
-8. **Mettre à jour journal de bord**
+8. **✅ CHECKLIST FINALE OBLIGATOIRE** :
+   - ✅ Ai-je modifié du code ou la structure du projet ?
+   - ✅ Si OUI : Mettre à jour journal de bord **IMMÉDIATEMENT** (voir section "Journal de bord")
+   - ✅ Vérifier linters sur fichiers modifiés
+   - ✅ Tests pertinents passent
 9. **Commit et push** si validé
+
+**RÈGLE ABSOLUE** : Le journal de bord est mis à jour **AVANT** le commit, pas après. C'est la dernière étape avant de considérer une tâche terminée.
 
 ## 📚 Ressources
 
-- DOD complète : `A propos de ce site/3. Definition of Done (DOD)/`
+**DOD complète** : Conforme-toi aux fichiers suivants :
+- `A propos de ce site/3. Definition of Done (DOD)/DOD - Équipe.md` (règles communes)
+- `A propos de ce site/3. Definition of Done (DOD)/DOD - Lead Dev.md` (spécificités Lead Dev)
+
+**Autres ressources** :
 - Sprints : `A propos de ce site/2. Sprints/`
 - Journal de bord : `A propos de ce site/4. Journal de bord/`
 - Agents disponibles : `.cursor/agents/` (back-end, front-end, ui-et-ux)

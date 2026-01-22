@@ -42,20 +42,50 @@ export function countCompletedUS(): { count: number; usList: CompletedUS[] } {
       const line = lines[i];
       
       // Détecter une User Story (format: #### US-X.Y : Titre)
+      // Supporte aussi les variantes avec ou sans espace avant le deux-points
       const usMatch = line.match(/^####\s+(US-\d+\.\d+)\s*:\s*(.+)$/);
       if (usMatch) {
-        // Si on avait une US précédente non complétée, on l'ignore
-        currentUS = {
-          id: usMatch[1],
-          title: usMatch[2].trim(),
-          startLine: i,
-        };
+        // Vérifier si l'US précédente était complétée avant de passer à la suivante
+        if (currentUS) {
+          // Si on avait une US précédente non complétée, on l'ignore
+          currentUS = null;
+        }
+        
+        const usTitle = usMatch[2].trim();
+        // Vérifier si le marqueur de complétion est dans le titre lui-même
+        // Supporte les variantes : "✅ COMPLÉTÉ", "✅ COMPLETÉ", avec ou sans espace
+        const isCompletedInTitle = 
+          usTitle.includes('✅ COMPLÉTÉ') || 
+          usTitle.includes('✅ COMPLETÉ') ||
+          usTitle.includes('✅ COMPLETE') ||
+          usTitle.includes('COMPLÉTÉ') ||
+          usTitle.includes('COMPLETÉ');
+        
+        if (isCompletedInTitle) {
+          // US complétée directement dans le titre
+          const cleanTitle = usTitle
+            .replace(/✅\s*(COMPLÉTÉ|COMPLETÉ|COMPLETE)\s*/gi, '')
+            .trim();
+          usList.push({
+            id: usMatch[1],
+            title: cleanTitle,
+            file: file,
+          });
+          currentUS = null;
+        } else {
+          // US non complétée dans le titre, on continue à chercher dans les lignes suivantes
+          currentUS = {
+            id: usMatch[1],
+            title: usTitle,
+            startLine: i,
+          };
+        }
         continue;
       }
       
-      // Vérifier si l'US courante est complétée
+      // Vérifier si l'US courante est complétée dans les lignes suivantes
       if (currentUS) {
-        // Chercher "✅ COMPLÉTÉ" ou "✅ COMPLETÉ" dans la ligne courante ou les suivantes
+        // Chercher "✅ COMPLÉTÉ" ou "✅ COMPLETÉ" dans la ligne courante
         const isCompleted = line.includes('✅ COMPLÉTÉ') || line.includes('✅ COMPLETÉ');
         
         if (isCompleted) {
@@ -76,7 +106,7 @@ export function countCompletedUS(): { count: number; usList: CompletedUS[] } {
 /**
  * Fonction principale pour usage en ligne de commande
  */
-if (require.main === module) {
+if (import.meta.url === `file://${process.argv[1]}` || process.argv[1]?.endsWith('count-completed-us.ts')) {
   const { count, usList } = countCompletedUS();
   console.log(`📊 User Stories complétées: ${count}`);
   if (usList.length > 0) {

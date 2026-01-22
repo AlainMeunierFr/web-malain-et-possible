@@ -72,3 +72,67 @@
   display: flex;
   flex-direction: column;
 }
+
+.easterEggContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 60px 20px;
+  min-height: 400px;
+  gap: 30px;
+}
+
+.easterEggIcon {
+  color: var(--BleuFonce);
+  animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.easterEggTitle {
+  font-size: 2.5rem;
+  color: var(--BleuFonce);
+  margin: 0;
+  font-weight: bold;
+}
+
+.easterEggMessage {
+  font-size: 1.2rem;
+  line-height: 1.8;
+  color: var(--foreground);
+  max-width: 600px;
+  margin: 0;
+}
+
+.easterEggButton {
+  display: inline-block;
+  padding: 15px 40px;
+  background-color: var(--BoutonCouleurFond, var(--BleuFonce));
+  color: var(--BoutonCouleurTexte, white);
+  text-decoration: none;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  margin-top: 20px;
+}
+
+.easterEggButton:hover {
+  background-color: var(--BoutonCouleurFondHover, var(--BleuClair));
+  color: var(--BoutonCouleurTexteHover, var(--BleuFonce));
+  transform: scale(1.05);
+}
+
+.easterEggButton:active {
+  background-color: var(--BoutonCouleurFondActive, var(--BleuFonce));
+  color: var(--BoutonCouleurTexteActive, white);
+}

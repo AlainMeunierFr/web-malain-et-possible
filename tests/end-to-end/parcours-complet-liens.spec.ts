@@ -29,8 +29,8 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
       if (lienTrouve) {
         await lienTrouve.click();
       } else {
-        // Aucun lien trouvé vers la destination exacte, utiliser la navigation directe
-        await page.goto('/robustesse');
+        // Aucun lien trouvé vers la destination exacte, échouer pour détecter les incohérences
+        throw new Error(`Impossible de trouver un lien vers /robustesse depuis / (label: "En savoir plus\.\.\."). Vérifiez que le lien existe et est accessible depuis cette page.`);
       }
     } else {
       // Lien non trouvé par label, navigation via plan-du-site ou accueil
@@ -40,8 +40,12 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
       if (await lienPlanDuSite.count() > 0) {
         await lienPlanDuSite.first().click();
         await expect(page).toHaveURL('/plan-du-site');
-        // Depuis le plan du site, naviguer vers la destination
-        await page.goto('/robustesse');
+        // Depuis le plan du site, chercher le lien vers la destination
+        const lienDepuisPlan1 = page.getByRole('link', { name: new RegExp(`/robustesse`, 'i') });
+        if (await lienDepuisPlan1.count() === 0) {
+          throw new Error(`Impossible de trouver un lien vers /robustesse depuis le plan du site. La page n'est peut-être pas accessible ou le lien est manquant dans le plan du site.`);
+        }
+        await lienDepuisPlan1.first().click();
       } else {
         // Option 2 : Via le logo (header) vers l'accueil
         const logo = page.getByAltText('Logo Malain et possible');
@@ -52,8 +56,18 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
           // Fallback : navigation directe vers l'accueil
           await page.goto('/');
         }
-        // Depuis l'accueil, naviguer vers la destination
-        await page.goto('/robustesse');
+        // Depuis l'accueil, chercher le lien vers la destination
+        const lienDepuisAccueil1 = page.getByRole('link', { name: new RegExp(`/robustesse`, 'i') });
+        if (await lienDepuisAccueil1.count() === 0) {
+          // Essayer aussi par le label original si disponible
+          const lienParLabel1 = page.getByRole('link', { name: new RegExp(`En savoir plus\.\.\.`, 'i') });
+          if (await lienParLabel1.count() === 0) {
+            throw new Error(`Impossible de trouver un lien vers /robustesse depuis l'accueil (label: "En savoir plus\.\.\."). La page n'est peut-être pas accessible depuis l'accueil ou le lien est manquant.`);
+          }
+          await lienParLabel1.first().click();
+        } else {
+          await lienDepuisAccueil1.first().click();
+        }
       }
     }
     await expect(page).toHaveURL('/robustesse');
@@ -79,8 +93,8 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
       if (lienTrouve) {
         await lienTrouve.click();
       } else {
-        // Aucun lien trouvé vers la destination exacte, utiliser la navigation directe
-        await page.goto('/plan-du-site');
+        // Aucun lien trouvé vers la destination exacte, échouer pour détecter les incohérences
+        throw new Error(`Impossible de trouver un lien vers /plan-du-site depuis /robustesse (label: "Plan du site"). Vérifiez que le lien existe et est accessible depuis cette page.`);
       }
     } else {
       // Lien non trouvé par label, navigation via plan-du-site ou accueil
@@ -90,8 +104,12 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
       if (await lienPlanDuSite.count() > 0) {
         await lienPlanDuSite.first().click();
         await expect(page).toHaveURL('/plan-du-site');
-        // Depuis le plan du site, naviguer vers la destination
-        await page.goto('/plan-du-site');
+        // Depuis le plan du site, chercher le lien vers la destination
+        const lienDepuisPlan2 = page.getByRole('link', { name: new RegExp(`/plan-du-site`, 'i') });
+        if (await lienDepuisPlan2.count() === 0) {
+          throw new Error(`Impossible de trouver un lien vers /plan-du-site depuis le plan du site. La page n'est peut-être pas accessible ou le lien est manquant dans le plan du site.`);
+        }
+        await lienDepuisPlan2.first().click();
       } else {
         // Option 2 : Via le logo (header) vers l'accueil
         const logo = page.getByAltText('Logo Malain et possible');
@@ -102,8 +120,18 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
           // Fallback : navigation directe vers l'accueil
           await page.goto('/');
         }
-        // Depuis l'accueil, naviguer vers la destination
-        await page.goto('/plan-du-site');
+        // Depuis l'accueil, chercher le lien vers la destination
+        const lienDepuisAccueil2 = page.getByRole('link', { name: new RegExp(`/plan-du-site`, 'i') });
+        if (await lienDepuisAccueil2.count() === 0) {
+          // Essayer aussi par le label original si disponible
+          const lienParLabel2 = page.getByRole('link', { name: new RegExp(`Plan du site`, 'i') });
+          if (await lienParLabel2.count() === 0) {
+            throw new Error(`Impossible de trouver un lien vers /plan-du-site depuis l'accueil (label: "Plan du site"). La page n'est peut-être pas accessible depuis l'accueil ou le lien est manquant.`);
+          }
+          await lienParLabel2.first().click();
+        } else {
+          await lienDepuisAccueil2.first().click();
+        }
       }
     }
     await expect(page).toHaveURL('/plan-du-site');
@@ -129,8 +157,8 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
       if (lienTrouve) {
         await lienTrouve.click();
       } else {
-        // Aucun lien trouvé vers la destination exacte, utiliser la navigation directe
-        await page.goto('/plan-du-site');
+        // Aucun lien trouvé vers la destination exacte, échouer pour détecter les incohérences
+        throw new Error(`Impossible de trouver un lien vers /plan-du-site depuis /plan-du-site (label: "Plan du site"). Vérifiez que le lien existe et est accessible depuis cette page.`);
       }
     } else {
       // Lien non trouvé par label, navigation via plan-du-site ou accueil
@@ -140,8 +168,12 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
       if (await lienPlanDuSite.count() > 0) {
         await lienPlanDuSite.first().click();
         await expect(page).toHaveURL('/plan-du-site');
-        // Depuis le plan du site, naviguer vers la destination
-        await page.goto('/plan-du-site');
+        // Depuis le plan du site, chercher le lien vers la destination
+        const lienDepuisPlan3 = page.getByRole('link', { name: new RegExp(`/plan-du-site`, 'i') });
+        if (await lienDepuisPlan3.count() === 0) {
+          throw new Error(`Impossible de trouver un lien vers /plan-du-site depuis le plan du site. La page n'est peut-être pas accessible ou le lien est manquant dans le plan du site.`);
+        }
+        await lienDepuisPlan3.first().click();
       } else {
         // Option 2 : Via le logo (header) vers l'accueil
         const logo = page.getByAltText('Logo Malain et possible');
@@ -152,8 +184,18 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
           // Fallback : navigation directe vers l'accueil
           await page.goto('/');
         }
-        // Depuis l'accueil, naviguer vers la destination
-        await page.goto('/plan-du-site');
+        // Depuis l'accueil, chercher le lien vers la destination
+        const lienDepuisAccueil3 = page.getByRole('link', { name: new RegExp(`/plan-du-site`, 'i') });
+        if (await lienDepuisAccueil3.count() === 0) {
+          // Essayer aussi par le label original si disponible
+          const lienParLabel3 = page.getByRole('link', { name: new RegExp(`Plan du site`, 'i') });
+          if (await lienParLabel3.count() === 0) {
+            throw new Error(`Impossible de trouver un lien vers /plan-du-site depuis l'accueil (label: "Plan du site"). La page n'est peut-être pas accessible depuis l'accueil ou le lien est manquant.`);
+          }
+          await lienParLabel3.first().click();
+        } else {
+          await lienDepuisAccueil3.first().click();
+        }
       }
     }
     await expect(page).toHaveURL('/plan-du-site');
@@ -179,8 +221,8 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
       if (lienTrouve) {
         await lienTrouve.click();
       } else {
-        // Aucun lien trouvé vers la destination exacte, utiliser la navigation directe
-        await page.goto('/metrics');
+        // Aucun lien trouvé vers la destination exacte, échouer pour détecter les incohérences
+        throw new Error(`Impossible de trouver un lien vers /metrics depuis /plan-du-site (label: "BarChart3"). Vérifiez que le lien existe et est accessible depuis cette page.`);
       }
     } else {
       // Lien non trouvé par label, navigation via plan-du-site ou accueil
@@ -190,8 +232,12 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
       if (await lienPlanDuSite.count() > 0) {
         await lienPlanDuSite.first().click();
         await expect(page).toHaveURL('/plan-du-site');
-        // Depuis le plan du site, naviguer vers la destination
-        await page.goto('/metrics');
+        // Depuis le plan du site, chercher le lien vers la destination
+        const lienDepuisPlan4 = page.getByRole('link', { name: new RegExp(`/metrics`, 'i') });
+        if (await lienDepuisPlan4.count() === 0) {
+          throw new Error(`Impossible de trouver un lien vers /metrics depuis le plan du site. La page n'est peut-être pas accessible ou le lien est manquant dans le plan du site.`);
+        }
+        await lienDepuisPlan4.first().click();
       } else {
         // Option 2 : Via le logo (header) vers l'accueil
         const logo = page.getByAltText('Logo Malain et possible');
@@ -202,8 +248,18 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
           // Fallback : navigation directe vers l'accueil
           await page.goto('/');
         }
-        // Depuis l'accueil, naviguer vers la destination
-        await page.goto('/metrics');
+        // Depuis l'accueil, chercher le lien vers la destination
+        const lienDepuisAccueil4 = page.getByRole('link', { name: new RegExp(`/metrics`, 'i') });
+        if (await lienDepuisAccueil4.count() === 0) {
+          // Essayer aussi par le label original si disponible
+          const lienParLabel4 = page.getByRole('link', { name: new RegExp(`BarChart3`, 'i') });
+          if (await lienParLabel4.count() === 0) {
+            throw new Error(`Impossible de trouver un lien vers /metrics depuis l'accueil (label: "BarChart3"). La page n'est peut-être pas accessible depuis l'accueil ou le lien est manquant.`);
+          }
+          await lienParLabel4.first().click();
+        } else {
+          await lienDepuisAccueil4.first().click();
+        }
       }
     }
     await expect(page).toHaveURL('/metrics');
@@ -229,8 +285,8 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
       if (lienTrouve) {
         await lienTrouve.click();
       } else {
-        // Aucun lien trouvé vers la destination exacte, utiliser la navigation directe
-        await page.goto('/plan-du-site');
+        // Aucun lien trouvé vers la destination exacte, échouer pour détecter les incohérences
+        throw new Error(`Impossible de trouver un lien vers /plan-du-site depuis /metrics (label: "Plan du site"). Vérifiez que le lien existe et est accessible depuis cette page.`);
       }
     } else {
       // Lien non trouvé par label, navigation via plan-du-site ou accueil
@@ -240,8 +296,12 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
       if (await lienPlanDuSite.count() > 0) {
         await lienPlanDuSite.first().click();
         await expect(page).toHaveURL('/plan-du-site');
-        // Depuis le plan du site, naviguer vers la destination
-        await page.goto('/plan-du-site');
+        // Depuis le plan du site, chercher le lien vers la destination
+        const lienDepuisPlan5 = page.getByRole('link', { name: new RegExp(`/plan-du-site`, 'i') });
+        if (await lienDepuisPlan5.count() === 0) {
+          throw new Error(`Impossible de trouver un lien vers /plan-du-site depuis le plan du site. La page n'est peut-être pas accessible ou le lien est manquant dans le plan du site.`);
+        }
+        await lienDepuisPlan5.first().click();
       } else {
         // Option 2 : Via le logo (header) vers l'accueil
         const logo = page.getByAltText('Logo Malain et possible');
@@ -252,8 +312,18 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
           // Fallback : navigation directe vers l'accueil
           await page.goto('/');
         }
-        // Depuis l'accueil, naviguer vers la destination
-        await page.goto('/plan-du-site');
+        // Depuis l'accueil, chercher le lien vers la destination
+        const lienDepuisAccueil5 = page.getByRole('link', { name: new RegExp(`/plan-du-site`, 'i') });
+        if (await lienDepuisAccueil5.count() === 0) {
+          // Essayer aussi par le label original si disponible
+          const lienParLabel5 = page.getByRole('link', { name: new RegExp(`Plan du site`, 'i') });
+          if (await lienParLabel5.count() === 0) {
+            throw new Error(`Impossible de trouver un lien vers /plan-du-site depuis l'accueil (label: "Plan du site"). La page n'est peut-être pas accessible depuis l'accueil ou le lien est manquant.`);
+          }
+          await lienParLabel5.first().click();
+        } else {
+          await lienDepuisAccueil5.first().click();
+        }
       }
     }
     await expect(page).toHaveURL('/plan-du-site');
@@ -279,8 +349,8 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
       if (lienTrouve) {
         await lienTrouve.click();
       } else {
-        // Aucun lien trouvé vers la destination exacte, utiliser la navigation directe
-        await page.goto('/a-propos-du-site');
+        // Aucun lien trouvé vers la destination exacte, échouer pour détecter les incohérences
+        throw new Error(`Impossible de trouver un lien vers /a-propos-du-site depuis /plan-du-site (label: "Info"). Vérifiez que le lien existe et est accessible depuis cette page.`);
       }
     } else {
       // Lien non trouvé par label, navigation via plan-du-site ou accueil
@@ -290,8 +360,12 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
       if (await lienPlanDuSite.count() > 0) {
         await lienPlanDuSite.first().click();
         await expect(page).toHaveURL('/plan-du-site');
-        // Depuis le plan du site, naviguer vers la destination
-        await page.goto('/a-propos-du-site');
+        // Depuis le plan du site, chercher le lien vers la destination
+        const lienDepuisPlan6 = page.getByRole('link', { name: new RegExp(`/a-propos-du-site`, 'i') });
+        if (await lienDepuisPlan6.count() === 0) {
+          throw new Error(`Impossible de trouver un lien vers /a-propos-du-site depuis le plan du site. La page n'est peut-être pas accessible ou le lien est manquant dans le plan du site.`);
+        }
+        await lienDepuisPlan6.first().click();
       } else {
         // Option 2 : Via le logo (header) vers l'accueil
         const logo = page.getByAltText('Logo Malain et possible');
@@ -302,8 +376,18 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
           // Fallback : navigation directe vers l'accueil
           await page.goto('/');
         }
-        // Depuis l'accueil, naviguer vers la destination
-        await page.goto('/a-propos-du-site');
+        // Depuis l'accueil, chercher le lien vers la destination
+        const lienDepuisAccueil6 = page.getByRole('link', { name: new RegExp(`/a-propos-du-site`, 'i') });
+        if (await lienDepuisAccueil6.count() === 0) {
+          // Essayer aussi par le label original si disponible
+          const lienParLabel6 = page.getByRole('link', { name: new RegExp(`Info`, 'i') });
+          if (await lienParLabel6.count() === 0) {
+            throw new Error(`Impossible de trouver un lien vers /a-propos-du-site depuis l'accueil (label: "Info"). La page n'est peut-être pas accessible depuis l'accueil ou le lien est manquant.`);
+          }
+          await lienParLabel6.first().click();
+        } else {
+          await lienDepuisAccueil6.first().click();
+        }
       }
     }
     await expect(page).toHaveURL('/a-propos-du-site');
@@ -329,8 +413,8 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
       if (lienTrouve) {
         await lienTrouve.click();
       } else {
-        // Aucun lien trouvé vers la destination exacte, utiliser la navigation directe
-        await page.goto('/plan-du-site');
+        // Aucun lien trouvé vers la destination exacte, échouer pour détecter les incohérences
+        throw new Error(`Impossible de trouver un lien vers /plan-du-site depuis /a-propos-du-site (label: "Plan du site"). Vérifiez que le lien existe et est accessible depuis cette page.`);
       }
     } else {
       // Lien non trouvé par label, navigation via plan-du-site ou accueil
@@ -340,8 +424,12 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
       if (await lienPlanDuSite.count() > 0) {
         await lienPlanDuSite.first().click();
         await expect(page).toHaveURL('/plan-du-site');
-        // Depuis le plan du site, naviguer vers la destination
-        await page.goto('/plan-du-site');
+        // Depuis le plan du site, chercher le lien vers la destination
+        const lienDepuisPlan7 = page.getByRole('link', { name: new RegExp(`/plan-du-site`, 'i') });
+        if (await lienDepuisPlan7.count() === 0) {
+          throw new Error(`Impossible de trouver un lien vers /plan-du-site depuis le plan du site. La page n'est peut-être pas accessible ou le lien est manquant dans le plan du site.`);
+        }
+        await lienDepuisPlan7.first().click();
       } else {
         // Option 2 : Via le logo (header) vers l'accueil
         const logo = page.getByAltText('Logo Malain et possible');
@@ -352,8 +440,18 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
           // Fallback : navigation directe vers l'accueil
           await page.goto('/');
         }
-        // Depuis l'accueil, naviguer vers la destination
-        await page.goto('/plan-du-site');
+        // Depuis l'accueil, chercher le lien vers la destination
+        const lienDepuisAccueil7 = page.getByRole('link', { name: new RegExp(`/plan-du-site`, 'i') });
+        if (await lienDepuisAccueil7.count() === 0) {
+          // Essayer aussi par le label original si disponible
+          const lienParLabel7 = page.getByRole('link', { name: new RegExp(`Plan du site`, 'i') });
+          if (await lienParLabel7.count() === 0) {
+            throw new Error(`Impossible de trouver un lien vers /plan-du-site depuis l'accueil (label: "Plan du site"). La page n'est peut-être pas accessible depuis l'accueil ou le lien est manquant.`);
+          }
+          await lienParLabel7.first().click();
+        } else {
+          await lienDepuisAccueil7.first().click();
+        }
       }
     }
     await expect(page).toHaveURL('/plan-du-site');
@@ -379,8 +477,8 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
       if (lienTrouve) {
         await lienTrouve.click();
       } else {
-        // Aucun lien trouvé vers la destination exacte, utiliser la navigation directe
-        await page.goto('/');
+        // Aucun lien trouvé vers la destination exacte, échouer pour détecter les incohérences
+        throw new Error(`Impossible de trouver un lien vers / depuis /plan-du-site (label: "lien"). Vérifiez que le lien existe et est accessible depuis cette page.`);
       }
     } else {
       // Lien non trouvé par label, navigation via plan-du-site ou accueil
@@ -390,8 +488,12 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
       if (await lienPlanDuSite.count() > 0) {
         await lienPlanDuSite.first().click();
         await expect(page).toHaveURL('/plan-du-site');
-        // Depuis le plan du site, naviguer vers la destination
-        await page.goto('/');
+        // Depuis le plan du site, chercher le lien vers la destination
+        const lienDepuisPlan8 = page.getByRole('link', { name: new RegExp(`/`, 'i') });
+        if (await lienDepuisPlan8.count() === 0) {
+          throw new Error(`Impossible de trouver un lien vers / depuis le plan du site. La page n'est peut-être pas accessible ou le lien est manquant dans le plan du site.`);
+        }
+        await lienDepuisPlan8.first().click();
       } else {
         // Option 2 : Via le logo (header) vers l'accueil
         const logo = page.getByAltText('Logo Malain et possible');
@@ -402,8 +504,18 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
           // Fallback : navigation directe vers l'accueil
           await page.goto('/');
         }
-        // Depuis l'accueil, naviguer vers la destination
-        await page.goto('/');
+        // Depuis l'accueil, chercher le lien vers la destination
+        const lienDepuisAccueil8 = page.getByRole('link', { name: new RegExp(`/`, 'i') });
+        if (await lienDepuisAccueil8.count() === 0) {
+          // Essayer aussi par le label original si disponible
+          const lienParLabel8 = page.getByRole('link', { name: new RegExp(`lien`, 'i') });
+          if (await lienParLabel8.count() === 0) {
+            throw new Error(`Impossible de trouver un lien vers / depuis l'accueil (label: "lien"). La page n'est peut-être pas accessible depuis l'accueil ou le lien est manquant.`);
+          }
+          await lienParLabel8.first().click();
+        } else {
+          await lienDepuisAccueil8.first().click();
+        }
       }
     }
     await expect(page).toHaveURL('/');
@@ -429,8 +541,8 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
       if (lienTrouve) {
         await lienTrouve.click();
       } else {
-        // Aucun lien trouvé vers la destination exacte, utiliser la navigation directe
-        await page.goto('/transformation');
+        // Aucun lien trouvé vers la destination exacte, échouer pour détecter les incohérences
+        throw new Error(`Impossible de trouver un lien vers /transformation depuis / (label: "En savoir plus\.\.\."). Vérifiez que le lien existe et est accessible depuis cette page.`);
       }
     } else {
       // Lien non trouvé par label, navigation via plan-du-site ou accueil
@@ -440,8 +552,12 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
       if (await lienPlanDuSite.count() > 0) {
         await lienPlanDuSite.first().click();
         await expect(page).toHaveURL('/plan-du-site');
-        // Depuis le plan du site, naviguer vers la destination
-        await page.goto('/transformation');
+        // Depuis le plan du site, chercher le lien vers la destination
+        const lienDepuisPlan9 = page.getByRole('link', { name: new RegExp(`/transformation`, 'i') });
+        if (await lienDepuisPlan9.count() === 0) {
+          throw new Error(`Impossible de trouver un lien vers /transformation depuis le plan du site. La page n'est peut-être pas accessible ou le lien est manquant dans le plan du site.`);
+        }
+        await lienDepuisPlan9.first().click();
       } else {
         // Option 2 : Via le logo (header) vers l'accueil
         const logo = page.getByAltText('Logo Malain et possible');
@@ -452,8 +568,18 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
           // Fallback : navigation directe vers l'accueil
           await page.goto('/');
         }
-        // Depuis l'accueil, naviguer vers la destination
-        await page.goto('/transformation');
+        // Depuis l'accueil, chercher le lien vers la destination
+        const lienDepuisAccueil9 = page.getByRole('link', { name: new RegExp(`/transformation`, 'i') });
+        if (await lienDepuisAccueil9.count() === 0) {
+          // Essayer aussi par le label original si disponible
+          const lienParLabel9 = page.getByRole('link', { name: new RegExp(`En savoir plus\.\.\.`, 'i') });
+          if (await lienParLabel9.count() === 0) {
+            throw new Error(`Impossible de trouver un lien vers /transformation depuis l'accueil (label: "En savoir plus\.\.\."). La page n'est peut-être pas accessible depuis l'accueil ou le lien est manquant.`);
+          }
+          await lienParLabel9.first().click();
+        } else {
+          await lienDepuisAccueil9.first().click();
+        }
       }
     }
     await expect(page).toHaveURL('/transformation');
@@ -479,8 +605,8 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
       if (lienTrouve) {
         await lienTrouve.click();
       } else {
-        // Aucun lien trouvé vers la destination exacte, utiliser la navigation directe
-        await page.goto('/plan-du-site');
+        // Aucun lien trouvé vers la destination exacte, échouer pour détecter les incohérences
+        throw new Error(`Impossible de trouver un lien vers /plan-du-site depuis /transformation (label: "Plan du site"). Vérifiez que le lien existe et est accessible depuis cette page.`);
       }
     } else {
       // Lien non trouvé par label, navigation via plan-du-site ou accueil
@@ -490,8 +616,12 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
       if (await lienPlanDuSite.count() > 0) {
         await lienPlanDuSite.first().click();
         await expect(page).toHaveURL('/plan-du-site');
-        // Depuis le plan du site, naviguer vers la destination
-        await page.goto('/plan-du-site');
+        // Depuis le plan du site, chercher le lien vers la destination
+        const lienDepuisPlan10 = page.getByRole('link', { name: new RegExp(`/plan-du-site`, 'i') });
+        if (await lienDepuisPlan10.count() === 0) {
+          throw new Error(`Impossible de trouver un lien vers /plan-du-site depuis le plan du site. La page n'est peut-être pas accessible ou le lien est manquant dans le plan du site.`);
+        }
+        await lienDepuisPlan10.first().click();
       } else {
         // Option 2 : Via le logo (header) vers l'accueil
         const logo = page.getByAltText('Logo Malain et possible');
@@ -502,8 +632,18 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
           // Fallback : navigation directe vers l'accueil
           await page.goto('/');
         }
-        // Depuis l'accueil, naviguer vers la destination
-        await page.goto('/plan-du-site');
+        // Depuis l'accueil, chercher le lien vers la destination
+        const lienDepuisAccueil10 = page.getByRole('link', { name: new RegExp(`/plan-du-site`, 'i') });
+        if (await lienDepuisAccueil10.count() === 0) {
+          // Essayer aussi par le label original si disponible
+          const lienParLabel10 = page.getByRole('link', { name: new RegExp(`Plan du site`, 'i') });
+          if (await lienParLabel10.count() === 0) {
+            throw new Error(`Impossible de trouver un lien vers /plan-du-site depuis l'accueil (label: "Plan du site"). La page n'est peut-être pas accessible depuis l'accueil ou le lien est manquant.`);
+          }
+          await lienParLabel10.first().click();
+        } else {
+          await lienDepuisAccueil10.first().click();
+        }
       }
     }
     await expect(page).toHaveURL('/plan-du-site');
@@ -529,8 +669,8 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
       if (lienTrouve) {
         await lienTrouve.click();
       } else {
-        // Aucun lien trouvé vers la destination exacte, utiliser la navigation directe
-        await page.goto('/');
+        // Aucun lien trouvé vers la destination exacte, échouer pour détecter les incohérences
+        throw new Error(`Impossible de trouver un lien vers / depuis /plan-du-site (label: "lien"). Vérifiez que le lien existe et est accessible depuis cette page.`);
       }
     } else {
       // Lien non trouvé par label, navigation via plan-du-site ou accueil
@@ -540,8 +680,12 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
       if (await lienPlanDuSite.count() > 0) {
         await lienPlanDuSite.first().click();
         await expect(page).toHaveURL('/plan-du-site');
-        // Depuis le plan du site, naviguer vers la destination
-        await page.goto('/');
+        // Depuis le plan du site, chercher le lien vers la destination
+        const lienDepuisPlan11 = page.getByRole('link', { name: new RegExp(`/`, 'i') });
+        if (await lienDepuisPlan11.count() === 0) {
+          throw new Error(`Impossible de trouver un lien vers / depuis le plan du site. La page n'est peut-être pas accessible ou le lien est manquant dans le plan du site.`);
+        }
+        await lienDepuisPlan11.first().click();
       } else {
         // Option 2 : Via le logo (header) vers l'accueil
         const logo = page.getByAltText('Logo Malain et possible');
@@ -552,8 +696,18 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
           // Fallback : navigation directe vers l'accueil
           await page.goto('/');
         }
-        // Depuis l'accueil, naviguer vers la destination
-        await page.goto('/');
+        // Depuis l'accueil, chercher le lien vers la destination
+        const lienDepuisAccueil11 = page.getByRole('link', { name: new RegExp(`/`, 'i') });
+        if (await lienDepuisAccueil11.count() === 0) {
+          // Essayer aussi par le label original si disponible
+          const lienParLabel11 = page.getByRole('link', { name: new RegExp(`lien`, 'i') });
+          if (await lienParLabel11.count() === 0) {
+            throw new Error(`Impossible de trouver un lien vers / depuis l'accueil (label: "lien"). La page n'est peut-être pas accessible depuis l'accueil ou le lien est manquant.`);
+          }
+          await lienParLabel11.first().click();
+        } else {
+          await lienDepuisAccueil11.first().click();
+        }
       }
     }
     await expect(page).toHaveURL('/');
@@ -579,8 +733,8 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
       if (lienTrouve) {
         await lienTrouve.click();
       } else {
-        // Aucun lien trouvé vers la destination exacte, utiliser la navigation directe
-        await page.goto('/detournement-video');
+        // Aucun lien trouvé vers la destination exacte, échouer pour détecter les incohérences
+        throw new Error(`Impossible de trouver un lien vers /detournement-video depuis / (label: "En savoir plus\.\.\."). Vérifiez que le lien existe et est accessible depuis cette page.`);
       }
     } else {
       // Lien non trouvé par label, navigation via plan-du-site ou accueil
@@ -590,8 +744,12 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
       if (await lienPlanDuSite.count() > 0) {
         await lienPlanDuSite.first().click();
         await expect(page).toHaveURL('/plan-du-site');
-        // Depuis le plan du site, naviguer vers la destination
-        await page.goto('/detournement-video');
+        // Depuis le plan du site, chercher le lien vers la destination
+        const lienDepuisPlan12 = page.getByRole('link', { name: new RegExp(`/detournement-video`, 'i') });
+        if (await lienDepuisPlan12.count() === 0) {
+          throw new Error(`Impossible de trouver un lien vers /detournement-video depuis le plan du site. La page n'est peut-être pas accessible ou le lien est manquant dans le plan du site.`);
+        }
+        await lienDepuisPlan12.first().click();
       } else {
         // Option 2 : Via le logo (header) vers l'accueil
         const logo = page.getByAltText('Logo Malain et possible');
@@ -602,8 +760,18 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
           // Fallback : navigation directe vers l'accueil
           await page.goto('/');
         }
-        // Depuis l'accueil, naviguer vers la destination
-        await page.goto('/detournement-video');
+        // Depuis l'accueil, chercher le lien vers la destination
+        const lienDepuisAccueil12 = page.getByRole('link', { name: new RegExp(`/detournement-video`, 'i') });
+        if (await lienDepuisAccueil12.count() === 0) {
+          // Essayer aussi par le label original si disponible
+          const lienParLabel12 = page.getByRole('link', { name: new RegExp(`En savoir plus\.\.\.`, 'i') });
+          if (await lienParLabel12.count() === 0) {
+            throw new Error(`Impossible de trouver un lien vers /detournement-video depuis l'accueil (label: "En savoir plus\.\.\."). La page n'est peut-être pas accessible depuis l'accueil ou le lien est manquant.`);
+          }
+          await lienParLabel12.first().click();
+        } else {
+          await lienDepuisAccueil12.first().click();
+        }
       }
     }
     await expect(page).toHaveURL('/detournement-video');
@@ -629,8 +797,8 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
       if (lienTrouve) {
         await lienTrouve.click();
       } else {
-        // Aucun lien trouvé vers la destination exacte, utiliser la navigation directe
-        await page.goto('/plan-du-site');
+        // Aucun lien trouvé vers la destination exacte, échouer pour détecter les incohérences
+        throw new Error(`Impossible de trouver un lien vers /plan-du-site depuis /detournement-video (label: "Plan du site"). Vérifiez que le lien existe et est accessible depuis cette page.`);
       }
     } else {
       // Lien non trouvé par label, navigation via plan-du-site ou accueil
@@ -640,8 +808,12 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
       if (await lienPlanDuSite.count() > 0) {
         await lienPlanDuSite.first().click();
         await expect(page).toHaveURL('/plan-du-site');
-        // Depuis le plan du site, naviguer vers la destination
-        await page.goto('/plan-du-site');
+        // Depuis le plan du site, chercher le lien vers la destination
+        const lienDepuisPlan13 = page.getByRole('link', { name: new RegExp(`/plan-du-site`, 'i') });
+        if (await lienDepuisPlan13.count() === 0) {
+          throw new Error(`Impossible de trouver un lien vers /plan-du-site depuis le plan du site. La page n'est peut-être pas accessible ou le lien est manquant dans le plan du site.`);
+        }
+        await lienDepuisPlan13.first().click();
       } else {
         // Option 2 : Via le logo (header) vers l'accueil
         const logo = page.getByAltText('Logo Malain et possible');
@@ -652,8 +824,18 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
           // Fallback : navigation directe vers l'accueil
           await page.goto('/');
         }
-        // Depuis l'accueil, naviguer vers la destination
-        await page.goto('/plan-du-site');
+        // Depuis l'accueil, chercher le lien vers la destination
+        const lienDepuisAccueil13 = page.getByRole('link', { name: new RegExp(`/plan-du-site`, 'i') });
+        if (await lienDepuisAccueil13.count() === 0) {
+          // Essayer aussi par le label original si disponible
+          const lienParLabel13 = page.getByRole('link', { name: new RegExp(`Plan du site`, 'i') });
+          if (await lienParLabel13.count() === 0) {
+            throw new Error(`Impossible de trouver un lien vers /plan-du-site depuis l'accueil (label: "Plan du site"). La page n'est peut-être pas accessible depuis l'accueil ou le lien est manquant.`);
+          }
+          await lienParLabel13.first().click();
+        } else {
+          await lienDepuisAccueil13.first().click();
+        }
       }
     }
     await expect(page).toHaveURL('/plan-du-site');
@@ -679,8 +861,8 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
       if (lienTrouve) {
         await lienTrouve.click();
       } else {
-        // Aucun lien trouvé vers la destination exacte, utiliser la navigation directe
-        await page.goto('/');
+        // Aucun lien trouvé vers la destination exacte, échouer pour détecter les incohérences
+        throw new Error(`Impossible de trouver un lien vers / depuis /plan-du-site (label: "lien"). Vérifiez que le lien existe et est accessible depuis cette page.`);
       }
     } else {
       // Lien non trouvé par label, navigation via plan-du-site ou accueil
@@ -690,8 +872,12 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
       if (await lienPlanDuSite.count() > 0) {
         await lienPlanDuSite.first().click();
         await expect(page).toHaveURL('/plan-du-site');
-        // Depuis le plan du site, naviguer vers la destination
-        await page.goto('/');
+        // Depuis le plan du site, chercher le lien vers la destination
+        const lienDepuisPlan14 = page.getByRole('link', { name: new RegExp(`/`, 'i') });
+        if (await lienDepuisPlan14.count() === 0) {
+          throw new Error(`Impossible de trouver un lien vers / depuis le plan du site. La page n'est peut-être pas accessible ou le lien est manquant dans le plan du site.`);
+        }
+        await lienDepuisPlan14.first().click();
       } else {
         // Option 2 : Via le logo (header) vers l'accueil
         const logo = page.getByAltText('Logo Malain et possible');
@@ -702,8 +888,18 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
           // Fallback : navigation directe vers l'accueil
           await page.goto('/');
         }
-        // Depuis l'accueil, naviguer vers la destination
-        await page.goto('/');
+        // Depuis l'accueil, chercher le lien vers la destination
+        const lienDepuisAccueil14 = page.getByRole('link', { name: new RegExp(`/`, 'i') });
+        if (await lienDepuisAccueil14.count() === 0) {
+          // Essayer aussi par le label original si disponible
+          const lienParLabel14 = page.getByRole('link', { name: new RegExp(`lien`, 'i') });
+          if (await lienParLabel14.count() === 0) {
+            throw new Error(`Impossible de trouver un lien vers / depuis l'accueil (label: "lien"). La page n'est peut-être pas accessible depuis l'accueil ou le lien est manquant.`);
+          }
+          await lienParLabel14.first().click();
+        } else {
+          await lienDepuisAccueil14.first().click();
+        }
       }
     }
     await expect(page).toHaveURL('/');
@@ -729,8 +925,8 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
       if (lienTrouve) {
         await lienTrouve.click();
       } else {
-        // Aucun lien trouvé vers la destination exacte, utiliser la navigation directe
-        await page.goto('/management-de-produit-logiciel');
+        // Aucun lien trouvé vers la destination exacte, échouer pour détecter les incohérences
+        throw new Error(`Impossible de trouver un lien vers /management-de-produit-logiciel depuis / (label: "En savoir plus\.\.\."). Vérifiez que le lien existe et est accessible depuis cette page.`);
       }
     } else {
       // Lien non trouvé par label, navigation via plan-du-site ou accueil
@@ -740,8 +936,12 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
       if (await lienPlanDuSite.count() > 0) {
         await lienPlanDuSite.first().click();
         await expect(page).toHaveURL('/plan-du-site');
-        // Depuis le plan du site, naviguer vers la destination
-        await page.goto('/management-de-produit-logiciel');
+        // Depuis le plan du site, chercher le lien vers la destination
+        const lienDepuisPlan15 = page.getByRole('link', { name: new RegExp(`/management-de-produit-logiciel`, 'i') });
+        if (await lienDepuisPlan15.count() === 0) {
+          throw new Error(`Impossible de trouver un lien vers /management-de-produit-logiciel depuis le plan du site. La page n'est peut-être pas accessible ou le lien est manquant dans le plan du site.`);
+        }
+        await lienDepuisPlan15.first().click();
       } else {
         // Option 2 : Via le logo (header) vers l'accueil
         const logo = page.getByAltText('Logo Malain et possible');
@@ -752,8 +952,18 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
           // Fallback : navigation directe vers l'accueil
           await page.goto('/');
         }
-        // Depuis l'accueil, naviguer vers la destination
-        await page.goto('/management-de-produit-logiciel');
+        // Depuis l'accueil, chercher le lien vers la destination
+        const lienDepuisAccueil15 = page.getByRole('link', { name: new RegExp(`/management-de-produit-logiciel`, 'i') });
+        if (await lienDepuisAccueil15.count() === 0) {
+          // Essayer aussi par le label original si disponible
+          const lienParLabel15 = page.getByRole('link', { name: new RegExp(`En savoir plus\.\.\.`, 'i') });
+          if (await lienParLabel15.count() === 0) {
+            throw new Error(`Impossible de trouver un lien vers /management-de-produit-logiciel depuis l'accueil (label: "En savoir plus\.\.\."). La page n'est peut-être pas accessible depuis l'accueil ou le lien est manquant.`);
+          }
+          await lienParLabel15.first().click();
+        } else {
+          await lienDepuisAccueil15.first().click();
+        }
       }
     }
     await expect(page).toHaveURL('/management-de-produit-logiciel');
@@ -779,8 +989,8 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
       if (lienTrouve) {
         await lienTrouve.click();
       } else {
-        // Aucun lien trouvé vers la destination exacte, utiliser la navigation directe
-        await page.goto('/plan-du-site');
+        // Aucun lien trouvé vers la destination exacte, échouer pour détecter les incohérences
+        throw new Error(`Impossible de trouver un lien vers /plan-du-site depuis /management-de-produit-logiciel (label: "Plan du site"). Vérifiez que le lien existe et est accessible depuis cette page.`);
       }
     } else {
       // Lien non trouvé par label, navigation via plan-du-site ou accueil
@@ -790,8 +1000,12 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
       if (await lienPlanDuSite.count() > 0) {
         await lienPlanDuSite.first().click();
         await expect(page).toHaveURL('/plan-du-site');
-        // Depuis le plan du site, naviguer vers la destination
-        await page.goto('/plan-du-site');
+        // Depuis le plan du site, chercher le lien vers la destination
+        const lienDepuisPlan16 = page.getByRole('link', { name: new RegExp(`/plan-du-site`, 'i') });
+        if (await lienDepuisPlan16.count() === 0) {
+          throw new Error(`Impossible de trouver un lien vers /plan-du-site depuis le plan du site. La page n'est peut-être pas accessible ou le lien est manquant dans le plan du site.`);
+        }
+        await lienDepuisPlan16.first().click();
       } else {
         // Option 2 : Via le logo (header) vers l'accueil
         const logo = page.getByAltText('Logo Malain et possible');
@@ -802,8 +1016,18 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
           // Fallback : navigation directe vers l'accueil
           await page.goto('/');
         }
-        // Depuis l'accueil, naviguer vers la destination
-        await page.goto('/plan-du-site');
+        // Depuis l'accueil, chercher le lien vers la destination
+        const lienDepuisAccueil16 = page.getByRole('link', { name: new RegExp(`/plan-du-site`, 'i') });
+        if (await lienDepuisAccueil16.count() === 0) {
+          // Essayer aussi par le label original si disponible
+          const lienParLabel16 = page.getByRole('link', { name: new RegExp(`Plan du site`, 'i') });
+          if (await lienParLabel16.count() === 0) {
+            throw new Error(`Impossible de trouver un lien vers /plan-du-site depuis l'accueil (label: "Plan du site"). La page n'est peut-être pas accessible depuis l'accueil ou le lien est manquant.`);
+          }
+          await lienParLabel16.first().click();
+        } else {
+          await lienDepuisAccueil16.first().click();
+        }
       }
     }
     await expect(page).toHaveURL('/plan-du-site');
@@ -829,8 +1053,8 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
       if (lienTrouve) {
         await lienTrouve.click();
       } else {
-        // Aucun lien trouvé vers la destination exacte, utiliser la navigation directe
-        await page.goto('/');
+        // Aucun lien trouvé vers la destination exacte, échouer pour détecter les incohérences
+        throw new Error(`Impossible de trouver un lien vers / depuis /plan-du-site (label: "lien"). Vérifiez que le lien existe et est accessible depuis cette page.`);
       }
     } else {
       // Lien non trouvé par label, navigation via plan-du-site ou accueil
@@ -840,8 +1064,12 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
       if (await lienPlanDuSite.count() > 0) {
         await lienPlanDuSite.first().click();
         await expect(page).toHaveURL('/plan-du-site');
-        // Depuis le plan du site, naviguer vers la destination
-        await page.goto('/');
+        // Depuis le plan du site, chercher le lien vers la destination
+        const lienDepuisPlan17 = page.getByRole('link', { name: new RegExp(`/`, 'i') });
+        if (await lienDepuisPlan17.count() === 0) {
+          throw new Error(`Impossible de trouver un lien vers / depuis le plan du site. La page n'est peut-être pas accessible ou le lien est manquant dans le plan du site.`);
+        }
+        await lienDepuisPlan17.first().click();
       } else {
         // Option 2 : Via le logo (header) vers l'accueil
         const logo = page.getByAltText('Logo Malain et possible');
@@ -852,8 +1080,18 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
           // Fallback : navigation directe vers l'accueil
           await page.goto('/');
         }
-        // Depuis l'accueil, naviguer vers la destination
-        await page.goto('/');
+        // Depuis l'accueil, chercher le lien vers la destination
+        const lienDepuisAccueil17 = page.getByRole('link', { name: new RegExp(`/`, 'i') });
+        if (await lienDepuisAccueil17.count() === 0) {
+          // Essayer aussi par le label original si disponible
+          const lienParLabel17 = page.getByRole('link', { name: new RegExp(`lien`, 'i') });
+          if (await lienParLabel17.count() === 0) {
+            throw new Error(`Impossible de trouver un lien vers / depuis l'accueil (label: "lien"). La page n'est peut-être pas accessible depuis l'accueil ou le lien est manquant.`);
+          }
+          await lienParLabel17.first().click();
+        } else {
+          await lienDepuisAccueil17.first().click();
+        }
       }
     }
     await expect(page).toHaveURL('/');
@@ -879,8 +1117,8 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
       if (lienTrouve) {
         await lienTrouve.click();
       } else {
-        // Aucun lien trouvé vers la destination exacte, utiliser la navigation directe
-        await page.goto('/a-propos-du-site');
+        // Aucun lien trouvé vers la destination exacte, échouer pour détecter les incohérences
+        throw new Error(`Impossible de trouver un lien vers /a-propos-du-site depuis / (label: "En savoir plus\.\.\."). Vérifiez que le lien existe et est accessible depuis cette page.`);
       }
     } else {
       // Lien non trouvé par label, navigation via plan-du-site ou accueil
@@ -890,8 +1128,12 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
       if (await lienPlanDuSite.count() > 0) {
         await lienPlanDuSite.first().click();
         await expect(page).toHaveURL('/plan-du-site');
-        // Depuis le plan du site, naviguer vers la destination
-        await page.goto('/a-propos-du-site');
+        // Depuis le plan du site, chercher le lien vers la destination
+        const lienDepuisPlan18 = page.getByRole('link', { name: new RegExp(`/a-propos-du-site`, 'i') });
+        if (await lienDepuisPlan18.count() === 0) {
+          throw new Error(`Impossible de trouver un lien vers /a-propos-du-site depuis le plan du site. La page n'est peut-être pas accessible ou le lien est manquant dans le plan du site.`);
+        }
+        await lienDepuisPlan18.first().click();
       } else {
         // Option 2 : Via le logo (header) vers l'accueil
         const logo = page.getByAltText('Logo Malain et possible');
@@ -902,8 +1144,18 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
           // Fallback : navigation directe vers l'accueil
           await page.goto('/');
         }
-        // Depuis l'accueil, naviguer vers la destination
-        await page.goto('/a-propos-du-site');
+        // Depuis l'accueil, chercher le lien vers la destination
+        const lienDepuisAccueil18 = page.getByRole('link', { name: new RegExp(`/a-propos-du-site`, 'i') });
+        if (await lienDepuisAccueil18.count() === 0) {
+          // Essayer aussi par le label original si disponible
+          const lienParLabel18 = page.getByRole('link', { name: new RegExp(`En savoir plus\.\.\.`, 'i') });
+          if (await lienParLabel18.count() === 0) {
+            throw new Error(`Impossible de trouver un lien vers /a-propos-du-site depuis l'accueil (label: "En savoir plus\.\.\."). La page n'est peut-être pas accessible depuis l'accueil ou le lien est manquant.`);
+          }
+          await lienParLabel18.first().click();
+        } else {
+          await lienDepuisAccueil18.first().click();
+        }
       }
     }
     await expect(page).toHaveURL('/a-propos-du-site');
@@ -929,8 +1181,8 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
       if (lienTrouve) {
         await lienTrouve.click();
       } else {
-        // Aucun lien trouvé vers la destination exacte, utiliser la navigation directe
-        await page.goto('/metrics');
+        // Aucun lien trouvé vers la destination exacte, échouer pour détecter les incohérences
+        throw new Error(`Impossible de trouver un lien vers /metrics depuis /a-propos-du-site (label: "BarChart3"). Vérifiez que le lien existe et est accessible depuis cette page.`);
       }
     } else {
       // Lien non trouvé par label, navigation via plan-du-site ou accueil
@@ -940,8 +1192,12 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
       if (await lienPlanDuSite.count() > 0) {
         await lienPlanDuSite.first().click();
         await expect(page).toHaveURL('/plan-du-site');
-        // Depuis le plan du site, naviguer vers la destination
-        await page.goto('/metrics');
+        // Depuis le plan du site, chercher le lien vers la destination
+        const lienDepuisPlan19 = page.getByRole('link', { name: new RegExp(`/metrics`, 'i') });
+        if (await lienDepuisPlan19.count() === 0) {
+          throw new Error(`Impossible de trouver un lien vers /metrics depuis le plan du site. La page n'est peut-être pas accessible ou le lien est manquant dans le plan du site.`);
+        }
+        await lienDepuisPlan19.first().click();
       } else {
         // Option 2 : Via le logo (header) vers l'accueil
         const logo = page.getByAltText('Logo Malain et possible');
@@ -952,8 +1208,18 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
           // Fallback : navigation directe vers l'accueil
           await page.goto('/');
         }
-        // Depuis l'accueil, naviguer vers la destination
-        await page.goto('/metrics');
+        // Depuis l'accueil, chercher le lien vers la destination
+        const lienDepuisAccueil19 = page.getByRole('link', { name: new RegExp(`/metrics`, 'i') });
+        if (await lienDepuisAccueil19.count() === 0) {
+          // Essayer aussi par le label original si disponible
+          const lienParLabel19 = page.getByRole('link', { name: new RegExp(`BarChart3`, 'i') });
+          if (await lienParLabel19.count() === 0) {
+            throw new Error(`Impossible de trouver un lien vers /metrics depuis l'accueil (label: "BarChart3"). La page n'est peut-être pas accessible depuis l'accueil ou le lien est manquant.`);
+          }
+          await lienParLabel19.first().click();
+        } else {
+          await lienDepuisAccueil19.first().click();
+        }
       }
     }
     await expect(page).toHaveURL('/metrics');
@@ -979,8 +1245,8 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
       if (lienTrouve) {
         await lienTrouve.click();
       } else {
-        // Aucun lien trouvé vers la destination exacte, utiliser la navigation directe
-        await page.goto('/metrics');
+        // Aucun lien trouvé vers la destination exacte, échouer pour détecter les incohérences
+        throw new Error(`Impossible de trouver un lien vers /metrics depuis /metrics (label: "BarChart3"). Vérifiez que le lien existe et est accessible depuis cette page.`);
       }
     } else {
       // Lien non trouvé par label, navigation via plan-du-site ou accueil
@@ -990,8 +1256,12 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
       if (await lienPlanDuSite.count() > 0) {
         await lienPlanDuSite.first().click();
         await expect(page).toHaveURL('/plan-du-site');
-        // Depuis le plan du site, naviguer vers la destination
-        await page.goto('/metrics');
+        // Depuis le plan du site, chercher le lien vers la destination
+        const lienDepuisPlan20 = page.getByRole('link', { name: new RegExp(`/metrics`, 'i') });
+        if (await lienDepuisPlan20.count() === 0) {
+          throw new Error(`Impossible de trouver un lien vers /metrics depuis le plan du site. La page n'est peut-être pas accessible ou le lien est manquant dans le plan du site.`);
+        }
+        await lienDepuisPlan20.first().click();
       } else {
         // Option 2 : Via le logo (header) vers l'accueil
         const logo = page.getByAltText('Logo Malain et possible');
@@ -1002,8 +1272,18 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
           // Fallback : navigation directe vers l'accueil
           await page.goto('/');
         }
-        // Depuis l'accueil, naviguer vers la destination
-        await page.goto('/metrics');
+        // Depuis l'accueil, chercher le lien vers la destination
+        const lienDepuisAccueil20 = page.getByRole('link', { name: new RegExp(`/metrics`, 'i') });
+        if (await lienDepuisAccueil20.count() === 0) {
+          // Essayer aussi par le label original si disponible
+          const lienParLabel20 = page.getByRole('link', { name: new RegExp(`BarChart3`, 'i') });
+          if (await lienParLabel20.count() === 0) {
+            throw new Error(`Impossible de trouver un lien vers /metrics depuis l'accueil (label: "BarChart3"). La page n'est peut-être pas accessible depuis l'accueil ou le lien est manquant.`);
+          }
+          await lienParLabel20.first().click();
+        } else {
+          await lienDepuisAccueil20.first().click();
+        }
       }
     }
     await expect(page).toHaveURL('/metrics');
@@ -1029,8 +1309,8 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
       if (lienTrouve) {
         await lienTrouve.click();
       } else {
-        // Aucun lien trouvé vers la destination exacte, utiliser la navigation directe
-        await page.goto('/a-propos-du-site');
+        // Aucun lien trouvé vers la destination exacte, échouer pour détecter les incohérences
+        throw new Error(`Impossible de trouver un lien vers /a-propos-du-site depuis /metrics (label: "Info"). Vérifiez que le lien existe et est accessible depuis cette page.`);
       }
     } else {
       // Lien non trouvé par label, navigation via plan-du-site ou accueil
@@ -1040,8 +1320,12 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
       if (await lienPlanDuSite.count() > 0) {
         await lienPlanDuSite.first().click();
         await expect(page).toHaveURL('/plan-du-site');
-        // Depuis le plan du site, naviguer vers la destination
-        await page.goto('/a-propos-du-site');
+        // Depuis le plan du site, chercher le lien vers la destination
+        const lienDepuisPlan21 = page.getByRole('link', { name: new RegExp(`/a-propos-du-site`, 'i') });
+        if (await lienDepuisPlan21.count() === 0) {
+          throw new Error(`Impossible de trouver un lien vers /a-propos-du-site depuis le plan du site. La page n'est peut-être pas accessible ou le lien est manquant dans le plan du site.`);
+        }
+        await lienDepuisPlan21.first().click();
       } else {
         // Option 2 : Via le logo (header) vers l'accueil
         const logo = page.getByAltText('Logo Malain et possible');
@@ -1052,8 +1336,18 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
           // Fallback : navigation directe vers l'accueil
           await page.goto('/');
         }
-        // Depuis l'accueil, naviguer vers la destination
-        await page.goto('/a-propos-du-site');
+        // Depuis l'accueil, chercher le lien vers la destination
+        const lienDepuisAccueil21 = page.getByRole('link', { name: new RegExp(`/a-propos-du-site`, 'i') });
+        if (await lienDepuisAccueil21.count() === 0) {
+          // Essayer aussi par le label original si disponible
+          const lienParLabel21 = page.getByRole('link', { name: new RegExp(`Info`, 'i') });
+          if (await lienParLabel21.count() === 0) {
+            throw new Error(`Impossible de trouver un lien vers /a-propos-du-site depuis l'accueil (label: "Info"). La page n'est peut-être pas accessible depuis l'accueil ou le lien est manquant.`);
+          }
+          await lienParLabel21.first().click();
+        } else {
+          await lienDepuisAccueil21.first().click();
+        }
       }
     }
     await expect(page).toHaveURL('/a-propos-du-site');
@@ -1079,8 +1373,8 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
       if (lienTrouve) {
         await lienTrouve.click();
       } else {
-        // Aucun lien trouvé vers la destination exacte, utiliser la navigation directe
-        await page.goto('/a-propos-du-site');
+        // Aucun lien trouvé vers la destination exacte, échouer pour détecter les incohérences
+        throw new Error(`Impossible de trouver un lien vers /a-propos-du-site depuis /a-propos-du-site (label: "Info"). Vérifiez que le lien existe et est accessible depuis cette page.`);
       }
     } else {
       // Lien non trouvé par label, navigation via plan-du-site ou accueil
@@ -1090,8 +1384,12 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
       if (await lienPlanDuSite.count() > 0) {
         await lienPlanDuSite.first().click();
         await expect(page).toHaveURL('/plan-du-site');
-        // Depuis le plan du site, naviguer vers la destination
-        await page.goto('/a-propos-du-site');
+        // Depuis le plan du site, chercher le lien vers la destination
+        const lienDepuisPlan22 = page.getByRole('link', { name: new RegExp(`/a-propos-du-site`, 'i') });
+        if (await lienDepuisPlan22.count() === 0) {
+          throw new Error(`Impossible de trouver un lien vers /a-propos-du-site depuis le plan du site. La page n'est peut-être pas accessible ou le lien est manquant dans le plan du site.`);
+        }
+        await lienDepuisPlan22.first().click();
       } else {
         // Option 2 : Via le logo (header) vers l'accueil
         const logo = page.getByAltText('Logo Malain et possible');
@@ -1102,8 +1400,18 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
           // Fallback : navigation directe vers l'accueil
           await page.goto('/');
         }
-        // Depuis l'accueil, naviguer vers la destination
-        await page.goto('/a-propos-du-site');
+        // Depuis l'accueil, chercher le lien vers la destination
+        const lienDepuisAccueil22 = page.getByRole('link', { name: new RegExp(`/a-propos-du-site`, 'i') });
+        if (await lienDepuisAccueil22.count() === 0) {
+          // Essayer aussi par le label original si disponible
+          const lienParLabel22 = page.getByRole('link', { name: new RegExp(`Info`, 'i') });
+          if (await lienParLabel22.count() === 0) {
+            throw new Error(`Impossible de trouver un lien vers /a-propos-du-site depuis l'accueil (label: "Info"). La page n'est peut-être pas accessible depuis l'accueil ou le lien est manquant.`);
+          }
+          await lienParLabel22.first().click();
+        } else {
+          await lienDepuisAccueil22.first().click();
+        }
       }
     }
     await expect(page).toHaveURL('/a-propos-du-site');
@@ -1129,8 +1437,8 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
       if (lienTrouve) {
         await lienTrouve.click();
       } else {
-        // Aucun lien trouvé vers la destination exacte, utiliser la navigation directe
-        await page.goto('/');
+        // Aucun lien trouvé vers la destination exacte, échouer pour détecter les incohérences
+        throw new Error(`Impossible de trouver un lien vers / depuis /a-propos-du-site (label: "lien"). Vérifiez que le lien existe et est accessible depuis cette page.`);
       }
     } else {
       // Lien non trouvé par label, navigation via plan-du-site ou accueil
@@ -1140,8 +1448,12 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
       if (await lienPlanDuSite.count() > 0) {
         await lienPlanDuSite.first().click();
         await expect(page).toHaveURL('/plan-du-site');
-        // Depuis le plan du site, naviguer vers la destination
-        await page.goto('/');
+        // Depuis le plan du site, chercher le lien vers la destination
+        const lienDepuisPlan23 = page.getByRole('link', { name: new RegExp(`/`, 'i') });
+        if (await lienDepuisPlan23.count() === 0) {
+          throw new Error(`Impossible de trouver un lien vers / depuis le plan du site. La page n'est peut-être pas accessible ou le lien est manquant dans le plan du site.`);
+        }
+        await lienDepuisPlan23.first().click();
       } else {
         // Option 2 : Via le logo (header) vers l'accueil
         const logo = page.getByAltText('Logo Malain et possible');
@@ -1152,8 +1464,18 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
           // Fallback : navigation directe vers l'accueil
           await page.goto('/');
         }
-        // Depuis l'accueil, naviguer vers la destination
-        await page.goto('/');
+        // Depuis l'accueil, chercher le lien vers la destination
+        const lienDepuisAccueil23 = page.getByRole('link', { name: new RegExp(`/`, 'i') });
+        if (await lienDepuisAccueil23.count() === 0) {
+          // Essayer aussi par le label original si disponible
+          const lienParLabel23 = page.getByRole('link', { name: new RegExp(`lien`, 'i') });
+          if (await lienParLabel23.count() === 0) {
+            throw new Error(`Impossible de trouver un lien vers / depuis l'accueil (label: "lien"). La page n'est peut-être pas accessible depuis l'accueil ou le lien est manquant.`);
+          }
+          await lienParLabel23.first().click();
+        } else {
+          await lienDepuisAccueil23.first().click();
+        }
       }
     }
     await expect(page).toHaveURL('/');
@@ -1179,8 +1501,8 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
       if (lienTrouve) {
         await lienTrouve.click();
       } else {
-        // Aucun lien trouvé vers la destination exacte, utiliser la navigation directe
-        await page.goto('/plan-du-site');
+        // Aucun lien trouvé vers la destination exacte, échouer pour détecter les incohérences
+        throw new Error(`Impossible de trouver un lien vers /plan-du-site depuis / (label: "Plan du site"). Vérifiez que le lien existe et est accessible depuis cette page.`);
       }
     } else {
       // Lien non trouvé par label, navigation via plan-du-site ou accueil
@@ -1190,8 +1512,12 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
       if (await lienPlanDuSite.count() > 0) {
         await lienPlanDuSite.first().click();
         await expect(page).toHaveURL('/plan-du-site');
-        // Depuis le plan du site, naviguer vers la destination
-        await page.goto('/plan-du-site');
+        // Depuis le plan du site, chercher le lien vers la destination
+        const lienDepuisPlan24 = page.getByRole('link', { name: new RegExp(`/plan-du-site`, 'i') });
+        if (await lienDepuisPlan24.count() === 0) {
+          throw new Error(`Impossible de trouver un lien vers /plan-du-site depuis le plan du site. La page n'est peut-être pas accessible ou le lien est manquant dans le plan du site.`);
+        }
+        await lienDepuisPlan24.first().click();
       } else {
         // Option 2 : Via le logo (header) vers l'accueil
         const logo = page.getByAltText('Logo Malain et possible');
@@ -1202,8 +1528,18 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
           // Fallback : navigation directe vers l'accueil
           await page.goto('/');
         }
-        // Depuis l'accueil, naviguer vers la destination
-        await page.goto('/plan-du-site');
+        // Depuis l'accueil, chercher le lien vers la destination
+        const lienDepuisAccueil24 = page.getByRole('link', { name: new RegExp(`/plan-du-site`, 'i') });
+        if (await lienDepuisAccueil24.count() === 0) {
+          // Essayer aussi par le label original si disponible
+          const lienParLabel24 = page.getByRole('link', { name: new RegExp(`Plan du site`, 'i') });
+          if (await lienParLabel24.count() === 0) {
+            throw new Error(`Impossible de trouver un lien vers /plan-du-site depuis l'accueil (label: "Plan du site"). La page n'est peut-être pas accessible depuis l'accueil ou le lien est manquant.`);
+          }
+          await lienParLabel24.first().click();
+        } else {
+          await lienDepuisAccueil24.first().click();
+        }
       }
     }
     await expect(page).toHaveURL('/plan-du-site');
@@ -1229,8 +1565,8 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
       if (lienTrouve) {
         await lienTrouve.click();
       } else {
-        // Aucun lien trouvé vers la destination exacte, utiliser la navigation directe
-        await page.goto('/maintenance');
+        // Aucun lien trouvé vers la destination exacte, échouer pour détecter les incohérences
+        throw new Error(`Impossible de trouver un lien vers /maintenance depuis /plan-du-site (label: "lien"). Vérifiez que le lien existe et est accessible depuis cette page.`);
       }
     } else {
       // Lien non trouvé par label, navigation via plan-du-site ou accueil
@@ -1240,8 +1576,12 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
       if (await lienPlanDuSite.count() > 0) {
         await lienPlanDuSite.first().click();
         await expect(page).toHaveURL('/plan-du-site');
-        // Depuis le plan du site, naviguer vers la destination
-        await page.goto('/maintenance');
+        // Depuis le plan du site, chercher le lien vers la destination
+        const lienDepuisPlan25 = page.getByRole('link', { name: new RegExp(`/maintenance`, 'i') });
+        if (await lienDepuisPlan25.count() === 0) {
+          throw new Error(`Impossible de trouver un lien vers /maintenance depuis le plan du site. La page n'est peut-être pas accessible ou le lien est manquant dans le plan du site.`);
+        }
+        await lienDepuisPlan25.first().click();
       } else {
         // Option 2 : Via le logo (header) vers l'accueil
         const logo = page.getByAltText('Logo Malain et possible');
@@ -1252,8 +1592,18 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
           // Fallback : navigation directe vers l'accueil
           await page.goto('/');
         }
-        // Depuis l'accueil, naviguer vers la destination
-        await page.goto('/maintenance');
+        // Depuis l'accueil, chercher le lien vers la destination
+        const lienDepuisAccueil25 = page.getByRole('link', { name: new RegExp(`/maintenance`, 'i') });
+        if (await lienDepuisAccueil25.count() === 0) {
+          // Essayer aussi par le label original si disponible
+          const lienParLabel25 = page.getByRole('link', { name: new RegExp(`lien`, 'i') });
+          if (await lienParLabel25.count() === 0) {
+            throw new Error(`Impossible de trouver un lien vers /maintenance depuis l'accueil (label: "lien"). La page n'est peut-être pas accessible depuis l'accueil ou le lien est manquant.`);
+          }
+          await lienParLabel25.first().click();
+        } else {
+          await lienDepuisAccueil25.first().click();
+        }
       }
     }
     await expect(page).toHaveURL('/maintenance');
@@ -1279,8 +1629,8 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
       if (lienTrouve) {
         await lienTrouve.click();
       } else {
-        // Aucun lien trouvé vers la destination exacte, utiliser la navigation directe
-        await page.goto('/plan-du-site');
+        // Aucun lien trouvé vers la destination exacte, échouer pour détecter les incohérences
+        throw new Error(`Impossible de trouver un lien vers /plan-du-site depuis /maintenance (label: "Plan du site"). Vérifiez que le lien existe et est accessible depuis cette page.`);
       }
     } else {
       // Lien non trouvé par label, navigation via plan-du-site ou accueil
@@ -1290,8 +1640,12 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
       if (await lienPlanDuSite.count() > 0) {
         await lienPlanDuSite.first().click();
         await expect(page).toHaveURL('/plan-du-site');
-        // Depuis le plan du site, naviguer vers la destination
-        await page.goto('/plan-du-site');
+        // Depuis le plan du site, chercher le lien vers la destination
+        const lienDepuisPlan26 = page.getByRole('link', { name: new RegExp(`/plan-du-site`, 'i') });
+        if (await lienDepuisPlan26.count() === 0) {
+          throw new Error(`Impossible de trouver un lien vers /plan-du-site depuis le plan du site. La page n'est peut-être pas accessible ou le lien est manquant dans le plan du site.`);
+        }
+        await lienDepuisPlan26.first().click();
       } else {
         // Option 2 : Via le logo (header) vers l'accueil
         const logo = page.getByAltText('Logo Malain et possible');
@@ -1302,8 +1656,18 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
           // Fallback : navigation directe vers l'accueil
           await page.goto('/');
         }
-        // Depuis l'accueil, naviguer vers la destination
-        await page.goto('/plan-du-site');
+        // Depuis l'accueil, chercher le lien vers la destination
+        const lienDepuisAccueil26 = page.getByRole('link', { name: new RegExp(`/plan-du-site`, 'i') });
+        if (await lienDepuisAccueil26.count() === 0) {
+          // Essayer aussi par le label original si disponible
+          const lienParLabel26 = page.getByRole('link', { name: new RegExp(`Plan du site`, 'i') });
+          if (await lienParLabel26.count() === 0) {
+            throw new Error(`Impossible de trouver un lien vers /plan-du-site depuis l'accueil (label: "Plan du site"). La page n'est peut-être pas accessible depuis l'accueil ou le lien est manquant.`);
+          }
+          await lienParLabel26.first().click();
+        } else {
+          await lienDepuisAccueil26.first().click();
+        }
       }
     }
     await expect(page).toHaveURL('/plan-du-site');
@@ -1329,8 +1693,8 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
       if (lienTrouve) {
         await lienTrouve.click();
       } else {
-        // Aucun lien trouvé vers la destination exacte, utiliser la navigation directe
-        await page.goto('/portfolio-detournements');
+        // Aucun lien trouvé vers la destination exacte, échouer pour détecter les incohérences
+        throw new Error(`Impossible de trouver un lien vers /portfolio-detournements depuis /plan-du-site (label: "lien"). Vérifiez que le lien existe et est accessible depuis cette page.`);
       }
     } else {
       // Lien non trouvé par label, navigation via plan-du-site ou accueil
@@ -1340,8 +1704,12 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
       if (await lienPlanDuSite.count() > 0) {
         await lienPlanDuSite.first().click();
         await expect(page).toHaveURL('/plan-du-site');
-        // Depuis le plan du site, naviguer vers la destination
-        await page.goto('/portfolio-detournements');
+        // Depuis le plan du site, chercher le lien vers la destination
+        const lienDepuisPlan27 = page.getByRole('link', { name: new RegExp(`/portfolio-detournements`, 'i') });
+        if (await lienDepuisPlan27.count() === 0) {
+          throw new Error(`Impossible de trouver un lien vers /portfolio-detournements depuis le plan du site. La page n'est peut-être pas accessible ou le lien est manquant dans le plan du site.`);
+        }
+        await lienDepuisPlan27.first().click();
       } else {
         // Option 2 : Via le logo (header) vers l'accueil
         const logo = page.getByAltText('Logo Malain et possible');
@@ -1352,8 +1720,18 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
           // Fallback : navigation directe vers l'accueil
           await page.goto('/');
         }
-        // Depuis l'accueil, naviguer vers la destination
-        await page.goto('/portfolio-detournements');
+        // Depuis l'accueil, chercher le lien vers la destination
+        const lienDepuisAccueil27 = page.getByRole('link', { name: new RegExp(`/portfolio-detournements`, 'i') });
+        if (await lienDepuisAccueil27.count() === 0) {
+          // Essayer aussi par le label original si disponible
+          const lienParLabel27 = page.getByRole('link', { name: new RegExp(`lien`, 'i') });
+          if (await lienParLabel27.count() === 0) {
+            throw new Error(`Impossible de trouver un lien vers /portfolio-detournements depuis l'accueil (label: "lien"). La page n'est peut-être pas accessible depuis l'accueil ou le lien est manquant.`);
+          }
+          await lienParLabel27.first().click();
+        } else {
+          await lienDepuisAccueil27.first().click();
+        }
       }
     }
     await expect(page).toHaveURL('/portfolio-detournements');
@@ -1379,8 +1757,8 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
       if (lienTrouve) {
         await lienTrouve.click();
       } else {
-        // Aucun lien trouvé vers la destination exacte, utiliser la navigation directe
-        await page.goto('/plan-du-site');
+        // Aucun lien trouvé vers la destination exacte, échouer pour détecter les incohérences
+        throw new Error(`Impossible de trouver un lien vers /plan-du-site depuis /portfolio-detournements (label: "Plan du site"). Vérifiez que le lien existe et est accessible depuis cette page.`);
       }
     } else {
       // Lien non trouvé par label, navigation via plan-du-site ou accueil
@@ -1390,8 +1768,12 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
       if (await lienPlanDuSite.count() > 0) {
         await lienPlanDuSite.first().click();
         await expect(page).toHaveURL('/plan-du-site');
-        // Depuis le plan du site, naviguer vers la destination
-        await page.goto('/plan-du-site');
+        // Depuis le plan du site, chercher le lien vers la destination
+        const lienDepuisPlan28 = page.getByRole('link', { name: new RegExp(`/plan-du-site`, 'i') });
+        if (await lienDepuisPlan28.count() === 0) {
+          throw new Error(`Impossible de trouver un lien vers /plan-du-site depuis le plan du site. La page n'est peut-être pas accessible ou le lien est manquant dans le plan du site.`);
+        }
+        await lienDepuisPlan28.first().click();
       } else {
         // Option 2 : Via le logo (header) vers l'accueil
         const logo = page.getByAltText('Logo Malain et possible');
@@ -1402,8 +1784,18 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
           // Fallback : navigation directe vers l'accueil
           await page.goto('/');
         }
-        // Depuis l'accueil, naviguer vers la destination
-        await page.goto('/plan-du-site');
+        // Depuis l'accueil, chercher le lien vers la destination
+        const lienDepuisAccueil28 = page.getByRole('link', { name: new RegExp(`/plan-du-site`, 'i') });
+        if (await lienDepuisAccueil28.count() === 0) {
+          // Essayer aussi par le label original si disponible
+          const lienParLabel28 = page.getByRole('link', { name: new RegExp(`Plan du site`, 'i') });
+          if (await lienParLabel28.count() === 0) {
+            throw new Error(`Impossible de trouver un lien vers /plan-du-site depuis l'accueil (label: "Plan du site"). La page n'est peut-être pas accessible depuis l'accueil ou le lien est manquant.`);
+          }
+          await lienParLabel28.first().click();
+        } else {
+          await lienDepuisAccueil28.first().click();
+        }
       }
     }
     await expect(page).toHaveURL('/plan-du-site');
@@ -1429,8 +1821,8 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
       if (lienTrouve) {
         await lienTrouve.click();
       } else {
-        // Aucun lien trouvé vers la destination exacte, utiliser la navigation directe
-        await page.goto('/pour_aller_plus_loin');
+        // Aucun lien trouvé vers la destination exacte, échouer pour détecter les incohérences
+        throw new Error(`Impossible de trouver un lien vers /pour_aller_plus_loin depuis /plan-du-site (label: "lien"). Vérifiez que le lien existe et est accessible depuis cette page.`);
       }
     } else {
       // Lien non trouvé par label, navigation via plan-du-site ou accueil
@@ -1440,8 +1832,12 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
       if (await lienPlanDuSite.count() > 0) {
         await lienPlanDuSite.first().click();
         await expect(page).toHaveURL('/plan-du-site');
-        // Depuis le plan du site, naviguer vers la destination
-        await page.goto('/pour_aller_plus_loin');
+        // Depuis le plan du site, chercher le lien vers la destination
+        const lienDepuisPlan29 = page.getByRole('link', { name: new RegExp(`/pour_aller_plus_loin`, 'i') });
+        if (await lienDepuisPlan29.count() === 0) {
+          throw new Error(`Impossible de trouver un lien vers /pour_aller_plus_loin depuis le plan du site. La page n'est peut-être pas accessible ou le lien est manquant dans le plan du site.`);
+        }
+        await lienDepuisPlan29.first().click();
       } else {
         // Option 2 : Via le logo (header) vers l'accueil
         const logo = page.getByAltText('Logo Malain et possible');
@@ -1452,8 +1848,18 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
           // Fallback : navigation directe vers l'accueil
           await page.goto('/');
         }
-        // Depuis l'accueil, naviguer vers la destination
-        await page.goto('/pour_aller_plus_loin');
+        // Depuis l'accueil, chercher le lien vers la destination
+        const lienDepuisAccueil29 = page.getByRole('link', { name: new RegExp(`/pour_aller_plus_loin`, 'i') });
+        if (await lienDepuisAccueil29.count() === 0) {
+          // Essayer aussi par le label original si disponible
+          const lienParLabel29 = page.getByRole('link', { name: new RegExp(`lien`, 'i') });
+          if (await lienParLabel29.count() === 0) {
+            throw new Error(`Impossible de trouver un lien vers /pour_aller_plus_loin depuis l'accueil (label: "lien"). La page n'est peut-être pas accessible depuis l'accueil ou le lien est manquant.`);
+          }
+          await lienParLabel29.first().click();
+        } else {
+          await lienDepuisAccueil29.first().click();
+        }
       }
     }
     await expect(page).toHaveURL('/pour_aller_plus_loin');
@@ -1479,8 +1885,8 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
       if (lienTrouve) {
         await lienTrouve.click();
       } else {
-        // Aucun lien trouvé vers la destination exacte, utiliser la navigation directe
-        await page.goto('/plan-du-site');
+        // Aucun lien trouvé vers la destination exacte, échouer pour détecter les incohérences
+        throw new Error(`Impossible de trouver un lien vers /plan-du-site depuis /pour_aller_plus_loin (label: "Plan du site"). Vérifiez que le lien existe et est accessible depuis cette page.`);
       }
     } else {
       // Lien non trouvé par label, navigation via plan-du-site ou accueil
@@ -1490,8 +1896,12 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
       if (await lienPlanDuSite.count() > 0) {
         await lienPlanDuSite.first().click();
         await expect(page).toHaveURL('/plan-du-site');
-        // Depuis le plan du site, naviguer vers la destination
-        await page.goto('/plan-du-site');
+        // Depuis le plan du site, chercher le lien vers la destination
+        const lienDepuisPlan30 = page.getByRole('link', { name: new RegExp(`/plan-du-site`, 'i') });
+        if (await lienDepuisPlan30.count() === 0) {
+          throw new Error(`Impossible de trouver un lien vers /plan-du-site depuis le plan du site. La page n'est peut-être pas accessible ou le lien est manquant dans le plan du site.`);
+        }
+        await lienDepuisPlan30.first().click();
       } else {
         // Option 2 : Via le logo (header) vers l'accueil
         const logo = page.getByAltText('Logo Malain et possible');
@@ -1502,8 +1912,18 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
           // Fallback : navigation directe vers l'accueil
           await page.goto('/');
         }
-        // Depuis l'accueil, naviguer vers la destination
-        await page.goto('/plan-du-site');
+        // Depuis l'accueil, chercher le lien vers la destination
+        const lienDepuisAccueil30 = page.getByRole('link', { name: new RegExp(`/plan-du-site`, 'i') });
+        if (await lienDepuisAccueil30.count() === 0) {
+          // Essayer aussi par le label original si disponible
+          const lienParLabel30 = page.getByRole('link', { name: new RegExp(`Plan du site`, 'i') });
+          if (await lienParLabel30.count() === 0) {
+            throw new Error(`Impossible de trouver un lien vers /plan-du-site depuis l'accueil (label: "Plan du site"). La page n'est peut-être pas accessible depuis l'accueil ou le lien est manquant.`);
+          }
+          await lienParLabel30.first().click();
+        } else {
+          await lienDepuisAccueil30.first().click();
+        }
       }
     }
     await expect(page).toHaveURL('/plan-du-site');
@@ -1529,8 +1949,8 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
       if (lienTrouve) {
         await lienTrouve.click();
       } else {
-        // Aucun lien trouvé vers la destination exacte, utiliser la navigation directe
-        await page.goto('/');
+        // Aucun lien trouvé vers la destination exacte, échouer pour détecter les incohérences
+        throw new Error(`Impossible de trouver un lien vers / depuis /plan-du-site (label: "lien"). Vérifiez que le lien existe et est accessible depuis cette page.`);
       }
     } else {
       // Lien non trouvé par label, navigation via plan-du-site ou accueil
@@ -1540,8 +1960,12 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
       if (await lienPlanDuSite.count() > 0) {
         await lienPlanDuSite.first().click();
         await expect(page).toHaveURL('/plan-du-site');
-        // Depuis le plan du site, naviguer vers la destination
-        await page.goto('/');
+        // Depuis le plan du site, chercher le lien vers la destination
+        const lienDepuisPlan31 = page.getByRole('link', { name: new RegExp(`/`, 'i') });
+        if (await lienDepuisPlan31.count() === 0) {
+          throw new Error(`Impossible de trouver un lien vers / depuis le plan du site. La page n'est peut-être pas accessible ou le lien est manquant dans le plan du site.`);
+        }
+        await lienDepuisPlan31.first().click();
       } else {
         // Option 2 : Via le logo (header) vers l'accueil
         const logo = page.getByAltText('Logo Malain et possible');
@@ -1552,8 +1976,18 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
           // Fallback : navigation directe vers l'accueil
           await page.goto('/');
         }
-        // Depuis l'accueil, naviguer vers la destination
-        await page.goto('/');
+        // Depuis l'accueil, chercher le lien vers la destination
+        const lienDepuisAccueil31 = page.getByRole('link', { name: new RegExp(`/`, 'i') });
+        if (await lienDepuisAccueil31.count() === 0) {
+          // Essayer aussi par le label original si disponible
+          const lienParLabel31 = page.getByRole('link', { name: new RegExp(`lien`, 'i') });
+          if (await lienParLabel31.count() === 0) {
+            throw new Error(`Impossible de trouver un lien vers / depuis l'accueil (label: "lien"). La page n'est peut-être pas accessible depuis l'accueil ou le lien est manquant.`);
+          }
+          await lienParLabel31.first().click();
+        } else {
+          await lienDepuisAccueil31.first().click();
+        }
       }
     }
     await expect(page).toHaveURL('/');
@@ -1579,8 +2013,8 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
       if (lienTrouve) {
         await lienTrouve.click();
       } else {
-        // Aucun lien trouvé vers la destination exacte, utiliser la navigation directe
-        await page.goto('/metrics');
+        // Aucun lien trouvé vers la destination exacte, échouer pour détecter les incohérences
+        throw new Error(`Impossible de trouver un lien vers /metrics depuis / (label: "BarChart3"). Vérifiez que le lien existe et est accessible depuis cette page.`);
       }
     } else {
       // Lien non trouvé par label, navigation via plan-du-site ou accueil
@@ -1590,8 +2024,12 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
       if (await lienPlanDuSite.count() > 0) {
         await lienPlanDuSite.first().click();
         await expect(page).toHaveURL('/plan-du-site');
-        // Depuis le plan du site, naviguer vers la destination
-        await page.goto('/metrics');
+        // Depuis le plan du site, chercher le lien vers la destination
+        const lienDepuisPlan32 = page.getByRole('link', { name: new RegExp(`/metrics`, 'i') });
+        if (await lienDepuisPlan32.count() === 0) {
+          throw new Error(`Impossible de trouver un lien vers /metrics depuis le plan du site. La page n'est peut-être pas accessible ou le lien est manquant dans le plan du site.`);
+        }
+        await lienDepuisPlan32.first().click();
       } else {
         // Option 2 : Via le logo (header) vers l'accueil
         const logo = page.getByAltText('Logo Malain et possible');
@@ -1602,8 +2040,18 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
           // Fallback : navigation directe vers l'accueil
           await page.goto('/');
         }
-        // Depuis l'accueil, naviguer vers la destination
-        await page.goto('/metrics');
+        // Depuis l'accueil, chercher le lien vers la destination
+        const lienDepuisAccueil32 = page.getByRole('link', { name: new RegExp(`/metrics`, 'i') });
+        if (await lienDepuisAccueil32.count() === 0) {
+          // Essayer aussi par le label original si disponible
+          const lienParLabel32 = page.getByRole('link', { name: new RegExp(`BarChart3`, 'i') });
+          if (await lienParLabel32.count() === 0) {
+            throw new Error(`Impossible de trouver un lien vers /metrics depuis l'accueil (label: "BarChart3"). La page n'est peut-être pas accessible depuis l'accueil ou le lien est manquant.`);
+          }
+          await lienParLabel32.first().click();
+        } else {
+          await lienDepuisAccueil32.first().click();
+        }
       }
     }
     await expect(page).toHaveURL('/metrics');
@@ -1629,8 +2077,8 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
       if (lienTrouve) {
         await lienTrouve.click();
       } else {
-        // Aucun lien trouvé vers la destination exacte, utiliser la navigation directe
-        await page.goto('/detournement-video');
+        // Aucun lien trouvé vers la destination exacte, échouer pour détecter les incohérences
+        throw new Error(`Impossible de trouver un lien vers /detournement-video depuis /metrics (label: "lien"). Vérifiez que le lien existe et est accessible depuis cette page.`);
       }
     } else {
       // Lien non trouvé par label, navigation via plan-du-site ou accueil
@@ -1640,8 +2088,12 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
       if (await lienPlanDuSite.count() > 0) {
         await lienPlanDuSite.first().click();
         await expect(page).toHaveURL('/plan-du-site');
-        // Depuis le plan du site, naviguer vers la destination
-        await page.goto('/detournement-video');
+        // Depuis le plan du site, chercher le lien vers la destination
+        const lienDepuisPlan33 = page.getByRole('link', { name: new RegExp(`/detournement-video`, 'i') });
+        if (await lienDepuisPlan33.count() === 0) {
+          throw new Error(`Impossible de trouver un lien vers /detournement-video depuis le plan du site. La page n'est peut-être pas accessible ou le lien est manquant dans le plan du site.`);
+        }
+        await lienDepuisPlan33.first().click();
       } else {
         // Option 2 : Via le logo (header) vers l'accueil
         const logo = page.getByAltText('Logo Malain et possible');
@@ -1652,8 +2104,18 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
           // Fallback : navigation directe vers l'accueil
           await page.goto('/');
         }
-        // Depuis l'accueil, naviguer vers la destination
-        await page.goto('/detournement-video');
+        // Depuis l'accueil, chercher le lien vers la destination
+        const lienDepuisAccueil33 = page.getByRole('link', { name: new RegExp(`/detournement-video`, 'i') });
+        if (await lienDepuisAccueil33.count() === 0) {
+          // Essayer aussi par le label original si disponible
+          const lienParLabel33 = page.getByRole('link', { name: new RegExp(`lien`, 'i') });
+          if (await lienParLabel33.count() === 0) {
+            throw new Error(`Impossible de trouver un lien vers /detournement-video depuis l'accueil (label: "lien"). La page n'est peut-être pas accessible depuis l'accueil ou le lien est manquant.`);
+          }
+          await lienParLabel33.first().click();
+        } else {
+          await lienDepuisAccueil33.first().click();
+        }
       }
     }
     await expect(page).toHaveURL('/detournement-video');
@@ -1679,8 +2141,8 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
       if (lienTrouve) {
         await lienTrouve.click();
       } else {
-        // Aucun lien trouvé vers la destination exacte, utiliser la navigation directe
-        await page.goto('/metrics');
+        // Aucun lien trouvé vers la destination exacte, échouer pour détecter les incohérences
+        throw new Error(`Impossible de trouver un lien vers /metrics depuis /detournement-video (label: "BarChart3"). Vérifiez que le lien existe et est accessible depuis cette page.`);
       }
     } else {
       // Lien non trouvé par label, navigation via plan-du-site ou accueil
@@ -1690,8 +2152,12 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
       if (await lienPlanDuSite.count() > 0) {
         await lienPlanDuSite.first().click();
         await expect(page).toHaveURL('/plan-du-site');
-        // Depuis le plan du site, naviguer vers la destination
-        await page.goto('/metrics');
+        // Depuis le plan du site, chercher le lien vers la destination
+        const lienDepuisPlan34 = page.getByRole('link', { name: new RegExp(`/metrics`, 'i') });
+        if (await lienDepuisPlan34.count() === 0) {
+          throw new Error(`Impossible de trouver un lien vers /metrics depuis le plan du site. La page n'est peut-être pas accessible ou le lien est manquant dans le plan du site.`);
+        }
+        await lienDepuisPlan34.first().click();
       } else {
         // Option 2 : Via le logo (header) vers l'accueil
         const logo = page.getByAltText('Logo Malain et possible');
@@ -1702,8 +2168,18 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
           // Fallback : navigation directe vers l'accueil
           await page.goto('/');
         }
-        // Depuis l'accueil, naviguer vers la destination
-        await page.goto('/metrics');
+        // Depuis l'accueil, chercher le lien vers la destination
+        const lienDepuisAccueil34 = page.getByRole('link', { name: new RegExp(`/metrics`, 'i') });
+        if (await lienDepuisAccueil34.count() === 0) {
+          // Essayer aussi par le label original si disponible
+          const lienParLabel34 = page.getByRole('link', { name: new RegExp(`BarChart3`, 'i') });
+          if (await lienParLabel34.count() === 0) {
+            throw new Error(`Impossible de trouver un lien vers /metrics depuis l'accueil (label: "BarChart3"). La page n'est peut-être pas accessible depuis l'accueil ou le lien est manquant.`);
+          }
+          await lienParLabel34.first().click();
+        } else {
+          await lienDepuisAccueil34.first().click();
+        }
       }
     }
     await expect(page).toHaveURL('/metrics');
@@ -1729,8 +2205,8 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
       if (lienTrouve) {
         await lienTrouve.click();
       } else {
-        // Aucun lien trouvé vers la destination exacte, utiliser la navigation directe
-        await page.goto('/maintenance');
+        // Aucun lien trouvé vers la destination exacte, échouer pour détecter les incohérences
+        throw new Error(`Impossible de trouver un lien vers /maintenance depuis /metrics (label: "lien"). Vérifiez que le lien existe et est accessible depuis cette page.`);
       }
     } else {
       // Lien non trouvé par label, navigation via plan-du-site ou accueil
@@ -1740,8 +2216,12 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
       if (await lienPlanDuSite.count() > 0) {
         await lienPlanDuSite.first().click();
         await expect(page).toHaveURL('/plan-du-site');
-        // Depuis le plan du site, naviguer vers la destination
-        await page.goto('/maintenance');
+        // Depuis le plan du site, chercher le lien vers la destination
+        const lienDepuisPlan35 = page.getByRole('link', { name: new RegExp(`/maintenance`, 'i') });
+        if (await lienDepuisPlan35.count() === 0) {
+          throw new Error(`Impossible de trouver un lien vers /maintenance depuis le plan du site. La page n'est peut-être pas accessible ou le lien est manquant dans le plan du site.`);
+        }
+        await lienDepuisPlan35.first().click();
       } else {
         // Option 2 : Via le logo (header) vers l'accueil
         const logo = page.getByAltText('Logo Malain et possible');
@@ -1752,8 +2232,18 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
           // Fallback : navigation directe vers l'accueil
           await page.goto('/');
         }
-        // Depuis l'accueil, naviguer vers la destination
-        await page.goto('/maintenance');
+        // Depuis l'accueil, chercher le lien vers la destination
+        const lienDepuisAccueil35 = page.getByRole('link', { name: new RegExp(`/maintenance`, 'i') });
+        if (await lienDepuisAccueil35.count() === 0) {
+          // Essayer aussi par le label original si disponible
+          const lienParLabel35 = page.getByRole('link', { name: new RegExp(`lien`, 'i') });
+          if (await lienParLabel35.count() === 0) {
+            throw new Error(`Impossible de trouver un lien vers /maintenance depuis l'accueil (label: "lien"). La page n'est peut-être pas accessible depuis l'accueil ou le lien est manquant.`);
+          }
+          await lienParLabel35.first().click();
+        } else {
+          await lienDepuisAccueil35.first().click();
+        }
       }
     }
     await expect(page).toHaveURL('/maintenance');
@@ -1779,8 +2269,8 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
       if (lienTrouve) {
         await lienTrouve.click();
       } else {
-        // Aucun lien trouvé vers la destination exacte, utiliser la navigation directe
-        await page.goto('/metrics');
+        // Aucun lien trouvé vers la destination exacte, échouer pour détecter les incohérences
+        throw new Error(`Impossible de trouver un lien vers /metrics depuis /maintenance (label: "BarChart3"). Vérifiez que le lien existe et est accessible depuis cette page.`);
       }
     } else {
       // Lien non trouvé par label, navigation via plan-du-site ou accueil
@@ -1790,8 +2280,12 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
       if (await lienPlanDuSite.count() > 0) {
         await lienPlanDuSite.first().click();
         await expect(page).toHaveURL('/plan-du-site');
-        // Depuis le plan du site, naviguer vers la destination
-        await page.goto('/metrics');
+        // Depuis le plan du site, chercher le lien vers la destination
+        const lienDepuisPlan36 = page.getByRole('link', { name: new RegExp(`/metrics`, 'i') });
+        if (await lienDepuisPlan36.count() === 0) {
+          throw new Error(`Impossible de trouver un lien vers /metrics depuis le plan du site. La page n'est peut-être pas accessible ou le lien est manquant dans le plan du site.`);
+        }
+        await lienDepuisPlan36.first().click();
       } else {
         // Option 2 : Via le logo (header) vers l'accueil
         const logo = page.getByAltText('Logo Malain et possible');
@@ -1802,8 +2296,18 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
           // Fallback : navigation directe vers l'accueil
           await page.goto('/');
         }
-        // Depuis l'accueil, naviguer vers la destination
-        await page.goto('/metrics');
+        // Depuis l'accueil, chercher le lien vers la destination
+        const lienDepuisAccueil36 = page.getByRole('link', { name: new RegExp(`/metrics`, 'i') });
+        if (await lienDepuisAccueil36.count() === 0) {
+          // Essayer aussi par le label original si disponible
+          const lienParLabel36 = page.getByRole('link', { name: new RegExp(`BarChart3`, 'i') });
+          if (await lienParLabel36.count() === 0) {
+            throw new Error(`Impossible de trouver un lien vers /metrics depuis l'accueil (label: "BarChart3"). La page n'est peut-être pas accessible depuis l'accueil ou le lien est manquant.`);
+          }
+          await lienParLabel36.first().click();
+        } else {
+          await lienDepuisAccueil36.first().click();
+        }
       }
     }
     await expect(page).toHaveURL('/metrics');
@@ -1829,8 +2333,8 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
       if (lienTrouve) {
         await lienTrouve.click();
       } else {
-        // Aucun lien trouvé vers la destination exacte, utiliser la navigation directe
-        await page.goto('/management-de-produit-logiciel');
+        // Aucun lien trouvé vers la destination exacte, échouer pour détecter les incohérences
+        throw new Error(`Impossible de trouver un lien vers /management-de-produit-logiciel depuis /metrics (label: "lien"). Vérifiez que le lien existe et est accessible depuis cette page.`);
       }
     } else {
       // Lien non trouvé par label, navigation via plan-du-site ou accueil
@@ -1840,8 +2344,12 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
       if (await lienPlanDuSite.count() > 0) {
         await lienPlanDuSite.first().click();
         await expect(page).toHaveURL('/plan-du-site');
-        // Depuis le plan du site, naviguer vers la destination
-        await page.goto('/management-de-produit-logiciel');
+        // Depuis le plan du site, chercher le lien vers la destination
+        const lienDepuisPlan37 = page.getByRole('link', { name: new RegExp(`/management-de-produit-logiciel`, 'i') });
+        if (await lienDepuisPlan37.count() === 0) {
+          throw new Error(`Impossible de trouver un lien vers /management-de-produit-logiciel depuis le plan du site. La page n'est peut-être pas accessible ou le lien est manquant dans le plan du site.`);
+        }
+        await lienDepuisPlan37.first().click();
       } else {
         // Option 2 : Via le logo (header) vers l'accueil
         const logo = page.getByAltText('Logo Malain et possible');
@@ -1852,8 +2360,18 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
           // Fallback : navigation directe vers l'accueil
           await page.goto('/');
         }
-        // Depuis l'accueil, naviguer vers la destination
-        await page.goto('/management-de-produit-logiciel');
+        // Depuis l'accueil, chercher le lien vers la destination
+        const lienDepuisAccueil37 = page.getByRole('link', { name: new RegExp(`/management-de-produit-logiciel`, 'i') });
+        if (await lienDepuisAccueil37.count() === 0) {
+          // Essayer aussi par le label original si disponible
+          const lienParLabel37 = page.getByRole('link', { name: new RegExp(`lien`, 'i') });
+          if (await lienParLabel37.count() === 0) {
+            throw new Error(`Impossible de trouver un lien vers /management-de-produit-logiciel depuis l'accueil (label: "lien"). La page n'est peut-être pas accessible depuis l'accueil ou le lien est manquant.`);
+          }
+          await lienParLabel37.first().click();
+        } else {
+          await lienDepuisAccueil37.first().click();
+        }
       }
     }
     await expect(page).toHaveURL('/management-de-produit-logiciel');
@@ -1879,8 +2397,8 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
       if (lienTrouve) {
         await lienTrouve.click();
       } else {
-        // Aucun lien trouvé vers la destination exacte, utiliser la navigation directe
-        await page.goto('/metrics');
+        // Aucun lien trouvé vers la destination exacte, échouer pour détecter les incohérences
+        throw new Error(`Impossible de trouver un lien vers /metrics depuis /management-de-produit-logiciel (label: "BarChart3"). Vérifiez que le lien existe et est accessible depuis cette page.`);
       }
     } else {
       // Lien non trouvé par label, navigation via plan-du-site ou accueil
@@ -1890,8 +2408,12 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
       if (await lienPlanDuSite.count() > 0) {
         await lienPlanDuSite.first().click();
         await expect(page).toHaveURL('/plan-du-site');
-        // Depuis le plan du site, naviguer vers la destination
-        await page.goto('/metrics');
+        // Depuis le plan du site, chercher le lien vers la destination
+        const lienDepuisPlan38 = page.getByRole('link', { name: new RegExp(`/metrics`, 'i') });
+        if (await lienDepuisPlan38.count() === 0) {
+          throw new Error(`Impossible de trouver un lien vers /metrics depuis le plan du site. La page n'est peut-être pas accessible ou le lien est manquant dans le plan du site.`);
+        }
+        await lienDepuisPlan38.first().click();
       } else {
         // Option 2 : Via le logo (header) vers l'accueil
         const logo = page.getByAltText('Logo Malain et possible');
@@ -1902,8 +2424,18 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
           // Fallback : navigation directe vers l'accueil
           await page.goto('/');
         }
-        // Depuis l'accueil, naviguer vers la destination
-        await page.goto('/metrics');
+        // Depuis l'accueil, chercher le lien vers la destination
+        const lienDepuisAccueil38 = page.getByRole('link', { name: new RegExp(`/metrics`, 'i') });
+        if (await lienDepuisAccueil38.count() === 0) {
+          // Essayer aussi par le label original si disponible
+          const lienParLabel38 = page.getByRole('link', { name: new RegExp(`BarChart3`, 'i') });
+          if (await lienParLabel38.count() === 0) {
+            throw new Error(`Impossible de trouver un lien vers /metrics depuis l'accueil (label: "BarChart3"). La page n'est peut-être pas accessible depuis l'accueil ou le lien est manquant.`);
+          }
+          await lienParLabel38.first().click();
+        } else {
+          await lienDepuisAccueil38.first().click();
+        }
       }
     }
     await expect(page).toHaveURL('/metrics');
@@ -1929,8 +2461,8 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
       if (lienTrouve) {
         await lienTrouve.click();
       } else {
-        // Aucun lien trouvé vers la destination exacte, utiliser la navigation directe
-        await page.goto('/portfolio-detournements');
+        // Aucun lien trouvé vers la destination exacte, échouer pour détecter les incohérences
+        throw new Error(`Impossible de trouver un lien vers /portfolio-detournements depuis /metrics (label: "lien"). Vérifiez que le lien existe et est accessible depuis cette page.`);
       }
     } else {
       // Lien non trouvé par label, navigation via plan-du-site ou accueil
@@ -1940,8 +2472,12 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
       if (await lienPlanDuSite.count() > 0) {
         await lienPlanDuSite.first().click();
         await expect(page).toHaveURL('/plan-du-site');
-        // Depuis le plan du site, naviguer vers la destination
-        await page.goto('/portfolio-detournements');
+        // Depuis le plan du site, chercher le lien vers la destination
+        const lienDepuisPlan39 = page.getByRole('link', { name: new RegExp(`/portfolio-detournements`, 'i') });
+        if (await lienDepuisPlan39.count() === 0) {
+          throw new Error(`Impossible de trouver un lien vers /portfolio-detournements depuis le plan du site. La page n'est peut-être pas accessible ou le lien est manquant dans le plan du site.`);
+        }
+        await lienDepuisPlan39.first().click();
       } else {
         // Option 2 : Via le logo (header) vers l'accueil
         const logo = page.getByAltText('Logo Malain et possible');
@@ -1952,8 +2488,18 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
           // Fallback : navigation directe vers l'accueil
           await page.goto('/');
         }
-        // Depuis l'accueil, naviguer vers la destination
-        await page.goto('/portfolio-detournements');
+        // Depuis l'accueil, chercher le lien vers la destination
+        const lienDepuisAccueil39 = page.getByRole('link', { name: new RegExp(`/portfolio-detournements`, 'i') });
+        if (await lienDepuisAccueil39.count() === 0) {
+          // Essayer aussi par le label original si disponible
+          const lienParLabel39 = page.getByRole('link', { name: new RegExp(`lien`, 'i') });
+          if (await lienParLabel39.count() === 0) {
+            throw new Error(`Impossible de trouver un lien vers /portfolio-detournements depuis l'accueil (label: "lien"). La page n'est peut-être pas accessible depuis l'accueil ou le lien est manquant.`);
+          }
+          await lienParLabel39.first().click();
+        } else {
+          await lienDepuisAccueil39.first().click();
+        }
       }
     }
     await expect(page).toHaveURL('/portfolio-detournements');
@@ -1979,8 +2525,8 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
       if (lienTrouve) {
         await lienTrouve.click();
       } else {
-        // Aucun lien trouvé vers la destination exacte, utiliser la navigation directe
-        await page.goto('/metrics');
+        // Aucun lien trouvé vers la destination exacte, échouer pour détecter les incohérences
+        throw new Error(`Impossible de trouver un lien vers /metrics depuis /portfolio-detournements (label: "BarChart3"). Vérifiez que le lien existe et est accessible depuis cette page.`);
       }
     } else {
       // Lien non trouvé par label, navigation via plan-du-site ou accueil
@@ -1990,8 +2536,12 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
       if (await lienPlanDuSite.count() > 0) {
         await lienPlanDuSite.first().click();
         await expect(page).toHaveURL('/plan-du-site');
-        // Depuis le plan du site, naviguer vers la destination
-        await page.goto('/metrics');
+        // Depuis le plan du site, chercher le lien vers la destination
+        const lienDepuisPlan40 = page.getByRole('link', { name: new RegExp(`/metrics`, 'i') });
+        if (await lienDepuisPlan40.count() === 0) {
+          throw new Error(`Impossible de trouver un lien vers /metrics depuis le plan du site. La page n'est peut-être pas accessible ou le lien est manquant dans le plan du site.`);
+        }
+        await lienDepuisPlan40.first().click();
       } else {
         // Option 2 : Via le logo (header) vers l'accueil
         const logo = page.getByAltText('Logo Malain et possible');
@@ -2002,8 +2552,18 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
           // Fallback : navigation directe vers l'accueil
           await page.goto('/');
         }
-        // Depuis l'accueil, naviguer vers la destination
-        await page.goto('/metrics');
+        // Depuis l'accueil, chercher le lien vers la destination
+        const lienDepuisAccueil40 = page.getByRole('link', { name: new RegExp(`/metrics`, 'i') });
+        if (await lienDepuisAccueil40.count() === 0) {
+          // Essayer aussi par le label original si disponible
+          const lienParLabel40 = page.getByRole('link', { name: new RegExp(`BarChart3`, 'i') });
+          if (await lienParLabel40.count() === 0) {
+            throw new Error(`Impossible de trouver un lien vers /metrics depuis l'accueil (label: "BarChart3"). La page n'est peut-être pas accessible depuis l'accueil ou le lien est manquant.`);
+          }
+          await lienParLabel40.first().click();
+        } else {
+          await lienDepuisAccueil40.first().click();
+        }
       }
     }
     await expect(page).toHaveURL('/metrics');
@@ -2029,8 +2589,8 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
       if (lienTrouve) {
         await lienTrouve.click();
       } else {
-        // Aucun lien trouvé vers la destination exacte, utiliser la navigation directe
-        await page.goto('/pour_aller_plus_loin');
+        // Aucun lien trouvé vers la destination exacte, échouer pour détecter les incohérences
+        throw new Error(`Impossible de trouver un lien vers /pour_aller_plus_loin depuis /metrics (label: "lien"). Vérifiez que le lien existe et est accessible depuis cette page.`);
       }
     } else {
       // Lien non trouvé par label, navigation via plan-du-site ou accueil
@@ -2040,8 +2600,12 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
       if (await lienPlanDuSite.count() > 0) {
         await lienPlanDuSite.first().click();
         await expect(page).toHaveURL('/plan-du-site');
-        // Depuis le plan du site, naviguer vers la destination
-        await page.goto('/pour_aller_plus_loin');
+        // Depuis le plan du site, chercher le lien vers la destination
+        const lienDepuisPlan41 = page.getByRole('link', { name: new RegExp(`/pour_aller_plus_loin`, 'i') });
+        if (await lienDepuisPlan41.count() === 0) {
+          throw new Error(`Impossible de trouver un lien vers /pour_aller_plus_loin depuis le plan du site. La page n'est peut-être pas accessible ou le lien est manquant dans le plan du site.`);
+        }
+        await lienDepuisPlan41.first().click();
       } else {
         // Option 2 : Via le logo (header) vers l'accueil
         const logo = page.getByAltText('Logo Malain et possible');
@@ -2052,8 +2616,18 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
           // Fallback : navigation directe vers l'accueil
           await page.goto('/');
         }
-        // Depuis l'accueil, naviguer vers la destination
-        await page.goto('/pour_aller_plus_loin');
+        // Depuis l'accueil, chercher le lien vers la destination
+        const lienDepuisAccueil41 = page.getByRole('link', { name: new RegExp(`/pour_aller_plus_loin`, 'i') });
+        if (await lienDepuisAccueil41.count() === 0) {
+          // Essayer aussi par le label original si disponible
+          const lienParLabel41 = page.getByRole('link', { name: new RegExp(`lien`, 'i') });
+          if (await lienParLabel41.count() === 0) {
+            throw new Error(`Impossible de trouver un lien vers /pour_aller_plus_loin depuis l'accueil (label: "lien"). La page n'est peut-être pas accessible depuis l'accueil ou le lien est manquant.`);
+          }
+          await lienParLabel41.first().click();
+        } else {
+          await lienDepuisAccueil41.first().click();
+        }
       }
     }
     await expect(page).toHaveURL('/pour_aller_plus_loin');
@@ -2079,8 +2653,8 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
       if (lienTrouve) {
         await lienTrouve.click();
       } else {
-        // Aucun lien trouvé vers la destination exacte, utiliser la navigation directe
-        await page.goto('/metrics');
+        // Aucun lien trouvé vers la destination exacte, échouer pour détecter les incohérences
+        throw new Error(`Impossible de trouver un lien vers /metrics depuis /pour_aller_plus_loin (label: "BarChart3"). Vérifiez que le lien existe et est accessible depuis cette page.`);
       }
     } else {
       // Lien non trouvé par label, navigation via plan-du-site ou accueil
@@ -2090,8 +2664,12 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
       if (await lienPlanDuSite.count() > 0) {
         await lienPlanDuSite.first().click();
         await expect(page).toHaveURL('/plan-du-site');
-        // Depuis le plan du site, naviguer vers la destination
-        await page.goto('/metrics');
+        // Depuis le plan du site, chercher le lien vers la destination
+        const lienDepuisPlan42 = page.getByRole('link', { name: new RegExp(`/metrics`, 'i') });
+        if (await lienDepuisPlan42.count() === 0) {
+          throw new Error(`Impossible de trouver un lien vers /metrics depuis le plan du site. La page n'est peut-être pas accessible ou le lien est manquant dans le plan du site.`);
+        }
+        await lienDepuisPlan42.first().click();
       } else {
         // Option 2 : Via le logo (header) vers l'accueil
         const logo = page.getByAltText('Logo Malain et possible');
@@ -2102,8 +2680,18 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
           // Fallback : navigation directe vers l'accueil
           await page.goto('/');
         }
-        // Depuis l'accueil, naviguer vers la destination
-        await page.goto('/metrics');
+        // Depuis l'accueil, chercher le lien vers la destination
+        const lienDepuisAccueil42 = page.getByRole('link', { name: new RegExp(`/metrics`, 'i') });
+        if (await lienDepuisAccueil42.count() === 0) {
+          // Essayer aussi par le label original si disponible
+          const lienParLabel42 = page.getByRole('link', { name: new RegExp(`BarChart3`, 'i') });
+          if (await lienParLabel42.count() === 0) {
+            throw new Error(`Impossible de trouver un lien vers /metrics depuis l'accueil (label: "BarChart3"). La page n'est peut-être pas accessible depuis l'accueil ou le lien est manquant.`);
+          }
+          await lienParLabel42.first().click();
+        } else {
+          await lienDepuisAccueil42.first().click();
+        }
       }
     }
     await expect(page).toHaveURL('/metrics');
@@ -2129,8 +2717,8 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
       if (lienTrouve) {
         await lienTrouve.click();
       } else {
-        // Aucun lien trouvé vers la destination exacte, utiliser la navigation directe
-        await page.goto('/robustesse');
+        // Aucun lien trouvé vers la destination exacte, échouer pour détecter les incohérences
+        throw new Error(`Impossible de trouver un lien vers /robustesse depuis /metrics (label: "lien"). Vérifiez que le lien existe et est accessible depuis cette page.`);
       }
     } else {
       // Lien non trouvé par label, navigation via plan-du-site ou accueil
@@ -2140,8 +2728,12 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
       if (await lienPlanDuSite.count() > 0) {
         await lienPlanDuSite.first().click();
         await expect(page).toHaveURL('/plan-du-site');
-        // Depuis le plan du site, naviguer vers la destination
-        await page.goto('/robustesse');
+        // Depuis le plan du site, chercher le lien vers la destination
+        const lienDepuisPlan43 = page.getByRole('link', { name: new RegExp(`/robustesse`, 'i') });
+        if (await lienDepuisPlan43.count() === 0) {
+          throw new Error(`Impossible de trouver un lien vers /robustesse depuis le plan du site. La page n'est peut-être pas accessible ou le lien est manquant dans le plan du site.`);
+        }
+        await lienDepuisPlan43.first().click();
       } else {
         // Option 2 : Via le logo (header) vers l'accueil
         const logo = page.getByAltText('Logo Malain et possible');
@@ -2152,8 +2744,18 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
           // Fallback : navigation directe vers l'accueil
           await page.goto('/');
         }
-        // Depuis l'accueil, naviguer vers la destination
-        await page.goto('/robustesse');
+        // Depuis l'accueil, chercher le lien vers la destination
+        const lienDepuisAccueil43 = page.getByRole('link', { name: new RegExp(`/robustesse`, 'i') });
+        if (await lienDepuisAccueil43.count() === 0) {
+          // Essayer aussi par le label original si disponible
+          const lienParLabel43 = page.getByRole('link', { name: new RegExp(`lien`, 'i') });
+          if (await lienParLabel43.count() === 0) {
+            throw new Error(`Impossible de trouver un lien vers /robustesse depuis l'accueil (label: "lien"). La page n'est peut-être pas accessible depuis l'accueil ou le lien est manquant.`);
+          }
+          await lienParLabel43.first().click();
+        } else {
+          await lienDepuisAccueil43.first().click();
+        }
       }
     }
     await expect(page).toHaveURL('/robustesse');
@@ -2179,8 +2781,8 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
       if (lienTrouve) {
         await lienTrouve.click();
       } else {
-        // Aucun lien trouvé vers la destination exacte, utiliser la navigation directe
-        await page.goto('/metrics');
+        // Aucun lien trouvé vers la destination exacte, échouer pour détecter les incohérences
+        throw new Error(`Impossible de trouver un lien vers /metrics depuis /robustesse (label: "BarChart3"). Vérifiez que le lien existe et est accessible depuis cette page.`);
       }
     } else {
       // Lien non trouvé par label, navigation via plan-du-site ou accueil
@@ -2190,8 +2792,12 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
       if (await lienPlanDuSite.count() > 0) {
         await lienPlanDuSite.first().click();
         await expect(page).toHaveURL('/plan-du-site');
-        // Depuis le plan du site, naviguer vers la destination
-        await page.goto('/metrics');
+        // Depuis le plan du site, chercher le lien vers la destination
+        const lienDepuisPlan44 = page.getByRole('link', { name: new RegExp(`/metrics`, 'i') });
+        if (await lienDepuisPlan44.count() === 0) {
+          throw new Error(`Impossible de trouver un lien vers /metrics depuis le plan du site. La page n'est peut-être pas accessible ou le lien est manquant dans le plan du site.`);
+        }
+        await lienDepuisPlan44.first().click();
       } else {
         // Option 2 : Via le logo (header) vers l'accueil
         const logo = page.getByAltText('Logo Malain et possible');
@@ -2202,8 +2808,18 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
           // Fallback : navigation directe vers l'accueil
           await page.goto('/');
         }
-        // Depuis l'accueil, naviguer vers la destination
-        await page.goto('/metrics');
+        // Depuis l'accueil, chercher le lien vers la destination
+        const lienDepuisAccueil44 = page.getByRole('link', { name: new RegExp(`/metrics`, 'i') });
+        if (await lienDepuisAccueil44.count() === 0) {
+          // Essayer aussi par le label original si disponible
+          const lienParLabel44 = page.getByRole('link', { name: new RegExp(`BarChart3`, 'i') });
+          if (await lienParLabel44.count() === 0) {
+            throw new Error(`Impossible de trouver un lien vers /metrics depuis l'accueil (label: "BarChart3"). La page n'est peut-être pas accessible depuis l'accueil ou le lien est manquant.`);
+          }
+          await lienParLabel44.first().click();
+        } else {
+          await lienDepuisAccueil44.first().click();
+        }
       }
     }
     await expect(page).toHaveURL('/metrics');
@@ -2229,8 +2845,8 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
       if (lienTrouve) {
         await lienTrouve.click();
       } else {
-        // Aucun lien trouvé vers la destination exacte, utiliser la navigation directe
-        await page.goto('/transformation');
+        // Aucun lien trouvé vers la destination exacte, échouer pour détecter les incohérences
+        throw new Error(`Impossible de trouver un lien vers /transformation depuis /metrics (label: "lien"). Vérifiez que le lien existe et est accessible depuis cette page.`);
       }
     } else {
       // Lien non trouvé par label, navigation via plan-du-site ou accueil
@@ -2240,8 +2856,12 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
       if (await lienPlanDuSite.count() > 0) {
         await lienPlanDuSite.first().click();
         await expect(page).toHaveURL('/plan-du-site');
-        // Depuis le plan du site, naviguer vers la destination
-        await page.goto('/transformation');
+        // Depuis le plan du site, chercher le lien vers la destination
+        const lienDepuisPlan45 = page.getByRole('link', { name: new RegExp(`/transformation`, 'i') });
+        if (await lienDepuisPlan45.count() === 0) {
+          throw new Error(`Impossible de trouver un lien vers /transformation depuis le plan du site. La page n'est peut-être pas accessible ou le lien est manquant dans le plan du site.`);
+        }
+        await lienDepuisPlan45.first().click();
       } else {
         // Option 2 : Via le logo (header) vers l'accueil
         const logo = page.getByAltText('Logo Malain et possible');
@@ -2252,8 +2872,18 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
           // Fallback : navigation directe vers l'accueil
           await page.goto('/');
         }
-        // Depuis l'accueil, naviguer vers la destination
-        await page.goto('/transformation');
+        // Depuis l'accueil, chercher le lien vers la destination
+        const lienDepuisAccueil45 = page.getByRole('link', { name: new RegExp(`/transformation`, 'i') });
+        if (await lienDepuisAccueil45.count() === 0) {
+          // Essayer aussi par le label original si disponible
+          const lienParLabel45 = page.getByRole('link', { name: new RegExp(`lien`, 'i') });
+          if (await lienParLabel45.count() === 0) {
+            throw new Error(`Impossible de trouver un lien vers /transformation depuis l'accueil (label: "lien"). La page n'est peut-être pas accessible depuis l'accueil ou le lien est manquant.`);
+          }
+          await lienParLabel45.first().click();
+        } else {
+          await lienDepuisAccueil45.first().click();
+        }
       }
     }
     await expect(page).toHaveURL('/transformation');
@@ -2279,8 +2909,8 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
       if (lienTrouve) {
         await lienTrouve.click();
       } else {
-        // Aucun lien trouvé vers la destination exacte, utiliser la navigation directe
-        await page.goto('/metrics');
+        // Aucun lien trouvé vers la destination exacte, échouer pour détecter les incohérences
+        throw new Error(`Impossible de trouver un lien vers /metrics depuis /transformation (label: "BarChart3"). Vérifiez que le lien existe et est accessible depuis cette page.`);
       }
     } else {
       // Lien non trouvé par label, navigation via plan-du-site ou accueil
@@ -2290,8 +2920,12 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
       if (await lienPlanDuSite.count() > 0) {
         await lienPlanDuSite.first().click();
         await expect(page).toHaveURL('/plan-du-site');
-        // Depuis le plan du site, naviguer vers la destination
-        await page.goto('/metrics');
+        // Depuis le plan du site, chercher le lien vers la destination
+        const lienDepuisPlan46 = page.getByRole('link', { name: new RegExp(`/metrics`, 'i') });
+        if (await lienDepuisPlan46.count() === 0) {
+          throw new Error(`Impossible de trouver un lien vers /metrics depuis le plan du site. La page n'est peut-être pas accessible ou le lien est manquant dans le plan du site.`);
+        }
+        await lienDepuisPlan46.first().click();
       } else {
         // Option 2 : Via le logo (header) vers l'accueil
         const logo = page.getByAltText('Logo Malain et possible');
@@ -2302,8 +2936,18 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
           // Fallback : navigation directe vers l'accueil
           await page.goto('/');
         }
-        // Depuis l'accueil, naviguer vers la destination
-        await page.goto('/metrics');
+        // Depuis l'accueil, chercher le lien vers la destination
+        const lienDepuisAccueil46 = page.getByRole('link', { name: new RegExp(`/metrics`, 'i') });
+        if (await lienDepuisAccueil46.count() === 0) {
+          // Essayer aussi par le label original si disponible
+          const lienParLabel46 = page.getByRole('link', { name: new RegExp(`BarChart3`, 'i') });
+          if (await lienParLabel46.count() === 0) {
+            throw new Error(`Impossible de trouver un lien vers /metrics depuis l'accueil (label: "BarChart3"). La page n'est peut-être pas accessible depuis l'accueil ou le lien est manquant.`);
+          }
+          await lienParLabel46.first().click();
+        } else {
+          await lienDepuisAccueil46.first().click();
+        }
       }
     }
     await expect(page).toHaveURL('/metrics');
@@ -2329,8 +2973,8 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
       if (lienTrouve) {
         await lienTrouve.click();
       } else {
-        // Aucun lien trouvé vers la destination exacte, utiliser la navigation directe
-        await page.goto('/detournement-video');
+        // Aucun lien trouvé vers la destination exacte, échouer pour détecter les incohérences
+        throw new Error(`Impossible de trouver un lien vers /detournement-video depuis /metrics (label: "lien"). Vérifiez que le lien existe et est accessible depuis cette page.`);
       }
     } else {
       // Lien non trouvé par label, navigation via plan-du-site ou accueil
@@ -2340,8 +2984,12 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
       if (await lienPlanDuSite.count() > 0) {
         await lienPlanDuSite.first().click();
         await expect(page).toHaveURL('/plan-du-site');
-        // Depuis le plan du site, naviguer vers la destination
-        await page.goto('/detournement-video');
+        // Depuis le plan du site, chercher le lien vers la destination
+        const lienDepuisPlan47 = page.getByRole('link', { name: new RegExp(`/detournement-video`, 'i') });
+        if (await lienDepuisPlan47.count() === 0) {
+          throw new Error(`Impossible de trouver un lien vers /detournement-video depuis le plan du site. La page n'est peut-être pas accessible ou le lien est manquant dans le plan du site.`);
+        }
+        await lienDepuisPlan47.first().click();
       } else {
         // Option 2 : Via le logo (header) vers l'accueil
         const logo = page.getByAltText('Logo Malain et possible');
@@ -2352,8 +3000,18 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
           // Fallback : navigation directe vers l'accueil
           await page.goto('/');
         }
-        // Depuis l'accueil, naviguer vers la destination
-        await page.goto('/detournement-video');
+        // Depuis l'accueil, chercher le lien vers la destination
+        const lienDepuisAccueil47 = page.getByRole('link', { name: new RegExp(`/detournement-video`, 'i') });
+        if (await lienDepuisAccueil47.count() === 0) {
+          // Essayer aussi par le label original si disponible
+          const lienParLabel47 = page.getByRole('link', { name: new RegExp(`lien`, 'i') });
+          if (await lienParLabel47.count() === 0) {
+            throw new Error(`Impossible de trouver un lien vers /detournement-video depuis l'accueil (label: "lien"). La page n'est peut-être pas accessible depuis l'accueil ou le lien est manquant.`);
+          }
+          await lienParLabel47.first().click();
+        } else {
+          await lienDepuisAccueil47.first().click();
+        }
       }
     }
     await expect(page).toHaveURL('/detournement-video');
@@ -2379,8 +3037,8 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
       if (lienTrouve) {
         await lienTrouve.click();
       } else {
-        // Aucun lien trouvé vers la destination exacte, utiliser la navigation directe
-        await page.goto('/a-propos-du-site');
+        // Aucun lien trouvé vers la destination exacte, échouer pour détecter les incohérences
+        throw new Error(`Impossible de trouver un lien vers /a-propos-du-site depuis /detournement-video (label: "Info"). Vérifiez que le lien existe et est accessible depuis cette page.`);
       }
     } else {
       // Lien non trouvé par label, navigation via plan-du-site ou accueil
@@ -2390,8 +3048,12 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
       if (await lienPlanDuSite.count() > 0) {
         await lienPlanDuSite.first().click();
         await expect(page).toHaveURL('/plan-du-site');
-        // Depuis le plan du site, naviguer vers la destination
-        await page.goto('/a-propos-du-site');
+        // Depuis le plan du site, chercher le lien vers la destination
+        const lienDepuisPlan48 = page.getByRole('link', { name: new RegExp(`/a-propos-du-site`, 'i') });
+        if (await lienDepuisPlan48.count() === 0) {
+          throw new Error(`Impossible de trouver un lien vers /a-propos-du-site depuis le plan du site. La page n'est peut-être pas accessible ou le lien est manquant dans le plan du site.`);
+        }
+        await lienDepuisPlan48.first().click();
       } else {
         // Option 2 : Via le logo (header) vers l'accueil
         const logo = page.getByAltText('Logo Malain et possible');
@@ -2402,8 +3064,18 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
           // Fallback : navigation directe vers l'accueil
           await page.goto('/');
         }
-        // Depuis l'accueil, naviguer vers la destination
-        await page.goto('/a-propos-du-site');
+        // Depuis l'accueil, chercher le lien vers la destination
+        const lienDepuisAccueil48 = page.getByRole('link', { name: new RegExp(`/a-propos-du-site`, 'i') });
+        if (await lienDepuisAccueil48.count() === 0) {
+          // Essayer aussi par le label original si disponible
+          const lienParLabel48 = page.getByRole('link', { name: new RegExp(`Info`, 'i') });
+          if (await lienParLabel48.count() === 0) {
+            throw new Error(`Impossible de trouver un lien vers /a-propos-du-site depuis l'accueil (label: "Info"). La page n'est peut-être pas accessible depuis l'accueil ou le lien est manquant.`);
+          }
+          await lienParLabel48.first().click();
+        } else {
+          await lienDepuisAccueil48.first().click();
+        }
       }
     }
     await expect(page).toHaveURL('/a-propos-du-site');
@@ -2429,8 +3101,8 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
       if (lienTrouve) {
         await lienTrouve.click();
       } else {
-        // Aucun lien trouvé vers la destination exacte, utiliser la navigation directe
-        await page.goto('/maintenance');
+        // Aucun lien trouvé vers la destination exacte, échouer pour détecter les incohérences
+        throw new Error(`Impossible de trouver un lien vers /maintenance depuis /a-propos-du-site (label: "lien"). Vérifiez que le lien existe et est accessible depuis cette page.`);
       }
     } else {
       // Lien non trouvé par label, navigation via plan-du-site ou accueil
@@ -2440,8 +3112,12 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
       if (await lienPlanDuSite.count() > 0) {
         await lienPlanDuSite.first().click();
         await expect(page).toHaveURL('/plan-du-site');
-        // Depuis le plan du site, naviguer vers la destination
-        await page.goto('/maintenance');
+        // Depuis le plan du site, chercher le lien vers la destination
+        const lienDepuisPlan49 = page.getByRole('link', { name: new RegExp(`/maintenance`, 'i') });
+        if (await lienDepuisPlan49.count() === 0) {
+          throw new Error(`Impossible de trouver un lien vers /maintenance depuis le plan du site. La page n'est peut-être pas accessible ou le lien est manquant dans le plan du site.`);
+        }
+        await lienDepuisPlan49.first().click();
       } else {
         // Option 2 : Via le logo (header) vers l'accueil
         const logo = page.getByAltText('Logo Malain et possible');
@@ -2452,8 +3128,18 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
           // Fallback : navigation directe vers l'accueil
           await page.goto('/');
         }
-        // Depuis l'accueil, naviguer vers la destination
-        await page.goto('/maintenance');
+        // Depuis l'accueil, chercher le lien vers la destination
+        const lienDepuisAccueil49 = page.getByRole('link', { name: new RegExp(`/maintenance`, 'i') });
+        if (await lienDepuisAccueil49.count() === 0) {
+          // Essayer aussi par le label original si disponible
+          const lienParLabel49 = page.getByRole('link', { name: new RegExp(`lien`, 'i') });
+          if (await lienParLabel49.count() === 0) {
+            throw new Error(`Impossible de trouver un lien vers /maintenance depuis l'accueil (label: "lien"). La page n'est peut-être pas accessible depuis l'accueil ou le lien est manquant.`);
+          }
+          await lienParLabel49.first().click();
+        } else {
+          await lienDepuisAccueil49.first().click();
+        }
       }
     }
     await expect(page).toHaveURL('/maintenance');
@@ -2479,8 +3165,8 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
       if (lienTrouve) {
         await lienTrouve.click();
       } else {
-        // Aucun lien trouvé vers la destination exacte, utiliser la navigation directe
-        await page.goto('/a-propos-du-site');
+        // Aucun lien trouvé vers la destination exacte, échouer pour détecter les incohérences
+        throw new Error(`Impossible de trouver un lien vers /a-propos-du-site depuis /maintenance (label: "Info"). Vérifiez que le lien existe et est accessible depuis cette page.`);
       }
     } else {
       // Lien non trouvé par label, navigation via plan-du-site ou accueil
@@ -2490,8 +3176,12 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
       if (await lienPlanDuSite.count() > 0) {
         await lienPlanDuSite.first().click();
         await expect(page).toHaveURL('/plan-du-site');
-        // Depuis le plan du site, naviguer vers la destination
-        await page.goto('/a-propos-du-site');
+        // Depuis le plan du site, chercher le lien vers la destination
+        const lienDepuisPlan50 = page.getByRole('link', { name: new RegExp(`/a-propos-du-site`, 'i') });
+        if (await lienDepuisPlan50.count() === 0) {
+          throw new Error(`Impossible de trouver un lien vers /a-propos-du-site depuis le plan du site. La page n'est peut-être pas accessible ou le lien est manquant dans le plan du site.`);
+        }
+        await lienDepuisPlan50.first().click();
       } else {
         // Option 2 : Via le logo (header) vers l'accueil
         const logo = page.getByAltText('Logo Malain et possible');
@@ -2502,8 +3192,18 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
           // Fallback : navigation directe vers l'accueil
           await page.goto('/');
         }
-        // Depuis l'accueil, naviguer vers la destination
-        await page.goto('/a-propos-du-site');
+        // Depuis l'accueil, chercher le lien vers la destination
+        const lienDepuisAccueil50 = page.getByRole('link', { name: new RegExp(`/a-propos-du-site`, 'i') });
+        if (await lienDepuisAccueil50.count() === 0) {
+          // Essayer aussi par le label original si disponible
+          const lienParLabel50 = page.getByRole('link', { name: new RegExp(`Info`, 'i') });
+          if (await lienParLabel50.count() === 0) {
+            throw new Error(`Impossible de trouver un lien vers /a-propos-du-site depuis l'accueil (label: "Info"). La page n'est peut-être pas accessible depuis l'accueil ou le lien est manquant.`);
+          }
+          await lienParLabel50.first().click();
+        } else {
+          await lienDepuisAccueil50.first().click();
+        }
       }
     }
     await expect(page).toHaveURL('/a-propos-du-site');
@@ -2529,8 +3229,8 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
       if (lienTrouve) {
         await lienTrouve.click();
       } else {
-        // Aucun lien trouvé vers la destination exacte, utiliser la navigation directe
-        await page.goto('/management-de-produit-logiciel');
+        // Aucun lien trouvé vers la destination exacte, échouer pour détecter les incohérences
+        throw new Error(`Impossible de trouver un lien vers /management-de-produit-logiciel depuis /a-propos-du-site (label: "lien"). Vérifiez que le lien existe et est accessible depuis cette page.`);
       }
     } else {
       // Lien non trouvé par label, navigation via plan-du-site ou accueil
@@ -2540,8 +3240,12 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
       if (await lienPlanDuSite.count() > 0) {
         await lienPlanDuSite.first().click();
         await expect(page).toHaveURL('/plan-du-site');
-        // Depuis le plan du site, naviguer vers la destination
-        await page.goto('/management-de-produit-logiciel');
+        // Depuis le plan du site, chercher le lien vers la destination
+        const lienDepuisPlan51 = page.getByRole('link', { name: new RegExp(`/management-de-produit-logiciel`, 'i') });
+        if (await lienDepuisPlan51.count() === 0) {
+          throw new Error(`Impossible de trouver un lien vers /management-de-produit-logiciel depuis le plan du site. La page n'est peut-être pas accessible ou le lien est manquant dans le plan du site.`);
+        }
+        await lienDepuisPlan51.first().click();
       } else {
         // Option 2 : Via le logo (header) vers l'accueil
         const logo = page.getByAltText('Logo Malain et possible');
@@ -2552,8 +3256,18 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
           // Fallback : navigation directe vers l'accueil
           await page.goto('/');
         }
-        // Depuis l'accueil, naviguer vers la destination
-        await page.goto('/management-de-produit-logiciel');
+        // Depuis l'accueil, chercher le lien vers la destination
+        const lienDepuisAccueil51 = page.getByRole('link', { name: new RegExp(`/management-de-produit-logiciel`, 'i') });
+        if (await lienDepuisAccueil51.count() === 0) {
+          // Essayer aussi par le label original si disponible
+          const lienParLabel51 = page.getByRole('link', { name: new RegExp(`lien`, 'i') });
+          if (await lienParLabel51.count() === 0) {
+            throw new Error(`Impossible de trouver un lien vers /management-de-produit-logiciel depuis l'accueil (label: "lien"). La page n'est peut-être pas accessible depuis l'accueil ou le lien est manquant.`);
+          }
+          await lienParLabel51.first().click();
+        } else {
+          await lienDepuisAccueil51.first().click();
+        }
       }
     }
     await expect(page).toHaveURL('/management-de-produit-logiciel');
@@ -2579,8 +3293,8 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
       if (lienTrouve) {
         await lienTrouve.click();
       } else {
-        // Aucun lien trouvé vers la destination exacte, utiliser la navigation directe
-        await page.goto('/a-propos-du-site');
+        // Aucun lien trouvé vers la destination exacte, échouer pour détecter les incohérences
+        throw new Error(`Impossible de trouver un lien vers /a-propos-du-site depuis /management-de-produit-logiciel (label: "Info"). Vérifiez que le lien existe et est accessible depuis cette page.`);
       }
     } else {
       // Lien non trouvé par label, navigation via plan-du-site ou accueil
@@ -2590,8 +3304,12 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
       if (await lienPlanDuSite.count() > 0) {
         await lienPlanDuSite.first().click();
         await expect(page).toHaveURL('/plan-du-site');
-        // Depuis le plan du site, naviguer vers la destination
-        await page.goto('/a-propos-du-site');
+        // Depuis le plan du site, chercher le lien vers la destination
+        const lienDepuisPlan52 = page.getByRole('link', { name: new RegExp(`/a-propos-du-site`, 'i') });
+        if (await lienDepuisPlan52.count() === 0) {
+          throw new Error(`Impossible de trouver un lien vers /a-propos-du-site depuis le plan du site. La page n'est peut-être pas accessible ou le lien est manquant dans le plan du site.`);
+        }
+        await lienDepuisPlan52.first().click();
       } else {
         // Option 2 : Via le logo (header) vers l'accueil
         const logo = page.getByAltText('Logo Malain et possible');
@@ -2602,8 +3320,18 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
           // Fallback : navigation directe vers l'accueil
           await page.goto('/');
         }
-        // Depuis l'accueil, naviguer vers la destination
-        await page.goto('/a-propos-du-site');
+        // Depuis l'accueil, chercher le lien vers la destination
+        const lienDepuisAccueil52 = page.getByRole('link', { name: new RegExp(`/a-propos-du-site`, 'i') });
+        if (await lienDepuisAccueil52.count() === 0) {
+          // Essayer aussi par le label original si disponible
+          const lienParLabel52 = page.getByRole('link', { name: new RegExp(`Info`, 'i') });
+          if (await lienParLabel52.count() === 0) {
+            throw new Error(`Impossible de trouver un lien vers /a-propos-du-site depuis l'accueil (label: "Info"). La page n'est peut-être pas accessible depuis l'accueil ou le lien est manquant.`);
+          }
+          await lienParLabel52.first().click();
+        } else {
+          await lienDepuisAccueil52.first().click();
+        }
       }
     }
     await expect(page).toHaveURL('/a-propos-du-site');
@@ -2629,8 +3357,8 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
       if (lienTrouve) {
         await lienTrouve.click();
       } else {
-        // Aucun lien trouvé vers la destination exacte, utiliser la navigation directe
-        await page.goto('/portfolio-detournements');
+        // Aucun lien trouvé vers la destination exacte, échouer pour détecter les incohérences
+        throw new Error(`Impossible de trouver un lien vers /portfolio-detournements depuis /a-propos-du-site (label: "lien"). Vérifiez que le lien existe et est accessible depuis cette page.`);
       }
     } else {
       // Lien non trouvé par label, navigation via plan-du-site ou accueil
@@ -2640,8 +3368,12 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
       if (await lienPlanDuSite.count() > 0) {
         await lienPlanDuSite.first().click();
         await expect(page).toHaveURL('/plan-du-site');
-        // Depuis le plan du site, naviguer vers la destination
-        await page.goto('/portfolio-detournements');
+        // Depuis le plan du site, chercher le lien vers la destination
+        const lienDepuisPlan53 = page.getByRole('link', { name: new RegExp(`/portfolio-detournements`, 'i') });
+        if (await lienDepuisPlan53.count() === 0) {
+          throw new Error(`Impossible de trouver un lien vers /portfolio-detournements depuis le plan du site. La page n'est peut-être pas accessible ou le lien est manquant dans le plan du site.`);
+        }
+        await lienDepuisPlan53.first().click();
       } else {
         // Option 2 : Via le logo (header) vers l'accueil
         const logo = page.getByAltText('Logo Malain et possible');
@@ -2652,8 +3384,18 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
           // Fallback : navigation directe vers l'accueil
           await page.goto('/');
         }
-        // Depuis l'accueil, naviguer vers la destination
-        await page.goto('/portfolio-detournements');
+        // Depuis l'accueil, chercher le lien vers la destination
+        const lienDepuisAccueil53 = page.getByRole('link', { name: new RegExp(`/portfolio-detournements`, 'i') });
+        if (await lienDepuisAccueil53.count() === 0) {
+          // Essayer aussi par le label original si disponible
+          const lienParLabel53 = page.getByRole('link', { name: new RegExp(`lien`, 'i') });
+          if (await lienParLabel53.count() === 0) {
+            throw new Error(`Impossible de trouver un lien vers /portfolio-detournements depuis l'accueil (label: "lien"). La page n'est peut-être pas accessible depuis l'accueil ou le lien est manquant.`);
+          }
+          await lienParLabel53.first().click();
+        } else {
+          await lienDepuisAccueil53.first().click();
+        }
       }
     }
     await expect(page).toHaveURL('/portfolio-detournements');
@@ -2679,8 +3421,8 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
       if (lienTrouve) {
         await lienTrouve.click();
       } else {
-        // Aucun lien trouvé vers la destination exacte, utiliser la navigation directe
-        await page.goto('/a-propos-du-site');
+        // Aucun lien trouvé vers la destination exacte, échouer pour détecter les incohérences
+        throw new Error(`Impossible de trouver un lien vers /a-propos-du-site depuis /portfolio-detournements (label: "Info"). Vérifiez que le lien existe et est accessible depuis cette page.`);
       }
     } else {
       // Lien non trouvé par label, navigation via plan-du-site ou accueil
@@ -2690,8 +3432,12 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
       if (await lienPlanDuSite.count() > 0) {
         await lienPlanDuSite.first().click();
         await expect(page).toHaveURL('/plan-du-site');
-        // Depuis le plan du site, naviguer vers la destination
-        await page.goto('/a-propos-du-site');
+        // Depuis le plan du site, chercher le lien vers la destination
+        const lienDepuisPlan54 = page.getByRole('link', { name: new RegExp(`/a-propos-du-site`, 'i') });
+        if (await lienDepuisPlan54.count() === 0) {
+          throw new Error(`Impossible de trouver un lien vers /a-propos-du-site depuis le plan du site. La page n'est peut-être pas accessible ou le lien est manquant dans le plan du site.`);
+        }
+        await lienDepuisPlan54.first().click();
       } else {
         // Option 2 : Via le logo (header) vers l'accueil
         const logo = page.getByAltText('Logo Malain et possible');
@@ -2702,8 +3448,18 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
           // Fallback : navigation directe vers l'accueil
           await page.goto('/');
         }
-        // Depuis l'accueil, naviguer vers la destination
-        await page.goto('/a-propos-du-site');
+        // Depuis l'accueil, chercher le lien vers la destination
+        const lienDepuisAccueil54 = page.getByRole('link', { name: new RegExp(`/a-propos-du-site`, 'i') });
+        if (await lienDepuisAccueil54.count() === 0) {
+          // Essayer aussi par le label original si disponible
+          const lienParLabel54 = page.getByRole('link', { name: new RegExp(`Info`, 'i') });
+          if (await lienParLabel54.count() === 0) {
+            throw new Error(`Impossible de trouver un lien vers /a-propos-du-site depuis l'accueil (label: "Info"). La page n'est peut-être pas accessible depuis l'accueil ou le lien est manquant.`);
+          }
+          await lienParLabel54.first().click();
+        } else {
+          await lienDepuisAccueil54.first().click();
+        }
       }
     }
     await expect(page).toHaveURL('/a-propos-du-site');
@@ -2729,8 +3485,8 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
       if (lienTrouve) {
         await lienTrouve.click();
       } else {
-        // Aucun lien trouvé vers la destination exacte, utiliser la navigation directe
-        await page.goto('/pour_aller_plus_loin');
+        // Aucun lien trouvé vers la destination exacte, échouer pour détecter les incohérences
+        throw new Error(`Impossible de trouver un lien vers /pour_aller_plus_loin depuis /a-propos-du-site (label: "lien"). Vérifiez que le lien existe et est accessible depuis cette page.`);
       }
     } else {
       // Lien non trouvé par label, navigation via plan-du-site ou accueil
@@ -2740,8 +3496,12 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
       if (await lienPlanDuSite.count() > 0) {
         await lienPlanDuSite.first().click();
         await expect(page).toHaveURL('/plan-du-site');
-        // Depuis le plan du site, naviguer vers la destination
-        await page.goto('/pour_aller_plus_loin');
+        // Depuis le plan du site, chercher le lien vers la destination
+        const lienDepuisPlan55 = page.getByRole('link', { name: new RegExp(`/pour_aller_plus_loin`, 'i') });
+        if (await lienDepuisPlan55.count() === 0) {
+          throw new Error(`Impossible de trouver un lien vers /pour_aller_plus_loin depuis le plan du site. La page n'est peut-être pas accessible ou le lien est manquant dans le plan du site.`);
+        }
+        await lienDepuisPlan55.first().click();
       } else {
         // Option 2 : Via le logo (header) vers l'accueil
         const logo = page.getByAltText('Logo Malain et possible');
@@ -2752,8 +3512,18 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
           // Fallback : navigation directe vers l'accueil
           await page.goto('/');
         }
-        // Depuis l'accueil, naviguer vers la destination
-        await page.goto('/pour_aller_plus_loin');
+        // Depuis l'accueil, chercher le lien vers la destination
+        const lienDepuisAccueil55 = page.getByRole('link', { name: new RegExp(`/pour_aller_plus_loin`, 'i') });
+        if (await lienDepuisAccueil55.count() === 0) {
+          // Essayer aussi par le label original si disponible
+          const lienParLabel55 = page.getByRole('link', { name: new RegExp(`lien`, 'i') });
+          if (await lienParLabel55.count() === 0) {
+            throw new Error(`Impossible de trouver un lien vers /pour_aller_plus_loin depuis l'accueil (label: "lien"). La page n'est peut-être pas accessible depuis l'accueil ou le lien est manquant.`);
+          }
+          await lienParLabel55.first().click();
+        } else {
+          await lienDepuisAccueil55.first().click();
+        }
       }
     }
     await expect(page).toHaveURL('/pour_aller_plus_loin');
@@ -2779,8 +3549,8 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
       if (lienTrouve) {
         await lienTrouve.click();
       } else {
-        // Aucun lien trouvé vers la destination exacte, utiliser la navigation directe
-        await page.goto('/a-propos-du-site');
+        // Aucun lien trouvé vers la destination exacte, échouer pour détecter les incohérences
+        throw new Error(`Impossible de trouver un lien vers /a-propos-du-site depuis /pour_aller_plus_loin (label: "Info"). Vérifiez que le lien existe et est accessible depuis cette page.`);
       }
     } else {
       // Lien non trouvé par label, navigation via plan-du-site ou accueil
@@ -2790,8 +3560,12 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
       if (await lienPlanDuSite.count() > 0) {
         await lienPlanDuSite.first().click();
         await expect(page).toHaveURL('/plan-du-site');
-        // Depuis le plan du site, naviguer vers la destination
-        await page.goto('/a-propos-du-site');
+        // Depuis le plan du site, chercher le lien vers la destination
+        const lienDepuisPlan56 = page.getByRole('link', { name: new RegExp(`/a-propos-du-site`, 'i') });
+        if (await lienDepuisPlan56.count() === 0) {
+          throw new Error(`Impossible de trouver un lien vers /a-propos-du-site depuis le plan du site. La page n'est peut-être pas accessible ou le lien est manquant dans le plan du site.`);
+        }
+        await lienDepuisPlan56.first().click();
       } else {
         // Option 2 : Via le logo (header) vers l'accueil
         const logo = page.getByAltText('Logo Malain et possible');
@@ -2802,8 +3576,18 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
           // Fallback : navigation directe vers l'accueil
           await page.goto('/');
         }
-        // Depuis l'accueil, naviguer vers la destination
-        await page.goto('/a-propos-du-site');
+        // Depuis l'accueil, chercher le lien vers la destination
+        const lienDepuisAccueil56 = page.getByRole('link', { name: new RegExp(`/a-propos-du-site`, 'i') });
+        if (await lienDepuisAccueil56.count() === 0) {
+          // Essayer aussi par le label original si disponible
+          const lienParLabel56 = page.getByRole('link', { name: new RegExp(`Info`, 'i') });
+          if (await lienParLabel56.count() === 0) {
+            throw new Error(`Impossible de trouver un lien vers /a-propos-du-site depuis l'accueil (label: "Info"). La page n'est peut-être pas accessible depuis l'accueil ou le lien est manquant.`);
+          }
+          await lienParLabel56.first().click();
+        } else {
+          await lienDepuisAccueil56.first().click();
+        }
       }
     }
     await expect(page).toHaveURL('/a-propos-du-site');
@@ -2829,8 +3613,8 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
       if (lienTrouve) {
         await lienTrouve.click();
       } else {
-        // Aucun lien trouvé vers la destination exacte, utiliser la navigation directe
-        await page.goto('/robustesse');
+        // Aucun lien trouvé vers la destination exacte, échouer pour détecter les incohérences
+        throw new Error(`Impossible de trouver un lien vers /robustesse depuis /a-propos-du-site (label: "lien"). Vérifiez que le lien existe et est accessible depuis cette page.`);
       }
     } else {
       // Lien non trouvé par label, navigation via plan-du-site ou accueil
@@ -2840,8 +3624,12 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
       if (await lienPlanDuSite.count() > 0) {
         await lienPlanDuSite.first().click();
         await expect(page).toHaveURL('/plan-du-site');
-        // Depuis le plan du site, naviguer vers la destination
-        await page.goto('/robustesse');
+        // Depuis le plan du site, chercher le lien vers la destination
+        const lienDepuisPlan57 = page.getByRole('link', { name: new RegExp(`/robustesse`, 'i') });
+        if (await lienDepuisPlan57.count() === 0) {
+          throw new Error(`Impossible de trouver un lien vers /robustesse depuis le plan du site. La page n'est peut-être pas accessible ou le lien est manquant dans le plan du site.`);
+        }
+        await lienDepuisPlan57.first().click();
       } else {
         // Option 2 : Via le logo (header) vers l'accueil
         const logo = page.getByAltText('Logo Malain et possible');
@@ -2852,8 +3640,18 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
           // Fallback : navigation directe vers l'accueil
           await page.goto('/');
         }
-        // Depuis l'accueil, naviguer vers la destination
-        await page.goto('/robustesse');
+        // Depuis l'accueil, chercher le lien vers la destination
+        const lienDepuisAccueil57 = page.getByRole('link', { name: new RegExp(`/robustesse`, 'i') });
+        if (await lienDepuisAccueil57.count() === 0) {
+          // Essayer aussi par le label original si disponible
+          const lienParLabel57 = page.getByRole('link', { name: new RegExp(`lien`, 'i') });
+          if (await lienParLabel57.count() === 0) {
+            throw new Error(`Impossible de trouver un lien vers /robustesse depuis l'accueil (label: "lien"). La page n'est peut-être pas accessible depuis l'accueil ou le lien est manquant.`);
+          }
+          await lienParLabel57.first().click();
+        } else {
+          await lienDepuisAccueil57.first().click();
+        }
       }
     }
     await expect(page).toHaveURL('/robustesse');
@@ -2879,8 +3677,8 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
       if (lienTrouve) {
         await lienTrouve.click();
       } else {
-        // Aucun lien trouvé vers la destination exacte, utiliser la navigation directe
-        await page.goto('/a-propos-du-site');
+        // Aucun lien trouvé vers la destination exacte, échouer pour détecter les incohérences
+        throw new Error(`Impossible de trouver un lien vers /a-propos-du-site depuis /robustesse (label: "Info"). Vérifiez que le lien existe et est accessible depuis cette page.`);
       }
     } else {
       // Lien non trouvé par label, navigation via plan-du-site ou accueil
@@ -2890,8 +3688,12 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
       if (await lienPlanDuSite.count() > 0) {
         await lienPlanDuSite.first().click();
         await expect(page).toHaveURL('/plan-du-site');
-        // Depuis le plan du site, naviguer vers la destination
-        await page.goto('/a-propos-du-site');
+        // Depuis le plan du site, chercher le lien vers la destination
+        const lienDepuisPlan58 = page.getByRole('link', { name: new RegExp(`/a-propos-du-site`, 'i') });
+        if (await lienDepuisPlan58.count() === 0) {
+          throw new Error(`Impossible de trouver un lien vers /a-propos-du-site depuis le plan du site. La page n'est peut-être pas accessible ou le lien est manquant dans le plan du site.`);
+        }
+        await lienDepuisPlan58.first().click();
       } else {
         // Option 2 : Via le logo (header) vers l'accueil
         const logo = page.getByAltText('Logo Malain et possible');
@@ -2902,8 +3704,18 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
           // Fallback : navigation directe vers l'accueil
           await page.goto('/');
         }
-        // Depuis l'accueil, naviguer vers la destination
-        await page.goto('/a-propos-du-site');
+        // Depuis l'accueil, chercher le lien vers la destination
+        const lienDepuisAccueil58 = page.getByRole('link', { name: new RegExp(`/a-propos-du-site`, 'i') });
+        if (await lienDepuisAccueil58.count() === 0) {
+          // Essayer aussi par le label original si disponible
+          const lienParLabel58 = page.getByRole('link', { name: new RegExp(`Info`, 'i') });
+          if (await lienParLabel58.count() === 0) {
+            throw new Error(`Impossible de trouver un lien vers /a-propos-du-site depuis l'accueil (label: "Info"). La page n'est peut-être pas accessible depuis l'accueil ou le lien est manquant.`);
+          }
+          await lienParLabel58.first().click();
+        } else {
+          await lienDepuisAccueil58.first().click();
+        }
       }
     }
     await expect(page).toHaveURL('/a-propos-du-site');
@@ -2929,8 +3741,8 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
       if (lienTrouve) {
         await lienTrouve.click();
       } else {
-        // Aucun lien trouvé vers la destination exacte, utiliser la navigation directe
-        await page.goto('/transformation');
+        // Aucun lien trouvé vers la destination exacte, échouer pour détecter les incohérences
+        throw new Error(`Impossible de trouver un lien vers /transformation depuis /a-propos-du-site (label: "lien"). Vérifiez que le lien existe et est accessible depuis cette page.`);
       }
     } else {
       // Lien non trouvé par label, navigation via plan-du-site ou accueil
@@ -2940,8 +3752,12 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
       if (await lienPlanDuSite.count() > 0) {
         await lienPlanDuSite.first().click();
         await expect(page).toHaveURL('/plan-du-site');
-        // Depuis le plan du site, naviguer vers la destination
-        await page.goto('/transformation');
+        // Depuis le plan du site, chercher le lien vers la destination
+        const lienDepuisPlan59 = page.getByRole('link', { name: new RegExp(`/transformation`, 'i') });
+        if (await lienDepuisPlan59.count() === 0) {
+          throw new Error(`Impossible de trouver un lien vers /transformation depuis le plan du site. La page n'est peut-être pas accessible ou le lien est manquant dans le plan du site.`);
+        }
+        await lienDepuisPlan59.first().click();
       } else {
         // Option 2 : Via le logo (header) vers l'accueil
         const logo = page.getByAltText('Logo Malain et possible');
@@ -2952,8 +3768,18 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
           // Fallback : navigation directe vers l'accueil
           await page.goto('/');
         }
-        // Depuis l'accueil, naviguer vers la destination
-        await page.goto('/transformation');
+        // Depuis l'accueil, chercher le lien vers la destination
+        const lienDepuisAccueil59 = page.getByRole('link', { name: new RegExp(`/transformation`, 'i') });
+        if (await lienDepuisAccueil59.count() === 0) {
+          // Essayer aussi par le label original si disponible
+          const lienParLabel59 = page.getByRole('link', { name: new RegExp(`lien`, 'i') });
+          if (await lienParLabel59.count() === 0) {
+            throw new Error(`Impossible de trouver un lien vers /transformation depuis l'accueil (label: "lien"). La page n'est peut-être pas accessible depuis l'accueil ou le lien est manquant.`);
+          }
+          await lienParLabel59.first().click();
+        } else {
+          await lienDepuisAccueil59.first().click();
+        }
       }
     }
     await expect(page).toHaveURL('/transformation');
@@ -2979,8 +3805,8 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
       if (lienTrouve) {
         await lienTrouve.click();
       } else {
-        // Aucun lien trouvé vers la destination exacte, utiliser la navigation directe
-        await page.goto('/a-propos-du-site');
+        // Aucun lien trouvé vers la destination exacte, échouer pour détecter les incohérences
+        throw new Error(`Impossible de trouver un lien vers /a-propos-du-site depuis /transformation (label: "Info"). Vérifiez que le lien existe et est accessible depuis cette page.`);
       }
     } else {
       // Lien non trouvé par label, navigation via plan-du-site ou accueil
@@ -2990,8 +3816,12 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
       if (await lienPlanDuSite.count() > 0) {
         await lienPlanDuSite.first().click();
         await expect(page).toHaveURL('/plan-du-site');
-        // Depuis le plan du site, naviguer vers la destination
-        await page.goto('/a-propos-du-site');
+        // Depuis le plan du site, chercher le lien vers la destination
+        const lienDepuisPlan60 = page.getByRole('link', { name: new RegExp(`/a-propos-du-site`, 'i') });
+        if (await lienDepuisPlan60.count() === 0) {
+          throw new Error(`Impossible de trouver un lien vers /a-propos-du-site depuis le plan du site. La page n'est peut-être pas accessible ou le lien est manquant dans le plan du site.`);
+        }
+        await lienDepuisPlan60.first().click();
       } else {
         // Option 2 : Via le logo (header) vers l'accueil
         const logo = page.getByAltText('Logo Malain et possible');
@@ -3002,8 +3832,18 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
           // Fallback : navigation directe vers l'accueil
           await page.goto('/');
         }
-        // Depuis l'accueil, naviguer vers la destination
-        await page.goto('/a-propos-du-site');
+        // Depuis l'accueil, chercher le lien vers la destination
+        const lienDepuisAccueil60 = page.getByRole('link', { name: new RegExp(`/a-propos-du-site`, 'i') });
+        if (await lienDepuisAccueil60.count() === 0) {
+          // Essayer aussi par le label original si disponible
+          const lienParLabel60 = page.getByRole('link', { name: new RegExp(`Info`, 'i') });
+          if (await lienParLabel60.count() === 0) {
+            throw new Error(`Impossible de trouver un lien vers /a-propos-du-site depuis l'accueil (label: "Info"). La page n'est peut-être pas accessible depuis l'accueil ou le lien est manquant.`);
+          }
+          await lienParLabel60.first().click();
+        } else {
+          await lienDepuisAccueil60.first().click();
+        }
       }
     }
     await expect(page).toHaveURL('/a-propos-du-site');

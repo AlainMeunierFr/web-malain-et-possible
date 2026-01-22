@@ -47,18 +47,45 @@ function countCompletedUS(): { count: number; usList: CompletedUS[] } {
       // Détecter une User Story (format: #### US-X.Y : Titre)
       const usMatch = line.match(/^####\s+(US-\d+\.\d+)\s*:\s*(.+)$/);
       if (usMatch) {
-        // Si on avait une US précédente non complétée, on l'ignore
-        currentUS = {
-          id: usMatch[1],
-          title: usMatch[2].trim(),
-          startLine: i,
-        };
+        // Vérifier si l'US précédente était complétée avant de passer à la suivante
+        if (currentUS) {
+          // Si on avait une US précédente non complétée, on l'ignore
+          currentUS = null;
+        }
+        
+        const usTitle = usMatch[2].trim();
+        // Vérifier si le marqueur de complétion est dans le titre lui-même
+        // Supporte les variantes : "✅ COMPLÉTÉ", "✅ COMPLETÉ", avec ou sans espace
+        // Le caractère ✅ peut être encodé différemment, donc on cherche aussi sans l'emoji
+        // Utilise une regex insensible à la casse pour détecter "COMPLÉTÉ" ou "COMPLETÉ"
+        const isCompletedInTitle = 
+          /COMPL[EÉ]T[EÉ]/i.test(usTitle);
+        
+        if (isCompletedInTitle) {
+          // US complétée directement dans le titre
+          const cleanTitle = usTitle
+            .replace(/✅\s*(COMPLÉTÉ|COMPLETÉ|COMPLETE)\s*/gi, '')
+            .trim();
+          usList.push({
+            id: usMatch[1],
+            title: cleanTitle,
+            file: file,
+          });
+          currentUS = null;
+        } else {
+          // US non complétée dans le titre, on continue à chercher dans les lignes suivantes
+          currentUS = {
+            id: usMatch[1],
+            title: usTitle,
+            startLine: i,
+          };
+        }
         continue;
       }
       
-      // Vérifier si l'US courante est complétée
+      // Vérifier si l'US courante est complétée dans les lignes suivantes
       if (currentUS) {
-        // Chercher "✅ COMPLÉTÉ" ou "✅ COMPLETÉ" dans la ligne courante ou les suivantes
+        // Chercher "✅ COMPLÉTÉ" ou "✅ COMPLETÉ" dans la ligne courante
         const isCompleted = line.includes('✅ COMPLÉTÉ') || line.includes('✅ COMPLETÉ');
         
         if (isCompleted) {

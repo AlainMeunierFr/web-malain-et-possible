@@ -1,7 +1,7 @@
 ### Sprint Goal
 Mettre en place une page Metrics pour suivre automatiquement la qualité du code et l'évolution du projet à travers différentes métriques techniques (tests, couverture, qualité, taille, dépendances, performance).
 
-#### US-4.1 : Définition des types de métriques à collecter
+#### US-4.1 : Définition des types de métriques à collecter ✅ COMPLÉTÉ
 - **En tant que** Manager technico-fonctionnel
 - **Je souhaite** Avoir une structure TypeScript bien définie pour tous les types de métriques que je souhaite suivre
 - **Afin de** Garantir la cohérence des données collectées et faciliter leur exploitation
@@ -31,7 +31,7 @@ Mettre en place une page Metrics pour suivre automatiquement la qualité du code
   - Interface `MetricsConfig` : configuration du collecteur
   - Contient : dossier de sortie, limite d'historique, seuils minimums (coverage, quality, complexity)
 
-#### US-4.2 : Script de collecte automatique des métriques
+#### US-4.2 : Script de collecte automatique des métriques ✅ COMPLÉTÉ
 - **En tant que** Développeur
 - **Je souhaite** Avoir un script qui collecte automatiquement toutes les métriques du projet
 - **Afin de** Générer un snapshot de métriques sans intervention manuelle
@@ -112,7 +112,7 @@ Mettre en place une page Metrics pour suivre automatiquement la qualité du code
   - Continue la collecte même si certaines métriques échouent
   - Retourne des valeurs par défaut (0 ou undefined) pour les métriques non disponibles
 
-#### US-4.3 : Page d'affichage des métriques avec dashboard visuel
+#### US-4.3 : Page d'affichage des métriques avec dashboard visuel ✅ COMPLÉTÉ
 - **En tant que** Manager technico-fonctionnel
 - **Je souhaite** Voir un dashboard visuel des métriques de qualité du code dans le navigateur
 - **Afin de** Suivre facilement l'évolution de la qualité du projet sans regarder les fichiers JSON bruts
@@ -215,7 +215,7 @@ Mettre en place une page Metrics pour suivre automatiquement la qualité du code
   - Padding de la page : ajusté pour éviter que le contenu soit caché par le header fixe
   - Container principal : max-width 1400px, centré
 
-#### US-4.4 : Intégration de la collecte de métriques dans le workflow de développement
+#### US-4.4 : Intégration de la collecte de métriques dans le workflow de développement ✅ COMPLÉTÉ
 - **En tant que** Développeur
 - **Je souhaite** Collecter automatiquement les métriques à chaque fois que j'exécute les tests ou que je fais un build
 - **Afin de** Avoir des métriques toujours à jour sans effort supplémentaire
@@ -266,35 +266,5 @@ Mettre en place une page Metrics pour suivre automatiquement la qualité du code
   - ✅ Vérifie que le clic sur le bouton Metrics redirige vers `/metrics`
   - ✅ TDD strict : RED → GREEN → REFACTOR respecté
 
-#### US-4.6 : Graphiques d'évolution des métriques dans le temps (futur)
-- **En tant que** Manager technico-fonctionnel
-- **Je souhaite** Voir l'évolution des métriques sous forme de graphiques (courbes, barres)
-- **Afin de** Identifier rapidement les tendances et les anomalies sur une période donnée
 
-- **Note** : Cette US sera traitée ultérieurement, après US-4.3, pour enrichir la section "Historique"
 
-- **Critères d'acceptation** :
-
-- **Bibliothèque de graphiques** :
-  - Utilisation de `chart.js` avec le wrapper React `react-chartjs-2`
-  - Les bibliothèques sont déjà installées dans `devDependencies`
-
-- **Graphiques à implémenter** :
-  - Graphique linéaire : évolution du nombre de tests dans le temps
-  - Graphique linéaire : évolution de la couverture de code dans le temps
-  - Graphique linéaire : évolution des erreurs ESLint dans le temps
-  - Graphique en barres : évolution de la taille du code (lignes, composants, pages)
-  - Graphique en barres : évolution de la taille du bundle dans le temps
-
-- **Filtres et période** :
-  - Filtres pour sélectionner la période : derniers 7 jours, 30 jours, 90 jours, tout l'historique
-  - Affichage par défaut : derniers 30 jours
-
-- **Design** :
-  - Les graphiques sont responsive
-  - Intégration cohérente avec le design existant de la page Metrics
-  - Graphiques placés dans la section "Historique" (📈)
-
-- **Interactions** :
-  - Survol d'un point : affiche les valeurs exactes et la date
-  - Légende interactive pour masquer/afficher certaines séries

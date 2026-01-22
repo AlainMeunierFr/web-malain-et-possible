@@ -16,7 +16,7 @@
   "metadata": {
     "compteurMax": 26,
     "prochainIdLibre": 27,
-    "dateGeneration": "2026-01-22T17:19:51.233Z"
+    "dateGeneration": "2026-01-22T21:16:55.418Z"
   },
   "json": [],
   "react": [
@@ -31,18 +31,18 @@
     },
     {
       "file": "PasswordModal.tsx",
-      "path": "line 95",
+      "path": "line 93",
       "type": "button",
-      "line": 95,
+      "line": 93,
       "element": "<button type=\"submit\" className={styles.submitButt",
       "description": "Button",
       "action": ""
     },
     {
       "file": "PasswordModal.tsx",
-      "path": "line 98",
+      "path": "line 96",
       "type": "button",
-      "line": 98,
+      "line": 96,
       "element": "<button type=\"button\" onClick={onClose} className=",
       "description": "Button",
       "action": ""
