@@ -4,16 +4,60 @@
       "type": "video",
       "urlYouTube": "https://youtu.be/nVM9ep-seJE",
       "lancementAuto": true,
-      "e2eID": "v20"
+      "e2eID": ""
     },
     {
       "type": "titre",
       "texte": "Détournement de scènes cultes du cinéma"
     },
+    
+{
+  "domainesDeCompetences": [
     {
-      "type": "domaineDeCompetence",
       "titre": "L'usage des visuels au service des interactions pour soutenir un processus de travail.",
       "contenu": "",
+      "items": [
+        {
+          "titre": "Créativité",
+          "image": {
+            "src": "/images/Créativité.png",
+            "alt": "Créativité"
+          },
+          "description": "« L'imagination est plus importante que le savoir. Car le savoir est limité, tandis que l'imagination embrasse le monde entier, stimulant le progrès, donnant naissance à l'évolution. »",
+          "auteur": "Albert Einstein",
+          "bouton": {
+            "texte": "Voir le portfolio",
+            "action": "/portfolio-detournements"
+          }
+        },
+        {
+          "titre": "Viralité",
+          "image": {
+            "src": "/images/Viralité.png",
+            "alt": "Viralité"
+          },
+          "description": "« Le succès viral n'est pas seulement une question de nombre de vues. Il s'agit de l'impact que ces vues ont et de l'interaction qu'elles génèrent. »",
+          "auteur": "Malcolm Gladwell",
+          "bouton": null
+        },
+        {
+          "titre": "Engagement",
+          "image": {
+            "src": "/images/Engagement par vidéo.png",
+            "alt": "Engagement"
+          },
+          "description": "« Lorsque les gens sont financièrement investis, ils veulent un retour. Lorsque les gens sont émotionnellement investis, ils veulent contribuer. »",
+          "auteur": "Simon Sinek",
+          "bouton": null
+        }
+      ]
+    }
+  ],
+  "contenu": [
+    {
+      "type": "domaineDeCompetence",
+      "titre": "Détournement de scènes cultes du cinéma",
+      "contenu": "L'usage des visuels au service des interactions pour soutenir un processus de travail.",
       "competences": [
         {
           "titre": "Créativité",

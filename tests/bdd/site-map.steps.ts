@@ -1,4 +1,4 @@
-import { Given, When, Then } from '@cucumber/cucumber';
+import { Given, When, Then, Before, After } from '@cucumber/cucumber';
 import { expect } from '@jest/globals';
 import * as fs from 'fs';
 import * as path from 'path';
@@ -21,6 +21,55 @@ let erreurValidation: string | null = null;
 const getSiteMapPath = () => {
   return path.join(process.cwd(), 'data', 'Pages-Et-Lien.json');
 };
+
+// IMPORTANT : Le dossier ./data est notre base de données !
+// Les tests BDD ne doivent JAMAIS modifier les données réelles sans les restaurer
+// Sauvegarder le fichier Pages-Et-Lien.json avant tous les tests BDD (une seule fois)
+let backupPath: string | null = null;
+let originalFileExisted = false;
+let backupAlreadyDone = false;
+
+Before(() => {
+  // Sauvegarder uniquement lors du premier scénario
+  if (!backupAlreadyDone) {
+    const siteMapPath = getSiteMapPath();
+    if (fs.existsSync(siteMapPath)) {
+      originalFileExisted = true;
+      backupPath = siteMapPath + '.bdd-backup.json';
+      fs.copyFileSync(siteMapPath, backupPath);
+    }
+    backupAlreadyDone = true;
+  }
+});
+
+// Restaurer le fichier original après chaque scénario qui pourrait l'avoir modifié
+After(() => {
+  const siteMapPath = getSiteMapPath();
+  if (backupPath && originalFileExisted && fs.existsSync(backupPath)) {
+    // Toujours restaurer le fichier original après chaque scénario
+    fs.copyFileSync(backupPath, siteMapPath);
+  } else if (!originalFileExisted && fs.existsSync(siteMapPath)) {
+    // Si le fichier n'existait pas avant les tests, le supprimer après chaque scénario
+    fs.unlinkSync(siteMapPath);
+  }
+});
+
+// Nettoyer le backup à la fin de tous les tests
+process.on('exit', () => {
+  if (backupPath && fs.existsSync(backupPath)) {
+    fs.unlinkSync(backupPath);
+  }
+});
+
+// Aussi restaurer et nettoyer en cas de SIGINT (Ctrl+C)
+process.on('SIGINT', () => {
+  const siteMapPath = getSiteMapPath();
+  if (backupPath && originalFileExisted && fs.existsSync(backupPath)) {
+    fs.copyFileSync(backupPath, siteMapPath);
+    fs.unlinkSync(backupPath);
+  }
+  process.exit(0);
+});
 
 // Scénario: Détection automatique de toutes les pages du site
 Given('que le système scanne le dossier app/', () => {

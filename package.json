@@ -10,13 +10,15 @@
     "test:e2e": "playwright test",
     "test:e2e:ui": "playwright test --ui",
     "test:e2e:report": "playwright show-report",
+    "test:e2e:generate": "ts-node scripts/generate-e2e-scenario.ts",
     "build": "next build",
     "build:analyze": "ANALYZE=true next build",
     "start": "next start",
     "lint": "eslint",
     "metrics:collect": "ts-node scripts/collect-metrics-simple.ts",
     "metrics:view": "npm run dev",
-    "metrics:full": "npm run metrics:collect && npm run dev"
+    "metrics:full": "npm run metrics:collect && npm run dev",
+    "precommit": "npm run test:e2e:generate && npm run test -- tests/integration/generate-e2e-plan.integration.test.ts"
   },
   "dependencies": {
     "@xyflow/react": "^12.10.0",

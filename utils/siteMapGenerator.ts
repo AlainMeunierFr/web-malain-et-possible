@@ -132,8 +132,8 @@ export const detecterPages = (): PlanPage[] => {
           }
 
           // Déterminer si la page doit être dessinée
-          // Accueil et pages du footer : "Non", autres : "Oui"
-          const pagesNonDessinees = ['/', '/a-propos-du-site', '/plan-du-site', '/metrics'];
+          // Par défaut "Oui", sauf pour "Maintenance" et "Liste des pages du site" (plan-du-site)
+          const pagesNonDessinees = ['/maintenance', '/plan-du-site'];
           const dessiner = pagesNonDessinees.includes(url) ? 'Non' : 'Oui';
 
           pages.push({
@@ -167,7 +167,8 @@ export const detecterPages = (): PlanPage[] => {
     } catch (e) {
       // Garder le titre par défaut
     }
-    pages.unshift({ url: '/', titre: titreHome, x: null, y: null, dessiner: 'Non' });
+    // HomePage doit être dessinée par défaut (seules /maintenance et /plan-du-site sont "Non")
+    pages.unshift({ url: '/', titre: titreHome, x: null, y: null, dessiner: 'Oui' });
   }
 
   return pages;
@@ -330,7 +331,9 @@ export const detecterLiensInternes = (): PlanLien[] => {
 
 /**
  * Met à jour le plan JSON avec les pages et liens détectés
- * - Ajoute les nouvelles pages (avec x: null, y: null)
+ * - Recherche chaque page par son URL : si elle n'existe pas, la crée
+ * - Ne touche pas aux valeurs existantes, sauf "titre" qui prend la valeur trouvée par l'algo
+ * - Si "dessiner" est vide/null, la valeur par défaut est "Oui"
  * - Supprime les pages obsolètes
  * - Ajoute les nouveaux liens
  * - Supprime les liens obsolètes
@@ -359,30 +362,32 @@ export const mettreAJourPlanJSON = (pages: PlanPage[], liens: PlanLien[]): void 
   
   // Pour chaque page détectée
   for (const pageDetectee of pages) {
-    // Chercher si elle existe déjà dans le plan
+    // Rechercher la page par son URL dans le plan existant
     const pageExistante = planExistant.pages.find((p) => p.url === pageDetectee.url);
     
     if (pageExistante) {
-      // Conserver l'emplacement existant si présent, et la propriété dessiner si elle existe
-      // Sinon utiliser la valeur détectée, ou 'Oui' par défaut
+      // Page existe déjà : conserver TOUTES les valeurs existantes sauf le titre qui est mis à jour
+      // Si dessiner est vide/null, utiliser 'Oui' par défaut
       const dessiner = pageExistante.dessiner || pageDetectee.dessiner || 'Oui';
       pagesMisesAJour.push({
-        url: pageDetectee.url,
-        titre: pageDetectee.titre, // Mettre à jour le titre au cas où
+        url: pageExistante.url,
+        titre: pageDetectee.titre, // Seule valeur mise à jour depuis l'algo
         x: pageExistante.x,
         y: pageExistante.y,
-        dessiner, // Toujours présent dans le JSON
+        numero: pageExistante.numero, // Conserver le numéro existant
+        dessiner,
+        e2eIDs: pageExistante.e2eIDs, // Conserver les e2eIDs existants
       });
     } else {
-      // Nouvelle page : ajouter avec x et y null
-      // Toujours définir dessiner explicitement : utiliser la valeur détectée ou 'Oui' par défaut
+      // Page n'existe pas : créer une nouvelle page
+      // Si dessiner est vide/null, utiliser 'Oui' par défaut
       const dessiner = pageDetectee.dessiner || 'Oui';
       pagesMisesAJour.push({
         url: pageDetectee.url,
         titre: pageDetectee.titre,
         x: null,
         y: null,
-        dessiner, // Toujours présent dans le JSON, 'Oui' par défaut pour les nouvelles pages
+        dessiner,
       });
     }
   }

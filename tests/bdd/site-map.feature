@@ -30,6 +30,9 @@ Fonctionnalité: Génération automatique du plan du site et validation de confo
     Alors les nouvelles pages sont ajoutées au JSON sans contrôle humain
     Et les pages existantes sont conservées
     Et les emplacements (x, y) existants sont conservés
+    Et le titre des pages existantes est mis à jour avec la valeur trouvée par l'algorithme
+    Et toutes les autres valeurs existantes (x, y, numero, e2eIDs, dessiner) sont préservées
+    Et si "dessiner" est vide ou null, il est défini à "Oui" par défaut
 
   Scénario: Mise à jour automatique du plan JSON avec les liens détectés
     Étant donné qu'un plan JSON existe dans data/Pages-Et-Lien.json

@@ -1,93 +1,273 @@
 {
   "pages": [
     {
-      "numero": 1,
       "url": "/",
       "titre": "Mon parcours, mes transformations",
-      "x": -937,
-      "y": -1128,
+      "x": 500,
+      "y": 600,
+      "numero": 42,
+      "dessiner": "Oui",
+      "e2eIDs": [
+        "e2e1",
+        "e2e2"
+      ]
+    },
+    {
+      "url": "/a-propos-du-site",
+      "titre": "a-propos-du-site",
+      "x": 200,
+      "y": 200,
       "dessiner": "Oui"
     },
     {
-      "numero": 2,
-      "url": "/robustesse",
-      "titre": "Robustesse",
-      "x": -833,
-      "y": -956,
-      "dessiner": "Oui"
-    },
-    {
-      "numero": 3,
-      "url": "/transformation",
-      "titre": "Transformation",
-      "x": -706,
-      "y": -794,
-      "dessiner": "Oui"
-    },
-    {
-      "numero": 4,
       "url": "/detournement-video",
-      "titre": "Detournement video",
-      "x": -1124,
-      "y": -650,
+      "titre": "Détournement de scènes cultes du cinéma",
+      "x": null,
+      "y": null,
       "dessiner": "Oui"
     },
     {
-      "numero": 5,
-      "url": "/portfolio-detournements",
-      "titre": "Portfolio de detournements vidéos",
-      "x": -260,
-      "y": -630,
+      "url": "/maintenance",
+      "titre": "maintenance",
+      "x": null,
+      "y": null,
       "dessiner": "Oui"
     },
-   {
-      "numero": 6,
+    {
       "url": "/management-de-produit-logiciel",
       "titre": "Management de produit logiciel - Product Owner",
-      "x": -584,
-      "y": -659,
+      "x": null,
+      "y": null,
       "dessiner": "Oui"
     },
     {
-      "numero": 7,
       "url": "/metrics",
-      "titre": "Metrics",
-      "x": -1733,
-      "y": -610,
-      "dessiner": "Oui"
+      "titre": "metrics",
+      "x": null,
+      "y": null,
+      "dessiner": "Non"
     },
     {
-      "numero": 8,
-      "url": "/pour_aller_plus_loin",
-      "titre": "Pour aller plus loin...",
-      "x": -351,
-      "y": -945,
-      "dessiner": "Oui"
-    },
-    {
-      "numero": 9,
       "url": "/plan-du-site",
-      "titre": "Plan du site",
-      "x": -653,
-      "y": -346,
+      "titre": "Liste des pages du site",
+      "x": null,
+      "y": null,
       "dessiner": "Non"
     },
     {
-      "numero": 10,
-      "url": "/a-propos-du-site",
-      "titre": "A propos du site",
-      "x": -1703,
-      "y": -167,
+      "url": "/portfolio-detournements",
+      "titre": "Portfolio de detournements vidéos",
+      "x": null,
+      "y": null,
       "dessiner": "Oui"
     },
     {
-      "numero": 11,
-      "url": "/maintenance",
-      "titre": "Maintenance",
-      "x": -1004,
-      "y": -60,
-      "dessiner": "Non"
+      "url": "/pour_aller_plus_loin",
+      "titre": "Pour aller plus loin, je vous propose une expérience...",
+      "x": null,
+      "y": null,
+      "dessiner": "Oui"
+    },
+    {
+      "url": "/robustesse",
+      "titre": "robustesse",
+      "x": null,
+      "y": null,
+      "dessiner": "Oui"
+    },
+    {
+      "url": "/transformation",
+      "titre": "Transformation & conduite du changement",
+      "x": null,
+      "y": null,
+      "dessiner": "Oui"
     }
   ],
-  "liens": []
+  "liens": [
+    {
+      "source": "/",
+      "destination": "/robustesse",
+      "label": "En savoir plus..."
+    },
+    {
+      "source": "/",
+      "destination": "/transformation",
+      "label": "En savoir plus..."
+    },
+    {
+      "source": "/",
+      "destination": "/detournement-video",
+      "label": "En savoir plus..."
+    },
+    {
+      "source": "/",
+      "destination": "/management-de-produit-logiciel",
+      "label": "En savoir plus..."
+    },
+    {
+      "source": "/",
+      "destination": "/a-propos-du-site",
+      "label": "En savoir plus..."
+    },
+    {
+      "source": "/",
+      "destination": "/plan-du-site",
+      "label": "Plan du site"
+    },
+    {
+      "source": "/a-propos-du-site",
+      "destination": "/plan-du-site",
+      "label": "Plan du site"
+    },
+    {
+      "source": "/detournement-video",
+      "destination": "/plan-du-site",
+      "label": "Plan du site"
+    },
+    {
+      "source": "/maintenance",
+      "destination": "/plan-du-site",
+      "label": "Plan du site"
+    },
+    {
+      "source": "/management-de-produit-logiciel",
+      "destination": "/plan-du-site",
+      "label": "Plan du site"
+    },
+    {
+      "source": "/metrics",
+      "destination": "/plan-du-site",
+      "label": "Plan du site"
+    },
+    {
+      "source": "/plan-du-site",
+      "destination": "/plan-du-site",
+      "label": "Plan du site"
+    },
+    {
+      "source": "/portfolio-detournements",
+      "destination": "/plan-du-site",
+      "label": "Plan du site"
+    },
+    {
+      "source": "/pour_aller_plus_loin",
+      "destination": "/plan-du-site",
+      "label": "Plan du site"
+    },
+    {
+      "source": "/robustesse",
+      "destination": "/plan-du-site",
+      "label": "Plan du site"
+    },
+    {
+      "source": "/transformation",
+      "destination": "/plan-du-site",
+      "label": "Plan du site"
+    },
+    {
+      "source": "/",
+      "destination": "/metrics",
+      "label": "Metrics"
+    },
+    {
+      "source": "/a-propos-du-site",
+      "destination": "/metrics",
+      "label": "Metrics"
+    },
+    {
+      "source": "/detournement-video",
+      "destination": "/metrics",
+      "label": "Metrics"
+    },
+    {
+      "source": "/maintenance",
+      "destination": "/metrics",
+      "label": "Metrics"
+    },
+    {
+      "source": "/management-de-produit-logiciel",
+      "destination": "/metrics",
+      "label": "Metrics"
+    },
+    {
+      "source": "/metrics",
+      "destination": "/metrics",
+      "label": "Metrics"
+    },
+    {
+      "source": "/plan-du-site",
+      "destination": "/metrics",
+      "label": "Metrics"
+    },
+    {
+      "source": "/portfolio-detournements",
+      "destination": "/metrics",
+      "label": "Metrics"
+    },
+    {
+      "source": "/pour_aller_plus_loin",
+      "destination": "/metrics",
+      "label": "Metrics"
+    },
+    {
+      "source": "/robustesse",
+      "destination": "/metrics",
+      "label": "Metrics"
+    },
+    {
+      "source": "/transformation",
+      "destination": "/metrics",
+      "label": "Metrics"
+    },
+    {
+      "source": "/a-propos-du-site",
+      "destination": "/a-propos-du-site",
+      "label": "A propos du site"
+    },
+    {
+      "source": "/detournement-video",
+      "destination": "/a-propos-du-site",
+      "label": "A propos du site"
+    },
+    {
+      "source": "/maintenance",
+      "destination": "/a-propos-du-site",
+      "label": "A propos du site"
+    },
+    {
+      "source": "/management-de-produit-logiciel",
+      "destination": "/a-propos-du-site",
+      "label": "A propos du site"
+    },
+    {
+      "source": "/metrics",
+      "destination": "/a-propos-du-site",
+      "label": "A propos du site"
+    },
+    {
+      "source": "/plan-du-site",
+      "destination": "/a-propos-du-site",
+      "label": "A propos du site"
+    },
+    {
+      "source": "/portfolio-detournements",
+      "destination": "/a-propos-du-site",
+      "label": "A propos du site"
+    },
+    {
+      "source": "/pour_aller_plus_loin",
+      "destination": "/a-propos-du-site",
+      "label": "A propos du site"
+    },
+    {
+      "source": "/robustesse",
+      "destination": "/a-propos-du-site",
+      "label": "A propos du site"
+    },
+    {
+      "source": "/transformation",
+      "destination": "/a-propos-du-site",
+      "label": "A propos du site"
+    }
+  ]
 }
