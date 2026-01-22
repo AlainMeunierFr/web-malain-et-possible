@@ -114,8 +114,15 @@ function collectE2EMetrics(): { total: number; passed: number; failed: number; d
     if (fs.existsSync(playwrightReportData)) {
       try {
         const stats = fs.statSync(playwrightReportData);
-        if (!lastRunDate || stats.mtime > lastRunDate) {
-          lastRunDate = stats.mtime;
+        const statsMtime: Date = stats.mtime;
+        if (lastRunDate === null) {
+          lastRunDate = statsMtime;
+        } else {
+          const currentTime = statsMtime.getTime();
+          const lastTime = (lastRunDate as Date).getTime();
+          if (currentTime > lastTime) {
+            lastRunDate = statsMtime;
+          }
         }
         
         const content = fs.readFileSync(playwrightReportData, 'utf-8');
@@ -218,9 +225,16 @@ function collectE2EMetrics(): { total: number; passed: number; failed: number; d
       
       walkResultsDir(testResultsDir);
       
-      if (total > 0) {
-        if (!lastRunDate || (latestFileDate && latestFileDate > lastRunDate)) {
-          lastRunDate = latestFileDate;
+      if (total > 0 && latestFileDate !== null) {
+        const latestDate: Date = latestFileDate;
+        if (lastRunDate === null) {
+          lastRunDate = latestDate;
+        } else {
+          const latestTime = latestDate.getTime();
+          const lastTime = (lastRunDate as Date).getTime();
+          if (latestTime > lastTime) {
+            lastRunDate = latestDate;
+          }
         }
         resultData = {
           total,

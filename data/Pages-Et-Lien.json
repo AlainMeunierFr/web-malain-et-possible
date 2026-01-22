@@ -31,7 +31,7 @@
       "titre": "maintenance",
       "x": null,
       "y": null,
-      "dessiner": "Oui"
+      "dessiner": "Non"
     },
     {
       "url": "/management-de-produit-logiciel",
@@ -45,7 +45,7 @@
       "titre": "metrics",
       "x": null,
       "y": null,
-      "dessiner": "Non"
+      "dessiner": "Oui"
     },
     {
       "url": "/plan-du-site",
@@ -167,107 +167,107 @@
     {
       "source": "/",
       "destination": "/metrics",
-      "label": "Metrics"
+      "label": "BarChart3"
     },
     {
       "source": "/a-propos-du-site",
       "destination": "/metrics",
-      "label": "Metrics"
+      "label": "BarChart3"
     },
     {
       "source": "/detournement-video",
       "destination": "/metrics",
-      "label": "Metrics"
+      "label": "BarChart3"
     },
     {
       "source": "/maintenance",
       "destination": "/metrics",
-      "label": "Metrics"
+      "label": "BarChart3"
     },
     {
       "source": "/management-de-produit-logiciel",
       "destination": "/metrics",
-      "label": "Metrics"
+      "label": "BarChart3"
     },
     {
       "source": "/metrics",
       "destination": "/metrics",
-      "label": "Metrics"
+      "label": "BarChart3"
     },
     {
       "source": "/plan-du-site",
       "destination": "/metrics",
-      "label": "Metrics"
+      "label": "BarChart3"
     },
     {
       "source": "/portfolio-detournements",
       "destination": "/metrics",
-      "label": "Metrics"
+      "label": "BarChart3"
     },
     {
       "source": "/pour_aller_plus_loin",
       "destination": "/metrics",
-      "label": "Metrics"
+      "label": "BarChart3"
     },
     {
       "source": "/robustesse",
       "destination": "/metrics",
-      "label": "Metrics"
+      "label": "BarChart3"
     },
     {
       "source": "/transformation",
       "destination": "/metrics",
-      "label": "Metrics"
+      "label": "BarChart3"
     },
     {
       "source": "/a-propos-du-site",
       "destination": "/a-propos-du-site",
-      "label": "A propos du site"
+      "label": "Info"
     },
     {
       "source": "/detournement-video",
       "destination": "/a-propos-du-site",
-      "label": "A propos du site"
+      "label": "Info"
     },
     {
       "source": "/maintenance",
       "destination": "/a-propos-du-site",
-      "label": "A propos du site"
+      "label": "Info"
     },
     {
       "source": "/management-de-produit-logiciel",
       "destination": "/a-propos-du-site",
-      "label": "A propos du site"
+      "label": "Info"
     },
     {
       "source": "/metrics",
       "destination": "/a-propos-du-site",
-      "label": "A propos du site"
+      "label": "Info"
     },
     {
       "source": "/plan-du-site",
       "destination": "/a-propos-du-site",
-      "label": "A propos du site"
+      "label": "Info"
     },
     {
       "source": "/portfolio-detournements",
       "destination": "/a-propos-du-site",
-      "label": "A propos du site"
+      "label": "Info"
     },
     {
       "source": "/pour_aller_plus_loin",
       "destination": "/a-propos-du-site",
-      "label": "A propos du site"
+      "label": "Info"
     },
     {
       "source": "/robustesse",
       "destination": "/a-propos-du-site",
-      "label": "A propos du site"
+      "label": "Info"
     },
     {
       "source": "/transformation",
       "destination": "/a-propos-du-site",
-      "label": "A propos du site"
+      "label": "Info"
     }
   ]
 }

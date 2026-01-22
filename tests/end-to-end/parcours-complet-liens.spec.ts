@@ -102,8 +102,8 @@ test('parcours complet de tous les liens du site', async ({ page }) => {
   await expect(page).toHaveURL('/plan-du-site');
 
   // Étape 5: Navigation de /plan-du-site vers /metrics
-  // Label du lien: "Metrics"
-  const lien4 = page.getByRole('link', { name: /Metrics/i });
+  // Label du lien: "BarChart3"
+  const lien4 = page.getByRole('link', { name: /BarChart3/i });
   if (await lien4.count() > 0) {
     await lien4.first().click();
   } else {
@@ -164,8 +164,8 @@ test('parcours complet de tous les liens du site', async ({ page }) => {
   await expect(page).toHaveURL('/plan-du-site');
 
   // Étape 7: Navigation de /plan-du-site vers /a-propos-du-site
-  // Label du lien: "A propos du site"
-  const lien6 = page.getByRole('link', { name: /A propos du site/i });
+  // Label du lien: "Info"
+  const lien6 = page.getByRole('link', { name: /Info/i });
   if (await lien6.count() > 0) {
     await lien6.first().click();
   } else {
@@ -567,8 +567,8 @@ test('parcours complet de tous les liens du site', async ({ page }) => {
   await expect(page).toHaveURL('/a-propos-du-site');
 
   // Étape 20: Navigation de /a-propos-du-site vers /metrics
-  // Label du lien: "Metrics"
-  const lien19 = page.getByRole('link', { name: /Metrics/i });
+  // Label du lien: "BarChart3"
+  const lien19 = page.getByRole('link', { name: /BarChart3/i });
   if (await lien19.count() > 0) {
     await lien19.first().click();
   } else {
@@ -598,8 +598,8 @@ test('parcours complet de tous les liens du site', async ({ page }) => {
   await expect(page).toHaveURL('/metrics');
 
   // Étape 21: Navigation de /metrics vers /metrics
-  // Label du lien: "Metrics"
-  const lien20 = page.getByRole('link', { name: /Metrics/i });
+  // Label du lien: "BarChart3"
+  const lien20 = page.getByRole('link', { name: /BarChart3/i });
   if (await lien20.count() > 0) {
     await lien20.first().click();
   } else {
@@ -629,8 +629,8 @@ test('parcours complet de tous les liens du site', async ({ page }) => {
   await expect(page).toHaveURL('/metrics');
 
   // Étape 22: Navigation de /metrics vers /a-propos-du-site
-  // Label du lien: "A propos du site"
-  const lien21 = page.getByRole('link', { name: /A propos du site/i });
+  // Label du lien: "Info"
+  const lien21 = page.getByRole('link', { name: /Info/i });
   if (await lien21.count() > 0) {
     await lien21.first().click();
   } else {
@@ -660,8 +660,8 @@ test('parcours complet de tous les liens du site', async ({ page }) => {
   await expect(page).toHaveURL('/a-propos-du-site');
 
   // Étape 23: Navigation de /a-propos-du-site vers /a-propos-du-site
-  // Label du lien: "A propos du site"
-  const lien22 = page.getByRole('link', { name: /A propos du site/i });
+  // Label du lien: "Info"
+  const lien22 = page.getByRole('link', { name: /Info/i });
   if (await lien22.count() > 0) {
     await lien22.first().click();
   } else {
@@ -970,8 +970,8 @@ test('parcours complet de tous les liens du site', async ({ page }) => {
   await expect(page).toHaveURL('/');
 
   // Étape 33: Navigation de / vers /metrics
-  // Label du lien: "Metrics"
-  const lien32 = page.getByRole('link', { name: /Metrics/i });
+  // Label du lien: "BarChart3"
+  const lien32 = page.getByRole('link', { name: /BarChart3/i });
   if (await lien32.count() > 0) {
     await lien32.first().click();
   } else {
@@ -1032,8 +1032,8 @@ test('parcours complet de tous les liens du site', async ({ page }) => {
   await expect(page).toHaveURL('/detournement-video');
 
   // Étape 35: Navigation de /detournement-video vers /metrics
-  // Label du lien: "Metrics"
-  const lien34 = page.getByRole('link', { name: /Metrics/i });
+  // Label du lien: "BarChart3"
+  const lien34 = page.getByRole('link', { name: /BarChart3/i });
   if (await lien34.count() > 0) {
     await lien34.first().click();
   } else {
@@ -1094,8 +1094,8 @@ test('parcours complet de tous les liens du site', async ({ page }) => {
   await expect(page).toHaveURL('/maintenance');
 
   // Étape 37: Navigation de /maintenance vers /metrics
-  // Label du lien: "Metrics"
-  const lien36 = page.getByRole('link', { name: /Metrics/i });
+  // Label du lien: "BarChart3"
+  const lien36 = page.getByRole('link', { name: /BarChart3/i });
   if (await lien36.count() > 0) {
     await lien36.first().click();
   } else {
@@ -1156,8 +1156,8 @@ test('parcours complet de tous les liens du site', async ({ page }) => {
   await expect(page).toHaveURL('/management-de-produit-logiciel');
 
   // Étape 39: Navigation de /management-de-produit-logiciel vers /metrics
-  // Label du lien: "Metrics"
-  const lien38 = page.getByRole('link', { name: /Metrics/i });
+  // Label du lien: "BarChart3"
+  const lien38 = page.getByRole('link', { name: /BarChart3/i });
   if (await lien38.count() > 0) {
     await lien38.first().click();
   } else {
@@ -1218,8 +1218,8 @@ test('parcours complet de tous les liens du site', async ({ page }) => {
   await expect(page).toHaveURL('/portfolio-detournements');
 
   // Étape 41: Navigation de /portfolio-detournements vers /metrics
-  // Label du lien: "Metrics"
-  const lien40 = page.getByRole('link', { name: /Metrics/i });
+  // Label du lien: "BarChart3"
+  const lien40 = page.getByRole('link', { name: /BarChart3/i });
   if (await lien40.count() > 0) {
     await lien40.first().click();
   } else {
@@ -1280,8 +1280,8 @@ test('parcours complet de tous les liens du site', async ({ page }) => {
   await expect(page).toHaveURL('/pour_aller_plus_loin');
 
   // Étape 43: Navigation de /pour_aller_plus_loin vers /metrics
-  // Label du lien: "Metrics"
-  const lien42 = page.getByRole('link', { name: /Metrics/i });
+  // Label du lien: "BarChart3"
+  const lien42 = page.getByRole('link', { name: /BarChart3/i });
   if (await lien42.count() > 0) {
     await lien42.first().click();
   } else {
@@ -1342,8 +1342,8 @@ test('parcours complet de tous les liens du site', async ({ page }) => {
   await expect(page).toHaveURL('/robustesse');
 
   // Étape 45: Navigation de /robustesse vers /metrics
-  // Label du lien: "Metrics"
-  const lien44 = page.getByRole('link', { name: /Metrics/i });
+  // Label du lien: "BarChart3"
+  const lien44 = page.getByRole('link', { name: /BarChart3/i });
   if (await lien44.count() > 0) {
     await lien44.first().click();
   } else {
@@ -1404,8 +1404,8 @@ test('parcours complet de tous les liens du site', async ({ page }) => {
   await expect(page).toHaveURL('/transformation');
 
   // Étape 47: Navigation de /transformation vers /metrics
-  // Label du lien: "Metrics"
-  const lien46 = page.getByRole('link', { name: /Metrics/i });
+  // Label du lien: "BarChart3"
+  const lien46 = page.getByRole('link', { name: /BarChart3/i });
   if (await lien46.count() > 0) {
     await lien46.first().click();
   } else {
@@ -1466,8 +1466,8 @@ test('parcours complet de tous les liens du site', async ({ page }) => {
   await expect(page).toHaveURL('/detournement-video');
 
   // Étape 49: Navigation de /detournement-video vers /a-propos-du-site
-  // Label du lien: "A propos du site"
-  const lien48 = page.getByRole('link', { name: /A propos du site/i });
+  // Label du lien: "Info"
+  const lien48 = page.getByRole('link', { name: /Info/i });
   if (await lien48.count() > 0) {
     await lien48.first().click();
   } else {
@@ -1528,8 +1528,8 @@ test('parcours complet de tous les liens du site', async ({ page }) => {
   await expect(page).toHaveURL('/maintenance');
 
   // Étape 51: Navigation de /maintenance vers /a-propos-du-site
-  // Label du lien: "A propos du site"
-  const lien50 = page.getByRole('link', { name: /A propos du site/i });
+  // Label du lien: "Info"
+  const lien50 = page.getByRole('link', { name: /Info/i });
   if (await lien50.count() > 0) {
     await lien50.first().click();
   } else {
@@ -1590,8 +1590,8 @@ test('parcours complet de tous les liens du site', async ({ page }) => {
   await expect(page).toHaveURL('/management-de-produit-logiciel');
 
   // Étape 53: Navigation de /management-de-produit-logiciel vers /a-propos-du-site
-  // Label du lien: "A propos du site"
-  const lien52 = page.getByRole('link', { name: /A propos du site/i });
+  // Label du lien: "Info"
+  const lien52 = page.getByRole('link', { name: /Info/i });
   if (await lien52.count() > 0) {
     await lien52.first().click();
   } else {
@@ -1652,8 +1652,8 @@ test('parcours complet de tous les liens du site', async ({ page }) => {
   await expect(page).toHaveURL('/portfolio-detournements');
 
   // Étape 55: Navigation de /portfolio-detournements vers /a-propos-du-site
-  // Label du lien: "A propos du site"
-  const lien54 = page.getByRole('link', { name: /A propos du site/i });
+  // Label du lien: "Info"
+  const lien54 = page.getByRole('link', { name: /Info/i });
   if (await lien54.count() > 0) {
     await lien54.first().click();
   } else {
@@ -1714,8 +1714,8 @@ test('parcours complet de tous les liens du site', async ({ page }) => {
   await expect(page).toHaveURL('/pour_aller_plus_loin');
 
   // Étape 57: Navigation de /pour_aller_plus_loin vers /a-propos-du-site
-  // Label du lien: "A propos du site"
-  const lien56 = page.getByRole('link', { name: /A propos du site/i });
+  // Label du lien: "Info"
+  const lien56 = page.getByRole('link', { name: /Info/i });
   if (await lien56.count() > 0) {
     await lien56.first().click();
   } else {
@@ -1776,8 +1776,8 @@ test('parcours complet de tous les liens du site', async ({ page }) => {
   await expect(page).toHaveURL('/robustesse');
 
   // Étape 59: Navigation de /robustesse vers /a-propos-du-site
-  // Label du lien: "A propos du site"
-  const lien58 = page.getByRole('link', { name: /A propos du site/i });
+  // Label du lien: "Info"
+  const lien58 = page.getByRole('link', { name: /Info/i });
   if (await lien58.count() > 0) {
     await lien58.first().click();
   } else {
@@ -1838,8 +1838,8 @@ test('parcours complet de tous les liens du site', async ({ page }) => {
   await expect(page).toHaveURL('/transformation');
 
   // Étape 61: Navigation de /transformation vers /a-propos-du-site
-  // Label du lien: "A propos du site"
-  const lien60 = page.getByRole('link', { name: /A propos du site/i });
+  // Label du lien: "Info"
+  const lien60 = page.getByRole('link', { name: /Info/i });
   if (await lien60.count() > 0) {
     await lien60.first().click();
   } else {

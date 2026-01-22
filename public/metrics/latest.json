@@ -1,39 +1,46 @@
 {
-  "timestamp": "2026-01-21T00:15:03.288Z",
+  "timestamp": "2026-01-22T06:51:56.969Z",
   "version": "0.1.0",
   "branch": "main",
-  "commit": "a1de36d",
+  "commit": "5c825c8",
   "tests": {
-    "unitTests": 336,
-    "integrationTests": 9,
-    "bddFeatures": 8,
+    "unitTests": 341,
+    "integrationTests": 1,
+    "bddFeatures": 9,
     "bddScenarios": 33,
     "bddSteps": 0,
-    "totalTests": 345,
-    "passingTests": 345,
+    "totalTests": 342,
+    "passingTests": 342,
     "failingTests": 0,
-    "testDuration": 0
+    "testDuration": 0,
+    "e2eTests": {
+      "total": 1,
+      "passed": 1,
+      "failed": 0,
+      "duration": 0,
+      "lastRunDate": "2026-01-21T18:13:34.130Z"
+    }
   },
   "coverage": {
     "lines": {
-      "total": 1152,
-      "covered": 1051,
-      "percentage": 91.23
+      "total": 1263,
+      "covered": 1035,
+      "percentage": 81.94
     },
     "statements": {
-      "total": 1203,
-      "covered": 1095,
-      "percentage": 91.02
+      "total": 1316,
+      "covered": 1077,
+      "percentage": 81.83
     },
     "functions": {
-      "total": 144,
-      "covered": 128,
-      "percentage": 88.88
+      "total": 157,
+      "covered": 119,
+      "percentage": 75.79
     },
     "branches": {
-      "total": 719,
-      "covered": 584,
-      "percentage": 81.22
+      "total": 786,
+      "covered": 586,
+      "percentage": 74.55
     }
   },
   "quality": {
@@ -45,20 +52,20 @@
     "technicalDebt": "2h"
   },
   "size": {
-    "totalFiles": 43,
-    "totalLines": 4256,
-    "sourceLines": 4256,
+    "totalFiles": 48,
+    "totalLines": 4759,
+    "sourceLines": 4759,
     "commentLines": 0,
     "blankLines": 0,
-    "components": 23,
-    "pages": 11,
-    "utils": 9,
-    "tests": 43
+    "components": 25,
+    "pages": 12,
+    "utils": 11,
+    "tests": 47
   },
   "dependencies": {
-    "total": 30,
-    "production": 4,
-    "development": 26,
+    "total": 33,
+    "production": 6,
+    "development": 27,
     "outdated": 0,
     "vulnerabilities": {
       "low": 0,
@@ -69,7 +76,7 @@
     }
   },
   "performance": {
-    "bundleSize": 1146667,
+    "bundleSize": 1383011,
     "buildTime": 0
   }
 }
