@@ -325,13 +325,8 @@
   }
 
   .gridTests {
-    grid-template-columns: repeat(5, minmax(0, 1fr));
-    overflow-x: auto;
-  }
-  
-  .gridTests .card {
-    min-width: 180px;
-    flex-shrink: 0;
+    grid-template-columns: 1fr;
+    gap: 1rem;
   }
 
   .meta {
