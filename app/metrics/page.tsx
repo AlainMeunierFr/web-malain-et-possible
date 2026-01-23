@@ -8,6 +8,9 @@ import path from 'path';
 import type { MetricsHistory, MetricsSnapshot } from '../../types/metrics';
 import styles from './metrics.module.css';
 
+// Désactiver le prerendering statique car on lit des fichiers système
+export const dynamic = 'force-dynamic';
+
 /**
  * Charge les métriques depuis le fichier JSON
  */

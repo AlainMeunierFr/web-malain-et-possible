@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, Suspense } from 'react';
 import { usePathname, useSearchParams } from 'next/navigation';
 
 declare global {
@@ -14,7 +14,7 @@ interface MatomoProps {
   siteId?: string;
 }
 
-const Matomo: React.FC<MatomoProps> = ({ 
+const MatomoInner: React.FC<MatomoProps> = ({ 
   matomoUrl = process.env.NEXT_PUBLIC_MATOMO_URL,
   siteId = process.env.NEXT_PUBLIC_MATOMO_SITE_ID 
 }) => {
@@ -76,6 +76,14 @@ const Matomo: React.FC<MatomoProps> = ({
 
   // Ce composant ne rend rien
   return null;
+};
+
+const Matomo: React.FC<MatomoProps> = (props) => {
+  return (
+    <Suspense fallback={null}>
+      <MatomoInner {...props} />
+    </Suspense>
+  );
 };
 
 export default Matomo;
