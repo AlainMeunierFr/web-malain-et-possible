@@ -102,10 +102,17 @@ do {
     $choice = Read-Host "Choisissez une option"
     switch ($choice) {
         "1" {
+            Write-Host ""
+            Write-Host "Mise à jour de la version avant publication..." -ForegroundColor Cyan
+            # Mettre à jour la version (sync avec les US complétées + incrémenter patch)
+            $versionCmd = "npm run version:sync; npm run version:patch"
+            Execute-Command $versionCmd "Mise à jour de la version" -NoWait
+            
             $message = Read-Host "Message de commit"
             if ([string]::IsNullOrWhiteSpace($message)) {
                 $message = "chore: Mise à jour"
             }
+            # Ajouter les fichiers modifiés (y compris site-version.json), commit et push
             $cmd = "git add -A; git commit -m `"$message`"; git push"
             Execute-Command $cmd "Publier la version"
         }
