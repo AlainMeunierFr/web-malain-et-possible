@@ -11,13 +11,13 @@ import type { ElementVideoDetournement } from '../../utils/indexReader';
 // Mock TexteLarge
 jest.mock('../../components/TexteLarge', () => {
   return ({ element }: { element: { type: string; texte: string } }) => {
-    return React.createElement('div', { 'data-testid': 'texte-large' }, element.texte);
+    return React.createElement('div', { 'data-e2eid': 'texte-large' }, element.texte);
   };
 });
 
 // Mock lucide-react
 jest.mock('lucide-react', () => ({
-  AlertTriangle: () => React.createElement('svg', { 'data-testid': 'alert-triangle' }, null),
+  AlertTriangle: () => React.createElement('svg', { 'data-e2eid': 'alert-triangle' }, null),
 }));
 
 describe('Composant VideoDetournement', () => {

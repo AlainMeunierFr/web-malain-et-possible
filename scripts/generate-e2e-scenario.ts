@@ -15,10 +15,17 @@ import * as fs from 'fs';
 import * as path from 'path';
 import type { PlanLien } from '../utils/siteMapGenerator';
 import { generateE2eIdInventory, type E2eIdInventoryItem } from '../utils/e2eIdInventory';
+import { generateE2eIdFromUrl } from '../utils/e2eIdFromUrl';
 
 interface LienAvecIndex extends PlanLien {
   index: number; // Index original dans le tableau
 }
+
+/**
+ * Pages exclues du test E2E (hardcodées)
+ * Ces pages ne seront pas testées car elles ne sont pas accessibles en production
+ */
+const PAGES_EXCLUES = ['/maintenance'];
 
 /**
  * Génère un chemin qui parcourt tous les liens
@@ -48,25 +55,41 @@ const genererCheminComplet = (liens: PlanLien[]): { chemin: string[]; liensUtili
       liensUtilises.push({ ...lien }); // Ajouter aux liens utilisés
       liensRestants.splice(lienIndex, 1); // Supprimer de la copie RAM
       
-      // Aller à la destination
-      pageCourante = lien.destination;
-      chemin.push(pageCourante);
+      // Aller à la destination (si elle n'est pas exclue)
+      const destination = lien.destination;
+      if (!PAGES_EXCLUES.includes(destination)) {
+        pageCourante = destination;
+        chemin.push(pageCourante);
+      } else {
+        // Page exclue, ne pas l'ajouter au chemin et ne pas changer pageCourante
+        // On reste sur la page précédente et on cherchera un autre lien
+        console.warn(`⚠️  Page exclue ignorée: ${destination}`);
+        // Ne pas changer pageCourante, on reste sur la page précédente
+        // Le lien a été supprimé de liensRestants, donc on cherchera un autre lien
+      }
     } else {
       // Pas de lien disponible depuis la page courante
       // Chercher n'importe quel lien restant et naviguer vers sa source
       if (liensRestants.length > 0) {
         const lienRestant = liensRestants[0];
         
-        // Naviguer vers la source du lien restant si nécessaire
-        if (pageCourante !== lienRestant.source) {
+        // Naviguer vers la source du lien restant si nécessaire (si elle n'est pas exclue)
+        if (pageCourante !== lienRestant.source && !PAGES_EXCLUES.includes(lienRestant.source)) {
           chemin.push(lienRestant.source);
           pageCourante = lienRestant.source;
         }
         
-        // Suivre le lien
+        // Suivre le lien (si la destination n'est pas exclue)
         liensUtilises.push({ ...lienRestant }); // Ajouter aux liens utilisés
-        pageCourante = lienRestant.destination;
-        chemin.push(pageCourante);
+        const destination = lienRestant.destination;
+        if (!PAGES_EXCLUES.includes(destination)) {
+          pageCourante = destination;
+          chemin.push(pageCourante);
+        } else {
+          // Page exclue, ne pas l'ajouter au chemin et ne pas changer pageCourante
+          console.warn(`⚠️  Page exclue ignorée: ${destination}`);
+          // Ne pas changer pageCourante, on reste sur la page précédente
+        }
         
         liensRestants.splice(0, 1); // Supprimer de la copie RAM
       }
@@ -151,7 +174,7 @@ const genererCodeTestE2eId = (item: E2eIdInventoryItem, index: number): string[]
 /**
  * Génère le code du test E2E Playwright
  */
-const genererCodeTest = (chemin: string[], liens: PlanLien[], inventory: E2eIdInventoryItem[]): string => {
+const genererCodeTest = (chemin: string[], liens: PlanLien[], inventory: E2eIdInventoryItem[], pages: any[]): string => {
   const lignes: string[] = [];
   
   lignes.push("import { test, expect } from '@playwright/test';");
@@ -166,6 +189,12 @@ const genererCodeTest = (chemin: string[], liens: PlanLien[], inventory: E2eIdIn
   liens.forEach((lien) => {
     const cle = `${lien.source}->${lien.destination}`;
     liensMap.set(cle, lien.label || '');
+  });
+  
+  // Créer un Map pour retrouver le titre d'une page par son URL
+  const pagesMap = new Map<string, string>();
+  pages.forEach((page) => {
+    pagesMap.set(page.url, page.titre || '');
   });
   
   // Créer un Set pour suivre les e2eID déjà testés
@@ -223,6 +252,25 @@ const genererCodeTest = (chemin: string[], liens: PlanLien[], inventory: E2eIdIn
         continue; // Passer à la page suivante
       }
       
+      // Vérifier si la destination est accessible via un bouton du footer (avant de chercher un lien)
+      const isPlanDuSitePage = page === '/plan-du-site';
+      const isMetricsPage = page === '/metrics';
+      const isAboutPage = page === '/a-propos-du-site';
+      
+      // Si la destination est /plan-du-site, utiliser directement le bouton du footer
+      if (isPlanDuSitePage) {
+        lignes.push(`    // /plan-du-site est accessible via le bouton du footer (b13), pas via un lien`);
+        lignes.push(`    const boutonPlanDuSite = page.getByTestId('e2eid-b13');`);
+        lignes.push(`    if (await boutonPlanDuSite.count() > 0) {`);
+        lignes.push(`      await boutonPlanDuSite.click();`);
+        lignes.push(`      await expect(page).toHaveURL('/plan-du-site');`);
+        lignes.push(`    } else {`);
+        lignes.push(`      throw new Error('Impossible de trouver le bouton Plan du site (e2eid-b13) dans le footer.');`);
+        lignes.push(`    }`);
+        lignes.push(`  });`);
+        continue; // Passer à la page suivante
+      }
+      
       // Essayer de trouver le lien par son label ou par son rôle
       // Le footer (plan-du-site) et le header (logo vers accueil) sont toujours disponibles
       if (label && label !== '') {
@@ -254,9 +302,7 @@ const genererCodeTest = (chemin: string[], liens: PlanLien[], inventory: E2eIdIn
         lignes.push(`      // Le footer et le header sont toujours disponibles sur toutes les pages`);
         
         // Vérifier si la destination est accessible via un bouton du footer
-        const isMetricsPage = page === '/metrics';
-        const isAboutPage = page === '/a-propos-du-site';
-        const isPlanDuSitePage = page === '/plan-du-site';
+        // (isPlanDuSitePage est déjà vérifié plus haut)
         
         if (isMetricsPage) {
           // /metrics est accessible via le bouton du footer (b14)
@@ -327,10 +373,16 @@ const genererCodeTest = (chemin: string[], liens: PlanLien[], inventory: E2eIdIn
           lignes.push(`            throw new Error('Impossible de trouver le bouton About (e2eid-b15) dans le footer.');`);
           lignes.push(`          }`);
           lignes.push(`        } else {`);
-          lignes.push(`          // Depuis le plan du site, chercher le lien vers la destination`);
-          lignes.push(`          const lienDepuisPlan${i} = page.getByRole('link', { name: new RegExp(\`${pageEscaped}\`, 'i') });`);
+          lignes.push(`          // Depuis le plan du site, chercher le lien par son e2eID (généré de manière déterministe)`);
+          // Utiliser la même fonction que ListeDesPages
+          const e2eId = generateE2eIdFromUrl(page);
+          lignes.push(`          // Chercher le lien par son e2eID (généré de manière déterministe depuis l'URL)`);
+          lignes.push(`          // Attendre que le plan du site soit chargé (les liens sont chargés de manière asynchrone)`);
+          lignes.push(`          await page.waitForSelector('[data-e2eid^="e2eid-l"]', { timeout: 5000 }).catch(() => {});`);
+          lignes.push(`          const lienDepuisPlan${i} = page.getByTestId('e2eid-${e2eId}');`);
           lignes.push(`          if (await lienDepuisPlan${i}.count() === 0) {`);
-          lignes.push(`            throw new Error(\`Impossible de trouver un lien vers ${page} depuis le plan du site. La page n'est peut-être pas accessible ou le lien est manquant dans le plan du site.\`);`);
+          const errorMsg = `Impossible de trouver un lien vers ${page} (e2eID: e2eid-${e2eId}) depuis le plan du site. La page n'est peut-être pas accessible ou le lien est manquant dans le plan du site.`.replace(/'/g, "\\'");
+          lignes.push(`            throw new Error('${errorMsg}');`);
           lignes.push(`          }`);
           lignes.push(`          await lienDepuisPlan${i}.first().click();`);
           lignes.push(`        }`);
@@ -439,10 +491,16 @@ const genererCodeTest = (chemin: string[], liens: PlanLien[], inventory: E2eIdIn
           lignes.push(`          throw new Error('Impossible de trouver le bouton About (e2eid-b15) dans le footer.');`);
           lignes.push(`        }`);
           lignes.push(`      } else {`);
-          lignes.push(`        // Depuis le plan du site, chercher le lien vers la destination`);
-          lignes.push(`        const lienDepuisPlan${i} = page.getByRole('link', { name: new RegExp(\`${pageEscaped}\`, 'i') });`);
+          lignes.push(`        // Depuis le plan du site, chercher le lien par son e2eID (généré de manière déterministe)`);
+          // Utiliser la même fonction que ListeDesPages
+          const e2eId2 = generateE2eIdFromUrl(page);
+          lignes.push(`        // Chercher le lien par son e2eID (généré de manière déterministe depuis l'URL)`);
+          lignes.push(`        // Attendre que le plan du site soit chargé (les liens sont chargés de manière asynchrone)`);
+          lignes.push(`        await page.waitForSelector('[data-testid^="e2eid-l"]', { timeout: 5000 }).catch(() => {});`);
+          lignes.push(`        const lienDepuisPlan${i} = page.getByTestId('e2eid-${e2eId2}');`);
           lignes.push(`        if (await lienDepuisPlan${i}.count() === 0) {`);
-          lignes.push(`          throw new Error(\`Impossible de trouver un lien vers ${page} depuis le plan du site. La page n'est peut-être pas accessible ou le lien est manquant dans le plan du site.\`);`);
+          const errorMsg2 = `Impossible de trouver un lien vers ${page} (e2eID: e2eid-${e2eId2}) depuis le plan du site. La page n'est peut-être pas accessible ou le lien est manquant dans le plan du site.`.replace(/'/g, "\\'");
+          lignes.push(`          throw new Error('${errorMsg2}');`);
           lignes.push(`        }`);
           lignes.push(`        await lienDepuisPlan${i}.first().click();`);
           lignes.push(`      }`);
@@ -512,7 +570,20 @@ const main = () => {
   const contenu = fs.readFileSync(siteMapPath, 'utf8');
   const plan = JSON.parse(contenu);
 
-  const liens = plan.liens as PlanLien[];
+  let liens = plan.liens as PlanLien[];
+  
+  // Filtrer les liens qui concernent les pages exclues
+  const liensAvantFiltre = liens.length;
+  liens = liens.filter((lien) => {
+    const sourceExclue = PAGES_EXCLUES.includes(lien.source);
+    const destinationExclue = PAGES_EXCLUES.includes(lien.destination);
+    return !sourceExclue && !destinationExclue;
+  });
+  
+  if (liens.length < liensAvantFiltre) {
+    const liensFiltres = liensAvantFiltre - liens.length;
+    console.log(`⚠️  ${liensFiltres} lien(s) exclu(s) (pages exclues: ${PAGES_EXCLUES.join(', ')})`);
+  }
   
   console.log(`📊 ${liens.length} liens détectés dans Pages-Et-Lien.json\n`);
 
@@ -556,7 +627,8 @@ const main = () => {
 
   // Générer le code du test
   console.log('📝 Génération du code du test E2E...\n');
-  const codeTest = genererCodeTest(chemin, liens, inventory);
+  const pages = plan.pages as any[];
+  const codeTest = genererCodeTest(chemin, liens, inventory, pages);
 
   // Écrire le fichier de test
   const testPath = path.join(process.cwd(), 'tests', 'end-to-end', 'parcours-complet-liens.spec.ts');

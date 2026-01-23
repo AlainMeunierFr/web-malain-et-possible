@@ -10,32 +10,32 @@ import type { ElementContenu } from '../../utils/indexReader';
 // Mock all child components
 jest.mock('../../components/Titre', () => ({
   __esModule: true,
-  default: ({ element }: any) => <div data-testid="titre">{element.texte}</div>,
+  default: ({ element }: any) => <div data-e2eid="titre">{element.texte}</div>,
 }));
 
 jest.mock('../../components/Video', () => ({
   __esModule: true,
-  default: () => <div data-testid="video">Video</div>,
+  default: () => <div data-e2eid="video">Video</div>,
 }));
 
 jest.mock('../../components/TexteLarge', () => ({
   __esModule: true,
-  default: ({ element }: any) => <div data-testid="texte-large">{element.texte}</div>,
+  default: ({ element }: any) => <div data-e2eid="texte-large">{element.texte}</div>,
 }));
 
 jest.mock('../../components/DomaineDeCompetences', () => ({
   __esModule: true,
-  default: ({ domaine }: any) => <div data-testid="domaine">{domaine.titre}</div>,
+  default: ({ domaine }: any) => <div data-e2eid="domaine">{domaine.titre}</div>,
 }));
 
 jest.mock('../../components/CallToAction', () => ({
   __esModule: true,
-  default: () => <div data-testid="cta">CTA</div>,
+  default: () => <div data-e2eid="cta">CTA</div>,
 }));
 
 jest.mock('../../components/GroupeBoutons', () => ({
   __esModule: true,
-  default: () => <div data-testid="groupe-boutons">Boutons</div>,
+  default: () => <div data-e2eid="groupe-boutons">Boutons</div>,
 }));
 
 jest.mock('next/dynamic', () => ({
@@ -54,12 +54,12 @@ jest.mock('next/dynamic', () => ({
 
 jest.mock('../../components/Temoignages', () => ({
   __esModule: true,
-  default: () => <div data-testid="temoignages">Témoignages</div>,
+  default: () => <div data-e2eid="temoignages">Témoignages</div>,
 }));
 
 jest.mock('../../components/VideoDetournement', () => ({
   __esModule: true,
-  default: () => <div data-testid="video-detournement">Détournements</div>,
+  default: () => <div data-e2eid="video-detournement">Détournements</div>,
 }));
 
 describe('PageContentRenderer', () => {

@@ -9,14 +9,14 @@ import type { CourseFile } from '../../utils/journalReader';
 
 // Mock lucide-react
 jest.mock('lucide-react', () => ({
-  ChevronDown: () => <div data-testid="chevron-down">Down</div>,
-  ChevronUp: () => <div data-testid="chevron-up">Up</div>,
+  ChevronDown: () => <div data-e2eid="chevron-down">Down</div>,
+  ChevronUp: () => <div data-e2eid="chevron-up">Up</div>,
 }));
 
 // Mock CourseMarkdownRenderer
 jest.mock('../../components/CourseMarkdownRenderer', () => ({
   __esModule: true,
-  default: ({ content }: { content: string }) => <div data-testid="course-content">{content}</div>,
+  default: ({ content }: { content: string }) => <div data-e2eid="course-content">{content}</div>,
 }));
 
 describe('CourseList', () => {

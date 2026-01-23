@@ -4,8 +4,8 @@ import FooterButton from '../../components/FooterButton';
 
 // Mock lucide-react
 jest.mock('lucide-react', () => ({
-  Mail: ({ 'aria-label': ariaLabel, 'data-testid': testId }: any) => (
-    <svg aria-label={ariaLabel} data-testid={testId}>
+  Mail: ({ 'aria-label': ariaLabel, 'data-e2eid': testId }: any) => (
+    <svg aria-label={ariaLabel} data-e2eid={testId}>
       <title>Mail Icon</title>
     </svg>
   ),

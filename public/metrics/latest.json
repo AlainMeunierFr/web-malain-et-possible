@@ -1,8 +1,8 @@
 {
-  "timestamp": "2026-01-23T01:51:42.060Z",
+  "timestamp": "2026-01-23T03:47:54.544Z",
   "version": "0.1.0",
   "branch": "main",
-  "commit": "e51a8cd",
+  "commit": "9de9955",
   "tests": {
     "unitTests": 385,
     "unitTestFiles": 46,
@@ -15,49 +15,49 @@
     "integrationTestFailed": 2,
     "integrationTestDuration": 10281,
     "bddFeatures": 8,
-    "bddScenarios": 11,
-    "bddScenariosPassed": 11,
+    "bddScenarios": 50,
+    "bddScenariosPassed": 50,
     "bddScenariosFailed": 0,
     "bddSteps": 0,
-    "bddTestDuration": 0,
-    "e2eSteps": 1,
+    "bddTestDuration": 86072,
+    "e2eSteps": 61,
     "e2eScenarioFiles": 1,
-    "e2eScenarios": 1,
-    "e2eStepsPassed": 0,
-    "e2eStepsFailed": 1,
+    "e2eScenarios": 3,
+    "e2eStepsPassed": 59,
+    "e2eStepsFailed": 2,
     "e2eTests": {
-      "total": 1,
-      "passed": 0,
-      "failed": 1,
-      "duration": 0,
-      "lastRunDate": "2026-01-23T01:35:20.417Z"
+      "total": 3,
+      "passed": 1,
+      "failed": 2,
+      "duration": 86072,
+      "lastRunDate": "2026-01-23T03:36:55.708Z"
     },
-    "totalTests": 432,
+    "totalTests": 531,
     "totalTestFiles": 60,
-    "passingTests": 409,
-    "failingTests": 23,
+    "passingTests": 507,
+    "failingTests": 24,
     "testDuration": 110251
   },
   "coverage": {
     "lines": {
-      "total": 1733,
-      "covered": 1406,
-      "percentage": 81.13
+      "total": 1736,
+      "covered": 1412,
+      "percentage": 81.33
     },
     "statements": {
-      "total": 1805,
-      "covered": 1466,
-      "percentage": 81.21
+      "total": 1808,
+      "covered": 1474,
+      "percentage": 81.52
     },
     "functions": {
       "total": 205,
-      "covered": 161,
-      "percentage": 78.53
+      "covered": 168,
+      "percentage": 81.95
     },
     "branches": {
-      "total": 1126,
-      "covered": 801,
-      "percentage": 71.13
+      "total": 1130,
+      "covered": 806,
+      "percentage": 71.32
     }
   },
   "quality": {
@@ -69,14 +69,14 @@
     "technicalDebt": "2h"
   },
   "size": {
-    "totalFiles": 53,
-    "totalLines": 6311,
-    "sourceLines": 6311,
+    "totalFiles": 54,
+    "totalLines": 6321,
+    "sourceLines": 6321,
     "commentLines": 0,
     "blankLines": 0,
     "components": 26,
     "pages": 12,
-    "utils": 15,
+    "utils": 16,
     "tests": 51
   },
   "dependencies": {
@@ -93,7 +93,7 @@
     }
   },
   "performance": {
-    "bundleSize": 529400,
-    "buildTime": 0
+    "bundleSize": 744181,
+    "buildTime": 8774
   }
 }

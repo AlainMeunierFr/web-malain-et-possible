@@ -6,7 +6,7 @@
 import fs from 'fs';
 import path from 'path';
 import { execSync } from 'child_process';
-import type { MetricsSnapshot, MetricsHistory } from '../types/metrics';
+import type { MetricsSnapshot, MetricsHistory, TestMetrics } from '../types/metrics';
 
 const OUTPUT_DIR = path.join(process.cwd(), 'public', 'metrics');
 const HISTORY_FILE = path.join(OUTPUT_DIR, 'history.json');
@@ -15,63 +15,112 @@ const HISTORY_LIMIT = 100; // Garder 100 snapshots
 
 /**
  * Collecte les métriques de tests
+ * Note: ce script utilise find (Unix). Pour Windows, préférer collect-metrics-simple.ts.
  */
-function collectTestMetrics() {
+function collectTestMetrics(): TestMetrics {
   console.log('📊 Collecte des métriques de tests...');
-  
-  // Compter les fichiers de tests
-  const testFiles = {
-    unit: execSync('find tests/unit -name "*.test.ts*" 2>/dev/null | wc -l || echo 0', { encoding: 'utf-8' }).trim(),
-    integration: execSync('find tests/unit -name "*.integration.test.ts*" 2>/dev/null | wc -l || echo 0', { encoding: 'utf-8' }).trim(),
-    bddFeatures: execSync('find tests/bdd -name "*.feature" 2>/dev/null | wc -l || echo 0', { encoding: 'utf-8' }).trim(),
-  };
 
-  // Compter les scénarios et steps BDD
+  const unitTestFiles = parseInt(
+    execSync('find tests/unit -name "*.test.ts*" 2>/dev/null | wc -l || echo 0', { encoding: 'utf-8' }).trim()
+  ) || 0;
+  const integrationTestFiles = parseInt(
+    execSync('find tests/unit -name "*.integration.test.ts*" 2>/dev/null | wc -l || echo 0', { encoding: 'utf-8' }).trim()
+  ) || 0;
+  const bddFeatures = parseInt(
+    execSync('find tests/bdd -name "*.feature" 2>/dev/null | wc -l || echo 0', { encoding: 'utf-8' }).trim()
+  ) || 0;
+
+  let unitTests = 0;
+  let integrationTests = 0;
   let bddScenarios = 0;
   let bddSteps = 0;
   try {
-    const featureFiles = execSync('find tests/bdd -name "*.feature" 2>/dev/null', { encoding: 'utf-8' }).trim().split('\n');
-    featureFiles.forEach(file => {
-      if (file && fs.existsSync(file)) {
+    const unitFiles = execSync('find tests/unit -name "*.test.ts*" 2>/dev/null', { encoding: 'utf-8' })
+      .trim().split('\n').filter((f) => f && !/\.integration\.test\./.test(f));
+    unitFiles.forEach((file) => {
+      if (fs.existsSync(file)) {
         const content = fs.readFileSync(file, 'utf-8');
-        // Compter les scénarios (tous les fichiers .feature sont conformes à la DOD avec accents)
+        unitTests += (content.match(/\b(it|test)\s*\(/g) || []).length;
+      }
+    });
+    const integrationFiles = execSync('find tests/unit -name "*.integration.test.ts*" 2>/dev/null', { encoding: 'utf-8' }).trim().split('\n').filter(Boolean);
+    integrationFiles.forEach((file) => {
+      if (fs.existsSync(file)) {
+        const content = fs.readFileSync(file, 'utf-8');
+        integrationTests += (content.match(/\b(it|test)\s*\(/g) || []).length;
+      }
+    });
+    const featureFiles = execSync('find tests/bdd -name "*.feature" 2>/dev/null', { encoding: 'utf-8' }).trim().split('\n').filter(Boolean);
+    featureFiles.forEach((file) => {
+      if (fs.existsSync(file)) {
+        const content = fs.readFileSync(file, 'utf-8');
         bddScenarios += (content.match(/Scénario:|Scénario Outline:/g) || []).length;
         bddSteps += (content.match(/Given |When |Then |And |But /g) || []).length;
       }
     });
   } catch (e) {
-    console.warn('⚠️  Erreur lors du comptage BDD:', e);
+    console.warn('⚠️  Erreur lors du comptage BDD/TU/TI:', e);
   }
 
-  // Exécuter les tests pour obtenir les résultats
   let passingTests = 0;
   let failingTests = 0;
-  let totalTests = 0;
   let testDuration = 0;
-
   try {
-    const testResult = execSync('npm test -- --json --outputFile=test-results.json 2>&1', { encoding: 'utf-8' });
+    execSync('npm test -- --json --outputFile=test-results.json 2>&1', { encoding: 'utf-8' });
     if (fs.existsSync('test-results.json')) {
       const results = JSON.parse(fs.readFileSync('test-results.json', 'utf-8'));
-      totalTests = results.numTotalTests || 0;
       passingTests = results.numPassedTests || 0;
       failingTests = results.numFailedTests || 0;
-      testDuration = results.testResults?.reduce((sum: number, r: any) => sum + (r.perfStats?.runtime || 0), 0) || 0;
+      testDuration = results.testResults?.reduce((sum: number, r: { perfStats?: { runtime?: number } }) => sum + (r.perfStats?.runtime || 0), 0) || 0;
       fs.unlinkSync('test-results.json');
     }
   } catch (e) {
     console.warn('⚠️  Erreur lors de l\'exécution des tests:', e);
   }
 
+  const totalJest = unitTests + integrationTests;
+  const unitTestPassed = totalJest > 0 ? Math.round((passingTests * unitTests) / totalJest) : passingTests;
+  const unitTestFailed = totalJest > 0 ? Math.round((failingTests * unitTests) / totalJest) : failingTests;
+  const integrationTestPassed = passingTests - unitTestPassed;
+  const integrationTestFailed = failingTests - unitTestFailed;
+
+  const e2eScenarioFiles = 0;
+  const e2eSteps = 0;
+  const e2eScenarios = 0;
+  const e2eStepsPassed = 0;
+  const e2eStepsFailed = 0;
+  const bddScenariosPassed = bddScenarios;
+  const bddScenariosFailed = 0;
+  const totalTestFiles = unitTestFiles + integrationTestFiles + bddFeatures + e2eScenarioFiles;
+  const totalTests = unitTests + integrationTests + bddScenarios + e2eSteps;
+
   return {
-    unitTests: parseInt(testFiles.unit) || 0,
-    integrationTests: parseInt(testFiles.integration) || 0,
-    bddFeatures: parseInt(testFiles.bddFeatures) || 0,
+    unitTests,
+    unitTestFiles,
+    unitTestPassed,
+    unitTestFailed,
+    unitTestDuration: testDuration,
+    integrationTests,
+    integrationTestFiles,
+    integrationTestPassed,
+    integrationTestFailed,
+    integrationTestDuration: 0,
+    bddFeatures,
     bddScenarios,
+    bddScenariosPassed,
+    bddScenariosFailed,
     bddSteps,
+    bddTestDuration: undefined,
+    e2eSteps,
+    e2eScenarioFiles,
+    e2eScenarios,
+    e2eStepsPassed,
+    e2eStepsFailed,
+    e2eTests: undefined,
     totalTests,
-    passingTests,
-    failingTests,
+    totalTestFiles,
+    passingTests: unitTestPassed + integrationTestPassed + bddScenariosPassed + e2eStepsPassed,
+    failingTests: unitTestFailed + integrationTestFailed + bddScenariosFailed + e2eStepsFailed,
     testDuration,
   };
 }

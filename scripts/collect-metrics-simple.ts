@@ -196,8 +196,26 @@ function collectE2EMetrics(): { total: number; passed: number; failed: number; d
         const content = fs.readFileSync(playwrightReportData, 'utf-8');
         const data = JSON.parse(content);
         
-        // Structure de playwright-report/data.json
-        if (data.files && Array.isArray(data.files)) {
+        // Structure de playwright-report/data.json (reporter JSON)
+        // Le reporter JSON utilise une structure différente avec stats.duration
+        if (data.stats) {
+          const stats = data.stats;
+          const total = (stats.expected || 0) + (stats.unexpected || 0) + (stats.skipped || 0);
+          const passed = stats.expected || 0;
+          const failed = stats.unexpected || 0;
+          // La durée est en millisecondes dans le reporter JSON (vérifié: 86072 ms = 86 s)
+          const duration = Math.round(stats.duration || 0);
+          
+          if (total > 0) {
+            resultData = {
+              total,
+              passed,
+              failed,
+              duration: duration,
+            };
+          }
+        } else if (data.files && Array.isArray(data.files)) {
+          // Structure alternative (ancien format HTML reporter)
           let total = 0;
           let passed = 0;
           let failed = 0;
@@ -304,12 +322,15 @@ function collectE2EMetrics(): { total: number; passed: number; failed: number; d
             lastRunDate = latestDate;
           }
         }
-        resultData = {
-          total,
-          passed,
-          failed,
-          duration: totalDuration,
-        };
+        // Ne pas écraser resultData si on a déjà des données depuis playwright-report/data.json
+        if (!resultData) {
+          resultData = {
+            total,
+            passed,
+            failed,
+            duration: totalDuration,
+          };
+        }
       }
     }
     
@@ -454,16 +475,38 @@ function collectTestMetrics() {
     console.warn('⚠️  Erreur lors du comptage BDD');
   }
 
-  // Collecter les métriques E2E (qui incluent aussi les tests BDD exécutés avec Playwright)
-  const e2eTests = collectE2EMetrics();
-  
-  // Log pour débogage E2E
+  // Collecter les métriques E2E (stats depuis data.json ; durée depuis Date.now() → durations.json)
+  const e2eTestsRaw = collectE2EMetrics();
+  let e2eTests = e2eTestsRaw ?? undefined;
+
+  // Durées BDD et E2E : Date.now() avant/après chaque run, persistant dans durations.json
+  let bddDuration = 0;
+  let e2eDurationFromTiming = 0;
+  const durationsPath = path.join(process.cwd(), 'playwright-report', 'durations.json');
+  if (fs.existsSync(durationsPath)) {
+    try {
+      const d = JSON.parse(fs.readFileSync(durationsPath, 'utf-8'));
+      bddDuration = Math.round(Number(d.bddDuration) || 0);
+      e2eDurationFromTiming = Math.round(Number(d.e2eDuration) || 0);
+    } catch {
+      /* ignorer */
+    }
+  }
+  if (e2eTests && e2eDurationFromTiming > 0) {
+    e2eTests = { ...e2eTests, duration: e2eDurationFromTiming };
+  } else if (e2eTests) {
+    e2eTests = { ...e2eTests, duration: e2eTests.duration };
+  }
+
   if (e2eTests) {
     console.log(`✅ Métriques E2E collectées: ${e2eTests.total} tests (${e2eTests.passed} réussis, ${e2eTests.failed} échoués), durée: ${(e2eTests.duration / 1000).toFixed(2)}s`);
   } else {
-    console.warn('⚠️  Aucune métrique E2E trouvée. Pour obtenir les durées E2E, exécutez d\'abord: npm run test:e2e');
+    console.warn('⚠️  Aucune métrique E2E trouvée. Pour obtenir les durées E2E, exécutez d\'abord: npm run metrics:collect (qui lance BDD puis E2E).');
   }
-  
+  if (bddDuration > 0) {
+    console.log(`✅ Durée BDD (Date.now()): ${(bddDuration / 1000).toFixed(2)}s`);
+  }
+
   // Compter les fichiers et étapes E2E dans les fichiers de test
   const e2eScenarioFiles = countE2EFiles(path.join(testsDir, 'end-to-end'));
   const e2eSteps = countE2ESteps(path.join(testsDir, 'end-to-end'));
@@ -471,16 +514,11 @@ function collectTestMetrics() {
   // Collecter les durées depuis Jest
   const jestDurations = collectJestTestDurations();
   
-  // Log pour débogage
   if (jestDurations.totalDuration > 0) {
-    console.log(`✅ Durées collectées: Total=${jestDurations.totalDuration}ms, Unit=${jestDurations.unitDuration}ms, Integration=${jestDurations.integrationDuration}ms`);
+    console.log(`✅ Durées Jest: Total=${jestDurations.totalDuration}ms, Unit=${jestDurations.unitDuration}ms, Integration=${jestDurations.integrationDuration}ms`);
   } else {
     console.warn('⚠️  Aucune durée collectée depuis Jest (totalDuration = 0)');
   }
-  
-  // La durée BDD peut être approximée depuis les métriques E2E si disponibles
-  // Les tests BDD sont exécutés avec Playwright via playwright-bdd
-  const bddDuration = e2eTests?.duration || 0;
 
   // RÈGLE 1: Utiliser les tests DÉFINIS dans les fichiers comme base (pas les tests exécutés)
   // Les tests définis = unitTests + integrationTests (comptés dans les fichiers)
@@ -1145,6 +1183,45 @@ async function main() {
   } else {
     console.log('✅ Fichiers de résultats existants trouvés (test-results.json et coverage-summary.json)');
     console.log('   Réutilisation des résultats existants\n');
+  }
+
+  // Générer les résultats E2E/BDD AVANT de collecter les métriques
+  // Durées mesurées par Date.now() avant/après chaque run (soustraction = durée réelle)
+  const durationsPath = path.join(process.cwd(), 'playwright-report', 'durations.json');
+  const playwrightReportPath = path.join(process.cwd(), 'playwright-report', 'data.json');
+
+  if (!fs.existsSync(playwrightReportPath)) {
+    console.log('📊 Exécution des tests BDD puis E2E pour collecter les durées (Date.now() avant/après chaque run)...');
+    let bddDurationMs = 0;
+    let e2eDurationMs = 0;
+    try {
+      execSync('npm run test:bdd:generate', { encoding: 'utf-8', stdio: 'inherit' });
+      const bddStart = Date.now();
+      execSync('npx playwright test .features-gen', { encoding: 'utf-8', stdio: 'inherit' });
+      bddDurationMs = Date.now() - bddStart;
+      console.log(`   ⏱️  BDD: ${(bddDurationMs / 1000).toFixed(2)}s\n`);
+
+      const e2eStart = Date.now();
+      execSync('npx playwright test tests/end-to-end', { encoding: 'utf-8', stdio: 'inherit' });
+      e2eDurationMs = Date.now() - e2eStart;
+      console.log(`   ⏱️  E2E: ${(e2eDurationMs / 1000).toFixed(2)}s\n`);
+
+      const reportDir = path.dirname(durationsPath);
+      if (!fs.existsSync(reportDir)) fs.mkdirSync(reportDir, { recursive: true });
+      fs.writeFileSync(durationsPath, JSON.stringify({ bddDuration: bddDurationMs, e2eDuration: e2eDurationMs }, null, 2));
+      console.log('✅ Tests BDD et E2E exécutés (durées enregistrées dans playwright-report/durations.json)\n');
+    } catch (e) {
+      console.warn('⚠️  Erreur lors de l\'exécution des tests BDD/E2E (tests peuvent avoir échoué)');
+      console.warn('   Les durées BDD/E2E pourront ne pas être disponibles\n');
+      if (bddDurationMs > 0 || e2eDurationMs > 0) {
+        const reportDir = path.dirname(durationsPath);
+        if (!fs.existsSync(reportDir)) fs.mkdirSync(reportDir, { recursive: true });
+        fs.writeFileSync(durationsPath, JSON.stringify({ bddDuration: bddDurationMs, e2eDuration: e2eDurationMs }, null, 2));
+      }
+    }
+  } else {
+    console.log('✅ Résultats E2E/BDD existants trouvés (playwright-report/data.json)');
+    console.log('   Réutilisation des résultats existants (durées depuis playwright-report/durations.json si présent)\n');
   }
 
   const gitInfo = getGitInfo();

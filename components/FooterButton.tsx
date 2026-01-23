@@ -57,12 +57,12 @@ const FooterButton: React.FC<FooterButtonProps> = ({
     return null;
   }
 
-  // Construire les data-testid : e2eID en priorité, sinon footer-button-{id}
+  // Construire les data-e2eid : e2eID en priorité, sinon footer-button-{id}
   const testIds: Record<string, string> = {
-    'data-testid': `footer-button-${id}`,
+    'data-e2eid': `footer-button-${id}`,
   };
   if (e2eID) {
-    testIds['data-testid'] = `e2eid-${e2eID}`;
+    testIds['data-e2eid'] = `e2eid-${e2eID}`;
   }
 
   return (

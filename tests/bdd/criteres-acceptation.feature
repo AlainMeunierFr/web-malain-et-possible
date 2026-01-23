@@ -1,11 +1,11 @@
 # language: fr
 
-Feature: Affichage structuré des critères d'acceptation dans le wiki
+Fonctionnalité: Affichage structuré des critères d'acceptation dans le wiki
   En tant que lecteur du wiki du site
   Je veux voir les "Critères d'acceptation" des User Stories structurés hiérarchiquement
   Afin de mieux comprendre l'organisation et la hiérarchie des critères
 
-  Background:
+  Contexte:
     Étant donné que je suis sur la page "À propos du site"
     Et qu'une User Story contient une section "Critères d'acceptation"
 

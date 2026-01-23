@@ -83,9 +83,9 @@ When('une ligne commence par {string}', async ({}) => {
   // Vérifié via le parsing
 });
 
-Then('cette ligne est détectée comme un {string}', async ({ page }, type: string) => {
+Then('cette ligne est détectée comme un {string}', async ({ page }, typeName: string) => {
   // Vérifier que le thème est présent sur la page
-  if (type === 'Thème de critère') {
+  if (typeName === 'Thème de critère') {
     const theme = page.locator('strong').filter({ hasText: /critère/i }).first();
     await expect(theme).toBeVisible();
   }
@@ -104,8 +104,8 @@ Then('le typeDeContenu {string} est attribué à cette ligne', async ({ page }, 
 });
 
 // Scénario: Détection d'un critère normal
-Then('cette ligne est détectée comme un {string}', async ({ page }, type: string) => {
-  if (type === 'Critère') {
+Then('cette ligne est détectée comme un {string}', async ({ page }, typeName: string) => {
+  if (typeName === 'Critère') {
     // Vérifier qu'il y a des éléments de liste
     const listItem = page.locator('li').first();
     await expect(listItem).toBeVisible();

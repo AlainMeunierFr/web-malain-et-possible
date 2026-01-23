@@ -8,8 +8,8 @@ import AccordionTitle from '../../components/AccordionTitle';
 
 // Mock lucide-react
 jest.mock('lucide-react', () => ({
-  ChevronDown: () => <div data-testid="chevron-down">Down</div>,
-  ChevronUp: () => <div data-testid="chevron-up">Up</div>,
+  ChevronDown: () => <div data-e2eid="chevron-down">Down</div>,
+  ChevronUp: () => <div data-e2eid="chevron-up">Up</div>,
 }));
 
 describe('AccordionTitle', () => {

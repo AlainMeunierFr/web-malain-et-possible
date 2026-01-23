@@ -49,7 +49,10 @@ export default defineConfig({
   /* Opt out of parallel tests on CI. */
   workers: process.env.CI ? 1 : undefined,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
-  reporter: 'html',
+  reporter: [
+    ['html'],
+    ['json', { outputFile: 'playwright-report/data.json' }],
+  ],
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('')`. */
@@ -61,6 +64,9 @@ export default defineConfig({
     /* Timeout pour les actions (augmenté pour les tests longs) */
     actionTimeout: 10000,
     navigationTimeout: 30000,
+    
+    /* Utiliser data-e2eid au lieu de data-testid pour les identifiants E2E */
+    testIdAttribute: 'data-e2eid',
   },
 
   /* Configure projects for major browsers */

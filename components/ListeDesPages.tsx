@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import type { PlanSite } from '../utils/siteMapGenerator';
+import { generateE2eIdFromUrl } from '../utils/e2eIdFromUrl';
 import styles from './ListeDesPages.module.css';
 
 export default function ListeDesPages() {
@@ -39,17 +40,22 @@ export default function ListeDesPages() {
     return <div>Chargement...</div>;
   }
 
+
   return (
     <div className={styles.buttonsGrid}>
-      {planSite.pages.map((page) => (
-        <Link 
-          key={page.url}
-          href={page.url}
-          className={styles.pageButton}
-        >
-          {page.titre}
-        </Link>
-      ))}
+      {planSite.pages.map((page) => {
+        const e2eId = generateE2eIdFromUrl(page.url);
+        return (
+          <Link 
+            key={page.url}
+            href={page.url}
+            className={styles.pageButton}
+            data-e2eid={`e2eid-${e2eId}`}
+          >
+            {page.titre}
+          </Link>
+        );
+      })}
     </div>
   );
 }
