@@ -1278,7 +1278,7 @@ async function main() {
     console.log('   Réutilisation des durées (utilisez --force pour forcer le rechronométrage)\n');
   }
 
-  const gitInfo = getGitInfo();
+  // Réutiliser gitInfo déjà déclaré plus haut
   const packageJson = JSON.parse(fs.readFileSync('package.json', 'utf-8'));
 
   const snapshot: MetricsSnapshot = {
