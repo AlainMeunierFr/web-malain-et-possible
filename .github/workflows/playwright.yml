@@ -1,9 +1,21 @@
 name: Playwright Tests
+# DÉSACTIVÉ : Les tests ne se lancent plus automatiquement sur GitHub/Vercel
+# 
+# Pour réactiver les tests automatiques sur GitHub :
+# - Remplacer "workflow_dispatch" par les triggers push/pull_request ci-dessous
+# - Décommenter les lignes on: push: et pull_request:
+#
+# Pour lancer les tests manuellement :
+# - Aller dans l'onglet "Actions" de GitHub
+# - Sélectionner "Playwright Tests"
+# - Cliquer sur "Run workflow"
+#
 on:
-  push:
-    branches: [ main, master ]
-  pull_request:
-    branches: [ main, master ]
+  workflow_dispatch:  # Permet de lancer manuellement depuis l'interface GitHub
+  # push:
+  #   branches: [ main, master ]
+  # pull_request:
+  #   branches: [ main, master ]
 jobs:
   test:
     timeout-minutes: 60
