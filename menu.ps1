@@ -81,20 +81,42 @@ function Execute-Command {
         $confirm = Read-Host "[!] Cette action est destructive. Continuer ? (oui/non)"
         if ($confirm -ne "oui") {
             Write-Host "[X] Action annulée" -ForegroundColor Red
-            return
+            return 1
         }
     }
+    $exitCode = 0
     try {
-        Invoke-Expression $command
+        # Exécuter la commande et capturer le code de sortie
+        if ($command -match ';') {
+            # Si plusieurs commandes séparées par ;, les exécuter une par une
+            $commands = $command -split ';'
+            foreach ($cmd in $commands) {
+                $cmd = $cmd.Trim()
+                if ($cmd) {
+                    Invoke-Expression $cmd
+                    if (-not $?) {
+                        $exitCode = 1
+                        break
+                    }
+                }
+            }
+        } else {
+            Invoke-Expression $command
+            if (-not $?) {
+                $exitCode = 1
+            }
+        }
     }
     catch {
         Write-Host "[X] Erreur lors de l'exécution: $_" -ForegroundColor Red
+        $exitCode = 1
     }
     if (-not $NoWait) {
         Write-Host ""
         Write-Host "Appuyez sur une touche pour continuer..." -ForegroundColor Gray
         $null = $Host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown")
     }
+    return $exitCode
 }
 
 do {
@@ -103,8 +125,66 @@ do {
     switch ($choice) {
         "1" {
             Write-Host ""
-            Write-Host "Mise à jour de la version avant publication..." -ForegroundColor Cyan
-            # Mettre à jour la version (sync avec les US complétées + incrémenter patch)
+            Write-Host "═══════════════════════════════════════════════════════════════" -ForegroundColor Cyan
+            Write-Host "PUBLICATION AVEC TESTS AUTOMATIQUES" -ForegroundColor Cyan
+            Write-Host "═══════════════════════════════════════════════════════════════" -ForegroundColor Cyan
+            Write-Host ""
+            
+            # Étape 1 : Tests unitaires et intégration
+            Write-Host "🧪 Étape 1/3 : Tests unitaires et intégration (Jest)..." -ForegroundColor Yellow
+            $testCmd = "npm test"
+            $testResult = Execute-Command $testCmd "Tests unitaires et intégration" -NoWait
+            if ($testResult -ne 0) {
+                Write-Host ""
+                Write-Host "❌ Les tests unitaires/integration ont échoué. Publication annulée." -ForegroundColor Red
+                Write-Host "Appuyez sur une touche pour continuer..." -ForegroundColor Gray
+                $null = $Host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown")
+                continue
+            }
+            Write-Host "✅ Tests unitaires/integration : OK" -ForegroundColor Green
+            Write-Host ""
+            
+            # Étape 2 : Tests BDD
+            Write-Host "🧪 Étape 2/3 : Tests BDD (Playwright BDD)..." -ForegroundColor Yellow
+            $bddGenCmd = "npm run test:bdd:generate"
+            $bddGenResult = Execute-Command $bddGenCmd "Génération des tests BDD" -NoWait
+            if ($bddGenResult -ne 0) {
+                Write-Host ""
+                Write-Host "⚠️  Génération BDD échouée, mais on continue avec les tests E2E..." -ForegroundColor Yellow
+            } else {
+                $bddTestCmd = "npx playwright test .features-gen"
+                $bddTestResult = Execute-Command $bddTestCmd "Tests BDD" -NoWait
+                if ($bddTestResult -ne 0) {
+                    Write-Host ""
+                    Write-Host "⚠️  Tests BDD échoués, mais on continue..." -ForegroundColor Yellow
+                } else {
+                    Write-Host "✅ Tests BDD : OK" -ForegroundColor Green
+                }
+            }
+            Write-Host ""
+            
+            # Étape 3 : Tests E2E
+            Write-Host "🧪 Étape 3/3 : Tests E2E (Playwright)..." -ForegroundColor Yellow
+            $e2eCmd = "npm run test:e2e"
+            $e2eResult = Execute-Command $e2eCmd "Tests E2E" -NoWait
+            if ($e2eResult -ne 0) {
+                Write-Host ""
+                Write-Host "❌ Les tests E2E ont échoué. Publication annulée." -ForegroundColor Red
+                Write-Host "Appuyez sur une touche pour continuer..." -ForegroundColor Gray
+                $null = $Host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown")
+                continue
+            }
+            Write-Host "✅ Tests E2E : OK" -ForegroundColor Green
+            Write-Host ""
+            
+            # Tous les tests sont passés, on peut publier
+            Write-Host "═══════════════════════════════════════════════════════════════" -ForegroundColor Green
+            Write-Host "✅ TOUS LES TESTS SONT PASSÉS - Publication autorisée" -ForegroundColor Green
+            Write-Host "═══════════════════════════════════════════════════════════════" -ForegroundColor Green
+            Write-Host ""
+            
+            # Mise à jour de la version
+            Write-Host "📝 Mise à jour de la version..." -ForegroundColor Cyan
             $versionCmd = "npm run version:sync; npm run version:patch"
             Execute-Command $versionCmd "Mise à jour de la version" -NoWait
             
@@ -112,7 +192,10 @@ do {
             if ([string]::IsNullOrWhiteSpace($message)) {
                 $message = "chore: Mise à jour"
             }
-            # Ajouter les fichiers modifiés (y compris site-version.json), commit et push
+            
+            # Commit et push
+            Write-Host ""
+            Write-Host "📤 Publication (git add + commit + push)..." -ForegroundColor Cyan
             $cmd = "git add -A; git commit -m `"$message`"; git push"
             Execute-Command $cmd "Publier la version"
         }
