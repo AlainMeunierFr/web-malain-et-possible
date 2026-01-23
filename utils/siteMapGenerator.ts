@@ -426,6 +426,12 @@ export const mettreAJourPlanJSON = (pages: PlanPage[], liens: PlanLien[]): void 
     liens: liensMisesAJour,
   };
 
+  // S'assurer que le répertoire data/ existe avant d'écrire le fichier
+  const dataDir = path.dirname(siteMapPath);
+  if (!fs.existsSync(dataDir)) {
+    fs.mkdirSync(dataDir, { recursive: true });
+  }
+
   // Écrire le plan mis à jour
   fs.writeFileSync(siteMapPath, JSON.stringify(nouveauPlan, null, 2));
 };
