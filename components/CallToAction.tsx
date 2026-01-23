@@ -10,7 +10,11 @@ export interface CallToActionProps {
 const CallToAction: React.FC<CallToActionProps> = ({ element }) => {
   return (
     <div className={styles.callToActionContainer}>
-      <Link href="/faisons-connaissance" className={styles.callToActionButton}>
+      <Link 
+        href="/faisons-connaissance" 
+        className={styles.callToActionButton}
+        data-e2eid={element.e2eID || undefined}
+      >
         {element.action}
       </Link>
     </div>

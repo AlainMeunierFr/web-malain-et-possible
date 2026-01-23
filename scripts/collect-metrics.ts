@@ -34,7 +34,8 @@ function collectTestMetrics() {
     featureFiles.forEach(file => {
       if (file && fs.existsSync(file)) {
         const content = fs.readFileSync(file, 'utf-8');
-        bddScenarios += (content.match(/Scenario:|Scenario Outline:/g) || []).length;
+        // Compter les scénarios (tous les fichiers .feature sont conformes à la DOD avec accents)
+        bddScenarios += (content.match(/Scénario:|Scénario Outline:/g) || []).length;
         bddSteps += (content.match(/Given |When |Then |And |But /g) || []).length;
       }
     });

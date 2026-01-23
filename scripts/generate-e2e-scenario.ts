@@ -198,6 +198,31 @@ const genererCodeTest = (chemin: string[], liens: PlanLien[], inventory: E2eIdIn
       // Préparer les variables d'échappement pour les regex
       const pageEscaped = page.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
       
+      // Vérifier si on essaie de naviguer vers la même page
+      if (pagePrecedente === page) {
+        lignes.push(`    // On est déjà sur ${page}, pas besoin de naviguer vers la même page`);
+        lignes.push(`    // Vérifier simplement qu'on est bien sur la bonne page`);
+        lignes.push(`    await expect(page).toHaveURL('${page}');`);
+        lignes.push(`  });`);
+        continue; // Passer à la page suivante
+      }
+      
+      // Vérifier si la destination est l'accueil (/)
+      if (page === '/') {
+        // Pour aller à l'accueil, utiliser le logo du header (h1)
+        lignes.push(`    // Pour aller à l'accueil, utiliser le logo du header (h1)`);
+        lignes.push(`    const logo = page.getByTestId('e2eid-h1');`);
+        lignes.push(`    if (await logo.count() > 0) {`);
+        lignes.push(`      await logo.click();`);
+        lignes.push(`      await expect(page).toHaveURL('/');`);
+        lignes.push(`    } else {`);
+        lignes.push(`      // Fallback : navigation directe`);
+        lignes.push(`      await page.goto('/');`);
+        lignes.push(`    }`);
+        lignes.push(`  });`);
+        continue; // Passer à la page suivante
+      }
+      
       // Essayer de trouver le lien par son label ou par son rôle
       // Le footer (plan-du-site) et le header (logo vers accueil) sont toujours disponibles
       if (label && label !== '') {
@@ -227,72 +252,218 @@ const genererCodeTest = (chemin: string[], liens: PlanLien[], inventory: E2eIdIn
         lignes.push(`    } else {`);
         lignes.push(`      // Lien non trouvé par label, navigation via plan-du-site ou accueil`);
         lignes.push(`      // Le footer et le header sont toujours disponibles sur toutes les pages`);
-        lignes.push(`      // Option 1 : Essayer via le plan du site (footer)`);
-        lignes.push(`      const lienPlanDuSite = page.getByRole('link', { name: /Plan du site/i });`);
-        lignes.push(`      if (await lienPlanDuSite.count() > 0) {`);
-        lignes.push(`        await lienPlanDuSite.first().click();`);
-        lignes.push(`        await expect(page).toHaveURL('/plan-du-site');`);
-        lignes.push(`        // Depuis le plan du site, chercher le lien vers la destination`);
-        lignes.push(`        const lienDepuisPlan${i} = page.getByRole('link', { name: new RegExp(\`${pageEscaped}\`, 'i') });`);
-        lignes.push(`        if (await lienDepuisPlan${i}.count() === 0) {`);
-        lignes.push(`          throw new Error(\`Impossible de trouver un lien vers ${page} depuis le plan du site. La page n'est peut-être pas accessible ou le lien est manquant dans le plan du site.\`);`);
-        lignes.push(`        }`);
-        lignes.push(`        await lienDepuisPlan${i}.first().click();`);
-        lignes.push(`      } else {`);
-        lignes.push(`        // Option 2 : Via le logo (header) vers l'accueil`);
-        lignes.push(`        const logo = page.getByAltText('Logo Malain et possible');`);
-        lignes.push(`        if (await logo.count() > 0) {`);
-        lignes.push(`          await logo.click();`);
-        lignes.push(`          await expect(page).toHaveURL('/');`);
-        lignes.push(`        } else {`);
-        lignes.push(`          // Fallback : navigation directe vers l'accueil`);
-        lignes.push(`          await page.goto('/');`);
-        lignes.push(`        }`);
-        lignes.push(`        // Depuis l'accueil, chercher le lien vers la destination`);
-        lignes.push(`        const lienDepuisAccueil${i} = page.getByRole('link', { name: new RegExp(\`${pageEscaped}\`, 'i') });`);
-        lignes.push(`        if (await lienDepuisAccueil${i}.count() === 0) {`);
-        const labelEscaped = label.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-        lignes.push(`          // Essayer aussi par le label original si disponible`);
-        lignes.push(`          const lienParLabel${i} = page.getByRole('link', { name: new RegExp(\`${labelEscaped}\`, 'i') });`);
-        lignes.push(`          if (await lienParLabel${i}.count() === 0) {`);
-        lignes.push(`            throw new Error(\`Impossible de trouver un lien vers ${page} depuis l'accueil (label: "${escapedLabel}"). La page n'est peut-être pas accessible depuis l'accueil ou le lien est manquant.\`);`);
-        lignes.push(`          }`);
-        lignes.push(`          await lienParLabel${i}.first().click();`);
-        lignes.push(`        } else {`);
-        lignes.push(`          await lienDepuisAccueil${i}.first().click();`);
-        lignes.push(`        }`);
-        lignes.push(`      }`);
+        
+        // Vérifier si la destination est accessible via un bouton du footer
+        const isMetricsPage = page === '/metrics';
+        const isAboutPage = page === '/a-propos-du-site';
+        const isPlanDuSitePage = page === '/plan-du-site';
+        
+        if (isMetricsPage) {
+          // /metrics est accessible via le bouton du footer (b14)
+          lignes.push(`      // /metrics est accessible via le bouton du footer (b14), pas via un lien`);
+          lignes.push(`      const boutonMetrics = page.getByTestId('e2eid-b14');`);
+          lignes.push(`      if (await boutonMetrics.count() > 0) {`);
+          lignes.push(`        await boutonMetrics.click();`);
+          lignes.push(`        await expect(page).toHaveURL('/metrics');`);
+          lignes.push(`      } else {`);
+          lignes.push(`        throw new Error('Impossible de trouver le bouton Metrics (e2eid-b14) dans le footer.');`);
+          lignes.push(`      }`);
+        } else if (isAboutPage) {
+          // /a-propos-du-site est accessible via le bouton du footer (b15)
+          lignes.push(`      // /a-propos-du-site est accessible via le bouton du footer (b15), pas via un lien`);
+          lignes.push(`      const boutonAbout = page.getByTestId('e2eid-b15');`);
+          lignes.push(`      if (await boutonAbout.count() > 0) {`);
+          lignes.push(`        await boutonAbout.click();`);
+          lignes.push(`        await expect(page).toHaveURL('/a-propos-du-site');`);
+          lignes.push(`      } else {`);
+          lignes.push(`        throw new Error('Impossible de trouver le bouton About (e2eid-b15) dans le footer.');`);
+          lignes.push(`      }`);
+        } else if (isPlanDuSitePage) {
+          // /plan-du-site est accessible via le bouton du footer (b13)
+          lignes.push(`      // /plan-du-site est accessible via le bouton du footer (b13), pas via un lien`);
+          lignes.push(`      const boutonPlanDuSite = page.getByTestId('e2eid-b13');`);
+          lignes.push(`      if (await boutonPlanDuSite.count() > 0) {`);
+          lignes.push(`        await boutonPlanDuSite.click();`);
+          lignes.push(`        await expect(page).toHaveURL('/plan-du-site');`);
+          lignes.push(`      } else {`);
+          lignes.push(`        throw new Error('Impossible de trouver le bouton Plan du site (e2eid-b13) dans le footer.');`);
+          lignes.push(`      }`);
+        } else {
+          // Autres pages : navigation via plan-du-site ou accueil
+          lignes.push(`      // Option 1 : Essayer via le plan du site (footer) - c'est un bouton, pas un lien`);
+          lignes.push(`      const boutonPlanDuSite = page.getByTestId('e2eid-b13');`);
+          lignes.push(`      if (await boutonPlanDuSite.count() > 0) {`);
+          lignes.push(`        await boutonPlanDuSite.click();`);
+          lignes.push(`        await expect(page).toHaveURL('/plan-du-site');`);
+          lignes.push(`        // Vérifier si la destination est accessible via un bouton du footer ou si c'est /plan-du-site ou /`);
+          lignes.push(`        if ('${page}' === '/plan-du-site') {`);
+          lignes.push(`          // On est déjà sur /plan-du-site, pas besoin de naviguer à nouveau`);
+          lignes.push(`        } else if ('${page}' === '/') {`);
+          lignes.push(`          // Pour aller à l'accueil, utiliser le logo du header (h1)`);
+          lignes.push(`          const logo = page.getByTestId('e2eid-h1');`);
+          lignes.push(`          if (await logo.count() > 0) {`);
+          lignes.push(`            await logo.click();`);
+          lignes.push(`            await expect(page).toHaveURL('/');`);
+          lignes.push(`          } else {`);
+          lignes.push(`            // Fallback : navigation directe`);
+          lignes.push(`            await page.goto('/');`);
+          lignes.push(`          }`);
+          lignes.push(`        } else if ('${page}' === '/metrics') {`);
+          lignes.push(`          // /metrics est accessible via le bouton du footer (b14)`);
+          lignes.push(`          const boutonMetrics = page.getByTestId('e2eid-b14');`);
+          lignes.push(`          if (await boutonMetrics.count() > 0) {`);
+          lignes.push(`            await boutonMetrics.click();`);
+          lignes.push(`            await expect(page).toHaveURL('/metrics');`);
+          lignes.push(`          } else {`);
+          lignes.push(`            throw new Error('Impossible de trouver le bouton Metrics (e2eid-b14) dans le footer.');`);
+          lignes.push(`          }`);
+          lignes.push(`        } else if ('${page}' === '/a-propos-du-site') {`);
+          lignes.push(`          // /a-propos-du-site est accessible via le bouton du footer (b15)`);
+          lignes.push(`          const boutonAbout = page.getByTestId('e2eid-b15');`);
+          lignes.push(`          if (await boutonAbout.count() > 0) {`);
+          lignes.push(`            await boutonAbout.click();`);
+          lignes.push(`            await expect(page).toHaveURL('/a-propos-du-site');`);
+          lignes.push(`          } else {`);
+          lignes.push(`            throw new Error('Impossible de trouver le bouton About (e2eid-b15) dans le footer.');`);
+          lignes.push(`          }`);
+          lignes.push(`        } else {`);
+          lignes.push(`          // Depuis le plan du site, chercher le lien vers la destination`);
+          lignes.push(`          const lienDepuisPlan${i} = page.getByRole('link', { name: new RegExp(\`${pageEscaped}\`, 'i') });`);
+          lignes.push(`          if (await lienDepuisPlan${i}.count() === 0) {`);
+          lignes.push(`            throw new Error(\`Impossible de trouver un lien vers ${page} depuis le plan du site. La page n'est peut-être pas accessible ou le lien est manquant dans le plan du site.\`);`);
+          lignes.push(`          }`);
+          lignes.push(`          await lienDepuisPlan${i}.first().click();`);
+          lignes.push(`        }`);
+          lignes.push(`      } else {`);
+          lignes.push(`        // Option 2 : Via le logo (header) vers l'accueil`);
+          lignes.push(`        const logo = page.getByAltText('Logo Malain et possible');`);
+          lignes.push(`        if (await logo.count() > 0) {`);
+          lignes.push(`          await logo.click();`);
+          lignes.push(`          await expect(page).toHaveURL('/');`);
+          lignes.push(`        } else {`);
+          lignes.push(`          // Fallback : navigation directe vers l'accueil`);
+          lignes.push(`          await page.goto('/');`);
+          lignes.push(`        }`);
+          lignes.push(`        // Depuis l'accueil, chercher le lien vers la destination`);
+          lignes.push(`        const lienDepuisAccueil${i} = page.getByRole('link', { name: new RegExp(\`${pageEscaped}\`, 'i') });`);
+          lignes.push(`        if (await lienDepuisAccueil${i}.count() === 0) {`);
+          const labelEscaped2 = label.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+          lignes.push(`          // Essayer aussi par le label original si disponible`);
+          lignes.push(`          const lienParLabel${i} = page.getByRole('link', { name: new RegExp(\`${labelEscaped2}\`, 'i') });`);
+          lignes.push(`          if (await lienParLabel${i}.count() === 0) {`);
+          lignes.push(`            throw new Error(\`Impossible de trouver un lien vers ${page} depuis l'accueil (label: "${escapedLabel}"). La page n'est peut-être pas accessible depuis l'accueil ou le lien est manquant.\`);`);
+          lignes.push(`          }`);
+          lignes.push(`          await lienParLabel${i}.first().click();`);
+          lignes.push(`        } else {`);
+          lignes.push(`          await lienDepuisAccueil${i}.first().click();`);
+          lignes.push(`        }`);
+          lignes.push(`      }`);
+        }
         lignes.push(`    }`);
       } else {
+        // Pas de label disponible, navigation via plan-du-site ou accueil
         lignes.push(`    // Pas de label disponible, navigation via plan-du-site ou accueil`);
         lignes.push(`    // Le footer et le header sont toujours disponibles sur toutes les pages`);
-        lignes.push(`    const lienPlanDuSite = page.getByRole('link', { name: /Plan du site/i });`);
-        lignes.push(`    if (await lienPlanDuSite.count() > 0) {`);
-        lignes.push(`      await lienPlanDuSite.first().click();`);
-        lignes.push(`      await expect(page).toHaveURL('/plan-du-site');`);
-        lignes.push(`      // Depuis le plan du site, chercher le lien vers la destination`);
-        lignes.push(`      const lienDepuisPlan${i} = page.getByRole('link', { name: new RegExp(\`${pageEscaped}\`, 'i') });`);
-        lignes.push(`      if (await lienDepuisPlan${i}.count() === 0) {`);
-        lignes.push(`        throw new Error(\`Impossible de trouver un lien vers ${page} depuis le plan du site. La page n'est peut-être pas accessible ou le lien est manquant dans le plan du site.\`);`);
-        lignes.push(`      }`);
-        lignes.push(`      await lienDepuisPlan${i}.first().click();`);
-        lignes.push(`    } else {`);
-        lignes.push(`      // Via le logo (header) vers l'accueil`);
-        lignes.push(`      const logo = page.getByAltText('Logo Malain et possible');`);
-        lignes.push(`      if (await logo.count() > 0) {`);
-        lignes.push(`        await logo.click();`);
-        lignes.push(`        await expect(page).toHaveURL('/');`);
-        lignes.push(`      } else {`);
-        lignes.push(`        // Fallback : navigation directe vers l'accueil`);
-        lignes.push(`        await page.goto('/');`);
-        lignes.push(`      }`);
-        lignes.push(`      // Depuis l'accueil, chercher le lien vers la destination`);
-        lignes.push(`      const lienDepuisAccueil${i} = page.getByRole('link', { name: new RegExp(\`${pageEscaped}\`, 'i') });`);
-        lignes.push(`      if (await lienDepuisAccueil${i}.count() === 0) {`);
-        lignes.push(`        throw new Error(\`Impossible de trouver un lien vers ${page} depuis l'accueil. La page n'est peut-être pas accessible depuis l'accueil ou le lien est manquant.\`);`);
-        lignes.push(`      }`);
-        lignes.push(`      await lienDepuisAccueil${i}.first().click();`);
-        lignes.push(`    }`);
+        
+        // Vérifier si la destination est accessible via un bouton du footer
+        const isMetricsPage2 = page === '/metrics';
+        const isAboutPage2 = page === '/a-propos-du-site';
+        const isPlanDuSitePage2 = page === '/plan-du-site';
+        
+        if (isMetricsPage2) {
+          // /metrics est accessible via le bouton du footer (b14)
+          lignes.push(`    // /metrics est accessible via le bouton du footer (b14), pas via un lien`);
+          lignes.push(`    const boutonMetrics = page.getByTestId('e2eid-b14');`);
+          lignes.push(`    if (await boutonMetrics.count() > 0) {`);
+          lignes.push(`      await boutonMetrics.click();`);
+          lignes.push(`      await expect(page).toHaveURL('/metrics');`);
+          lignes.push(`    } else {`);
+          lignes.push(`      throw new Error('Impossible de trouver le bouton Metrics (e2eid-b14) dans le footer.');`);
+          lignes.push(`    }`);
+        } else if (isAboutPage2) {
+          // /a-propos-du-site est accessible via le bouton du footer (b15)
+          lignes.push(`    // /a-propos-du-site est accessible via le bouton du footer (b15), pas via un lien`);
+          lignes.push(`    const boutonAbout = page.getByTestId('e2eid-b15');`);
+          lignes.push(`    if (await boutonAbout.count() > 0) {`);
+          lignes.push(`      await boutonAbout.click();`);
+          lignes.push(`      await expect(page).toHaveURL('/a-propos-du-site');`);
+          lignes.push(`    } else {`);
+          lignes.push(`      throw new Error('Impossible de trouver le bouton About (e2eid-b15) dans le footer.');`);
+          lignes.push(`    }`);
+        } else if (isPlanDuSitePage2) {
+          // /plan-du-site est accessible via le bouton du footer (b13)
+          lignes.push(`    // /plan-du-site est accessible via le bouton du footer (b13), pas via un lien`);
+          lignes.push(`    const boutonPlanDuSite = page.getByTestId('e2eid-b13');`);
+          lignes.push(`    if (await boutonPlanDuSite.count() > 0) {`);
+          lignes.push(`      await boutonPlanDuSite.click();`);
+          lignes.push(`      await expect(page).toHaveURL('/plan-du-site');`);
+          lignes.push(`    } else {`);
+          lignes.push(`      throw new Error('Impossible de trouver le bouton Plan du site (e2eid-b13) dans le footer.');`);
+          lignes.push(`    }`);
+        } else {
+          // Autres pages : navigation via plan-du-site ou accueil
+          lignes.push(`    // Le bouton "Plan du site" est dans le footer (bouton avec icône, pas un lien)`);
+          lignes.push(`    const boutonPlanDuSite = page.getByTestId('e2eid-b13');`);
+          lignes.push(`    if (await boutonPlanDuSite.count() > 0) {`);
+          lignes.push(`      await boutonPlanDuSite.click();`);
+          lignes.push(`      await expect(page).toHaveURL('/plan-du-site');`);
+          lignes.push(`      // Vérifier si la destination est accessible via un bouton du footer ou si c'est /plan-du-site ou /`);
+          lignes.push(`      if ('${page}' === '/plan-du-site') {`);
+          lignes.push(`        // On est déjà sur /plan-du-site, pas besoin de naviguer à nouveau`);
+          lignes.push(`      } else if ('${page}' === '/') {`);
+          lignes.push(`        // Pour aller à l'accueil, utiliser le logo du header (h1)`);
+          lignes.push(`        const logo = page.getByTestId('e2eid-h1');`);
+          lignes.push(`        if (await logo.count() > 0) {`);
+          lignes.push(`          await logo.click();`);
+          lignes.push(`          await expect(page).toHaveURL('/');`);
+          lignes.push(`        } else {`);
+          lignes.push(`          // Fallback : navigation directe`);
+          lignes.push(`          await page.goto('/');`);
+          lignes.push(`        }`);
+          lignes.push(`      } else if ('${page}' === '/metrics') {`);
+          lignes.push(`        // /metrics est accessible via le bouton du footer (b14)`);
+          lignes.push(`        const boutonMetrics = page.getByTestId('e2eid-b14');`);
+          lignes.push(`        if (await boutonMetrics.count() > 0) {`);
+          lignes.push(`          await boutonMetrics.click();`);
+          lignes.push(`          await expect(page).toHaveURL('/metrics');`);
+          lignes.push(`        } else {`);
+          lignes.push(`          throw new Error('Impossible de trouver le bouton Metrics (e2eid-b14) dans le footer.');`);
+          lignes.push(`        }`);
+          lignes.push(`      } else if ('${page}' === '/a-propos-du-site') {`);
+          lignes.push(`        // /a-propos-du-site est accessible via le bouton du footer (b15)`);
+          lignes.push(`        const boutonAbout = page.getByTestId('e2eid-b15');`);
+          lignes.push(`        if (await boutonAbout.count() > 0) {`);
+          lignes.push(`          await boutonAbout.click();`);
+          lignes.push(`          await expect(page).toHaveURL('/a-propos-du-site');`);
+          lignes.push(`        } else {`);
+          lignes.push(`          throw new Error('Impossible de trouver le bouton About (e2eid-b15) dans le footer.');`);
+          lignes.push(`        }`);
+          lignes.push(`      } else {`);
+          lignes.push(`        // Depuis le plan du site, chercher le lien vers la destination`);
+          lignes.push(`        const lienDepuisPlan${i} = page.getByRole('link', { name: new RegExp(\`${pageEscaped}\`, 'i') });`);
+          lignes.push(`        if (await lienDepuisPlan${i}.count() === 0) {`);
+          lignes.push(`          throw new Error(\`Impossible de trouver un lien vers ${page} depuis le plan du site. La page n'est peut-être pas accessible ou le lien est manquant dans le plan du site.\`);`);
+          lignes.push(`        }`);
+          lignes.push(`        await lienDepuisPlan${i}.first().click();`);
+          lignes.push(`      }`);
+          lignes.push(`    } else {`);
+          lignes.push(`      // Via le logo (header) vers l'accueil`);
+          lignes.push(`      const logo = page.getByAltText('Logo Malain et possible');`);
+          lignes.push(`      if (await logo.count() > 0) {`);
+          lignes.push(`        await logo.click();`);
+          lignes.push(`        await expect(page).toHaveURL('/');`);
+          lignes.push(`      } else {`);
+          lignes.push(`        // Fallback : navigation directe vers l'accueil`);
+          lignes.push(`        await page.goto('/');`);
+          lignes.push(`      }`);
+          lignes.push(`      // Depuis l'accueil, chercher le lien vers la destination`);
+          lignes.push(`      const lienDepuisAccueil${i} = page.getByRole('link', { name: new RegExp(\`${pageEscaped}\`, 'i') });`);
+          lignes.push(`      if (await lienDepuisAccueil${i}.count() === 0) {`);
+          lignes.push(`        throw new Error(\`Impossible de trouver un lien vers ${page} depuis l'accueil. La page n'est peut-être pas accessible depuis l'accueil ou le lien est manquant.\`);`);
+          lignes.push(`      }`);
+          lignes.push(`      await lienDepuisAccueil${i}.first().click();`);
+          lignes.push(`    }`);
+        }
       }
       
       lignes.push(`    await expect(page).toHaveURL('${page}');`);

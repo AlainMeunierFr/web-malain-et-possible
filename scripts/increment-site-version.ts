@@ -181,6 +181,12 @@ function syncVersionWithUS(): void {
  * Mesure le temps de build Next.js et le stocke dans .next/build-metrics.json
  */
 function measureBuildTime(): void {
+  console.log('');
+  console.log('═══════════════════════════════════════════════════════════════');
+  console.log('🔨 MESURE DU TEMPS DE BUILD NEXT.JS');
+  console.log('═══════════════════════════════════════════════════════════════');
+  console.log('');
+  
   const BUILD_METRICS_FILE = path.join(process.cwd(), '.next', 'build-metrics.json');
   const NEXT_DIR = path.join(process.cwd(), '.next');
   
@@ -189,8 +195,10 @@ function measureBuildTime(): void {
     fs.mkdirSync(NEXT_DIR, { recursive: true });
   }
   
-  console.log('🔨 Mesure du temps de build Next.js...');
+  console.log('📝 Démarrage du build Next.js...');
   const startTime = Date.now();
+  let buildTime = 0;
+  let buildSuccess = false;
   
   try {
     // Exécuter next build
@@ -200,27 +208,68 @@ function measureBuildTime(): void {
     });
     
     const endTime = Date.now();
-    const buildTime = endTime - startTime;
+    buildTime = endTime - startTime;
+    buildSuccess = true;
     
     // Stocker les métriques
     const metrics = {
       buildTime,
+      buildSuccess: true,
       timestamp: new Date().toISOString(),
       buildDate: new Date().toLocaleString('fr-FR'),
     };
     
     fs.writeFileSync(BUILD_METRICS_FILE, JSON.stringify(metrics, null, 2), 'utf-8');
     
-    console.log(`\n✅ Build terminé en ${(buildTime / 1000).toFixed(2)}s`);
+    console.log('');
+    console.log('═══════════════════════════════════════════════════════════════');
+    console.log(`✅ Build terminé avec succès en ${(buildTime / 1000).toFixed(2)}s`);
     console.log(`📊 Métriques sauvegardées dans: ${BUILD_METRICS_FILE}`);
-  } catch (error) {
-    console.error('\n❌ Erreur lors du build:', error);
+    console.log('═══════════════════════════════════════════════════════════════');
+    console.log('');
+  } catch (error: any) {
+    const endTime = Date.now();
+    buildTime = endTime - startTime;
+    buildSuccess = false;
+    
+    // Stocker les métriques même en cas d'erreur (pour avoir le temps écoulé)
+    const metrics = {
+      buildTime,
+      buildSuccess: false,
+      error: error?.message || 'Erreur inconnue',
+      timestamp: new Date().toISOString(),
+      buildDate: new Date().toLocaleString('fr-FR'),
+    };
+    
+    try {
+      fs.writeFileSync(BUILD_METRICS_FILE, JSON.stringify(metrics, null, 2), 'utf-8');
+    } catch (writeError) {
+      // Ignorer les erreurs d'écriture
+    }
+    
+    console.log('');
+    console.log('═══════════════════════════════════════════════════════════════');
+    console.log(`⚠️  Build échoué après ${(buildTime / 1000).toFixed(2)}s`);
+    console.log(`📊 Temps écoulé sauvegardé dans: ${BUILD_METRICS_FILE}`);
+    console.log('═══════════════════════════════════════════════════════════════');
+    console.log('');
+    console.error('❌ Erreur lors du build:', error?.message || error);
+    console.log('');
+    console.log('💡 Conseil: Si vous voyez une erreur EPERM, c\'est souvent dû à OneDrive qui verrouille des fichiers.');
+    console.log('   Essayez de fermer OneDrive ou d\'exclure le dossier .next de la synchronisation.');
+    console.log('');
+    
     process.exit(1);
   }
 }
 
 // Récupérer la commande depuis les arguments
 const command = process.argv[2];
+
+// Debug: afficher la commande reçue
+if (command === 'build') {
+  console.log('[DEBUG] Commande "build" détectée, appel de measureBuildTime()...');
+}
 
 switch (command) {
   case 'patch':
@@ -234,9 +283,11 @@ switch (command) {
     break;
   case 'build':
     // Mesurer le temps de build
+    console.log('[DEBUG] Exécution de measureBuildTime()...');
     measureBuildTime();
     break;
   default:
     console.error('Usage: ts-node scripts/increment-site-version.ts [patch|minor|sync|build]');
+    console.error(`Commande reçue: "${command}"`);
     process.exit(1);
 }

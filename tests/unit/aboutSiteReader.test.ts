@@ -187,8 +187,21 @@ describe('readAboutSiteStructure', () => {
       readFileSyncSpy.mockReturnValue('### Partie\nContenu');
 
       // ACT & ASSERT
-      expect(() => readAboutSiteStructure()).toThrow(ValidationError);
-      expect(() => readAboutSiteStructure()).toThrow(/au moins 2 sections/);
+      expect(() => {
+        readAboutSiteStructure();
+      }).toThrow(ValidationError);
+      expect(() => {
+        // Réinitialiser les mocks pour le deuxième test
+        readdirSyncSpy
+          .mockReturnValueOnce([
+            { name: '1. A propos du projet', isDirectory: () => true, isFile: () => false },
+          ] as fs.Dirent[])
+          .mockReturnValueOnce([
+            { name: 'Section 1.md', isDirectory: () => false, isFile: () => true },
+          ] as fs.Dirent[]);
+        readFileSyncSpy.mockReturnValue('### Partie\nContenu');
+        readAboutSiteStructure();
+      }).toThrow(/au moins 2 sections/);
     });
   });
 
@@ -211,8 +224,24 @@ describe('readAboutSiteStructure', () => {
         .mockReturnValueOnce('### Partie\nContenu');
 
       // ACT & ASSERT
-      expect(() => readAboutSiteStructure()).toThrow(ValidationError);
-      expect(() => readAboutSiteStructure()).toThrow(/titre de niveau 1/);
+      expect(() => {
+        readAboutSiteStructure();
+      }).toThrow(ValidationError);
+      expect(() => {
+        // Réinitialiser les mocks pour le deuxième test
+        readdirSyncSpy
+          .mockReturnValueOnce([
+            { name: '1. A propos du projet', isDirectory: () => true, isFile: () => false },
+          ] as fs.Dirent[])
+          .mockReturnValueOnce([
+            { name: 'Section 1.md', isDirectory: () => false, isFile: () => true },
+            { name: 'Section 2.md', isDirectory: () => false, isFile: () => true },
+          ] as fs.Dirent[]);
+        readFileSyncSpy
+          .mockReturnValueOnce('# Titre H1\nContenu')
+          .mockReturnValueOnce('### Partie\nContenu');
+        readAboutSiteStructure();
+      }).toThrow(/titre de niveau 1/);
     });
   });
 
@@ -235,8 +264,24 @@ describe('readAboutSiteStructure', () => {
         .mockReturnValueOnce('### Partie\nContenu');
 
       // ACT & ASSERT
-      expect(() => readAboutSiteStructure()).toThrow(ValidationError);
-      expect(() => readAboutSiteStructure()).toThrow(/titre de niveau 2/);
+      expect(() => {
+        readAboutSiteStructure();
+      }).toThrow(ValidationError);
+      expect(() => {
+        // Réinitialiser les mocks pour le deuxième test
+        readdirSyncSpy
+          .mockReturnValueOnce([
+            { name: '1. A propos du projet', isDirectory: () => true, isFile: () => false },
+          ] as fs.Dirent[])
+          .mockReturnValueOnce([
+            { name: 'Section 1.md', isDirectory: () => false, isFile: () => true },
+            { name: 'Section 2.md', isDirectory: () => false, isFile: () => true },
+          ] as fs.Dirent[]);
+        readFileSyncSpy
+          .mockReturnValueOnce('## Titre H2\nContenu')
+          .mockReturnValueOnce('### Partie\nContenu');
+        readAboutSiteStructure();
+      }).toThrow(/titre de niveau 2/);
     });
   });
 
@@ -259,8 +304,24 @@ describe('readAboutSiteStructure', () => {
         .mockReturnValueOnce('### Partie\nContenu');
 
       // ACT & ASSERT
-      expect(() => readAboutSiteStructure()).toThrow(ValidationError);
-      expect(() => readAboutSiteStructure()).toThrow(/titre de niveau 4.*sans titre de niveau 3/);
+      expect(() => {
+        readAboutSiteStructure();
+      }).toThrow(ValidationError);
+      expect(() => {
+        // Réinitialiser les mocks pour le deuxième test
+        readdirSyncSpy
+          .mockReturnValueOnce([
+            { name: '1. A propos du projet', isDirectory: () => true, isFile: () => false },
+          ] as fs.Dirent[])
+          .mockReturnValueOnce([
+            { name: 'Section 1.md', isDirectory: () => false, isFile: () => true },
+            { name: 'Section 2.md', isDirectory: () => false, isFile: () => true },
+          ] as fs.Dirent[]);
+        readFileSyncSpy
+          .mockReturnValueOnce('#### Sous-partie sans partie\nContenu')
+          .mockReturnValueOnce('### Partie\nContenu');
+        readAboutSiteStructure();
+      }).toThrow(/titre de niveau 4.*sans titre de niveau 3/);
     });
   });
 

@@ -94,37 +94,8 @@ function extractE2eIdsFromJson(): E2eIdInventoryItem[] {
       }
 
       // Vérifier aussi footerButtons.json
-      if (jsonFile === 'footerButtons.json') {
-        if (data.boutons && Array.isArray(data.boutons)) {
-          data.boutons.forEach((bouton: any, index: number) => {
-            if (bouton.e2eID) {
-              inventory.push({
-                e2eID: bouton.e2eID,
-                source: 'json',
-                file: jsonFile,
-                path: `boutons[${index}]`,
-                type: 'bouton',
-                description: bouton.texte || bouton.icone || undefined,
-              });
-            }
-          });
-        }
-        // Nouvelle structure groupeBoutons
-        if (data.type === 'groupeBoutons' && data.boutons) {
-          data.boutons.forEach((bouton: any, index: number) => {
-            if (bouton.e2eID) {
-              inventory.push({
-                e2eID: bouton.e2eID,
-                source: 'json',
-                file: jsonFile,
-                path: `boutons[${index}]`,
-                type: 'bouton',
-                description: bouton.texte || bouton.icone || undefined,
-              });
-            }
-          });
-        }
-      }
+      // Note: footerButtons.json a la structure groupeBoutons, donc les boutons sont déjà traités
+      // par la fonction traverse() ci-dessus. Pas besoin de traitement spécial ici.
     } catch (error) {
       // Ignorer les erreurs de parsing
       continue;
@@ -174,14 +145,18 @@ function extractE2eIdsFromReact(): E2eIdInventoryItem[] {
         // Pattern: data-e2eid="v10" ou data-e2eid={E2E_IDS.header.logo}
         const stringMatch = line.match(/data-e2eid=["']([^"']+)["']/i);
         if (stringMatch) {
-          inventory.push({
-            e2eID: stringMatch[1],
-            source: 'react',
-            file: tsxFile,
-            line: lineNumber,
-            type: 'react',
-            description: line.trim().substring(0, 50),
-          });
+          const e2eId = stringMatch[1];
+          // Exclure les e2eID "null" (non testés, modals internes, etc.)
+          if (e2eId !== 'null') {
+            inventory.push({
+              e2eID: e2eId,
+              source: 'react',
+              file: tsxFile,
+              line: lineNumber,
+              type: 'react',
+              description: line.trim().substring(0, 50),
+            });
+          }
         }
 
         // Pattern: data-e2eid={E2E_IDS.header.logo}

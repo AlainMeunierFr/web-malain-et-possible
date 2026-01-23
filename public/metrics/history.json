@@ -1920,13 +1920,112 @@
         "bundleSize": 526732,
         "buildTime": 0
       }
+    },
+    {
+      "timestamp": "2026-01-23T01:51:42.060Z",
+      "version": "0.1.0",
+      "branch": "main",
+      "commit": "e51a8cd",
+      "tests": {
+        "unitTests": 385,
+        "unitTestFiles": 46,
+        "unitTestPassed": 365,
+        "unitTestFailed": 20,
+        "unitTestDuration": 99970,
+        "integrationTests": 35,
+        "integrationTestFiles": 5,
+        "integrationTestPassed": 33,
+        "integrationTestFailed": 2,
+        "integrationTestDuration": 10281,
+        "bddFeatures": 8,
+        "bddScenarios": 11,
+        "bddScenariosPassed": 11,
+        "bddScenariosFailed": 0,
+        "bddSteps": 0,
+        "bddTestDuration": 0,
+        "e2eSteps": 1,
+        "e2eScenarioFiles": 1,
+        "e2eScenarios": 1,
+        "e2eStepsPassed": 0,
+        "e2eStepsFailed": 1,
+        "e2eTests": {
+          "total": 1,
+          "passed": 0,
+          "failed": 1,
+          "duration": 0,
+          "lastRunDate": "2026-01-23T01:35:20.417Z"
+        },
+        "totalTests": 432,
+        "totalTestFiles": 60,
+        "passingTests": 409,
+        "failingTests": 23,
+        "testDuration": 110251
+      },
+      "coverage": {
+        "lines": {
+          "total": 1733,
+          "covered": 1406,
+          "percentage": 81.13
+        },
+        "statements": {
+          "total": 1805,
+          "covered": 1466,
+          "percentage": 81.21
+        },
+        "functions": {
+          "total": 205,
+          "covered": 161,
+          "percentage": 78.53
+        },
+        "branches": {
+          "total": 1126,
+          "covered": 801,
+          "percentage": 71.13
+        }
+      },
+      "quality": {
+        "eslintErrors": 0,
+        "eslintWarnings": 0,
+        "typeCoverage": 95,
+        "cyclomaticComplexity": 5,
+        "maintainabilityIndex": 75,
+        "technicalDebt": "2h"
+      },
+      "size": {
+        "totalFiles": 53,
+        "totalLines": 6311,
+        "sourceLines": 6311,
+        "commentLines": 0,
+        "blankLines": 0,
+        "components": 26,
+        "pages": 12,
+        "utils": 15,
+        "tests": 51
+      },
+      "dependencies": {
+        "total": 31,
+        "production": 6,
+        "development": 25,
+        "outdated": 0,
+        "vulnerabilities": {
+          "low": 0,
+          "moderate": 0,
+          "high": 0,
+          "critical": 0,
+          "total": 0
+        }
+      },
+      "performance": {
+        "bundleSize": 529400,
+        "buildTime": 0
+      }
     }
   ],
   "latest": {
-    "timestamp": "2026-01-23T01:41:32.886Z",
+    "timestamp": "2026-01-23T01:51:42.060Z",
     "version": "0.1.0",
     "branch": "main",
-    "commit": "575fac8",
+    "commit": "e51a8cd",
     "tests": {
       "unitTests": 385,
       "unitTestFiles": 46,
@@ -1944,10 +2043,10 @@
       "bddScenariosFailed": 0,
       "bddSteps": 0,
       "bddTestDuration": 0,
-      "e2eSteps": 60,
+      "e2eSteps": 1,
       "e2eScenarioFiles": 1,
       "e2eScenarios": 1,
-      "e2eStepsPassed": 59,
+      "e2eStepsPassed": 0,
       "e2eStepsFailed": 1,
       "e2eTests": {
         "total": 1,
@@ -1956,9 +2055,9 @@
         "duration": 0,
         "lastRunDate": "2026-01-23T01:35:20.417Z"
       },
-      "totalTests": 491,
+      "totalTests": 432,
       "totalTestFiles": 60,
-      "passingTests": 468,
+      "passingTests": 409,
       "failingTests": 23,
       "testDuration": 110251
     },
@@ -1994,8 +2093,8 @@
     },
     "size": {
       "totalFiles": 53,
-      "totalLines": 6306,
-      "sourceLines": 6306,
+      "totalLines": 6311,
+      "sourceLines": 6311,
       "commentLines": 0,
       "blankLines": 0,
       "components": 26,
@@ -2017,12 +2116,12 @@
       }
     },
     "performance": {
-      "bundleSize": 526732,
+      "bundleSize": 529400,
       "buildTime": 0
     }
   },
   "trends": {
-    "tests": "stable",
+    "tests": "down",
     "coverage": "stable",
     "quality": "stable"
   }

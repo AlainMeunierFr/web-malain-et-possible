@@ -22,8 +22,8 @@ describe('Couverture des e2eID dans le scénario E2E', () => {
     // 1. Générer l'inventaire complet de tous les e2eID
     const inventory = generateE2eIdInventory();
 
-    // Filtrer les e2eID null (exclus explicitement)
-    const activeE2eIds = inventory.filter((item) => item.e2eID !== null);
+    // Tous les items ont un e2eID non null (l'interface garantit e2eID: string)
+    const activeE2eIds = inventory;
 
     if (activeE2eIds.length === 0) {
       // Aucun e2eID actif, test réussi
@@ -41,8 +41,13 @@ describe('Couverture des e2eID dans le scénario E2E', () => {
       (item) => !testedSet.has(item.e2eID)
     );
 
-    if (missingE2eIds.length > 0) {
-      let errorMessage = `\n\n❌ ${missingE2eIds.length} e2eID non testé(s) dans le scénario E2E:\n\n`;
+    // Vérifier que tous les e2eID sont testés
+    if (missingE2eIds.length > 0 || testedE2eIds.length < activeE2eIds.length) {
+      // Calculer les e2eID réellement manquants (au cas où missingE2eIds serait vide mais testedE2eIds.length < activeE2eIds.length)
+      const testedSet = new Set(testedE2eIds);
+      const actuallyMissing = activeE2eIds.filter((item) => !testedSet.has(item.e2eID));
+      
+      let errorMessage = `\n\n❌ ${actuallyMissing.length} e2eID non testé(s) dans le scénario E2E:\n\n`;
 
       // Grouper par source
       const bySource: Record<string, E2eIdInventoryItem[]> = {
@@ -51,7 +56,7 @@ describe('Couverture des e2eID dans le scénario E2E', () => {
         constant: [],
       };
 
-      missingE2eIds.forEach((item) => {
+      actuallyMissing.forEach((item) => {
         bySource[item.source].push(item);
       });
 
@@ -82,7 +87,7 @@ describe('Couverture des e2eID dans le scénario E2E', () => {
       errorMessage += `\n📊 Statistiques:\n`;
       errorMessage += `   - Total e2eID actifs: ${activeE2eIds.length}\n`;
       errorMessage += `   - e2eID testés: ${testedE2eIds.length}\n`;
-      errorMessage += `   - e2eID manquants: ${missingE2eIds.length}\n`;
+      errorMessage += `   - e2eID manquants: ${actuallyMissing.length}\n`;
       errorMessage += `   - Couverture: ${(
         ((testedE2eIds.length / activeE2eIds.length) * 100).toFixed(1)
       )}%\n\n`;
@@ -90,12 +95,16 @@ describe('Couverture des e2eID dans le scénario E2E', () => {
       errorMessage += `💡 Actions:\n`;
       errorMessage += `   1. Ouvrir ${e2eTestFile}\n`;
       errorMessage += `   2. Ajouter des tests pour chaque e2eID manquant\n`;
-      errorMessage += `   3. Utiliser: page.getByTestId('e2eid-${missingE2eIds[0]?.e2eID}') ou page.locator('[data-e2eid="${missingE2eIds[0]?.e2eID}"]')\n`;
+      if (actuallyMissing.length > 0) {
+        errorMessage += `   3. Utiliser: page.getByTestId('e2eid-${actuallyMissing[0].e2eID}') ou page.locator('[data-e2eid="${actuallyMissing[0].e2eID}"]')\n`;
+      }
 
+      // Afficher aussi dans la console pour debug
+      console.error(errorMessage);
       throw new Error(errorMessage);
     }
-
-    // Tous les e2eID sont testés
+    
+    
     expect(missingE2eIds.length).toBe(0);
     expect(testedE2eIds.length).toBeGreaterThanOrEqual(activeE2eIds.length);
   });

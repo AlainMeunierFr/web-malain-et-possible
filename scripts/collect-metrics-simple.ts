@@ -445,7 +445,8 @@ function collectTestMetrics() {
       const files = fs.readdirSync(bddDir).filter(f => f.endsWith('.feature'));
       files.forEach(file => {
         const content = fs.readFileSync(path.join(bddDir, file), 'utf-8');
-        bddScenarios += (content.match(/Scenario:|Scenario Outline:/g) || []).length;
+        // Compter les scénarios (tous les fichiers .feature sont conformes à la DOD avec accents)
+        bddScenarios += (content.match(/Scénario:|Scénario Outline:/g) || []).length;
         bddSteps += (content.match(/Given |When |Then |And |But /g) || []).length;
       });
     }
@@ -914,6 +915,14 @@ function collectPerformanceMetrics() {
     try {
       const buildMetrics = JSON.parse(fs.readFileSync(buildMetricsFile, 'utf-8'));
       buildTime = buildMetrics.buildTime || 0;
+      
+      // Avertir si le dernier build a échoué
+      if (buildMetrics.buildSuccess === false) {
+        console.log('⚠️  Le dernier build a échoué. Le temps affiché est le temps écoulé avant l\'erreur.');
+        if (buildMetrics.error) {
+          console.log(`   Erreur: ${buildMetrics.error}`);
+        }
+      }
     } catch (e) {
       // Ignorer les erreurs de lecture
     }
@@ -921,7 +930,9 @@ function collectPerformanceMetrics() {
   
   // Si pas de métriques et que le dossier .next existe, informer l'utilisateur
   if (buildTime === 0 && fs.existsSync(nextDir)) {
-    console.log('⚠️  Temps de build non disponible. Exécutez "ts-node scripts/measure-build-time.ts" pour mesurer le temps de build.');
+    console.log('⚠️  Temps de build non disponible.');
+    console.log('   Le fichier .next/build-metrics.json n\'existe pas.');
+    console.log('   Le temps de build sera mesuré automatiquement lors du prochain "npm run build".');
   }
   
   if (fs.existsSync(nextDir)) {

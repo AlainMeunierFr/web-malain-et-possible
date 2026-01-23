@@ -78,6 +78,7 @@ export interface ElementDomaineDeCompetence {
 export interface ElementCallToAction {
   type: 'callToAction';
   action: string; // Texte du bouton
+  e2eID?: string | null; // e2eID optionnel depuis le JSON
 }
 
 /**

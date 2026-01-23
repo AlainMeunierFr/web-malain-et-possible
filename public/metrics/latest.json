@@ -1,8 +1,8 @@
 {
-  "timestamp": "2026-01-23T01:41:32.886Z",
+  "timestamp": "2026-01-23T01:51:42.060Z",
   "version": "0.1.0",
   "branch": "main",
-  "commit": "575fac8",
+  "commit": "e51a8cd",
   "tests": {
     "unitTests": 385,
     "unitTestFiles": 46,
@@ -20,10 +20,10 @@
     "bddScenariosFailed": 0,
     "bddSteps": 0,
     "bddTestDuration": 0,
-    "e2eSteps": 60,
+    "e2eSteps": 1,
     "e2eScenarioFiles": 1,
     "e2eScenarios": 1,
-    "e2eStepsPassed": 59,
+    "e2eStepsPassed": 0,
     "e2eStepsFailed": 1,
     "e2eTests": {
       "total": 1,
@@ -32,9 +32,9 @@
       "duration": 0,
       "lastRunDate": "2026-01-23T01:35:20.417Z"
     },
-    "totalTests": 491,
+    "totalTests": 432,
     "totalTestFiles": 60,
-    "passingTests": 468,
+    "passingTests": 409,
     "failingTests": 23,
     "testDuration": 110251
   },
@@ -70,8 +70,8 @@
   },
   "size": {
     "totalFiles": 53,
-    "totalLines": 6306,
-    "sourceLines": 6306,
+    "totalLines": 6311,
+    "sourceLines": 6311,
     "commentLines": 0,
     "blankLines": 0,
     "components": 26,
@@ -93,7 +93,7 @@
     }
   },
   "performance": {
-    "bundleSize": 526732,
+    "bundleSize": 529400,
     "buildTime": 0
   }
 }

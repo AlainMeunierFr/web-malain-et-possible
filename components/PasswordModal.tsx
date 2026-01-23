@@ -90,10 +90,10 @@ const PasswordModal: React.FC<PasswordModalProps> = ({ isOpen, onClose }) => {
           />
           {error && <p className={styles.error}>{error}</p>}
           <div className={styles.buttons}>
-            <button type="submit" className={styles.submitButton} disabled={isLoading}>
+            <button type="submit" className={styles.submitButton} disabled={isLoading} data-e2eid="null">
               {isLoading ? 'Vérification...' : 'Valider'}
             </button>
-            <button type="button" onClick={onClose} className={styles.cancelButton} disabled={isLoading}>
+            <button type="button" onClick={onClose} className={styles.cancelButton} disabled={isLoading} data-e2eid="null">
               Annuler
             </button>
           </div>
