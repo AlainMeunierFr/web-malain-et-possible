@@ -13,15 +13,9 @@ import { execSync } from 'child_process';
 const main = () => {
   console.log('🔄 Génération automatique du plan de test E2E avant commit...\n');
 
-  const scriptPath = path.join(process.cwd(), 'scripts', 'generate-e2e-scenario.ts');
-  
-  if (!fs.existsSync(scriptPath)) {
-    console.error('❌ Erreur : Le script generate-e2e-scenario.ts n\'existe pas');
-    process.exit(1);
-  }
-
   try {
-    execSync(`npx ts-node "${scriptPath}"`, { 
+    // Utiliser npm run test:e2e:generate qui utilise tsx (fonctionne mieux avec ESM)
+    execSync('npm run test:e2e:generate', { 
       stdio: 'inherit',
       encoding: 'utf8',
       cwd: process.cwd(),
