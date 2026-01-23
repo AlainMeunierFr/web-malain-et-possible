@@ -14,7 +14,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import type { PlanLien } from '../utils/siteMapGenerator';
-import { generateE2eIdInventory, type E2eIdInventoryItem } from '../utils/e2eIdInventory.js';
+import { generateE2eIdInventory, type E2eIdInventoryItem } from '../utils/e2eIdInventory';
 import { generateE2eIdFromUrl } from '../utils/e2eIdFromUrl';
 
 interface LienAvecIndex extends PlanLien {
