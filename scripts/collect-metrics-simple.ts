@@ -1187,41 +1187,95 @@ async function main() {
 
   // Générer les résultats E2E/BDD AVANT de collecter les métriques
   // Durées mesurées par Date.now() avant/après chaque run (soustraction = durée réelle)
+  // Logique de rechronométrage basée sur le commit hash :
+  // - Nouveau commit : on chronomètre
+  // - Si erreur dans ce commit : on chronomètre
+  // - Si pas d'erreur dans ce commit : on ne chronomètre plus
+  // - Sauf si on force avec --force
   const durationsPath = path.join(process.cwd(), 'playwright-report', 'durations.json');
   const playwrightReportPath = path.join(process.cwd(), 'playwright-report', 'data.json');
-
-  if (!fs.existsSync(playwrightReportPath)) {
-    console.log('📊 Exécution des tests BDD puis E2E pour collecter les durées (Date.now() avant/après chaque run)...');
-    let bddDurationMs = 0;
-    let e2eDurationMs = 0;
+  
+  // Détecter l'option --force
+  const forceReRun = process.argv.includes('--force') || process.argv.includes('--re-run');
+  
+  // Obtenir le commit hash actuel
+  const gitInfo = getGitInfo();
+  const currentCommit = gitInfo.commit;
+  
+  // Lire les durées existantes (si présentes)
+  let existingDurations: { bddDuration?: number; e2eDuration?: number; commit?: string; hasError?: boolean } = {};
+  if (fs.existsSync(durationsPath)) {
     try {
+      existingDurations = JSON.parse(fs.readFileSync(durationsPath, 'utf-8'));
+    } catch {
+      // Ignorer si le fichier est corrompu
+    }
+  }
+  
+  // Décider si on doit rechronométrer
+  const shouldReRun = forceReRun || 
+                      !existingDurations.commit || 
+                      existingDurations.commit !== currentCommit ||
+                      existingDurations.hasError === true;
+  
+  let bddDurationMs = existingDurations.bddDuration || 0;
+  let e2eDurationMs = existingDurations.e2eDuration || 0;
+  let hasError = false;
+  
+  if (shouldReRun) {
+    const reason = forceReRun ? '--force activé' : 
+                   !existingDurations.commit ? 'première exécution' :
+                   existingDurations.commit !== currentCommit ? `nouveau commit (${currentCommit} vs ${existingDurations.commit})` :
+                   'erreur précédente détectée';
+    console.log(`📊 Rechronométrage des tests BDD et E2E (${reason})...\n`);
+    
+    // Exécuter BDD (séparé pour permettre E2E même si BDD échoue)
+    try {
+      console.log('🔄 Génération des tests BDD...');
       execSync('npm run test:bdd:generate', { encoding: 'utf-8', stdio: 'inherit' });
+      console.log('⏱️  Exécution des tests BDD...');
       const bddStart = Date.now();
       execSync('npx playwright test .features-gen', { encoding: 'utf-8', stdio: 'inherit' });
       bddDurationMs = Date.now() - bddStart;
-      console.log(`   ⏱️  BDD: ${(bddDurationMs / 1000).toFixed(2)}s\n`);
-
+      console.log(`   ✅ BDD: ${(bddDurationMs / 1000).toFixed(2)}s\n`);
+    } catch (e) {
+      console.warn('   ⚠️  Erreur lors de l\'exécution des tests BDD');
+      console.warn('   Les tests E2E seront quand même exécutés\n');
+      hasError = true;
+    }
+    
+    // Exécuter E2E (même si BDD a échoué)
+    try {
+      console.log('⏱️  Exécution des tests E2E...');
       const e2eStart = Date.now();
       execSync('npx playwright test tests/end-to-end', { encoding: 'utf-8', stdio: 'inherit' });
       e2eDurationMs = Date.now() - e2eStart;
-      console.log(`   ⏱️  E2E: ${(e2eDurationMs / 1000).toFixed(2)}s\n`);
-
-      const reportDir = path.dirname(durationsPath);
-      if (!fs.existsSync(reportDir)) fs.mkdirSync(reportDir, { recursive: true });
-      fs.writeFileSync(durationsPath, JSON.stringify({ bddDuration: bddDurationMs, e2eDuration: e2eDurationMs }, null, 2));
-      console.log('✅ Tests BDD et E2E exécutés (durées enregistrées dans playwright-report/durations.json)\n');
+      console.log(`   ✅ E2E: ${(e2eDurationMs / 1000).toFixed(2)}s\n`);
     } catch (e) {
-      console.warn('⚠️  Erreur lors de l\'exécution des tests BDD/E2E (tests peuvent avoir échoué)');
-      console.warn('   Les durées BDD/E2E pourront ne pas être disponibles\n');
-      if (bddDurationMs > 0 || e2eDurationMs > 0) {
-        const reportDir = path.dirname(durationsPath);
-        if (!fs.existsSync(reportDir)) fs.mkdirSync(reportDir, { recursive: true });
-        fs.writeFileSync(durationsPath, JSON.stringify({ bddDuration: bddDurationMs, e2eDuration: e2eDurationMs }, null, 2));
-      }
+      console.warn('   ⚠️  Erreur lors de l\'exécution des tests E2E\n');
+      hasError = true;
+    }
+    
+    // Sauvegarder les durées avec le commit hash et le statut d'erreur
+    const reportDir = path.dirname(durationsPath);
+    if (!fs.existsSync(reportDir)) fs.mkdirSync(reportDir, { recursive: true });
+    fs.writeFileSync(durationsPath, JSON.stringify({
+      bddDuration: bddDurationMs,
+      e2eDuration: e2eDurationMs,
+      commit: currentCommit,
+      hasError: hasError,
+      timestamp: new Date().toISOString()
+    }, null, 2));
+    
+    if (hasError) {
+      console.log('⚠️  Tests exécutés avec erreurs (durées enregistrées, rechronométrage nécessaire au prochain run)\n');
+    } else {
+      console.log('✅ Tests BDD et E2E exécutés avec succès (durées enregistrées dans playwright-report/durations.json)\n');
     }
   } else {
-    console.log('✅ Résultats E2E/BDD existants trouvés (playwright-report/data.json)');
-    console.log('   Réutilisation des résultats existants (durées depuis playwright-report/durations.json si présent)\n');
+    console.log(`✅ Durées existantes trouvées pour le commit ${currentCommit}`);
+    console.log(`   BDD: ${(bddDurationMs / 1000).toFixed(2)}s | E2E: ${(e2eDurationMs / 1000).toFixed(2)}s`);
+    console.log('   Réutilisation des durées (utilisez --force pour forcer le rechronométrage)\n');
   }
 
   const gitInfo = getGitInfo();
