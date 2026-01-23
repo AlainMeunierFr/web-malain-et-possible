@@ -57,3 +57,6 @@ node_modules/
 
 # Jest test results
 test-results.json
+
+# Cursor continue directory (not a git submodule)
+/continue/

@@ -16,6 +16,7 @@ jobs:
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
         fetch-depth: 0
+        submodules: false  # Désactiver les submodules (continue/ n'est pas un vrai submodule)
     - uses: actions/setup-node@v4
       with:
         node-version: lts/*
