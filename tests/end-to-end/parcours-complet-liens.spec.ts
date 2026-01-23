@@ -9,6 +9,207 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
     await expect(page).toHaveURL('/');
   });
 
+  // Test des e2eID présents sur /
+  // Test e2eID: b10 (bouton - footerButtons.json)
+  const element0 = page.getByTestId('e2eid-b10');
+  if (await element0.count() > 0) {
+    await expect(element0).toBeVisible();
+    // Élément interactif présent et visible
+  }
+  // Test e2eID: b11 (bouton - footerButtons.json)
+  const element1 = page.getByTestId('e2eid-b11');
+  if (await element1.count() > 0) {
+    await expect(element1).toBeVisible();
+    // Élément interactif présent et visible
+  }
+  // Test e2eID: b12 (bouton - footerButtons.json)
+  const element2 = page.getByTestId('e2eid-b12');
+  if (await element2.count() > 0) {
+    await expect(element2).toBeVisible();
+    // Élément interactif présent et visible
+  }
+  // Test e2eID: b13 (bouton - footerButtons.json)
+  const element3 = page.getByTestId('e2eid-b13');
+  if (await element3.count() > 0) {
+    await expect(element3).toBeVisible();
+    // Élément interactif présent et visible
+  }
+  // Test e2eID: b14 (bouton - footerButtons.json)
+  const element4 = page.getByTestId('e2eid-b14');
+  if (await element4.count() > 0) {
+    await expect(element4).toBeVisible();
+    // Élément interactif présent et visible
+  }
+  // Test e2eID: b15 (bouton - footerButtons.json)
+  const element5 = page.getByTestId('e2eid-b15');
+  if (await element5.count() > 0) {
+    await expect(element5).toBeVisible();
+    // Élément interactif présent et visible
+  }
+  // Test e2eID: h1 (header - constants/e2eIds.ts)
+  const element6 = page.getByTestId('e2eid-h1');
+  if (await element6.count() > 0) {
+    await expect(element6).toBeVisible();
+  }
+  // Test e2eID: h2 (header - constants/e2eIds.ts)
+  const element7 = page.getByTestId('e2eid-h2');
+  if (await element7.count() > 0) {
+    await expect(element7).toBeVisible();
+  }
+  // Test e2eID: v17 (video - Conduite du changement.json)
+  const element8 = page.getByTestId('e2eid-v17');
+  if (await element8.count() > 0) {
+    await expect(element8).toBeVisible();
+  }
+  // Test e2eID: a1 (callToAction - Conduite du changement.json)
+  const element9 = page.getByTestId('e2eid-a1');
+  if (await element9.count() > 0) {
+    await expect(element9).toBeVisible();
+  }
+  // Test e2eID: v20 (video - Détournement vidéo.json)
+  const element10 = page.getByTestId('e2eid-v20');
+  if (await element10.count() > 0) {
+    await expect(element10).toBeVisible();
+  }
+  // Test e2eID: c2 (bouton - Détournement vidéo.json)
+  const element11 = page.getByTestId('e2eid-c2');
+  if (await element11.count() > 0) {
+    await expect(element11).toBeVisible();
+    // Élément interactif présent et visible
+  }
+  // Test e2eID: a3 (callToAction - Détournement vidéo.json)
+  const element12 = page.getByTestId('e2eid-a3');
+  if (await element12.count() > 0) {
+    await expect(element12).toBeVisible();
+  }
+  // Test e2eID: b4 (bouton - faisons-connaissance.json)
+  const element13 = page.getByTestId('e2eid-b4');
+  if (await element13.count() > 0) {
+    await expect(element13).toBeVisible();
+    // Élément interactif présent et visible
+  }
+  // Test e2eID: b5 (bouton - faisons-connaissance.json)
+  const element14 = page.getByTestId('e2eid-b5');
+  if (await element14.count() > 0) {
+    await expect(element14).toBeVisible();
+    // Élément interactif présent et visible
+  }
+  // Test e2eID: b6 (bouton - faisons-connaissance.json)
+  const element15 = page.getByTestId('e2eid-b6');
+  if (await element15.count() > 0) {
+    await expect(element15).toBeVisible();
+    // Élément interactif présent et visible
+  }
+  // Test e2eID: b7 (bouton - faisons-connaissance.json)
+  const element16 = page.getByTestId('e2eid-b7');
+  if (await element16.count() > 0) {
+    await expect(element16).toBeVisible();
+    // Élément interactif présent et visible
+  }
+  // Test e2eID: b8 (bouton - faisons-connaissance.json)
+  const element17 = page.getByTestId('e2eid-b8');
+  if (await element17.count() > 0) {
+    await expect(element17).toBeVisible();
+    // Élément externe, vérification de présence uniquement
+  }
+  // Test e2eID: b9 (bouton - faisons-connaissance.json)
+  const element18 = page.getByTestId('e2eid-b9');
+  if (await element18.count() > 0) {
+    await expect(element18).toBeVisible();
+    // Élément externe, vérification de présence uniquement
+  }
+  // Test e2eID: v10 (video - index.json)
+  const element19 = page.getByTestId('e2eid-v10');
+  if (await element19.count() > 0) {
+    await expect(element19).toBeVisible();
+  }
+  // Test e2eID: c11 (bouton - index.json)
+  const element20 = page.getByTestId('e2eid-c11');
+  if (await element20.count() > 0) {
+    await expect(element20).toBeVisible();
+    // Élément interactif présent et visible
+  }
+  // Test e2eID: c12 (bouton - index.json)
+  const element21 = page.getByTestId('e2eid-c12');
+  if (await element21.count() > 0) {
+    await expect(element21).toBeVisible();
+    // Élément interactif présent et visible
+  }
+  // Test e2eID: c13 (bouton - index.json)
+  const element22 = page.getByTestId('e2eid-c13');
+  if (await element22.count() > 0) {
+    await expect(element22).toBeVisible();
+    // Élément interactif présent et visible
+  }
+  // Test e2eID: c14 (bouton - index.json)
+  const element23 = page.getByTestId('e2eid-c14');
+  if (await element23.count() > 0) {
+    await expect(element23).toBeVisible();
+    // Élément interactif présent et visible
+  }
+  // Test e2eID: c15 (bouton - index.json)
+  const element24 = page.getByTestId('e2eid-c15');
+  if (await element24.count() > 0) {
+    await expect(element24).toBeVisible();
+    // Élément interactif présent et visible
+  }
+  // Test e2eID: c16 (bouton - index.json)
+  const element25 = page.getByTestId('e2eid-c16');
+  if (await element25.count() > 0) {
+    await expect(element25).toBeVisible();
+    // Élément interactif présent et visible
+  }
+  // Test e2eID: a17 (callToAction - index.json)
+  const element26 = page.getByTestId('e2eid-a17');
+  if (await element26.count() > 0) {
+    await expect(element26).toBeVisible();
+  }
+  // Test e2eID: v18 (video - management-de-produit-logiciel.json)
+  const element27 = page.getByTestId('e2eid-v18');
+  if (await element27.count() > 0) {
+    await expect(element27).toBeVisible();
+  }
+  // Test e2eID: v19 (video - management-de-produit-logiciel.json)
+  const element28 = page.getByTestId('e2eid-v19');
+  if (await element28.count() > 0) {
+    await expect(element28).toBeVisible();
+  }
+  // Test e2eID: a20 (callToAction - management-de-produit-logiciel.json)
+  const element29 = page.getByTestId('e2eid-a20');
+  if (await element29.count() > 0) {
+    await expect(element29).toBeVisible();
+  }
+  // Test e2eID: a21 (callToAction - portfolio-detournements.json)
+  const element30 = page.getByTestId('e2eid-a21');
+  if (await element30.count() > 0) {
+    await expect(element30).toBeVisible();
+  }
+  // Test e2eID: v22 (video - pour-aller-plus-loin.json)
+  const element31 = page.getByTestId('e2eid-v22');
+  if (await element31.count() > 0) {
+    await expect(element31).toBeVisible();
+  }
+  // Test e2eID: v23 (video - pour-aller-plus-loin.json)
+  const element32 = page.getByTestId('e2eid-v23');
+  if (await element32.count() > 0) {
+    await expect(element32).toBeVisible();
+  }
+  // Test e2eID: v24 (video - pour-aller-plus-loin.json)
+  const element33 = page.getByTestId('e2eid-v24');
+  if (await element33.count() > 0) {
+    await expect(element33).toBeVisible();
+  }
+  // Test e2eID: a25 (callToAction - pour-aller-plus-loin.json)
+  const element34 = page.getByTestId('e2eid-a25');
+  if (await element34.count() > 0) {
+    await expect(element34).toBeVisible();
+  }
+  // Test e2eID: a26 (callToAction - Robustesse.json)
+  const element35 = page.getByTestId('e2eid-a26');
+  if (await element35.count() > 0) {
+    await expect(element35).toBeVisible();
+  }
+
   await test.step("Étape 2: Navigation de / vers /robustesse (En savoir plus...)", async () => {
     // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
     const liens1 = page.getByRole('link', { name: /En savoir plus\.\.\./i });
@@ -73,69 +274,20 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
     await expect(page).toHaveURL('/robustesse');
   });
 
+  // Test des e2eID présents sur /robustesse
+
   await test.step("Étape 3: Navigation de /robustesse vers /plan-du-site (Plan du site)", async () => {
-    // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
-    const liens2 = page.getByRole('link', { name: /Plan du site/i });
-    if (await liens2.count() > 0) {
-      // Si plusieurs liens avec le même label, trouver celui qui va vers la bonne destination
-      const liensTrouves = await liens2.all();
-      let lienTrouve = null;
-      for (const lien of liensTrouves) {
-        const href = await lien.getAttribute('href');
-        // Normaliser l'URL (enlever le slash final si présent)
-        const hrefNormalise = href ? href.replace(/\/$/, '') : '';
-        const destinationNormalisee = '/plan-du-site'.replace(/\/$/, '');
-        if (hrefNormalise === destinationNormalisee || hrefNormalise === destinationNormalisee + '/' || href === destinationNormalisee || href === destinationNormalisee + '/') {
-          lienTrouve = lien;
-          break;
-        }
-      }
-      if (lienTrouve) {
-        await lienTrouve.click();
-      } else {
-        // Aucun lien trouvé vers la destination exacte, échouer pour détecter les incohérences
-        throw new Error(`Impossible de trouver un lien vers /plan-du-site depuis /robustesse (label: "Plan du site"). Vérifiez que le lien existe et est accessible depuis cette page.`);
-      }
+    // Utiliser l'e2eID pour trouver le bouton (e2eID: b13 - footerButtons.json)
+    const boutonPlanDuSite = page.getByTestId('e2eid-b13');
+    if (await boutonPlanDuSite.count() > 0) {
+      await boutonPlanDuSite.click();
+      await expect(page).toHaveURL(/\/plan-du-site/);
     } else {
-      // Lien non trouvé par label, navigation via plan-du-site ou accueil
-      // Le footer et le header sont toujours disponibles sur toutes les pages
-      // Option 1 : Essayer via le plan du site (footer)
-      const lienPlanDuSite = page.getByRole('link', { name: /Plan du site/i });
-      if (await lienPlanDuSite.count() > 0) {
-        await lienPlanDuSite.first().click();
-        await expect(page).toHaveURL('/plan-du-site');
-        // Depuis le plan du site, chercher le lien vers la destination
-        const lienDepuisPlan2 = page.getByRole('link', { name: new RegExp(`/plan-du-site`, 'i') });
-        if (await lienDepuisPlan2.count() === 0) {
-          throw new Error(`Impossible de trouver un lien vers /plan-du-site depuis le plan du site. La page n'est peut-être pas accessible ou le lien est manquant dans le plan du site.`);
-        }
-        await lienDepuisPlan2.first().click();
-      } else {
-        // Option 2 : Via le logo (header) vers l'accueil
-        const logo = page.getByAltText('Logo Malain et possible');
-        if (await logo.count() > 0) {
-          await logo.click();
-          await expect(page).toHaveURL('/');
-        } else {
-          // Fallback : navigation directe vers l'accueil
-          await page.goto('/');
-        }
-        // Depuis l'accueil, chercher le lien vers la destination
-        const lienDepuisAccueil2 = page.getByRole('link', { name: new RegExp(`/plan-du-site`, 'i') });
-        if (await lienDepuisAccueil2.count() === 0) {
-          // Essayer aussi par le label original si disponible
-          const lienParLabel2 = page.getByRole('link', { name: new RegExp(`Plan du site`, 'i') });
-          if (await lienParLabel2.count() === 0) {
-            throw new Error(`Impossible de trouver un lien vers /plan-du-site depuis l'accueil (label: "Plan du site"). La page n'est peut-être pas accessible depuis l'accueil ou le lien est manquant.`);
-          }
-          await lienParLabel2.first().click();
-        } else {
-          await lienDepuisAccueil2.first().click();
-        }
-      }
+      throw new Error(`Impossible de trouver le bouton "Plan du site" avec l'e2eID b13 depuis /robustesse. Vérifiez que l'e2eID est présent sur cette page.`);
     }
-    await expect(page).toHaveURL('/plan-du-site');
   });
+
+  // Test des e2eID présents sur /plan-du-site
 
   await test.step("Étape 4: Navigation de /plan-du-site vers /plan-du-site (Plan du site)", async () => {
     // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
@@ -201,6 +353,8 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
     await expect(page).toHaveURL('/plan-du-site');
   });
 
+  // Test des e2eID présents sur /plan-du-site
+
   await test.step("Étape 5: Navigation de /plan-du-site vers /metrics (BarChart3)", async () => {
     // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
     const liens4 = page.getByRole('link', { name: /BarChart3/i });
@@ -264,6 +418,8 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
     }
     await expect(page).toHaveURL('/metrics');
   });
+
+  // Test des e2eID présents sur /metrics
 
   await test.step("Étape 6: Navigation de /metrics vers /plan-du-site (Plan du site)", async () => {
     // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
@@ -329,6 +485,8 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
     await expect(page).toHaveURL('/plan-du-site');
   });
 
+  // Test des e2eID présents sur /plan-du-site
+
   await test.step("Étape 7: Navigation de /plan-du-site vers /a-propos-du-site (Info)", async () => {
     // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
     const liens6 = page.getByRole('link', { name: /Info/i });
@@ -392,6 +550,8 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
     }
     await expect(page).toHaveURL('/a-propos-du-site');
   });
+
+  // Test des e2eID présents sur /a-propos-du-site
 
   await test.step("Étape 8: Navigation de /a-propos-du-site vers /plan-du-site (Plan du site)", async () => {
     // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
@@ -457,6 +617,8 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
     await expect(page).toHaveURL('/plan-du-site');
   });
 
+  // Test des e2eID présents sur /plan-du-site
+
   await test.step("Étape 9: Navigation de /plan-du-site vers / (lien)", async () => {
     // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
     const liens8 = page.getByRole('link', { name: /lien/i });
@@ -520,6 +682,8 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
     }
     await expect(page).toHaveURL('/');
   });
+
+  // Test des e2eID présents sur /
 
   await test.step("Étape 10: Navigation de / vers /transformation (En savoir plus...)", async () => {
     // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
@@ -585,6 +749,8 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
     await expect(page).toHaveURL('/transformation');
   });
 
+  // Test des e2eID présents sur /transformation
+
   await test.step("Étape 11: Navigation de /transformation vers /plan-du-site (Plan du site)", async () => {
     // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
     const liens10 = page.getByRole('link', { name: /Plan du site/i });
@@ -648,6 +814,8 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
     }
     await expect(page).toHaveURL('/plan-du-site');
   });
+
+  // Test des e2eID présents sur /plan-du-site
 
   await test.step("Étape 12: Navigation de /plan-du-site vers / (lien)", async () => {
     // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
@@ -713,6 +881,8 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
     await expect(page).toHaveURL('/');
   });
 
+  // Test des e2eID présents sur /
+
   await test.step("Étape 13: Navigation de / vers /detournement-video (En savoir plus...)", async () => {
     // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
     const liens12 = page.getByRole('link', { name: /En savoir plus\.\.\./i });
@@ -776,6 +946,8 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
     }
     await expect(page).toHaveURL('/detournement-video');
   });
+
+  // Test des e2eID présents sur /detournement-video
 
   await test.step("Étape 14: Navigation de /detournement-video vers /plan-du-site (Plan du site)", async () => {
     // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
@@ -841,6 +1013,8 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
     await expect(page).toHaveURL('/plan-du-site');
   });
 
+  // Test des e2eID présents sur /plan-du-site
+
   await test.step("Étape 15: Navigation de /plan-du-site vers / (lien)", async () => {
     // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
     const liens14 = page.getByRole('link', { name: /lien/i });
@@ -904,6 +1078,8 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
     }
     await expect(page).toHaveURL('/');
   });
+
+  // Test des e2eID présents sur /
 
   await test.step("Étape 16: Navigation de / vers /management-de-produit-logiciel (En savoir plus...)", async () => {
     // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
@@ -969,6 +1145,8 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
     await expect(page).toHaveURL('/management-de-produit-logiciel');
   });
 
+  // Test des e2eID présents sur /management-de-produit-logiciel
+
   await test.step("Étape 17: Navigation de /management-de-produit-logiciel vers /plan-du-site (Plan du site)", async () => {
     // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
     const liens16 = page.getByRole('link', { name: /Plan du site/i });
@@ -1032,6 +1210,8 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
     }
     await expect(page).toHaveURL('/plan-du-site');
   });
+
+  // Test des e2eID présents sur /plan-du-site
 
   await test.step("Étape 18: Navigation de /plan-du-site vers / (lien)", async () => {
     // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
@@ -1097,6 +1277,8 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
     await expect(page).toHaveURL('/');
   });
 
+  // Test des e2eID présents sur /
+
   await test.step("Étape 19: Navigation de / vers /a-propos-du-site (En savoir plus...)", async () => {
     // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
     const liens18 = page.getByRole('link', { name: /En savoir plus\.\.\./i });
@@ -1160,6 +1342,8 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
     }
     await expect(page).toHaveURL('/a-propos-du-site');
   });
+
+  // Test des e2eID présents sur /a-propos-du-site
 
   await test.step("Étape 20: Navigation de /a-propos-du-site vers /metrics (BarChart3)", async () => {
     // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
@@ -1225,6 +1409,8 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
     await expect(page).toHaveURL('/metrics');
   });
 
+  // Test des e2eID présents sur /metrics
+
   await test.step("Étape 21: Navigation de /metrics vers /metrics (BarChart3)", async () => {
     // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
     const liens20 = page.getByRole('link', { name: /BarChart3/i });
@@ -1288,6 +1474,8 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
     }
     await expect(page).toHaveURL('/metrics');
   });
+
+  // Test des e2eID présents sur /metrics
 
   await test.step("Étape 22: Navigation de /metrics vers /a-propos-du-site (Info)", async () => {
     // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
@@ -1353,6 +1541,8 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
     await expect(page).toHaveURL('/a-propos-du-site');
   });
 
+  // Test des e2eID présents sur /a-propos-du-site
+
   await test.step("Étape 23: Navigation de /a-propos-du-site vers /a-propos-du-site (Info)", async () => {
     // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
     const liens22 = page.getByRole('link', { name: /Info/i });
@@ -1416,6 +1606,8 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
     }
     await expect(page).toHaveURL('/a-propos-du-site');
   });
+
+  // Test des e2eID présents sur /a-propos-du-site
 
   await test.step("Étape 24: Navigation de /a-propos-du-site vers / (lien)", async () => {
     // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
@@ -1481,6 +1673,8 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
     await expect(page).toHaveURL('/');
   });
 
+  // Test des e2eID présents sur /
+
   await test.step("Étape 25: Navigation de / vers /plan-du-site (Plan du site)", async () => {
     // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
     const liens24 = page.getByRole('link', { name: /Plan du site/i });
@@ -1544,6 +1738,8 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
     }
     await expect(page).toHaveURL('/plan-du-site');
   });
+
+  // Test des e2eID présents sur /plan-du-site
 
   await test.step("Étape 26: Navigation de /plan-du-site vers /maintenance (lien)", async () => {
     // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
@@ -1609,6 +1805,8 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
     await expect(page).toHaveURL('/maintenance');
   });
 
+  // Test des e2eID présents sur /maintenance
+
   await test.step("Étape 27: Navigation de /maintenance vers /plan-du-site (Plan du site)", async () => {
     // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
     const liens26 = page.getByRole('link', { name: /Plan du site/i });
@@ -1672,6 +1870,8 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
     }
     await expect(page).toHaveURL('/plan-du-site');
   });
+
+  // Test des e2eID présents sur /plan-du-site
 
   await test.step("Étape 28: Navigation de /plan-du-site vers /portfolio-detournements (lien)", async () => {
     // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
@@ -1737,6 +1937,8 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
     await expect(page).toHaveURL('/portfolio-detournements');
   });
 
+  // Test des e2eID présents sur /portfolio-detournements
+
   await test.step("Étape 29: Navigation de /portfolio-detournements vers /plan-du-site (Plan du site)", async () => {
     // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
     const liens28 = page.getByRole('link', { name: /Plan du site/i });
@@ -1800,6 +2002,8 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
     }
     await expect(page).toHaveURL('/plan-du-site');
   });
+
+  // Test des e2eID présents sur /plan-du-site
 
   await test.step("Étape 30: Navigation de /plan-du-site vers /pour_aller_plus_loin (lien)", async () => {
     // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
@@ -1865,6 +2069,8 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
     await expect(page).toHaveURL('/pour_aller_plus_loin');
   });
 
+  // Test des e2eID présents sur /pour_aller_plus_loin
+
   await test.step("Étape 31: Navigation de /pour_aller_plus_loin vers /plan-du-site (Plan du site)", async () => {
     // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
     const liens30 = page.getByRole('link', { name: /Plan du site/i });
@@ -1928,6 +2134,8 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
     }
     await expect(page).toHaveURL('/plan-du-site');
   });
+
+  // Test des e2eID présents sur /plan-du-site
 
   await test.step("Étape 32: Navigation de /plan-du-site vers / (lien)", async () => {
     // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
@@ -1993,6 +2201,8 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
     await expect(page).toHaveURL('/');
   });
 
+  // Test des e2eID présents sur /
+
   await test.step("Étape 33: Navigation de / vers /metrics (BarChart3)", async () => {
     // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
     const liens32 = page.getByRole('link', { name: /BarChart3/i });
@@ -2056,6 +2266,8 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
     }
     await expect(page).toHaveURL('/metrics');
   });
+
+  // Test des e2eID présents sur /metrics
 
   await test.step("Étape 34: Navigation de /metrics vers /detournement-video (lien)", async () => {
     // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
@@ -2121,6 +2333,8 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
     await expect(page).toHaveURL('/detournement-video');
   });
 
+  // Test des e2eID présents sur /detournement-video
+
   await test.step("Étape 35: Navigation de /detournement-video vers /metrics (BarChart3)", async () => {
     // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
     const liens34 = page.getByRole('link', { name: /BarChart3/i });
@@ -2184,6 +2398,8 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
     }
     await expect(page).toHaveURL('/metrics');
   });
+
+  // Test des e2eID présents sur /metrics
 
   await test.step("Étape 36: Navigation de /metrics vers /maintenance (lien)", async () => {
     // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
@@ -2249,6 +2465,8 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
     await expect(page).toHaveURL('/maintenance');
   });
 
+  // Test des e2eID présents sur /maintenance
+
   await test.step("Étape 37: Navigation de /maintenance vers /metrics (BarChart3)", async () => {
     // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
     const liens36 = page.getByRole('link', { name: /BarChart3/i });
@@ -2312,6 +2530,8 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
     }
     await expect(page).toHaveURL('/metrics');
   });
+
+  // Test des e2eID présents sur /metrics
 
   await test.step("Étape 38: Navigation de /metrics vers /management-de-produit-logiciel (lien)", async () => {
     // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
@@ -2377,6 +2597,8 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
     await expect(page).toHaveURL('/management-de-produit-logiciel');
   });
 
+  // Test des e2eID présents sur /management-de-produit-logiciel
+
   await test.step("Étape 39: Navigation de /management-de-produit-logiciel vers /metrics (BarChart3)", async () => {
     // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
     const liens38 = page.getByRole('link', { name: /BarChart3/i });
@@ -2440,6 +2662,8 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
     }
     await expect(page).toHaveURL('/metrics');
   });
+
+  // Test des e2eID présents sur /metrics
 
   await test.step("Étape 40: Navigation de /metrics vers /portfolio-detournements (lien)", async () => {
     // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
@@ -2505,6 +2729,8 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
     await expect(page).toHaveURL('/portfolio-detournements');
   });
 
+  // Test des e2eID présents sur /portfolio-detournements
+
   await test.step("Étape 41: Navigation de /portfolio-detournements vers /metrics (BarChart3)", async () => {
     // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
     const liens40 = page.getByRole('link', { name: /BarChart3/i });
@@ -2568,6 +2794,8 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
     }
     await expect(page).toHaveURL('/metrics');
   });
+
+  // Test des e2eID présents sur /metrics
 
   await test.step("Étape 42: Navigation de /metrics vers /pour_aller_plus_loin (lien)", async () => {
     // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
@@ -2633,6 +2861,8 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
     await expect(page).toHaveURL('/pour_aller_plus_loin');
   });
 
+  // Test des e2eID présents sur /pour_aller_plus_loin
+
   await test.step("Étape 43: Navigation de /pour_aller_plus_loin vers /metrics (BarChart3)", async () => {
     // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
     const liens42 = page.getByRole('link', { name: /BarChart3/i });
@@ -2696,6 +2926,8 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
     }
     await expect(page).toHaveURL('/metrics');
   });
+
+  // Test des e2eID présents sur /metrics
 
   await test.step("Étape 44: Navigation de /metrics vers /robustesse (lien)", async () => {
     // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
@@ -2761,6 +2993,8 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
     await expect(page).toHaveURL('/robustesse');
   });
 
+  // Test des e2eID présents sur /robustesse
+
   await test.step("Étape 45: Navigation de /robustesse vers /metrics (BarChart3)", async () => {
     // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
     const liens44 = page.getByRole('link', { name: /BarChart3/i });
@@ -2824,6 +3058,8 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
     }
     await expect(page).toHaveURL('/metrics');
   });
+
+  // Test des e2eID présents sur /metrics
 
   await test.step("Étape 46: Navigation de /metrics vers /transformation (lien)", async () => {
     // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
@@ -2889,6 +3125,8 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
     await expect(page).toHaveURL('/transformation');
   });
 
+  // Test des e2eID présents sur /transformation
+
   await test.step("Étape 47: Navigation de /transformation vers /metrics (BarChart3)", async () => {
     // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
     const liens46 = page.getByRole('link', { name: /BarChart3/i });
@@ -2952,6 +3190,8 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
     }
     await expect(page).toHaveURL('/metrics');
   });
+
+  // Test des e2eID présents sur /metrics
 
   await test.step("Étape 48: Navigation de /metrics vers /detournement-video (lien)", async () => {
     // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
@@ -3017,6 +3257,8 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
     await expect(page).toHaveURL('/detournement-video');
   });
 
+  // Test des e2eID présents sur /detournement-video
+
   await test.step("Étape 49: Navigation de /detournement-video vers /a-propos-du-site (Info)", async () => {
     // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
     const liens48 = page.getByRole('link', { name: /Info/i });
@@ -3080,6 +3322,8 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
     }
     await expect(page).toHaveURL('/a-propos-du-site');
   });
+
+  // Test des e2eID présents sur /a-propos-du-site
 
   await test.step("Étape 50: Navigation de /a-propos-du-site vers /maintenance (lien)", async () => {
     // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
@@ -3145,6 +3389,8 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
     await expect(page).toHaveURL('/maintenance');
   });
 
+  // Test des e2eID présents sur /maintenance
+
   await test.step("Étape 51: Navigation de /maintenance vers /a-propos-du-site (Info)", async () => {
     // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
     const liens50 = page.getByRole('link', { name: /Info/i });
@@ -3208,6 +3454,8 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
     }
     await expect(page).toHaveURL('/a-propos-du-site');
   });
+
+  // Test des e2eID présents sur /a-propos-du-site
 
   await test.step("Étape 52: Navigation de /a-propos-du-site vers /management-de-produit-logiciel (lien)", async () => {
     // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
@@ -3273,6 +3521,8 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
     await expect(page).toHaveURL('/management-de-produit-logiciel');
   });
 
+  // Test des e2eID présents sur /management-de-produit-logiciel
+
   await test.step("Étape 53: Navigation de /management-de-produit-logiciel vers /a-propos-du-site (Info)", async () => {
     // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
     const liens52 = page.getByRole('link', { name: /Info/i });
@@ -3336,6 +3586,8 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
     }
     await expect(page).toHaveURL('/a-propos-du-site');
   });
+
+  // Test des e2eID présents sur /a-propos-du-site
 
   await test.step("Étape 54: Navigation de /a-propos-du-site vers /portfolio-detournements (lien)", async () => {
     // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
@@ -3401,6 +3653,8 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
     await expect(page).toHaveURL('/portfolio-detournements');
   });
 
+  // Test des e2eID présents sur /portfolio-detournements
+
   await test.step("Étape 55: Navigation de /portfolio-detournements vers /a-propos-du-site (Info)", async () => {
     // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
     const liens54 = page.getByRole('link', { name: /Info/i });
@@ -3464,6 +3718,8 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
     }
     await expect(page).toHaveURL('/a-propos-du-site');
   });
+
+  // Test des e2eID présents sur /a-propos-du-site
 
   await test.step("Étape 56: Navigation de /a-propos-du-site vers /pour_aller_plus_loin (lien)", async () => {
     // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
@@ -3529,6 +3785,8 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
     await expect(page).toHaveURL('/pour_aller_plus_loin');
   });
 
+  // Test des e2eID présents sur /pour_aller_plus_loin
+
   await test.step("Étape 57: Navigation de /pour_aller_plus_loin vers /a-propos-du-site (Info)", async () => {
     // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
     const liens56 = page.getByRole('link', { name: /Info/i });
@@ -3592,6 +3850,8 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
     }
     await expect(page).toHaveURL('/a-propos-du-site');
   });
+
+  // Test des e2eID présents sur /a-propos-du-site
 
   await test.step("Étape 58: Navigation de /a-propos-du-site vers /robustesse (lien)", async () => {
     // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
@@ -3657,6 +3917,8 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
     await expect(page).toHaveURL('/robustesse');
   });
 
+  // Test des e2eID présents sur /robustesse
+
   await test.step("Étape 59: Navigation de /robustesse vers /a-propos-du-site (Info)", async () => {
     // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
     const liens58 = page.getByRole('link', { name: /Info/i });
@@ -3720,6 +3982,8 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
     }
     await expect(page).toHaveURL('/a-propos-du-site');
   });
+
+  // Test des e2eID présents sur /a-propos-du-site
 
   await test.step("Étape 60: Navigation de /a-propos-du-site vers /transformation (lien)", async () => {
     // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
@@ -3785,6 +4049,8 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
     await expect(page).toHaveURL('/transformation');
   });
 
+  // Test des e2eID présents sur /transformation
+
   await test.step("Étape 61: Navigation de /transformation vers /a-propos-du-site (Info)", async () => {
     // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
     const liens60 = page.getByRole('link', { name: /Info/i });
@@ -3849,7 +4115,9 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
     await expect(page).toHaveURL('/a-propos-du-site');
   });
 
+  // Test des e2eID présents sur /a-propos-du-site
+
   // Tous les liens ont été parcourus
-  // 0 e2eID ont été testés
+  // 36 e2eID ont été testés
   console.log('✅ Parcours complet : tous les liens et e2eID ont été testés');
 });

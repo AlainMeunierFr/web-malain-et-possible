@@ -14,19 +14,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import type { PlanLien } from '../utils/siteMapGenerator';
-// TODO: Corriger l'import pour inclure les tests e2eID
-// import { generateE2eIdInventory } from '../utils/e2eIdInventory';
-
-// Type pour les items d'inventaire e2eID
-interface E2eIdInventoryItem {
-  e2eID: string | null;
-  source: 'json' | 'react' | 'constant';
-  file: string;
-  path?: string;
-  line?: number;
-  type: string;
-  description?: string;
-}
+import { generateE2eIdInventory, type E2eIdInventoryItem } from '../utils/e2eIdInventory';
 
 interface LienAvecIndex extends PlanLien {
   index: number; // Index original dans le tableau
@@ -382,18 +370,18 @@ const main = () => {
     console.log('✅ Tous les liens ont été parcourus !\n');
   }
 
-  // Générer l'inventaire des e2eID (désactivé temporairement - problème d'import)
+  // Générer l'inventaire des e2eID
   console.log('🔍 Génération de l\'inventaire des e2eID...\n');
   let inventory: E2eIdInventoryItem[] = [];
-  // TODO: Réactiver quand l'import sera corrigé
-  // try {
-  //   inventory = generateE2eIdInventory();
-  // } catch (error) {
-  //   console.warn('⚠️  Impossible de charger l\'inventaire des e2eID, utilisation d\'une liste vide');
-  //   inventory = [];
-  // }
-  const activeE2eIds = inventory.filter((item) => item.e2eID !== null);
-  console.log(`📋 ${activeE2eIds.length} e2eID actifs détectés (désactivé temporairement)\n`);
+  try {
+    inventory = generateE2eIdInventory();
+  } catch (error) {
+    console.warn('⚠️  Impossible de charger l\'inventaire des e2eID, utilisation d\'une liste vide');
+    console.warn(`   Erreur: ${error}`);
+    inventory = [];
+  }
+  const activeE2eIds = inventory; // Tous les items ont un e2eID non null
+  console.log(`📋 ${activeE2eIds.length} e2eID actifs détectés\n`);
 
   // Générer le code du test
   console.log('📝 Génération du code du test E2E...\n');

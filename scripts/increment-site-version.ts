@@ -8,6 +8,7 @@
 
 import fs from 'fs';
 import path from 'path';
+import { execSync } from 'child_process';
 
 const SPRINTS_DIR = path.join(process.cwd(), 'A propos de ce site', '2. Sprints');
 
@@ -176,6 +177,48 @@ function syncVersionWithUS(): void {
   writeVersion(version);
 }
 
+/**
+ * Mesure le temps de build Next.js et le stocke dans .next/build-metrics.json
+ */
+function measureBuildTime(): void {
+  const BUILD_METRICS_FILE = path.join(process.cwd(), '.next', 'build-metrics.json');
+  const NEXT_DIR = path.join(process.cwd(), '.next');
+  
+  // Créer le dossier .next s'il n'existe pas
+  if (!fs.existsSync(NEXT_DIR)) {
+    fs.mkdirSync(NEXT_DIR, { recursive: true });
+  }
+  
+  console.log('🔨 Mesure du temps de build Next.js...');
+  const startTime = Date.now();
+  
+  try {
+    // Exécuter next build
+    execSync('next build', { 
+      stdio: 'inherit',
+      encoding: 'utf-8'
+    });
+    
+    const endTime = Date.now();
+    const buildTime = endTime - startTime;
+    
+    // Stocker les métriques
+    const metrics = {
+      buildTime,
+      timestamp: new Date().toISOString(),
+      buildDate: new Date().toLocaleString('fr-FR'),
+    };
+    
+    fs.writeFileSync(BUILD_METRICS_FILE, JSON.stringify(metrics, null, 2), 'utf-8');
+    
+    console.log(`\n✅ Build terminé en ${(buildTime / 1000).toFixed(2)}s`);
+    console.log(`📊 Métriques sauvegardées dans: ${BUILD_METRICS_FILE}`);
+  } catch (error) {
+    console.error('\n❌ Erreur lors du build:', error);
+    process.exit(1);
+  }
+}
+
 // Récupérer la commande depuis les arguments
 const command = process.argv[2];
 
@@ -189,7 +232,11 @@ switch (command) {
   case 'sync':
     syncVersionWithUS();
     break;
+  case 'build':
+    // Mesurer le temps de build
+    measureBuildTime();
+    break;
   default:
-    console.error('Usage: ts-node scripts/increment-site-version.ts [patch|minor|sync]');
+    console.error('Usage: ts-node scripts/increment-site-version.ts [patch|minor|sync|build]');
     process.exit(1);
 }

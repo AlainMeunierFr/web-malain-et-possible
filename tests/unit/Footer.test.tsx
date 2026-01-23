@@ -28,6 +28,17 @@ describe('Footer', () => {
   beforeEach(() => {
     mockPush.mockClear();
     jest.clearAllMocks();
+    
+    // Mock fetch global
+    global.fetch = jest.fn(() =>
+      Promise.resolve({
+        json: () => Promise.resolve({ version: '1.0.0' }),
+      })
+    ) as jest.Mock;
+  });
+  
+  afterEach(() => {
+    jest.restoreAllMocks();
   });
 
   it('devrait afficher le footer', () => {

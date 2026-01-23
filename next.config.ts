@@ -28,6 +28,11 @@ const nextConfig: NextConfig = {
         destination: '/',
         permanent: true, // 301 redirect
       },
+      {
+        source: '/site-map',
+        destination: '/plan-du-site',
+        permanent: true, // 301 redirect
+      },
     ];
   },
   

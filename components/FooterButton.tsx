@@ -35,6 +35,7 @@ const FooterButton: React.FC<FooterButtonProps> = ({
   alt,
   url,
   tooltip,
+  e2eID,
   onButtonClick,
 }) => {
   const handleClick = () => {
@@ -56,13 +57,21 @@ const FooterButton: React.FC<FooterButtonProps> = ({
     return null;
   }
 
+  // Construire les data-testid : e2eID en priorité, sinon footer-button-{id}
+  const testIds: Record<string, string> = {
+    'data-testid': `footer-button-${id}`,
+  };
+  if (e2eID) {
+    testIds['data-testid'] = `e2eid-${e2eID}`;
+  }
+
   return (
     <button
       className={styles.iconButton}
       onClick={handleClick}
       aria-label={alt || icone}
       title={tooltip || icone}
-      data-testid={`footer-button-${id}`}
+      {...testIds}
       type="button"
     >
       <IconComponent

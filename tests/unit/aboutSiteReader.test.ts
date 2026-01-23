@@ -15,19 +15,18 @@ import fs from 'fs';
 import path from 'path';
 import { readAboutSiteStructure, validerContenuMarkdown, ValidationError } from '../../utils/aboutSiteReader';
 
-// Mock fs
-jest.mock('fs');
-jest.mock('path');
-
-const mockFs = fs as jest.Mocked<typeof fs>;
-const mockPath = path as jest.Mocked<typeof path>;
-
 describe('readAboutSiteStructure', () => {
+  let readdirSyncSpy: jest.SpyInstance;
+  let readFileSyncSpy: jest.SpyInstance;
+  let pathJoinSpy: jest.SpyInstance;
+  let cwdSpy: jest.SpyInstance;
+
   beforeEach(() => {
     jest.clearAllMocks();
-    jest.spyOn(process, 'cwd').mockReturnValue('/project');
-    // Mock path.join pour concaténer les arguments avec '/'
-    mockPath.join.mockImplementation((...args) => args.join('/'));
+    cwdSpy = jest.spyOn(process, 'cwd').mockReturnValue('/project');
+    pathJoinSpy = jest.spyOn(path, 'join').mockImplementation((...args) => args.join('/'));
+    readdirSyncSpy = jest.spyOn(fs, 'readdirSync');
+    readFileSyncSpy = jest.spyOn(fs, 'readFileSync');
   });
 
   afterEach(() => {
@@ -37,29 +36,18 @@ describe('readAboutSiteStructure', () => {
   describe('Test 1 : Cas simple - un chapitre avec deux sections', () => {
     it('devrait retourner un chapitre avec deux sections', () => {
       // ARRANGE : Simuler un dossier avec deux fichiers MD valides
-      const aboutSiteDir = '/project/A propos de ce site';
-      const chapterDir = '/project/A propos de ce site/1. A propos du projet';
-      const section1Path = '/project/A propos de ce site/1. A propos du projet/Section 1.md';
-      const section2Path = '/project/A propos de ce site/1. A propos du projet/Section 2.md';
-      
-      mockPath.join
-        .mockReturnValueOnce(aboutSiteDir)  // Premier appel : aboutSiteDir
-        .mockReturnValueOnce(chapterDir)    // Deuxième appel : chapitreDir
-        .mockReturnValueOnce(section1Path)  // Troisième appel : section1Path
-        .mockReturnValueOnce(section2Path)  // Quatrième appel : section2Path
-        .mockReturnValueOnce(section1Path)  // Cinquième appel : section1Path (validation)
-        .mockReturnValueOnce(section2Path); // Sixième appel : section2Path (validation)
+      pathJoinSpy.mockImplementation((...args) => args.join('/'));
 
-      mockFs.readdirSync
+      readdirSyncSpy
         .mockReturnValueOnce([
-          { name: '1. A propos du projet', isDirectory: () => true },
+          { name: '1. A propos du projet', isDirectory: () => true, isFile: () => false },
         ] as fs.Dirent[])
         .mockReturnValueOnce([
-          { name: 'Section 1.md', isDirectory: () => false },
-          { name: 'Section 2.md', isDirectory: () => false },
+          { name: 'Section 1.md', isDirectory: () => false, isFile: () => true },
+          { name: 'Section 2.md', isDirectory: () => false, isFile: () => true },
         ] as fs.Dirent[]);
 
-      mockFs.readFileSync
+      readFileSyncSpy
         .mockReturnValueOnce('### Partie 1\nContenu de la section 1.')
         .mockReturnValueOnce('### Partie 2\nContenu de la section 2.');
 
@@ -78,33 +66,19 @@ describe('readAboutSiteStructure', () => {
   describe('Test 2 : Cas multiple - un chapitre avec plusieurs sections', () => {
     it('devrait retourner un chapitre avec plusieurs sections triées', () => {
       // ARRANGE : Simuler un dossier avec plusieurs fichiers MD valides
-      const aboutSiteDir = '/project/A propos de ce site';
-      const chapterDir = '/project/A propos de ce site/2. Definition of Done (DOD)';
-      const section1Path = '/project/A propos de ce site/2. Definition of Done (DOD)/1. Règles générales.md';
-      const section2Path = '/project/A propos de ce site/2. Definition of Done (DOD)/2. Règles pour les back-end métier.md';
-      const section3Path = '/project/A propos de ce site/2. Definition of Done (DOD)/3. Règles pour le back-end Node.js.md';
-      
-      mockPath.join
-        .mockReturnValueOnce(aboutSiteDir)  // Premier appel : aboutSiteDir
-        .mockReturnValueOnce(chapterDir)    // Deuxième appel : chapitreDir
-        .mockReturnValueOnce(section1Path)  // Troisième appel : section1Path
-        .mockReturnValueOnce(section2Path)  // Quatrième appel : section2Path
-        .mockReturnValueOnce(section3Path)  // Cinquième appel : section3Path
-        .mockReturnValueOnce(section1Path)  // Sixième appel : section1Path (validation)
-        .mockReturnValueOnce(section2Path)  // Septième appel : section2Path (validation)
-        .mockReturnValueOnce(section3Path); // Huitième appel : section3Path (validation)
+      pathJoinSpy.mockImplementation((...args) => args.join('/'));
 
-      mockFs.readdirSync
+      readdirSyncSpy
         .mockReturnValueOnce([
-          { name: '2. Definition of Done (DOD)', isDirectory: () => true },
+          { name: '2. Definition of Done (DOD)', isDirectory: () => true, isFile: () => false },
         ] as fs.Dirent[])
         .mockReturnValueOnce([
-          { name: '3. Règles pour le back-end Node.js.md', isDirectory: () => false },
-          { name: '1. Règles générales.md', isDirectory: () => false },
-          { name: '2. Règles pour les back-end métier.md', isDirectory: () => false },
+          { name: '3. Règles pour le back-end Node.js.md', isDirectory: () => false, isFile: () => true },
+          { name: '1. Règles générales.md', isDirectory: () => false, isFile: () => true },
+          { name: '2. Règles pour les back-end métier.md', isDirectory: () => false, isFile: () => true },
         ] as fs.Dirent[]);
 
-      mockFs.readFileSync.mockReturnValue('### Partie\nContenu');
+      readFileSyncSpy.mockReturnValue('### Partie\nContenu');
 
       // ACT
       const result = readAboutSiteStructure();
@@ -120,31 +94,20 @@ describe('readAboutSiteStructure', () => {
   describe('Test 3 : Cas avec fichiers non-MD mélangés', () => {
     it('devrait ignorer les fichiers non-MD', () => {
       // ARRANGE : Simuler des fichiers MD et non-MD mélangés
-      const aboutSiteDir = '/project/A propos de ce site';
-      const chapterDir = '/project/A propos de ce site/1. A propos du projet';
-      const section1Path = '/project/A propos de ce site/1. A propos du projet/Section 1.md';
-      const section2Path = '/project/A propos de ce site/1. A propos du projet/Section 2.md';
-      
-      mockPath.join
-        .mockReturnValueOnce(aboutSiteDir)  // Premier appel : aboutSiteDir
-        .mockReturnValueOnce(chapterDir)    // Deuxième appel : chapitreDir
-        .mockReturnValueOnce(section1Path)  // Troisième appel : section1Path
-        .mockReturnValueOnce(section2Path)  // Quatrième appel : section2Path
-        .mockReturnValueOnce(section1Path)  // Cinquième appel : section1Path (validation)
-        .mockReturnValueOnce(section2Path); // Sixième appel : section2Path (validation)
+      pathJoinSpy.mockImplementation((...args) => args.join('/'));
 
-      mockFs.readdirSync
+      readdirSyncSpy
         .mockReturnValueOnce([
-          { name: '1. A propos du projet', isDirectory: () => true },
+          { name: '1. A propos du projet', isDirectory: () => true, isFile: () => false },
         ] as fs.Dirent[])
         .mockReturnValueOnce([
-          { name: 'Section 1.md', isDirectory: () => false },
-          { name: 'fichier.txt', isDirectory: () => false },
-          { name: 'autre.pdf', isDirectory: () => false },
-          { name: 'Section 2.md', isDirectory: () => false },
+          { name: 'Section 1.md', isDirectory: () => false, isFile: () => true },
+          { name: 'fichier.txt', isDirectory: () => false, isFile: () => true },
+          { name: 'autre.pdf', isDirectory: () => false, isFile: () => true },
+          { name: 'Section 2.md', isDirectory: () => false, isFile: () => true },
         ] as fs.Dirent[]);
 
-      mockFs.readFileSync.mockReturnValue('### Partie\nContenu');
+      readFileSyncSpy.mockReturnValue('### Partie\nContenu');
 
       // ACT
       const result = readAboutSiteStructure();
@@ -159,42 +122,23 @@ describe('readAboutSiteStructure', () => {
   describe('Test 4 : Cas avec plusieurs chapitres', () => {
     it('devrait retourner plusieurs chapitres avec leurs sections', () => {
       // ARRANGE : Simuler plusieurs dossiers avec fichiers MD
-      const aboutSiteDir = '/project/A propos de ce site';
-      const chapter1Dir = '/project/A propos de ce site/1. A propos du projet';
-      const chapter2Dir = '/project/A propos de ce site/2. Definition of Done (DOD)';
-      const section1Path = '/project/A propos de ce site/1. A propos du projet/Section 1.md';
-      const section2Path = '/project/A propos de ce site/1. A propos du projet/Section 2.md';
-      const section3Path = '/project/A propos de ce site/2. Definition of Done (DOD)/Section 1.md';
-      const section4Path = '/project/A propos de ce site/2. Definition of Done (DOD)/Section 2.md';
-      
-      mockPath.join
-        .mockReturnValueOnce(aboutSiteDir)  // Premier appel : aboutSiteDir
-        .mockReturnValueOnce(chapter1Dir)   // Deuxième appel : chapitre1Dir
-        .mockReturnValueOnce(section1Path)  // Troisième appel : section1Path
-        .mockReturnValueOnce(section2Path)  // Quatrième appel : section2Path
-        .mockReturnValueOnce(section1Path)  // Cinquième appel : section1Path (validation)
-        .mockReturnValueOnce(section2Path)  // Sixième appel : section2Path (validation)
-        .mockReturnValueOnce(chapter2Dir)   // Septième appel : chapitre2Dir
-        .mockReturnValueOnce(section3Path)  // Huitième appel : section3Path
-        .mockReturnValueOnce(section4Path)  // Neuvième appel : section4Path
-        .mockReturnValueOnce(section3Path)  // Dixième appel : section3Path (validation)
-        .mockReturnValueOnce(section4Path); // Onzième appel : section4Path (validation)
+      pathJoinSpy.mockImplementation((...args) => args.join('/'));
 
-      mockFs.readdirSync
+      readdirSyncSpy
         .mockReturnValueOnce([
-          { name: '1. A propos du projet', isDirectory: () => true },
-          { name: '2. Definition of Done (DOD)', isDirectory: () => true },
+          { name: '1. A propos du projet', isDirectory: () => true, isFile: () => false },
+          { name: '2. Definition of Done (DOD)', isDirectory: () => true, isFile: () => false },
         ] as fs.Dirent[])
         .mockReturnValueOnce([
-          { name: 'Section 1.md', isDirectory: () => false },
-          { name: 'Section 2.md', isDirectory: () => false },
+          { name: 'Section 1.md', isDirectory: () => false, isFile: () => true },
+          { name: 'Section 2.md', isDirectory: () => false, isFile: () => true },
         ] as fs.Dirent[])
         .mockReturnValueOnce([
-          { name: 'Section 1.md', isDirectory: () => false },
-          { name: 'Section 2.md', isDirectory: () => false },
+          { name: 'Section 1.md', isDirectory: () => false, isFile: () => true },
+          { name: 'Section 2.md', isDirectory: () => false, isFile: () => true },
         ] as fs.Dirent[]);
 
-      mockFs.readFileSync.mockReturnValue('### Partie\nContenu');
+      readFileSyncSpy.mockReturnValue('### Partie\nContenu');
 
       // ACT
       const result = readAboutSiteStructure();
@@ -211,16 +155,11 @@ describe('readAboutSiteStructure', () => {
   describe('Test 5 : Cas vide - chapitre sans sections valides', () => {
     it('devrait ne pas retourner un chapitre sans sections valides', () => {
       // ARRANGE : Simuler un dossier sans fichiers MD valides
-      const aboutSiteDir = '/project/A propos de ce site';
-      const chapterDir = '/project/A propos de ce site/1. A propos du projet';
-      
-      mockPath.join
-        .mockReturnValueOnce(aboutSiteDir)
-        .mockReturnValueOnce(chapterDir);
+      pathJoinSpy.mockImplementation((...args) => args.join('/'));
 
-      mockFs.readdirSync
+      readdirSyncSpy
         .mockReturnValueOnce([
-          { name: '1. A propos du projet', isDirectory: () => true },
+          { name: '1. A propos du projet', isDirectory: () => true, isFile: () => false },
         ] as fs.Dirent[])
         .mockReturnValueOnce([] as fs.Dirent[]);
 
@@ -235,25 +174,17 @@ describe('readAboutSiteStructure', () => {
   describe('Test 6 : Erreur - chapitre avec un seul fichier MD valide', () => {
     it('devrait lever une ValidationError si un chapitre contient un seul fichier MD valide', () => {
       // ARRANGE : Simuler un dossier avec un seul fichier MD valide
-      const aboutSiteDir = '/project/A propos de ce site';
-      const chapterDir = '/project/A propos de ce site/1. A propos du projet';
-      const sectionPath = '/project/A propos de ce site/1. A propos du projet/Section 1.md';
-      
-      mockPath.join
-        .mockReturnValueOnce(aboutSiteDir)
-        .mockReturnValueOnce(chapterDir)
-        .mockReturnValueOnce(sectionPath)
-        .mockReturnValueOnce(sectionPath); // Validation
+      pathJoinSpy.mockImplementation((...args) => args.join('/'));
 
-      mockFs.readdirSync
+      readdirSyncSpy
         .mockReturnValueOnce([
-          { name: '1. A propos du projet', isDirectory: () => true },
+          { name: '1. A propos du projet', isDirectory: () => true, isFile: () => false },
         ] as fs.Dirent[])
         .mockReturnValueOnce([
-          { name: 'Section 1.md', isDirectory: () => false },
+          { name: 'Section 1.md', isDirectory: () => false, isFile: () => true },
         ] as fs.Dirent[]);
 
-      mockFs.readFileSync.mockReturnValue('### Partie\nContenu');
+      readFileSyncSpy.mockReturnValue('### Partie\nContenu');
 
       // ACT & ASSERT
       expect(() => readAboutSiteStructure()).toThrow(ValidationError);
@@ -264,28 +195,18 @@ describe('readAboutSiteStructure', () => {
   describe('Test 7 : Erreur - fichier MD avec titre H1', () => {
     it('devrait lever une ValidationError si un fichier contient un titre H1', () => {
       // ARRANGE : Simuler un fichier avec titre H1
-      const aboutSiteDir = '/project/A propos de ce site';
-      const chapterDir = '/project/A propos de ce site/1. A propos du projet';
-      const section1Path = '/project/A propos de ce site/1. A propos du projet/Section 1.md';
-      const section2Path = '/project/A propos de ce site/1. A propos du projet/Section 2.md';
-      
-      mockPath.join
-        .mockReturnValueOnce(aboutSiteDir)
-        .mockReturnValueOnce(chapterDir)
-        .mockReturnValueOnce(section1Path)
-        .mockReturnValueOnce(section2Path)
-        .mockReturnValueOnce(section1Path); // Validation qui échoue
+      pathJoinSpy.mockImplementation((...args) => args.join('/'));
 
-      mockFs.readdirSync
+      readdirSyncSpy
         .mockReturnValueOnce([
-          { name: '1. A propos du projet', isDirectory: () => true },
+          { name: '1. A propos du projet', isDirectory: () => true, isFile: () => false },
         ] as fs.Dirent[])
         .mockReturnValueOnce([
-          { name: 'Section 1.md', isDirectory: () => false },
-          { name: 'Section 2.md', isDirectory: () => false },
+          { name: 'Section 1.md', isDirectory: () => false, isFile: () => true },
+          { name: 'Section 2.md', isDirectory: () => false, isFile: () => true },
         ] as fs.Dirent[]);
 
-      mockFs.readFileSync
+      readFileSyncSpy
         .mockReturnValueOnce('# Titre H1\nContenu') // Fichier invalide avec H1
         .mockReturnValueOnce('### Partie\nContenu');
 
@@ -298,28 +219,18 @@ describe('readAboutSiteStructure', () => {
   describe('Test 8 : Erreur - fichier MD avec titre H2', () => {
     it('devrait lever une ValidationError si un fichier contient un titre H2', () => {
       // ARRANGE : Simuler un fichier avec titre H2
-      const aboutSiteDir = '/project/A propos de ce site';
-      const chapterDir = '/project/A propos de ce site/1. A propos du projet';
-      const section1Path = '/project/A propos de ce site/1. A propos du projet/Section 1.md';
-      const section2Path = '/project/A propos de ce site/1. A propos du projet/Section 2.md';
-      
-      mockPath.join
-        .mockReturnValueOnce(aboutSiteDir)
-        .mockReturnValueOnce(chapterDir)
-        .mockReturnValueOnce(section1Path)
-        .mockReturnValueOnce(section2Path)
-        .mockReturnValueOnce(section1Path); // Validation qui échoue
+      pathJoinSpy.mockImplementation((...args) => args.join('/'));
 
-      mockFs.readdirSync
+      readdirSyncSpy
         .mockReturnValueOnce([
-          { name: '1. A propos du projet', isDirectory: () => true },
+          { name: '1. A propos du projet', isDirectory: () => true, isFile: () => false },
         ] as fs.Dirent[])
         .mockReturnValueOnce([
-          { name: 'Section 1.md', isDirectory: () => false },
-          { name: 'Section 2.md', isDirectory: () => false },
+          { name: 'Section 1.md', isDirectory: () => false, isFile: () => true },
+          { name: 'Section 2.md', isDirectory: () => false, isFile: () => true },
         ] as fs.Dirent[]);
 
-      mockFs.readFileSync
+      readFileSyncSpy
         .mockReturnValueOnce('## Titre H2\nContenu') // Fichier invalide avec H2
         .mockReturnValueOnce('### Partie\nContenu');
 
@@ -332,28 +243,18 @@ describe('readAboutSiteStructure', () => {
   describe('Test 9 : Erreur - fichier MD avec H4 sans H3', () => {
     it('devrait lever une ValidationError si un fichier contient H4 sans H3', () => {
       // ARRANGE : Simuler un fichier avec H4 sans H3
-      const aboutSiteDir = '/project/A propos de ce site';
-      const chapterDir = '/project/A propos de ce site/1. A propos du projet';
-      const section1Path = '/project/A propos de ce site/1. A propos du projet/Section 1.md';
-      const section2Path = '/project/A propos de ce site/1. A propos du projet/Section 2.md';
-      
-      mockPath.join
-        .mockReturnValueOnce(aboutSiteDir)
-        .mockReturnValueOnce(chapterDir)
-        .mockReturnValueOnce(section1Path)
-        .mockReturnValueOnce(section2Path)
-        .mockReturnValueOnce(section1Path); // Validation qui échoue
+      pathJoinSpy.mockImplementation((...args) => args.join('/'));
 
-      mockFs.readdirSync
+      readdirSyncSpy
         .mockReturnValueOnce([
-          { name: '1. A propos du projet', isDirectory: () => true },
+          { name: '1. A propos du projet', isDirectory: () => true, isFile: () => false },
         ] as fs.Dirent[])
         .mockReturnValueOnce([
-          { name: 'Section 1.md', isDirectory: () => false },
-          { name: 'Section 2.md', isDirectory: () => false },
+          { name: 'Section 1.md', isDirectory: () => false, isFile: () => true },
+          { name: 'Section 2.md', isDirectory: () => false, isFile: () => true },
         ] as fs.Dirent[]);
 
-      mockFs.readFileSync
+      readFileSyncSpy
         .mockReturnValueOnce('#### Sous-partie sans partie\nContenu') // Fichier invalide : H4 sans H3
         .mockReturnValueOnce('### Partie\nContenu');
 
@@ -366,37 +267,20 @@ describe('readAboutSiteStructure', () => {
   describe('Test 10 : Ignorer fichiers MD vides', () => {
     it('devrait ignorer les fichiers MD vides', () => {
       // ARRANGE : Simuler des fichiers MD dont certains sont vides
-      const aboutSiteDir = '/project/A propos de ce site';
-      const chapterDir = '/project/A propos de ce site/1. A propos du projet';
-      const section1Path = '/project/A propos de ce site/1. A propos du projet/Section 1.md';
-      const videPath = '/project/A propos de ce site/1. A propos du projet/vide.md';
-      const section2Path = '/project/A propos de ce site/1. A propos du projet/Section 2.md';
-      
-      let callCount = 0;
-      mockPath.join.mockImplementation((...args) => {
-        callCount++;
-        if (callCount === 1) return aboutSiteDir;
-        if (callCount === 2) return chapterDir;
-        if (callCount === 3) return section1Path;
-        if (callCount === 4) return videPath;
-        if (callCount === 5) return section2Path;
-        if (callCount === 6) return section1Path; // Validation
-        if (callCount === 7) return section2Path; // Validation
-        return args.join('/');
-      });
+      pathJoinSpy.mockImplementation((...args) => args.join('/'));
 
-      mockFs.readdirSync
+      readdirSyncSpy
         .mockReturnValueOnce([
-          { name: '1. A propos du projet', isDirectory: () => true },
+          { name: '1. A propos du projet', isDirectory: () => true, isFile: () => false },
         ] as fs.Dirent[])
         .mockReturnValueOnce([
-          { name: 'Section 1.md', isDirectory: () => false },
-          { name: 'vide.md', isDirectory: () => false },
-          { name: 'Section 2.md', isDirectory: () => false },
+          { name: 'Section 1.md', isDirectory: () => false, isFile: () => true },
+          { name: 'vide.md', isDirectory: () => false, isFile: () => true },
+          { name: 'Section 2.md', isDirectory: () => false, isFile: () => true },
         ] as fs.Dirent[]);
 
       let readCount = 0;
-      mockFs.readFileSync.mockImplementation((filePath: string) => {
+      readFileSyncSpy.mockImplementation((filePath: string) => {
         readCount++;
         if (readCount === 1) return '### Partie 1\nContenu section 1';
         if (readCount === 2) return ''; // Fichier vide

@@ -13,7 +13,7 @@
     "test:e2e:ui": "playwright test --ui",
     "test:e2e:report": "playwright show-report",
     "test:e2e:generate": "ts-node scripts/generate-e2e-scenario.ts",
-    "build": "ts-node scripts/increment-site-version.ts sync && ts-node scripts/increment-site-version.ts patch && next build",
+    "build": "ts-node scripts/increment-site-version.ts sync && ts-node scripts/increment-site-version.ts patch && ts-node scripts/increment-site-version.ts build",
     "build:analyze": "ANALYZE=true ts-node scripts/increment-site-version.ts sync && ts-node scripts/increment-site-version.ts patch && next build",
     "start": "next start",
     "lint": "eslint",

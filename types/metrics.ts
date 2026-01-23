@@ -6,18 +6,34 @@
  * Métriques de tests
  */
 export interface TestMetrics {
-  unitTests: number;           // Nombre de tests unitaires
-  integrationTests: number;    // Nombre de tests d'intégration
+  // Tests unitaires
+  unitTests: number;           // Nombre de tests unitaires individuels (it/test)
+  unitTestFiles: number;       // Nombre de fichiers de tests unitaires
+  unitTestPassed: number;     // Tests unitaires réussis
+  unitTestFailed: number;      // Tests unitaires échoués
+  unitTestDuration?: number;   // Durée des tests unitaires (ms)
+  
+  // Tests d'intégration
+  integrationTests: number;    // Nombre de tests d'intégration individuels (it/test)
+  integrationTestFiles: number; // Nombre de fichiers de tests d'intégration
+  integrationTestPassed: number; // Tests d'intégration réussis
+  integrationTestFailed: number; // Tests d'intégration échoués
+  integrationTestDuration?: number; // Durée des tests d'intégration (ms)
+  
+  // BDD
   bddFeatures: number;         // Nombre de features BDD
   bddScenarios: number;        // Nombre de scénarios BDD
+  bddScenariosPassed: number;  // Scénarios BDD réussis (tous si définis)
+  bddScenariosFailed: number;  // Scénarios BDD échoués
   bddSteps: number;            // Nombre de steps BDD
-  totalTests: number;          // Total des tests
-  passingTests: number;        // Tests réussis
-  failingTests: number;        // Tests échoués
-  testDuration: number;        // Durée totale des tests (ms)
-  unitTestDuration?: number;   // Durée des tests unitaires (ms)
-  integrationTestDuration?: number; // Durée des tests d'intégration (ms)
   bddTestDuration?: number;    // Durée des tests BDD (ms)
+  
+  // E2E
+  e2eSteps: number;            // Nombre total d'étapes E2E dans les fichiers de test
+  e2eScenarioFiles: number;    // Nombre de fichiers de tests E2E (.spec.ts)
+  e2eScenarios: number;        // Nombre de scénarios E2E
+  e2eStepsPassed: number;      // Steps E2E réussis
+  e2eStepsFailed: number;      // Steps E2E échoués
   e2eTests?: {                 // Métriques des tests E2E Playwright (optionnel)
     total: number;             // Nombre total de tests E2E
     passed: number;             // Tests réussis
@@ -25,7 +41,13 @@ export interface TestMetrics {
     duration: number;           // Durée d'exécution (ms)
     lastRunDate?: string;       // Date du dernier run (ISO 8601)
   };
-  e2eSteps?: number;           // Nombre total d'étapes E2E dans les fichiers de test
+  
+  // Totaux
+  totalTests: number;          // Total des tests (tests individuels + scénarios + steps)
+  totalTestFiles: number;      // Total des fichiers de tests (unitTestFiles + integrationTestFiles + bddFeatures + e2eScenarioFiles)
+  passingTests: number;        // Tests réussis (tous types)
+  failingTests: number;        // Tests échoués (tous types)
+  testDuration: number;        // Durée totale des tests (ms)
 }
 
 /**

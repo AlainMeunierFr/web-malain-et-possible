@@ -56,6 +56,76 @@ function MetricCard({
 }
 
 /**
+ * Composant Card enrichi pour afficher les métriques de tests avec jauge de réussite
+ */
+function TestMetricCard({
+  title,
+  total,
+  passed,
+  failed,
+  duration,
+  containerLabel,
+  containerCount,
+  trend
+}: {
+  title: string;
+  total: number;
+  passed: number;
+  failed: number;
+  duration: number;
+  containerLabel: string;
+  containerCount: number;
+  trend?: 'up' | 'down' | 'stable';
+}) {
+  const successRate = total > 0 ? (passed / total) * 100 : 0;
+  const trendIcon = trend === 'up' ? '↗️' : trend === 'down' ? '↘️' : '→';
+  const trendClass = trend === 'up' ? styles.trendUp : trend === 'down' ? styles.trendDown : styles.trendStable;
+  const progressColorClass = successRate >= 80 ? styles.progressGood : 
+                             successRate >= 60 ? styles.progressWarning : styles.progressDanger;
+
+  return (
+    <div className={styles.testCard}>
+      <h3 className={styles.testCardTitle}>{title}</h3>
+      <div className={styles.testCardValue}>
+        {total}
+        {trend && <span className={`${styles.trend} ${trendClass}`}>{trendIcon}</span>}
+      </div>
+      
+      {/* Jauge de réussite */}
+      <div className={styles.testProgressContainer}>
+        <div className={styles.testProgressBar}>
+          <div 
+            className={`${styles.testProgressFill} ${progressColorClass}`}
+            style={{ width: `${successRate}%` }}
+          />
+        </div>
+        <span className={styles.testProgressLabel}>{successRate.toFixed(1)}%</span>
+      </div>
+      
+      {/* Détails */}
+      <div className={styles.testCardDetails}>
+        <div className={styles.testCardDetailRow}>
+          <span className={styles.testCardDetailLabel}>✅ Réussis:</span>
+          <span className={styles.testCardDetailValue}>{passed}</span>
+        </div>
+        <div className={styles.testCardDetailRow}>
+          <span className={styles.testCardDetailLabel}>❌ Échoués:</span>
+          <span className={styles.testCardDetailValue}>{failed}</span>
+        </div>
+        <div className={styles.testCardDetailRow}>
+          <span className={styles.testCardDetailLabel}>⏱️ Durée:</span>
+          <span className={styles.testCardDetailValue}>{(duration / 1000).toFixed(2)}s</span>
+        </div>
+        <div className={styles.testCardDetailRow}>
+          <span className={styles.testCardDetailLabel}>📁 {containerLabel}:</span>
+          <span className={styles.testCardDetailValue}>{containerCount}</span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/**
  * Composant ProgressBar
  */
 function ProgressBar({ 
@@ -153,35 +223,59 @@ export default function MetricsPage() {
         <section className={styles.section}>
           <h2 className={styles.sectionTitle}>🧪 Tests</h2>
           <div className={styles.gridTests}>
-            <MetricCard 
-              title="Total Tests" 
-              value={latest.tests.unitTests + latest.tests.integrationTests + latest.tests.bddScenarios + latest.tests.bddSteps} 
+            <TestMetricCard
+              title="Total Tests"
+              total={latest.tests.totalTests}
+              passed={latest.tests.passingTests}
+              failed={latest.tests.failingTests}
+              duration={latest.tests.testDuration}
+              containerLabel="Total"
+              containerCount={latest.tests.totalTestFiles || 0}
               trend={trends.tests}
-              subtitle={`${latest.tests.passingTests} réussis, ${latest.tests.failingTests} échoués • ${(latest.tests.testDuration / 1000).toFixed(2)}s`}
             />
-            <MetricCard 
-              title="Scénarios BDD" 
-              value={latest.tests.bddScenarios}
-              subtitle={`${latest.tests.bddFeatures} features • ${((latest.tests.bddTestDuration || 0) / 1000).toFixed(2)}s`}
-            />
-            <MetricCard 
-              title="Tests Unitaires" 
-              value={latest.tests.unitTests}
-              subtitle={`${((latest.tests.unitTestDuration || 0) / 1000).toFixed(2)}s`}
-            />
-            <MetricCard 
-              title="Tests Intégration" 
-              value={latest.tests.integrationTests}
-              subtitle={`${((latest.tests.integrationTestDuration || 0) / 1000).toFixed(2)}s`}
-            />
-            <MetricCard 
-              title="Test end to end : steps" 
-              value={latest.tests.e2eSteps || 0}
-              subtitle={
-                lastE2ERun
-                  ? `${lastE2ERun.total || 0} scénarios • ${(lastE2ERun.duration / 1000).toFixed(2)}s`
-                  : 'Aucune exécution récente'
+            <TestMetricCard
+              title="Scénarios BDD"
+              total={latest.tests.bddScenarios || 0}
+              passed={latest.tests.bddScenariosPassed || latest.tests.bddScenarios || 0}
+              failed={latest.tests.bddScenariosFailed || 0}
+              duration={
+                lastE2ERun && lastE2ERun.duration > 0
+                  ? lastE2ERun.duration
+                  : latest.tests.bddTestDuration || latest.tests.e2eTests?.duration || 0
               }
+              containerLabel="Features"
+              containerCount={latest.tests.bddFeatures || 0}
+            />
+            <TestMetricCard
+              title="Tests Unitaires"
+              total={latest.tests.unitTests || 0}
+              passed={latest.tests.unitTestPassed || 0}
+              failed={latest.tests.unitTestFailed || 0}
+              duration={latest.tests.unitTestDuration || 0}
+              containerLabel="Fichiers"
+              containerCount={latest.tests.unitTestFiles || 0}
+            />
+            <TestMetricCard
+              title="Tests Intégration"
+              total={latest.tests.integrationTests || 0}
+              passed={latest.tests.integrationTestPassed || 0}
+              failed={latest.tests.integrationTestFailed || 0}
+              duration={latest.tests.integrationTestDuration || 0}
+              containerLabel="Fichiers"
+              containerCount={latest.tests.integrationTestFiles || 0}
+            />
+            <TestMetricCard
+              title="Steps E2E"
+              total={latest.tests.e2eSteps || 0}
+              passed={latest.tests.e2eStepsPassed || latest.tests.e2eSteps || 0}
+              failed={latest.tests.e2eStepsFailed || 0}
+              duration={
+                lastE2ERun && lastE2ERun.duration > 0
+                  ? lastE2ERun.duration
+                  : latest.tests.e2eTests?.duration || 0
+              }
+              containerLabel="Fichiers"
+              containerCount={latest.tests.e2eScenarioFiles || 0}
             />
           </div>
         </section>

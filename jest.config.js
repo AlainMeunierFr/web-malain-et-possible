@@ -10,6 +10,11 @@ module.exports = {
       '**/__tests__/**/*.ts?(x)',
       '**/?(*.)+(spec|test).ts?(x)',
     ],
+    testPathIgnorePatterns: [
+      '/node_modules/',
+      '/continue/',
+      '/end-to-end/',
+    ],
     moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
     transform: {
       '^.+\\.tsx?$': ['ts-jest', {

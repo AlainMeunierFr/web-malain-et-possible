@@ -14,7 +14,7 @@ jest.mock('lucide-react', () => ({
 describe('FooterButton', () => {
   const mockProps = {
     id: 'email',
-    icon: 'Mail',
+    icone: 'Mail', // Utiliser 'icone' (avec 'e') comme dans le composant
     command: 'cmd-email',
     alt: 'Email',
     url: 'mailto:test@example.com',
