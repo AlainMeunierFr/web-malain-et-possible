@@ -183,6 +183,23 @@ do {
             Write-Host "═══════════════════════════════════════════════════════════════" -ForegroundColor Green
             Write-Host ""
             
+            # Enregistrer le commit hash actuel dans un fichier commité (pour éviter les tests sur le cloud)
+            Write-Host "💾 Enregistrement du commit hash pour éviter les tests redondants sur le cloud..." -ForegroundColor Cyan
+            $currentCommit = (git rev-parse --short HEAD).Trim()
+            $lastTestedCommitPath = "data/last-tested-commit.json"
+            $lastTestedCommitJson = @{
+                commit = $currentCommit
+                timestamp = (Get-Date).ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss.fffZ")
+                allTestsPassed = $true
+            } | ConvertTo-Json
+            # S'assurer que le dossier data existe
+            if (-not (Test-Path "data")) {
+                New-Item -ItemType Directory -Path "data" | Out-Null
+            }
+            $lastTestedCommitJson | Set-Content -Path $lastTestedCommitPath -Encoding UTF8
+            Write-Host "   ✅ Commit hash enregistré : $currentCommit" -ForegroundColor Green
+            Write-Host ""
+            
             # Mise à jour de la version
             Write-Host "📝 Mise à jour de la version..." -ForegroundColor Cyan
             $versionCmd = "npm run version:sync; npm run version:patch"
@@ -193,7 +210,7 @@ do {
                 $message = "chore: Mise à jour"
             }
             
-            # Commit et push
+            # Commit et push (inclut last-tested-commit.json)
             Write-Host ""
             Write-Host "📤 Publication (git add + commit + push)..." -ForegroundColor Cyan
             $cmd = "git add -A; git commit -m `"$message`"; git push"
