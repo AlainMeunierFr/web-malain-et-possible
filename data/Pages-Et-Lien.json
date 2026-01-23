@@ -62,7 +62,7 @@
       "dessiner": "Oui"
     },
     {
-      "url": "/pour_aller_plus_loin",
+      "url": "/pour-aller-plus-loin",
       "titre": "Pour aller plus loin, je vous propose une expérience...",
       "x": null,
       "y": null,
@@ -150,7 +150,7 @@
       "label": "Plan du site"
     },
     {
-      "source": "/pour_aller_plus_loin",
+      "source": "/pour-aller-plus-loin",
       "destination": "/plan-du-site",
       "label": "Plan du site"
     },
@@ -205,7 +205,7 @@
       "label": "BarChart3"
     },
     {
-      "source": "/pour_aller_plus_loin",
+      "source": "/pour-aller-plus-loin",
       "destination": "/metrics",
       "label": "BarChart3"
     },
@@ -255,7 +255,7 @@
       "label": "Info"
     },
     {
-      "source": "/pour_aller_plus_loin",
+      "source": "/pour-aller-plus-loin",
       "destination": "/a-propos-du-site",
       "label": "Info"
     },

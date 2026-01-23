@@ -265,7 +265,7 @@ export const readPageData = (filename: string = 'index.json'): PageData => {
 
 /**
  * Lit un fichier JSON de domaine de compétences et retourne les données
- * @param filename Nom du fichier JSON (ex: "Conduite du changement.json")
+ * @param filename Nom du fichier JSON (ex: "transformation.json")
  */
 export const readDomaineData = (filename: string): IndexData => {
   const filePath = path.join(process.cwd(), 'data', filename);

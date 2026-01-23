@@ -8,7 +8,7 @@ import PageContentRenderer from '../../components/PageContentRenderer';
  */
 export default function RobustessePage() {
   // Appel côté serveur : le backend pur lit le fichier JSON
-  const pageData = readPageData('Robustesse.json');
+  const pageData = readPageData('robustesse.json');
 
   return (
     <main className={styles.main}>

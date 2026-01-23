@@ -33,7 +33,7 @@ describe('siteMapGenerator - Tests d\'intégration avec données réelles', () =
         '/robustesse',
         '/management-de-produit-logiciel',
         '/portfolio-detournements',
-        '/pour_aller_plus_loin',
+        '/pour-aller-plus-loin',
       ];
       
       const urlsDetectees = pages.map((p) => p.url);
@@ -203,7 +203,7 @@ describe('siteMapGenerator - Tests d\'intégration avec données réelles', () =
   });
 
   describe('Détection des liens depuis les domaines de compétences', () => {
-    it('devrait détecter les liens depuis les domaines de compétences dans Conduite du changement.json', () => {
+    it('devrait détecter les liens depuis les domaines de compétences dans transformation.json', () => {
       const liens = detecterLiensInternes();
       
       // Les liens depuis les domaines de compétences viennent de la page /transformation

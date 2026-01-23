@@ -42,7 +42,8 @@ export interface PlanSite {
 /**
  * Convertit une URL en nom de fichier JSON correspondant
  * @param url URL de la page (ex: '/transformation', '/detournement-video')
- * @returns Nom du fichier JSON correspondant (ex: 'Conduite du changement.json', 'Détournement vidéo.json')
+ * @returns Nom du fichier JSON correspondant (ex: 'transformation.json', 'detournement-video.json')
+ * Les noms de fichiers JSON correspondent maintenant directement aux URLs (sans slash initial)
  */
 const urlVersNomFichierJSON = (url: string): string | null => {
   if (url === '/') {
@@ -53,14 +54,15 @@ const urlVersNomFichierJSON = (url: string): string | null => {
   const urlSansSlash = url.substring(1);
   
   // Mapping explicite URL -> nom de fichier JSON
+  // Les noms de fichiers JSON correspondent maintenant aux URLs (sans slash initial, avec underscores/tirets)
   const mapping: Record<string, string> = {
-    'transformation': 'Conduite du changement.json',
-    'detournement-video': 'Détournement vidéo.json',
+    'transformation': 'transformation.json',
+    'detournement-video': 'detournement-video.json',
     'faisons-connaissance': 'faisons-connaissance.json',
-    'robustesse': 'Robustesse.json',
+    'robustesse': 'robustesse.json',
     'management-de-produit-logiciel': 'management-de-produit-logiciel.json',
     'portfolio-detournements': 'portfolio-detournements.json',
-    'pour_aller_plus_loin': 'pour-aller-plus-loin.json',
+    'pour-aller-plus-loin': 'pour-aller-plus-loin.json',
   };
   
   if (mapping[urlSansSlash]) {
@@ -193,7 +195,7 @@ export const detecterLiensInternes = (): PlanLien[] => {
   const fichiersJSON = fs.readdirSync(dataDir).filter((f) => 
     f.endsWith('.json') && 
     f !== 'footerButtons.json' && 
-    f !== 'Détournement vidéo.json' &&
+    f !== 'detournement-video.json' &&
     f !== 'Pages-Et-Lien.json'
   );
 
@@ -203,30 +205,14 @@ export const detecterLiensInternes = (): PlanLien[] => {
       const data = JSON.parse(contenu);
       
       // Déterminer l'URL de la page source depuis le nom du fichier
+      // Les noms de fichiers JSON correspondent maintenant directement aux URLs (sans slash initial)
       let pageSource = '/';
       if (fichierJSON === 'index.json') {
         pageSource = '/';
       } else {
-        // Convertir le nom de fichier en URL
+        // Le nom du fichier (sans extension) correspond directement à l'URL (sans slash initial)
         const nomSansExt = fichierJSON.replace('.json', '');
-        if (nomSansExt === 'Conduite du changement') {
-          pageSource = '/transformation';
-        } else if (nomSansExt === 'Détournement vidéo') {
-          pageSource = '/detournement-video';
-        } else if (nomSansExt === 'faisons-connaissance') {
-          pageSource = '/faisons-connaissance';
-        } else if (nomSansExt === 'Robustesse') {
-          pageSource = '/robustesse';
-        } else if (nomSansExt === 'management-de-produit-logiciel') {
-          pageSource = '/management-de-produit-logiciel';
-        } else if (nomSansExt === 'portfolio-detournements') {
-          pageSource = '/portfolio-detournements';
-        } else if (nomSansExt === 'pour-aller-plus-loin') {
-          pageSource = '/pour_aller_plus_loin';
-        } else {
-          // Par défaut, utiliser le nom du fichier avec des tirets
-          pageSource = '/' + nomSansExt.toLowerCase().replace(/\s+/g, '-');
-        }
+        pageSource = '/' + nomSansExt;
       }
 
       // Parcourir le contenu pour trouver les liens

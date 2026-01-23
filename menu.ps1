@@ -191,7 +191,7 @@ do {
             Execute-Command "npm run build" "Build le projet"
         }
         "9" {
-            Execute-Command "npm run metrics:collect" "Collecter les métriques"
+            Execute-Command "npm run metrics:collect -- --force" "Collecter les métriques"
         }
         "10" {
             Execute-Command "npm run test:e2e:generate" "Générer le plan de test E2E"

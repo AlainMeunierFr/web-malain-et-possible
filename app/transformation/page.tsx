@@ -8,7 +8,7 @@ import PageContentRenderer from '../../components/PageContentRenderer';
  */
 export default function TransformationPage() {
   // Appel côté serveur : le backend pur lit le fichier JSON
-  const pageData = readPageData('Conduite du changement.json');
+  const pageData = readPageData('transformation.json');
 
   return (
     <main className={styles.main}>

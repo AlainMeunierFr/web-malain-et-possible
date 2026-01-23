@@ -8,7 +8,7 @@ import PageContentRenderer from '../../components/PageContentRenderer';
  */
 export default function DetournementVideoPage() {
   // Appel côté serveur : le backend pur lit le fichier JSON
-  const pageData = readPageData('Détournement vidéo.json');
+  const pageData = readPageData('detournement-video.json');
 
   return (
     <main className={styles.main}>

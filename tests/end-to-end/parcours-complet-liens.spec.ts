@@ -20,28 +20,28 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
   if (await element1.count() > 0) {
     await expect(element1).toBeVisible();
   }
-  // Test e2eID: v17 (video - Conduite du changement.json)
+  // Test e2eID: v17 (video - transformation.json)
   const element2 = page.getByTestId('e2eid-v17');
   if (await element2.count() > 0) {
     await expect(element2).toBeVisible();
   }
-  // Test e2eID: a1 (callToAction - Conduite du changement.json)
+  // Test e2eID: a1 (callToAction - transformation.json)
   const element3 = page.getByTestId('e2eid-a1');
   if (await element3.count() > 0) {
     await expect(element3).toBeVisible();
   }
-  // Test e2eID: v20 (video - Détournement vidéo.json)
+  // Test e2eID: v20 (video - detournement-video.json)
   const element4 = page.getByTestId('e2eid-v20');
   if (await element4.count() > 0) {
     await expect(element4).toBeVisible();
   }
-  // Test e2eID: c2 (bouton - Détournement vidéo.json)
+  // Test e2eID: c2 (bouton - detournement-video.json)
   const element5 = page.getByTestId('e2eid-c2');
   if (await element5.count() > 0) {
     await expect(element5).toBeVisible();
     // Élément interactif présent et visible
   }
-  // Test e2eID: a3 (callToAction - Détournement vidéo.json)
+  // Test e2eID: a3 (callToAction - detournement-video.json)
   const element6 = page.getByTestId('e2eid-a3');
   if (await element6.count() > 0) {
     await expect(element6).toBeVisible();
@@ -168,7 +168,7 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
   if (await element28.count() > 0) {
     await expect(element28).toBeVisible();
   }
-  // Test e2eID: a26 (callToAction - Robustesse.json)
+  // Test e2eID: a26 (callToAction - robustesse.json)
   const element29 = page.getByTestId('e2eid-a26');
   if (await element29.count() > 0) {
     await expect(element29).toBeVisible();
@@ -1050,7 +1050,7 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
     }
   });
 
-  await test.step("Étape 28: Navigation de /plan-du-site vers /pour_aller_plus_loin (lien)", async () => {
+  await test.step("Étape 28: Navigation de /plan-du-site vers /pour-aller-plus-loin (lien)", async () => {
     // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
     const liens27 = page.getByRole('link', { name: /lien/i });
     if (await liens27.count() > 0) {
@@ -1061,7 +1061,7 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
         const href = await lien.getAttribute('href');
         // Normaliser l'URL (enlever le slash final si présent)
         const hrefNormalise = href ? href.replace(/\/$/, '') : '';
-        const destinationNormalisee = '/pour_aller_plus_loin'.replace(/\/$/, '');
+        const destinationNormalisee = '/pour-aller-plus-loin'.replace(/\/$/, '');
         if (hrefNormalise === destinationNormalisee || hrefNormalise === destinationNormalisee + '/' || href === destinationNormalisee || href === destinationNormalisee + '/') {
           lienTrouve = lien;
           break;
@@ -1071,7 +1071,7 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
         await lienTrouve.click();
       } else {
         // Aucun lien trouvé vers la destination exacte, échouer pour détecter les incohérences
-        throw new Error(`Impossible de trouver un lien vers /pour_aller_plus_loin depuis /plan-du-site (label: "lien"). Vérifiez que le lien existe et est accessible depuis cette page.`);
+        throw new Error(`Impossible de trouver un lien vers /pour-aller-plus-loin depuis /plan-du-site (label: "lien"). Vérifiez que le lien existe et est accessible depuis cette page.`);
       }
     } else {
       // Lien non trouvé par label, navigation via plan-du-site ou accueil
@@ -1082,9 +1082,9 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
         await boutonPlanDuSite.click();
         await expect(page).toHaveURL('/plan-du-site');
         // Vérifier si la destination est accessible via un bouton du footer ou si c'est /plan-du-site ou /
-        if ('/pour_aller_plus_loin' === '/plan-du-site') {
+        if ('/pour-aller-plus-loin' === '/plan-du-site') {
           // On est déjà sur /plan-du-site, pas besoin de naviguer à nouveau
-        } else if ('/pour_aller_plus_loin' === '/') {
+        } else if ('/pour-aller-plus-loin' === '/') {
           // Pour aller à l'accueil, utiliser le logo du header (h1)
           const logo = page.getByTestId('e2eid-h1');
           if (await logo.count() > 0) {
@@ -1094,7 +1094,7 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
             // Fallback : navigation directe
             await page.goto('/');
           }
-        } else if ('/pour_aller_plus_loin' === '/metrics') {
+        } else if ('/pour-aller-plus-loin' === '/metrics') {
           // /metrics est accessible via le bouton du footer (b14)
           const boutonMetrics = page.getByTestId('e2eid-b14');
           if (await boutonMetrics.count() > 0) {
@@ -1103,7 +1103,7 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
           } else {
             throw new Error('Impossible de trouver le bouton Metrics (e2eid-b14) dans le footer.');
           }
-        } else if ('/pour_aller_plus_loin' === '/a-propos-du-site') {
+        } else if ('/pour-aller-plus-loin' === '/a-propos-du-site') {
           // /a-propos-du-site est accessible via le bouton du footer (b15)
           const boutonAbout = page.getByTestId('e2eid-b15');
           if (await boutonAbout.count() > 0) {
@@ -1119,7 +1119,7 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
           await page.waitForSelector('[data-e2eid^="e2eid-l"]', { timeout: 5000 }).catch(() => {});
           const lienDepuisPlan27 = page.getByTestId('e2eid-l907');
           if (await lienDepuisPlan27.count() === 0) {
-            throw new Error('Impossible de trouver un lien vers /pour_aller_plus_loin (e2eID: e2eid-l907) depuis le plan du site. La page n\'est peut-être pas accessible ou le lien est manquant dans le plan du site.');
+            throw new Error('Impossible de trouver un lien vers /pour-aller-plus-loin (e2eID: e2eid-l907) depuis le plan du site. La page n\'est peut-être pas accessible ou le lien est manquant dans le plan du site.');
           }
           await lienDepuisPlan27.first().click();
         }
@@ -1134,12 +1134,12 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
           await page.goto('/');
         }
         // Depuis l'accueil, chercher le lien vers la destination
-        const lienDepuisAccueil27 = page.getByRole('link', { name: new RegExp(`/pour_aller_plus_loin`, 'i') });
+        const lienDepuisAccueil27 = page.getByRole('link', { name: new RegExp(`/pour-aller-plus-loin`, 'i') });
         if (await lienDepuisAccueil27.count() === 0) {
           // Essayer aussi par le label original si disponible
           const lienParLabel27 = page.getByRole('link', { name: new RegExp(`lien`, 'i') });
           if (await lienParLabel27.count() === 0) {
-            throw new Error(`Impossible de trouver un lien vers /pour_aller_plus_loin depuis l'accueil (label: "lien"). La page n'est peut-être pas accessible depuis l'accueil ou le lien est manquant.`);
+            throw new Error(`Impossible de trouver un lien vers /pour-aller-plus-loin depuis l'accueil (label: "lien"). La page n'est peut-être pas accessible depuis l'accueil ou le lien est manquant.`);
           }
           await lienParLabel27.first().click();
         } else {
@@ -1147,12 +1147,12 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
         }
       }
     }
-    await expect(page).toHaveURL('/pour_aller_plus_loin');
+    await expect(page).toHaveURL('/pour-aller-plus-loin');
   });
 
-  // Test des e2eID présents sur /pour_aller_plus_loin
+  // Test des e2eID présents sur /pour-aller-plus-loin
 
-  await test.step("Étape 29: Navigation de /pour_aller_plus_loin vers /plan-du-site (Plan du site)", async () => {
+  await test.step("Étape 29: Navigation de /pour-aller-plus-loin vers /plan-du-site (Plan du site)", async () => {
     // /plan-du-site est accessible via le bouton du footer (b13), pas via un lien
     const boutonPlanDuSite = page.getByTestId('e2eid-b13');
     if (await boutonPlanDuSite.count() > 0) {
@@ -1641,7 +1641,7 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
 
   // Test des e2eID présents sur /metrics
 
-  await test.step("Étape 38: Navigation de /metrics vers /pour_aller_plus_loin (lien)", async () => {
+  await test.step("Étape 38: Navigation de /metrics vers /pour-aller-plus-loin (lien)", async () => {
     // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
     const liens37 = page.getByRole('link', { name: /lien/i });
     if (await liens37.count() > 0) {
@@ -1652,7 +1652,7 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
         const href = await lien.getAttribute('href');
         // Normaliser l'URL (enlever le slash final si présent)
         const hrefNormalise = href ? href.replace(/\/$/, '') : '';
-        const destinationNormalisee = '/pour_aller_plus_loin'.replace(/\/$/, '');
+        const destinationNormalisee = '/pour-aller-plus-loin'.replace(/\/$/, '');
         if (hrefNormalise === destinationNormalisee || hrefNormalise === destinationNormalisee + '/' || href === destinationNormalisee || href === destinationNormalisee + '/') {
           lienTrouve = lien;
           break;
@@ -1662,7 +1662,7 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
         await lienTrouve.click();
       } else {
         // Aucun lien trouvé vers la destination exacte, échouer pour détecter les incohérences
-        throw new Error(`Impossible de trouver un lien vers /pour_aller_plus_loin depuis /metrics (label: "lien"). Vérifiez que le lien existe et est accessible depuis cette page.`);
+        throw new Error(`Impossible de trouver un lien vers /pour-aller-plus-loin depuis /metrics (label: "lien"). Vérifiez que le lien existe et est accessible depuis cette page.`);
       }
     } else {
       // Lien non trouvé par label, navigation via plan-du-site ou accueil
@@ -1673,9 +1673,9 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
         await boutonPlanDuSite.click();
         await expect(page).toHaveURL('/plan-du-site');
         // Vérifier si la destination est accessible via un bouton du footer ou si c'est /plan-du-site ou /
-        if ('/pour_aller_plus_loin' === '/plan-du-site') {
+        if ('/pour-aller-plus-loin' === '/plan-du-site') {
           // On est déjà sur /plan-du-site, pas besoin de naviguer à nouveau
-        } else if ('/pour_aller_plus_loin' === '/') {
+        } else if ('/pour-aller-plus-loin' === '/') {
           // Pour aller à l'accueil, utiliser le logo du header (h1)
           const logo = page.getByTestId('e2eid-h1');
           if (await logo.count() > 0) {
@@ -1685,7 +1685,7 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
             // Fallback : navigation directe
             await page.goto('/');
           }
-        } else if ('/pour_aller_plus_loin' === '/metrics') {
+        } else if ('/pour-aller-plus-loin' === '/metrics') {
           // /metrics est accessible via le bouton du footer (b14)
           const boutonMetrics = page.getByTestId('e2eid-b14');
           if (await boutonMetrics.count() > 0) {
@@ -1694,7 +1694,7 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
           } else {
             throw new Error('Impossible de trouver le bouton Metrics (e2eid-b14) dans le footer.');
           }
-        } else if ('/pour_aller_plus_loin' === '/a-propos-du-site') {
+        } else if ('/pour-aller-plus-loin' === '/a-propos-du-site') {
           // /a-propos-du-site est accessible via le bouton du footer (b15)
           const boutonAbout = page.getByTestId('e2eid-b15');
           if (await boutonAbout.count() > 0) {
@@ -1710,7 +1710,7 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
           await page.waitForSelector('[data-e2eid^="e2eid-l"]', { timeout: 5000 }).catch(() => {});
           const lienDepuisPlan37 = page.getByTestId('e2eid-l907');
           if (await lienDepuisPlan37.count() === 0) {
-            throw new Error('Impossible de trouver un lien vers /pour_aller_plus_loin (e2eID: e2eid-l907) depuis le plan du site. La page n\'est peut-être pas accessible ou le lien est manquant dans le plan du site.');
+            throw new Error('Impossible de trouver un lien vers /pour-aller-plus-loin (e2eID: e2eid-l907) depuis le plan du site. La page n\'est peut-être pas accessible ou le lien est manquant dans le plan du site.');
           }
           await lienDepuisPlan37.first().click();
         }
@@ -1725,12 +1725,12 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
           await page.goto('/');
         }
         // Depuis l'accueil, chercher le lien vers la destination
-        const lienDepuisAccueil37 = page.getByRole('link', { name: new RegExp(`/pour_aller_plus_loin`, 'i') });
+        const lienDepuisAccueil37 = page.getByRole('link', { name: new RegExp(`/pour-aller-plus-loin`, 'i') });
         if (await lienDepuisAccueil37.count() === 0) {
           // Essayer aussi par le label original si disponible
           const lienParLabel37 = page.getByRole('link', { name: new RegExp(`lien`, 'i') });
           if (await lienParLabel37.count() === 0) {
-            throw new Error(`Impossible de trouver un lien vers /pour_aller_plus_loin depuis l'accueil (label: "lien"). La page n'est peut-être pas accessible depuis l'accueil ou le lien est manquant.`);
+            throw new Error(`Impossible de trouver un lien vers /pour-aller-plus-loin depuis l'accueil (label: "lien"). La page n'est peut-être pas accessible depuis l'accueil ou le lien est manquant.`);
           }
           await lienParLabel37.first().click();
         } else {
@@ -1738,12 +1738,12 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
         }
       }
     }
-    await expect(page).toHaveURL('/pour_aller_plus_loin');
+    await expect(page).toHaveURL('/pour-aller-plus-loin');
   });
 
-  // Test des e2eID présents sur /pour_aller_plus_loin
+  // Test des e2eID présents sur /pour-aller-plus-loin
 
-  await test.step("Étape 39: Navigation de /pour_aller_plus_loin vers /metrics (BarChart3)", async () => {
+  await test.step("Étape 39: Navigation de /pour-aller-plus-loin vers /metrics (BarChart3)", async () => {
     // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
     const liens38 = page.getByRole('link', { name: /BarChart3/i });
     if (await liens38.count() > 0) {
@@ -1764,7 +1764,7 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
         await lienTrouve.click();
       } else {
         // Aucun lien trouvé vers la destination exacte, échouer pour détecter les incohérences
-        throw new Error(`Impossible de trouver un lien vers /metrics depuis /pour_aller_plus_loin (label: "BarChart3"). Vérifiez que le lien existe et est accessible depuis cette page.`);
+        throw new Error(`Impossible de trouver un lien vers /metrics depuis /pour-aller-plus-loin (label: "BarChart3"). Vérifiez que le lien existe et est accessible depuis cette page.`);
       }
     } else {
       // Lien non trouvé par label, navigation via plan-du-site ou accueil
@@ -2493,7 +2493,7 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
 
   // Test des e2eID présents sur /a-propos-du-site
 
-  await test.step("Étape 50: Navigation de /a-propos-du-site vers /pour_aller_plus_loin (lien)", async () => {
+  await test.step("Étape 50: Navigation de /a-propos-du-site vers /pour-aller-plus-loin (lien)", async () => {
     // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
     const liens49 = page.getByRole('link', { name: /lien/i });
     if (await liens49.count() > 0) {
@@ -2504,7 +2504,7 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
         const href = await lien.getAttribute('href');
         // Normaliser l'URL (enlever le slash final si présent)
         const hrefNormalise = href ? href.replace(/\/$/, '') : '';
-        const destinationNormalisee = '/pour_aller_plus_loin'.replace(/\/$/, '');
+        const destinationNormalisee = '/pour-aller-plus-loin'.replace(/\/$/, '');
         if (hrefNormalise === destinationNormalisee || hrefNormalise === destinationNormalisee + '/' || href === destinationNormalisee || href === destinationNormalisee + '/') {
           lienTrouve = lien;
           break;
@@ -2514,7 +2514,7 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
         await lienTrouve.click();
       } else {
         // Aucun lien trouvé vers la destination exacte, échouer pour détecter les incohérences
-        throw new Error(`Impossible de trouver un lien vers /pour_aller_plus_loin depuis /a-propos-du-site (label: "lien"). Vérifiez que le lien existe et est accessible depuis cette page.`);
+        throw new Error(`Impossible de trouver un lien vers /pour-aller-plus-loin depuis /a-propos-du-site (label: "lien"). Vérifiez que le lien existe et est accessible depuis cette page.`);
       }
     } else {
       // Lien non trouvé par label, navigation via plan-du-site ou accueil
@@ -2525,9 +2525,9 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
         await boutonPlanDuSite.click();
         await expect(page).toHaveURL('/plan-du-site');
         // Vérifier si la destination est accessible via un bouton du footer ou si c'est /plan-du-site ou /
-        if ('/pour_aller_plus_loin' === '/plan-du-site') {
+        if ('/pour-aller-plus-loin' === '/plan-du-site') {
           // On est déjà sur /plan-du-site, pas besoin de naviguer à nouveau
-        } else if ('/pour_aller_plus_loin' === '/') {
+        } else if ('/pour-aller-plus-loin' === '/') {
           // Pour aller à l'accueil, utiliser le logo du header (h1)
           const logo = page.getByTestId('e2eid-h1');
           if (await logo.count() > 0) {
@@ -2537,7 +2537,7 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
             // Fallback : navigation directe
             await page.goto('/');
           }
-        } else if ('/pour_aller_plus_loin' === '/metrics') {
+        } else if ('/pour-aller-plus-loin' === '/metrics') {
           // /metrics est accessible via le bouton du footer (b14)
           const boutonMetrics = page.getByTestId('e2eid-b14');
           if (await boutonMetrics.count() > 0) {
@@ -2546,7 +2546,7 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
           } else {
             throw new Error('Impossible de trouver le bouton Metrics (e2eid-b14) dans le footer.');
           }
-        } else if ('/pour_aller_plus_loin' === '/a-propos-du-site') {
+        } else if ('/pour-aller-plus-loin' === '/a-propos-du-site') {
           // /a-propos-du-site est accessible via le bouton du footer (b15)
           const boutonAbout = page.getByTestId('e2eid-b15');
           if (await boutonAbout.count() > 0) {
@@ -2562,7 +2562,7 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
           await page.waitForSelector('[data-e2eid^="e2eid-l"]', { timeout: 5000 }).catch(() => {});
           const lienDepuisPlan49 = page.getByTestId('e2eid-l907');
           if (await lienDepuisPlan49.count() === 0) {
-            throw new Error('Impossible de trouver un lien vers /pour_aller_plus_loin (e2eID: e2eid-l907) depuis le plan du site. La page n\'est peut-être pas accessible ou le lien est manquant dans le plan du site.');
+            throw new Error('Impossible de trouver un lien vers /pour-aller-plus-loin (e2eID: e2eid-l907) depuis le plan du site. La page n\'est peut-être pas accessible ou le lien est manquant dans le plan du site.');
           }
           await lienDepuisPlan49.first().click();
         }
@@ -2577,12 +2577,12 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
           await page.goto('/');
         }
         // Depuis l'accueil, chercher le lien vers la destination
-        const lienDepuisAccueil49 = page.getByRole('link', { name: new RegExp(`/pour_aller_plus_loin`, 'i') });
+        const lienDepuisAccueil49 = page.getByRole('link', { name: new RegExp(`/pour-aller-plus-loin`, 'i') });
         if (await lienDepuisAccueil49.count() === 0) {
           // Essayer aussi par le label original si disponible
           const lienParLabel49 = page.getByRole('link', { name: new RegExp(`lien`, 'i') });
           if (await lienParLabel49.count() === 0) {
-            throw new Error(`Impossible de trouver un lien vers /pour_aller_plus_loin depuis l'accueil (label: "lien"). La page n'est peut-être pas accessible depuis l'accueil ou le lien est manquant.`);
+            throw new Error(`Impossible de trouver un lien vers /pour-aller-plus-loin depuis l'accueil (label: "lien"). La page n'est peut-être pas accessible depuis l'accueil ou le lien est manquant.`);
           }
           await lienParLabel49.first().click();
         } else {
@@ -2590,12 +2590,12 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
         }
       }
     }
-    await expect(page).toHaveURL('/pour_aller_plus_loin');
+    await expect(page).toHaveURL('/pour-aller-plus-loin');
   });
 
-  // Test des e2eID présents sur /pour_aller_plus_loin
+  // Test des e2eID présents sur /pour-aller-plus-loin
 
-  await test.step("Étape 51: Navigation de /pour_aller_plus_loin vers /a-propos-du-site (Info)", async () => {
+  await test.step("Étape 51: Navigation de /pour-aller-plus-loin vers /a-propos-du-site (Info)", async () => {
     // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
     const liens50 = page.getByRole('link', { name: /Info/i });
     if (await liens50.count() > 0) {
@@ -2616,7 +2616,7 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
         await lienTrouve.click();
       } else {
         // Aucun lien trouvé vers la destination exacte, échouer pour détecter les incohérences
-        throw new Error(`Impossible de trouver un lien vers /a-propos-du-site depuis /pour_aller_plus_loin (label: "Info"). Vérifiez que le lien existe et est accessible depuis cette page.`);
+        throw new Error(`Impossible de trouver un lien vers /a-propos-du-site depuis /pour-aller-plus-loin (label: "Info"). Vérifiez que le lien existe et est accessible depuis cette page.`);
       }
     } else {
       // Lien non trouvé par label, navigation via plan-du-site ou accueil

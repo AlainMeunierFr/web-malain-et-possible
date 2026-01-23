@@ -33,6 +33,11 @@ const nextConfig: NextConfig = {
         destination: '/plan-du-site',
         permanent: true, // 301 redirect
       },
+      {
+        source: '/pour_aller_plus_loin',
+        destination: '/pour-aller-plus-loin',
+        permanent: true, // 301 redirect (ancien format avec underscore vers nouveau format avec tirets)
+      },
     ];
   },
   
