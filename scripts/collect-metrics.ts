@@ -358,7 +358,6 @@ async function main() {
 
   const snapshot: MetricsSnapshot = {
     timestamp: new Date().toISOString(),
-    version: packageJson.version || '0.1.0',
     branch: gitInfo.branch,
     commit: gitInfo.commit,
     tests: collectTestMetrics(),

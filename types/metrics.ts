@@ -134,7 +134,6 @@ export interface PerformanceMetrics {
  */
 export interface MetricsSnapshot {
   timestamp: string;           // ISO 8601
-  version: string;             // Version du projet
   branch: string;              // Branche Git
   commit: string;              // Hash du commit
   tests: TestMetrics;

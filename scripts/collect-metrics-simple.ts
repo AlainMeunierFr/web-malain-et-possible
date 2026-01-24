@@ -1024,7 +1024,7 @@ function displayFormattedReport(snapshot: MetricsSnapshot, trends: { tests: 'up'
   console.log('='.repeat(80));
   
   // Header
-  console.log(`\nVersion: ${snapshot.version} | Branche: ${snapshot.branch} | Commit: ${snapshot.commit}`);
+  console.log(`\nBranche: ${snapshot.branch} | Commit: ${snapshot.commit}`);
   console.log(`Mis à jour: ${new Date(snapshot.timestamp).toLocaleString('fr-FR')}`);
   
   // Section Tests
@@ -1283,7 +1283,6 @@ async function main() {
 
   const snapshot: MetricsSnapshot = {
     timestamp: new Date().toISOString(),
-    version: packageJson.version || '0.1.0',
     branch: gitInfo.branch,
     commit: gitInfo.commit,
     tests: collectTestMetrics(),

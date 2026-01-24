@@ -28,6 +28,28 @@ function loadMetrics(): MetricsHistory | null {
 }
 
 /**
+ * Charge la version du site depuis le fichier site-version.json
+ */
+function loadSiteVersion(): string {
+  try {
+    const versionFilePath = path.join(process.cwd(), 'site-version.json');
+    const versionContent = fs.readFileSync(versionFilePath, 'utf-8');
+    const version = JSON.parse(versionContent);
+    
+    // Validation de la structure des données
+    if (typeof version.major !== 'number' || 
+        typeof version.minor !== 'number' || 
+        typeof version.patch !== 'number') {
+      return '1.0.0';
+    }
+    
+    return `${version.major}.${version.minor}.${version.patch}`;
+  } catch {
+    return '1.0.0';
+  }
+}
+
+/**
  * Composant Card pour afficher une métrique
  */
 function MetricCard({ 
@@ -187,6 +209,7 @@ function findLastE2ERun(history: MetricsHistory): MetricsSnapshot['tests']['e2eT
  */
 export default function MetricsPage() {
   const metricsData = loadMetrics();
+  const siteVersion = loadSiteVersion();
 
   if (!metricsData) {
     return (
@@ -215,9 +238,9 @@ export default function MetricsPage() {
         <div className={styles.header}>
           <h1 className={styles.title}>📊 Métriques de Qualité du Code</h1>
           <div className={styles.meta}>
-            <span>Version: {latest.version}</span>
             <span>Branche: {latest.branch}</span>
             <span>Commit: {latest.commit}</span>
+            <span>Version site: v{siteVersion}</span>
             <span>Mis à jour: {new Date(latest.timestamp).toLocaleString('fr-FR')}</span>
           </div>
         </div>
