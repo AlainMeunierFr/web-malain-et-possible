@@ -3,10 +3,13 @@
  * Affiche un dashboard avec toutes les métriques collectées
  */
 
+import React from 'react';
 import fs from 'fs';
 import path from 'path';
 import type { MetricsHistory, MetricsSnapshot } from '../../types/metrics';
 import styles from './metrics.module.css';
+import Tooltip from '../../components/Tooltip';
+import CyclomaticComplexityTooltip from '../../components/CyclomaticComplexityTooltip';
 
 // Désactiver le prerendering statique car on lit des fichiers système
 export const dynamic = 'force-dynamic';
@@ -57,20 +60,31 @@ function MetricCard({
   value, 
   unit = '', 
   trend, 
-  subtitle 
+  subtitle,
+  tooltip 
 }: { 
   title: string; 
   value: number | string; 
   unit?: string; 
   trend?: 'up' | 'down' | 'stable'; 
   subtitle?: string;
+  tooltip?: React.ReactNode;
 }) {
   const trendIcon = trend === 'up' ? '↗️' : trend === 'down' ? '↘️' : '→';
   const trendClass = trend === 'up' ? styles.trendUp : trend === 'down' ? styles.trendDown : styles.trendStable;
 
   return (
     <div className={styles.card}>
-      <h3 className={styles.cardTitle}>{title}</h3>
+      <div className={styles.cardHeader}>
+        <h3 className={styles.cardTitle}>{title}</h3>
+        {tooltip && (
+          <Tooltip content={tooltip} position="top">
+            <div className={styles.infoIcon} aria-label="Plus d'informations">
+              ℹ️
+            </div>
+          </Tooltip>
+        )}
+      </div>
       <div className={styles.cardValue}>
         {value}{unit}
         {trend && <span className={`${styles.trend} ${trendClass}`}>{trendIcon}</span>}
@@ -354,6 +368,7 @@ export default function MetricsPage() {
             <MetricCard 
               title="Complexité Cyclomatique" 
               value={latest.quality.cyclomaticComplexity}
+              tooltip={<CyclomaticComplexityTooltip />}
             />
           </div>
         </section>
