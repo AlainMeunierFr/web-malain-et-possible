@@ -144,6 +144,18 @@
   font-weight: bold;
 }
 
+/* Liens Markdown dans les descriptions */
+.markdownLink {
+  color: var(--BleuFonce);
+  text-decoration: underline;
+  transition: color 200ms;
+}
+
+.markdownLink:hover {
+  color: var(--color-primary);
+  text-decoration: underline;
+}
+
 /* Auteur (optionnel) : aligné à droite en italique */
 .competenceAuteur {
   font-family: var(--font-serif);

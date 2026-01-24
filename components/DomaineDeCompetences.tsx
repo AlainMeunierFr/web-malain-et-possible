@@ -19,33 +19,118 @@ import type { DomaineDeCompetences } from '../utils/indexReader';
 import styles from './DomaineDeCompetences.module.css';
 
 /**
- * Parse inline markdown (bold) pour convertir **texte** en <strong>texte</strong>
+ * Parse le bold dans un texte (utilisé pour le texte des liens)
+ */
+function parseBoldInText(text: string): React.ReactNode[] {
+  const parts: React.ReactNode[] = [];
+  let currentIndex = 0;
+  const boldPattern = /\*\*(.+?)\*\*/g;
+  const boldMatches: Array<{ start: number; end: number; text: string }> = [];
+
+  let match;
+  while ((match = boldPattern.exec(text)) !== null) {
+    boldMatches.push({ 
+      start: match.index, 
+      end: match.index + match[0].length, 
+      text: match[1]
+    });
+  }
+
+  boldMatches.sort((a, b) => a.start - b.start);
+
+  boldMatches.forEach((match, index) => {
+    if (match.start > currentIndex) {
+      parts.push(text.substring(currentIndex, match.start));
+    }
+    parts.push(<strong key={`bold-${index}`}>{match.text}</strong>);
+    currentIndex = match.end;
+  });
+
+  if (currentIndex < text.length) {
+    parts.push(text.substring(currentIndex));
+  }
+
+  return parts.length > 0 ? parts : [text];
+}
+
+/**
+ * Parse inline markdown (bold, links) pour convertir :
+ * - **texte** en <strong>texte</strong>
+ * - [texte](url) en <a href="url" target="_blank">texte</a> (sans les crochets)
+ * - [**texte**](url) en <a> avec texte en gras
  */
 function parseInlineMarkdown(text: string): React.ReactNode[] {
   const parts: React.ReactNode[] = [];
   let currentIndex = 0;
 
-  // Pattern pour **bold**
+  // Pattern pour **bold** (hors liens)
   const boldPattern = /\*\*(.+?)\*\*/g;
+  // Pattern pour [texte](url) - peut contenir **bold** dans le texte
+  const linkPattern = /\[([^\]]+)\]\(([^)]+)\)/g;
 
-  const boldMatches: Array<{ start: number; end: number; text: string }> = [];
+  const boldMatches: Array<{ start: number; end: number; text: string; type: 'bold' }> = [];
+  const linkMatches: Array<{ start: number; end: number; text: string; url: string; type: 'link' }> = [];
 
   let match;
-  while ((match = boldPattern.exec(text)) !== null) {
-    boldMatches.push({ start: match.index, end: match.index + match[0].length, text: match[1] });
+  
+  // D'abord détecter les liens
+  while ((match = linkPattern.exec(text)) !== null) {
+    linkMatches.push({
+      start: match.index,
+      end: match.index + match[0].length,
+      text: match[1], // Texte du lien (peut contenir **bold**)
+      url: match[2],
+      type: 'link'
+    });
   }
 
-  // Trier les matches par position
-  boldMatches.sort((a, b) => a.start - b.start);
+  // Ensuite détecter les bold qui ne sont PAS dans un lien
+  while ((match = boldPattern.exec(text)) !== null) {
+    // Vérifier si ce bold est à l'intérieur d'un lien
+    const isInLink = linkMatches.some(link => 
+      match.index >= link.start && match.index < link.end
+    );
+    
+    if (!isInLink) {
+      boldMatches.push({ 
+        start: match.index, 
+        end: match.index + match[0].length, 
+        text: match[1],
+        type: 'bold'
+      });
+    }
+  }
 
-  boldMatches.forEach((match, index) => {
+  // Combiner et trier tous les matches
+  const allMatches = [
+    ...boldMatches,
+    ...linkMatches,
+  ].sort((a, b) => a.start - b.start);
+
+  allMatches.forEach((match, index) => {
     // Ajouter le texte avant le match
     if (match.start > currentIndex) {
       parts.push(text.substring(currentIndex, match.start));
     }
 
-    // Ajouter le contenu en gras
-    parts.push(<strong key={`bold-${index}`}>{match.text}</strong>);
+    // Ajouter le contenu formaté
+    if (match.type === 'bold') {
+      parts.push(<strong key={`bold-${index}`}>{match.text}</strong>);
+    } else if (match.type === 'link') {
+      // Parser le bold dans le texte du lien
+      const linkContent = parseBoldInText(match.text);
+      parts.push(
+        <a 
+          key={`link-${index}`} 
+          href={match.url} 
+          target="_blank" 
+          rel="noopener noreferrer"
+          className={styles.markdownLink}
+        >
+          {linkContent}
+        </a>
+      );
+    }
 
     currentIndex = match.end;
   });
@@ -92,7 +177,9 @@ const DomaineDeCompetences: React.FC<DomaineDeCompetencesProps> = ({ domaine, ba
       <div className={styles.domaineHeader}>
         <h2 className={styles.domaineTitre}>{domaine.titre}</h2>
         {domaine.contenu && domaine.contenu.trim() && (
-          <p className={styles.domaineContenu}>{domaine.contenu}</p>
+          <p className={styles.domaineContenu}>
+            {parseInlineMarkdown(domaine.contenu)}
+          </p>
         )}
       </div>
 
