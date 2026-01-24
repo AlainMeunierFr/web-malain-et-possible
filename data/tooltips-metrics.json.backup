@@ -1,5 +1,35 @@
 {
-  "metricsTooltips": {
+  "cyclomaticComplexity": {
+    "title": "Complexité Cyclomatique",
+    "description": "**Terme technique** : Mesure technique qui évalue la difficulté à comprendre et modifier le code. Plus le chiffre est élevé, plus le code est complexe et difficile à maintenir.",
+    "interpretation": [
+      {
+        "range": "1-10",
+        "level": "Excellente",
+        "color": "green", 
+        "description": "Code simple, facile à tester et maintenir. *Idéal* pour des fonctions courtes et claires."
+      },
+      {
+        "range": "11-20",
+        "level": "Modérée",
+        "color": "lightgreen",
+        "description": "Complexité acceptable, mais nécessite une attention accrue pour les tests et la documentation. *Refactoring possible* si proche de 20."
+      },
+      {
+        "range": "21-50", 
+        "level": "Élevée",
+        "color": "orange",
+        "description": "Code complexe, difficile à tester exhaustivement. *Risque accru* d'erreurs et de bugs. Refactoring recommandé."
+      },
+      {
+        "range": "+50",
+        "level": "Très élevée",
+        "color": "red", 
+        "description": "Code considéré comme non maintenable. *Refactoring urgent* ou découpage en sous-fonctions indispensable."
+      }
+    ],
+    "businessImpact": "**Impact métier** : Plus c'est complexe, plus les évolutions coûtent cher et plus le risque de bugs augmente."
+  },
     "bddScenarios": {
       "title": "Scénarios BDD",
       "description": "**Terme technique** : Tests automatisés qui vérifient que le logiciel correspond aux besoins exprimés par les utilisateurs. L'équipe technique écrit des tests en langage naturel pour s'assurer que chaque fonctionnalité répond aux attentes métier.",
@@ -607,5 +637,4 @@
       ],
       "businessImpact": "**Impact métier** : Plus c'est long, plus il faut attendre pour corriger un bug ou livrer une demande client."
     }
-  }
 }

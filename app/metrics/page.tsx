@@ -9,7 +9,7 @@ import path from 'path';
 import type { MetricsHistory, MetricsSnapshot } from '../../types/metrics';
 import styles from './metrics.module.css';
 import Tooltip from '../../components/Tooltip';
-import CyclomaticComplexityTooltip from '../../components/CyclomaticComplexityTooltip';
+import { getTooltipConfig } from '../../utils/tooltipsConfig';
 
 // Désactiver le prerendering statique car on lit des fichiers système
 export const dynamic = 'force-dynamic';
@@ -61,14 +61,14 @@ function MetricCard({
   unit = '', 
   trend, 
   subtitle,
-  tooltip 
+  metricKey,
 }: { 
   title: string; 
   value: number | string; 
-  unit?: string; 
+  unit?: string;
   trend?: 'up' | 'down' | 'stable'; 
   subtitle?: string;
-  tooltip?: React.ReactNode;
+  metricKey?: string;
 }) {
   const trendIcon = trend === 'up' ? '↗️' : trend === 'down' ? '↘️' : '→';
   const trendClass = trend === 'up' ? styles.trendUp : trend === 'down' ? styles.trendDown : styles.trendStable;
@@ -77,8 +77,20 @@ function MetricCard({
     <div className={styles.card}>
       <div className={styles.cardHeader}>
         <h3 className={styles.cardTitle}>{title}</h3>
-        {tooltip && (
-          <Tooltip content={tooltip} position="top">
+        {metricKey && (
+          <Tooltip content={
+            <div>
+              {getTooltipConfig(metricKey) ? (
+                <div dangerouslySetInnerHTML={{ 
+                  __html: getTooltipConfig(metricKey)?.description
+                    ?.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                    ?.replace(/\*(.*?)\*/g, '<em>$1</em>') || ''
+                }} />
+              ) : (
+                <p>Information à venir pour cette métrique</p>
+              )}
+            </div>
+          }>
             <div className={styles.infoIcon} aria-label="Plus d'informations">
               ℹ️
             </div>
@@ -105,7 +117,7 @@ function TestMetricCard({
   duration,
   containerLabel,
   containerCount,
-  trend
+  trend,
 }: {
   title: string;
   total: number;
@@ -124,7 +136,10 @@ function TestMetricCard({
 
   return (
     <div className={styles.testCard}>
-      <h3 className={styles.testCardTitle}>{title}</h3>
+      <div className={styles.cardHeader}>
+        <h3 className={styles.testCardTitle}>{title}</h3>
+        {/* Tooltips supprimés - refactoring en cours */}
+      </div>
       <div className={styles.testCardValue}>
         {total}
         {trend && <span className={`${styles.trend} ${trendClass}`}>{trendIcon}</span>}
@@ -170,11 +185,13 @@ function TestMetricCard({
 function ProgressBar({ 
   value, 
   max = 100, 
-  label 
+  label,
+  metricKey
 }: { 
   value: number; 
   max?: number; 
   label: string;
+  metricKey?: string;
 }) {
   const percentage = Math.min((value / max) * 100, 100);
   const colorClass = percentage >= 80 ? styles.progressGood : 
@@ -183,7 +200,28 @@ function ProgressBar({
   return (
     <div className={styles.progressContainer}>
       <div className={styles.progressLabel}>
-        <span>{label}</span>
+        <div className={styles.cardHeader}>
+          <span>{label}</span>
+          {metricKey && (
+            <Tooltip content={
+              <div>
+                {getTooltipConfig(metricKey) ? (
+                  <div dangerouslySetInnerHTML={{ 
+                    __html: getTooltipConfig(metricKey)?.description
+                      ?.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                      ?.replace(/\*(.*?)\*/g, '<em>$1</em>') || ''
+                  }} />
+                ) : (
+                  <p>Information à venir pour cette métrique</p>
+                )}
+              </div>
+            }>
+              <div className={styles.infoIcon} aria-label="Plus d'informations">
+                ℹ️
+              </div>
+            </Tooltip>
+          )}
+        </div>
         <span>{percentage.toFixed(1)}%</span>
       </div>
       <div className={styles.progressBar}>
@@ -326,19 +364,23 @@ export default function MetricsPage() {
           <div className={styles.coverageGrid}>
             <ProgressBar 
               label="Lignes" 
-              value={latest.coverage.lines.percentage} 
+              value={latest.coverage.lines.percentage}
+              metricKey="codeLinesPercentage"
             />
             <ProgressBar 
               label="Statements" 
-              value={latest.coverage.statements.percentage} 
+              value={latest.coverage.statements.percentage}
+              metricKey="statementsPercentage"
             />
             <ProgressBar 
               label="Fonctions" 
-              value={latest.coverage.functions.percentage} 
+              value={latest.coverage.functions.percentage}
+              metricKey="functionsPercentage"
             />
             <ProgressBar 
               label="Branches" 
-              value={latest.coverage.branches.percentage} 
+              value={latest.coverage.branches.percentage}
+              metricKey="branchesPercentage"
             />
           </div>
           <div className={styles.coverageStats}>
@@ -355,20 +397,23 @@ export default function MetricsPage() {
               title="Erreurs ESLint" 
               value={latest.quality.eslintErrors}
               trend={trends.quality}
+              metricKey="eslintErrors"
             />
             <MetricCard 
               title="Warnings ESLint" 
               value={latest.quality.eslintWarnings}
+              metricKey="eslintWarnings"
             />
             <MetricCard 
               title="Type Coverage" 
               value={latest.quality.typeCoverage}
               unit="%"
+              metricKey="typeCoverage"
             />
             <MetricCard 
               title="Complexité Cyclomatique" 
               value={latest.quality.cyclomaticComplexity}
-              tooltip={<CyclomaticComplexityTooltip />}
+              metricKey="cyclomaticComplexity"
             />
           </div>
         </section>
@@ -380,18 +425,22 @@ export default function MetricsPage() {
             <MetricCard 
               title="Fichiers Total" 
               value={latest.size.totalFiles}
+              metricKey="totalFiles"
             />
             <MetricCard 
               title="Lignes de Code" 
               value={latest.size.sourceLines}
+              metricKey="sourceLines"
             />
             <MetricCard 
               title="Composants" 
               value={latest.size.components}
+              metricKey="components"
             />
             <MetricCard 
               title="Pages" 
               value={latest.size.pages}
+              metricKey="pages"
             />
           </div>
         </section>
@@ -404,11 +453,13 @@ export default function MetricsPage() {
               title="Total" 
               value={latest.dependencies.total}
               subtitle={`${latest.dependencies.production} prod, ${latest.dependencies.development} dev`}
+              metricKey="dependenciesTotal"
             />
             <MetricCard 
               title="Vulnérabilités" 
               value={latest.dependencies.vulnerabilities.total}
               subtitle={`${latest.dependencies.vulnerabilities.critical} critiques, ${latest.dependencies.vulnerabilities.high} hautes`}
+              metricKey="vulnerabilities"
             />
           </div>
         </section>
@@ -421,11 +472,13 @@ export default function MetricsPage() {
               title="Taille Bundle" 
               value={latest.performance.bundleSize}
               unit=" KB"
+              metricKey="bundleSize"
             />
             <MetricCard 
               title="Temps de Build" 
               value={(latest.performance.buildTime / 1000).toFixed(2)}
               unit="s"
+              metricKey="buildTime"
             />
             {latest.performance.lighthouseScore && (
               <MetricCard 

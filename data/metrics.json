@@ -1,0 +1,647 @@
+{
+  "page": "metrics",
+  "version": "1.0.0",
+  "description": "Configuration des info-bulles pour la page métriques de qualité du code",
+  "infoBulles": [
+    {
+      "id": "cyclomaticComplexity",
+      "title": "Complexité Cyclomatique",
+      "description": "**Terme technique** : Mesure technique qui évalue la difficulté à comprendre et modifier le code. Plus le chiffre est élevé, plus le code est complexe et difficile à maintenir.",
+      "interpretation": [
+        {
+          "range": "1-10",
+          "level": "Excellente",
+          "color": "green", 
+          "description": "Code simple, facile à tester et maintenir. *Idéal* pour des fonctions courtes et claires."
+        },
+        {
+          "range": "11-20",
+          "level": "Modérée",
+          "color": "lightgreen",
+          "description": "Complexité acceptable, mais nécessite une attention accrue pour les tests et la documentation. *Refactoring possible* si proche de 20."
+        },
+        {
+          "range": "21-50", 
+          "level": "Élevée",
+          "color": "orange",
+          "description": "Code complexe, difficile à tester exhaustivement. *Risque accru* d'erreurs et de bugs. Refactoring recommandé."
+        },
+        {
+          "range": "+50",
+          "level": "Très élevée",
+          "color": "red", 
+          "description": "Code considéré comme non maintenable. *Refactoring urgent* ou découpage en sous-fonctions indispensable."
+        }
+      ],
+      "type": "metric"
+    },
+    {
+      "id": "bddScenarios",
+      "title": "Scénarios BDD",
+      "description": "**Terme technique** : Tests automatisés qui vérifient que le logiciel correspond aux besoins exprimés par les utilisateurs. L'équipe technique écrit des tests en langage naturel pour s'assurer que chaque fonctionnalité répond aux attentes métier.",
+      "interpretation": [
+        {
+          "range": "80-100%",
+          "level": "Excellente",
+          "color": "green",
+          "description": "Couverture BDD complète. Chaque fonctionnalité métier est testée automatiquement."
+        },
+        {
+          "range": "60-79%",
+          "level": "Bonne",
+          "color": "lightgreen",
+          "description": "Couverture BDD satisfaisante. La plupart des fonctionnalités critiques sont couvertes."
+        },
+        {
+          "range": "30-59%",
+          "level": "Insuffisante",
+          "color": "orange",
+          "description": "Couverture BDD partielle. Risque de régressions fonctionnelles non détectées."
+        },
+        {
+          "range": "0-29%",
+          "level": "Critique",
+          "color": "red",
+          "description": "Très peu de tests BDD. Risque élevé d'erreurs métier en production."
+        }
+      ],
+      "type": "metric"
+    },
+    {
+      "id": "unitTests",
+      "title": "Tests Unitaires",
+      "description": "**Terme technique** : Tests automatiques que les développeurs créent pour vérifier que chaque petite partie du code fonctionne isolément. Comme vérifier que chaque pièce d'un moteur fonctionne avant d'assembler le véhicule.",
+      "interpretation": [
+        {
+          "range": "500+",
+          "level": "Excellente",
+          "color": "green",
+          "description": "Grand nombre de tests unitaires. Code bien testé et fiable."
+        },
+        {
+          "range": "200-499",
+          "level": "Correcte",
+          "color": "lightgreen",
+          "description": "Nombre raisonnable de tests unitaires pour un projet de taille moyenne."
+        },
+        {
+          "range": "50-199",
+          "level": "Faible",
+          "color": "orange",
+          "description": "Peu de tests unitaires. Risque d'erreurs lors des modifications."
+        },
+        {
+          "range": "0-49",
+          "level": "Très faible",
+          "color": "red",
+          "description": "Très peu de tests unitaires. Développement risqué sans filet de sécurité."
+        }
+      ],
+      "type": "metric"
+    },
+    {
+      "id": "integrationTests",
+      "title": "Tests d'Intégration", 
+      "description": "**Terme technique** : Tests qui vérifient que plusieurs parties du logiciel fonctionnent bien ensemble. Comme tester que le moteur, la transmission et les freins d'une voiture fonctionnent en harmonie.",
+      "interpretation": [
+        {
+          "range": "100+",
+          "level": "Excellente",
+          "color": "green",
+          "description": "Nombreux tests d'intégration. Interactions entre composants bien validées."
+        },
+        {
+          "range": "50-99",
+          "level": "Correcte",
+          "color": "lightgreen", 
+          "description": "Nombre acceptable de tests d'intégration pour valider les interactions principales."
+        },
+        {
+          "range": "10-49",
+          "level": "Faible",
+          "color": "orange",
+          "description": "Peu de tests d'intégration. Risque de problèmes lors de la combinaison de fonctionnalités."
+        },
+        {
+          "range": "0-9",
+          "level": "Très faible",
+          "color": "red",
+          "description": "Très peu de tests d'intégration. Risque élevé d'erreurs d'interaction entre composants."
+        }
+      ],
+      "type": "metric"
+    },
+    {
+      "id": "e2eSteps",
+      "title": "Steps E2E",
+      "description": "**Terme technique** : Tests qui simulent automatiquement un parcours utilisateur complet dans l'application, comme si un robot utilisait l'interface pour vérifier que tout fonctionne de bout en bout.",
+      "interpretation": [
+        {
+          "range": "200+",
+          "level": "Excellente",
+          "color": "green",
+          "description": "Nombreux steps E2E. Parcours utilisateur complets bien couverts."
+        },
+        {
+          "range": "100-199", 
+          "level": "Correcte",
+          "color": "lightgreen",
+          "description": "Nombre raisonnable de steps E2E pour valider les parcours principaux."
+        },
+        {
+          "range": "25-99",
+          "level": "Faible", 
+          "color": "orange",
+          "description": "Peu de steps E2E. Certains parcours utilisateur ne sont pas testés automatiquement."
+        },
+        {
+          "range": "0-24",
+          "level": "Très faible",
+          "color": "red",
+          "description": "Très peu de steps E2E. Risque d'erreurs utilisateur non détectées avant production."
+        }
+      ],
+      "type": "metric"
+    },
+    {
+      "id": "eslintErrors",
+      "title": "Erreurs ESLint",
+      "description": "**Terme technique** : Erreurs détectées par un outil automatique qui analyse le code pour identifier des problèmes de sécurité, des bugs potentiels ou des violations de règles de programmation.",
+      "interpretation": [
+        {
+          "range": "0",
+          "level": "Parfaite",
+          "color": "green",
+          "description": "Aucune erreur ESLint. Code respecte parfaitement les standards de qualité."
+        },
+        {
+          "range": "1-5",
+          "level": "Acceptable",
+          "color": "lightgreen",
+          "description": "Quelques erreurs mineures ESLint. Généralement acceptable en développement."
+        },
+        {
+          "range": "6-20",
+          "level": "Préoccupante",
+          "color": "orange",
+          "description": "Plusieurs erreurs ESLint. Nécessite attention pour maintenir la qualité."
+        },
+        {
+          "range": "21+",
+          "level": "Critique",
+          "color": "red",
+          "description": "Nombreuses erreurs ESLint. Risque élevé de bugs et problèmes de maintenance."
+        }
+      ],
+      "type": "metric"
+    },
+    {
+      "id": "eslintWarnings", 
+      "title": "Warnings ESLint",
+      "description": "**Terme technique** : Avertissements détectés par un outil automatique qui signale des pratiques de code non optimales ou des améliorations possibles, sans être des erreurs bloquantes.",
+      "interpretation": [
+        {
+          "range": "0-10",
+          "level": "Excellente",
+          "color": "green",
+          "description": "Très peu de warnings ESLint. Code de très bonne qualité."
+        },
+        {
+          "range": "11-50",
+          "level": "Acceptable",
+          "color": "lightgreen",
+          "description": "Quelques warnings ESLint. Qualité de code correcte avec marge d'amélioration."
+        },
+        {
+          "range": "51-100",
+          "level": "À surveiller",
+          "color": "orange",
+          "description": "Nombreux warnings ESLint. Code fonctionnel mais perfectible sur plusieurs aspects."
+        },
+        {
+          "range": "100+",
+          "level": "Problématique",
+          "color": "red",
+          "description": "Très nombreux warnings ESLint. Code nécessite refactoring pour améliorer la maintenance."
+        }
+      ],
+      "type": "metric"
+    },
+    {
+      "id": "typeCoverage",
+      "title": "Couverture de Types",
+      "description": "**Terme technique** : Pourcentage du code qui bénéficie d'un typage strict TypeScript. Plus ce pourcentage est élevé, plus le code est protégé contre les erreurs de type et facile à maintenir.",
+      "interpretation": [
+        {
+          "range": "90-100%",
+          "level": "Excellente",
+          "color": "green",
+          "description": "Couverture de types quasi-parfaite. Code très robuste et maintenable."
+        },
+        {
+          "range": "70-89%",
+          "level": "Bonne",
+          "color": "lightgreen", 
+          "description": "Bonne couverture de types. La majorité du code est protégée contre les erreurs."
+        },
+        {
+          "range": "50-69%",
+          "level": "Moyenne",
+          "color": "orange",
+          "description": "Couverture de types moyenne. Une partie significative du code manque de protection."
+        },
+        {
+          "range": "0-49%",
+          "level": "Faible",
+          "color": "red",
+          "description": "Faible couverture de types. Risque élevé d'erreurs de type non détectées."
+        }
+      ],
+      "type": "metric"
+    },
+    {
+      "id": "codeLinesPercentage",
+      "title": "Lignes (Couverture)",
+      "description": "**Terme technique** : Pourcentage de lignes de code effectivement exécutées lors des tests automatiques. Une ligne couverte signifie qu'au moins un test a fait exécuter cette ligne pendant les tests.",
+      "interpretation": [
+        {
+          "range": "90-100%",
+          "level": "Excellente",
+          "color": "green",
+          "description": "Couverture quasi-parfaite. Presque toutes les lignes sont testées."
+        },
+        {
+          "range": "80-89%",
+          "level": "Très bonne", 
+          "color": "lightgreen",
+          "description": "Très bonne couverture. La majorité du code est bien testée."
+        },
+        {
+          "range": "60-79%",
+          "level": "Correcte",
+          "color": "orange", 
+          "description": "Couverture acceptable. Certaines parties du code ne sont pas testées."
+        },
+        {
+          "range": "0-59%",
+          "level": "Insuffisante",
+          "color": "red",
+          "description": "Couverture insuffisante. Risque élevé de bugs non détectés."
+        }
+      ],
+      "type": "metric"
+    },
+    {
+      "id": "statementsPercentage",
+      "title": "Statements (Couverture)",
+      "description": "**Terme technique** : Pourcentage d'instructions de code (affectations, appels de fonction) exécutées pendant les tests. Mesure plus précise que les lignes car compte les instructions individuelles.",
+      "interpretation": [
+        {
+          "range": "90-100%",
+          "level": "Excellente",
+          "color": "green",
+          "description": "Toutes les instructions sont testées. Code très fiable."
+        },
+        {
+          "range": "80-89%",
+          "level": "Très bonne",
+          "color": "lightgreen", 
+          "description": "La plupart des instructions sont couvertes par les tests."
+        },
+        {
+          "range": "60-79%",
+          "level": "Correcte", 
+          "color": "orange",
+          "description": "Couverture acceptable des instructions principales."
+        },
+        {
+          "range": "0-59%",
+          "level": "Insuffisante",
+          "color": "red",
+          "description": "Trop d'instructions non testées. Risque de régression."
+        }
+      ],
+      "type": "metric"
+    },
+    {
+      "id": "functionsPercentage", 
+      "title": "Fonctions (Couverture)",
+      "description": "**Terme technique** : Pourcentage de fonctions appelées au moins une fois pendant les tests. Une fonction couverte signifie qu'au moins un test l'a exécutée.",
+      "interpretation": [
+        {
+          "range": "95-100%",
+          "level": "Parfaite",
+          "color": "green",
+          "description": "Toutes ou presque toutes les fonctions sont testées."
+        },
+        {
+          "range": "85-94%", 
+          "level": "Très bonne",
+          "color": "lightgreen",
+          "description": "La grande majorité des fonctions sont couvertes."
+        },
+        {
+          "range": "70-84%",
+          "level": "Correcte",
+          "color": "orange", 
+          "description": "Couverture acceptable. Quelques fonctions non testées."
+        },
+        {
+          "range": "0-69%",
+          "level": "Insuffisante", 
+          "color": "red",
+          "description": "Beaucoup de fonctions non testées. Tests incomplets."
+        }
+      ],
+      "type": "metric"
+    },
+    {
+      "id": "branchesPercentage",
+      "title": "Branches (Couverture)",
+      "description": "**Terme technique** : Pourcentage de branches de code (conditions if/else, switch) testées dans tous leurs cas possibles. La métrique la plus exigeante car elle vérifie tous les chemins d'exécution.",
+      "interpretation": [
+        {
+          "range": "85-100%",
+          "level": "Excellente", 
+          "color": "green",
+          "description": "Tous les chemins d'exécution sont testés. Très robuste."
+        },
+        {
+          "range": "70-84%",
+          "level": "Bonne",
+          "color": "lightgreen",
+          "description": "La plupart des chemins sont couverts. Quelques cas limites non testés."
+        },
+        {
+          "range": "50-69%",
+          "level": "Moyenne",
+          "color": "orange",
+          "description": "Couverture partielle. Certaines conditions ne sont pas testées."
+        },
+        {
+          "range": "0-49%", 
+          "level": "Faible",
+          "color": "red",
+          "description": "Beaucoup de conditions non testées. Risque de bugs cachés."
+        }
+      ],
+      "type": "metric"
+    },
+    {
+      "id": "totalFiles",
+      "title": "Fichiers Total",
+      "description": "**Terme technique** : Nombre total de fichiers source dans le projet (TypeScript, JavaScript, composants React, etc.). Indicateur de la taille et de la complexité structurelle du projet.",
+      "interpretation": [
+        {
+          "range": "1-50",
+          "level": "Petit projet",
+          "color": "green", 
+          "description": "Projet de petite taille, facile à gérer et maintenir."
+        },
+        {
+          "range": "51-200", 
+          "level": "Projet moyen",
+          "color": "lightgreen",
+          "description": "Taille raisonnable pour un projet web moderne."
+        },
+        {
+          "range": "201-500",
+          "level": "Projet important", 
+          "color": "orange",
+          "description": "Projet conséquent nécessitant une bonne organisation."
+        },
+        {
+          "range": "500+",
+          "level": "Très gros projet",
+          "color": "red",
+          "description": "Projet très volumineux nécessitant des outils et processus avancés."
+        }
+      ],
+      "type": "metric"
+    },
+    {
+      "id": "sourceLines",
+      "title": "Lignes de Code", 
+      "description": "**Terme technique** : Nombre total de lignes de code source écrites (hors commentaires et lignes vides). Mesure la quantité de logique métier implémentée dans le projet.",
+      "interpretation": [
+        {
+          "range": "1-5000",
+          "level": "Code compact",
+          "color": "green",
+          "description": "Code concis et bien organisé. Facile à maintenir."
+        },
+        {
+          "range": "5001-20000",
+          "level": "Taille standard",
+          "color": "lightgreen", 
+          "description": "Taille normale pour une application web complète."
+        },
+        {
+          "range": "20001-50000",
+          "level": "Code volumineux", 
+          "color": "orange",
+          "description": "Beaucoup de code. Attention à la complexité et l'organisation."
+        },
+        {
+          "range": "50000+",
+          "level": "Très volumineux",
+          "color": "red",
+          "description": "Code très important. Nécessite des stratégies de modularisation."
+        }
+      ],
+      "type": "metric"
+    },
+    {
+      "id": "components", 
+      "title": "Composants",
+      "description": "**Terme technique** : Nombre de composants React créés dans le projet. Chaque composant représente une partie réutilisable de l'interface utilisateur.",
+      "interpretation": [
+        {
+          "range": "1-20",
+          "level": "Interface simple", 
+          "color": "green",
+          "description": "Interface simple avec peu de composants. Facile à gérer."
+        },
+        {
+          "range": "21-50",
+          "level": "Interface riche",
+          "color": "lightgreen",
+          "description": "Bonne variété de composants pour une interface complète."
+        },
+        {
+          "range": "51-100", 
+          "level": "Interface complexe",
+          "color": "orange", 
+          "description": "Beaucoup de composants. Attention à la réutilisabilité."
+        },
+        {
+          "range": "100+",
+          "level": "Très complexe",
+          "color": "red",
+          "description": "Très nombreux composants. Risque de duplication et complexité."
+        }
+      ],
+      "type": "metric"
+    },
+    {
+      "id": "pages", 
+      "title": "Pages",
+      "description": "**Terme technique** : Nombre de pages/routes différentes dans l'application. Chaque page représente une URL unique accessible aux utilisateurs.",
+      "interpretation": [
+        {
+          "range": "1-10",
+          "level": "Site simple",
+          "color": "green",
+          "description": "Site simple avec navigation basique. Facile à maintenir."
+        },
+        {
+          "range": "11-25", 
+          "level": "Site standard",
+          "color": "lightgreen",
+          "description": "Nombre de pages adapté pour un site web complet."
+        },
+        {
+          "range": "26-50",
+          "level": "Site riche",
+          "color": "orange",
+          "description": "Beaucoup de pages. Attention à la cohérence de navigation."
+        },
+        {
+          "range": "50+",
+          "level": "Très riche", 
+          "color": "red",
+          "description": "Très nombreuses pages. Nécessite une architecture de navigation solide."
+        }
+      ],
+      "type": "metric"
+    },
+    {
+      "id": "dependenciesTotal",
+      "title": "Total Dépendances",
+      "description": "**Terme technique** : Nombre total de bibliothèques externes utilisées par le projet (production + développement). Chaque dépendance ajoute des fonctionnalités mais aussi du risque et de la complexité.",
+      "interpretation": [
+        {
+          "range": "1-50", 
+          "level": "Léger",
+          "color": "green",
+          "description": "Peu de dépendances. Projet léger et facile à maintenir."
+        },
+        {
+          "range": "51-150",
+          "level": "Standard", 
+          "color": "lightgreen",
+          "description": "Nombre normal de dépendances pour un projet moderne."
+        },
+        {
+          "range": "151-300",
+          "level": "Nombreuses",
+          "color": "orange",
+          "description": "Beaucoup de dépendances. Attention aux mises à jour et conflits."
+        },
+        {
+          "range": "300+",
+          "level": "Très nombreuses",
+          "color": "red", 
+          "description": "Énormément de dépendances. Risque élevé de problèmes de sécurité."
+        }
+      ],
+      "type": "metric"
+    },
+    {
+      "id": "vulnerabilities", 
+      "title": "Vulnérabilités",
+      "description": "**Terme technique** : Nombre de failles de sécurité détectées dans les dépendances du projet. Ces vulnérabilités peuvent être exploitées par des attaquants pour compromettre l'application.",
+      "interpretation": [
+        {
+          "range": "0",
+          "level": "Parfaite",
+          "color": "green",
+          "description": "Aucune vulnérabilité connue. Sécurité optimale."
+        },
+        {
+          "range": "1-5",
+          "level": "Acceptable",
+          "color": "lightgreen", 
+          "description": "Quelques vulnérabilités mineures. Surveillance recommandée."
+        },
+        {
+          "range": "6-20",
+          "level": "Préoccupante",
+          "color": "orange",
+          "description": "Plusieurs vulnérabilités. Mise à jour des dépendances nécessaire."
+        },
+        {
+          "range": "21+",
+          "level": "Critique", 
+          "color": "red",
+          "description": "Nombreuses vulnérabilités. Risque sécuritaire élevé, action urgente."
+        }
+      ],
+      "type": "metric"
+    },
+    {
+      "id": "bundleSize",
+      "title": "Taille Bundle",
+      "description": "**Terme technique** : Taille en kilo-octets du code JavaScript final envoyé au navigateur. Plus le bundle est petit, plus l'application charge rapidement pour les utilisateurs.",
+      "interpretation": [
+        {
+          "range": "0-500",
+          "level": "Très léger", 
+          "color": "green",
+          "description": "Bundle très optimisé. Chargement ultra-rapide."
+        },
+        {
+          "range": "501-1500",
+          "level": "Léger",
+          "color": "lightgreen",
+          "description": "Taille raisonnable pour une application moderne."
+        },
+        {
+          "range": "1501-3000",
+          "level": "Moyen",
+          "color": "orange", 
+          "description": "Bundle assez volumineux. Optimisations possibles."
+        },
+        {
+          "range": "3000+",
+          "level": "Lourd",
+          "color": "red",
+          "description": "Bundle très lourd. Chargement lent, optimisation urgente."
+        }
+      ],
+      "type": "metric"
+    },
+    {
+      "id": "buildTime", 
+      "title": "Temps de Build",
+      "description": "**Terme technique** : Durée nécessaire pour compiler et préparer l'application pour la production. Un temps court améliore la productivité des développeurs et la rapidité de déploiement.",
+      "interpretation": [
+        {
+          "range": "0-30",
+          "level": "Ultra-rapide",
+          "color": "green", 
+          "description": "Build très rapide. Productivité développeur excellente."
+        },
+        {
+          "range": "31-120",
+          "level": "Rapide",
+          "color": "lightgreen",
+          "description": "Temps de build acceptable pour développement agile."
+        },
+        {
+          "range": "121-300",
+          "level": "Lent", 
+          "color": "orange",
+          "description": "Build assez lent. Peut impacter la productivité."
+        },
+        {
+          "range": "300+",
+          "level": "Très lent",
+          "color": "red",
+          "description": "Build très lent. Optimisation nécessaire pour la productivité."
+        }
+      ],
+      "type": "metric"
+    }
+  ]
+}

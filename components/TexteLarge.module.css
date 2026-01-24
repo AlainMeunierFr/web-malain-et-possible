@@ -16,8 +16,12 @@
   line-height: 1.4;
   text-align: left;
   margin: 0;
+  margin-bottom: 0.7em; /* 50% de la hauteur de ligne (1.4 * 0.5 = 0.7em) */
   color: rgba(9, 23, 71, 1); /* var(--color_text_default) */
-  white-space: pre-line; /* Préserve les retours à la ligne (\n) du JSON */
+}
+
+.texteLargeText:last-child {
+  margin-bottom: 0; /* Supprimer l'espacement après le dernier paragraphe */
 }
 
 /* Desktop : écrans normaux/grands (≥769px) */
@@ -28,5 +32,10 @@
 
   .texteLargeText {
     font-size: 16px; /* Augmenté pour meilleure lisibilité */
+    margin-bottom: 0.7em; /* 50% de la hauteur de ligne (1.4 * 0.5 = 0.7em) */
+  }
+  
+  .texteLargeText:last-child {
+    margin-bottom: 0; /* Supprimer l'espacement après le dernier paragraphe */
   }
 }
