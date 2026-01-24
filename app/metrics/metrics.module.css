@@ -2,8 +2,7 @@
 .main {
   min-height: 100vh;
   /* Padding pour éviter que le contenu soit caché par le header fixe */
-  /* Approche robuste : hauteur header + marge de sécurité pour débordement logo/photo */
-  padding-top: calc(max(80px, 8.75vh) + 2.5rem);
+  padding-top: 105px;
   padding-left: 2rem;
   padding-right: 2rem;
   padding-bottom: 2rem;
