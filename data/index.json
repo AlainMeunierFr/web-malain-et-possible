@@ -109,6 +109,53 @@
     },
     {
       "type": "domaineDeCompetence",
+      "titre": "Développement informatique",
+      "contenu": "",
+      "competences": [
+        {
+          "titre": "Management de produit logiciel",
+          "image": {
+            "src": "/images/1.2 product Management.png",
+            "alt": "Management de produit logiciel"
+          },
+          "description": "Après 20 ans de pratique pour ma propre entreprise je suis devenu un **expert dans l'édition de logiciels**, au niveau stratégie, marketing, programmation, SaaS, pilotage de projet et service client.",
+          "bouton": {
+            "type": "bouton",
+            "texte": "En savoir plus...",
+            "action": "/management-de-produit-logiciel",
+            "e2eID": "c14"
+          },
+          "type": "competence"
+        },
+        {
+          "titre": "Ingénierie logicielle",
+          "image": {
+            "src": "/images/Excellence.png",
+            "alt": "Ingénierie logicielle"
+          },
+          "description": "**Ancien développeur** j'ai suivi l'évolution de **l'état de l'art** de l'industrie informatique. Collaborant systématiquement avec des artisans logiciel de haut niveau j'ai l'habitude d'interagir avec eux pendant qu'ils pratiquent BDD, TDD, DDD, CQRS, EventSourcing, CI/CD...",
+          "bouton": {
+            "type": "bouton",
+            "texte": "En savoir plus...",
+            "action": "/a-propos-du-site",
+            "e2eID": "c15"
+          },
+          "type": "competence"
+        },
+        {
+          "titre": "Data et Business Intelligence",
+          "image": {
+            "src": "/images/Data.png",
+            "alt": "Data et Business Intelligence"
+          },
+          "description": "Nos nombreux biais cognitifs peuvent nous tromper. Objectiver nos arbitrages via des **données quantitatives factuelles** permet d'éviter bien des erreurs. L'analyse de données permet de transformer des informations brutes en insights stratégiques. J'utilise des **outils de BI**, Excel et PowerQuery pour visualiser les données et aider à la prise de décisions éclairées.",
+          "bouton": null,
+          "type": "competence"
+        }
+      ]
+    },
+    {
+      "type": "domaineDeCompetence",
       "titre": "Interactions humaines",
       "contenu": "« Lorsque les gens sont financièrement investis, ils veulent un retour. Lorsque les gens sont émotionnellement investis, ils veulent contribuer. »\n*Simon Sinek*",
       "competences": [
@@ -176,53 +223,6 @@
             "alt": "Réseau social Professionnel"
           },
           "description": "Je peux devenir un promoteur efficace d'un projet en exploitant le potentiel de **Linkedin**, aussi bien via des posts publics auxquels il est possible de donner une grande visibilité avec l'aide d'une **communauté d'ambassadeurs**, que via des messages privés initiés avec des outils de **Growth Hacking**.",
-          "bouton": null,
-          "type": "competence"
-        }
-      ]
-    },
-    {
-      "type": "domaineDeCompetence",
-      "titre": "Développement informatique",
-      "contenu": "",
-      "competences": [
-        {
-          "titre": "Management de produit logiciel",
-          "image": {
-            "src": "/images/1.2 product Management.png",
-            "alt": "Management de produit logiciel"
-          },
-          "description": "Après 20 ans de pratique pour ma propre entreprise je suis devenu un **expert dans l'édition de logiciels**, au niveau stratégie, marketing, programmation, SaaS, pilotage de projet et service client.",
-          "bouton": {
-            "type": "bouton",
-            "texte": "En savoir plus...",
-            "action": "/management-de-produit-logiciel",
-            "e2eID": "c14"
-          },
-          "type": "competence"
-        },
-        {
-          "titre": "Ingénierie logicielle",
-          "image": {
-            "src": "/images/Excellence.png",
-            "alt": "Ingénierie logicielle"
-          },
-          "description": "**Ancien développeur** j'ai suivi l'évolution de **l'état de l'art** de l'industrie informatique. Collaborant systématiquement avec des artisans logiciel de haut niveau j'ai l'habitude d'interagir avec eux pendant qu'ils pratiquent BDD, TDD, DDD, CQRS, EventSourcing, CI/CD...",
-          "bouton": {
-            "type": "bouton",
-            "texte": "En savoir plus...",
-            "action": "/a-propos-du-site",
-            "e2eID": "c15"
-          },
-          "type": "competence"
-        },
-        {
-          "titre": "Data et Business Intelligence",
-          "image": {
-            "src": "/images/Data.png",
-            "alt": "Data et Business Intelligence"
-          },
-          "description": "Nos nombreux biais cognitifs peuvent nous tromper. Objectiver nos arbitrages via des **données quantitatives factuelles** permet d'éviter bien des erreurs. L'analyse de données permet de transformer des informations brutes en insights stratégiques. J'utilise des **outils de BI**, Excel et PowerQuery pour visualiser les données et aider à la prise de décisions éclairées.",
           "bouton": null,
           "type": "competence"
         }
