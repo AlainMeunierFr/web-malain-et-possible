@@ -39,7 +39,12 @@
           },
           "description": "« Le succès viral n'est pas seulement une question de nombre de vues. Il s'agit de l'impact que ces vues ont et de l'interaction qu'elles génèrent. »",
           "auteur": "Malcolm Gladwell",
-          "bouton": null,
+          "bouton": {
+            "type": "bouton",
+            "texte": "Lire un témoignage linkedin",
+            "action": "/temoignage-linkedin",
+            "e2eID": "c21"
+          },
           "type": "competence"
         },
         {

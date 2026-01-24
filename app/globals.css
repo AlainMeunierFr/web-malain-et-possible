@@ -9,6 +9,9 @@
   --BleuClair: #E7F6FF;
   --largeurDeTexteMax: 1250px;
   
+  /* Force le mode clair pour éviter les transformations automatiques */
+  color-scheme: light;
+  
   /* Constantes conceptuelles pour les boutons standards (basées sur ListeDesPages) */
   /* Ces constantes peuvent être modifiées en une seule fois pour changer tous les boutons */
   --BoutonCouleur: var(--BleuFonce);
@@ -32,12 +35,14 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
+/* Mode sombre automatique désactivé pour préserver la lisibilité sur mobile
+   Le site reste en mode clair pour garantir un contraste optimal */
+/* @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
     --foreground: #ededed;
   }
-}
+} */
 
 body {
   background: var(--background);

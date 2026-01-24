@@ -1,0 +1,510 @@
+{
+  "pages_analysees": [
+    "https://m-alain-et-possible.fr/",
+    "https://m-alain-et-possible.fr/a-propos",
+    "https://m-alain-et-possible.fr/transformation",
+    "https://m-alain-et-possible.fr/management-de-produit-logiciel",
+    "data/reprise/Malain et possible - Détournements de scènes cultes du cinéma.html"
+  ],
+  "pages_timeout": [],
+  "contenu": [
+    {
+      "page": "/",
+      "elements": [
+        {
+          "type": "titre",
+          "texte": "Et si nous rendions votre entreprise stable malgré les fluctuations ?"
+        },
+        {
+          "type": "domaineDeCompetence",
+          "titre": "Et si nous rendions votre entreprise stable malgré les fluctuations ?",
+          "contenu": "",
+          "competences": [
+            {
+              "titre": "Performance",
+              "description": "Notre civilisation est devenue experte dans la mesure de la performance (notation scolaire, concours grandes écoles, classements sportifs, EBITDA, PIB...).\n\n**Mais vous, quel temps consacrez vous a explorer vos vulnérabilités ?**",
+              "type": "competence"
+            },
+            {
+              "titre": "Polycrises", 
+              "description": "Notre monde est confronté à des polycrises (pandémie, approvisionnement énergétique, inflation, guerrres, désinformation, polarisation, inondations, sécheresses, mégafeux).\n\n**Et vous, avez-vous intégré les enjeux systémiques dans votre stratégie ?**",
+              "type": "competence"
+            },
+            {
+              "titre": "Santé",
+              "description": "De nombreuses études démontrent que la santé physique et mentale de chacun se dégrade dans les pays occidentaux.\n\n**Chez vous, avez-vous mis la qualité des interactions humaines au cœur de vos projets collectifs?**",
+              "type": "competence"
+            }
+          ]
+        },
+        {
+          "type": "domaineDeCompetence",
+          "titre": "La ROBUSTESSE est la réponse opérationnelle à un monde fluctuant !*",
+          "contenu": "*Olivier Hamant, Chercheur à l'INRAE, directeur de l'institut Michel Serres et auteur de « La troisième voie du vivant » et « Antidote à la performance ».",
+          "competences": [
+            {
+              "titre": "Key Robustness Incentive",
+              "description": "Nous vous aidons à déployer des KRI (Key Robustness Incentive), en regard de vos KPI, afin de renforcer votre adaptabilité et votre capacité de résistance aux chocs.",
+              "type": "competence"
+            },
+            {
+              "titre": "Exploration",
+              "description": "Nous vous accompagnons dans l'exploration de nouveaux paradigmes pour embrasser et intégrer la complexité systémique dans votre stratégie.",
+              "type": "competence"
+            },
+            {
+              "titre": "Cadre",
+              "description": "Nous vous aidons à préciser (et peut être agrandir) le cadre dans lequel chacun de vos collaborateurs peuvent agir et interagir, afin de construire un collectif au service de votre mission et de votre vision.",
+              "type": "competence"
+            }
+          ]
+        },
+        {
+          "type": "callToAction",
+          "action": "Faisons connaissance"
+        }
+      ]
+    },
+    {
+      "page": "/a-propos",
+      "elements": [
+        {
+          "type": "titre",
+          "texte": "Mon parcours, mes transformations"
+        },
+        {
+          "type": "video",
+          "urlYouTube": "https://www.youtube.com/watch?v=wcvG-WfKckU",
+          "id_video": "wcvG-WfKckU"
+        },
+        {
+          "type": "sousTitre",
+          "texte": "Mon profil multi compétences"
+        },
+        {
+          "type": "texteLarge",
+          "texte": "Je suis un passionné de la résolution de problèmes complexes avec une expérience riche et variée en tant qu'entrepreneur. Mon profil multi compétences m'a permis d'acquérir des compétences dans divers domaines, de la gestion de projet à l'optimisation des processus, en passant par l'innovation stratégique. Cette diversité me permet de voir les choses sous différents angles et d'apporter des solutions créatives pour faire face à vos défis, tout en vous accompagnant dans la mise en place des outils et méthodes nécessaires pour engager vos équipes et soutenir ce changement.\nAvec une vision globale, pragmatique et transverse, je prends en compte dans le traitement d'un sujet toutes les dimensions, depuis la conception jusqu'à la mise en œuvre sur le terrain et la perception des utilisateurs.\nJe nourris ma curiosité vers de nombreux sujets aussi bien dans l'entreprenariat, que les sciences dures ou les sciences humaines...\nCela me permet de créer des ponts et tisser des liens entre ces sujets pour faire émerger de nouvelles solutions."
+        },
+        {
+          "type": "titre",
+          "texte": "Mes convictions acquises par empirisme"
+        },
+        {
+          "type": "domaineDeCompetence",
+          "titre": "Stratégie et transformations",
+          "contenu": "",
+          "competences": [
+            {
+              "titre": "Culture d'entreprise",
+              "description": "La culture d'entreprise est **l'âme de toute organisation**. Après avoir vécu 3 fusions/acquisitions, je sais les dégâts que peuvent causer des différences culturelles éludées ou étouffées. Le changement ne peut s'opérer que vers un futur désirable qu'il est important d'**expliquer et d'incarner**.",
+              "type": "competence"
+            },
+            {
+              "titre": "Stratégie",
+              "description": "[Agiliste](https://manifesteagile.fr/) depuis 2013, j'ai une **approche empirique** adaptée aux projets qui doivent explorer le champ des possibles qu'offre l'inconnu. Je propose de faire des pas de côté pour prendre conscience des **croyances limitantes** qui empêchent des stratégies innovantes d'émerger.",
+              "type": "competence",
+              "bouton": {
+                "texte": "En savoir plus",
+                "action": "/transformation"
+              }
+            },
+            {
+              "titre": "Conduite du changement",
+              "description": "J'aide les organisation à accepter de naviguer dans l'incertitude et à embrasser le changement. Mon approche consiste à **impliquer** toutes les parties prenantes, à **lever les résistances** et à **ancrer les nouvelles pratiques** de manière durable.",
+              "type": "competence",
+              "bouton": {
+                "texte": "En savoir plus",
+                "action": "/transformation"
+              }
+            }
+          ]
+        },
+        {
+          "type": "domaineDeCompetence",
+          "titre": "Engager les équipes",
+          "contenu": "Collaborer pour faire face à un défi engendre des défis inédits, absents lorsqu'on agit seul.\nLes dynamiques collaboratives, et donc relationnelles, doivent être au cœur du programme de transformation.",
+          "competences": [
+            {
+              "titre": "Le sens avant tout",
+              "description": "Comme le rappellent le **\"Afin de...\"** de la User Storie de Kent Beck (eXtreme Programming), le cercle d'or de Simon Sinek (\"**Why** before how & what\") ou le \"**C'est quoi le besoin ?**\" de Nicolas Sabatier, j'aide chacun à questionner le \"**pour quoi**\" avant tout passage à l'action.",
+              "type": "competence"
+            },
+            {
+              "titre": "Modélisation graphique",
+              "description": "La management visuel est très puissant ! Formé par [Nicolas Gros](https://www.linkedin.com/in/nicolas-gros/), expert reconnu de la facilitation graphique, je suis en mesure de **modéliser graphiquement une pensée complexe** pour en faciliter la compréhension pour un collectif.",
+              "type": "competence"
+            },
+            {
+              "titre": "Détournement vidéo",
+              "description": "**J'ai une expertise reconnue** dans le détournement de scènes cultes du cinéma. Ce média atypique permet de donner de la visibilité et créer de la viralité sur vos messages stratégiques.",
+              "type": "competence",
+              "bouton": {
+                "texte": "En savoir plus...",
+                "action": "/detournement-video"
+              }
+            }
+          ]
+        },
+        {
+          "type": "domaineDeCompetence",
+          "titre": "Interactions humaines",
+          "contenu": "« Lorsque les gens sont financièrement investis, ils veulent un retour. Lorsque les gens sont émotionnellement investis, ils veulent contribuer. »\n*Simon Sinek*",
+          "competences": [
+            {
+              "titre": "Service client",
+              "description": "Un **client satisfait** est notre meilleur commercial. Il est très compliqué et long de construire une image de marque, mais très facile et rapide de la détruire. Dans mon ancienne entreprise éditrice de logiciels, notre **service client était au cœur de notre offre**. J'ai 20 ans d'expérience à mettre à votre service.",
+              "type": "competence"
+            },
+            {
+              "titre": "Gestion des talents",
+              "description": "Je suis convaincu que le succès d'une entreprise repose sur **la reconnaissance** et **le développement** des talents individuels. Mon approche consiste à identifier les compétences clés et à créer des parcours de développement personnalisés pour maximiser le potentiel de chaque collaborateur.",
+              "type": "competence"
+            },
+            {
+              "titre": "Membre actif de communautés",
+              "description": "Je suis très actif dans les communautés dont je suis membre. De mon **engagement régulier et sincère** résulte une certaine notoriété spontanée. Ainsi, lorsque je sollicite ces communauté je suis rapidement soutenu par des personnes qui me font confiance et viennent m'apporter leur expertise.",
+              "type": "competence"
+            }
+          ]
+        },
+        {
+          "type": "domaineDeCompetence",
+          "titre": "Faire avec les équipes",
+          "contenu": "Par souci d'exemplarité je préfère \"faire avec\" que \"faire faire\".",
+          "competences": [
+            {
+              "titre": "No-code",
+              "description": "Connaissant l'importance de valider des idées en les confrontant à la réalité du terrain, j'aime pouvoir **tester et itérer rapidement**. De plus, pour des **besoins internes**, il n'est pas toujours nécessaire d'acquérir des logiciels très spécifiques. Pour ces deux besoins, rien de tel que les outils no-code. J'utilise régulièrement [**Bubble**](https://bubble.io/home), [**AirTable**](https://www.airtable.com/), [**Notion**](https://www.notion.so/fr-fr).",
+              "type": "competence"
+            },
+            {
+              "titre": "Serious Game",
+              "description": "L'utilisation de serious games est un excellent moyen de renforcer les **compétences** et la **collaboration** au sein des équipes. En tant que facilitateur, j'organise des sessions interactives pour **ancrer les concepts** de manière ludique et efficace.",
+              "type": "competence"
+            },
+            {
+              "titre": "Réseau social Professionnel",
+              "description": "Je peux devenir un promoteur efficace d'un projet en exploitant le potentiel de [**Linkedin**](https://www.linkedin.com/in/alain-meunier-maep/), aussi bien via des posts publics auxquels il est possible de donner une grande visibilité avec l'aide d'une **communauté d'ambassadeurs**, que via des messages privés initiés avec des outils de **Growth Hacking**.",
+              "type": "competence"
+            }
+          ]
+        },
+        {
+          "type": "domaineDeCompetence",
+          "titre": "Développement informatique",
+          "contenu": "",
+          "competences": [
+            {
+              "titre": "Management de produit logiciel",
+              "description": "Après 20 ans de pratique pour ma propre entreprise je suis devenu un **expert dans l'édition de logiciels**, au niveau stratégie, marketing, programmation, SaaS, pilotage de projet et service client.",
+              "type": "competence",
+              "bouton": {
+                "texte": "En savoir plus",
+                "action": "/management-de-produit-logiciel"
+              }
+            },
+            {
+              "titre": "Ingénierie logicielle",
+              "description": "**Ancien développeur** j'ai suivi l'évolution de **l'état de l'art** de l'industrie informatique. Collaborant systématiquement avec des artisans logiciel de haut niveau j'ai l'habitude d'interagir avec eux pendant qu'ils pratiquent BDD, TDD, DDD, CQRS, EventSourcing, CI/CD...",
+              "type": "competence"
+            },
+            {
+              "titre": "Data et Business Intelligence",
+              "description": "Nos nombreux biais cognitifs peuvent nous tromper. Objectiver nos arbitrages via des **données quantitatives factuelles** permet d'éviter bien des erreurs. L'analyse de données permet de transformer des informations brutes en insights stratégiques. J'utilise des **outils de BI**, Excel et PowerQuery pour visualiser les données et aider à la prise de décisions éclairées.",
+              "type": "competence"
+            }
+          ]
+        },
+        {
+          "type": "domaineDeCompetence",
+          "titre": "Diagnostic civilisationnel",
+          "contenu": "« Comment est-il possible que nous construisions collectivement ce qu'individuellement aucun d'entre nous ne voudrions ? »\n*Otto Scharmer*\n\nPour inscrire votre **stratégie dans le long terme** il faut commencer par prendre connaissance de l'état et de l'évolution de notre monde. Ce diagnostic invite chacun à **challenger certaines de ses croyances**. Je suis en mesure d'animer et faciliter 3 ateliers complémentaires servants cet objectif de transparence :",
+          "competences": [
+            {
+              "titre": "La science / Les faits",
+              "sousTitre": "La fresque du climat",
+              "description": "C'est un consensus scientifique international : la **dérive climatique** auquel est confronté le vivant est engendré par l'Homme. Toutefois, tout le monde n'est pas au fait des phénomènes qui sont en jeu et leurs conséquences. [**La fresque du Climat**](https://fresqueduclimat.org/) permet de s'approprier ces notions fondamentales faisant partie du socle factuel sur lequel fonder tous nos futurs arbitrages.",
+              "type": "competence"
+            },
+            {
+              "titre": "Les ordres de grandeur",
+              "sousTitre": "Atelier 2tonnes",
+              "description": "Avant de passer à l'action il est utile de connaitre les **ordres de grandeur** pour identifier le ou les éléments sur lesquels il est prioritaire d'agir (et ne pas s'épuiser à mener des transformations qui n'auront que peu d'impact). **[L'atelier 2 tonnes](https://www.2tonnes.org/)** nous invite à nous projeter jusqu'en 2050, pour découvrir les leviers individuels et collectifs de la transition écologique, et identifier le rôle que chacun peut y jouer !",
+              "type": "competence"
+            },
+            {
+              "titre": "Une vision systémique",
+              "sousTitre": "The Week",
+              "description": "**L'environnement se dégrade** et le climat change rapidement. [**The Week**](https://www.theweek.ooo/) est une expérience émotionnelle de groupe pour nous aider à comprendre ce qui se profile et **ce que nous pouvons faire** à ce sujet.",
+              "type": "competence"
+            }
+          ]
+        },
+        {
+          "type": "domaineDeCompetence",
+          "titre": "Activités extra-professionnelles... au service de ma profession",
+          "contenu": "",
+          "competences": [
+            {
+              "titre": "Improvisation théâtrale",
+              "description": "L'improvisation théâtrale favorise l'**adaptabilité, la communication efficace, la créativité, la collaboration et le leadership**. Elle aide à gérer l'**incertitude**, à résoudre des problèmes de manière **innovante** et à renforcer la **cohésion** d'équipe.\nAutant d'atout",
+              "type": "competence"
+            },
+            {
+              "titre": "Jeux de stratégie",
+              "description": "Les jeux de stratégie développent la **pensée critique**, la **planification**, la **prise de décision**, la **résolution de problèmes**, et la **gestion des ressources**. Ils renforcent également la **collaboration** et la **flexibilité mentale**, compétences précieuses pour la gestion de projets et le travail en équipe en entreprise.",
+              "type": "competence"
+            },
+            {
+              "titre": "Musique",
+              "description": "Guitariste, je suis membre d'un groupe qui se produit régulièrement sur de petites scènes. La pratique de la musique dans un groupe renforce la **coordination**, l'**écoute active**, la **synchronisation**, la **créativité**, et la **gestion du stress**. Jouer sur scène développe la **confiance en soi**, l'**adaptabilité**, et l'**esprit d'équipe**, des compétences essentielles pour la collaboration et la performance dans un contexte professionnel.",
+              "type": "competence"
+            }
+          ]
+        },
+        {
+          "type": "titre",
+          "texte": "Témoignages"
+        },
+        {
+          "type": "callToAction",
+          "action": "Faisons connaissance"
+        },
+        {
+          "type": "titre",
+          "texte": "Et si nous rendions votre entreprise stable malgré les fluctuations ?"
+        }
+      ]
+    },
+    {
+      "page": "/transformation",
+      "elements": [
+        {
+          "type": "video",
+          "urlYouTube": "https://www.youtube.com/watch?v=XoruJezxpsI",
+          "id_video": "XoruJezxpsI"
+        },
+        {
+          "type": "titre",
+          "texte": "Transformation & conduite du changement"
+        },
+        {
+          "type": "sousTitre",
+          "texte": "La distance entre rêve et réalité s'appelle l'action."
+        },
+        {
+          "type": "domaineDeCompetence",
+          "titre": "Transformation & conduite du changement",
+          "contenu": "La distance entre rêve et réalité s'appelle l'action.",
+          "competences": [
+            {
+              "titre": "Faire émerger une vision partagée",
+              "description": "« Si tu veux construire un bateau, fais naître dans le cœur de tes hommes et femmes le désir de la mer. »\nAntoine de Saint Exupery",
+              "type": "competence"
+            },
+            {
+              "titre": "Réaliser un diagnostic sincère",
+              "description": "« Pour savoir où on va, il faut savoir où l'on est. »\nProverbe tchadien",
+              "type": "competence"
+            },
+            {
+              "titre": "Générer de l'engagement",
+              "description": "« Rêver seul ne reste qu'un rêve. Rêver ensemble devient la réalité. »\nJohn Lennon",
+              "type": "competence"
+            }
+          ]
+        },
+        {
+          "type": "callToAction",
+          "action": "Faisons connaissance"
+        },
+        {
+          "type": "titre",
+          "texte": "Et si nous rendions votre entreprise stable malgré les fluctuations ?"
+        }
+      ]
+    },
+    {
+      "page": "/management-de-produit-logiciel", 
+      "elements": [
+        {
+          "type": "video",
+          "urlYouTube": "https://www.youtube.com/watch?v=iUv6e256AVk",
+          "id_video": "iUv6e256AVk"
+        },
+        {
+          "type": "titre",
+          "texte": "Management de produit logiciel - Product Owner"
+        },
+        {
+          "type": "sousTitre",
+          "texte": "Bien appliqué, l'agilité est un cadre puissant pour délivrer de la valeur."
+        },
+        {
+          "type": "domaineDeCompetence",
+          "titre": "Management de produit logiciel - Product Owner",
+          "contenu": "Bien appliqué, l'agilité est un cadre puissant pour délivrer de la valeur.",
+          "competences": [
+            {
+              "titre": "Vision produit",
+              "description": "« Si j'avais demandé aux gens ce qu'ils voulaient, ils m'auraient répondu des chevaux plus rapides. »\nHenry Ford",
+              "type": "competence"
+            },
+            {
+              "titre": "Empirisme", 
+              "description": "« Les gens ne savent pas ce qu'ils veulent jusqu'à ce que vous le leur montriez. »\nSteve Jobs",
+              "type": "competence"
+            },
+            {
+              "titre": "Excellence technique",
+              "description": "« On améliore rarement la qualité en diminuant les coûts, mais on peut souvent diminuer les coûts en améliorant la qualité. »\nKarl Albrecht",
+              "type": "competence"
+            }
+          ]
+        },
+        {
+          "type": "titre",
+          "texte": "Le manifeste agile vu par la communauté de l'anneau..."
+        },
+        {
+          "type": "video",
+          "urlYouTube": "https://www.youtube.com/watch?v=mPif5EjzFYg",
+          "id_video": "mPif5EjzFYg"
+        },
+        {
+          "type": "callToAction",
+          "action": "Faisons connaissance"
+        },
+        {
+          "type": "titre",
+          "texte": "Et si nous rendions votre entreprise stable malgré les fluctuations ?"
+        }
+      ]
+    },
+    {
+      "page": "/detournement-video",
+      "elements": [
+        {
+          "type": "video", 
+          "urlYouTube": "https://www.youtube.com/watch?v=nVM9ep-seJE",
+          "id_video": "nVM9ep-seJE"
+        },
+        {
+          "type": "titre",
+          "texte": "Détournement de scènes cultes du cinéma"
+        },
+        {
+          "type": "sousTitre", 
+          "texte": "L'usage des visuels au service des interactions pour soutenir un processus de travail."
+        },
+        {
+          "type": "domaineDeCompetence",
+          "titre": "Détournement de scènes cultes du cinéma",
+          "contenu": "L'usage des visuels au service des interactions pour soutenir un processus de travail.",
+          "competences": [
+            {
+              "titre": "Créativité",
+              "description": "« L'imagination est plus importante que le savoir. Car le savoir est limité, tandis que l'imagination embrasse le monde entier, stimulant le progrès, donnant naissance à l'évolution. »\nAlbert Einstein",
+              "type": "competence"
+            },
+            {
+              "titre": "Viralité",
+              "description": "« Le succès viral n'est pas seulement une question de nombre de vues. Il s'agit de l'impact que ces vues ont et de l'interaction qu'elles génèrent. »\nMalcolm Gladwell",
+              "type": "competence"
+            },
+            {
+              "titre": "Engagement",
+              "description": "« Lorsque les gens sont financièrement investis, ils veulent un retour. Lorsque les gens sont émotionnellement investis, ils veulent contribuer. »\nSimon Sinek",
+              "type": "competence"
+            }
+          ]
+        },
+        {
+          "type": "boutons",
+          "boutons": [
+            {
+              "type": "bouton",
+              "texte": "Voir le portfolio",
+              "action": "/portfolio-detournements"
+            },
+            {
+              "type": "bouton", 
+              "texte": "Lire un témoignage linkedin",
+              "action": "/temoignage-linkedin"
+            }
+          ]
+        },
+        {
+          "type": "callToAction",
+          "action": "Faisons connaissance"
+        },
+        {
+          "type": "titre",
+          "texte": "Et si nous rendions votre entreprise stable malgré les fluctuations ?"
+        }
+      ]
+    }
+  ],
+  "patterns_identifies": {
+    "video": "Vidéos YouTube intégrées avec ID extraits",
+    "titre": "Titres principaux des sections",
+    "sousTitre": "Sous-titres descriptifs", 
+    "domaineDeCompetence": "Sections principales avec titre, contenu descriptif et liste de compétences",
+    "competence": "Compétences individuelles avec titre et description contenant souvent des citations d'auteurs",
+    "callToAction": "Boutons d'appel à l'action (récurrent: 'Faisons connaissance')"
+  },
+  "observations": {
+    "titre_recurrent": "Et si nous rendions votre entreprise stable malgré les fluctuations ?",
+    "callToAction_recurrent": "Faisons connaissance",
+    "structure_competences": "Les descriptions contiennent des citations d'auteurs célèbres avec attribution",
+    "videos_positionnement": "Vidéos en début de page et parfois intégrées dans le contenu",
+    "ordre_domaines_a_propos": [
+      "Stratégie et transformations",
+      "Engager les équipes", 
+      "Interactions humaines",
+      "Faire avec les équipes",
+      "Développement informatique",
+      "Diagnostic civilisationnel",
+      "Activités extra-professionnelles... au service de ma profession"
+    ],
+    "differences_notees": {
+      "fautes_orthographe": "guerrres → guerres, à des → à des (espaces)",
+      "texte_tronque": "Autant d'atout (manque 's' dans page a-propos)",
+      "liens_manques": "Liens vers d'autres pages présents dans a-propos mais pas dans nouveau site",
+      "structure_robustesse": "Page d'accueil ancien site correspond exactement à robustesse.json du nouveau"
+    }
+  },
+  "commentaires": [
+    "// SUCCÈS COMPLET: Toutes les 5 pages récupérées et analysées avec succès",
+    "// Page détournement-vidéo récupérée depuis fichier HTML local",
+    "// La page d'accueil de l'ancien site correspond EXACTEMENT au contenu de robustesse.json",
+    "// La page à-propos contient TOUS les domaines de compétence dans le même ordre que index.json",
+    "// Page détournement-vidéo: Structure similaire avec 3 compétences et citations d'auteurs",
+    "// Fautes d'orthographe identifiées: 'guerrres', espaces manquants avec 'à'",
+    "// Texte tronqué identifié: 'Autant d'atout' au lieu de 'Autant d'atouts'",
+    "// Citations systématiques: Tous les auteurs sont correctement attribués",
+    "// Structure cohérente: Vidéo → Titre → Sous-titre → Compétences → Call to action",
+    "// Liens internes: Des boutons 'En savoir plus' pointent vers les pages détaillées",
+    "// Boutons spécifiques détournement-vidéo: 'Voir le portfolio' et 'Lire un témoignage linkedin'",
+    "// Multi-compétences écrit différemment: 'multi compétences' vs 'polyvalent'",
+    "// Format gras/italique: Différences dans le formatage **texte** vs italique",
+    "// Sous-titres dans diagnostic civilisationnel: Structure hiérarchique plus complexe",
+    "// Nouvelle vidéo identifiée: nVM9ep-seJE (détournement-video)"
+  ],
+  "textes_non_structures": [
+    "// Texte d'artefact Bubble.io: 'Built without code' (lien vers bubble.io)",
+    "// Texte répétitif CSS/JS en début de pages: 'BESbswyBESbswyBESbswy...' - artefact de récupération",
+    "// Témoignages non analysés: Section témoignages présente mais contenu non détaillé"
+  ],
+  "differences_structurelles": {
+    "ancien_site": {
+      "page_accueil": "Focus sur robustesse uniquement",
+      "page_a_propos": "Tous les domaines de compétence + parcours personnel",
+      "pages_detaillees": "Pages spécialisées par compétence avec vidéos"
+    },
+    "nouveau_site": {
+      "page_accueil": "Tous les domaines de compétence sur une page",
+      "pages_detaillees": "Robustesse séparée, autres pages similaires"
+    }
+  }
+}

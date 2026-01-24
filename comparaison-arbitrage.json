@@ -1,0 +1,150 @@
+{
+  "instructions": "ARBITRAGE POINT PAR POINT - Répondre 'oui' (reprendre ancien) ou 'non' (conserver nouveau) pour chaque point",
+  "methode": {
+    "oui": "Reprendre le contenu de l'ancien site (corriger)",
+    "non": "Conserver la version actuelle du nouveau site",
+    "pas_de_reponse": "Laisser le point pour traitement ultérieur"
+  },
+  "remarques_beta_testeur": [
+    "Citation de Simon Sinek - sur le site le nom est entre * -> devrait être aligné à droite en italique (PROBLEME CSS, pas JSON)",
+    "Autres remarques concernent la mise en page (hors scope de cette analyse)"
+  ],
+  "points_arbitrage": [
+    {
+      "id": "P01",
+      "localisation": "Page d'accueil / texteLarge / Profil",
+      "probleme": "Changement de terminologie",
+      "ancien": "Mon profil multi compétences m'a permis d'acquérir des compétences dans divers domaines",
+      "nouveau": "Mon profil polyvalent m'a permis d'acquérir des compétences dans divers domaines",
+      "question": "Reprendre 'multi compétences' de l'ancien site ?",
+      "validation": "non"
+    },
+    {
+      "id": "P02",
+      "localisation": "index.json / Stratégie et transformations / Culture d'entreprise",
+      "probleme": "Perte du formatage gras sur expressions clés",
+      "ancien": "La culture d'entreprise est **l'âme de toute organisation**. [...] d'**expliquer et d'incarner**.",
+      "nouveau": "La culture d'entreprise est l'âme de toute organisation. [...] d'expliquer et d'incarner.",
+      "question": "Restaurer le formatage gras sur les expressions clés ?",
+      "validation": "oui"
+    },
+    {
+      "id": "P03",
+      "localisation": "index.json / Stratégie et transformations / Stratégie",
+      "probleme": "Suppression lien manifesteagile.fr + formatage gras",
+      "ancien": "[Agiliste](https://manifesteagile.fr/) depuis 2013, j'ai une **approche empirique** [...] **croyances limitantes**",
+      "nouveau": "Agiliste depuis 2013, j'ai une approche empirique [...] croyances limitantes",
+      "question": "Restaurer le lien vers manifesteagile.fr et le formatage gras ?",
+      "validation": "oui"
+    },
+    {
+      "id": "P04",
+      "localisation": "index.json / Stratégie et transformations / Conduite du changement",
+      "probleme": "Perte du formatage gras sur mots-clés d'action",
+      "ancien": "à **impliquer** toutes les parties prenantes, à **lever les résistances** et à **ancrer les nouvelles pratiques**",
+      "nouveau": "à impliquer toutes les parties prenantes, à lever les résistances et à ancrer les nouvelles pratiques",
+      "question": "Restaurer le formatage gras sur impliquer/lever/ancrer ?",
+      "validation": "oui"
+    },
+    {
+      "id": "P05",
+      "localisation": "index.json / Engager les équipes / contenu",
+      "probleme": "Suppression phrase d'introduction philosophique",
+      "ancien": "Collaborer pour faire face à un défi engendre des défis inédits, absents lorsqu'on agit seul.\nLes dynamiques collaboratives...",
+      "nouveau": "Les dynamiques collaboratives, et donc relationnelles, doivent être au cœur du programme de transformation.",
+      "question": "Restaurer la phrase d'introduction sur les défis de la collaboration ?",
+      "validation": "oui"
+    },
+    {
+      "id": "P06",
+      "localisation": "index.json / Engager les équipes / Modélisation graphique",
+      "probleme": "Suppression lien LinkedIn Nicolas Gros + formatage gras",
+      "ancien": "Formé par [Nicolas Gros](https://www.linkedin.com/in/nicolas-gros/), [...] **modéliser graphiquement une pensée complexe**",
+      "nouveau": "Formé par Nicolas Gros, [...] modéliser graphiquement une pensée complexe",
+      "question": "Restaurer le lien LinkedIn de Nicolas Gros et le formatage gras ?",
+      "validation": "oui"
+    },
+    {
+      "id": "P07",
+      "localisation": "index.json / Faire avec les équipes / No-code",
+      "probleme": "Suppression des liens vers Bubble, AirTable, Notion",
+      "ancien": "[**Bubble**](https://bubble.io/home), [**AirTable**](https://www.airtable.com/), [**Notion**](https://www.notion.so/fr-fr)",
+      "nouveau": "**Bubble**, **AirTable**, **Notion**",
+      "question": "Restaurer les liens vers les 3 plateformes no-code ?",
+      "validation": "oui, ajouter un ien vers 'make'"
+    },
+    {
+      "id": "P08",
+      "localisation": "index.json / Faire avec les équipes / Réseau social Professionnel",
+      "probleme": "Suppression lien LinkedIn personnel + formatage gras partiel",
+      "ancien": "[**Linkedin**](https://www.linkedin.com/in/alain-meunier-maep/), [...] **communauté d'ambassadeurs** [...] **Growth Hacking**",
+      "nouveau": "**Linkedin**, [...] communauté d'ambassadeurs [...] Growth Hacking",
+      "question": "Restaurer le lien LinkedIn personnel et le formatage gras complet ?",
+      "validation": "oui"
+    },
+    {
+      "id": "P09",
+      "localisation": "index.json / Diagnostic civilisationnel / La science - Les faits",
+      "probleme": "Simplification structure + suppression lien fresque du climat",
+      "ancien": "Titre: 'La science / Les faits' + Description: [**La fresque du Climat**](https://fresqueduclimat.org/)",
+      "nouveau": "Titre: 'La science - Les faits' + Description: **La fresque du Climat**",
+      "question": "Restaurer '/' dans titre et lien vers fresqueduclimat.org ?",
+      "validation": "oui"
+    },
+    {
+      "id": "P10",
+      "localisation": "index.json / Diagnostic civilisationnel / Les ordres de grandeur",
+      "probleme": "Suppression lien vers atelier 2tonnes",
+      "ancien": "**[L'atelier 2 tonnes](https://www.2tonnes.org/)**",
+      "nouveau": "**L'atelier 2 tonnes**",
+      "question": "Restaurer le lien vers 2tonnes.org ?",
+      "validation": "oui"
+    },
+    {
+      "id": "P11",
+      "localisation": "index.json / Diagnostic civilisationnel / Une vision systémique",
+      "probleme": "Suppression lien vers The Week",
+      "ancien": "[**The Week**](https://www.theweek.ooo/)",
+      "nouveau": "**The Week**",
+      "question": "Restaurer le lien vers theweek.ooo ?",
+      "validation": "oui"
+    },
+    {
+      "id": "P12",
+      "localisation": "index.json / Activités extra-professionnelles / Improvisation théâtrale", 
+      "probleme": "Texte tronqué dans reprise",
+      "ancien": "Autant d'atout",
+      "nouveau": "Autant d'atouts essentiels en entreprise.",
+      "question": "Conserver la correction 'atouts' + ajout 'essentiels en entreprise' ?",
+      "validation": "non"
+    },
+    {
+      "id": "P13",
+      "localisation": "detournement-video.json / Boutons",
+      "probleme": "Suppression bouton témoignage LinkedIn",
+      "ancien": "2 boutons: 'Voir le portfolio' + 'Lire un témoignage linkedin'",
+      "nouveau": "1 bouton: 'Voir le portfolio' seulement",
+      "question": "Restaurer le bouton 'Lire un témoignage linkedin' ?",
+      "validation": "oui"
+    }
+  ],
+  "verification_beta_testeur": {
+    "remarque_simon_sinek": {
+      "status": "CONFIRME_IDENTIFIE",
+      "localisation": "index.json / Interactions humaines / contenu",
+      "contenu_actuel": "*Simon Sinek*",
+      "probleme": "Rendu visuel CSS - pas aligné à droite en italique",
+      "scope": "Problème d'affichage frontend, pas de données JSON",
+      "validation": "reproduire la même stratégie pour les auteurs dans 'competence'"
+    }
+  },
+  "resume_points": {
+    "total_points": 13,
+    "categories": {
+      "liens_externes_supprimes": "P03, P06, P07, P08, P09, P10, P11 (7 points)",
+      "formatage_gras_perdu": "P02, P03, P04, P06, P08 (5 points)", 
+      "contenus_modifies": "P01, P05, P12 (3 points)",
+      "fonctionnalites_supprimees": "P13 (1 point)"
+    }
+  }
+}

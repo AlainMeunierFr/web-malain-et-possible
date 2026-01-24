@@ -20,6 +20,9 @@ export const metadata: Metadata = {
   title: "Malain et possible",
   description: "Conduite du changement - Transformation - Inspirateur - Explorateur des possibles - Coach agile",
   keywords: ["conduite du changement", "transformation", "coach agile", "Alain Meunier"],
+  other: {
+    'color-scheme': 'light',
+  },
 };
 
 export default function RootLayout({

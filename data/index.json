@@ -29,7 +29,7 @@
             "src": "/images/Excellence.png",
             "alt": "Culture d'entreprise"
           },
-          "description": "La culture d'entreprise est l'âme de toute organisation. Après avoir vécu 3 fusions/acquisitions, je sais les dégâts que peuvent causer des différences culturelles éludées ou étouffées. Le changement ne peut s'opérer que vers un futur désirable qu'il est important d'expliquer et d'incarner.",
+          "description": "La culture d'entreprise est **l'âme de toute organisation**. Après avoir vécu 3 fusions/acquisitions, je sais les dégâts que peuvent causer des différences culturelles éludées ou étouffées. Le changement ne peut s'opérer que vers un futur désirable qu'il est important d'**expliquer et d'incarner**.",
           "bouton": null,
           "type": "competence"
         },
@@ -39,7 +39,7 @@
             "src": "/images/Vision.png",
             "alt": "Stratégie"
           },
-          "description": "Agiliste depuis 2013, j'ai une approche empirique adaptée aux projets qui doivent explorer le champ des possibles qu'offre l'inconnu. Je propose de faire des pas de côté pour prendre conscience des croyances limitantes qui empêchent des stratégies innovantes d'émerger.",
+          "description": "[Agiliste](https://manifesteagile.fr/) depuis 2013, j'ai une **approche empirique** adaptée aux projets qui doivent explorer le champ des possibles qu'offre l'inconnu. Je propose de faire des pas de côté pour prendre conscience des **croyances limitantes** qui empêchent des stratégies innovantes d'émerger.",
           "bouton": {
             "type": "bouton",
             "texte": "En savoir plus...",
@@ -54,7 +54,7 @@
             "src": "/images/Engagement.png",
             "alt": "Conduite du changement"
           },
-          "description": "J'aide les organisations à accepter de naviguer dans l'incertitude et à embrasser le changement. Mon approche consiste à impliquer toutes les parties prenantes, à lever les résistances et à ancrer les nouvelles pratiques de manière durable.",
+          "description": "J'aide les organisations à accepter de naviguer dans l'incertitude et à embrasser le changement. Mon approche consiste à **impliquer** toutes les parties prenantes, à **lever les résistances** et à **ancrer les nouvelles pratiques** de manière durable.",
           "bouton": {
             "type": "bouton",
             "texte": "En savoir plus...",
@@ -68,7 +68,7 @@
     {
       "type": "domaineDeCompetence",
       "titre": "Engager les équipes",
-      "contenu": "Les dynamiques collaboratives, et donc relationnelles, doivent être au cœur du programme de transformation.",
+      "contenu": "Collaborer pour faire face à un défi engendre des défis inédits, absents lorsqu'on agit seul.\nLes dynamiques collaboratives, et donc relationnelles, doivent être au cœur du programme de transformation.",
       "competences": [
         {
           "titre": "Le sens avant tout",
@@ -157,7 +157,8 @@
     {
       "type": "domaineDeCompetence",
       "titre": "Interactions humaines",
-      "contenu": "« Lorsque les gens sont financièrement investis, ils veulent un retour. Lorsque les gens sont émotionnellement investis, ils veulent contribuer. »\n*Simon Sinek*",
+      "contenu": "« Lorsque les gens sont financièrement investis, ils veulent un retour. Lorsque les gens sont émotionnellement investis, ils veulent contribuer. »",
+      "auteur": "Simon Sinek",
       "competences": [
         {
           "titre": "Service client",
@@ -202,7 +203,7 @@
             "src": "/images/No-code.png",
             "alt": "No-code"
           },
-          "description": "Connaissant l'importance de valider des idées en les confrontant à la réalité du terrain, j'aime pouvoir **tester et itérer rapidement**. De plus, pour des **besoins internes**, il n'est pas toujours nécessaire d'acquérir des logiciels très spécifiques. Pour ces deux besoins, rien de tel que les outils no-code. J'utilise régulièrement **Bubble**, **AirTable**, **Notion**.",
+          "description": "Connaissant l'importance de valider des idées en les confrontant à la réalité du terrain, j'aime pouvoir **tester et itérer rapidement**. De plus, pour des **besoins internes**, il n'est pas toujours nécessaire d'acquérir des logiciels très spécifiques. Pour ces deux besoins, rien de tel que les outils no-code. J'utilise régulièrement [**Bubble**](https://bubble.io/home), [**AirTable**](https://www.airtable.com/), [**Notion**](https://www.notion.so/fr-fr), [**Make**](https://www.make.com/).",
           "bouton": null,
           "type": "competence"
         },
@@ -222,7 +223,7 @@
             "src": "/images/Linkedin.png",
             "alt": "Réseau social Professionnel"
           },
-          "description": "Je peux devenir un promoteur efficace d'un projet en exploitant le potentiel de **Linkedin**, aussi bien via des posts publics auxquels il est possible de donner une grande visibilité avec l'aide d'une **communauté d'ambassadeurs**, que via des messages privés initiés avec des outils de **Growth Hacking**.",
+          "description": "Je peux devenir un promoteur efficace d'un projet en exploitant le potentiel de [**Linkedin**](https://www.linkedin.com/in/alain-meunier-maep/), aussi bien via des posts publics auxquels il est possible de donner une grande visibilité avec l'aide d'une **communauté d'ambassadeurs**, que via des messages privés initiés avec des outils de **Growth Hacking**.",
           "bouton": null,
           "type": "competence"
         }
@@ -231,15 +232,16 @@
     {
       "type": "domaineDeCompetence",
       "titre": "Diagnostic civilisationnel",
-      "contenu": "« Comment est-il possible que nous construisions collectivement ce qu'individuellement aucun d'entre nous ne voudrions ? »\n*Otto Scharmer*\n\nPour inscrire votre **stratégie dans le long terme** il faut commencer par prendre connaissance de l'état et de l'évolution de notre monde. Ce diagnostic invite chacun à **challenger certaines de ses croyances**. Je suis en mesure d'animer et faciliter 3 ateliers complémentaires servant cet objectif de transparence :",
+      "contenu": "« Comment est-il possible que nous construisions collectivement ce qu'individuellement aucun d'entre nous ne voudrions ? »\n\nPour inscrire votre **stratégie dans le long terme** il faut commencer par prendre connaissance de l'état et de l'évolution de notre monde. Ce diagnostic invite chacun à **challenger certaines de ses croyances**. Je suis en mesure d'animer et faciliter 3 ateliers complémentaires servant cet objectif de transparence :",
+      "auteur": "Otto Scharmer",
       "competences": [
         {
-          "titre": "La science - Les faits",
+          "titre": "La science / Les faits",
           "image": {
             "src": "/images/Fresque du Climat.png",
             "alt": "La science - Les faits"
           },
-          "description": "C'est un consensus scientifique international : la **dérive climatique** auquel est confronté le vivant est engendré par l'Homme. Toutefois, tout le monde n'est pas au fait des phénomènes qui sont en jeu et leurs conséquences. **La fresque du Climat** permet de s'approprier ces notions fondamentales faisant partie du socle factuel sur lequel fonder tous nos futurs arbitrages.",
+          "description": "C'est un consensus scientifique international : la **dérive climatique** auquel est confronté le vivant est engendré par l'Homme. Toutefois, tout le monde n'est pas au fait des phénomènes qui sont en jeu et leurs conséquences. [**La fresque du Climat**](https://fresqueduclimat.org/) permet de s'approprier ces notions fondamentales faisant partie du socle factuel sur lequel fonder tous nos futurs arbitrages.",
           "bouton": {
             "type": "bouton",
             "texte": "Aller plus loin...",
@@ -254,7 +256,7 @@
             "src": "/images/2Tonnes.png",
             "alt": "Les ordres de grandeur"
           },
-          "description": "Avant de passer à l'action il est utile de connaitre les **ordres de grandeur** pour identifier le ou les éléments sur lesquels il est prioritaire d'agir (et ne pas s'épuiser à mener des transformations qui n'auront que peu d'impact). **L'atelier 2 tonnes** nous invite à nous projeter jusqu'en 2050, pour découvrir les leviers individuels et collectifs de la transition écologique, et identifier le rôle que chacun peut y jouer !",
+          "description": "Avant de passer à l'action il est utile de connaitre les **ordres de grandeur** pour identifier le ou les éléments sur lesquels il est prioritaire d'agir (et ne pas s'épuiser à mener des transformations qui n'auront que peu d'impact). **[L'atelier 2 tonnes](https://www.2tonnes.org/)** nous invite à nous projeter jusqu'en 2050, pour découvrir les leviers individuels et collectifs de la transition écologique, et identifier le rôle que chacun peut y jouer !",
           "bouton": null,
           "type": "competence"
         },
@@ -264,7 +266,7 @@
             "src": "/images/TheWeek.png",
             "alt": "Une vision systémique"
           },
-          "description": "**L'environnement se dégrade** et le climat change rapidement. **The Week** est une expérience émotionnelle de groupe pour nous aider à comprendre ce qui se profile et **ce que nous pouvons faire** à ce sujet.",
+          "description": "**L'environnement se dégrade** et le climat change rapidement. [**The Week**](https://www.theweek.ooo/) est une expérience émotionnelle de groupe pour nous aider à comprendre ce qui se profile et **ce que nous pouvons faire** à ce sujet.",
           "bouton": null,
           "type": "competence"
         }
