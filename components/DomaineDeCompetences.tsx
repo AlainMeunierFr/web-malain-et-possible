@@ -27,7 +27,7 @@ function parseBoldInText(text: string): React.ReactNode[] {
   const boldPattern = /\*\*(.+?)\*\*/g;
   const boldMatches: Array<{ start: number; end: number; text: string }> = [];
 
-  let match;
+  let match: RegExpExecArray | null;
   while ((match = boldPattern.exec(text)) !== null) {
     boldMatches.push({ 
       start: match.index, 
@@ -71,31 +71,31 @@ function parseInlineMarkdown(text: string): React.ReactNode[] {
   const boldMatches: Array<{ start: number; end: number; text: string; type: 'bold' }> = [];
   const linkMatches: Array<{ start: number; end: number; text: string; url: string; type: 'link' }> = [];
 
-  let match;
-  
   // D'abord détecter les liens
-  while ((match = linkPattern.exec(text)) !== null) {
+  let linkMatch: RegExpExecArray | null;
+  while ((linkMatch = linkPattern.exec(text)) !== null) {
     linkMatches.push({
-      start: match.index,
-      end: match.index + match[0].length,
-      text: match[1], // Texte du lien (peut contenir **bold**)
-      url: match[2],
+      start: linkMatch.index,
+      end: linkMatch.index + linkMatch[0].length,
+      text: linkMatch[1], // Texte du lien (peut contenir **bold**)
+      url: linkMatch[2],
       type: 'link'
     });
   }
 
   // Ensuite détecter les bold qui ne sont PAS dans un lien
-  while ((match = boldPattern.exec(text)) !== null) {
+  let boldMatch: RegExpExecArray | null;
+  while ((boldMatch = boldPattern.exec(text)) !== null) {
     // Vérifier si ce bold est à l'intérieur d'un lien
     const isInLink = linkMatches.some(link => 
-      match.index >= link.start && match.index < link.end
+      boldMatch!.index >= link.start && boldMatch!.index < link.end
     );
     
     if (!isInLink) {
       boldMatches.push({ 
-        start: match.index, 
-        end: match.index + match[0].length, 
-        text: match[1],
+        start: boldMatch.index, 
+        end: boldMatch.index + boldMatch[0].length, 
+        text: boldMatch[1],
         type: 'bold'
       });
     }
