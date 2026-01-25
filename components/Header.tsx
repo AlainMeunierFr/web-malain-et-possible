@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useState } from 'react';
-import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useEditing } from '../contexts/EditingContext';
 import PasswordModal from './PasswordModal';
@@ -31,10 +30,13 @@ const Header: React.FC = () => {
     <>
       <header className={styles.header}>
         <div className={styles.logoContainer}>
-          <Image
-            {...HEADER_IMAGES.logo}
+          <img
+            src={HEADER_IMAGES.logo.src}
+            alt={HEADER_IMAGES.logo.alt}
+            title={HEADER_IMAGES.logo.title}
+            width={HEADER_IMAGES.logo.width}
+            height={HEADER_IMAGES.logo.height}
             className={styles.logo}
-            priority
             onClick={handleLogoClick}
             style={{ cursor: 'pointer' }}
             role="button"
@@ -48,10 +50,13 @@ const Header: React.FC = () => {
           />
         </div>
         <div className={styles.photoContainer}>
-          <Image
-            {...HEADER_IMAGES.photo}
+          <img
+            src={HEADER_IMAGES.photo.src}
+            alt={HEADER_IMAGES.photo.alt}
+            title={HEADER_IMAGES.photo.title}
+            width={HEADER_IMAGES.photo.width}
+            height={HEADER_IMAGES.photo.height}
             className={styles.photo}
-            priority
             onClick={handlePhotoClick}
             style={{ cursor: 'pointer' }}
             role="button"

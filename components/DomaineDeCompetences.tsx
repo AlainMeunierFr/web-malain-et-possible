@@ -16,7 +16,15 @@ import {
   type LucideIcon,
 } from 'lucide-react';
 import type { DomaineDeCompetences } from '../utils/indexReader';
+import { getJsonImagePath } from '../utils/imagePath';
 import styles from './DomaineDeCompetences.module.css';
+
+/**
+ * Vérifie si une URL est externe (commence par http:// ou https://)
+ */
+function isExternalUrl(url: string): boolean {
+  return url.startsWith('http://') || url.startsWith('https://');
+}
 
 /**
  * Parse le bold dans un texte (utilisé pour le texte des liens)
@@ -54,8 +62,9 @@ function parseBoldInText(text: string): React.ReactNode[] {
 }
 
 /**
- * Parse inline markdown (bold, links) pour convertir :
+ * Parse inline markdown (bold, italic, links) pour convertir :
  * - **texte** en <strong>texte</strong>
+ * - *texte* en <em>texte</em>
  * - [texte](url) en <a href="url" target="_blank">texte</a> (sans les crochets)
  * - [**texte**](url) en <a> avec texte en gras
  */
@@ -63,12 +72,16 @@ function parseInlineMarkdown(text: string): React.ReactNode[] {
   const parts: React.ReactNode[] = [];
   let currentIndex = 0;
 
-  // Pattern pour **bold** (hors liens)
+  // Pattern pour **bold** (hors liens et italique)
   const boldPattern = /\*\*(.+?)\*\*/g;
+  // Pattern pour *italic* (un seul astérisque, hors bold et liens)
+  // On évite les lookbehind/lookahead pour compatibilité, on vérifiera manuellement
+  const italicPattern = /\*([^*\n]+?)\*/g;
   // Pattern pour [texte](url) - peut contenir **bold** dans le texte
   const linkPattern = /\[([^\]]+)\]\(([^)]+)\)/g;
 
   const boldMatches: Array<{ start: number; end: number; text: string; type: 'bold' }> = [];
+  const italicMatches: Array<{ start: number; end: number; text: string; type: 'italic' }> = [];
   const linkMatches: Array<{ start: number; end: number; text: string; url: string; type: 'link' }> = [];
 
   // D'abord détecter les liens
@@ -101,9 +114,38 @@ function parseInlineMarkdown(text: string): React.ReactNode[] {
     }
   }
 
+  // Détecter les italic qui ne sont PAS dans un lien ni dans un bold
+  let italicMatch: RegExpExecArray | null;
+  while ((italicMatch = italicPattern.exec(text)) !== null) {
+    // Vérifier si cet italic est à l'intérieur d'un lien ou d'un bold
+    const isInLink = linkMatches.some(link => 
+      italicMatch!.index >= link.start && italicMatch!.index < link.end
+    );
+    const isInBold = boldMatches.some(bold => 
+      italicMatch!.index >= bold.start && italicMatch!.index < bold.end
+    );
+    
+    // Vérifier aussi si c'est en fait un bold (vérifier les caractères avant/après)
+    const charBefore = italicMatch.index > 0 ? text[italicMatch.index - 1] : '';
+    const charAfter = italicMatch.index + italicMatch[0].length < text.length 
+      ? text[italicMatch.index + italicMatch[0].length] 
+      : '';
+    const isPartOfBold = charBefore === '*' || charAfter === '*';
+    
+    if (!isInLink && !isInBold && !isPartOfBold) {
+      italicMatches.push({ 
+        start: italicMatch.index, 
+        end: italicMatch.index + italicMatch[0].length, 
+        text: italicMatch[1],
+        type: 'italic'
+      });
+    }
+  }
+
   // Combiner et trier tous les matches
   const allMatches = [
     ...boldMatches,
+    ...italicMatches,
     ...linkMatches,
   ].sort((a, b) => a.start - b.start);
 
@@ -116,6 +158,8 @@ function parseInlineMarkdown(text: string): React.ReactNode[] {
     // Ajouter le contenu formaté
     if (match.type === 'bold') {
       parts.push(<strong key={`bold-${index}`}>{match.text}</strong>);
+    } else if (match.type === 'italic') {
+      parts.push(<em key={`italic-${index}`}>{match.text}</em>);
     } else if (match.type === 'link') {
       // Parser le bold dans le texte du lien
       const linkContent = parseBoldInText(match.text);
@@ -141,6 +185,76 @@ function parseInlineMarkdown(text: string): React.ReactNode[] {
   }
 
   return parts.length > 0 ? parts : [text];
+}
+
+/**
+ * Parse markdown avec support des listes à puces
+ * Gère les blocs de texte et les listes (lignes commençant par "- ")
+ */
+function parseMarkdownContent(text: string): React.ReactNode {
+  const lines = text.split('\n');
+  const blocks: React.ReactNode[] = [];
+  let currentListItems: string[] = [];
+  let currentParagraph: string[] = [];
+
+  const flushList = () => {
+    if (currentListItems.length > 0) {
+      blocks.push(
+        <ul key={`list-${blocks.length}`} className={styles.markdownList}>
+          {currentListItems.map((item, idx) => (
+            <li key={`li-${idx}`}>
+              {parseInlineMarkdown(item)}
+            </li>
+          ))}
+        </ul>
+      );
+      currentListItems = [];
+    }
+  };
+
+  const flushParagraph = () => {
+    if (currentParagraph.length > 0) {
+      const paragraphText = currentParagraph.join(' ').trim();
+      if (paragraphText) {
+        blocks.push(
+          <p key={`p-${blocks.length}`} className={styles.markdownParagraph}>
+            {parseInlineMarkdown(paragraphText)}
+          </p>
+        );
+      }
+      currentParagraph = [];
+    }
+  };
+
+  for (const line of lines) {
+    const trimmedLine = line.trim();
+    
+    if (trimmedLine.startsWith('- ')) {
+      // C'est un élément de liste
+      flushParagraph(); // Flush le paragraphe en cours avant de commencer une liste
+      const listItem = trimmedLine.substring(2).trim(); // Enlever "- " au début
+      currentListItems.push(listItem);
+    } else if (trimmedLine === '') {
+      // Ligne vide : flush ce qui est en cours
+      flushList();
+      flushParagraph();
+    } else {
+      // C'est du texte normal
+      flushList(); // Flush la liste en cours avant de commencer un paragraphe
+      currentParagraph.push(trimmedLine);
+    }
+  }
+
+  // Flush ce qui reste
+  flushList();
+  flushParagraph();
+
+  // Si aucun bloc n'a été créé, retourner le texte parsé inline
+  if (blocks.length === 0) {
+    return <>{parseInlineMarkdown(text)}</>;
+  }
+
+  return <>{blocks}</>;
 }
 
 /**
@@ -203,19 +317,31 @@ const DomaineDeCompetences: React.FC<DomaineDeCompetencesProps> = ({ domaine, ba
                   />
                 ) : competence.image ? (
                   <img 
-                    src={competence.image.src} 
+                    src={getJsonImagePath(competence.image.src)} 
                     alt={competence.image.alt}
                   />
                 ) : null}
               </div>
               <div className={styles.competenceDescription}>
-                {parseInlineMarkdown(competence.description)}
+                {parseMarkdownContent(competence.description)}
               </div>
               <div className={styles.competenceBoutonContainer}>
                 {competence.bouton ? (
-                  <Link href={competence.bouton.action} className={styles.competenceBouton} data-e2eid={null}>
-                    {competence.bouton.texte}
-                  </Link>
+                  isExternalUrl(competence.bouton.action) ? (
+                    <a
+                      href={competence.bouton.action}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={styles.competenceBouton}
+                      data-e2eid={null}
+                    >
+                      {competence.bouton.texte}
+                    </a>
+                  ) : (
+                    <Link href={competence.bouton.action} className={styles.competenceBouton} data-e2eid={null}>
+                      {competence.bouton.texte}
+                    </Link>
+                  )
                 ) : (
                   <div className={styles.competenceBoutonPlaceholder}></div>
                 )}

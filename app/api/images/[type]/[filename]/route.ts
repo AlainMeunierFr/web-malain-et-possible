@@ -1,6 +1,7 @@
 /**
- * API Route : Sert les images depuis data/images/
- * Permet d'accéder aux images du wiki via /api/images/filename
+ * API Route : Sert les images depuis data/images/{type}/
+ * Types acceptés : json, md, static
+ * Permet d'accéder aux images via /api/images/{type}/filename
  */
 
 import { NextRequest, NextResponse } from 'next/server';
@@ -9,19 +10,29 @@ import path from 'path';
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: Promise<{ filename: string }> }
+  { params }: { params: Promise<{ type: string; filename: string }> }
 ) {
   try {
-    const { filename } = await params;
+    const { type, filename } = await params;
+    
+    // Valider le type
+    const validTypes = ['json', 'md', 'static'];
+    if (!validTypes.includes(type)) {
+      return NextResponse.json(
+        { error: `Invalid type. Must be one of: ${validTypes.join(', ')}` },
+        { status: 400 }
+      );
+    }
     
     // Décoder le nom de fichier (gère les espaces encodés en %20)
     const decodedFilename = decodeURIComponent(filename);
     
-    // Chemin vers l'image dans data/images/
+    // Chemin vers l'image dans data/images/{type}/
     const imagePath = path.join(
       process.cwd(),
       'data',
       'images',
+      type,
       decodedFilename
     );
 

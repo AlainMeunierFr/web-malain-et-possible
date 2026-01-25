@@ -13,7 +13,7 @@
         {
           "titre": "Service client",
           "image": {
-            "src": "/images/Service client.png",
+            "src": "Service client.png",
             "alt": "Service client"
           },
           "description": "Un **client satisfait** est notre meilleur commercial. Il est très compliqué et long de construire une image de marque, mais très facile et rapide de la détruire. Dans mon ancienne entreprise éditrice de logiciels, notre **service client était au cœur de notre offre**. J'ai 20 ans d'expérience à mettre à votre service.",
@@ -23,7 +23,7 @@
         {
           "titre": "Gestion des talents",
           "image": {
-            "src": "/images/Talents.png",
+            "src": "Talents.png",
             "alt": "Gestion des talents"
           },
           "description": "Je suis convaincu que le succès d'une entreprise repose sur **la reconnaissance** et **le développement** des talents individuels. Mon approche consiste à identifier les compétences clés et à créer des parcours de développement personnalisés pour maximiser le potentiel de chaque collaborateur.",

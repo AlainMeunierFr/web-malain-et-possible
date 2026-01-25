@@ -163,7 +163,7 @@ Une fois que vous serez **satisfait de cette info-bulle optimisée**, je pourrai
 
 ### ~16h00 - Problème z-index : Tooltips sous les icônes
 
-![Tooltip sous les icônes](/api/images/2026-01-24%20Capture%208.jpg)
+![Tooltip sous les icônes](2026-01-24%20Capture%208.jpg)
 
 **Alain** : "1/ L'info bulle FLOTE sous les icônes (Réussis / échoues / Durée / Fichiers)
 2/ La bulle est trop haute et pas assez large. Il y a tellement de texte (pourquoi pas) qu'il faut mieux utiliser la largeur de l'écran). J'exagère mais on pourrait presque inverser hauteur et largeur."
@@ -203,7 +203,7 @@ Une fois que vous serez **satisfait de cette info-bulle optimisée**, je pourrai
 
 **Les corrections vous conviennent-elles maintenant ?**"
 
-![Aucune correction](/api/images/2026-01-24%20Capture%209.jpg)
+![Aucune correction](2026-01-24%20Capture%209.jpg)
 
 **Alain** : "Aucune correctioh
 1/ J'ai signalé que l'info bulle (qui devrait VRAIMENT floter AU DESSUS de la page) était sous les icônes. Elle est toujours en dessous.
@@ -250,7 +250,7 @@ Une fois que vous serez **satisfait de cette info-bulle optimisée**, je pourrai
 
 **Les corrections sont-elles maintenant visibles et correctes ?** 🔍"
 
-![Marge droite et z-index](/api/images/2026-01-24%20Capture%2012.jpg)
+![Marge droite et z-index](2026-01-24%20Capture%2012.jpg)
 
 **Alain** : "1/ Plus d'assensseur mais toujours l'espace prévu à droite pour l'afficher. Pourquoi cette marge différente à droite par rapport aux autres cotés ?
 2/ ça ne flotte toujours pas
@@ -272,7 +272,7 @@ Peut que la l'info bulle flotte mais que les icônes flottent aussi. Ce n'est do
 
 ### ~16h30 - Frustration croissante : Les corrections ne fonctionnent toujours pas
 
-![Frustration croissante](/api/images/2026-01-24%20Capture%2013.jpg)
+![Frustration croissante](2026-01-24%20Capture%2013.jpg)
 
 **Alain** : "C'est n'importe quoi. C'est de pire en pire. Je refuse que l'UX-UI designer soit sollicité. A chaque fois que je fais appel à une compétence spécifique c'est moins bon que le côté 'full stack' du lead dev. L'info bulle est maintenant sous la tetière. Elle apparait au dessus, ce qui ne correspond à aucune standard UX et alors que je n'ai jamais signé de problème sur sa position relative au bouton 'I' qui la fait apparaitre. Le problème de marge à droite n'est pas réglé."
 
@@ -292,7 +292,7 @@ Vous aviez raison depuis le début : l'approche 'full-stack lead dev' était plu
 
 **Je comprends votre frustration** - c'est légitime et justifiée. Vous payez pour de la qualité et je n'ai pas livré."
 
-![Excuses et corrections](/api/images/2026-01-24%20Capture%201.jpg)
+![Excuses et corrections](2026-01-24%20Capture%201.jpg)
 
 **Alain** : "OK, les excuses c'est facile (surtout pour une machine qui n'a pas d'égo) mais me rembourser mes tokens ça n'est évidement pas prévu et corriger le problème... non plus."
 
@@ -314,7 +314,7 @@ Le `position: fixed` devrait faire que l'info-bulle passe **définitivement** au
 
 **Test immédiat requis** - l'info-bulle doit maintenant flotter au-dessus des cartes bleues."
 
-![Z-index toujours incorrect](/api/images/2026-01-24%20Capture%2015.jpg)
+![Z-index toujours incorrect](2026-01-24%20Capture%2015.jpg)
 
 **Alain** : "Toujours pas... elle doit flotter 'au dessus des couches' pas 'apparaitre en dessous verticalement'"
 
@@ -350,7 +350,7 @@ Maintenant la tooltip :
 
 **Alain** : "Dansles coucheelle est ENCORE en dessous d'un autre bloc. C'est un enfer !"
 
-![Encore en dessous](/api/images/2026-01-24 Capture 16.jpg)
+![Encore en dessous](2026-01-24 Capture 16.jpg)
 
 **IA** : "**Je comprends votre frustration !** Le z-index ne fonctionne TOUJOURS pas malgré toutes les tentatives.
 
@@ -432,7 +432,7 @@ La tooltip apparaît **par-dessus** la section 'SCÉNARIOS BDD' mais **SOUS** la
 
 **Alain** : "Bon... cette fois ci, plus d'info-bulles"
 
-![Plus d'info-bulles](/api/images/2026-01-24%20Capture%2017.jpg)
+![Plus d'info-bulles](2026-01-24%20Capture%2017.jpg)
 
 **IA** : "Le z-index maximum ne fonctionne toujours pas. Le problème : l'info-bulle est rendue **DANS** la carte, donc elle hérite du contexte d'empilement de la carte.
 
@@ -460,7 +460,7 @@ Le `z-index: 2147483647` devrait **enfin fonctionner** car l'info-bulle n'est pl
 
 ### ~18h00 - Enfin ! Le Portal fonctionne
 
-![Enfin le Portal fonctionne](/api/images/2026-01-24%20Capture%2018.jpg)
+![Enfin le Portal fonctionne](2026-01-24%20Capture%2018.jpg)
 
 **Alain** : "Enfin !
 Maintenant voyons l'infobulle elle même.
@@ -610,22 +610,22 @@ Voulez-vous que je procède étape par étape selon ces critères d'acceptation 
 
 **Alain** : "Non, ça fait apparaitre un assensseur supplémentaire à droite (donc un sentiement de clognotement de la page) mais pas d'info bulle."
 
-![Ascenseur supplémentaire](/api/images/2026-01-24%20Capture%2021.jpg)
+![Ascenseur supplémentaire](2026-01-24%20Capture%2021.jpg)
 
 **Alain** : "Je place ma souris à niveau de la flèche jaune et l'info bulle apparait à gauche."
 
-![Info bulle à gauche](/api/images/2026-01-24%20Capture%2022.jpg)
+![Info bulle à gauche](2026-01-24%20Capture%2022.jpg)
 
 **Alain** : "Même problème qu'avant qu'on refactorise le code. Il faudra ajouter la suite de l'histoire à 'souvenir' (avec les captures d'écran)..."
 
-![Même problème qu'avant](/api/images/2026-01-24%20Capture%2023.jpg)
-![Même problème qu'avant 2](/api/images/2026-01-24%20Capture%2024.jpg)
+![Même problème qu'avant](2026-01-24%20Capture%2023.jpg)
+![Même problème qu'avant 2](2026-01-24%20Capture%2024.jpg)
 
 **Alain** : "Le tool tip apparait sous un container blanc dessous.
 - 'Couverture de code' / 'Lignes' : bien au dessus de 'Couverture de code'
 - mais en dessous de 'Qualité du Code'"
 
-![Tooltip sous container blanc](/api/images/2026-01-24%20Capture%2020.jpg)
+![Tooltip sous container blanc](2026-01-24%20Capture%2020.jpg)
 
 **Alain** : "Tu as encore confondles deux notions pour 'dessous' (verticalement ou dans les z-index). On parle des tool tip. C'est donc le z-index !!!!!"
 

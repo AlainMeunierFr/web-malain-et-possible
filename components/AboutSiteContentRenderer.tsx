@@ -6,13 +6,14 @@
 
 import React from 'react';
 import type { ContenuElement } from '../utils/aboutSiteReader';
+import { getMdImagePath } from '../utils/imagePath';
 import styles from './AboutSiteContentRenderer.module.css';
 import Prompt from './Prompt';
 
 /**
  * Parse inline markdown (bold, italic, images) pour convertir :
  * - **texte** en <strong>texte</strong>
- * - [image:filename] en <img src="/images/filename" />
+ * - [image:filename] en <img src="/api/images/md/filename" />
  */
 function parseInlineMarkdown(text: string): React.ReactNode[] {
   const parts: React.ReactNode[] = [];
@@ -56,7 +57,7 @@ function parseInlineMarkdown(text: string): React.ReactNode[] {
       parts.push(
         <img 
           key={`image-${index}`}
-          src={`/api/images/${match.filename}`}
+          src={getMdImagePath(match.filename)}
           alt={match.filename}
           className={styles.inlineImage}
         />
@@ -151,7 +152,8 @@ const AboutSiteContentRenderer: React.FC<AboutSiteContentRendererProps> = ({
   const renderElement = (element: ContenuElement, elementIndex: number) => {
     // Image en bloc
     if (element.type === 'image' && element.imageFilename) {
-      const imageSrc = element.imageUrl || `/api/images/${element.imageFilename}`;
+      // Si imageUrl est déjà défini (URL complète), l'utiliser, sinon construire le chemin MD
+      const imageSrc = element.imageUrl || getMdImagePath(element.imageFilename);
       return (
         <div key={elementIndex} className={styles.imageBlock}>
           <img 

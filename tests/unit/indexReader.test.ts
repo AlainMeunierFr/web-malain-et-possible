@@ -169,7 +169,7 @@ describe('indexReader', () => {
               {
                 nom: 'Test',
                 fonction: 'Fonction',
-                photo: '/images/test.jpeg',
+                photo: 'test.jpeg',
                 temoignage: 'Citation',
               },
             ],

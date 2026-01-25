@@ -5,6 +5,7 @@
 
 import React from 'react';
 import Image from 'next/image';
+import { getJsonImagePath } from '../utils/imagePath';
 import styles from './Temoignages.module.css';
 
 interface Temoignage {
@@ -37,7 +38,7 @@ const Temoignages: React.FC<TemoignagesProps> = ({ element }) => {
             <div className={styles.temoignageHeader}>
               <div className={styles.temoignagePhoto}>
                 <Image
-                  src={temoignage.photo}
+                  src={getJsonImagePath(temoignage.photo)}
                   alt={temoignage.nom}
                   width={80}
                   height={80}

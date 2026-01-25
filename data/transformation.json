@@ -18,7 +18,7 @@
         {
           "titre": "Faire émerger une vision partagée",
           "image": {
-            "src": "/images/Vision partagée.png",
+            "src": "Vision partagée.png",
             "alt": "Faire émerger une vision partagée"
           },
           "description": "« Si tu veux construire un bateau, fais naître dans le cœur de tes hommes et femmes le désir de la mer. »",
@@ -29,7 +29,7 @@
         {
           "titre": "Réaliser un diagnostic sincère",
           "image": {
-            "src": "/images/Diagnostic.png",
+            "src": "Diagnostic.png",
             "alt": "Réaliser un diagnostic sincère"
           },
           "description": "« Pour savoir où on va, il faut savoir où l'on est. »",
@@ -40,7 +40,7 @@
         {
           "titre": "Générer de l'engagement",
           "image": {
-            "src": "/images/Engagement.png",
+            "src": "Engagement.png",
             "alt": "Générer de l'engagement"
           },
           "description": "« Rêver seul ne reste qu'un rêve. Rêver ensemble devient la réalité. »",

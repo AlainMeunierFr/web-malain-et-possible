@@ -59,7 +59,7 @@ const nextConfig: NextConfig = {
       },
       {
         // Cache agressif pour les assets statiques
-        source: '/images/:path*',
+        source: '/api/images/:type/:path*',
         headers: [
           {
             key: 'Cache-Control',

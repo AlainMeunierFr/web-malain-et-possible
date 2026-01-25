@@ -18,7 +18,7 @@
         {
           "titre": "Vision produit",
           "image": {
-            "src": "/images/Vision.png",
+            "src": "Vision.png",
             "alt": "Vision produit"
           },
           "description": "« Si j'avais demandé aux gens ce qu'ils voulaient, ils m'auraient répondu des chevaux plus rapides. »",
@@ -29,7 +29,7 @@
         {
           "titre": "Empirisme",
           "image": {
-            "src": "/images/Empirisme.png",
+            "src": "Empirisme.png",
             "alt": "Empirisme"
           },
           "description": "« Les gens ne savent pas ce qu'ils veulent jusqu'à ce que vous le leur montriez. »",
@@ -40,7 +40,7 @@
         {
           "titre": "Excellence technique",
           "image": {
-            "src": "/images/Excellence.png",
+            "src": "Excellence.png",
             "alt": "Excellence technique"
           },
           "description": "« On améliore rarement la qualité en diminuant les coûts, mais on peut souvent diminuer les coûts en améliorant la qualité. »",

@@ -26,7 +26,7 @@
         {
           "titre": "Culture d'entreprise",
           "image": {
-            "src": "/images/Excellence.png",
+            "src": "Excellence.png",
             "alt": "Culture d'entreprise"
           },
           "description": "La culture d'entreprise est **l'âme de toute organisation**. Après avoir vécu 3 fusions/acquisitions, je sais les dégâts que peuvent causer des différences culturelles éludées ou étouffées. Le changement ne peut s'opérer que vers un futur désirable qu'il est important d'**expliquer et d'incarner**.",
@@ -36,7 +36,7 @@
         {
           "titre": "Stratégie",
           "image": {
-            "src": "/images/Vision.png",
+            "src": "Vision.png",
             "alt": "Stratégie"
           },
           "description": "[Agiliste](https://manifesteagile.fr/) depuis 2013, j'ai une **approche empirique** adaptée aux projets qui doivent explorer le champ des possibles qu'offre l'inconnu. Je propose de faire des pas de côté pour prendre conscience des **croyances limitantes** qui empêchent des stratégies innovantes d'émerger.",
@@ -51,7 +51,7 @@
         {
           "titre": "Conduite du changement",
           "image": {
-            "src": "/images/Engagement.png",
+            "src": "Engagement.png",
             "alt": "Conduite du changement"
           },
           "description": "J'aide les organisations à accepter de naviguer dans l'incertitude et à embrasser le changement. Mon approche consiste à **impliquer** toutes les parties prenantes, à **lever les résistances** et à **ancrer les nouvelles pratiques** de manière durable.",
@@ -73,7 +73,7 @@
         {
           "titre": "Management de produit logiciel",
           "image": {
-            "src": "/images/1.2 product Management.png",
+            "src": "1.2 product Management.png",
             "alt": "Management de produit logiciel"
           },
           "description": "Après 20 ans de pratique pour ma propre entreprise je suis devenu un **expert dans l'édition de logiciels**, au niveau stratégie, marketing, programmation, SaaS, pilotage de projet et service client.",
@@ -88,7 +88,7 @@
         {
           "titre": "Ingénierie logicielle",
           "image": {
-            "src": "/images/Excellence.png",
+            "src": "Excellence.png",
             "alt": "Ingénierie logicielle"
           },
           "description": "**Ancien développeur** j'ai suivi l'évolution de **l'état de l'art** de l'industrie informatique. Collaborant systématiquement avec des artisans logiciel de haut niveau j'ai l'habitude d'interagir avec eux pendant qu'ils pratiquent BDD, TDD, DDD, CQRS, EventSourcing, CI/CD...",
@@ -103,7 +103,7 @@
         {
           "titre": "Data et Business Intelligence",
           "image": {
-            "src": "/images/Data.png",
+            "src": "Data.png",
             "alt": "Data et Business Intelligence"
           },
           "description": "Nos nombreux biais cognitifs peuvent nous tromper. Objectiver nos arbitrages via des **données quantitatives factuelles** permet d'éviter bien des erreurs. L'analyse de données permet de transformer des informations brutes en insights stratégiques. J'utilise des **outils de BI**, Excel et PowerQuery pour visualiser les données et aider à la prise de décisions éclairées.",
@@ -120,7 +120,7 @@
         {
           "titre": "Le sens avant tout",
           "image": {
-            "src": "/images/Why.png",
+            "src": "Why.png",
             "alt": "Le sens avant tout"
           },
           "description": "Comme le rappellent le **\"Afin de...\"** de la User Storie de Kent Beck (eXtreme Programming), le cercle d'or de Simon Sinek (\"**Why** before how & what\") ou le \"**C'est quoi le besoin ?**\" de Nicolas Sabatier, j'aide chacun à questionner le \"**pour quoi**\" avant tout passage à l'action.",
@@ -130,20 +130,20 @@
         {
           "titre": "Management 3.0",
           "image": {
-            "src": "/images/Management30.png",
+            "src": "Management30.png",
             "alt": "Management 3.0"
           },
-          "description": "Description à compléter pour Management 3.0.",
+          "description": "Inspiré par des formations et mon expérience de **patron**, j'applique les principes du **Management 3.0** pour favoriser **l'agilité**, la **transparence** et **l'engagement**.\nMon objectif : créer un environnement où les équipes **s'auto-organisent**, apprennent de leurs erreurs et innovent, sans alourdir les processus. Une pratique alignée avec mon expérience de **coach d'équipes juniors**, où **l'humain** et **la qualité du travail** priment.",
           "bouton": null,
           "type": "competence"
         },
         {
           "titre": "Leader Agile",
           "image": {
-            "src": "/images/Agile.png",
+            "src": "Agile.png",
             "alt": "Leader Agile"
           },
-          "description": "Description à compléter pour Leader Agile.",
+          "description": "Que ce soit en **Scrum**, **Kanban** ou contextes hybrides, je privilégie la **clarté des objectifs**, la **collaboration** et **l'amélioration continue** pour délibre de la **valeur**.\nMon expérience inclut la **transition d'équipes vers des pratiques agiles** (TDD, BDD, DDD) et **l'accompagnement de TPE/PME** dans leur transformation.",
           "bouton": null,
           "type": "competence"
         }
@@ -157,7 +157,7 @@
         {
           "titre": "Serious Game",
           "image": {
-            "src": "/images/Serious games.png",
+            "src": "Serious games.png",
             "alt": "Serious Game"
           },
           "description": "L'utilisation de serious games est un excellent moyen de renforcer les **compétences** et la **collaboration** au sein des équipes. En tant que facilitateur, j'organise des sessions interactives pour **ancrer les concepts** de manière ludique et efficace.",
@@ -167,7 +167,7 @@
         {
           "titre": "Modélisation graphique",
           "image": {
-            "src": "/images/Facilitation.png",
+            "src": "Facilitation.png",
             "alt": "Modélisation graphique"
           },
           "description": "La management visuel est très puissant ! Formé par Nicolas Gros, expert reconnu de la facilitation graphique, je suis en mesure de **modéliser graphiquement une pensée complexe** pour en faciliter la compréhension pour un collectif.",
@@ -177,10 +177,10 @@
         {
           "titre": "CoDev",
           "image": {
-            "src": "/images/CoDev.png",
+            "src": "CoDev.png",
             "alt": "CoDev"
           },
-          "description": "Description à compléter pour CoDev.",
+          "description": "Formé à la méthode **CoDev** (Claude Champagne & Adrien Payette), j'anime des **ateliers collaboratifs** pour **co-construire des solutions en équipe**.\nCette approche structurée a un atout majeur : elle bloque **la tendance naturelle à sauter vers des solutions prématurées** et prend le temps de **bien définir le problème**.",
           "bouton": null,
           "type": "competence"
         }
@@ -192,32 +192,32 @@
       "contenu": "",
       "competences": [
         {
-          "titre": "Formation",
+          "titre": "Formateur",
           "image": {
-            "src": "/images/Formation.png",
-            "alt": "Formation"
+            "src": "Formation.png",
+            "alt": "Formateur"
           },
-          "description": "Description à compléter pour Formation.",
+          "description": "Interventions à **l'INSA** pour former des étudiants en informatique à **l'entrepreneuriat**, en utilisant des outils concrets comme le **Business Model Canvas**. Une formation qui rappelle que **l'informatique est un moyen au service d'un but**, et non une fin en soi.",
           "bouton": null,
           "type": "competence"
         },
         {
           "titre": "Conférence",
           "image": {
-            "src": "/images/Conférence.png",
+            "src": "Conférence.png",
             "alt": "Conférence"
           },
-          "description": "Description à compléter pour Conférence.",
+          "description": "Interventions lors d'événements dédiés à **l'entrepreneuriat** et à **l'innovation**, comme la **Freelance journée** ou la **semaine d'idéation de la FEE de l'INSA**. Mes interventions visent à mettre un projecteur sur des **approches atypiques ou méconnues de résolution de problème**.",
           "bouton": null,
           "type": "competence"
         },
         {
           "titre": "Mentora",
           "image": {
-            "src": "/images/Mantoring.png",
+            "src": "Mantoring.png",
             "alt": "Mentora"
           },
-          "description": "Description à compléter pour Mentora.",
+          "description": "Accompagnement de porteurs de projet et d'entrepreneurs pour le Réseau Entreprendre et la FEE de l'INSA.\nMon rôle : **écouter** et **challenger**.\nLe mentoré reste l'arbitre.",
           "bouton": null,
           "type": "competence"
         }
@@ -231,7 +231,7 @@
         {
           "titre": "Réseau social Professionnel",
           "image": {
-            "src": "/images/Linkedin.png",
+            "src": "Linkedin.png",
             "alt": "Réseau social Professionnel"
           },
           "description": "Je peux devenir un promoteur efficace d'un projet en exploitant le potentiel de [**Linkedin**](https://www.linkedin.com/in/alain-meunier-maep/), aussi bien via des posts publics auxquels il est possible de donner une grande visibilité avec l'aide d'une **communauté d'ambassadeurs**, que via des messages privés initiés avec des outils de **Growth Hacking**.",
@@ -241,7 +241,7 @@
         {
           "titre": "Membre actif de communautés",
           "image": {
-            "src": "/images/Communauté.png",
+            "src": "Communauté.png",
             "alt": "Membre actif de communautés"
           },
           "description": "Je suis très actif dans les communautés dont je suis membre. De mon **engagement régulier et sincère** résulte une certaine notoriété spontanée. Ainsi, lorsque je sollicite ces communauté je suis rapidement soutenu par des personnes qui me font confiance et viennent m'apporter leur expertise.",
@@ -251,7 +251,7 @@
         {
           "titre": "Détournement vidéo",
           "image": {
-            "src": "/images/1.3 Facilitation.png",
+            "src": "1.3 Facilitation.png",
             "alt": "Détournement vidéo"
           },
           "description": "**J'ai une expertise reconnue** dans le détournement de scènes cultes du cinéma. Ce média atypique permet de donner de la visibilité et créer de la viralité sur vos messages stratégiques.",
@@ -274,7 +274,7 @@
         {
           "titre": "La science / Les faits",
           "image": {
-            "src": "/images/Fresque du Climat.png",
+            "src": "Fresque du Climat.png",
             "alt": "La science - Les faits"
           },
           "description": "C'est un consensus scientifique international : la **dérive climatique** auquel est confronté le vivant est engendré par l'Homme. Toutefois, tout le monde n'est pas au fait des phénomènes qui sont en jeu et leurs conséquences. [**La fresque du Climat**](https://fresqueduclimat.org/) permet de s'approprier ces notions fondamentales faisant partie du socle factuel sur lequel fonder tous nos futurs arbitrages.",
@@ -289,7 +289,7 @@
         {
           "titre": "Les ordres de grandeur",
           "image": {
-            "src": "/images/2Tonnes.png",
+            "src": "2Tonnes.png",
             "alt": "Les ordres de grandeur"
           },
           "description": "Avant de passer à l'action il est utile de connaitre les **ordres de grandeur** pour identifier le ou les éléments sur lesquels il est prioritaire d'agir (et ne pas s'épuiser à mener des transformations qui n'auront que peu d'impact). [**L'atelier 2 tonnes**](https://www.2tonnes.org/) nous invite à nous projeter jusqu'en 2050, pour découvrir les leviers individuels et collectifs de la transition écologique, et identifier le rôle que chacun peut y jouer !",
@@ -299,7 +299,7 @@
         {
           "titre": "Une vision systémique",
           "image": {
-            "src": "/images/TheWeek.png",
+            "src": "TheWeek.png",
             "alt": "Une vision systémique"
           },
           "description": "**L'environnement se dégrade** et le climat change rapidement. [**The Week**](https://www.theweek.ooo/) est une expérience émotionnelle de groupe pour nous aider à comprendre ce qui se profile et **ce que nous pouvons faire** à ce sujet.",
@@ -316,7 +316,7 @@
         {
           "titre": "Improvisation théâtrale",
           "image": {
-            "src": "/images/Théatre d'impro.png",
+            "src": "Théatre d'impro.png",
             "alt": "Improvisation théâtrale"
           },
           "description": "L'improvisation théâtrale favorise l'**adaptabilité, la communication efficace, la créativité, la collaboration et le leadership**. Elle aide à gérer l'**incertitude**, à résoudre des problèmes de manière **innovante** et à renforcer la **cohésion** d'équipe.\nAutant d'atouts essentiels en entreprise.",
@@ -326,7 +326,7 @@
         {
           "titre": "Jeux de stratégie",
           "image": {
-            "src": "/images/Jeux de plateau.png",
+            "src": "Jeux de plateau.png",
             "alt": "Jeux de stratégie"
           },
           "description": "Les jeux de stratégie développent la **pensée critique**, la **planification**, la **prise de décision**, la **résolution de problèmes**, et la **gestion des ressources**. Ils renforcent également la **collaboration** et la **flexibilité mentale**, compétences précieuses pour la gestion de projets et le travail en équipe en entreprise.",
@@ -336,7 +336,7 @@
         {
           "titre": "Musique",
           "image": {
-            "src": "/images/Musique.png",
+            "src": "Musique.png",
             "alt": "Musique"
           },
           "description": "Guitariste, je suis membre d'un groupe qui se produit régulièrement sur de petites scènes. La pratique de la musique dans un groupe renforce la **coordination**, l'**écoute active**, la **synchronisation**, la **créativité**, et la **gestion du stress**. Jouer sur scène développe la **confiance en soi**, l'**adaptabilité**, et l'**esprit d'équipe**, des compétences essentielles pour la collaboration et la performance dans un contexte professionnel.",

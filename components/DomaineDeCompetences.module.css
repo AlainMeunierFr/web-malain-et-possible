@@ -164,6 +164,35 @@
   font-weight: bold;
 }
 
+.competenceDescription em {
+  font-style: italic;
+}
+
+/* Paragraphes Markdown dans les descriptions */
+.markdownParagraph {
+  margin: 0 0 10px 0;
+}
+
+.markdownParagraph:last-child {
+  margin-bottom: 0;
+}
+
+/* Listes Markdown dans les descriptions */
+.markdownList {
+  margin: 10px 0;
+  padding-left: 20px;
+  list-style-type: disc;
+}
+
+.markdownList li {
+  margin: 5px 0;
+  line-height: 1.4;
+}
+
+.markdownList:last-child {
+  margin-bottom: 0;
+}
+
 /* Liens Markdown dans les descriptions */
 .markdownLink {
   color: var(--BleuFonce);

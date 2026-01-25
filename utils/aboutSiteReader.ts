@@ -393,20 +393,35 @@ export const parseMarkdownContent = (contenu: string): ContenuElement[] => {
       finaliserParagraphe();
       finaliserListe();
       const url = imageMatchMarkdown[2];
-      // Si l'URL commence par /api/images/, extraire le nom de fichier
-      // Sinon, utiliser l'URL complète
+      // Si l'URL commence par /api/images/, extraire le nom de fichier et le type
+      // Si l'URL commence par /images/, convertir en /api/images/
+      // Sinon, c'est un nom de fichier simple → construire le chemin MD
       let imageFilename: string;
       let imageUrl: string | undefined;
       if (url.startsWith('/api/images/')) {
-        imageFilename = decodeURIComponent(url.replace(/^\/api\/images\//, ''));
-        imageUrl = url; // Garder l'URL complète pour le renderer
+        // URL complète déjà formatée (compatibilité)
+        const pathParts = url.replace(/^\/api\/images\//, '').split('/');
+        if (pathParts.length > 1) {
+          // Format /api/images/{type}/{filename}
+          imageFilename = decodeURIComponent(pathParts[1]);
+          imageUrl = url; // Garder l'URL complète
+        } else {
+          // Ancien format /api/images/{filename} → considérer comme MD
+          imageFilename = decodeURIComponent(pathParts[0]);
+          imageUrl = `/api/images/md/${pathParts[0]}`;
+        }
       } else if (url.startsWith('/images/')) {
+        // Ancien format /images/ → convertir en /api/images/md/
         imageFilename = decodeURIComponent(url.replace(/^\/images\//, ''));
-        imageUrl = url.replace('/images/', '/api/images/'); // Convertir en route API
-      } else {
-        // URL externe ou autre format
+        imageUrl = `/api/images/md/${imageFilename}`;
+      } else if (url.startsWith('http://') || url.startsWith('https://')) {
+        // URL externe
         imageFilename = url;
         imageUrl = url;
+      } else {
+        // Nom de fichier simple → construire le chemin MD
+        imageFilename = url;
+        imageUrl = `/api/images/md/${encodeURIComponent(url)}`;
       }
       elements.push({
         type: 'image',

@@ -29,13 +29,13 @@ describe('Composant Temoignages', () => {
       {
         nom: 'Test Nom',
         fonction: 'Test Fonction',
-        photo: '/images/test.jpg',
+        photo: 'test.jpg',
         temoignage: 'Premier paragraphe.\n\nDeuxième paragraphe.',
       },
       {
         nom: 'Test Nom 2',
         fonction: 'Test Fonction 2',
-        photo: '/images/test2.jpg',
+        photo: 'test2.jpg',
         temoignage: 'Un seul paragraphe.',
       },
     ],
@@ -65,9 +65,9 @@ describe('Composant Temoignages', () => {
 
     const images = screen.getAllByTestId('next-image');
     expect(images).toHaveLength(2);
-    expect(images[0]).toHaveAttribute('src', '/images/test.jpg');
+    expect(images[0]).toHaveAttribute('src', '/api/images/json/test.jpg');
     expect(images[0]).toHaveAttribute('alt', 'Test Nom');
-    expect(images[1]).toHaveAttribute('src', '/images/test2.jpg');
+    expect(images[1]).toHaveAttribute('src', '/api/images/json/test2.jpg');
     expect(images[1]).toHaveAttribute('alt', 'Test Nom 2');
   });
 

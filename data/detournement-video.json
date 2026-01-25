@@ -18,7 +18,7 @@
         {
           "titre": "Créativité",
           "image": {
-            "src": "/images/Créativité.png",
+            "src": "Créativité.png",
             "alt": "Créativité"
           },
           "description": "« L'imagination est plus importante que le savoir. Car le savoir est limité, tandis que l'imagination embrasse le monde entier, stimulant le progrès, donnant naissance à l'évolution. »",
@@ -34,7 +34,7 @@
         {
           "titre": "Viralité",
           "image": {
-            "src": "/images/Viralité.png",
+            "src": "Viralité.png",
             "alt": "Viralité"
           },
           "description": "« Le succès viral n'est pas seulement une question de nombre de vues. Il s'agit de l'impact que ces vues ont et de l'interaction qu'elles génèrent. »",
@@ -50,7 +50,7 @@
         {
           "titre": "Engagement",
           "image": {
-            "src": "/images/Engagement par vidéo.png",
+            "src": "Engagement par vidéo.png",
             "alt": "Engagement"
           },
           "description": "« Lorsque les gens sont financièrement investis, ils veulent un retour. Lorsque les gens sont émotionnellement investis, ils veulent contribuer. »",
