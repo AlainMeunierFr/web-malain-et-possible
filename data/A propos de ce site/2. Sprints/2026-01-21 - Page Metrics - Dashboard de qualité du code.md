@@ -266,7 +266,7 @@ Mettre en place une page Metrics pour suivre automatiquement la qualité du code
   - ✅ Vérifie que le clic sur le bouton Metrics redirige vers `/metrics`
   - ✅ TDD strict : RED → GREEN → REFACTOR respecté
 
-#### US-4.6 : Tooltips informatifs pour les métriques 🔄 EN COURS
+#### US-4.6 : Tooltips informatifs pour les métriques ✅ COMPLÉTÉ
 - **En tant que** décideur consultant la page Métriques
 - **Je veux** disposer d'explications pédagogiques sur chaque métrique via des info-bulles
 - **Afin de** comprendre la signification business de chaque indicateur technique sans connaissances préalables en développement
