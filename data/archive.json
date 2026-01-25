@@ -1,0 +1,42 @@
+{
+  "contenu": [
+    {
+      "type": "titre",
+      "texte": "Archive"
+    },
+    {
+      "type": "domaineDeCompetence",
+      "titre": "Interactions humaines",
+      "contenu": "« Lorsque les gens sont financièrement investis, ils veulent un retour. Lorsque les gens sont émotionnellement investis, ils veulent contribuer. »",
+      "auteur": "Simon Sinek",
+      "competences": [
+        {
+          "titre": "Service client",
+          "image": {
+            "src": "/images/Service client.png",
+            "alt": "Service client"
+          },
+          "description": "Un **client satisfait** est notre meilleur commercial. Il est très compliqué et long de construire une image de marque, mais très facile et rapide de la détruire. Dans mon ancienne entreprise éditrice de logiciels, notre **service client était au cœur de notre offre**. J'ai 20 ans d'expérience à mettre à votre service.",
+          "bouton": null,
+          "type": "competence"
+        },
+        {
+          "titre": "Gestion des talents",
+          "image": {
+            "src": "/images/Talents.png",
+            "alt": "Gestion des talents"
+          },
+          "description": "Je suis convaincu que le succès d'une entreprise repose sur **la reconnaissance** et **le développement** des talents individuels. Mon approche consiste à identifier les compétences clés et à créer des parcours de développement personnalisés pour maximiser le potentiel de chaque collaborateur.",
+          "bouton": null,
+          "type": "competence"
+        }
+      ]
+    },
+    {
+      "type": "domaineDeCompetence",
+      "titre": "Faire avec les équipes",
+      "contenu": "Par souci d'exemplarité je préfère \"faire avec\" que \"faire faire\".",
+      "competences": []
+    }
+  ]
+}

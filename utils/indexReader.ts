@@ -29,6 +29,7 @@ export interface Competence {
 export interface DomaineDeCompetences {
   titre: string;
   contenu: string;
+  auteur?: string; // Auteur optionnel de la citation/contenu
   items: Competence[];
 }
 
@@ -69,6 +70,7 @@ export interface ElementDomaineDeCompetence {
   type: 'domaineDeCompetence';
   titre: string;
   contenu: string;
+  auteur?: string; // Auteur optionnel de la citation/contenu
   items: Competence[];
 }
 

@@ -52,6 +52,20 @@
   color: var(--color-text-default);
   white-space: pre-line;
   margin: 0;
+  width: 100%;
+}
+
+/* Auteur du domaine (optionnel) : aligné à droite en italique, même largeur que le contenu */
+.domaineAuteur {
+  font-family: var(--font-serif);
+  font-size: 13px;
+  font-weight: 400;
+  font-style: italic;
+  text-align: right;
+  color: var(--color-text-default);
+  margin-top: 0;
+  margin-bottom: 0;
+  width: 100%;
 }
 
 /* Second bloc : contient les compétences organisées verticalement par compétence */
@@ -124,7 +138,7 @@
 .competenceImage img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
   display: block;
 }
 
@@ -251,6 +265,12 @@
   .domaineContenu {
     width: 80%;
     margin: 0 auto;
+    font-size: 16px; /* Augmenté pour meilleure lisibilité */
+  }
+
+  .domaineAuteur {
+    width: 80%;
+    margin: 0 auto; /* Même largeur que contenu, aligné à droite dans ce bloc, pas de marge top */
     font-size: 16px; /* Augmenté pour meilleure lisibilité */
   }
 

@@ -1,0 +1,124 @@
+{
+  "contenu": [
+    {
+      "type": "titre",
+      "texte": "Ingénierie logiciel"
+    },
+    {
+      "type": "domaineDeCompetence",
+      "titre": "Développeur",
+      "contenu": "Compétences en développement logiciel avec une approche pragmatique et moderne.",
+      "competences": [
+        {
+          "titre": "4D",
+          "image": {
+            "src": "/images/4D.png",
+            "alt": "4D"
+          },
+          "description": "Maîtrise de la plateforme 4D pour le développement d'applications métier robustes et performantes.",
+          "bouton": null,
+          "type": "competence"
+        },
+        {
+          "titre": "No-code",
+          "image": {
+            "src": "/images/No-code.png",
+            "alt": "No-code"
+          },
+          "description": "Connaissant l'importance de valider des idées en les confrontant à la réalité du terrain, j'aime pouvoir **tester et itérer rapidement**. De plus, pour des **besoins internes**, il n'est pas toujours nécessaire d'acquérir des logiciels très spécifiques. Pour ces deux besoins, rien de tel que les outils no-code. J'utilise régulièrement [**Bubble**](https://bubble.io/home), [**AirTable**](https://www.airtable.com/), [**Notion**](https://www.notion.so/fr-fr), [**Make**](https://www.make.com/).",
+          "bouton": null,
+          "type": "competence"
+        },
+        {
+          "titre": "Vibe Coding",
+          "image": {
+            "src": "/images/Excellence.png",
+            "alt": "Vibe Coding"
+          },
+          "description": "Approche du développement centrée sur l'expérience et le bien-être, favorisant la créativité et la productivité.",
+          "bouton": {
+            "type": "bouton",
+            "texte": "En savoir plus...",
+            "action": "/a-propos-du-site",
+            "e2eID": null
+          },
+          "type": "competence"
+        }
+      ]
+    },
+    {
+      "type": "domaineDeCompetence",
+      "titre": "Expérience en équipe",
+      "contenu": "Pratiques collaboratives et méthodes agiles pour développer en équipe avec qualité et efficacité.",
+      "competences": [
+        {
+          "titre": "BDD",
+          "image": {
+            "src": "/images/Excellence.png",
+            "alt": "BDD"
+          },
+          "description": "Behavior-Driven Development : développement guidé par le comportement, favorisant la collaboration entre métier et technique.",
+          "bouton": null,
+          "type": "competence"
+        },
+        {
+          "titre": "TDD",
+          "image": {
+            "src": "/images/Excellence.png",
+            "alt": "TDD"
+          },
+          "description": "Test-Driven Development : développement piloté par les tests, garantissant la qualité et la maintenabilité du code.",
+          "bouton": null,
+          "type": "competence"
+        },
+        {
+          "titre": "CI/CD",
+          "image": {
+            "src": "/images/Excellence.png",
+            "alt": "CI/CD"
+          },
+          "description": "Intégration et déploiement continus pour automatiser les tests, la construction et le déploiement des applications.",
+          "bouton": null,
+          "type": "competence"
+        }
+      ]
+    },
+    {
+      "type": "domaineDeCompetence",
+      "titre": "Autres pratiques connues",
+      "contenu": "Connaissances approfondies en architecture logicielle et bonnes pratiques de développement.",
+      "competences": [
+        {
+          "titre": "CleanCode",
+          "image": {
+            "src": "/images/Excellence.png",
+            "alt": "CleanCode"
+          },
+          "description": "Application des principes du code propre pour améliorer la lisibilité, la maintenabilité et la qualité du code.",
+          "bouton": null,
+          "type": "competence"
+        },
+        {
+          "titre": "Architecture Hexagonale",
+          "image": {
+            "src": "/images/Excellence.png",
+            "alt": "Architecture Hexagonale"
+          },
+          "description": "Architecture hexagonale (Ports & Adapters) pour découpler le domaine métier des détails techniques et faciliter les tests.",
+          "bouton": null,
+          "type": "competence"
+        },
+        {
+          "titre": "CQRS:ES",
+          "image": {
+            "src": "/images/Excellence.png",
+            "alt": "CQRS:ES"
+          },
+          "description": "Command Query Responsibility Segregation et Event Sourcing pour des systèmes scalables et évolutifs.",
+          "bouton": null,
+          "type": "competence"
+        }
+      ]
+    }
+  ]
+}

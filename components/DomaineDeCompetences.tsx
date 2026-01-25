@@ -181,6 +181,9 @@ const DomaineDeCompetences: React.FC<DomaineDeCompetencesProps> = ({ domaine, ba
             {parseInlineMarkdown(domaine.contenu)}
           </p>
         )}
+        {domaine.auteur && (
+          <p className={styles.domaineAuteur}>{domaine.auteur}</p>
+        )}
       </div>
 
       {/* Second bloc : compétences organisées verticalement par compétence */}

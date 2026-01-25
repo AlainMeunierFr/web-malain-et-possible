@@ -59,6 +59,7 @@ const PageContentRenderer: React.FC<PageContentRendererProps> = ({ contenu }) =>
                 domaine={{
                   titre: element.titre,
                   contenu: element.contenu,
+                  auteur: element.auteur,
                   items: element.items,
                 }}
                 backgroundColor={backgroundColor}

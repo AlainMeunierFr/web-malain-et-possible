@@ -27,6 +27,13 @@
       "dessiner": "Oui"
     },
     {
+      "url": "/ingenierie-logiciel",
+      "titre": "Ingénierie logiciel",
+      "x": null,
+      "y": null,
+      "dessiner": "Oui"
+    },
+    {
       "url": "/maintenance",
       "titre": "maintenance",
       "x": null,
@@ -106,6 +113,11 @@
     },
     {
       "source": "/",
+      "destination": "/ingenierie-logiciel",
+      "label": "En savoir plus..."
+    },
+    {
+      "source": "/ingenierie-logiciel",
       "destination": "/a-propos-du-site",
       "label": "En savoir plus..."
     },
@@ -125,6 +137,11 @@
       "label": "Plan du site"
     },
     {
+      "source": "/ingenierie-logiciel",
+      "destination": "/plan-du-site",
+      "label": "Plan du site"
+    },
+    {
       "source": "/maintenance",
       "destination": "/plan-du-site",
       "label": "Plan du site"
@@ -180,6 +197,11 @@
       "label": "BarChart3"
     },
     {
+      "source": "/ingenierie-logiciel",
+      "destination": "/metrics",
+      "label": "BarChart3"
+    },
+    {
       "source": "/maintenance",
       "destination": "/metrics",
       "label": "BarChart3"
@@ -218,6 +240,11 @@
       "source": "/transformation",
       "destination": "/metrics",
       "label": "BarChart3"
+    },
+    {
+      "source": "/",
+      "destination": "/a-propos-du-site",
+      "label": "En savoir plus..."
     },
     {
       "source": "/a-propos-du-site",

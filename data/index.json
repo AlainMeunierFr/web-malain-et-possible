@@ -67,48 +67,6 @@
     },
     {
       "type": "domaineDeCompetence",
-      "titre": "Engager les équipes",
-      "contenu": "Collaborer pour faire face à un défi engendre des défis inédits, absents lorsqu'on agit seul.\nLes dynamiques collaboratives, et donc relationnelles, doivent être au cœur du programme de transformation.",
-      "competences": [
-        {
-          "titre": "Le sens avant tout",
-          "image": {
-            "src": "/images/Why.png",
-            "alt": "Le sens avant tout"
-          },
-          "description": "Comme le rappellent le **\"Afin de...\"** de la User Storie de Kent Beck (eXtreme Programming), le cercle d'or de Simon Sinek (\"**Why** before how & what\") ou le \"**C'est quoi le besoin ?**\" de Nicolas Sabatier, j'aide chacun à questionner le \"**pour quoi**\" avant tout passage à l'action.",
-          "bouton": null,
-          "type": "competence"
-        },
-        {
-          "titre": "Modélisation graphique",
-          "image": {
-            "src": "/images/Facilitation.png",
-            "alt": "Modélisation graphique"
-          },
-          "description": "La management visuel est très puissant ! Formé par Nicolas Gros, expert reconnu de la facilitation graphique, je suis en mesure de **modéliser graphiquement une pensée complexe** pour en faciliter la compréhension pour un collectif.",
-          "bouton": null,
-          "type": "competence"
-        },
-        {
-          "titre": "Détournement vidéo",
-          "image": {
-            "src": "/images/1.3 Facilitation.png",
-            "alt": "Détournement vidéo"
-          },
-          "description": "**J'ai une expertise reconnue** dans le détournement de scènes cultes du cinéma. Ce média atypique permet de donner de la visibilité et créer de la viralité sur vos messages stratégiques.",
-          "bouton": {
-            "type": "bouton",
-            "texte": "En savoir plus...",
-            "action": "/detournement-video",
-            "e2eID": "c13"
-          },
-          "type": "competence"
-        }
-      ]
-    },
-    {
-      "type": "domaineDeCompetence",
       "titre": "Développement informatique",
       "contenu": "",
       "competences": [
@@ -137,7 +95,7 @@
           "bouton": {
             "type": "bouton",
             "texte": "En savoir plus...",
-            "action": "/a-propos-du-site",
+            "action": "/ingenierie-logiciel",
             "e2eID": "c15"
           },
           "type": "competence"
@@ -156,27 +114,127 @@
     },
     {
       "type": "domaineDeCompetence",
-      "titre": "Interactions humaines",
-      "contenu": "« Lorsque les gens sont financièrement investis, ils veulent un retour. Lorsque les gens sont émotionnellement investis, ils veulent contribuer. »",
-      "auteur": "Simon Sinek",
+      "titre": "Management",
+      "contenu": "",
       "competences": [
         {
-          "titre": "Service client",
+          "titre": "Le sens avant tout",
           "image": {
-            "src": "/images/Service client.png",
-            "alt": "Service client"
+            "src": "/images/Why.png",
+            "alt": "Le sens avant tout"
           },
-          "description": "Un **client satisfait** est notre meilleur commercial. Il est très compliqué et long de construire une image de marque, mais très facile et rapide de la détruire. Dans mon ancienne entreprise éditrice de logiciels, notre **service client était au cœur de notre offre**. J'ai 20 ans d'expérience à mettre à votre service.",
+          "description": "Comme le rappellent le **\"Afin de...\"** de la User Storie de Kent Beck (eXtreme Programming), le cercle d'or de Simon Sinek (\"**Why** before how & what\") ou le \"**C'est quoi le besoin ?**\" de Nicolas Sabatier, j'aide chacun à questionner le \"**pour quoi**\" avant tout passage à l'action.",
           "bouton": null,
           "type": "competence"
         },
         {
-          "titre": "Gestion des talents",
+          "titre": "Management 3.0",
           "image": {
-            "src": "/images/Talents.png",
-            "alt": "Gestion des talents"
+            "src": "/images/Management30.png",
+            "alt": "Management 3.0"
           },
-          "description": "Je suis convaincu que le succès d'une entreprise repose sur **la reconnaissance** et **le développement** des talents individuels. Mon approche consiste à identifier les compétences clés et à créer des parcours de développement personnalisés pour maximiser le potentiel de chaque collaborateur.",
+          "description": "Description à compléter pour Management 3.0.",
+          "bouton": null,
+          "type": "competence"
+        },
+        {
+          "titre": "Leader Agile",
+          "image": {
+            "src": "/images/Agile.png",
+            "alt": "Leader Agile"
+          },
+          "description": "Description à compléter pour Leader Agile.",
+          "bouton": null,
+          "type": "competence"
+        }
+      ]
+    },
+    {
+      "type": "domaineDeCompetence",
+      "titre": "Animation d'atelier",
+      "contenu": "",
+      "competences": [
+        {
+          "titre": "Serious Game",
+          "image": {
+            "src": "/images/Serious games.png",
+            "alt": "Serious Game"
+          },
+          "description": "L'utilisation de serious games est un excellent moyen de renforcer les **compétences** et la **collaboration** au sein des équipes. En tant que facilitateur, j'organise des sessions interactives pour **ancrer les concepts** de manière ludique et efficace.",
+          "bouton": null,
+          "type": "competence"
+        },
+        {
+          "titre": "Modélisation graphique",
+          "image": {
+            "src": "/images/Facilitation.png",
+            "alt": "Modélisation graphique"
+          },
+          "description": "La management visuel est très puissant ! Formé par Nicolas Gros, expert reconnu de la facilitation graphique, je suis en mesure de **modéliser graphiquement une pensée complexe** pour en faciliter la compréhension pour un collectif.",
+          "bouton": null,
+          "type": "competence"
+        },
+        {
+          "titre": "CoDev",
+          "image": {
+            "src": "/images/CoDev.png",
+            "alt": "CoDev"
+          },
+          "description": "Description à compléter pour CoDev.",
+          "bouton": null,
+          "type": "competence"
+        }
+      ]
+    },
+    {
+      "type": "domaineDeCompetence",
+      "titre": "Transmission",
+      "contenu": "",
+      "competences": [
+        {
+          "titre": "Formation",
+          "image": {
+            "src": "/images/Formation.png",
+            "alt": "Formation"
+          },
+          "description": "Description à compléter pour Formation.",
+          "bouton": null,
+          "type": "competence"
+        },
+        {
+          "titre": "Conférence",
+          "image": {
+            "src": "/images/Conférence.png",
+            "alt": "Conférence"
+          },
+          "description": "Description à compléter pour Conférence.",
+          "bouton": null,
+          "type": "competence"
+        },
+        {
+          "titre": "Mentora",
+          "image": {
+            "src": "/images/Mantoring.png",
+            "alt": "Mentora"
+          },
+          "description": "Description à compléter pour Mentora.",
+          "bouton": null,
+          "type": "competence"
+        }
+      ]
+    },
+    {
+      "type": "domaineDeCompetence",
+      "titre": "Engager les équipes",
+      "contenu": "Collaborer pour faire face à un défi engendre des défis inédits, absents lorsqu'on agit seul.\nLes dynamiques collaboratives, et donc relationnelles, doivent être au cœur du programme de transformation.",
+      "competences": [
+        {
+          "titre": "Réseau social Professionnel",
+          "image": {
+            "src": "/images/Linkedin.png",
+            "alt": "Réseau social Professionnel"
+          },
+          "description": "Je peux devenir un promoteur efficace d'un projet en exploitant le potentiel de [**Linkedin**](https://www.linkedin.com/in/alain-meunier-maep/), aussi bien via des posts publics auxquels il est possible de donner une grande visibilité avec l'aide d'une **communauté d'ambassadeurs**, que via des messages privés initiés avec des outils de **Growth Hacking**.",
           "bouton": null,
           "type": "competence"
         },
@@ -189,42 +247,20 @@
           "description": "Je suis très actif dans les communautés dont je suis membre. De mon **engagement régulier et sincère** résulte une certaine notoriété spontanée. Ainsi, lorsque je sollicite ces communauté je suis rapidement soutenu par des personnes qui me font confiance et viennent m'apporter leur expertise.",
           "bouton": null,
           "type": "competence"
-        }
-      ]
-    },
-    {
-      "type": "domaineDeCompetence",
-      "titre": "Faire avec les équipes",
-      "contenu": "Par souci d'exemplarité je préfère \"faire avec\" que \"faire faire\".",
-      "competences": [
-        {
-          "titre": "No-code",
-          "image": {
-            "src": "/images/No-code.png",
-            "alt": "No-code"
-          },
-          "description": "Connaissant l'importance de valider des idées en les confrontant à la réalité du terrain, j'aime pouvoir **tester et itérer rapidement**. De plus, pour des **besoins internes**, il n'est pas toujours nécessaire d'acquérir des logiciels très spécifiques. Pour ces deux besoins, rien de tel que les outils no-code. J'utilise régulièrement [**Bubble**](https://bubble.io/home), [**AirTable**](https://www.airtable.com/), [**Notion**](https://www.notion.so/fr-fr), [**Make**](https://www.make.com/).",
-          "bouton": null,
-          "type": "competence"
         },
         {
-          "titre": "Serious Game",
+          "titre": "Détournement vidéo",
           "image": {
-            "src": "/images/Serious games.png",
-            "alt": "Serious Game"
+            "src": "/images/1.3 Facilitation.png",
+            "alt": "Détournement vidéo"
           },
-          "description": "L'utilisation de serious games est un excellent moyen de renforcer les **compétences** et la **collaboration** au sein des équipes. En tant que facilitateur, j'organise des sessions interactives pour **ancrer les concepts** de manière ludique et efficace.",
-          "bouton": null,
-          "type": "competence"
-        },
-        {
-          "titre": "Réseau social Professionnel",
-          "image": {
-            "src": "/images/Linkedin.png",
-            "alt": "Réseau social Professionnel"
+          "description": "**J'ai une expertise reconnue** dans le détournement de scènes cultes du cinéma. Ce média atypique permet de donner de la visibilité et créer de la viralité sur vos messages stratégiques.",
+          "bouton": {
+            "type": "bouton",
+            "texte": "En savoir plus...",
+            "action": "/detournement-video",
+            "e2eID": "c13"
           },
-          "description": "Je peux devenir un promoteur efficace d'un projet en exploitant le potentiel de [**Linkedin**](https://www.linkedin.com/in/alain-meunier-maep/), aussi bien via des posts publics auxquels il est possible de donner une grande visibilité avec l'aide d'une **communauté d'ambassadeurs**, que via des messages privés initiés avec des outils de **Growth Hacking**.",
-          "bouton": null,
           "type": "competence"
         }
       ]

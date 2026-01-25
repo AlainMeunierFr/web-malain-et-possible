@@ -8,6 +8,7 @@ export const ROUTES = {
   FAISONS_CONNAISSANCE: '/faisons-connaissance',
   METRICS: '/metrics',
   MAINTENANCE: '/maintenance',
+  INGENIERIE_LOGICIEL: '/ingenierie-logiciel',
 } as const;
 
 export type Route = typeof ROUTES[keyof typeof ROUTES];
