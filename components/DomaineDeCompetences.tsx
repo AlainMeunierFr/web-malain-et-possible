@@ -183,68 +183,43 @@ const DomaineDeCompetences: React.FC<DomaineDeCompetencesProps> = ({ domaine, ba
         )}
       </div>
 
-      {/* Second bloc : éléments alignés horizontalement */}
+      {/* Second bloc : compétences organisées verticalement par compétence */}
       <div className={styles.competencesContainer}>
-        {/* Bloc des titres */}
-        <div className={styles.competencesRow}>
-          {domaine.items.map((competence, index) => (
-            <div key={`titre-${index}`} className={styles.competenceCell}>
+        {domaine.items.map((competence, index) => {
+          const IconComponent = competence.icon ? iconMap[competence.icon] : null;
+          return (
+            <div key={`competence-${index}`} className={styles.competenceCard}>
               <h3 className={styles.competenceTitre}>{competence.titre}</h3>
-            </div>
-          ))}
-        </div>
-
-        {/* Bloc des images */}
-        <div className={styles.competencesRow}>
-          {domaine.items.map((competence, index) => {
-            const IconComponent = competence.icon ? iconMap[competence.icon] : null;
-            return (
-              <div key={`image-${index}`} className={styles.competenceCell}>
-                <div className={styles.competenceImage}>
-                  {IconComponent ? (
-                    <IconComponent
-                      size={120}
-                      color="rgba(9, 23, 71, 1)"
-                      strokeWidth={1.5}
-                      className={styles.competenceIcon}
-                    />
-                  ) : competence.image ? (
-                    <img 
-                      src={competence.image.src} 
-                      alt={competence.image.alt}
-                    />
-                  ) : null}
-                </div>
+              <div className={styles.competenceImage}>
+                {IconComponent ? (
+                  <IconComponent
+                    size={120}
+                    color="rgba(9, 23, 71, 1)"
+                    strokeWidth={1.5}
+                    className={styles.competenceIcon}
+                  />
+                ) : competence.image ? (
+                  <img 
+                    src={competence.image.src} 
+                    alt={competence.image.alt}
+                  />
+                ) : null}
               </div>
-            );
-          })}
-        </div>
-
-        {/* Bloc des descriptions */}
-        <div className={styles.competencesRow}>
-          {domaine.items.map((competence, index) => (
-            <div key={`description-${index}`} className={styles.competenceCell}>
               <div className={styles.competenceDescription}>
                 {parseInlineMarkdown(competence.description)}
               </div>
+              <div className={styles.competenceBoutonContainer}>
+                {competence.bouton ? (
+                  <Link href={competence.bouton.action} className={styles.competenceBouton} data-e2eid={null}>
+                    {competence.bouton.texte}
+                  </Link>
+                ) : (
+                  <div className={styles.competenceBoutonPlaceholder}></div>
+                )}
+              </div>
             </div>
-          ))}
-        </div>
-
-        {/* Bloc des boutons */}
-        <div className={styles.competencesRow}>
-          {domaine.items.map((competence, index) => (
-            <div key={`bouton-${index}`} className={styles.competenceCell}>
-              {competence.bouton ? (
-                <Link href={competence.bouton.action} className={styles.competenceBouton} data-e2eid={null}>
-                  {competence.bouton.texte}
-                </Link>
-              ) : (
-                <div className={styles.competenceBoutonPlaceholder}></div>
-              )}
-            </div>
-          ))}
-        </div>
+          );
+        })}
       </div>
     </div>
   );
