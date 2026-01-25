@@ -1,5 +1,5 @@
 /**
- * Backend pur : Logique métier pour lire les dossiers dans "A propos de ce site"
+ * Backend pur : Logique métier pour lire les dossiers dans "data/A propos de ce site"
  * Cette logique est réutilisable et testable en ligne de commande
  *
  * Principe : Séparation backend pur (logique métier) / backend Next.js (génération HTML)
@@ -39,9 +39,11 @@ export class ValidationError extends Error {
  * Interface pour un élément de contenu parsé
  */
 export interface ContenuElement {
-  type: 'paragraph' | 'ul' | 'ol';
+  type: 'paragraph' | 'ul' | 'ol' | 'image';
   content?: string; // Pour les paragraphes
   items?: string[]; // Pour les listes
+  imageFilename?: string; // Pour les images (nom de fichier ou URL complète)
+  imageUrl?: string; // Pour les images (URL complète depuis le markdown)
   typeDeContenu?: string; // "En tant que", "Je souhaite", "Afin de", "Critères d'acceptation" (pour User Stories)
 }
 
@@ -373,6 +375,47 @@ export const parseMarkdownContent = (contenu: string): ContenuElement[] => {
       continue;
     }
 
+    // Détecter image seule sur une ligne [image:filename] (ancien format)
+    const imageMatchOld = trimmed.match(/^\[image:([^\]]+)\]$/);
+    if (imageMatchOld) {
+      finaliserParagraphe();
+      finaliserListe();
+      elements.push({
+        type: 'image',
+        imageFilename: imageMatchOld[1]
+      });
+      continue;
+    }
+
+    // Détecter image Markdown standard ![alt](url)
+    const imageMatchMarkdown = trimmed.match(/^!\[([^\]]*)\]\(([^)]+)\)$/);
+    if (imageMatchMarkdown) {
+      finaliserParagraphe();
+      finaliserListe();
+      const url = imageMatchMarkdown[2];
+      // Si l'URL commence par /api/images/, extraire le nom de fichier
+      // Sinon, utiliser l'URL complète
+      let imageFilename: string;
+      let imageUrl: string | undefined;
+      if (url.startsWith('/api/images/')) {
+        imageFilename = decodeURIComponent(url.replace(/^\/api\/images\//, ''));
+        imageUrl = url; // Garder l'URL complète pour le renderer
+      } else if (url.startsWith('/images/')) {
+        imageFilename = decodeURIComponent(url.replace(/^\/images\//, ''));
+        imageUrl = url.replace('/images/', '/api/images/'); // Convertir en route API
+      } else {
+        // URL externe ou autre format
+        imageFilename = url;
+        imageUrl = url;
+      }
+      elements.push({
+        type: 'image',
+        imageFilename,
+        imageUrl
+      });
+      continue;
+    }
+
     // Texte normal
     finaliserListe();
     paragrapheCourant.push(trimmed);
@@ -568,7 +611,7 @@ export const parseSectionContent = (contenu: string): SectionContent => {
  * @returns Objet JSON avec les chapitres et sections
  */
 export const readAboutSiteStructure = (): AboutSiteStructure => {
-  const aboutSiteDir = path.join(process.cwd(), 'A propos de ce site');
+  const aboutSiteDir = path.join(process.cwd(), 'data', 'A propos de ce site');
   
   // Lire les dossiers (chapitres)
   const entries = fs.readdirSync(aboutSiteDir, { withFileTypes: true });
@@ -661,7 +704,7 @@ export const readAboutSiteStructure = (): AboutSiteStructure => {
  * @returns Objet JSON avec les noms des chapitres
  */
 export const readAboutSiteFolders = (): AboutSiteFolders => {
-  const aboutSiteDir = path.join(process.cwd(), 'A propos de ce site');
+  const aboutSiteDir = path.join(process.cwd(), 'data', 'A propos de ce site');
   
   const entries = fs.readdirSync(aboutSiteDir, { withFileTypes: true });
   

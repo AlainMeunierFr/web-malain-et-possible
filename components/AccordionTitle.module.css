@@ -55,20 +55,22 @@
 
 .contentH1,
 .contentH2 {
-  overflow: hidden;
-  transition: max-height 0.3s ease-out, opacity 0.2s ease-out;
+  overflow: visible;
+  transition: opacity 0.2s ease-out;
 }
 
 .contentH1.closed,
 .contentH2.closed {
   max-height: 0;
   opacity: 0;
+  overflow: hidden;
 }
 
 .contentH1.open,
 .contentH2.open {
-  max-height: 5000px;
+  max-height: none;
   opacity: 1;
+  overflow: visible;
 }
 
 .contentInner {

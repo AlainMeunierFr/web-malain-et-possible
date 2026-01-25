@@ -15,7 +15,7 @@ import { validerContenuMarkdown, ValidationError, parseSectionContent } from '..
 describe('Test d\'intégration : Validation des fichiers MD réels', () => {
   it('devrait valider tous les fichiers MD dans "A propos de ce site"', () => {
     // ARRANGE : Chemin vers le dossier "A propos de ce site"
-    const aboutSiteDir = path.join(process.cwd(), 'A propos de ce site');
+    const aboutSiteDir = path.join(process.cwd(), 'data', 'A propos de ce site');
     
     // Fonction récursive pour lire tous les fichiers MD
     const lireFichiersMD = (dir: string): string[] => {

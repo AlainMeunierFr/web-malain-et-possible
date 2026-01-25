@@ -118,6 +118,7 @@ function TestMetricCard({
   containerLabel,
   containerCount,
   trend,
+  metricKey,
 }: {
   title: string;
   total: number;
@@ -127,6 +128,7 @@ function TestMetricCard({
   containerLabel: string;
   containerCount: number;
   trend?: 'up' | 'down' | 'stable';
+  metricKey?: string;
 }) {
   const successRate = total > 0 ? (passed / total) * 100 : 0;
   const trendIcon = trend === 'up' ? '↗️' : trend === 'down' ? '↘️' : '→';
@@ -138,7 +140,19 @@ function TestMetricCard({
     <div className={styles.testCard}>
       <div className={styles.cardHeader}>
         <h3 className={styles.testCardTitle}>{title}</h3>
-        {/* Tooltips supprimés - refactoring en cours */}
+        {metricKey && (
+          <Tooltip content={
+            <div dangerouslySetInnerHTML={{ 
+              __html: getTooltipConfig(metricKey)?.description
+                ?.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                ?.replace(/\*(.*?)\*/g, '<em>$1</em>') || ''
+            }}></div>
+          }>
+            <div className={styles.infoIcon} aria-label="Plus d'informations">
+              ℹ️
+            </div>
+          </Tooltip>
+        )}
       </div>
       <div className={styles.testCardValue}>
         {total}
@@ -316,13 +330,10 @@ export default function MetricsPage() {
               total={latest.tests.bddScenarios || 0}
               passed={latest.tests.bddScenariosPassed || latest.tests.bddScenarios || 0}
               failed={latest.tests.bddScenariosFailed || 0}
-              duration={
-                lastE2ERun && lastE2ERun.duration > 0
-                  ? lastE2ERun.duration
-                  : latest.tests.bddTestDuration || latest.tests.e2eTests?.duration || 0
-              }
+              duration={latest.tests.bddTestDuration || 0}
               containerLabel="Features"
               containerCount={latest.tests.bddFeatures || 0}
+              metricKey="bddScenarios"
             />
             <TestMetricCard
               title="Tests Unitaires"
@@ -332,6 +343,7 @@ export default function MetricsPage() {
               duration={latest.tests.unitTestDuration || 0}
               containerLabel="Fichiers"
               containerCount={latest.tests.unitTestFiles || 0}
+              metricKey="unitTests"
             />
             <TestMetricCard
               title="Tests Intégration"
@@ -341,6 +353,7 @@ export default function MetricsPage() {
               duration={latest.tests.integrationTestDuration || 0}
               containerLabel="Fichiers"
               containerCount={latest.tests.integrationTestFiles || 0}
+              metricKey="integrationTests"
             />
             <TestMetricCard
               title="Steps E2E"
@@ -354,6 +367,7 @@ export default function MetricsPage() {
               }
               containerLabel="Fichiers"
               containerCount={latest.tests.e2eScenarioFiles || 0}
+              metricKey="e2eSteps"
             />
           </div>
         </section>
