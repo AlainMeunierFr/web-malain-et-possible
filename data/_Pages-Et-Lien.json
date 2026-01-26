@@ -21,7 +21,7 @@
     },
     {
       "url": "/detournement-video",
-      "titre": "Détournement de scènes cultes du cinéma",
+      "titre": "detournement-video",
       "x": null,
       "y": null,
       "dessiner": "Oui"
@@ -49,21 +49,14 @@
     },
     {
       "url": "/portfolio-detournements",
-      "titre": "Portfolio de detournements vidéos",
+      "titre": "portfolio-detournements",
       "x": null,
       "y": null,
       "dessiner": "Oui"
     },
     {
       "url": "/pour-aller-plus-loin",
-      "titre": "Pour aller plus loin, je vous propose une expérience...",
-      "x": null,
-      "y": null,
-      "dessiner": "Oui"
-    },
-    {
-      "url": "/profil/[slug]",
-      "titre": "[slug]",
+      "titre": "A propos de moi",
       "x": null,
       "y": null,
       "dessiner": "Oui"
@@ -77,28 +70,28 @@
     },
     {
       "url": "/profil/cpo",
-      "titre": "Produit logiciel",
+      "titre": "Témoignages",
       "x": null,
       "y": null,
       "dessiner": "Oui"
     },
     {
       "url": "/profil/coo",
-      "titre": "Opérations",
+      "titre": "Témoignages",
       "x": null,
       "y": null,
       "dessiner": "Oui"
     },
     {
       "url": "/profil/agile",
-      "titre": "Transformation Agile",
+      "titre": "Témoignages",
       "x": null,
       "y": null,
       "dessiner": "Oui"
     },
     {
       "url": "/profil/cto",
-      "titre": "Technologie",
+      "titre": "Témoignages",
       "x": null,
       "y": null,
       "dessiner": "Oui"
@@ -146,11 +139,6 @@
       "label": "Plan du site"
     },
     {
-      "source": "/profil/[slug]",
-      "destination": "/plan-du-site",
-      "label": "Plan du site"
-    },
-    {
       "source": "/test-fonts",
       "destination": "/plan-du-site",
       "label": "Plan du site"
@@ -216,11 +204,6 @@
       "label": "BarChart3"
     },
     {
-      "source": "/profil/[slug]",
-      "destination": "/metrics",
-      "label": "BarChart3"
-    },
-    {
       "source": "/test-fonts",
       "destination": "/metrics",
       "label": "BarChart3"
@@ -282,11 +265,6 @@
     },
     {
       "source": "/pour-aller-plus-loin",
-      "destination": "/a-propos-du-site",
-      "label": "Info"
-    },
-    {
-      "source": "/profil/[slug]",
       "destination": "/a-propos-du-site",
       "label": "Info"
     },

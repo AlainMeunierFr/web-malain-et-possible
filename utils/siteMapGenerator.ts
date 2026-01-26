@@ -96,7 +96,7 @@ export const detecterPages = (): PlanPage[] => {
     for (const fichier of fichiers) {
       if (fichier.isDirectory()) {
         // Ignorer certains dossiers
-        if (fichier.name === 'api' || fichier.name.startsWith('.')) {
+        if (fichier.name === 'api' || fichier.name.startsWith('.') || fichier.name.startsWith('[')) {
           continue;
         }
 
