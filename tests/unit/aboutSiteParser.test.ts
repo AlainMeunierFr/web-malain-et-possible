@@ -1,11 +1,11 @@
 /**
- * Tests TDD pour le parsing des parties (###) et sous-parties (####) dans aboutSiteReader.ts
+ * Tests TDD pour le parsing des parties (#) et sous-parties (##) dans aboutSiteReader.ts
  * APPROCHE TDD : Du simple au complexe
  * 
- * Test 1 : Parser une section avec une seule partie (###)
- * Test 2 : Parser une section avec plusieurs parties (###)
- * Test 3 : Parser une partie avec une sous-partie (####)
- * Test 4 : Parser une partie avec plusieurs sous-parties (####)
+ * Test 1 : Parser une section avec une seule partie (#)
+ * Test 2 : Parser une section avec plusieurs parties (#)
+ * Test 3 : Parser une partie avec une sous-partie (##)
+ * Test 4 : Parser une partie avec plusieurs sous-parties (##)
  * Test 5 : Parser du contenu avant la première partie
  * Test 6 : Parser du contenu entre les parties
  */
@@ -16,7 +16,7 @@ describe('parseSectionContent', () => {
   describe('Test 1 : Cas simple - une seule partie', () => {
     it('devrait parser une section avec une seule partie', () => {
       // ARRANGE
-      const contenu = '### Titre Partie 1\n\nContenu de la partie 1.';
+      const contenu = '# Titre Partie 1\n\nContenu de la partie 1.';
 
       // ACT
       const result = parseSectionContent(contenu);
@@ -32,10 +32,10 @@ describe('parseSectionContent', () => {
   describe('Test 2 : Cas multiple - plusieurs parties', () => {
     it('devrait parser une section avec plusieurs parties', () => {
       // ARRANGE
-      const contenu = `### Titre Partie 1
+      const contenu = `# Titre Partie 1
 Contenu partie 1.
 
-### Titre Partie 2
+# Titre Partie 2
 Contenu partie 2.`;
 
       // ACT
@@ -53,10 +53,10 @@ Contenu partie 2.`;
   describe('Test 3 : Cas avec sous-partie - une partie avec une sous-partie', () => {
     it('devrait parser une partie avec une sous-partie', () => {
       // ARRANGE
-      const contenu = `### Titre Partie 1
+      const contenu = `# Titre Partie 1
 Contenu avant sous-partie.
 
-#### Titre Sous-partie 1
+## Titre Sous-partie 1
 Contenu sous-partie 1.`;
 
       // ACT
@@ -74,13 +74,13 @@ Contenu sous-partie 1.`;
   describe('Test 4 : Cas complexe - partie avec plusieurs sous-parties', () => {
     it('devrait parser une partie avec plusieurs sous-parties', () => {
       // ARRANGE
-      const contenu = `### Titre Partie 1
+      const contenu = `# Titre Partie 1
 Contenu avant.
 
-#### Sous-partie 1
+## Sous-partie 1
 Contenu 1.
 
-#### Sous-partie 2
+## Sous-partie 2
 Contenu 2.`;
 
       // ACT
@@ -98,7 +98,7 @@ Contenu 2.`;
       // ARRANGE
       const contenu = `Introduction avant la première partie.
 
-### Titre Partie 1
+# Titre Partie 1
 Contenu partie 1.`;
 
       // ACT
@@ -113,12 +113,12 @@ Contenu partie 1.`;
   describe('Test 6 : Cas avec contenu entre les parties', () => {
     it('devrait conserver le contenu entre les parties', () => {
       // ARRANGE
-      const contenu = `### Titre Partie 1
+      const contenu = `# Titre Partie 1
 Contenu partie 1.
 
 Texte entre les parties.
 
-### Titre Partie 2
+# Titre Partie 2
 Contenu partie 2.`;
 
       // ACT

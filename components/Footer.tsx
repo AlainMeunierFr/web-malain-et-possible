@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import styles from './Footer.module.css';
-import footerButtonsData from '../data/footerButtons.json';
+import footerButtonsData from '../data/_footerButtons.json';
 import FooterButton from './FooterButton';
 import type { FooterButton as FooterButtonType } from '../types/footer';
 import { getButtonAction } from '../utils/buttonHandlers';

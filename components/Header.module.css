@@ -48,3 +48,34 @@
   min-height: 99px;
   object-fit: contain;
 }
+
+.titleContainer {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1001;
+  /* Le titre est centré verticalement dans la bande bleue, contrairement au logo et à la photo qui dépassent */
+}
+
+.pageTitle {
+  color: white;
+  font-family: var(--font-serif);
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0;
+  white-space: nowrap;
+  text-align: center;
+  /* Padding pour éviter le chevauchement avec le logo et la photo */
+  padding: 0 1rem;
+  max-width: calc(100% - 250px); /* Réserve de l'espace pour le logo et la photo */
+}
+
+/* Responsive : réduire la taille de la police sur mobile */
+@media (max-width: 768px) {
+  .pageTitle {
+    font-size: 1.125rem;
+    max-width: calc(100% - 180px); /* Moins d'espace réservé sur mobile */
+    padding: 0 0.5rem;
+  }
+}

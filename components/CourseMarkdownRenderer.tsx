@@ -101,31 +101,29 @@ const CourseMarkdownRenderer: React.FC<CourseMarkdownRendererProps> = ({ content
     }
 
     // Heading
+    // Décalage de +2 : # dans MD → h3 en HTML, ## → h4, ### → h5, etc.
     const headingMatch = trimmedLine.match(/^(#{1,6})\s+(.+)$/);
     if (headingMatch) {
       flushParagraph();
       flushList();
       flushQuote();
-      const level = headingMatch[1].length;
+      const markdownLevel = headingMatch[1].length;
+      const htmlLevel = Math.min(markdownLevel + 2, 6); // Limité à h6 maximum
       const text = headingMatch[2];
-      const headingClass = styles[`h${level}` as keyof typeof styles] || '';
+      // Utiliser le style CSS correspondant au niveau HTML (h3, h4, h5, h6)
+      const headingClass = styles[`h${htmlLevel}` as keyof typeof styles] || '';
       const headingContent = parseInlineMarkdown(text);
-      const headingKey = `h${level}-${elements.length}`;
+      const headingKey = `h${htmlLevel}-${elements.length}`;
       const headingProps = { className: headingClass };
       
-      // Créer le composant heading dynamiquement
-      // key doit être passée directement, pas via spread
-      if (level === 1) {
-        elements.push(<h1 key={headingKey} {...headingProps}>{headingContent}</h1>);
-      } else if (level === 2) {
-        elements.push(<h2 key={headingKey} {...headingProps}>{headingContent}</h2>);
-      } else if (level === 3) {
+      // Créer le composant heading dynamiquement avec le niveau HTML
+      if (htmlLevel === 3) {
         elements.push(<h3 key={headingKey} {...headingProps}>{headingContent}</h3>);
-      } else if (level === 4) {
+      } else if (htmlLevel === 4) {
         elements.push(<h4 key={headingKey} {...headingProps}>{headingContent}</h4>);
-      } else if (level === 5) {
+      } else if (htmlLevel === 5) {
         elements.push(<h5 key={headingKey} {...headingProps}>{headingContent}</h5>);
-      } else if (level === 6) {
+      } else if (htmlLevel === 6) {
         elements.push(<h6 key={headingKey} {...headingProps}>{headingContent}</h6>);
       }
       return;

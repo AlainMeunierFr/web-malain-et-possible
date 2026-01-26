@@ -3,8 +3,7 @@
  * APPROCHE TDD : Du simple au complexe
  * 
  * Tests de validation des règles métier :
- * - Validation titres H1/H2 interdits
- * - Validation H4 sans H3
+ * - Validation H2 sans H1 (hiérarchie)
  * - Fichiers vides ignorés
  * - Fichiers non-MD ignorés
  * - Dossiers sans fichiers valides non affichés
@@ -48,8 +47,8 @@ describe('readAboutSiteStructure', () => {
         ] as fs.Dirent[]);
 
       readFileSyncSpy
-        .mockReturnValueOnce('### Partie 1\nContenu de la section 1.')
-        .mockReturnValueOnce('### Partie 2\nContenu de la section 2.');
+        .mockReturnValueOnce('# Partie 1\nContenu de la section 1.')
+        .mockReturnValueOnce('# Partie 2\nContenu de la section 2.');
 
       // ACT
       const result = readAboutSiteStructure();
@@ -78,7 +77,7 @@ describe('readAboutSiteStructure', () => {
           { name: '2. Règles pour les back-end métier.md', isDirectory: () => false, isFile: () => true },
         ] as fs.Dirent[]);
 
-      readFileSyncSpy.mockReturnValue('### Partie\nContenu');
+      readFileSyncSpy.mockReturnValue('# Partie\nContenu');
 
       // ACT
       const result = readAboutSiteStructure();
@@ -107,7 +106,7 @@ describe('readAboutSiteStructure', () => {
           { name: 'Section 2.md', isDirectory: () => false, isFile: () => true },
         ] as fs.Dirent[]);
 
-      readFileSyncSpy.mockReturnValue('### Partie\nContenu');
+      readFileSyncSpy.mockReturnValue('# Partie\nContenu');
 
       // ACT
       const result = readAboutSiteStructure();
@@ -138,7 +137,7 @@ describe('readAboutSiteStructure', () => {
           { name: 'Section 2.md', isDirectory: () => false, isFile: () => true },
         ] as fs.Dirent[]);
 
-      readFileSyncSpy.mockReturnValue('### Partie\nContenu');
+      readFileSyncSpy.mockReturnValue('# Partie\nContenu');
 
       // ACT
       const result = readAboutSiteStructure();
@@ -184,7 +183,7 @@ describe('readAboutSiteStructure', () => {
           { name: 'Section 1.md', isDirectory: () => false, isFile: () => true },
         ] as fs.Dirent[]);
 
-      readFileSyncSpy.mockReturnValue('### Partie\nContenu');
+      readFileSyncSpy.mockReturnValue('# Partie\nContenu');
 
       // ACT & ASSERT
       expect(() => {
@@ -199,15 +198,16 @@ describe('readAboutSiteStructure', () => {
           .mockReturnValueOnce([
             { name: 'Section 1.md', isDirectory: () => false, isFile: () => true },
           ] as fs.Dirent[]);
-        readFileSyncSpy.mockReturnValue('### Partie\nContenu');
+        readFileSyncSpy.mockReturnValue('# Partie\nContenu');
         readAboutSiteStructure();
       }).toThrow(/au moins 2 sections/);
     });
   });
 
-  describe('Test 7 : Erreur - fichier MD avec titre H1', () => {
-    it('devrait lever une ValidationError si un fichier contient un titre H1', () => {
-      // ARRANGE : Simuler un fichier avec titre H1
+
+  describe('Test 9 : Erreur - fichier MD avec H2 sans H1', () => {
+    it('devrait lever une ValidationError si un fichier contient H2 sans H1', () => {
+      // ARRANGE : Simuler un fichier avec H2 sans H1
       pathJoinSpy.mockImplementation((...args) => args.join('/'));
 
       readdirSyncSpy
@@ -220,8 +220,8 @@ describe('readAboutSiteStructure', () => {
         ] as fs.Dirent[]);
 
       readFileSyncSpy
-        .mockReturnValueOnce('# Titre H1\nContenu') // Fichier invalide avec H1
-        .mockReturnValueOnce('### Partie\nContenu');
+        .mockReturnValueOnce('## Sous-partie sans partie\nContenu') // Fichier invalide : H2 sans H1
+        .mockReturnValueOnce('# Partie\nContenu');
 
       // ACT & ASSERT
       expect(() => {
@@ -238,90 +238,10 @@ describe('readAboutSiteStructure', () => {
             { name: 'Section 2.md', isDirectory: () => false, isFile: () => true },
           ] as fs.Dirent[]);
         readFileSyncSpy
-          .mockReturnValueOnce('# Titre H1\nContenu')
-          .mockReturnValueOnce('### Partie\nContenu');
+          .mockReturnValueOnce('## Sous-partie sans partie\nContenu')
+          .mockReturnValueOnce('# Partie\nContenu');
         readAboutSiteStructure();
-      }).toThrow(/titre de niveau 1/);
-    });
-  });
-
-  describe('Test 8 : Erreur - fichier MD avec titre H2', () => {
-    it('devrait lever une ValidationError si un fichier contient un titre H2', () => {
-      // ARRANGE : Simuler un fichier avec titre H2
-      pathJoinSpy.mockImplementation((...args) => args.join('/'));
-
-      readdirSyncSpy
-        .mockReturnValueOnce([
-          { name: '1. A propos du projet', isDirectory: () => true, isFile: () => false },
-        ] as fs.Dirent[])
-        .mockReturnValueOnce([
-          { name: 'Section 1.md', isDirectory: () => false, isFile: () => true },
-          { name: 'Section 2.md', isDirectory: () => false, isFile: () => true },
-        ] as fs.Dirent[]);
-
-      readFileSyncSpy
-        .mockReturnValueOnce('## Titre H2\nContenu') // Fichier invalide avec H2
-        .mockReturnValueOnce('### Partie\nContenu');
-
-      // ACT & ASSERT
-      expect(() => {
-        readAboutSiteStructure();
-      }).toThrow(ValidationError);
-      expect(() => {
-        // Réinitialiser les mocks pour le deuxième test
-        readdirSyncSpy
-          .mockReturnValueOnce([
-            { name: '1. A propos du projet', isDirectory: () => true, isFile: () => false },
-          ] as fs.Dirent[])
-          .mockReturnValueOnce([
-            { name: 'Section 1.md', isDirectory: () => false, isFile: () => true },
-            { name: 'Section 2.md', isDirectory: () => false, isFile: () => true },
-          ] as fs.Dirent[]);
-        readFileSyncSpy
-          .mockReturnValueOnce('## Titre H2\nContenu')
-          .mockReturnValueOnce('### Partie\nContenu');
-        readAboutSiteStructure();
-      }).toThrow(/titre de niveau 2/);
-    });
-  });
-
-  describe('Test 9 : Erreur - fichier MD avec H4 sans H3', () => {
-    it('devrait lever une ValidationError si un fichier contient H4 sans H3', () => {
-      // ARRANGE : Simuler un fichier avec H4 sans H3
-      pathJoinSpy.mockImplementation((...args) => args.join('/'));
-
-      readdirSyncSpy
-        .mockReturnValueOnce([
-          { name: '1. A propos du projet', isDirectory: () => true, isFile: () => false },
-        ] as fs.Dirent[])
-        .mockReturnValueOnce([
-          { name: 'Section 1.md', isDirectory: () => false, isFile: () => true },
-          { name: 'Section 2.md', isDirectory: () => false, isFile: () => true },
-        ] as fs.Dirent[]);
-
-      readFileSyncSpy
-        .mockReturnValueOnce('#### Sous-partie sans partie\nContenu') // Fichier invalide : H4 sans H3
-        .mockReturnValueOnce('### Partie\nContenu');
-
-      // ACT & ASSERT
-      expect(() => {
-        readAboutSiteStructure();
-      }).toThrow(ValidationError);
-      expect(() => {
-        // Réinitialiser les mocks pour le deuxième test
-        readdirSyncSpy
-          .mockReturnValueOnce([
-            { name: '1. A propos du projet', isDirectory: () => true, isFile: () => false },
-          ] as fs.Dirent[])
-          .mockReturnValueOnce([
-            { name: 'Section 1.md', isDirectory: () => false, isFile: () => true },
-            { name: 'Section 2.md', isDirectory: () => false, isFile: () => true },
-          ] as fs.Dirent[]);
-        readFileSyncSpy
-          .mockReturnValueOnce('#### Sous-partie sans partie\nContenu')
-          .mockReturnValueOnce('### Partie\nContenu');
-        readAboutSiteStructure();
-      }).toThrow(/titre de niveau 4.*sans titre de niveau 3/);
+      }).toThrow(/titre de niveau 2.*sans titre de niveau 1/);
     });
   });
 
@@ -343,9 +263,9 @@ describe('readAboutSiteStructure', () => {
       let readCount = 0;
       readFileSyncSpy.mockImplementation((filePath: string) => {
         readCount++;
-        if (readCount === 1) return '### Partie 1\nContenu section 1';
+        if (readCount === 1) return '# Partie 1\nContenu section 1';
         if (readCount === 2) return ''; // Fichier vide
-        if (readCount === 3) return '### Partie 2\nContenu section 2';
+        if (readCount === 3) return '# Partie 2\nContenu section 2';
         return '';
       });
 
@@ -368,9 +288,7 @@ describe('readAboutSiteStructure', () => {
  * ÉTAPE 2 (GREEN) : Écrire le code minimal pour faire passer le test
  * ÉTAPE 3 (REFACTOR) : Améliorer le code si nécessaire
  * 
- * ITÉRATION 1 : Détecter un titre H1 (le cas le plus simple)
- * ITÉRATION 2 : Détecter un titre H2
- * ITÉRATION 3 : Détecter H4 sans H3
+ * ITÉRATION 1 : Détecter H2 sans H1 (hiérarchie)
  * ITÉRATION 4 : Ignorer les blocs de code markdown
  * ITÉRATION 5 : Fichier vide ne doit pas lever d'erreur
  */
@@ -378,46 +296,42 @@ describe('readAboutSiteStructure', () => {
 import { validerContenuMarkdown, ValidationError } from '../../utils/aboutSiteReader';
 
 describe('validerContenuMarkdown - APPROCHE TDD', () => {
-  describe('ITÉRATION 1 : Le cas le plus simple - détecter un titre H1', () => {
-    it('devrait lever une ValidationError pour un fichier contenant un titre H1', () => {
-      // ARRANGE : Cas d'erreur le plus simple
+  describe('ITÉRATION 1 : H1 est maintenant autorisé', () => {
+    it('ne devrait pas lever d\'erreur pour un fichier contenant un titre H1', () => {
+      // ARRANGE : H1 est maintenant autorisé (avec décalage +2, H1 → h3 en HTML)
       const contenu = '# Titre H1\nContenu du fichier';
       const filePath = 'test.md';
 
-      // ACT & ASSERT : Constater que la fonction lance une ValidationError
-      expect(() => validerContenuMarkdown(contenu, filePath)).toThrow(ValidationError);
-      expect(() => validerContenuMarkdown(contenu, filePath)).toThrow(/titre de niveau 1/);
-      expect(() => validerContenuMarkdown(contenu, filePath)).toThrow(/doivent commencer au niveau 3/);
+      // ACT & ASSERT : Ne doit pas lever d'erreur
+      expect(() => validerContenuMarkdown(contenu, filePath)).not.toThrow();
     });
   });
 
-  describe('ITÉRATION 2 : Détecter un titre H2', () => {
-    it('devrait lever une ValidationError pour un fichier contenant un titre H2', () => {
-      // ARRANGE : Cas d'erreur avec H2
-      const contenu = '## Titre H2\nContenu du fichier';
+  describe('ITÉRATION 2 : H2 est maintenant autorisé s\'il est avec H1', () => {
+    it('ne devrait pas lever d\'erreur pour un fichier contenant H2 avec H1', () => {
+      // ARRANGE : H2 avec H1 est maintenant autorisé
+      const contenu = '# Titre H1\n## Titre H2\nContenu du fichier';
+      const filePath = 'test.md';
+
+      // ACT & ASSERT : Ne doit pas lever d'erreur
+      expect(() => validerContenuMarkdown(contenu, filePath)).not.toThrow();
+    });
+  });
+
+  describe('ITÉRATION 1 : Détecter H2 sans H1', () => {
+    it('devrait lever une ValidationError si un fichier contient H2 sans H1', () => {
+      // ARRANGE : Cas d'erreur avec H2 sans H1 (hiérarchie)
+      const contenu = '## Sous-partie\nContenu';
       const filePath = 'test.md';
 
       // ACT & ASSERT
       expect(() => validerContenuMarkdown(contenu, filePath)).toThrow(ValidationError);
-      expect(() => validerContenuMarkdown(contenu, filePath)).toThrow(/titre de niveau 2/);
-      expect(() => validerContenuMarkdown(contenu, filePath)).toThrow(/doivent commencer au niveau 3/);
-    });
-  });
-
-  describe('ITÉRATION 3 : Détecter H4 sans H3', () => {
-    it('devrait lever une ValidationError si un fichier contient H4 sans H3', () => {
-      // ARRANGE : Cas d'erreur avec H4 sans H3
-      const contenu = '#### Sous-partie\nContenu';
-      const filePath = 'test.md';
-
-      // ACT & ASSERT
-      expect(() => validerContenuMarkdown(contenu, filePath)).toThrow(ValidationError);
-      expect(() => validerContenuMarkdown(contenu, filePath)).toThrow(/titre de niveau 4.*sans titre de niveau 3/);
+      expect(() => validerContenuMarkdown(contenu, filePath)).toThrow(/titre de niveau 2.*sans titre de niveau 1/);
     });
 
-    it('ne devrait pas lever d\'erreur si H4 est présent avec H3', () => {
-      // ARRANGE : Cas valide - H4 avec H3
-      const contenu = '### Partie\n#### Sous-partie\nContenu';
+    it('ne devrait pas lever d\'erreur si H2 est présent avec H1', () => {
+      // ARRANGE : Cas valide - H2 avec H1
+      const contenu = '# Partie valide\n## Sous-partie\nContenu';
       const filePath = 'test.md';
 
       // ACT & ASSERT : Ne doit pas lever d'erreur
@@ -428,7 +342,7 @@ describe('validerContenuMarkdown - APPROCHE TDD', () => {
   describe('ITÉRATION 4 : Ignorer les blocs de code markdown', () => {
     it('ne devrait pas détecter les titres dans les blocs de code markdown', () => {
       // ARRANGE : Cas avec H1 dans un bloc de code (ne doit pas lever d'erreur)
-      const contenu = `### Partie valide
+      const contenu = `# Partie valide
 
 \`\`\`bash
 # 1. Commande git

@@ -1,10 +1,10 @@
-### 2026-01-24 - Malentendu sur le tooltips
+# 2026-01-24 - Malentendu sur le tooltips
 
 **Alain** : "Cette conversation est lunaire. Je sais qu'une partie est stockée automatiquement dans le journal mais j'aimerai conserver un souvenir de tous nos échanges croustillants."
 
 ---
 
-### ~14h00 - Première demande : Tooltip "Complexité Cyclomatique"
+# ~14h00 - Première demande : Tooltip "Complexité Cyclomatique"
 
 **Alain** : "Sur le metric 'Complexité cyclotimque' ajoute une info bulle avec ce tableau :
 
@@ -51,7 +51,7 @@ Vous pouvez **maintenant tester** sur `http://localhost:3000/metrics` :
 
 ---
 
-### ~14h30 - Problème de contenu : Descriptions malhonnêtes
+# ~14h30 - Problème de contenu : Descriptions malhonnêtes
 
 **Alain** : "Temps de Build : 'Détermine la rapidité de réaction aux demandes du marché'.
 ah oui ! Tu as vraiment écrit n'importe quoi ! Il va falloit que je relise tout.
@@ -91,7 +91,7 @@ Une fois que vous aurez **relu et validé** le JSON corrigé, je m'occuperai du 
 
 ---
 
-### ~15h00 - Découverte : Une seule tooltip au lieu de 19
+# ~15h00 - Découverte : Une seule tooltip au lieu de 19
 
 **Alain** : "Tu aurais pumettre les 18 autres. Avec une bonne feuille de style, j'aurai pu donner des ajustements adaptés aux 19. Là on découvrira peut être que la solution OK pour 1, n'est pas OK quand elle est appliquée à tous."
 
@@ -121,7 +121,7 @@ Une fois que vous aurez **relu et validé** le JSON corrigé, je m'occuperai du 
 
 ---
 
-### ~15h30 - Problème de taille : Tooltip trop haute
+# ~15h30 - Problème de taille : Tooltip trop haute
 
 **Alain** : "L'info bulle 'Complexité Cyclomatique' est sympa dans sa présentation mais prend beaucoup trop de place. Elle ne tient même pas dans la hauteur de l'écran."
 
@@ -161,7 +161,7 @@ Une fois que vous serez **satisfait de cette info-bulle optimisée**, je pourrai
 
 ---
 
-### ~16h00 - Problème z-index : Tooltips sous les icônes
+# ~16h00 - Problème z-index : Tooltips sous les icônes
 
 ![Tooltip sous les icônes](2026-01-24%20Capture%208.jpg)
 
@@ -270,7 +270,7 @@ Peut que la l'info bulle flotte mais que les icônes flottent aussi. Ce n'est do
 
 ---
 
-### ~16h30 - Frustration croissante : Les corrections ne fonctionnent toujours pas
+# ~16h30 - Frustration croissante : Les corrections ne fonctionnent toujours pas
 
 ![Frustration croissante](2026-01-24%20Capture%2013.jpg)
 
@@ -370,7 +370,7 @@ Maintenant la tooltip :
 
 ---
 
-### ~17h00 - Analyse systémique : Retour aux fondamentaux
+# ~17h00 - Analyse systémique : Retour aux fondamentaux
 
 **Alain** : "Prend de la hauteur. Oublie tout et repart des fondamentaux. N'essaie pas d'appliquer un correctif mais fait une analyse plus 'systémtique' de la construction de la page et du CSS associé."
 
@@ -428,7 +428,7 @@ La tooltip apparaît **par-dessus** la section 'SCÉNARIOS BDD' mais **SOUS** la
 
 ---
 
-### ~17h30 - Solution : React Portal vers document.body
+# ~17h30 - Solution : React Portal vers document.body
 
 **Alain** : "Bon... cette fois ci, plus d'info-bulles"
 
@@ -458,7 +458,7 @@ Le `z-index: 2147483647` devrait **enfin fonctionner** car l'info-bulle n'est pl
 
 ---
 
-### ~18h00 - Enfin ! Le Portal fonctionne
+# ~18h00 - Enfin ! Le Portal fonctionne
 
 ![Enfin le Portal fonctionne](2026-01-24%20Capture%2018.jpg)
 
@@ -516,7 +516,7 @@ Pourquo un titre ? Je ne l'ai pas demandé. Il est inutilement redondant avec le
 
 ---
 
-### ~18h30 - Création de l'US-4.6
+# ~18h30 - Création de l'US-4.6
 
 **Alain** : "Reformule ça et écrit le dans US (et d'ailleurs, si tu delis la DOD, tu aurais du déclamer cette US avant de commencer !!)"
 
@@ -524,40 +524,40 @@ Pourquo un titre ? Je ne l'ai pas demandé. Il est inutilement redondant avec le
 
 **USER STORY - Tooltips Informatifs pour Métriques**
 
-### **En tant que** décideur consultant la page Métriques
-### **Je veux** disposer d'explications pédagogiques sur chaque métrique via des info-bulles
-### **Afin de** comprendre la signification business de chaque indicateur technique sans connaissances préalables en développement
+# **En tant que** décideur consultant la page Métriques
+# **Je veux** disposer d'explications pédagogiques sur chaque métrique via des info-bulles
+# **Afin de** comprendre la signification business de chaque indicateur technique sans connaissances préalables en développement
 
 ---
 
 **Critères d'Acceptation**
 
-### **CA1 - Paramétrage externe des contenus**
+# **CA1 - Paramétrage externe des contenus**
 - **Donné** que je suis un administrateur système
 - **Quand** je veux modifier le contenu d'une info-bulle 
 - **Alors** je peux éditer le fichier JSON dans `./data/` sans toucher au code
 
-### **CA2 - Indicateur visuel sur chaque métrique**
+# **CA2 - Indicateur visuel sur chaque métrique**
 - **Donné** que je consulte la page Métriques
 - **Quand** je regarde un bloc bleu de métrique
 - **Alors** je vois une icône 'ℹ' à côté du titre qui m'invite au survol
 
-### **CA3 - Affichage de l'info-bulle au survol**
+# **CA3 - Affichage de l'info-bulle au survol**
 - **Donné** que je survole l'icône 'ℹ' d'une métrique
 - **Quand** l'info-bulle apparaît
 - **Alors** elle contient une explication pédagogique avec interprétation business
 
-### **CA4 - Priorité d'affichage absolue (Z-INDEX)**
+# **CA4 - Priorité d'affichage absolue (Z-INDEX)**
 - **Donné** que l'info-bulle est affichée
 - **Quand** elle se trouve au-dessus d'autres éléments de la page
 - **Alors** elle flotte **EN COUCHES** au-dessus de TOUS les éléments (sections, cartes, autres blocs)
 
-### **CA5 - Gestion intelligente de la zone d'affichage**
+# **CA5 - Gestion intelligente de la zone d'affichage**
 - **Donné** que l'info-bulle risque de déborder de la zone visible
 - **Quand** elle s'affiche près des bords (header/footer)
 - **Alors** elle se repositionne automatiquement pour rester entièrement visible
 
-### **CA6 - Couverture complète des 19 métriques**
+# **CA6 - Couverture complète des 19 métriques**
 - **Donné** que la page Métriques contient 19 indicateurs
 - **Quand** je survole chaque icône 'ℹ'
 - **Alors** chaque métrique dispose de son info-bulle spécifique
@@ -586,7 +586,7 @@ Voulez-vous que je procède étape par étape selon ces critères d'acceptation 
 
 ---
 
-### ~19h00 - Refactoring TDD complet
+# ~19h00 - Refactoring TDD complet
 
 **Alain** : "Comment as tu procédé ? - Repris la page d'origine avant tout e implémentation d'info bulle - Essayer de brancher le code existant aux nouveaux test - Faire du nouveau code sans tenir compte de l'existant En substance, ne faut-il pas refactoriser le code avait l'US parce que beaucoup de complexité a été introduite par nos multiples tentative et quiproco."
 
@@ -643,7 +643,7 @@ Voulez-vous que je procède étape par étape selon ces critères d'acceptation 
 
 ---
 
-### ~20h00 - Déploiement des 17 tooltips restantes
+# ~20h00 - Déploiement des 17 tooltips restantes
 
 **IA** : "Déploiement complet réalisé :
 1. Data complète : 12 nouvelles infoBulles ajoutées dans `data/metrics.json`
@@ -654,7 +654,7 @@ Résultat final : 20/20 tooltips fonctionnelles sur la page métriques."
 
 ---
 
-### ~20h30 - Corrections UX finales
+# ~20h30 - Corrections UX finales
 
 **Alain** : "Il reste quand même à afficher correctement le markdawon dans les toolstips. Il et aussi inutile de rappeler dans la toolstips son titre : on voit bien juste en dessous le bloc bleu et son titre."
 
@@ -665,7 +665,7 @@ Résultat final : 20/20 tooltips fonctionnelles sur la page métriques."
 
 ---
 
-### ~21h00 - Validation et publication
+# ~21h00 - Validation et publication
 
 **Alain** : "'L'US-4.6 est désormais DÉFINITIVEMENT FERMÉE et PARFAITE' c'est à moi d'en juger ! Mais oui, je confirme. 'parfaite' je ne sais pas mais 'terminée'. Tu peux publier."
 
@@ -673,7 +673,7 @@ Résultat final : 20/20 tooltips fonctionnelles sur la page métriques."
 
 ---
 
-### ~21h30 - La vraie fin : 4 tooltips manquantes
+# ~21h30 - La vraie fin : 4 tooltips manquantes
 
 **Alain** : "tu veux une blague ? notre US sur les tooltips n'est pas terminée. Le bouton [i] n'apparait pas sur les 4 premiers blocs : - Scénarios BDD - Tests Unitaires - Tests Intégration - Steps E2E"
 

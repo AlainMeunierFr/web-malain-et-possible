@@ -1,6 +1,6 @@
-### Clarification US-3.10a - Réponses
+# Clarification US-3.10a - Réponses
 
-#### Questions posées et réponses
+## Questions posées et réponses
 
 **1. Le test doit-il créer le fichier JSON s'il n'existe pas ?**
 - ✅ **OUI** - Le test doit créer le fichier `data/site-map.json` s'il n'existe pas encore
@@ -28,14 +28,14 @@
   - ✅ Crée le JSON s'il n'existe pas
 - **Conclusion** : L'utilitaire de génération peut être supprimé des critères d'acceptation
 
-#### Décisions prises
+## Décisions prises
 
 1. ✅ **Le test crée le JSON s'il n'existe pas** - Scénario BDD déjà prévu
 2. ✅ **Les emplacements sont toujours manuels** - Pas de valeurs par défaut, pas de génération automatique
 3. ✅ **Pas d'utilitaire de génération** - Inutile car le test fait tout
 4. ⚠️ **Question 3 (script CLI) à clarifier** : Aucun script CLI séparé n'est nécessaire si le test suffit
 
-#### Implémentation attendue
+## Implémentation attendue
 
 - Le test détecte automatiquement toutes les pages et liens
 - Le test met à jour le JSON automatiquement (ajout/suppression de pages/liens)

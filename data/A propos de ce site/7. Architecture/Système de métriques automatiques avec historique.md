@@ -1,6 +1,6 @@
-### Système de métriques automatiques avec historique et tendances
+# Système de métriques automatiques avec historique et tendances
 
-#### Introduction
+## Introduction
 
 Dans la plupart des projets, les métriques de qualité (tests, couverture, taille du code, etc.) sont collectées manuellement ou de manière ponctuelle. Cette approche rend difficile le suivi de l'évolution de la qualité dans le temps et la détection précoce des dérives.
 
@@ -11,7 +11,7 @@ Le besoin identifié est triple :
 
 Pour répondre à ces besoins, un système de métriques automatiques a été mis en place : collecte automatique de métriques de qualité (tests, couverture, qualité de code, taille, dépendances, performance) avec historique (100 snapshots), calcul automatique des tendances (up, down, stable), et affichage dans un dashboard visuel accessible via une route dédiée.
 
-#### Résumé
+## Résumé
 
 Cette stratégie repose sur trois mécanismes interconnectés :
 
@@ -34,9 +34,9 @@ Cette approche transforme les métriques en outil de pilotage continu : l'évolu
 
 ---
 
-#### Collecte automatique des métriques
+## Collecte automatique des métriques
 
-##### Types de métriques collectées
+### Types de métriques collectées
 
 **Tests** :
 - Nombre de tests unitaires
@@ -63,7 +63,7 @@ Cette approche transforme les métriques en outil de pilotage continu : l'évolu
 - Durée des tests E2E
 - Date de dernière exécution E2E
 
-##### Script de collecte
+### Script de collecte
 
 Le script `collect-metrics-simple.ts` parcourt automatiquement le projet :
 
@@ -98,9 +98,9 @@ function collectMetrics(): MetricsSnapshot {
 
 ---
 
-#### Historique et tendances
+## Historique et tendances
 
-##### Stockage de l'historique
+### Stockage de l'historique
 
 Les métriques sont stockées dans `public/metrics/history.json` :
 
@@ -115,7 +115,7 @@ interface MetricsHistory {
 
 **Rotation** : Les snapshots les plus anciens sont supprimés automatiquement.
 
-##### Calcul des tendances
+### Calcul des tendances
 
 Pour chaque métrique, une tendance est calculée automatiquement :
 
@@ -146,9 +146,9 @@ function calculateTrend(
 
 ---
 
-#### Dashboard visuel
+## Dashboard visuel
 
-##### Page de visualisation
+### Page de visualisation
 
 Une page dédiée (`app/metrics/page.tsx`) affiche toutes les métriques :
 
@@ -166,7 +166,7 @@ Une page dédiée (`app/metrics/page.tsx`) affiche toutes les métriques :
 />
 ```
 
-##### Métriques affichées
+### Métriques affichées
 
 **Tests** :
 - Tests unitaires (avec tendance)
@@ -191,30 +191,30 @@ Une page dédiée (`app/metrics/page.tsx`) affiche toutes les métriques :
 
 ---
 
-#### Avantages de cette approche
+## Avantages de cette approche
 
-##### 1. Visibilité continue
+### 1. Visibilité continue
 
 L'évolution de la qualité est visible en temps réel :
 - **Historique** : 100 snapshots permettent de voir l'évolution sur une longue période
 - **Tendances** : Les tendances sont calculées automatiquement et affichées visuellement
 - **Dashboard** : Un dashboard centralisé permet de voir toutes les métriques en un coup d'œil
 
-##### 2. Détection précoce
+### 2. Détection précoce
 
 Les dérives sont détectées précocement :
 - **Tendances** : Une tendance à la baisse est immédiatement visible
 - **Comparaison** : Comparaison facile avec les snapshots précédents
 - **Alertes visuelles** : Les barres de progression et les tendances servent d'alertes visuelles
 
-##### 3. Pilotage
+### 3. Pilotage
 
 Les métriques deviennent un outil de pilotage :
 - **Décisions guidées** : Les décisions sont guidées par des données objectives
 - **Objectifs mesurables** : Les objectifs de qualité sont mesurables et suivis
 - **Amélioration continue** : L'amélioration continue est facilitée par la visibilité
 
-##### 4. Automatisation
+### 4. Automatisation
 
 La collecte est entièrement automatisée :
 - **Pas d'effort manuel** : Le script collecte automatiquement toutes les métriques
@@ -223,9 +223,9 @@ La collecte est entièrement automatisée :
 
 ---
 
-#### Comparaison avec les approches traditionnelles
+## Comparaison avec les approches traditionnelles
 
-##### Approche traditionnelle
+### Approche traditionnelle
 
 Dans les projets classiques, les métriques sont collectées manuellement ou de manière ponctuelle :
 
@@ -242,7 +242,7 @@ npm test -- --coverage
 - Pas de tendances
 - Pas de visibilité continue
 
-##### Approche avec système automatique
+### Approche avec système automatique
 
 ```bash
 # ✅ Système automatique
@@ -258,9 +258,9 @@ npm run metrics:collect  # Collecte automatique
 
 ---
 
-#### Exemples concrets
+## Exemples concrets
 
-##### Exemple 1 : Détection d'une dérive
+### Exemple 1 : Détection d'une dérive
 
 **Scénario** : Le nombre de tests unitaires diminue.
 
@@ -272,7 +272,7 @@ Tests unitaires: 45 ↘️
 
 **Action** : Le développeur voit immédiatement la dérive et peut investiguer.
 
-##### Exemple 2 : Suivi de l'amélioration
+### Exemple 2 : Suivi de l'amélioration
 
 **Scénario** : La couverture de code augmente progressivement.
 
@@ -284,7 +284,7 @@ Couverture: 85% ↗️
 
 **Résultat** : L'amélioration est visible et mesurable.
 
-##### Exemple 3 : Historique sur une période
+### Exemple 3 : Historique sur une période
 
 **Scénario** : Visualisation de l'évolution sur 3 mois.
 
@@ -294,7 +294,7 @@ Couverture: 85% ↗️
 
 ---
 
-#### Conclusion
+## Conclusion
 
 Cette stratégie garantit que :
 - ✅ Les métriques sont collectées automatiquement et régulièrement

@@ -63,6 +63,10 @@ const urlVersNomFichierJSON = (url: string): string | null => {
     'management-de-produit-logiciel': 'management-de-produit-logiciel.json',
     'portfolio-detournements': 'portfolio-detournements.json',
     'pour-aller-plus-loin': 'pour-aller-plus-loin.json',
+    'profil/cpo': 'profil-cpo.json',
+    'profil/coo': 'profil-coo.json',
+    'profil/agile': 'profil-agile.json',
+    'profil/cto': 'profil-cto.json',
   };
   
   if (mapping[urlSansSlash]) {
@@ -157,6 +161,36 @@ export const detecterPages = (): PlanPage[] => {
   // Démarrer le scan depuis app/
   scannerDossier(appDir);
 
+  // Gérer les routes dynamiques de profils : créer explicitement les 4 pages de profils
+  const profils = ['cpo', 'coo', 'agile', 'cto'];
+  for (const slug of profils) {
+    const url = `/profil/${slug}`;
+    // Vérifier si la page n'existe pas déjà (éviter les doublons)
+    if (!pages.find((p) => p.url === url)) {
+      let titre = `Profil ${slug}`;
+      try {
+        const nomFichierJSON = `profil-${slug}.json`;
+        const cheminJSON = path.join(process.cwd(), 'data', nomFichierJSON);
+        if (fs.existsSync(cheminJSON)) {
+          const contenuJSON = JSON.parse(fs.readFileSync(cheminJSON, 'utf8'));
+          const titreElement = contenuJSON.contenu?.find((el: any) => el.type === 'titre');
+          if (titreElement) {
+            titre = titreElement.texte;
+          }
+        }
+      } catch (e) {
+        // Garder le titre par défaut
+      }
+      pages.push({
+        url,
+        titre,
+        x: null,
+        y: null,
+        dessiner: 'Oui',
+      });
+    }
+  }
+
   // Ajouter la HomePage si elle n'est pas déjà là
   if (!pages.find((p) => p.url === '/')) {
     let titreHome = 'Home';
@@ -194,9 +228,8 @@ export const detecterLiensInternes = (): PlanLien[] => {
   // 1. Détecter les liens depuis les fichiers JSON de pages
   const fichiersJSON = fs.readdirSync(dataDir).filter((f) => 
     f.endsWith('.json') && 
-    f !== 'footerButtons.json' && 
-    f !== 'detournement-video.json' &&
-    f !== 'Pages-Et-Lien.json'
+    !f.startsWith('_') && // Exclure les fichiers de configuration (préfixe _)
+    f !== 'detournement-video.json'
   );
 
   for (const fichierJSON of fichiersJSON) {
@@ -253,7 +286,7 @@ export const detecterLiensInternes = (): PlanLien[] => {
 
   // 2. Détecter les liens depuis le footer
   try {
-    const footerButtonsPath = path.join(dataDir, 'footerButtons.json');
+    const footerButtonsPath = path.join(dataDir, '_footerButtons.json');
     if (fs.existsSync(footerButtonsPath)) {
       const footerButtons = JSON.parse(fs.readFileSync(footerButtonsPath, 'utf8'));
       
@@ -328,7 +361,7 @@ export const detecterLiensInternes = (): PlanLien[] => {
  * @param liens Liens détectés
  */
 export const mettreAJourPlanJSON = (pages: PlanPage[], liens: PlanLien[]): void => {
-  const siteMapPath = path.join(process.cwd(), 'data', 'Pages-Et-Lien.json');
+  const siteMapPath = path.join(process.cwd(), 'data', '_Pages-Et-Lien.json');
   
   let planExistant: PlanSite = { pages: [], liens: [] };
   
@@ -434,7 +467,7 @@ export const validerEmplacements = (plan: PlanSite): void => {
     const urlsSansEmplacement = pagesSansEmplacement.map((p) => p.url).join(', ');
     throw new Error(
       `Les pages suivantes n'ont pas d'emplacement défini (x, y) : ${urlsSansEmplacement}. ` +
-      `Veuillez remplir manuellement les coordonnées dans le fichier Pages-Et-Lien.json.`
+      `Veuillez remplir manuellement les coordonnées dans le fichier _Pages-Et-Lien.json.`
     );
   }
 };

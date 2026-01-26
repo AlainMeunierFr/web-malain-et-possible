@@ -9,8 +9,8 @@ import type { ContenuElement } from '../../utils/aboutSiteReader';
 describe('Détection des thèmes et critères dans "Critères d\'acceptation"', () => {
   describe('Détection de la section "Critères d\'acceptation"', () => {
     it('devrait détecter la ligne "- **Critères d\'acceptation** :" comme début de section', () => {
-      const markdown = `### Epic 1
-#### US-1.1 : Affichage initial
+      const markdown = `# Epic 1
+## US-1.1 : Affichage initial
 - **En tant que** Product Manager
 - **Je souhaite** Voir s'afficher...
 - **Afin de** Valider...
@@ -40,8 +40,8 @@ describe('Détection des thèmes et critères dans "Critères d\'acceptation"', 
 
   describe('Détection des thèmes de critères', () => {
     it('devrait détecter une ligne commençant par "- **" comme un thème de critère', () => {
-      const markdown = `### Epic 1
-#### US-1.1 : Affichage initial
+      const markdown = `# Epic 1
+## US-1.1 : Affichage initial
 - **En tant que** Product Manager
 - **Je souhaite** Voir s'afficher...
 - **Afin de** Valider...
@@ -67,8 +67,8 @@ describe('Détection des thèmes et critères dans "Critères d\'acceptation"', 
     });
 
     it('devrait extraire le texte entre `**` comme titre du thème', () => {
-      const markdown = `### Epic 1
-#### US-1.1 : Affichage initial
+      const markdown = `# Epic 1
+## US-1.1 : Affichage initial
 - **En tant que** Product Manager
 - **Je souhaite** Voir s'afficher...
 - **Afin de** Valider...
@@ -92,8 +92,8 @@ describe('Détection des thèmes et critères dans "Critères d\'acceptation"', 
 
   describe('Détection des critères normaux', () => {
     it('devrait détecter une ligne commençant par "- " (sans `**`) comme un critère', () => {
-      const markdown = `### Epic 1
-#### US-1.1 : Affichage initial
+      const markdown = `# Epic 1
+## US-1.1 : Affichage initial
 - **En tant que** Product Manager
 - **Je souhaite** Voir s'afficher...
 - **Afin de** Valider...
@@ -119,8 +119,8 @@ describe('Détection des thèmes et critères dans "Critères d\'acceptation"', 
     });
 
     it('devrait extraire le texte après "- " comme contenu du critère', () => {
-      const markdown = `### Epic 1
-#### US-1.1 : Affichage initial
+      const markdown = `# Epic 1
+## US-1.1 : Affichage initial
 - **En tant que** Product Manager
 - **Je souhaite** Voir s'afficher...
 - **Afin de** Valider...
@@ -146,8 +146,8 @@ describe('Détection des thèmes et critères dans "Critères d\'acceptation"', 
 
   describe('Hiérarchie thème-critères', () => {
     it('devrait associer les critères au dernier thème rencontré', () => {
-      const markdown = `### Epic 1
-#### US-1.1 : Affichage initial
+      const markdown = `# Epic 1
+## US-1.1 : Affichage initial
 - **En tant que** Product Manager
 - **Je souhaite** Voir s'afficher...
 - **Afin de** Valider...
@@ -196,16 +196,16 @@ describe('Détection des thèmes et critères dans "Critères d\'acceptation"', 
   });
 
   describe('Fin de la section "Critères d\'acceptation"', () => {
-    it('devrait terminer la section à la prochaine US (#### US-)', () => {
-      const markdown = `### Epic 1
-#### US-1.1 : Première US
+    it('devrait terminer la section à la prochaine US (## US-)', () => {
+      const markdown = `# Epic 1
+## US-1.1 : Première US
 - **En tant que** Product Manager
 - **Je souhaite** Voir s'afficher...
 - **Afin de** Valider...
 - **Critères d'acceptation** :
 - **CSS responsive** :
 - Un bloc conteneur...
-#### US-1.2 : Autre US
+## US-1.2 : Autre US
 - **En tant que** Visiteur
 `;
 
@@ -237,8 +237,8 @@ describe('Détection des thèmes et critères dans "Critères d\'acceptation"', 
     });
 
     it('devrait terminer la section à un séparateur (---)', () => {
-      const markdown = `### Epic 1
-#### US-1.1 : Affichage initial
+      const markdown = `# Epic 1
+## US-1.1 : Affichage initial
 - **En tant que** Product Manager
 - **Je souhaite** Voir s'afficher...
 - **Afin de** Valider...
@@ -274,8 +274,8 @@ describe('Détection des thèmes et critères dans "Critères d\'acceptation"', 
 
   describe('Cas limites', () => {
     it('devrait gérer une section "Critères d\'acceptation" vide', () => {
-      const markdown = `### Epic 1
-#### US-1.1 : Affichage initial
+      const markdown = `# Epic 1
+## US-1.1 : Affichage initial
 - **En tant que** Product Manager
 - **Je souhaite** Voir s'afficher...
 - **Afin de** Valider...
@@ -296,8 +296,8 @@ describe('Détection des thèmes et critères dans "Critères d\'acceptation"', 
     });
 
     it('devrait gérer une section avec uniquement des thèmes (sans critères)', () => {
-      const markdown = `### Epic 1
-#### US-1.1 : Affichage initial
+      const markdown = `# Epic 1
+## US-1.1 : Affichage initial
 - **En tant que** Product Manager
 - **Je souhaite** Voir s'afficher...
 - **Afin de** Valider...
@@ -323,8 +323,8 @@ describe('Détection des thèmes et critères dans "Critères d\'acceptation"', 
     });
 
     it('devrait gérer une section avec uniquement des critères (sans thème)', () => {
-      const markdown = `### Epic 1
-#### US-1.1 : Affichage initial
+      const markdown = `# Epic 1
+## US-1.1 : Affichage initial
 - **En tant que** Product Manager
 - **Je souhaite** Voir s'afficher...
 - **Afin de** Valider...

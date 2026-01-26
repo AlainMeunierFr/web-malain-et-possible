@@ -1,6 +1,6 @@
-### Analyse de notre collaboration : Moments d'efficacité vs moments de friction
+# Analyse de notre collaboration : Moments d'efficacité vs moments de friction
 
-#### Moments d'efficacité ✅
+## Moments d'efficacité ✅
 
 **Patterns identifiés :**
 
@@ -26,7 +26,7 @@
 
 ---
 
-#### Moments de friction ❌
+## Moments de friction ❌
 
 **Patterns identifiés :**
 
@@ -66,7 +66,7 @@
 
 ---
 
-#### Causes racines identifiées
+## Causes racines identifiées
 
 **1. Ambiguïté terminologique**
 - **Problème** : Mots avec plusieurs sens (dessous = position Y OU z-index)
@@ -100,11 +100,11 @@
 
 ---
 
-#### Conseils pour améliorer vos prompts
+## Conseils pour améliorer vos prompts
 
 **🎯 Règle d'or : Un prompt efficace = Action + Contexte + Critères + Exemple**
 
-##### 1. Désambiguïser les termes techniques
+### 1. Désambiguïser les termes techniques
 
 **❌ À éviter :**
 ```
@@ -124,7 +124,7 @@ ou
 
 ---
 
-##### 2. Spécifier le scope explicitement
+### 2. Spécifier le scope explicitement
 
 **❌ À éviter :**
 ```
@@ -145,7 +145,7 @@ ou
 
 ---
 
-##### 3. Définir les critères de qualité attendus
+### 3. Définir les critères de qualité attendus
 
 **❌ À éviter :**
 ```
@@ -166,7 +166,7 @@ Format factuel, pas de titres excessifs, personnages : Alain et L'IA"
 
 ---
 
-##### 4. Préciser la stratégie de correction
+### 4. Préciser la stratégie de correction
 
 **❌ À éviter :**
 ```
@@ -183,7 +183,7 @@ Corrige en remontant progressivement depuis le bas : H6→H5→H4→H3, puis gar
 
 ---
 
-##### 5. Communiquer le contexte récent
+### 5. Communiquer le contexte récent
 
 **❌ À éviter :**
 ```
@@ -200,7 +200,7 @@ et qu'il faut adapter le code."
 
 ---
 
-##### 6. Utiliser des exemples concrets
+### 6. Utiliser des exemples concrets
 
 **❌ À éviter :**
 ```
@@ -220,7 +220,7 @@ et qu'il faut adapter le code."
 
 ---
 
-##### 7. Valider les assumptions
+### 7. Valider les assumptions
 
 **❌ À éviter :**
 ```
@@ -237,7 +237,7 @@ Va lire ce fichier [chemin] pour comprendre la stratégie automatique."
 
 ---
 
-##### 8. Structurer les demandes complexes
+### 8. Structurer les demandes complexes
 
 **❌ À éviter :**
 ```
@@ -257,7 +257,7 @@ Fais-les dans cet ordre et valide chaque étape."
 
 ---
 
-##### 9. Utiliser des formats structurés
+### 9. Utiliser des formats structurés
 
 **✅ Format efficace :**
 ```
@@ -279,7 +279,7 @@ Fais-les dans cet ordre et valide chaque étape."
 
 ---
 
-##### 10. Donner du feedback constructif
+### 10. Donner du feedback constructif
 
 **❌ À éviter :**
 ```
@@ -296,7 +296,7 @@ Il faut commencer par le niveau le plus bas."
 
 ---
 
-#### Checklist pour un prompt efficace
+## Checklist pour un prompt efficace
 
 Avant d'envoyer un prompt, vérifiez :
 
@@ -311,7 +311,7 @@ Avant d'envoyer un prompt, vérifiez :
 
 ---
 
-#### Exemples de prompts optimisés
+## Exemples de prompts optimisés
 
 **Exemple 1 : Correction technique**
 
@@ -374,7 +374,7 @@ Actions à faire :
 
 ---
 
-#### Résumé : Les 3 règles d'or
+## Résumé : Les 3 règles d'or
 
 **1. Spécificité > Généralité**
    - Préciser plutôt que généraliser

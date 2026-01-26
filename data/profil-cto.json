@@ -1,0 +1,59 @@
+{
+  "contenu": [
+    {
+      "type": "video",
+      "urlYouTube": "https://youtu.be/iUv6e256AVk",
+      "lancementAuto": true,
+      "e2eID": "v10-profil-cto"
+    },
+    {
+      "type": "titreDePage",
+      "texte": "Technologie"
+    },
+    {
+      "type": "domaineDeCompetence",
+      "ref": "developpement-informatique"
+    },
+    {
+      "type": "domaineDeCompetence",
+      "ref": "experience-en-equipe"
+    },
+    {
+      "type": "domaineDeCompetence",
+      "ref": "autres-pratiques-connues"
+    },
+    {
+      "type": "domaineDeCompetence",
+      "ref": "developpeur"
+    },
+    {
+      "type": "domaineDeCompetence",
+      "ref": "bien-applique-l-agilite-est-un-cadre-puissant-pour-delivrer-de-la-valeur"
+    },
+    {
+      "type": "domaineDeCompetence",
+      "ref": "management"
+    },
+    {
+      "type": "domaineDeCompetence",
+      "ref": "strategie-et-transformations"
+    },
+    {
+      "type": "domaineDeCompetence",
+      "ref": "activites-extra-professionnelles-au-service-de-ma-profession"
+    },
+    {
+      "type": "callToAction",
+      "action": "On discute ?",
+      "e2eID": "a-profil-cto"
+    },
+    {
+      "type": "titre",
+      "texte": "Témoignages"
+    },
+    {
+      "type": "temoignages",
+      "source": "_temoignages.json"
+    }
+  ]
+}

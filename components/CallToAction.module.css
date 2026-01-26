@@ -11,10 +11,10 @@
 }
 
 .callToActionButton {
-  /* État normal = aspect actuel de "active" (fond bleu clair, transform, ombre) */
-  background-color: var(--BoutonCouleurFondHover);
+  /* État normal = design formel (fond blanc, bordure, pas d'effet) */
+  background-color: var(--BoutonCouleurFond);
   padding: 0.75rem 1.5rem;
-  color: var(--BoutonCouleurTexteHover);
+  color: var(--BoutonCouleur);
   border: var(--BoutonContour);
   border-radius: var(--BoutonContourRadius);
   font-family: var(--BoutonPolice);
@@ -28,20 +28,20 @@
   display: inline-block;
   width: 100%;
   max-width: 947px; /* Même largeur max qu'un Domaine de compétence */
-  transform: var(--BoutonTransformHover);
-  box-shadow: var(--BoutonOmbreHover);
-}
-
-.callToActionButton:hover {
-  /* Hover = aspect actuel de "normal" (fond blanc, texte bleu, pas de transform, pas d'ombre) */
-  background-color: var(--BoutonCouleurFond);
-  color: var(--BoutonCouleur);
   transform: translateY(0);
   box-shadow: none;
 }
 
+.callToActionButton:hover {
+  /* Hover = fond bleu clair avec effet (plus interactif) */
+  background-color: var(--BoutonCouleurFondHover);
+  color: var(--BoutonCouleurTexteHover);
+  transform: var(--BoutonTransformHover);
+  box-shadow: var(--BoutonOmbreHover);
+}
+
 .callToActionButton:active {
-  /* Active = aspect actuel de "normal" (fond blanc, texte bleu, pas de transform, pas d'ombre) */
+  /* Active = retour à l'état normal (formel) */
   background-color: var(--BoutonCouleurFond);
   color: var(--BoutonCouleur);
   transform: translateY(0);

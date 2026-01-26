@@ -1,6 +1,6 @@
-### Clarification : Utilité de l'utilitaire de génération pour le plan du site
+# Clarification : Utilité de l'utilitaire de génération pour le plan du site
 
-#### Contexte
+## Contexte
 
 Avec les modifications apportées à US-3.10a, le **test d'intégration** met maintenant à jour automatiquement le JSON :
 - ✅ Pages obsolètes → supprimées automatiquement
@@ -8,43 +8,43 @@ Avec les modifications apportées à US-3.10a, le **test d'intégration** met ma
 - ✅ Nouvelles pages → ajoutées automatiquement
 - ✅ Nouveaux liens → ajoutés automatiquement
 
-#### Question
+## Question
 
 **À quoi sert "l'utilitaire de génération" mentionné dans les critères ?**
 
-#### Analyse des besoins potentiels
+## Analyse des besoins potentiels
 
-##### Cas d'usage 1 : Initialisation initiale
+### Cas d'usage 1 : Initialisation initiale
 **Besoin** : Créer le fichier JSON `data/site-map.json` la première fois (quand il n'existe pas encore)
 
 **Solution actuelle** : Le test peut détecter l'absence du fichier et le créer automatiquement
 
 **Question** : Est-ce que le test doit gérer ce cas, ou préférons-nous un utilitaire séparé ?
 
-##### Cas d'usage 2 : Régénération complète (reset des emplacements)
+### Cas d'usage 2 : Régénération complète (reset des emplacements)
 **Besoin** : Effacer tous les emplacements (x, y) existants pour repartir de zéro pour le placement
 
 **Solution actuelle** : Non couvert par le test (le test ne modifie que pages/liens, pas les emplacements)
 
 **Question** : Est-ce utile ? Aura-t-on besoin de réinitialiser les emplacements ?
 
-##### Cas d'usage 3 : Génération d'un JSON "propre" (sans emplacements)
+### Cas d'usage 3 : Génération d'un JSON "propre" (sans emplacements)
 **Besoin** : Générer un nouveau JSON avec toutes les pages/liens détectés mais sans emplacements existants
 
 **Solution actuelle** : Le test conserve les emplacements existants quand il ajoute de nouvelles pages
 
 **Question** : Est-ce utile de pouvoir régénérer sans conserver les anciens emplacements ?
 
-##### Cas d'usage 4 : Script CLI manuel
+### Cas d'usage 4 : Script CLI manuel
 **Besoin** : Pouvoir exécuter une commande manuelle (`npm run generate-sitemap`) pour régénérer le JSON
 
 **Solution actuelle** : Non nécessaire si le test fait tout automatiquement
 
 **Question** : Est-ce qu'on veut un script CLI séparé, ou le test suffit ?
 
-#### Options proposées
+## Options proposées
 
-##### Option A : Supprimer l'utilitaire de génération
+### Option A : Supprimer l'utilitaire de génération
 **Si** : Le test gère tout (détection, mise à jour automatique, création initiale)
 
 **Pros** :
@@ -54,7 +54,7 @@ Avec les modifications apportées à US-3.10a, le **test d'intégration** met ma
 **Cons** :
 - Pas de moyen de régénérer manuellement sans exécuter le test
 
-##### Option B : Utilitaire minimal pour l'initialisation
+### Option B : Utilitaire minimal pour l'initialisation
 **Si** : On veut séparer l'initialisation (script CLI) de la validation (test)
 
 **Pros** :
@@ -64,7 +64,7 @@ Avec les modifications apportées à US-3.10a, le **test d'intégration** met ma
 **Cons** :
 - Duplication potentielle de logique
 
-##### Option C : Utilitaire complet pour régénération
+### Option C : Utilitaire complet pour régénération
 **Si** : On veut pouvoir régénérer complètement (effacer emplacements, etc.)
 
 **Pros** :
@@ -75,7 +75,7 @@ Avec les modifications apportées à US-3.10a, le **test d'intégration** met ma
 - Plus complexe
 - Risque de conflit avec le test (qui met aussi à jour)
 
-#### Recommandation
+## Recommandation
 
 **Option A : Supprimer l'utilitaire** car :
 1. Le test met déjà à jour automatiquement le JSON (pages/liens)
@@ -87,7 +87,7 @@ Avec les modifications apportées à US-3.10a, le **test d'intégration** met ma
 - **Uniquement** pour l'initialisation initiale (première fois)
 - Le test prend ensuite le relais pour toutes les mises à jour
 
-#### Questions à trancher
+## Questions à trancher
 
 1. **Le test doit-il créer le fichier JSON s'il n'existe pas ?** (Oui/Non)
 2. **Aura-t-on besoin de régénérer les emplacements (x, y) ?** (Oui/Non)

@@ -1,6 +1,6 @@
-### Journal de bord structuré avec parsing automatique pour génération de pages
+# Journal de bord structuré avec parsing automatique pour génération de pages
 
-#### Introduction
+## Introduction
 
 Dans la plupart des projets, la documentation est statique et séparée du code. Le journal de bord, s'il existe, est souvent un simple fichier texte ou Markdown qui n'est pas intégré dans l'application. Cette approche rend difficile la navigation, la recherche, et l'intégration du journal dans l'expérience utilisateur.
 
@@ -11,7 +11,7 @@ Le besoin identifié est triple :
 
 Pour répondre à ces besoins, un système de journal de bord structuré a été mis en place : les fichiers Markdown structurés (format `YYYY-MM-DD.md`) sont parsés automatiquement pour générer des pages web. La structure est unifiée avec les autres contenus Markdown, permettant un rendu cohérent et une maintenance facilitée.
 
-#### Résumé
+## Résumé
 
 Cette stratégie repose sur trois mécanismes interconnectés :
 
@@ -31,22 +31,22 @@ Cette approche transforme la documentation en contenu dynamique : les fichiers M
 
 ---
 
-#### Structure unifiée
+## Structure unifiée
 
-##### Format des fichiers journal
+### Format des fichiers journal
 
 Les fichiers journal suivent le format `YYYY-MM-DD.md` dans `A propos de ce site/4. Journal de bord/` :
 
 **Exemple** (`2026-01-21.md`) :
 ````markdown
-### Sujet du jour
+# Sujet du jour
 
-#### Titre du prompt
+## Titre du prompt
 
-##### Prompt
+### Prompt
 Texte du prompt...
 
-##### Résultat technique
+### Résultat technique
 Texte du résultat technique...
 ````
 
@@ -57,7 +57,7 @@ Texte du résultat technique...
 
 **Avantage** : Même structure que les autres contenus Markdown, styles CSS uniformes.
 
-##### Ajustement des niveaux
+### Ajustement des niveaux
 
 Pour respecter la convention hiérarchique, les niveaux sont ajustés automatiquement :
 
@@ -71,9 +71,9 @@ content = adjustMarkdownTitleLevels(content);
 
 ---
 
-#### Parsing automatique
+## Parsing automatique
 
-##### Backend pur
+### Backend pur
 
 Le backend pur parse les fichiers journal en utilisant la même logique que pour "A propos de ce site" :
 
@@ -101,7 +101,7 @@ export const parseJournalMarkdown = (markdown: string): ParsedJournal => {
 
 **Résultat** : Structure JSON unifiée, identique à celle utilisée pour "A propos de ce site".
 
-##### Structure générée
+### Structure générée
 
 La structure générée est identique à celle des autres contenus Markdown :
 
@@ -130,9 +130,9 @@ interface SousPartie {
 
 ---
 
-#### Génération de pages
+## Génération de pages
 
-##### Page liste des journaux
+### Page liste des journaux
 
 La page `app/journal-de-bord/page.tsx` affiche la liste de tous les journaux :
 
@@ -155,7 +155,7 @@ export default function JournalListPage() {
 
 **Résultat** : Liste automatique de tous les journaux, générée à partir des fichiers Markdown.
 
-##### Page détail d'un journal
+### Page détail d'un journal
 
 La page `app/journal-de-bord/[date]/page.tsx` affiche le contenu d'un journal spécifique :
 
@@ -181,7 +181,7 @@ export default function JournalDetailPage({ params }: { params: { date: string }
 
 **Résultat** : Page automatique pour chaque journal, générée à partir du fichier Markdown parsé.
 
-##### Composants réutilisables
+### Composants réutilisables
 
 Les composants utilisés pour "A propos de ce site" sont réutilisables pour les journaux :
 
@@ -202,30 +202,30 @@ function JournalContentRenderer({ parsed }: { parsed: ParsedJournal }) {
 
 ---
 
-#### Avantages de cette approche
+## Avantages de cette approche
 
-##### 1. Documentation vivante
+### 1. Documentation vivante
 
 Le journal de bord est intégré dans l'application :
 - **Navigation** : Navigation facile entre les journaux
 - **Recherche** : Recherche possible dans les journaux
 - **Intégration** : Le journal fait partie de l'expérience utilisateur
 
-##### 2. Structure cohérente
+### 2. Structure cohérente
 
 Même structure que les autres contenus Markdown :
 - **Styles CSS uniformes** : Styles basés sur la hiérarchie HTML (h3, h4, h5)
 - **Composants réutilisables** : Même composants que pour "A propos de ce site"
 - **Mode lecture navigateur** : Fonctionne correctement grâce à la hiérarchie cohérente
 
-##### 3. Génération automatique
+### 3. Génération automatique
 
 Les pages sont générées automatiquement :
 - **Pas de maintenance manuelle** : Ajouter un fichier Markdown = nouvelle page automatiquement
 - **Cohérence garantie** : Tous les journaux suivent la même structure
 - **Extensibilité** : Facile d'ajouter de nouvelles fonctionnalités (recherche, filtres, etc.)
 
-##### 4. Maintenabilité
+### 4. Maintenabilité
 
 Architecture claire et maintenable :
 - **Backend pur** : Logique métier testable et réutilisable
@@ -234,9 +234,9 @@ Architecture claire et maintenable :
 
 ---
 
-#### Comparaison avec les approches traditionnelles
+## Comparaison avec les approches traditionnelles
 
-##### Approche traditionnelle
+### Approche traditionnelle
 
 Dans les projets classiques, le journal de bord est souvent un simple fichier texte :
 
@@ -253,7 +253,7 @@ Dans les projets classiques, le journal de bord est souvent un simple fichier te
 - Pas de structure cohérente
 - Maintenance manuelle
 
-##### Approche avec parsing automatique
+### Approche avec parsing automatique
 
 ```markdown
 # ✅ Parsing automatique
@@ -271,9 +271,9 @@ Dans les projets classiques, le journal de bord est souvent un simple fichier te
 
 ---
 
-#### Exemples concrets
+## Exemples concrets
 
-##### Exemple 1 : Ajout d'un nouveau journal
+### Exemple 1 : Ajout d'un nouveau journal
 
 **Action** : Créer un fichier `2026-01-22.md` dans `A propos de ce site/4. Journal de bord/`
 
@@ -284,18 +284,18 @@ Dans les projets classiques, le journal de bord est souvent un simple fichier te
 
 **Avantage** : Pas de maintenance manuelle, tout est automatique.
 
-##### Exemple 2 : Structure d'un journal
+### Exemple 2 : Structure d'un journal
 
 **Fichier** (`2026-01-21.md`) :
 ````markdown
-### Nouvelle fonctionnalité
+# Nouvelle fonctionnalité
 
-#### Ajout d'un nouveau composant
+## Ajout d'un nouveau composant
 
-##### Prompt
+### Prompt
 Créer un composant pour afficher les métriques...
 
-##### Résultat technique
+### Résultat technique
 Composant MetricsCard créé avec tests unitaires...
 ````
 
@@ -309,7 +309,7 @@ Composant MetricsCard créé avec tests unitaires...
 
 ---
 
-#### Conclusion
+## Conclusion
 
 Cette stratégie garantit que :
 - ✅ Le journal de bord est intégré dans l'application comme contenu dynamique

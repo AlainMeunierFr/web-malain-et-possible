@@ -31,15 +31,19 @@ function extractE2eIdsFromJson(): E2eIdInventoryItem[] {
   const files = fs.readdirSync(dataDir);
   const jsonFiles = files.filter((file) => file.endsWith('.json'));
 
-  // Fichiers à ignorer
+  // Fichiers à ignorer (les fichiers avec préfixe _ sont automatiquement ignorés)
   const ignoredFiles = new Set([
-    'Pages-Et-Lien.json',
+    '_Pages-Et-Lien.json',
     'plan-du-site.json',
-    'motdepasse.json',
+    '_motdepasse.json',
+    '_footerButtons.json',
+    '_metrics.json',
+    '_temoignages.json',
   ]);
 
   for (const jsonFile of jsonFiles) {
-    if (ignoredFiles.has(jsonFile)) {
+    // Ignorer les fichiers avec préfixe _ (fichiers de configuration)
+    if (jsonFile.startsWith('_') || ignoredFiles.has(jsonFile)) {
       continue;
     }
 
@@ -93,9 +97,8 @@ function extractE2eIdsFromJson(): E2eIdInventoryItem[] {
         });
       }
 
-      // Vérifier aussi footerButtons.json
-      // Note: footerButtons.json a la structure groupeBoutons, donc les boutons sont déjà traités
-      // par la fonction traverse() ci-dessus. Pas besoin de traitement spécial ici.
+      // Note: _footerButtons.json est ignoré car il a le préfixe _
+      // Les boutons sont traités par la fonction traverse() ci-dessus si le fichier n'est pas ignoré
     } catch (error) {
       // Ignorer les erreurs de parsing
       continue;

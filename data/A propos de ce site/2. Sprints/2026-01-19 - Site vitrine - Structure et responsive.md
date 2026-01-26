@@ -1,7 +1,7 @@
-### Sprint Goal
+# Sprint Goal
 Développer la structure hiérarchique et le responsive du site vitrine (carte de visite) en reprenant le contenu d'une version existante développée sous Bubble.
 
-#### US-3.1 : Affichage d'un Domaine de compétences mockup sur la page d'accueil ✅ COMPLÉTÉ
+## US-3.1 : Affichage d'un Domaine de compétences mockup sur la page d'accueil ✅ COMPLÉTÉ
 - **En tant que** Product Manager
 - **Je souhaite** Voir s'afficher sur la page d'accueil un "Domaine de compétences" avec ses 3 compétences (données mockup)
 - **Afin de** Valider la structure et la mise en page d'un Domaine de compétences avant de développer les autres types de contenu
@@ -39,7 +39,7 @@ Développer la structure hiérarchique et le responsive du site vitrine (carte d
     - **Texte non centré** : Le texte des descriptions ne doit PAS être centré (seuls les titres H3 des compétences sont centrés)
 - Les données mockup sont réalistes mais factices (texte lorem ipsum, images placeholder, etc.)
 
-#### US-3.2 : Navigation depuis les boutons "En savoir plus..." vers des pages dédiées ✅ COMPLÉTÉ
+## US-3.2 : Navigation depuis les boutons "En savoir plus..." vers des pages dédiées ✅ COMPLÉTÉ
 - **En tant que** Visiteur du site
 - **Je souhaite** Pouvoir cliquer sur un bouton "En savoir plus..." d'une compétence pour accéder à une page dédiée contenant plus d'informations
 - **Afin de** Découvrir en détail les domaines de compétences qui m'intéressent
@@ -50,7 +50,7 @@ Développer la structure hiérarchique et le responsive du site vitrine (carte d
 - La navigation fonctionne pour au moins 3 domaines : "Stratégie" → page Robustesse, "Conduite du changement" → page Conduite du changement, "Détournement vidéo" → page Détournement vidéo
 - Les pages dédiées utilisent la même structure et le même composant que la page d'accueil pour l'affichage
 
-#### US-3.3 : Enrichissement des pages avec de nouveaux types de contenu ✅ COMPLÉTÉ
+## US-3.3 : Enrichissement des pages avec de nouveaux types de contenu ✅ COMPLÉTÉ
 - **En tant que** Visiteur du site
 - **Je souhaite** Voir différents types de contenu sur les pages (titres, vidéos, textes d'introduction) en plus des domaines de compétences
 - **Afin de** Avoir une expérience de navigation plus riche et variée avec différents formats de présentation
@@ -66,7 +66,7 @@ Développer la structure hiérarchique et le responsive du site vitrine (carte d
   - Data : un texte
   - CSS : un texte qui se comporte comme le titre d'un domaine de compétence (947 de largeur max) mais qui n'a pas "3 compétences"
 
-#### US-3.4 : Contact - Call to Action et page "Faisons connaissance" ✅ COMPLÉTÉ
+## US-3.4 : Contact - Call to Action et page "Faisons connaissance" ✅ COMPLÉTÉ
 - **En tant que** Visiteur du site
 - **Je souhaite** Pouvoir accéder à une page "Faisons connaissance" depuis un bouton d'action visible en bas de toutes les pages
 - **Afin de** Entrer en contact avec Alain et découvrir comment collaborer
@@ -90,7 +90,7 @@ Développer la structure hiérarchique et le responsive du site vitrine (carte d
   - Le contenu est basé sur le fichier HTML d'exemple "Malain et possible - Faisons connaissance.html"
   - La page est responsive et utilise la même structure que les autres pages du site (Header/Footer partagés)
 
-#### US-3.5 : Page "Faisons connaissance" - Affichage et comportement des boutons de contact ✅ COMPLÉTÉ
+## US-3.5 : Page "Faisons connaissance" - Affichage et comportement des boutons de contact ✅ COMPLÉTÉ
 - **En tant que** Visiteur du site
 - **Je souhaite** Voir une page "Faisons connaissance" avec des boutons de contact clairs et accessibles organisés en groupes
 - **Afin de** Facilement entrer en contact avec Alain selon différents modes (déjeuner, visio, téléphone, email, réseaux sociaux)
@@ -145,7 +145,7 @@ Développer la structure hiérarchique et le responsive du site vitrine (carte d
   - Adaptation du rendu selon la taille du groupe (petite = horizontal sans texte, grande = vertical avec icône et texte)
   - Adaptation de la couleur selon le contexte (footer = blanc sur bleu, page = bleu sur blanc)
 
-#### US-3.6 : Amélioration de l'affichage des "Critères d'acceptation" dans le wiki ✅ COMPLÉTÉ
+## US-3.6 : Amélioration de l'affichage des "Critères d'acceptation" dans le wiki ✅ COMPLÉTÉ
 - **En tant que** Lecteur du wiki du site
 - **Je souhaite** Voir les "Critères d'acceptation" des User Stories structurés hiérarchiquement avec des thèmes de critères en gras et des critères normaux
 - **Afin de** Mieux comprendre l'organisation et la hiérarchie des critères d'acceptation
@@ -179,7 +179,7 @@ Développer la structure hiérarchique et le responsive du site vitrine (carte d
     - `- Critère normal` (sans `**` au début) pour les critères sous ce thème
   - La règle est ajoutée dans la DOD "Comportement implicite de l'IA" (section sur l'écriture des User Stories)
 
-#### US-3.7 : Reprise du contenu manquant avec les types de contenu existants ✅ COMPLÉTÉ
+## US-3.7 : Reprise du contenu manquant avec les types de contenu existants ✅ COMPLÉTÉ
 - **En tant que** Visiteur du site
 - **Je souhaite** Voir tout le contenu de l'ancien site repris dans le nouveau site en utilisant les types de contenu déjà implémentés (titre, video, texteLarge, domaineDeCompetence, callToAction, groupeBoutons)
 - **Afin de** Avoir un site complet avec tout le contenu de l'ancien site disponible
@@ -202,7 +202,7 @@ Développer la structure hiérarchique et le responsive du site vitrine (carte d
   - Le contenu est fidèle à l'original (textes, images, structure)
   - Les types de contenu utilisés sont appropriés et cohérents
 
-#### US-3.8a : Création du type de contenu "témoignage" ✅ COMPLÉTÉ
+## US-3.8a : Création du type de contenu "témoignage" ✅ COMPLÉTÉ
 - **En tant que** Visiteur du site
 - **Je souhaite** Voir des témoignages de clients ou partenaires sur le site
 - **Afin de** Avoir une preuve sociale et crédibilité pour les services proposés
@@ -228,7 +228,7 @@ Développer la structure hiérarchique et le responsive du site vitrine (carte d
   - Tests unitaires pour le composant `Temoignage`
   - Tests pour la lecture du JSON avec type "temoignage"
 
-#### US-3.8b : Création du type de contenu "portfolio détournements" ✅ COMPLÉTÉ
+## US-3.8b : Création du type de contenu "portfolio détournements" ✅ COMPLÉTÉ
 - **En tant que** Visiteur du site
 - **Je souhaite** Voir une galerie de détournements vidéo avec des images et des liens vers les vidéos
 - **Afin de** Découvrir les réalisations créatives d'Alain
@@ -255,7 +255,7 @@ Développer la structure hiérarchique et le responsive du site vitrine (carte d
   - Tests unitaires pour le composant `PortfolioDetournements`
   - Tests pour la lecture du JSON avec type "portfolioDetournements"
 
-#### US-3.9 : Conservation des URLs de l'ancien site ✅ COMPLÉTÉ
+## US-3.9 : Conservation des URLs de l'ancien site ✅ COMPLÉTÉ
 - **En tant que** Visiteur ayant des liens vers l'ancien site
 - **Je souhaite** Que toutes les URLs de l'ancien site (partagées dans des CV, lettres de motivation, etc.) fonctionnent à l'identique dans le nouveau site
 - **Afin de** Ne pas perdre les liens existants et maintenir la continuité de référencement
@@ -297,7 +297,7 @@ Développer la structure hiérarchique et le responsive du site vitrine (carte d
   - Les pages "En construction" sont accessibles et affichent un message clair
   - Aucun lien cassé pour les visiteurs ayant des liens vers l'ancien site
 
-#### US-3.10a : Génération automatique du plan du site et validation de conformité ✅ COMPLÉTÉ
+## US-3.10a : Génération automatique du plan du site et validation de conformité ✅ COMPLÉTÉ
 - **En tant que** Développeur
 - **Je souhaite** Avoir un test d'intégration qui génère automatiquement un plan du site (pages + liens internes) et valide sa conformité avec un JSON de référence
 - **Afin de** Maintenir automatiquement le plan du site à jour et préparer la structure pour le rendu visuel futur
@@ -358,7 +358,7 @@ Développer la structure hiérarchique et le responsive du site vitrine (carte d
     - Les nouvelles pages sont ajoutées avec x/y à null (à placer ensuite)
   - Cette approche garantit que le plan JSON reste toujours synchronisé avec le code, seul le positionnement visuel nécessite une intervention humaine
 
-#### US-3.10b : Rendu visuel du plan du site ✅ COMPLÉTÉ
+## US-3.10b : Rendu visuel du plan du site ✅ COMPLÉTÉ
 - **En tant que** Visiteur du site
 - **Je souhaite** Voir une visualisation du plan du site avec des boutons cliquables pour chaque page
 - **Afin de** Naviguer facilement et découvrir tout le contenu disponible
@@ -384,7 +384,7 @@ Développer la structure hiérarchique et le responsive du site vitrine (carte d
 - **Responsive** : Le composant s'adapte aux différentes tailles d'écran
 - **Note** : L'implémentation utilise une grille de boutons plutôt qu'une représentation graphique avec rectangles et flèches, ce qui offre une meilleure accessibilité et une navigation plus directe
 
-#### US-3.11 : Alternance de fond pour améliorer la lisibilité visuelle ✅ COMPLÉTÉ
+## US-3.11 : Alternance de fond pour améliorer la lisibilité visuelle ✅ COMPLÉTÉ
 
 - **En tant que** Visiteur du site
 - **Je souhaite** Voir les différents domaines de compétences avec des fonds alternés (blanc et bleu clair)
@@ -408,7 +408,7 @@ Développer la structure hiérarchique et le responsive du site vitrine (carte d
 
 - **Note** : Cette US sera traitée après US-3.10a, une fois la structure de données validée
 
-#### US-3.12 : Composant ListeDesPages pour affichage du plan du site ✅ COMPLÉTÉ
+## US-3.12 : Composant ListeDesPages pour affichage du plan du site ✅ COMPLÉTÉ
 
 - **En tant que** Visiteur du site
 - **Je souhaite** Voir une liste structurée de toutes les pages disponibles sur le site
@@ -425,7 +425,7 @@ Développer la structure hiérarchique et le responsive du site vitrine (carte d
 - **Responsive** : Le composant s'adapte aux différentes tailles d'écran
 - **Styles CSS** : Fichier `ListeDesPages.module.css` avec styles cohérents avec le reste du site
 
-#### US-3.13 : Unification des boutons avec constantes CSS ✅ COMPLÉTÉ
+## US-3.13 : Unification des boutons avec constantes CSS ✅ COMPLÉTÉ
 
 - **En tant que** Développeur
 - **Je souhaite** Avoir des constantes CSS globales pour tous les styles de boutons

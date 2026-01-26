@@ -1,8 +1,8 @@
-### Analyse de la dégradation de la couverture de code
+# Analyse de la dégradation de la couverture de code
 
-#### Problèmes identifiés
+## Problèmes identifiés
 
-##### 1. Tests qui échouent
+### 1. Tests qui échouent
 
 **Problème** : Des tests référencent des fonctions qui n'existent pas dans le code source.
 
@@ -12,13 +12,13 @@
 
 **Impact** : Tests qui échouent = couverture non calculée correctement = dégradation apparente de la couverture.
 
-##### 2. Tests dans le dossier `continue/`
+### 2. Tests dans le dossier `continue/`
 
 **Problème** : Des tests dans le dossier `continue/` échouent (problèmes de dépendances, `TextDecoder` non défini, etc.).
 
 **Impact** : Ces échecs peuvent affecter le calcul global de la couverture si le dossier n'est pas correctement exclu.
 
-##### 3. DOD non respectée
+### 3. DOD non respectée
 
 **Règle DOD** (DOD - Équipe.md, ligne 111-115) :
 - **Couverture de code à 90%** : La couverture doit être maintenue à **90% minimum** sur tous les critères (lignes, statements, functions, branches)
@@ -28,9 +28,9 @@
 
 ---
 
-#### Actions correctives nécessaires
+## Actions correctives nécessaires
 
-##### 1. Corriger les tests qui échouent
+### 1. Corriger les tests qui échouent
 
 **Action immédiate** :
 1. Supprimer ou corriger les tests qui référencent `readDetournementsVideo()` si cette fonction n'est pas nécessaire
@@ -39,7 +39,7 @@
 
 **Priorité** : Haute (bloque le calcul correct de la couverture)
 
-##### 2. Exclure le dossier `continue/` de la couverture
+### 2. Exclure le dossier `continue/` de la couverture
 
 **Action** : Vérifier que `jest.config.js` exclut bien le dossier `continue/` de la collecte de couverture.
 
@@ -57,7 +57,7 @@ collectCoverageFrom: [
 
 **Priorité** : Moyenne (affecte le calcul de couverture mais ne bloque pas les tests)
 
-##### 3. Vérifier la couverture réelle
+### 3. Vérifier la couverture réelle
 
 **Action** : Exécuter les tests avec couverture en excluant les dossiers problématiques pour obtenir la couverture réelle du code du projet (hors `continue/`).
 
@@ -68,7 +68,7 @@ npm test -- --coverage --collectCoverageFrom="utils/**/*.ts" --collectCoverageFr
 
 **Priorité** : Haute (nécessaire pour connaître l'état réel)
 
-##### 4. Corriger la couverture si < 90%
+### 4. Corriger la couverture si < 90%
 
 **Action** : Si la couverture réelle est < 90%, ajouter les tests manquants selon la DOD :
 - TDD strict : Tests écrits AVANT le code
@@ -79,15 +79,15 @@ npm test -- --coverage --collectCoverageFrom="utils/**/*.ts" --collectCoverageFr
 
 ---
 
-#### Plan d'action recommandé
+## Plan d'action recommandé
 
-##### Phase 1 : Diagnostic (immédiat)
+### Phase 1 : Diagnostic (immédiat)
 
 1. ✅ Exclure `continue/` de la collecte de couverture si ce n'est pas déjà fait
 2. ✅ Corriger les tests qui échouent (`readDetournementsVideo`, résolution références externes)
 3. ✅ Exécuter les tests avec couverture pour obtenir la couverture réelle
 
-##### Phase 2 : Correction (si couverture < 90%)
+### Phase 2 : Correction (si couverture < 90%)
 
 1. Identifier les fichiers `utils/` avec faible couverture
 2. Pour chaque fichier :
@@ -95,7 +95,7 @@ npm test -- --coverage --collectCoverageFrom="utils/**/*.ts" --collectCoverageFr
    - Si non, créer le fichier de test selon TDD strict
    - Si oui, compléter les tests pour atteindre 90% minimum
 
-##### Phase 3 : Prévention
+### Phase 3 : Prévention
 
 1. Ajouter une vérification automatique de couverture dans le workflow CI/CD
 2. Bloquer les merges si couverture < 90%
@@ -103,7 +103,7 @@ npm test -- --coverage --collectCoverageFrom="utils/**/*.ts" --collectCoverageFr
 
 ---
 
-#### Respect de la DOD
+## Respect de la DOD
 
 **Règle DOD - Back-End** (ligne 81-85) :
 > Tests unitaires (TDD) obligatoires pour **TOUTES** les fonctions backend pur : Chaque fonction exportée dans `utils/` doit avoir des tests unitaires complets
@@ -132,7 +132,7 @@ npm test -- --coverage --collectCoverageFrom="utils/**/*.ts" --collectCoverageFr
 
 ---
 
-#### État de la couverture après corrections
+## État de la couverture après corrections
 
 **Couverture actuelle** (après exclusion de `continue/` et correction des tests) :
 - **Statements** : 76.76% (objectif : 90%) ❌
@@ -142,7 +142,7 @@ npm test -- --coverage --collectCoverageFrom="utils/**/*.ts" --collectCoverageFr
 
 **Conclusion** : Tous les critères sont en dessous de 90%, ce qui viole la DOD.
 
-#### Actions correctives effectuées
+## Actions correctives effectuées
 
 ✅ **1. Exclusion du dossier `continue/`**
 - Ajout de `'!**/continue/**'` dans `collectCoverageFrom` de `jest.config.js`
@@ -164,7 +164,7 @@ npm test -- --coverage --collectCoverageFrom="utils/**/*.ts" --collectCoverageFr
 
 **Total** : 43 nouveaux tests créés selon TDD strict avec progression visible du simple au complexe.
 
-#### Actions restantes nécessaires
+## Actions restantes nécessaires
 
 **Priorité haute** : Atteindre 90% de couverture sur tous les critères
 

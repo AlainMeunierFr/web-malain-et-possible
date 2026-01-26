@@ -1,0 +1,48 @@
+{
+  "domainesNonUtilises": [
+    {
+      "id": "activites-extra-professionnelles-au-service-de-ma-profession",
+      "titre": "Activités extra-professionnelles... au service de ma profession",
+      "competences": [
+        "improvisation-theatrale",
+        "jeux-de-strategie",
+        "musique"
+      ]
+    },
+    {
+      "id": "diagnostic-civilisationnel",
+      "titre": "Diagnostic civilisationnel",
+      "competences": [
+        "la-science-les-faits",
+        "les-ordres-de-grandeur",
+        "une-vision-systemique"
+      ]
+    }
+  ],
+  "competencesNonUtilisees": [
+    {
+      "id": "improvisation-theatrale",
+      "titre": "Improvisation théâtrale"
+    },
+    {
+      "id": "jeux-de-strategie",
+      "titre": "Jeux de stratégie"
+    },
+    {
+      "id": "la-science-les-faits",
+      "titre": "La science / Les faits"
+    },
+    {
+      "id": "les-ordres-de-grandeur",
+      "titre": "Les ordres de grandeur"
+    },
+    {
+      "id": "musique",
+      "titre": "Musique"
+    },
+    {
+      "id": "une-vision-systemique",
+      "titre": "Une vision systémique"
+    }
+  ]
+}

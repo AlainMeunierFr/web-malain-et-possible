@@ -1,9 +1,9 @@
-### Sprint Goal
+# Sprint Goal
 Mettre en place un système de protection par mot de passe et une page de maintenance pour sécuriser l'accès aux fonctionnalités d'administration et de maintenance du site.
 
 ---
 
-#### US-6.2 : Protection par mot de passe pour pages sensibles ✅ COMPLÉTÉ
+## US-6.2 : Protection par mot de passe pour pages sensibles ✅ COMPLÉTÉ
 
 - **En tant que** Product Owner
 - **Je souhaite** Protéger certaines pages du site par un mot de passe
@@ -22,7 +22,7 @@ Mettre en place un système de protection par mot de passe et une page de mainte
   - Fermeture du modal après authentification réussie
 - **Utilitaires** : Fonction `utils/passwordUtils.ts` pour la gestion du mot de passe (hachage, vérification)
 
-#### US-6.3 : Page de maintenance ✅ COMPLÉTÉ
+## US-6.3 : Page de maintenance ✅ COMPLÉTÉ
 
 - **En tant que** Product Owner
 - **Je souhaite** Avoir une page de maintenance accessible uniquement aux utilisateurs authentifiés
@@ -39,7 +39,7 @@ Mettre en place un système de protection par mot de passe et une page de mainte
 - **Redirection automatique** : Utilisation de `useRouter` pour rediriger automatiquement si non authentifié
 - **Note** : Cette page est un placeholder pour les futures fonctionnalités de maintenance
 
-#### US-6.4 : Cadeau pour les curieux ✅ COMPLÉTÉ
+## US-6.4 : Cadeau pour les curieux ✅ COMPLÉTÉ
 
 - **En tant que** Visiteur curieux
 - **Je souhaite** Découvrir un message caché sur la page de maintenance après avoir trouvé le mot de passe

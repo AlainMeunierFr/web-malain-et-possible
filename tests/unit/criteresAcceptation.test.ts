@@ -12,8 +12,8 @@ describe('Détection et parsing des Critères d\'acceptation - US-3.6', () => {
   describe('ITÉRATION 1 : Détection de la section "Critères d\'acceptation"', () => {
     it('devrait détecter la ligne "- **Critères d\'acceptation** :" comme début de section', () => {
       // ARRANGE : Ajouter une partie (###) avant la sous-partie (####)
-      const contenu = `### Partie 1
-#### US-3.1 : Test
+      const contenu = `# Partie 1
+## US-3.1 : Test
 - **En tant que** Product Manager
 - **Je souhaite** Voir s'afficher...
 - **Afin de** Valider...
@@ -40,14 +40,14 @@ describe('Détection et parsing des Critères d\'acceptation - US-3.6', () => {
   describe('ITÉRATION 2 : Fin de section à la prochaine US', () => {
     it('devrait terminer la section "Critères d\'acceptation" à la prochaine US', () => {
       // ARRANGE : Ajouter une partie (###) avant les sous-parties (####)
-      const contenu = `### Partie 1
-#### US-3.1 : Test
+      const contenu = `# Partie 1
+## US-3.1 : Test
 - **En tant que** Product Manager
 - **Je souhaite** Voir s'afficher...
 - **Afin de** Valider...
 - **Critères d'acceptation** :
 - Un critère normal
-#### US-3.2 : Autre test
+## US-3.2 : Autre test
 - **En tant que** User
 - **Je souhaite** Faire autre chose
 - **Afin de** Atteindre un objectif
@@ -75,8 +75,8 @@ describe('Détection et parsing des Critères d\'acceptation - US-3.6', () => {
   describe('ITÉRATION 3 : Fin de section à un séparateur ---', () => {
     it('devrait terminer la section "Critères d\'acceptation" à un séparateur ---', () => {
       // ARRANGE : Ajouter une partie (###) avant la sous-partie (####)
-      const contenu = `### Partie 1
-#### US-3.1 : Test
+      const contenu = `# Partie 1
+## US-3.1 : Test
 - **En tant que** Product Manager
 - **Je souhaite** Voir s'afficher...
 - **Afin de** Valider...
@@ -104,8 +104,8 @@ Autre contenu après le séparateur
   describe('ITÉRATION 4 : Détection d\'un thème de critère', () => {
     it('devrait détecter une ligne commençant par "- **" comme thème de critère', () => {
       // ARRANGE : Ajouter une partie (###) avant la sous-partie (####)
-      const contenu = `### Partie 1
-#### US-3.1 : Test
+      const contenu = `# Partie 1
+## US-3.1 : Test
 - **En tant que** Product Manager
 - **Je souhaite** Voir s'afficher...
 - **Afin de** Valider...
@@ -132,8 +132,8 @@ Autre contenu après le séparateur
   describe('ITÉRATION 5 : Détection d\'un critère normal', () => {
     it('devrait détecter une ligne commençant par "- " (sans **) comme critère normal', () => {
       // ARRANGE : Ajouter une partie (###) avant la sous-partie (####)
-      const contenu = `### Partie 1
-#### US-3.1 : Test
+      const contenu = `# Partie 1
+## US-3.1 : Test
 - **En tant que** Product Manager
 - **Je souhaite** Voir s'afficher...
 - **Afin de** Valider...
@@ -159,8 +159,8 @@ Autre contenu après le séparateur
   describe('ITÉRATION 6 : Hiérarchie thème-critères', () => {
     it('devrait associer les critères au dernier thème rencontré', () => {
       // ARRANGE : Ajouter une partie (###) avant la sous-partie (####)
-      const contenu = `### Partie 1
-#### US-3.1 : Test
+      const contenu = `# Partie 1
+## US-3.1 : Test
 - **En tant que** Product Manager
 - **Je souhaite** Voir s'afficher...
 - **Afin de** Valider...
@@ -209,8 +209,8 @@ Autre contenu après le séparateur
   describe('ITÉRATION 7 : Cas complexe avec plusieurs thèmes et critères', () => {
     it('devrait parser correctement une section complète de critères d\'acceptation', () => {
       // ARRANGE : Ajouter une partie (###) avant la sous-partie (####)
-      const contenu = `### Partie 1
-#### US-3.1 : Test
+      const contenu = `# Partie 1
+## US-3.1 : Test
 - **En tant que** Product Manager
 - **Je souhaite** Voir s'afficher...
 - **Afin de** Valider...
@@ -248,14 +248,14 @@ Autre contenu après le séparateur
   describe('ITÉRATION 8 : Fin de section à la fin de la sous-partie', () => {
     it('devrait terminer la section "Critères d\'acceptation" à la fin de la sous-partie (H4)', () => {
       // ARRANGE
-      const contenu = `### Partie 1
-#### US-3.1 : Test
+      const contenu = `# Partie 1
+## US-3.1 : Test
 - **En tant que** Product Manager
 - **Je souhaite** Voir s'afficher...
 - **Afin de** Valider...
 - **Critères d'acceptation** :
 - Un critère normal
-#### US-3.2 : Autre US
+## US-3.2 : Autre US
 - **En tant que** User
 `;
 

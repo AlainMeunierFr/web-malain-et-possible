@@ -1,14 +1,14 @@
-#### US-3.8a : Création du type de contenu "témoignage"
+## US-3.8a : Création du type de contenu "témoignage"
 - Tests unitaires pour le composant `Temoignages`
 - Tests pour la lecture du JSON avec type "temoignages"
 
-#### US-3.8b : Création du type de contenu "portfolio détournements"
+## US-3.8b : Création du type de contenu "portfolio détournements"
 - Tests unitaires pour le composant `VideoDetournement`
 - Tests pour la lecture du JSON avec type "videoDetournement"
 - Test d'intégration pour vérifier la conformité de tous les JSON avec les types de contenu connus.
 
 
-#### US-3.10 : Création de la page "Plan du site"
+## US-3.10 : Création de la page "Plan du site"
 **Statut** : ❌ Non commencée
 
 - ❌ Fichier JSON décrivant le plan du site
@@ -23,9 +23,9 @@
 
 **Note** : Page `/site-map` existe mais n'affiche qu'un titre, toute l'implémentation reste à faire
 
-### Résumé des critères à vérifier/abandonner
+# Résumé des critères à vérifier/abandonner
 
-#### Critères probablement à abandonner (non critiques)
+## Critères probablement à abandonner (non critiques)
 
 1. **US-3.8a - Tests** :
    - Tests unitaires pour composant `Temoignages` : Non critique si satisfaction fonctionnelle
@@ -45,7 +45,7 @@
 5. **US-3.9 - Pages "En construction"** :
    - Pages "En construction" avec message : Modifié en pages avec titre uniquement (meilleure solution)
 
-#### Critères méritant attention (à confirmer)
+## Critères méritant attention (à confirmer)
 
 1. **US-3.9 - Vérification HTTP 301** :
    - Une seule redirection 301 en place (`/a-propos` → `/`)
@@ -59,7 +59,7 @@
 3. **US-3.10 - Plan du site** :
    - **Tous les critères non implémentés** : US complète à faire si souhaitée
 
-### Recommandation
+# Recommandation
 
 **À abandonner définitivement** :
 - Tests manquants US-3.8a et US-3.8b (si satisfaction fonctionnelle)

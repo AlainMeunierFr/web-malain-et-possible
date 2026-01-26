@@ -3,8 +3,8 @@
  * Backend pur : testable sans dépendance React/Next.js
  * 
  * APPROCHE TDD : Les tests montrent la progression du simple au complexe
- * - Test 1 : Le cas le plus simple (remplacer **Résultat technique** par ##### Résultat technique)
- * - Test 2 : Ajouter ##### Prompt avant le contenu après un H4
+ * - Test 1 : Le cas le plus simple (remplacer **Résultat technique** par ### Résultat technique)
+ * - Test 2 : Ajouter ### Prompt avant le contenu après un H2
  * - Test 3 : Gérer plusieurs prompts
  * - Test 4 : Gérer le résultat technique sur la même ligne que du texte
  * - Test 5 : Cas limites (lignes vides, plusieurs lignes)
@@ -29,14 +29,14 @@ describe('markdownFormatter - Approche TDD (simple → complexe)', () => {
 
   describe('formatJournalMarkdown', () => {
     // ITÉRATION 1 : Le cas le plus simple - remplacer **Résultat technique**
-    it('should replace **Résultat technique** with ##### Résultat technique', () => {
+    it('should replace **Résultat technique** with ### Résultat technique', () => {
       const content = `## Section
-### Titre prompt
+# Titre prompt
 **Résultat technique** : Mon résultat`;
       
       const result = formatJournalMarkdown(content);
       
-      expect(result).toContain('##### Résultat technique');
+      expect(result).toContain('### Résultat technique');
       expect(result).toContain('Mon résultat');
       expect(result).not.toContain('**Résultat technique**');
     });
@@ -76,12 +76,12 @@ Mon prompt 2
     // ITÉRATION 4 : Gérer le résultat technique sur la même ligne que du texte
     it('should handle **Résultat technique** on the same line as text', () => {
       const content = `## Section
-### Titre
+# Titre
 Mon texte **Résultat technique** : Mon résultat`;
       
       const result = formatJournalMarkdown(content);
       
-      expect(result).toContain('##### Résultat technique');
+      expect(result).toContain('### Résultat technique');
       expect(result).toContain('Mon résultat');
     });
 

@@ -251,13 +251,13 @@ describe('e2eIdDetector - Approche TDD (simple → complexe)', () => {
   });
 
   describe('ITÉRATION 8 : Ignorer les fichiers de configuration', () => {
-    it('devrait ignorer Pages-Et-Lien.json', () => {
+    it('devrait ignorer _Pages-Et-Lien.json', () => {
       // ARRANGE : Fichier de configuration
       mockFs.existsSync.mockReturnValue(true);
-      mockFs.readdirSync.mockReturnValue(['Pages-Et-Lien.json', 'test.json'] as any);
+      mockFs.readdirSync.mockReturnValue(['_Pages-Et-Lien.json', 'test.json'] as any);
       
       mockFs.readFileSync.mockImplementation((filePath: any) => {
-        if (filePath.includes('Pages-Et-Lien.json')) {
+        if (filePath.includes('_Pages-Et-Lien.json')) {
           return JSON.stringify({
             pages: [{ e2eID: 'v999' }], // Devrait être ignoré
           });
@@ -278,11 +278,11 @@ describe('e2eIdDetector - Approche TDD (simple → complexe)', () => {
     });
   });
 
-  describe('ITÉRATION 9 : Détection dans footerButtons.json', () => {
-    it('devrait détecter les boutons sans e2eID dans footerButtons.json', () => {
-      // ARRANGE : footerButtons.json avec bouton sans e2eID
+  describe('ITÉRATION 9 : Détection dans _footerButtons.json', () => {
+    it('devrait détecter les boutons sans e2eID dans _footerButtons.json', () => {
+      // ARRANGE : _footerButtons.json avec bouton sans e2eID
       mockFs.existsSync.mockReturnValue(true);
-      mockFs.readdirSync.mockReturnValue(['footerButtons.json'] as any);
+      mockFs.readdirSync.mockReturnValue(['_footerButtons.json'] as any);
       mockFs.readFileSync.mockReturnValue(
         JSON.stringify({
           type: 'groupeBoutons',
@@ -300,7 +300,7 @@ describe('e2eIdDetector - Approche TDD (simple → complexe)', () => {
 
       // ASSERT
       expect(result.json.length).toBeGreaterThan(0);
-      expect(result.json.some((item) => item.file === 'footerButtons.json')).toBe(true);
+      expect(result.json.some((item) => item.file === '_footerButtons.json')).toBe(true);
     });
   });
 });

@@ -3,7 +3,7 @@
  * 
  * Ce script doit être exécuté avant chaque commit pour s'assurer que
  * le scénario E2E parcours-complet-liens.spec.ts est toujours à jour
- * avec les liens de Pages-Et-Lien.json
+ * avec les liens de _Pages-Et-Lien.json
  */
 
 import * as fs from 'fs';

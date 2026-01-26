@@ -18,7 +18,7 @@ export const hashMD5 = (text: string): string => {
  */
 export const getStoredPasswordHash = (): string | null => {
   try {
-    const passwordPath = path.join(process.cwd(), 'data', 'motdepasse.json');
+    const passwordPath = path.join(process.cwd(), 'data', '_motdepasse.json');
     if (!fs.existsSync(passwordPath)) {
       return null;
     }

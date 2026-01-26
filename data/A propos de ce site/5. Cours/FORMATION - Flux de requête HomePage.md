@@ -1,14 +1,14 @@
-### Formation : Flux de requête HomePage - Debug pas à pas
+# Formation : Flux de requête HomePage - Debug pas à pas
 
-#### Vue d'ensemble
+## Vue d'ensemble
 
 Ce document explique **séquentiellement** ce qui se passe lorsqu'un navigateur appelle l'URL `/` (HomePage) dans cette application Next.js.
 
 ---
 
-#### ÉTAPE 1 : Requête HTTP du navigateur
+## ÉTAPE 1 : Requête HTTP du navigateur
 
-##### Composant technique : **Navigateur Web** (Chrome, Firefox, etc.)
+### Composant technique : **Navigateur Web** (Chrome, Firefox, etc.)
 - **Langage** : HTTP/HTTPS (protocole réseau)
 - **Type de fichier** : Requête HTTP (non fichier)
 - **Entrée** :
@@ -16,36 +16,36 @@ Ce document explique **séquentiellement** ce qui se passe lorsqu'un navigateur 
   - Méthode HTTP : `GET`
   - Headers HTTP (User-Agent, Accept, etc.)
 
-##### Sortie
+### Sortie
 - Requête HTTP envoyée au serveur Next.js
 - Le navigateur attend une réponse HTML
 
 ---
 
-#### ÉTAPE 2 : Réception par le serveur Next.js
+## ÉTAPE 2 : Réception par le serveur Next.js
 
-##### Composant technique : **Serveur Next.js** (Node.js)
+### Composant technique : **Serveur Next.js** (Node.js)
 - **Langage** : JavaScript/TypeScript (exécuté par Node.js)
 - **Type de fichier** : Serveur HTTP intégré dans Next.js
 - **Entrée** :
   - Requête HTTP GET pour `/`
   - Headers HTTP
 
-##### Sortie
+### Sortie
 - Requête routée vers le système de routing Next.js
 - Recherche du fichier correspondant dans `app/page.tsx`
 
 ---
 
-#### ÉTAPE 3 : Configuration Next.js (`next.config.ts`)
+## ÉTAPE 3 : Configuration Next.js (`next.config.ts`)
 
-##### Composant technique : **Next.js Configuration**
+### Composant technique : **Next.js Configuration**
 - **Langage** : TypeScript
 - **Type de fichier** : `next.config.ts`
 - **Entrée** :
   - Configuration du projet (compression, images, redirections, headers)
 
-##### Sortie
+### Sortie
 - Configuration appliquée pour la requête :
   - Compression activée (gzip/brotli)
   - Headers de sécurité configurés
@@ -64,15 +64,15 @@ const nextConfig: NextConfig = {
 
 ---
 
-#### ÉTAPE 4 : Layout racine (`app/layout.tsx`)
+## ÉTAPE 4 : Layout racine (`app/layout.tsx`)
 
-##### Composant technique : **React Server Component** (Next.js App Router)
+### Composant technique : **React Server Component** (Next.js App Router)
 - **Langage** : TypeScript + JSX
 - **Type de fichier** : `app/layout.tsx`
 - **Entrée** :
   - `children` : ReactNode (sera le contenu de la page HomePage)
 
-##### Sortie
+### Sortie
 - Structure HTML de base :
   ```html
   <html lang="fr">
@@ -104,21 +104,21 @@ export default function RootLayout({
 }
 ```
 
-##### Détail important
+### Détail important
 - `<Header />` et `<Footer />` sont des **Client Components** (`'use client'`)
 - Ils sont **exécutés côté client** (navigateur)
 - Le `{children}` sera rendu **côté serveur** (HomePage)
 
 ---
 
-#### ÉTAPE 5 : Page HomePage (`app/page.tsx`)
+## ÉTAPE 5 : Page HomePage (`app/page.tsx`)
 
-##### Composant technique : **React Server Component**
+### Composant technique : **React Server Component**
 - **Langage** : TypeScript + JSX
 - **Type de fichier** : `app/page.tsx`
 - **Entrée** : Aucun (c'est le point d'entrée de la route `/`)
 
-##### Sortie
+### Sortie
 - Appel à `readPageData('index.json')` → retourne `PageData`
 - JSX avec `<main>` et `<PageContentRenderer>`
 
@@ -138,22 +138,22 @@ export default function HomePage() {
 }
 ```
 
-##### Point important
+### Point important
 - **Exécution côté serveur** : `readPageData()` est appelé **avant** l'envoi au navigateur
 - Le fichier JSON est lu **sur le serveur**, pas côté client
 
 ---
 
-#### ÉTAPE 6 : Lecture du fichier JSON (`utils/indexReader.ts`)
+## ÉTAPE 6 : Lecture du fichier JSON (`utils/indexReader.ts`)
 
-##### Composant technique : **Backend pur** (Node.js File System)
+### Composant technique : **Backend pur** (Node.js File System)
 - **Langage** : TypeScript
 - **Type de fichier** : `utils/indexReader.ts`
 - **Fonction** : `readPageData(filename: string)`
 - **Entrée** :
   - `filename` : `"index.json"` (string)
 
-##### Sortie
+### Sortie
 - `PageData` : Objet TypeScript avec structure :
   ```typescript
   {
@@ -211,13 +211,13 @@ export const readPageData = (filename: string = 'index.json'): PageData => {
 };
 ```
 
-##### Détails techniques
+### Détails techniques
 1. **`fs.existsSync(filePath)`** : Vérifie si le fichier existe (Node.js File System API)
 2. **`fs.readFileSync(filePath, 'utf8')`** : Lit le fichier **synchronement** (bloque jusqu'à la fin)
 3. **`JSON.parse(fileContent)`** : Parse le JSON en objet JavaScript
 4. **Résolution des références** : Si un élément a un `source`, on charge ce fichier JSON externe
 
-##### Fichier lu : `data/index.json`
+### Fichier lu : `data/index.json`
 - **Format** : JSON
 - **Structure** :
   ```json
@@ -232,15 +232,15 @@ export const readPageData = (filename: string = 'index.json'): PageData => {
 
 ---
 
-#### ÉTAPE 7 : Rendu du contenu (`components/PageContentRenderer.tsx`)
+## ÉTAPE 7 : Rendu du contenu (`components/PageContentRenderer.tsx`)
 
-##### Composant technique : **React Server Component**
+### Composant technique : **React Server Component**
 - **Langage** : TypeScript + JSX
 - **Type de fichier** : `components/PageContentRenderer.tsx`
 - **Entrée** :
   - `contenu` : `ElementContenu[]` (tableau d'éléments)
 
-##### Sortie
+### Sortie
 - JSX avec tous les composants rendus selon le `type` de chaque élément
 
 **Fichier concerné** : `components/PageContentRenderer.tsx`
@@ -285,12 +285,12 @@ const PageContentRenderer: React.FC<PageContentRendererProps> = ({ contenu }) =>
 };
 ```
 
-##### Logique
+### Logique
 - **Parcours** : Pour chaque élément du tableau `contenu`
 - **Switch** : Sélectionne le composant React approprié selon le `type`
 - **Rendu** : Chaque composant reçoit ses props et se rend
 
-##### Composants utilisés
+### Composants utilisés
 1. `Titre` : Affiche un titre (H1 ou H2)
 2. `Video` : Affiche une vidéo YouTube
 3. `TexteLarge` : Affiche un texte formaté
@@ -302,15 +302,15 @@ const PageContentRenderer: React.FC<PageContentRendererProps> = ({ contenu }) =>
 
 ---
 
-#### ÉTAPE 8 : Composants individuels (exemple : `Titre`)
+## ÉTAPE 8 : Composants individuels (exemple : `Titre`)
 
-##### Composant technique : **React Component**
+### Composant technique : **React Component**
 - **Langage** : TypeScript + JSX
 - **Type de fichier** : `components/Titre.tsx`
 - **Entrée** :
   - `element` : `ElementTitre` = `{ type: 'titre', texte: string }`
 
-##### Sortie
+### Sortie
 - JSX : `<h1>` ou `<h2>` avec le texte
 
 **Exemple avec Titre** :
@@ -322,13 +322,13 @@ const PageContentRenderer: React.FC<PageContentRendererProps> = ({ contenu }) =>
 
 ---
 
-#### ÉTAPE 9 : Génération HTML côté serveur
+## ÉTAPE 9 : Génération HTML côté serveur
 
-##### Composant technique : **Next.js Server-Side Rendering (SSR)**
+### Composant technique : **Next.js Server-Side Rendering (SSR)**
 - **Langage** : HTML généré par React
 - **Type de fichier** : HTML (généré dynamiquement)
 
-##### Sortie
+### Sortie
 - HTML complet avec :
   - `<html>`, `<head>`, `<body>`
   - Tout le contenu rendu depuis les composants
@@ -337,52 +337,52 @@ const PageContentRenderer: React.FC<PageContentRendererProps> = ({ contenu }) =>
 
 ---
 
-#### ÉTAPE 10 : Envoi HTML au navigateur
+## ÉTAPE 10 : Envoi HTML au navigateur
 
-##### Composant technique : **Serveur Next.js → Navigateur**
+### Composant technique : **Serveur Next.js → Navigateur**
 - **Langage** : HTTP/HTML
 - **Type de fichier** : Réponse HTTP
 
-##### Sortie
+### Sortie
 - Réponse HTTP 200 OK
 - Headers HTTP (Content-Type: text/html, etc.)
 - Corps : HTML complet
 
 ---
 
-#### ÉTAPE 11 : Réception et parsing HTML (Navigateur)
+## ÉTAPE 11 : Réception et parsing HTML (Navigateur)
 
-##### Composant technique : **Navigateur Web** (moteur de rendu)
+### Composant technique : **Navigateur Web** (moteur de rendu)
 - **Langage** : HTML/CSS
 - **Type de fichier** : HTML parsé en DOM
 
-##### Sortie
+### Sortie
 - DOM (Document Object Model) créé
 - Styles CSS appliqués
 - Scripts JavaScript chargés
 
 ---
 
-#### ÉTAPE 12 : Hydratation React côté client
+## ÉTAPE 12 : Hydratation React côté client
 
-##### Composant technique : **React Client-Side Hydration**
+### Composant technique : **React Client-Side Hydration**
 - **Langage** : JavaScript (exécuté par le navigateur)
 - **Type de fichier** : JavaScript bundle (Next.js)
 
-##### Ce qui se passe
+### Ce qui se passe
 - React **"prend le contrôle"** du DOM déjà rendu
 - Les **Client Components** (`Header`, `Footer`) deviennent interactifs
 - Les **lazy-loaded components** (`Temoignages`, `VideoDetournement`) sont chargés
 
-##### Composants Client
+### Composants Client
 
-###### Header (`components/Header.tsx`)
+#### Header (`components/Header.tsx`)
 - **Type** : `'use client'` (Client Component)
 - **Fonctionnalités** :
   - Clic sur le logo → navigation via `router.push()`
   - Gestion du clavier (accessibilité)
 
-###### Footer (`components/Footer.tsx`)
+#### Footer (`components/Footer.tsx`)
 - **Type** : `'use client'` (Client Component)
 - **Fonctionnalités** :
   - Clic sur boutons → navigation interne/externe
@@ -391,7 +391,7 @@ const PageContentRenderer: React.FC<PageContentRendererProps> = ({ contenu }) =>
 
 ---
 
-#### Résumé du flux complet
+## Résumé du flux complet
 
 ```
 1. Navigateur      → GET /                    [HTTP Request]
@@ -412,9 +412,9 @@ const PageContentRenderer: React.FC<PageContentRendererProps> = ({ contenu }) =>
 
 ---
 
-#### Concepts clés
+## Concepts clés
 
-##### Server Components vs Client Components
+### Server Components vs Client Components
 
 **Server Components** (exécutés sur le serveur) :
 - `app/page.tsx`
@@ -427,7 +427,7 @@ const PageContentRenderer: React.FC<PageContentRendererProps> = ({ contenu }) =>
 - `components/Footer.tsx` (`'use client'`)
 - Composants avec interactivité (clics, états, etc.)
 
-##### Backend pur
+### Backend pur
 
 **Définition** : Code qui **ne dépend pas** de l'environnement (serveur ou client).
 
@@ -435,7 +435,7 @@ const PageContentRenderer: React.FC<PageContentRendererProps> = ({ contenu }) =>
 - Utilise `fs` (File System) → **seulement côté serveur**
 - Mais la **logique** est réutilisable et testable indépendamment
 
-##### Flux de données
+### Flux de données
 
 ```
 JSON (data/index.json)
@@ -457,21 +457,21 @@ React Hydration → Interactivité
 
 ---
 
-#### Pour aller plus loin
+## Pour aller plus loin
 
-##### Debugging
+### Debugging
 
 1. **Côté serveur** : Ajouter `console.log()` dans `readPageData()` → visible dans les logs Next.js
 2. **Côté client** : Ajouter `console.log()` dans les Client Components → visible dans la console du navigateur
 3. **React DevTools** : Inspecter les composants et leurs props
 
-##### Performance
+### Performance
 
 - **Server Components** : Moins de JavaScript envoyé au client
 - **Lazy Loading** : `Temoignages` et `VideoDetournement` chargés à la demande
 - **CSS Modules** : Styles scoped, pas de conflits
 
-##### Types TypeScript
+### Types TypeScript
 
 Tous les types sont définis dans `utils/indexReader.ts` :
 - `PageData`
@@ -480,7 +480,7 @@ Tous les types sont définis dans `utils/indexReader.ts` :
 
 ---
 
-#### Conclusion
+## Conclusion
 
 Le flux est **séquentiel et clair** :
 1. Requête HTTP

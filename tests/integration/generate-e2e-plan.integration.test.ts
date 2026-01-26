@@ -1,7 +1,7 @@
 /**
  * Test d'intégration : Génération automatique du plan de test E2E
  * 
- * Ce test génère le scénario E2E qui parcourt tous les liens de Pages-Et-Lien.json
+ * Ce test génère le scénario E2E qui parcourt tous les liens de _Pages-Et-Lien.json
  * Il doit être exécuté avant chaque commit pour s'assurer que les tests E2E sont à jour
  */
 
@@ -10,9 +10,9 @@ import * as path from 'path';
 import { execSync } from 'child_process';
 
 describe('Génération du plan de test E2E', () => {
-  it('devrait générer le scénario E2E parcours-complet-liens.spec.ts depuis Pages-Et-Lien.json', () => {
-    // Générer Pages-Et-Lien.json s'il n'existe pas
-    const siteMapPath = path.join(process.cwd(), 'data', 'Pages-Et-Lien.json');
+  it('devrait générer le scénario E2E parcours-complet-liens.spec.ts depuis _Pages-Et-Lien.json', () => {
+    // Générer _Pages-Et-Lien.json s'il n'existe pas
+    const siteMapPath = path.join(process.cwd(), 'data', '_Pages-Et-Lien.json');
     if (!fs.existsSync(siteMapPath)) {
       // Exécuter le script de mise à jour du plan du site
       const updateSiteMapScript = path.join(process.cwd(), 'scripts', 'update-site-map.ts');
@@ -26,7 +26,7 @@ describe('Génération du plan de test E2E', () => {
           });
         } catch (error: any) {
           // Si le script échoue, créer un fichier minimal pour permettre au test de continuer
-          console.warn('Erreur lors de la génération de Pages-Et-Lien.json:', error.message);
+          console.warn('Erreur lors de la génération de _Pages-Et-Lien.json:', error.message);
           const minimalPlan = { pages: [{ url: '/', titre: 'Accueil', x: 0, y: 0, dessiner: 'Oui' }], liens: [] };
           fs.writeFileSync(siteMapPath, JSON.stringify(minimalPlan, null, 2), 'utf8');
         }
@@ -67,7 +67,7 @@ describe('Génération du plan de test E2E', () => {
         } catch (retryError: any) {
           throw new Error(`Erreur lors de la génération du scénario E2E : ${retryError.message}`);
         }
-      } else if (errorMessage.includes('Pages-Et-Lien.json n\'existe pas')) {
+      } else if (errorMessage.includes('_Pages-Et-Lien.json n\'existe pas') || errorMessage.includes('Pages-Et-Lien.json n\'existe pas')) {
         // Le fichier n'existe toujours pas, créer un fichier minimal et réessayer
         const minimalPlan = { pages: [{ url: '/', titre: 'Accueil', x: 0, y: 0, dessiner: 'Oui' }], liens: [] };
         fs.writeFileSync(siteMapPath, JSON.stringify(minimalPlan, null, 2), 'utf8');

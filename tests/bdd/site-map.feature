@@ -18,7 +18,7 @@ Fonctionnalité: Génération automatique du plan du site et validation de confo
     Et les liens externes sont exclus
 
   Scénario: Détection automatique de tous les liens internes depuis le footer
-    Étant donné que le système analyse le fichier footerButtons.json
+    Étant donné que le système analyse le fichier _footerButtons.json
     Quand la fonction de détection des liens est exécutée
     Alors tous les liens internes dans le footer sont détectés
     Et les liens externes du footer sont exclus
@@ -62,9 +62,9 @@ Fonctionnalité: Génération automatique du plan du site et validation de confo
     Et le test échoue si au moins une page n'a pas d'emplacement
 
   Scénario: Création initiale du plan JSON s'il n'existe pas
-    Étant donné que le fichier data/Pages-Et-Lien.json n'existe pas
+    Étant donné que le fichier data/_Pages-Et-Lien.json n'existe pas
     Quand la fonction de mise à jour du plan est exécutée
-    Alors un nouveau fichier data/Pages-Et-Lien.json est créé
+    Alors un nouveau fichier data/_Pages-Et-Lien.json est créé
     Et toutes les pages détectées sont ajoutées au JSON
     Et tous les liens détectés sont ajoutés au JSON
     Et les emplacements (x, y) sont null pour toutes les pages

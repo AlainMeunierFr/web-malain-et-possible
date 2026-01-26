@@ -2,8 +2,11 @@
  * Composant de rendu unifié pour afficher tous les types de contenu de page
  */
 
-import React from 'react';
+'use client';
+
+import React, { useEffect } from 'react';
 import type { ElementContenu } from '../utils/indexReader';
+import { usePageTitle } from '../contexts/PageTitleContext';
 import Titre from './Titre';
 import Video from './Video';
 import TexteLarge from './TexteLarge';
@@ -13,12 +16,30 @@ import GroupeBoutons from './GroupeBoutons';
 import ListeDesPages from './ListeDesPages';
 import VideoDetournement from './VideoDetournement';
 import Temoignages from './Temoignages';
+import HeroSection from './HeroSection';
 
 export interface PageContentRendererProps {
   contenu: ElementContenu[];
 }
 
 const PageContentRenderer: React.FC<PageContentRendererProps> = ({ contenu }) => {
+  const { setPageTitle } = usePageTitle();
+  
+  // Extraire le TitreDePage et le mettre dans le contexte
+  useEffect(() => {
+    const titreDePage = contenu.find((el) => el.type === 'titreDePage');
+    if (titreDePage && 'texte' in titreDePage) {
+      setPageTitle(titreDePage.texte);
+    } else {
+      setPageTitle(null);
+    }
+    
+    // Cleanup : réinitialiser le titre quand le composant est démonté
+    return () => {
+      setPageTitle(null);
+    };
+  }, [contenu, setPageTitle]);
+  
   // Calculer l'index relatif (en ignorant les titres et vidéos) pour l'alternance de fond
   // Seuls les DomaineDeCompetences participent à l'alternance
   let contentIndex = -1; // Commence à -1 car on incrémente avant d'utiliser
@@ -40,6 +61,11 @@ const PageContentRenderer: React.FC<PageContentRendererProps> = ({ contenu }) =>
         }
         
         switch (element.type) {
+          case 'hero':
+            return <HeroSection key={index} element={element} />;
+          case 'titreDePage':
+            // Ne pas afficher le TitreDePage dans le contenu, il est affiché dans le Header
+            return null;
           case 'titre':
             return <Titre key={index} element={element} />;
           case 'video':
@@ -48,19 +74,34 @@ const PageContentRenderer: React.FC<PageContentRendererProps> = ({ contenu }) =>
           case 'texteLarge':
             return <TexteLarge key={index} element={element} />;
           case 'domaineDeCompetence': {
+            // Type guard : TypeScript sait maintenant que element est ElementDomaineDeCompetence
+            const domaineElement = element as import('../utils/indexReader').ElementDomaineDeCompetence;
+            
             // Déterminer la couleur de fond : pair = blanc, impair = bleu clair
             // Le premier après un titre (index 0, pair) est toujours blanc
             const backgroundColor = contentIndex % 2 === 0 
               ? 'white' // Index pair (0, 2, 4...) = blanc
               : 'light'; // Index impair (1, 3, 5...) = bleu clair
+            
+            // Vérifier que le domaine a bien été résolu (a des items, pas de ref)
+            if ('ref' in domaineElement) {
+              console.error('DomaineDeCompetence avec ref non résolu:', domaineElement);
+              return null;
+            }
+            
+            if (!domaineElement.items || !Array.isArray(domaineElement.items)) {
+              console.error('DomaineDeCompetence sans items valides:', domaineElement);
+              return null;
+            }
+            
             return (
               <DomaineDeCompetences
                 key={index}
                 domaine={{
-                  titre: element.titre,
-                  contenu: element.contenu,
-                  auteur: element.auteur,
-                  items: element.items,
+                  titre: domaineElement.titre || '',
+                  contenu: domaineElement.contenu || '',
+                  auteur: domaineElement.auteur,
+                  items: domaineElement.items,
                 }}
                 backgroundColor={backgroundColor}
               />

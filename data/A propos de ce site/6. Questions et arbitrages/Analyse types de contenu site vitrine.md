@@ -1,12 +1,12 @@
-### Analyse : Types de contenu structurés du site vitrine
+# Analyse : Types de contenu structurés du site vitrine
 
-#### Source d'analyse
+## Source d'analyse
 Fichier HTML : `Exemple/Malain et possible - A propos de moi.html`
 Page analysée : "A propos de moi" (page la plus significative du site vitrine)
 
-#### Types de contenu identifiés
+## Types de contenu identifiés
 
-##### 1. Section principale
+### 1. Section principale
 **Propriétés** :
 - `titre` : string (ex: "Mon profil multi compétences", "Mes convictions acquises par empirisme")
 - `contenu` : string (texte d'introduction de la section)
@@ -14,13 +14,13 @@ Page analysée : "A propos de moi" (page la plus significative du site vitrine)
 - `padding` : object (padding top/bottom, ex: "0px 0px 20px")
 - `sousSections` : array (liste des sous-sections)
 
-##### 2. Domaine de competences
+### 2. Domaine de competences
 **Propriétés** :
 - `titre` : string (ex: "Stratégie et transformations", "Engager les équipes", "Interactions humaines")
 - `contenu` : string (texte d'introduction de la sous-section)
 - `items` : array (3 {Compétence})
 
-##### 3. Compétence
+### 3. Compétence
 **Propriétés** :
 - `titre` : string (ex: "Culture d'entreprise", "Stratégie", "Conduite du changement")
 - `image` : object
@@ -29,7 +29,7 @@ Page analysée : "A propos de moi" (page la plus significative du site vitrine)
   - `texte` : string (ex: "En savoir plus")
   - `action` : string (type d'action)
 
-##### 4. Citation avec auteur
+### 4. Citation avec auteur
 **Propriétés** :
 - `citation` : string (texte de la citation entre guillemets)
 - `auteur` : string (nom de l'auteur)
@@ -38,7 +38,7 @@ Page analysée : "A propos de moi" (page la plus significative du site vitrine)
   - `fontStyle` : string (ex: "italic")
   - `color` : string (couleur, ex: "var(--color_bTHHW0_default)")
 
-##### 5. Témoignage
+### 5. Témoignage
 **Propriétés** :
 - `photo` : object
   - `src` : string (chemin vers la photo)
@@ -54,7 +54,7 @@ Page analysée : "A propos de moi" (page la plus significative du site vitrine)
 - `style` : object
   - `padding` : string (ex: "10px 0px 30px")
 
-##### 6. Titre de section avec fond coloré
+### 6. Titre de section avec fond coloré
 **Propriétés** :
 - `texte` : string (texte du titre)
 - `niveau` : number (1, 2, 3)
@@ -64,7 +64,7 @@ Page analysée : "A propos de moi" (page la plus significative du site vitrine)
 - `fontSize` : string (ex: "24px")
 - `fontWeight` : string (ex: "700")
 
-##### 7. Paragraphe de texte
+### 7. Paragraphe de texte
 **Propriétés** :
 - `contenu` : string (texte du paragraphe, peut contenir du HTML comme `<br>`, `<strong>`, `<em>`, `<a>`)
 - `fontFamily` : string (ex: "Noto Serif")
@@ -75,7 +75,7 @@ Page analysée : "A propos de moi" (page la plus significative du site vitrine)
 - `width` : string (ex: "100%", "95%", "80%")
 - `textAlign` : string (optionnel, ex: "center")
 
-##### 8. Image standalone
+### 8. Image standalone
 **Propriétés** :
 - `src` : string (chemin vers l'image)
 - `alt` : string (texte alternatif)
@@ -84,7 +84,7 @@ Page analysée : "A propos de moi" (page la plus significative du site vitrine)
 - `alignSelf` : string (ex: "center")
 - `margin` : string (ex: "0px", "20px 0px 0px")
 
-##### 9. Bouton d'action
+### 9. Bouton d'action
 **Propriétés** :
 - `texte` : string (texte du bouton)
 - `backgroundColor` : string (ex: "var(--color_primary_contrast_default)")
@@ -100,14 +100,14 @@ Page analysée : "A propos de moi" (page la plus significative du site vitrine)
 - `width` : string (ex: "100%", "150px")
 - `action` : string (type d'action, ex: "navigation", "modal", "external")
 
-##### 10. Groupe de boutons (footer)
+### 10. Groupe de boutons (footer)
 **Propriétés** :
 - `boutons` : array (liste des boutons)
 - `backgroundColor` : string (ex: "var(--color_bTHGN0_default)")
 - `justifyContent` : string (ex: "space-around", "center")
 - `height` : string (ex: "50px")
 
-##### 11. Item de bouton social
+### 11. Item de bouton social
 **Propriétés** :
 - `icone` : string (nom de l'icône, ex: "fa-envelope-square", "fa-youtube-play", "fa-linkedin-square", "fa-map")
 - `titre` : string (tooltip, ex: "email", "Chaine YouTube", "Linkedin", "Carte du site")
@@ -116,7 +116,7 @@ Page analysée : "A propos de moi" (page la plus significative du site vitrine)
   - `type` : string (ex: "email", "external", "navigation")
   - `url` : string (optionnel)
 
-#### Structure hiérarchique observée
+## Structure hiérarchique observée
 
 ```
 Page
@@ -142,7 +142,7 @@ Page
                 └── Texte (paragraphe)
 ```
 
-#### Observations importantes
+## Observations importantes
 
 1. **Hiérarchie visuelle** : La page utilise une hiérarchie claire avec des sections, sous-sections et items
 2. **Responsive** : Les groupes utilisent flexbox avec des largeurs en pourcentage (33%, 50%, 60%, 80%, 95%, 100%)
@@ -154,7 +154,7 @@ Page
 6. **Citations** : Format spécifique avec auteur et fonction en italique
 7. **Témoignages** : Format avec photo circulaire, nom, fonction et texte
 
-#### Prochaines étapes
+## Prochaines étapes
 
 1. Créer les interfaces TypeScript pour ces types de contenu
 2. Créer un fichier JSON mockup avec ces structures

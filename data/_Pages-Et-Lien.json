@@ -1,0 +1,319 @@
+{
+  "pages": [
+    {
+      "url": "/",
+      "titre": "Home",
+      "x": 500,
+      "y": 600,
+      "numero": 42,
+      "dessiner": "Oui",
+      "e2eIDs": [
+        "e2e1",
+        "e2e2"
+      ]
+    },
+    {
+      "url": "/a-propos-du-site",
+      "titre": "a-propos-du-site",
+      "x": 200,
+      "y": 200,
+      "dessiner": "Oui"
+    },
+    {
+      "url": "/detournement-video",
+      "titre": "Détournement de scènes cultes du cinéma",
+      "x": null,
+      "y": null,
+      "dessiner": "Oui"
+    },
+    {
+      "url": "/maintenance",
+      "titre": "maintenance",
+      "x": null,
+      "y": null,
+      "dessiner": "Non"
+    },
+    {
+      "url": "/metrics",
+      "titre": "metrics",
+      "x": null,
+      "y": null,
+      "dessiner": "Oui"
+    },
+    {
+      "url": "/plan-du-site",
+      "titre": "Liste des pages du site",
+      "x": null,
+      "y": null,
+      "dessiner": "Non"
+    },
+    {
+      "url": "/portfolio-detournements",
+      "titre": "Portfolio de detournements vidéos",
+      "x": null,
+      "y": null,
+      "dessiner": "Oui"
+    },
+    {
+      "url": "/pour-aller-plus-loin",
+      "titre": "Pour aller plus loin, je vous propose une expérience...",
+      "x": null,
+      "y": null,
+      "dessiner": "Oui"
+    },
+    {
+      "url": "/profil/[slug]",
+      "titre": "[slug]",
+      "x": null,
+      "y": null,
+      "dessiner": "Oui"
+    },
+    {
+      "url": "/test-fonts",
+      "titre": "test-fonts",
+      "x": null,
+      "y": null,
+      "dessiner": "Oui"
+    },
+    {
+      "url": "/profil/cpo",
+      "titre": "Produit logiciel",
+      "x": null,
+      "y": null,
+      "dessiner": "Oui"
+    },
+    {
+      "url": "/profil/coo",
+      "titre": "Opérations",
+      "x": null,
+      "y": null,
+      "dessiner": "Oui"
+    },
+    {
+      "url": "/profil/agile",
+      "titre": "Transformation Agile",
+      "x": null,
+      "y": null,
+      "dessiner": "Oui"
+    },
+    {
+      "url": "/profil/cto",
+      "titre": "Technologie",
+      "x": null,
+      "y": null,
+      "dessiner": "Oui"
+    }
+  ],
+  "liens": [
+    {
+      "source": "/",
+      "destination": "/plan-du-site",
+      "label": "Plan du site"
+    },
+    {
+      "source": "/a-propos-du-site",
+      "destination": "/plan-du-site",
+      "label": "Plan du site"
+    },
+    {
+      "source": "/detournement-video",
+      "destination": "/plan-du-site",
+      "label": "Plan du site"
+    },
+    {
+      "source": "/maintenance",
+      "destination": "/plan-du-site",
+      "label": "Plan du site"
+    },
+    {
+      "source": "/metrics",
+      "destination": "/plan-du-site",
+      "label": "Plan du site"
+    },
+    {
+      "source": "/plan-du-site",
+      "destination": "/plan-du-site",
+      "label": "Plan du site"
+    },
+    {
+      "source": "/portfolio-detournements",
+      "destination": "/plan-du-site",
+      "label": "Plan du site"
+    },
+    {
+      "source": "/pour-aller-plus-loin",
+      "destination": "/plan-du-site",
+      "label": "Plan du site"
+    },
+    {
+      "source": "/profil/[slug]",
+      "destination": "/plan-du-site",
+      "label": "Plan du site"
+    },
+    {
+      "source": "/test-fonts",
+      "destination": "/plan-du-site",
+      "label": "Plan du site"
+    },
+    {
+      "source": "/profil/cpo",
+      "destination": "/plan-du-site",
+      "label": "Plan du site"
+    },
+    {
+      "source": "/profil/coo",
+      "destination": "/plan-du-site",
+      "label": "Plan du site"
+    },
+    {
+      "source": "/profil/agile",
+      "destination": "/plan-du-site",
+      "label": "Plan du site"
+    },
+    {
+      "source": "/profil/cto",
+      "destination": "/plan-du-site",
+      "label": "Plan du site"
+    },
+    {
+      "source": "/",
+      "destination": "/metrics",
+      "label": "BarChart3"
+    },
+    {
+      "source": "/a-propos-du-site",
+      "destination": "/metrics",
+      "label": "BarChart3"
+    },
+    {
+      "source": "/detournement-video",
+      "destination": "/metrics",
+      "label": "BarChart3"
+    },
+    {
+      "source": "/maintenance",
+      "destination": "/metrics",
+      "label": "BarChart3"
+    },
+    {
+      "source": "/metrics",
+      "destination": "/metrics",
+      "label": "BarChart3"
+    },
+    {
+      "source": "/plan-du-site",
+      "destination": "/metrics",
+      "label": "BarChart3"
+    },
+    {
+      "source": "/portfolio-detournements",
+      "destination": "/metrics",
+      "label": "BarChart3"
+    },
+    {
+      "source": "/pour-aller-plus-loin",
+      "destination": "/metrics",
+      "label": "BarChart3"
+    },
+    {
+      "source": "/profil/[slug]",
+      "destination": "/metrics",
+      "label": "BarChart3"
+    },
+    {
+      "source": "/test-fonts",
+      "destination": "/metrics",
+      "label": "BarChart3"
+    },
+    {
+      "source": "/profil/cpo",
+      "destination": "/metrics",
+      "label": "BarChart3"
+    },
+    {
+      "source": "/profil/coo",
+      "destination": "/metrics",
+      "label": "BarChart3"
+    },
+    {
+      "source": "/profil/agile",
+      "destination": "/metrics",
+      "label": "BarChart3"
+    },
+    {
+      "source": "/profil/cto",
+      "destination": "/metrics",
+      "label": "BarChart3"
+    },
+    {
+      "source": "/",
+      "destination": "/a-propos-du-site",
+      "label": "Info"
+    },
+    {
+      "source": "/a-propos-du-site",
+      "destination": "/a-propos-du-site",
+      "label": "Info"
+    },
+    {
+      "source": "/detournement-video",
+      "destination": "/a-propos-du-site",
+      "label": "Info"
+    },
+    {
+      "source": "/maintenance",
+      "destination": "/a-propos-du-site",
+      "label": "Info"
+    },
+    {
+      "source": "/metrics",
+      "destination": "/a-propos-du-site",
+      "label": "Info"
+    },
+    {
+      "source": "/plan-du-site",
+      "destination": "/a-propos-du-site",
+      "label": "Info"
+    },
+    {
+      "source": "/portfolio-detournements",
+      "destination": "/a-propos-du-site",
+      "label": "Info"
+    },
+    {
+      "source": "/pour-aller-plus-loin",
+      "destination": "/a-propos-du-site",
+      "label": "Info"
+    },
+    {
+      "source": "/profil/[slug]",
+      "destination": "/a-propos-du-site",
+      "label": "Info"
+    },
+    {
+      "source": "/test-fonts",
+      "destination": "/a-propos-du-site",
+      "label": "Info"
+    },
+    {
+      "source": "/profil/cpo",
+      "destination": "/a-propos-du-site",
+      "label": "Info"
+    },
+    {
+      "source": "/profil/coo",
+      "destination": "/a-propos-du-site",
+      "label": "Info"
+    },
+    {
+      "source": "/profil/agile",
+      "destination": "/a-propos-du-site",
+      "label": "Info"
+    },
+    {
+      "source": "/profil/cto",
+      "destination": "/a-propos-du-site",
+      "label": "Info"
+    }
+  ]
+}

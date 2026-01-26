@@ -3,6 +3,7 @@ import "./globals.css";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { EditingProvider } from "../contexts/EditingContext";
+import { PageTitleProvider } from "../contexts/PageTitleContext";
 import Matomo from "../components/Matomo";
 
 /* Les polices sont maintenant chargées localement via @font-face dans globals.css
@@ -31,10 +32,12 @@ export default function RootLayout({
     <html lang="fr" suppressHydrationWarning>
       <body className="antialiased">
         <EditingProvider>
-          <Matomo />
-          <Header />
-          {children}
-          <Footer />
+          <PageTitleProvider>
+            <Matomo />
+            <Header />
+            {children}
+            <Footer />
+          </PageTitleProvider>
         </EditingProvider>
       </body>
     </html>

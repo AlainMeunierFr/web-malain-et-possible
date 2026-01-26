@@ -10,7 +10,6 @@
 
 import fs from 'fs';
 import path from 'path';
-import { adjustMarkdownTitleLevels } from './markdownTitleAdjuster';
 
 /**
  * Interface pour un fichier journal
@@ -58,10 +57,7 @@ export const readJournalFiles = (): JournalFile[] => {
     
     if (match) {
       const filePath = path.join(journalDir, file);
-      let content = fs.readFileSync(filePath, 'utf-8');
-      
-      // ITÉRATION 6 : Ajuster les niveaux de titres
-      content = adjustMarkdownTitleLevels(content);
+      const content = fs.readFileSync(filePath, 'utf-8');
       
       // ITÉRATION 5 : Extraire le titre (première ligne non vide, peut être un titre markdown ou du texte)
       const lines = content.split('\n');
@@ -114,23 +110,20 @@ export const readCourseFiles = (): CourseFile[] => {
     }
 
     const filePath = path.join(coursesDir, file);
-    let content = fs.readFileSync(filePath, 'utf-8');
+    const content = fs.readFileSync(filePath, 'utf-8');
     
-    // Ajuster les niveaux de titres
-    content = adjustMarkdownTitleLevels(content);
-    
-    // ITÉRATION 2 : Extraire le titre (première ligne H4 après ajustement)
+    // ITÉRATION 2 : Extraire le titre (première ligne # après nouveau système)
     const lines = content.split('\n');
     let title = file.replace('.md', ''); // Par défaut, utiliser le nom du fichier
     
     for (const line of lines) {
       const trimmedLine = line.trim();
-      // Après ajustement, ### devient ####
-      if (trimmedLine.startsWith('#### ')) {
-        title = trimmedLine.replace('#### ', '');
+      // Avec nouveau système : # dans MD → h3 en HTML
+      if (trimmedLine.startsWith('# ')) {
+        title = trimmedLine.replace('# ', '');
         break;
       }
-      // Fallback pour les fichiers qui n'ont pas été ajustés
+      // Fallback pour les fichiers qui utilisent encore l'ancien format
       if (trimmedLine.startsWith('### ')) {
         title = trimmedLine.replace('### ', '');
         break;

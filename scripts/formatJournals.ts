@@ -1,11 +1,12 @@
 /**
  * Script pour transformer les fichiers markdown des journaux vers le nouveau format
  * 
- * Format cible :
- * ### Titre du prompt (H3, devient H4 après ajustement)
- * ##### Prompt (H5)
+ * Format cible (avec décalage +2) :
+ * # Titre du prompt (H1 dans MD → h3 en HTML)
+ * ## Sous-partie (H2 dans MD → h4 en HTML)
+ * ### Prompt (H3 dans MD → h5 en HTML)
  * Le texte du prompt
- * ##### Résultat technique (H5)
+ * ### Résultat technique (H3 dans MD → h5 en HTML)
  * Le résultat technique
  */
 
@@ -25,19 +26,18 @@ const formatJournalFile = (content: string): string => {
     const line = lines[i];
     const trimmedLine = line.trim();
 
-    // Vérifier si la ligne est un H3 (titre de prompt dans le fichier source, avant ajustement)
-    // Elle deviendra H4 après ajustement dans journalReader
-    const isH3 = trimmedLine.startsWith('### ') && !trimmedLine.includes('Résultat technique') && !trimmedLine.includes('Prompt');
+    // Vérifier si la ligne est un H2 (sous-partie dans le nouveau système)
+    const isH2 = trimmedLine.startsWith('## ') && !trimmedLine.includes('Résultat technique') && !trimmedLine.includes('Prompt') && !trimmedLine.startsWith('### ');
 
-    // Si la ligne précédente était un H3 (titre du prompt dans le fichier source)
+    // Si la ligne précédente était un H2 (sous-partie)
     // et que la ligne actuelle n'est pas vide, ni un titre, ni un résultat technique
-    if (previousLineWasH3 && trimmedLine && !trimmedLine.startsWith('#') && !trimmedLine.includes('**Résultat technique**') && trimmedLine !== '##### Prompt') {
-      // C'est le début du prompt, ajouter "##### Prompt" avant le contenu
-      formattedLines.push('##### Prompt');
+    if (previousLineWasH3 && trimmedLine && !trimmedLine.startsWith('#') && !trimmedLine.includes('**Résultat technique**') && trimmedLine !== '### Prompt') {
+      // C'est le début du prompt, ajouter "### Prompt" avant le contenu
+      formattedLines.push('### Prompt');
       inPromptSection = true;
     }
 
-    // Remplacer "**Résultat technique**" par "##### Résultat technique"
+    // Remplacer "**Résultat technique**" par "### Résultat technique"
     if (trimmedLine.includes('**Résultat technique**')) {
       // Si on est dans une section prompt, la terminer
       if (inPromptSection) {
@@ -46,7 +46,7 @@ const formatJournalFile = (content: string): string => {
       
       // Remplacer la ligne
       const after = trimmedLine.replace(/\*\*Résultat technique\*\*\s*:?\s*/, '').trim();
-      formattedLines.push('##### Résultat technique');
+      formattedLines.push('### Résultat technique');
       if (after) {
         formattedLines.push(after);
       }
@@ -55,7 +55,7 @@ const formatJournalFile = (content: string): string => {
     }
 
     // Mettre à jour previousLineWasH3 pour l'itération suivante
-    if (isH3) {
+    if (isH2) {
       // Si on était dans une section prompt, la terminer avant un nouveau titre
       if (inPromptSection) {
         inPromptSection = false;

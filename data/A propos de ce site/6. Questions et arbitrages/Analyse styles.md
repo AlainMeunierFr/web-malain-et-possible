@@ -1,10 +1,10 @@
-### Analyse des Styles - Vue d'ensemble
+# Analyse des Styles - Vue d'ensemble
 
-#### Problème identifié
+## Problème identifié
 
 Les styles sont basés sur le **contenu sémantique** ("Prompt", "Résultat technique") plutôt que sur la **hiérarchie HTML** (h1, h2, h3, etc.). Cela viole les fondamentaux HTML et rend la maintenance difficile.
 
-#### Tableau récapitulatif des styles existants
+## Tableau récapitulatif des styles existants
 
 | Fichier CSS | Classe/Selecteur | Balise HTML utilisée | Niveau hiérarchique réel | Contenu sémantique | Problème |
 |------------|------------------|---------------------|-------------------------|-------------------|----------|
@@ -25,9 +25,9 @@ Les styles sont basés sur le **contenu sémantique** ("Prompt", "Résultat tech
 | **about-site.module.css** | `.theme h3` | `<h3>` | H3 | Sous-thème | ✅ Correct |
 | **SimpleMarkdownRenderer.module.css** | `.simpleMarkdownContent` | `<div>` + `<p>`, `<ul>`, `<li>` | - | Contenu simple (dans Prompt/TechnicalResult) | ⚠️ Pas de titres, OK |
 
-#### Hiérarchie HTML actuelle dans les journaux
+## Hiérarchie HTML actuelle dans les journaux
 
-##### Structure actuelle (problématique)
+### Structure actuelle (problématique)
 ```
 <h1> - Accordion "Journal de bord" (1.75rem)
   <h2> - Date du journal (1.25rem)
@@ -39,7 +39,7 @@ Les styles sont basés sur le **contenu sémantique** ("Prompt", "Résultat tech
           <h6> - "####### Résultat technique" (0.9rem) ❌ PROBLÈME
 ```
 
-##### Structure souhaitée (basée sur hiérarchie HTML)
+### Structure souhaitée (basée sur hiérarchie HTML)
 ```
 <h1> - Accordion "Journal de bord" (2rem)
   <h2> - Date du journal (1.5rem)
@@ -51,24 +51,24 @@ Les styles sont basés sur le **contenu sémantique** ("Prompt", "Résultat tech
           <h5> - "Résultat technique" (1rem) ✅
 ```
 
-#### Problèmes identifiés
+## Problèmes identifiés
 
-##### 1. Prompt et TechnicalResult utilisent H6 au lieu de H5
+### 1. Prompt et TechnicalResult utilisent H6 au lieu de H5
 - **Actuellement** : `<h6>####### Prompt</h6>` et `<h6>####### Résultat technique</h6>`
 - **Problème** : H6 est au niveau le plus bas de la hiérarchie, alors que ces éléments sont des sous-titres de prompt (H4)
 - **Solution** : Utiliser H5 pour "Prompt" et "Résultat technique"
 
-##### 2. Styles basés sur le contenu au lieu de la hiérarchie
+### 2. Styles basés sur le contenu au lieu de la hiérarchie
 - **Actuellement** : `.prompt` et `.technicalResult` sont des classes CSS basées sur le contenu
 - **Problème** : Si on veut modifier l'apparence des éléments de niveau H5, il faut modifier deux classes
 - **Solution** : Utiliser des classes basées sur la hiérarchie (`.h5-content` ou simplement styler `h5` dans le contexte)
 
-##### 3. Duplication des styles H2
+### 3. Duplication des styles H2
 - **Actuellement** : Plusieurs styles H2 dans différents fichiers (`.intro h2`, `.dodSection h2`, `.theme h2`, `.journalDate`, `.courseTitle`)
 - **Problème** : Duplication et incohérence
 - **Solution** : Unifier dans un style global pour H2
 
-#### Plan de refactorisation
+## Plan de refactorisation
 
 1. **Changer H6 → H5** pour "Prompt" et "Résultat technique"
 2. **Remplacer les classes `.prompt` et `.technicalResult`** par des styles basés sur la hiérarchie HTML
@@ -76,7 +76,7 @@ Les styles sont basés sur le **contenu sémantique** ("Prompt", "Résultat tech
 4. **Unifier les styles H2** dans tous les fichiers
 5. **Assurer la cohérence** pour le mode lecture et le SEO
 
-#### Feuille de style proposée (structure)
+## Feuille de style proposée (structure)
 
 ```css
 /* Hiérarchie globale des titres */

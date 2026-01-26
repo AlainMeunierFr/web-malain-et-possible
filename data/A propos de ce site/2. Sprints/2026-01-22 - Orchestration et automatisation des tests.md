@@ -1,9 +1,9 @@
-### Sprint Goal
+# Sprint Goal
 Automatiser la génération et l'orchestration des tests end-to-end (E2E) pour garantir une couverture complète et maintenir la qualité des tests sans intervention manuelle.
 
 ---
 
-#### US-5.6 : Génération automatique du plan de test E2E ✅ COMPLÉTÉ
+## US-5.6 : Génération automatique du plan de test E2E ✅ COMPLÉTÉ
 
 - **En tant que** Lead Developer
 - **Je souhaite** Générer automatiquement un scénario E2E complet qui parcourt tous les liens du site
@@ -24,7 +24,7 @@ Automatiser la génération et l'orchestration des tests end-to-end (E2E) pour g
 - **Tests d'intégration** : Tests dans `tests/integration/generate-e2e-plan.integration.test.ts` pour valider la génération
 - **Protection des données** : Le script protège les données sensibles dans les tests (masquage des mots de passe, etc.)
 
-#### US-5.7 : Système de détection et génération d'e2eID ✅ COMPLÉTÉ
+## US-5.7 : Système de détection et génération d'e2eID ✅ COMPLÉTÉ
 
 - **En tant que** Développeur
 - **Je souhaite** Avoir un système automatique pour détecter, générer et assigner des identifiants E2E aux éléments interactifs
@@ -48,7 +48,7 @@ Automatiser la génération et l'orchestration des tests end-to-end (E2E) pour g
   - `tests/integration/e2e-ids-coverage.integration.test.ts` pour valider la couverture
 - **Couverture 100%** : Tous les éléments interactifs doivent avoir un e2eID assigné
 
-#### US-5.8 : Scripts de refactorisation DDD ✅ COMPLÉTÉ
+## US-5.8 : Scripts de refactorisation DDD ✅ COMPLÉTÉ
 
 - **En tant que** Développeur
 - **Je souhaite** Avoir des scripts pour automatiser la refactorisation du code selon les principes DDD
@@ -69,7 +69,7 @@ Automatiser la génération et l'orchestration des tests end-to-end (E2E) pour g
 - **Tests** : Tests unitaires dans `tests/unit/ddd-refactoring.test.ts` pour valider les scripts
 - **Documentation** : Documentation des règles DDD appliquées par les scripts
 
-#### US-5.9 : Script de validation et restauration JSON ✅ COMPLÉTÉ
+## US-5.9 : Script de validation et restauration JSON ✅ COMPLÉTÉ
 
 - **En tant que** Développeur
 - **Je souhaite** Avoir un script qui valide les fichiers JSON et restaure automatiquement depuis des backups en cas d'erreur
@@ -89,7 +89,7 @@ Automatiser la génération et l'orchestration des tests end-to-end (E2E) pour g
   - Suggestion de correction
 - **Intégration** : Le script peut être appelé manuellement ou intégré dans le workflow de développement
 
-#### US-4.7 : Système de versioning basé sur les User Stories complétées ✅ COMPLÉTÉ
+## US-4.7 : Système de versioning basé sur les User Stories complétées ✅ COMPLÉTÉ
 
 - **En tant que** Product Owner
 - **Je souhaite** Avoir un système de versioning automatique qui reflète le nombre de User Stories complétées
@@ -108,7 +108,7 @@ Automatiser la génération et l'orchestration des tests end-to-end (E2E) pour g
 - **Affichage** : Version affichée dans le footer du site
 - **Intégration CI/CD** : Synchronisation et incrémentation automatiques lors des builds sur Vercel
 
-#### US-4.X : Graphiques pour métriques (À TRAITER ULTÉRIEUREMENT)
+## US-4.X : Graphiques pour métriques (À TRAITER ULTÉRIEUREMENT)
 
 - **En tant que** Manager technico-fonctionnel
 - **Je souhaite** Voir l'évolution des métriques sous forme de graphiques (courbes, barres)
@@ -132,7 +132,7 @@ Automatiser la génération et l'orchestration des tests end-to-end (E2E) pour g
 - **Filtres et période** :
   - Filtres pour sélectionner la période : derniers 7 jours, 30 jours, 90 jours, tout l'historique
 
-#### US-4.8 : Système de métriques E2E ✅ COMPLÉTÉ
+## US-4.8 : Système de métriques E2E ✅ COMPLÉTÉ
 
 - **En tant que** Lead Developer
 - **Je souhaite** Collecter des métriques spécifiques aux tests E2E (couverture des liens, e2eID, etc.)

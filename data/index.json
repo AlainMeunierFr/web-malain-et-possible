@@ -1,8 +1,66 @@
 {
   "contenu": [
     {
-      "type": "titre",
-      "texte": "Mon parcours, mes transformations"
+      "type": "hero",
+      "titre": "Alain Meunier",
+      "sousTitre": "Disponible et enthousiaste pour un projet stimulant (CDI ou freelance)",
+      "description": "25 ans d'expérience à **transformer des idées** en produits logiciels qui **génèrent de la valeur**. J'ai équipé 15% des radiologues libéraux français avec mon premier produit. Passionné par la **résolution de problèmes complexes**, je combine **rigueur technique et leadership humain**. Mon parcours d'entrepreneur m'a appris que les meilleures solutions naissent de l'**engagement des équipes**. Je recherche un projet long terme où je pourrai contribuer à la **stratégie et à la transformation des organisations**.",
+      "boutonPrincipal": {
+        "texte": "On discute ?",
+        "action": "/faisons-connaissance"
+      },
+      "profils": [
+        {
+          "type": "profil",
+          "titre": "Produit logiciel",
+          "jobTitles": [
+            "CPO - Chief Product Officer",
+            "HOP - Head of Product",
+            "Product Manager",
+            "Product Owner"
+          ],
+          "slug": "cpo",
+          "route": "/profil/cpo",
+          "cvPath": "/CV/cpo.pdf"
+        },
+        {
+          "type": "profil",
+          "titre": "Opérations",
+          "jobTitles": [
+            "COO - Chief Operation Officer",
+            "HOO - Head of Operation",
+            "Directeur opérationnel"
+          ],
+          "slug": "coo",
+          "route": "/profil/coo",
+          "cvPath": "/CV/coo.pdf"
+        },
+        {
+          "type": "profil",
+          "titre": "Transformation Agile",
+          "jobTitles": [
+            "Transformation Agile",
+            "Coach Agile",
+            "Scrum Master",
+            "Product Owner"
+          ],
+          "slug": "agile",
+          "route": "/profil/agile",
+          "cvPath": "/CV/agile.pdf"
+        },
+        {
+          "type": "profil",
+          "titre": "Technologie",
+          "jobTitles": [
+            "CTO - Chief Technology Officer",
+            "HTO - Head of Technology",
+            "Directeur Technique"
+          ],
+          "slug": "cto",
+          "route": "/profil/cto",
+          "cvPath": "/CV/cto.pdf"
+        }
+      ]
     },
     {
       "type": "video",
@@ -13,350 +71,6 @@
     {
       "type": "texteLarge",
       "texte": "Je suis un **passionné de la résolution de problèmes complexes** avec une expérience riche et variée en tant qu'entrepreneur.\n\nMon **profil polyvalent** m'a permis d'acquérir des compétences dans divers domaines, de la gestion de projet à l'optimisation des processus, en passant par l'**innovation stratégique**. Cette diversité me permet de voir les choses sous différents angles et d'apporter des **solutions créatives** pour faire face à vos défis, tout en vous accompagnant dans la mise en place des outils et méthodes nécessaires pour **engager vos équipes** et soutenir ce changement.\n\nAvec une **vision globale, pragmatique et transverse**, je prends en compte dans le traitement d'un sujet toutes les dimensions, depuis la conception jusqu'à la **mise en œuvre sur le terrain** et la perception des utilisateurs.\n\nJe nourris ma **curiosité** vers de nombreux sujets aussi bien dans l'entreprenariat, que les **sciences dures** ou les **sciences humaines**...\n\nCela me permet de **créer des ponts et tisser des liens** entre ces sujets pour faire émerger de **nouvelles solutions**."
-    },
-    {
-      "type": "titre",
-      "texte": "Mes convictions acquises par empirisme"
-    },
-    {
-      "type": "domaineDeCompetence",
-      "titre": "Stratégie et transformations",
-      "contenu": "",
-      "competences": [
-        {
-          "titre": "Culture d'entreprise",
-          "image": {
-            "src": "Excellence.png",
-            "alt": "Culture d'entreprise"
-          },
-          "description": "La culture d'entreprise est **l'âme de toute organisation**. Après avoir vécu 3 fusions/acquisitions, je sais les dégâts que peuvent causer des différences culturelles éludées ou étouffées. Le changement ne peut s'opérer que vers un futur désirable qu'il est important d'**expliquer et d'incarner**.",
-          "bouton": null,
-          "type": "competence"
-        },
-        {
-          "titre": "Stratégie",
-          "image": {
-            "src": "Vision.png",
-            "alt": "Stratégie"
-          },
-          "description": "[Agiliste](https://manifesteagile.fr/) depuis 2013, j'ai une **approche empirique** adaptée aux projets qui doivent explorer le champ des possibles qu'offre l'inconnu. Je propose de faire des pas de côté pour prendre conscience des **croyances limitantes** qui empêchent des stratégies innovantes d'émerger.",
-          "bouton": {
-            "type": "bouton",
-            "texte": "En savoir plus...",
-            "action": "/robustesse",
-            "e2eID": "c11"
-          },
-          "type": "competence"
-        },
-        {
-          "titre": "Conduite du changement",
-          "image": {
-            "src": "Engagement.png",
-            "alt": "Conduite du changement"
-          },
-          "description": "J'aide les organisations à accepter de naviguer dans l'incertitude et à embrasser le changement. Mon approche consiste à **impliquer** toutes les parties prenantes, à **lever les résistances** et à **ancrer les nouvelles pratiques** de manière durable.",
-          "bouton": {
-            "type": "bouton",
-            "texte": "En savoir plus...",
-            "action": "/transformation",
-            "e2eID": "c12"
-          },
-          "type": "competence"
-        }
-      ]
-    },
-    {
-      "type": "domaineDeCompetence",
-      "titre": "Développement informatique",
-      "contenu": "",
-      "competences": [
-        {
-          "titre": "Management de produit logiciel",
-          "image": {
-            "src": "1.2 product Management.png",
-            "alt": "Management de produit logiciel"
-          },
-          "description": "Après 20 ans de pratique pour ma propre entreprise je suis devenu un **expert dans l'édition de logiciels**, au niveau stratégie, marketing, programmation, SaaS, pilotage de projet et service client.",
-          "bouton": {
-            "type": "bouton",
-            "texte": "En savoir plus...",
-            "action": "/management-de-produit-logiciel",
-            "e2eID": "c14"
-          },
-          "type": "competence"
-        },
-        {
-          "titre": "Ingénierie logicielle",
-          "image": {
-            "src": "Excellence.png",
-            "alt": "Ingénierie logicielle"
-          },
-          "description": "**Ancien développeur** j'ai suivi l'évolution de **l'état de l'art** de l'industrie informatique. Collaborant systématiquement avec des artisans logiciel de haut niveau j'ai l'habitude d'interagir avec eux pendant qu'ils pratiquent BDD, TDD, DDD, CQRS, EventSourcing, CI/CD...",
-          "bouton": {
-            "type": "bouton",
-            "texte": "En savoir plus...",
-            "action": "/ingenierie-logiciel",
-            "e2eID": "c15"
-          },
-          "type": "competence"
-        },
-        {
-          "titre": "Data et Business Intelligence",
-          "image": {
-            "src": "Data.png",
-            "alt": "Data et Business Intelligence"
-          },
-          "description": "Nos nombreux biais cognitifs peuvent nous tromper. Objectiver nos arbitrages via des **données quantitatives factuelles** permet d'éviter bien des erreurs. L'analyse de données permet de transformer des informations brutes en insights stratégiques. J'utilise des **outils de BI**, Excel et PowerQuery pour visualiser les données et aider à la prise de décisions éclairées.",
-          "bouton": null,
-          "type": "competence"
-        }
-      ]
-    },
-    {
-      "type": "domaineDeCompetence",
-      "titre": "Management",
-      "contenu": "",
-      "competences": [
-        {
-          "titre": "Le sens avant tout",
-          "image": {
-            "src": "Why.png",
-            "alt": "Le sens avant tout"
-          },
-          "description": "Comme le rappellent le **\"Afin de...\"** de la User Storie de Kent Beck (eXtreme Programming), le cercle d'or de Simon Sinek (\"**Why** before how & what\") ou le \"**C'est quoi le besoin ?**\" de Nicolas Sabatier, j'aide chacun à questionner le \"**pour quoi**\" avant tout passage à l'action.",
-          "bouton": null,
-          "type": "competence"
-        },
-        {
-          "titre": "Management 3.0",
-          "image": {
-            "src": "Management30.png",
-            "alt": "Management 3.0"
-          },
-          "description": "Inspiré par des formations et mon expérience de **patron**, j'applique les principes du **Management 3.0** pour favoriser **l'agilité**, la **transparence** et **l'engagement**.\nMon objectif : créer un environnement où les équipes **s'auto-organisent**, apprennent de leurs erreurs et innovent, sans alourdir les processus. Une pratique alignée avec mon expérience de **coach d'équipes juniors**, où **l'humain** et **la qualité du travail** priment.",
-          "bouton": null,
-          "type": "competence"
-        },
-        {
-          "titre": "Leader Agile",
-          "image": {
-            "src": "Agile.png",
-            "alt": "Leader Agile"
-          },
-          "description": "Que ce soit en **Scrum**, **Kanban** ou contextes hybrides, je privilégie la **clarté des objectifs**, la **collaboration** et **l'amélioration continue** pour délibre de la **valeur**.\nMon expérience inclut la **transition d'équipes vers des pratiques agiles** (TDD, BDD, DDD) et **l'accompagnement de TPE/PME** dans leur transformation.",
-          "bouton": null,
-          "type": "competence"
-        }
-      ]
-    },
-    {
-      "type": "domaineDeCompetence",
-      "titre": "Animation d'atelier",
-      "contenu": "",
-      "competences": [
-        {
-          "titre": "Serious Game",
-          "image": {
-            "src": "Serious games.png",
-            "alt": "Serious Game"
-          },
-          "description": "L'utilisation de serious games est un excellent moyen de renforcer les **compétences** et la **collaboration** au sein des équipes. En tant que facilitateur, j'organise des sessions interactives pour **ancrer les concepts** de manière ludique et efficace.",
-          "bouton": null,
-          "type": "competence"
-        },
-        {
-          "titre": "Modélisation graphique",
-          "image": {
-            "src": "Facilitation.png",
-            "alt": "Modélisation graphique"
-          },
-          "description": "La management visuel est très puissant ! Formé par Nicolas Gros, expert reconnu de la facilitation graphique, je suis en mesure de **modéliser graphiquement une pensée complexe** pour en faciliter la compréhension pour un collectif.",
-          "bouton": null,
-          "type": "competence"
-        },
-        {
-          "titre": "CoDev",
-          "image": {
-            "src": "CoDev.png",
-            "alt": "CoDev"
-          },
-          "description": "Formé à la méthode **CoDev** (Claude Champagne & Adrien Payette), j'anime des **ateliers collaboratifs** pour **co-construire des solutions en équipe**.\nCette approche structurée a un atout majeur : elle bloque **la tendance naturelle à sauter vers des solutions prématurées** et prend le temps de **bien définir le problème**.",
-          "bouton": null,
-          "type": "competence"
-        }
-      ]
-    },
-    {
-      "type": "domaineDeCompetence",
-      "titre": "Transmission",
-      "contenu": "",
-      "competences": [
-        {
-          "titre": "Formateur",
-          "image": {
-            "src": "Formation.png",
-            "alt": "Formateur"
-          },
-          "description": "Interventions à **l'INSA** pour former des étudiants en informatique à **l'entrepreneuriat**, en utilisant des outils concrets comme le **Business Model Canvas**. Une formation qui rappelle que **l'informatique est un moyen au service d'un but**, et non une fin en soi.",
-          "bouton": null,
-          "type": "competence"
-        },
-        {
-          "titre": "Conférence",
-          "image": {
-            "src": "Conférence.png",
-            "alt": "Conférence"
-          },
-          "description": "Interventions lors d'événements dédiés à **l'entrepreneuriat** et à **l'innovation**, comme la **Freelance journée** ou la **semaine d'idéation de la FEE de l'INSA**. Mes interventions visent à mettre un projecteur sur des **approches atypiques ou méconnues de résolution de problème**.",
-          "bouton": null,
-          "type": "competence"
-        },
-        {
-          "titre": "Mentora",
-          "image": {
-            "src": "Mantoring.png",
-            "alt": "Mentora"
-          },
-          "description": "Accompagnement de porteurs de projet et d'entrepreneurs pour le Réseau Entreprendre et la FEE de l'INSA.\nMon rôle : **écouter** et **challenger**.\nLe mentoré reste l'arbitre.",
-          "bouton": null,
-          "type": "competence"
-        }
-      ]
-    },
-    {
-      "type": "domaineDeCompetence",
-      "titre": "Engager les équipes",
-      "contenu": "Collaborer pour faire face à un défi engendre des défis inédits, absents lorsqu'on agit seul.\nLes dynamiques collaboratives, et donc relationnelles, doivent être au cœur du programme de transformation.",
-      "competences": [
-        {
-          "titre": "Réseau social Professionnel",
-          "image": {
-            "src": "Linkedin.png",
-            "alt": "Réseau social Professionnel"
-          },
-          "description": "Je peux devenir un promoteur efficace d'un projet en exploitant le potentiel de [**Linkedin**](https://www.linkedin.com/in/alain-meunier-maep/), aussi bien via des posts publics auxquels il est possible de donner une grande visibilité avec l'aide d'une **communauté d'ambassadeurs**, que via des messages privés initiés avec des outils de **Growth Hacking**.",
-          "bouton": null,
-          "type": "competence"
-        },
-        {
-          "titre": "Membre actif de communautés",
-          "image": {
-            "src": "Communauté.png",
-            "alt": "Membre actif de communautés"
-          },
-          "description": "Je suis très actif dans les communautés dont je suis membre. De mon **engagement régulier et sincère** résulte une certaine notoriété spontanée. Ainsi, lorsque je sollicite ces communauté je suis rapidement soutenu par des personnes qui me font confiance et viennent m'apporter leur expertise.",
-          "bouton": null,
-          "type": "competence"
-        },
-        {
-          "titre": "Détournement vidéo",
-          "image": {
-            "src": "1.3 Facilitation.png",
-            "alt": "Détournement vidéo"
-          },
-          "description": "**J'ai une expertise reconnue** dans le détournement de scènes cultes du cinéma. Ce média atypique permet de donner de la visibilité et créer de la viralité sur vos messages stratégiques.",
-          "bouton": {
-            "type": "bouton",
-            "texte": "En savoir plus...",
-            "action": "/detournement-video",
-            "e2eID": "c13"
-          },
-          "type": "competence"
-        }
-      ]
-    },
-    {
-      "type": "domaineDeCompetence",
-      "titre": "Diagnostic civilisationnel",
-      "contenu": "« Comment est-il possible que nous construisions collectivement ce qu'individuellement aucun d'entre nous ne voudrions ? »\n\nPour inscrire votre **stratégie dans le long terme** il faut commencer par prendre connaissance de l'état et de l'évolution de notre monde. Ce diagnostic invite chacun à **challenger certaines de ses croyances**. Je suis en mesure d'animer et faciliter 3 ateliers complémentaires servant cet objectif de transparence :",
-      "auteur": "Otto Scharmer",
-      "competences": [
-        {
-          "titre": "La science / Les faits",
-          "image": {
-            "src": "Fresque du Climat.png",
-            "alt": "La science - Les faits"
-          },
-          "description": "C'est un consensus scientifique international : la **dérive climatique** auquel est confronté le vivant est engendré par l'Homme. Toutefois, tout le monde n'est pas au fait des phénomènes qui sont en jeu et leurs conséquences. [**La fresque du Climat**](https://fresqueduclimat.org/) permet de s'approprier ces notions fondamentales faisant partie du socle factuel sur lequel fonder tous nos futurs arbitrages.",
-          "bouton": {
-            "type": "bouton",
-            "texte": "Aller plus loin...",
-            "action": "/robustesse",
-            "e2eID": "c16"
-          },
-          "type": "competence"
-        },
-        {
-          "titre": "Les ordres de grandeur",
-          "image": {
-            "src": "2Tonnes.png",
-            "alt": "Les ordres de grandeur"
-          },
-          "description": "Avant de passer à l'action il est utile de connaitre les **ordres de grandeur** pour identifier le ou les éléments sur lesquels il est prioritaire d'agir (et ne pas s'épuiser à mener des transformations qui n'auront que peu d'impact). [**L'atelier 2 tonnes**](https://www.2tonnes.org/) nous invite à nous projeter jusqu'en 2050, pour découvrir les leviers individuels et collectifs de la transition écologique, et identifier le rôle que chacun peut y jouer !",
-          "bouton": null,
-          "type": "competence"
-        },
-        {
-          "titre": "Une vision systémique",
-          "image": {
-            "src": "TheWeek.png",
-            "alt": "Une vision systémique"
-          },
-          "description": "**L'environnement se dégrade** et le climat change rapidement. [**The Week**](https://www.theweek.ooo/) est une expérience émotionnelle de groupe pour nous aider à comprendre ce qui se profile et **ce que nous pouvons faire** à ce sujet.",
-          "bouton": null,
-          "type": "competence"
-        }
-      ]
-    },
-    {
-      "type": "domaineDeCompetence",
-      "titre": "Activités extra-professionnelles... au service de ma profession",
-      "contenu": "",
-      "competences": [
-        {
-          "titre": "Improvisation théâtrale",
-          "image": {
-            "src": "Théatre d'impro.png",
-            "alt": "Improvisation théâtrale"
-          },
-          "description": "L'improvisation théâtrale favorise l'**adaptabilité, la communication efficace, la créativité, la collaboration et le leadership**. Elle aide à gérer l'**incertitude**, à résoudre des problèmes de manière **innovante** et à renforcer la **cohésion** d'équipe.\nAutant d'atouts essentiels en entreprise.",
-          "bouton": null,
-          "type": "competence"
-        },
-        {
-          "titre": "Jeux de stratégie",
-          "image": {
-            "src": "Jeux de plateau.png",
-            "alt": "Jeux de stratégie"
-          },
-          "description": "Les jeux de stratégie développent la **pensée critique**, la **planification**, la **prise de décision**, la **résolution de problèmes**, et la **gestion des ressources**. Ils renforcent également la **collaboration** et la **flexibilité mentale**, compétences précieuses pour la gestion de projets et le travail en équipe en entreprise.",
-          "bouton": null,
-          "type": "competence"
-        },
-        {
-          "titre": "Musique",
-          "image": {
-            "src": "Musique.png",
-            "alt": "Musique"
-          },
-          "description": "Guitariste, je suis membre d'un groupe qui se produit régulièrement sur de petites scènes. La pratique de la musique dans un groupe renforce la **coordination**, l'**écoute active**, la **synchronisation**, la **créativité**, et la **gestion du stress**. Jouer sur scène développe la **confiance en soi**, l'**adaptabilité**, et l'**esprit d'équipe**, des compétences essentielles pour la collaboration et la performance dans un contexte professionnel.",
-          "bouton": null,
-          "type": "competence"
-        }
-      ]
-    },
-    {
-      "type": "callToAction",
-      "action": "Faisons connaissance...",
-      "e2eID": "a17"
-    },
-    {
-      "type": "titre",
-      "texte": "Témoignages"
-    },
-    {
-      "type": "temoignages",
-      "source": "temoignages.json"
     }
   ]
 }

@@ -53,7 +53,7 @@ export const loadInfoBullesConfig = (): ConfigurationInfoBulles => {
   }
 
   try {
-    const configPath = path.resolve(process.cwd(), 'data/metrics.json');
+    const configPath = path.resolve(process.cwd(), 'data/_metrics.json');
     const configContent = fs.readFileSync(configPath, 'utf8');
     _cachedConfig = JSON.parse(configContent);
     

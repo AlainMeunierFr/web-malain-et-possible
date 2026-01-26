@@ -1,0 +1,110 @@
+.hero {
+  width: 100%;
+  background-color: var(--background);
+  padding: 2rem 1rem;
+}
+
+.content {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.titre {
+  font-family: var(--font-sans);
+  font-size: 2rem;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 0.75rem;
+  color: var(--color-text-default);
+  line-height: 1.2;
+}
+
+.sousTitre {
+  font-family: var(--font-sans);
+  font-size: 1.25rem;
+  font-weight: 500;
+  text-align: center;
+  margin-bottom: 1rem;
+  color: var(--color-text-default);
+  line-height: 1.3;
+}
+
+.description {
+  font-family: var(--font-serif);
+  font-size: 13px;
+  line-height: 1.4;
+  text-align: center;
+  margin-bottom: 1.5rem;
+  color: var(--color-text-default);
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.boutonPrincipalContainer {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2rem;
+}
+
+.boutonPrincipal {
+  padding: 0.75rem 1.5rem;
+  background-color: var(--BoutonCouleurFond);
+  color: var(--BoutonCouleur);
+  text-decoration: none;
+  border-radius: var(--BoutonContourRadius);
+  font-family: var(--BoutonPolice);
+  font-size: var(--BoutonTaillePolice);
+  font-weight: var(--BoutonPoidsPolice);
+  border: var(--BoutonContour);
+  transition: var(--BoutonTransition);
+  transform: translateY(0);
+  box-shadow: none;
+  line-height: 1;
+}
+
+.boutonPrincipal:hover {
+  background-color: var(--BoutonCouleurFondHover);
+  color: var(--BoutonCouleurTexteHover);
+  transform: var(--BoutonTransformHover);
+  box-shadow: var(--BoutonOmbreHover);
+}
+
+.profilsContainer {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  margin-top: 1.5rem;
+  align-items: stretch;
+}
+
+/* Responsive : empilement vertical sur mobile */
+@media (max-width: 768px) {
+  .hero {
+    padding: 1.5rem 1rem;
+  }
+
+  .titre {
+    font-size: 1.75rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .sousTitre {
+    font-size: 1.125rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .description {
+    margin-bottom: 1rem;
+  }
+
+  .boutonPrincipalContainer {
+    margin-bottom: 1.5rem;
+  }
+
+  .profilsContainer {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+    margin-top: 1rem;
+  }
+}

@@ -13,28 +13,36 @@ describe('CourseMarkdownRenderer', () => {
     expect(screen.getByText('Simple text')).toBeInTheDocument();
   });
 
-  it('devrait afficher un titre h3', () => {
-    const { container } = render(<CourseMarkdownRenderer content="### Titre niveau 3" />);
+  it('devrait afficher un titre h3 pour # (décalage +2)', () => {
+    const { container } = render(<CourseMarkdownRenderer content="# Titre niveau 1 MD" />);
     
     const h3 = container.querySelector('h3');
     expect(h3).toBeInTheDocument();
-    expect(h3?.textContent).toBe('Titre niveau 3');
+    expect(h3?.textContent).toBe('Titre niveau 1 MD');
   });
 
-  it('devrait afficher un titre h4', () => {
-    const { container } = render(<CourseMarkdownRenderer content="#### Titre niveau 4" />);
+  it('devrait afficher un titre h4 pour ## (décalage +2)', () => {
+    const { container } = render(<CourseMarkdownRenderer content="## Titre niveau 2 MD" />);
     
     const h4 = container.querySelector('h4');
     expect(h4).toBeInTheDocument();
-    expect(h4?.textContent).toBe('Titre niveau 4');
+    expect(h4?.textContent).toBe('Titre niveau 2 MD');
   });
 
-  it('devrait afficher un titre h5', () => {
-    const { container } = render(<CourseMarkdownRenderer content="##### Titre niveau 5" />);
+  it('devrait afficher un titre h5 pour ### (décalage +2)', () => {
+    const { container } = render(<CourseMarkdownRenderer content="### Titre niveau 3 MD" />);
     
     const h5 = container.querySelector('h5');
     expect(h5).toBeInTheDocument();
-    expect(h5?.textContent).toBe('Titre niveau 5');
+    expect(h5?.textContent).toBe('Titre niveau 3 MD');
+  });
+
+  it('devrait afficher un titre h6 pour #### (décalage +2)', () => {
+    const { container } = render(<CourseMarkdownRenderer content="#### Titre niveau 4 MD" />);
+    
+    const h6 = container.querySelector('h6');
+    expect(h6).toBeInTheDocument();
+    expect(h6?.textContent).toBe('Titre niveau 4 MD');
   });
 
   it('devrait afficher une liste', () => {

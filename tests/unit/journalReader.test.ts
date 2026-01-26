@@ -8,7 +8,7 @@
  * - Test 3 : Ignorer README.md et COURS
  * - Test 4 : Extraire la date du nom de fichier
  * - Test 5 : Extraire le titre du contenu
- * - Test 6 : Ajuster les niveaux de titres
+ * - Test 6 : Lire le contenu sans ajustement (nouveau système)
  * - Test 7 : Trier les fichiers par date
  * - Test 8 : Lire les fichiers cours
  */
@@ -16,24 +16,20 @@
 import fs from 'fs';
 import path from 'path';
 import { readJournalFiles, readCourseFiles, type JournalFile, type CourseFile } from '../../utils/journalReader';
-import { adjustMarkdownTitleLevels } from '../../utils/markdownTitleAdjuster';
 
 // Mock fs
 jest.mock('fs');
 jest.mock('path');
-jest.mock('../../utils/markdownTitleAdjuster');
 
 describe('journalReader - Approche TDD (simple → complexe)', () => {
   const mockFs = fs as jest.Mocked<typeof fs>;
   const mockPath = path as jest.Mocked<typeof path>;
-  const mockAdjustMarkdownTitleLevels = adjustMarkdownTitleLevels as jest.MockedFunction<typeof adjustMarkdownTitleLevels>;
 
   beforeEach(() => {
     jest.clearAllMocks();
     // Mock process.cwd() via jest.spyOn
     jest.spyOn(process, 'cwd').mockReturnValue('/project');
     mockPath.join.mockImplementation((...args) => args.join('/'));
-    mockAdjustMarkdownTitleLevels.mockImplementation((content) => content);
   });
 
   afterEach(() => {
@@ -50,7 +46,6 @@ describe('journalReader - Approche TDD (simple → complexe)', () => {
       mockFs.existsSync.mockReturnValueOnce(true);
       mockFs.readdirSync.mockReturnValueOnce(['2026-01-18.md'] as any);
       mockFs.readFileSync.mockReturnValueOnce('# Journal du 18 janvier');
-      mockAdjustMarkdownTitleLevels.mockReturnValueOnce('# Journal du 18 janvier');
       
       const result = readJournalFiles();
       
@@ -67,9 +62,6 @@ describe('journalReader - Approche TDD (simple → complexe)', () => {
       mockFs.existsSync.mockReturnValueOnce(true);
       mockFs.readdirSync.mockReturnValueOnce(['2026-01-17.md', '2026-01-18.md'] as any);
       mockFs.readFileSync
-        .mockReturnValueOnce('# Journal du 17 janvier')
-        .mockReturnValueOnce('# Journal du 18 janvier');
-      mockAdjustMarkdownTitleLevels
         .mockReturnValueOnce('# Journal du 17 janvier')
         .mockReturnValueOnce('# Journal du 18 janvier');
       
@@ -89,7 +81,6 @@ describe('journalReader - Approche TDD (simple → complexe)', () => {
       mockFs.existsSync.mockReturnValueOnce(true);
       mockFs.readdirSync.mockReturnValueOnce(['README.md', 'COURS', '2026-01-18.md'] as any);
       mockFs.readFileSync.mockReturnValueOnce('# Journal du 18 janvier');
-      mockAdjustMarkdownTitleLevels.mockReturnValueOnce('# Journal du 18 janvier');
       
       const result = readJournalFiles();
       
@@ -107,7 +98,6 @@ describe('journalReader - Approche TDD (simple → complexe)', () => {
       mockFs.existsSync.mockReturnValueOnce(true);
       mockFs.readdirSync.mockReturnValueOnce(['2026-01-18.md'] as any);
       mockFs.readFileSync.mockReturnValueOnce('# Journal du 18 janvier');
-      mockAdjustMarkdownTitleLevels.mockReturnValueOnce('# Journal du 18 janvier');
       
       const result = readJournalFiles();
       
@@ -123,15 +113,14 @@ describe('journalReader - Approche TDD (simple → complexe)', () => {
       mockFs.existsSync.mockReturnValueOnce(true);
       mockFs.readdirSync.mockReturnValueOnce(['2026-01-18.md'] as any);
       mockFs.readFileSync.mockReturnValueOnce('## Formation et documentation\n\nContenu du journal...');
-      mockAdjustMarkdownTitleLevels.mockReturnValueOnce('## Formation et documentation\n\nContenu du journal...');
       
       const result = readJournalFiles();
       
       expect(result[0].title).toBe('Formation et documentation');
     });
 
-    // ITÉRATION 6 : Ajuster les niveaux de titres
-    it('should adjust markdown title levels', () => {
+    // ITÉRATION 6 : Lire le contenu sans ajustement (nouveau système)
+    it('should read content without adjustment (new system)', () => {
       const journalDir = 'JOURNAL_DE_BORD';
       const mockCwd = '/project';
       
@@ -139,12 +128,10 @@ describe('journalReader - Approche TDD (simple → complexe)', () => {
       mockFs.existsSync.mockReturnValueOnce(true);
       mockFs.readdirSync.mockReturnValueOnce(['2026-01-18.md'] as any);
       mockFs.readFileSync.mockReturnValueOnce('## Formation');
-      mockAdjustMarkdownTitleLevels.mockReturnValueOnce('### Formation');
       
       const result = readJournalFiles();
       
-      expect(result[0].content).toBe('### Formation');
-      expect(mockAdjustMarkdownTitleLevels).toHaveBeenCalledWith('## Formation');
+      expect(result[0].content).toBe('## Formation');
     });
 
     // ITÉRATION 7 : Trier les fichiers par date
@@ -156,10 +143,6 @@ describe('journalReader - Approche TDD (simple → complexe)', () => {
       mockFs.existsSync.mockReturnValueOnce(true);
       mockFs.readdirSync.mockReturnValueOnce(['2026-01-18.md', '2026-01-17.md', '2026-01-19.md'] as any);
       mockFs.readFileSync
-        .mockReturnValueOnce('# Journal du 18')
-        .mockReturnValueOnce('# Journal du 17')
-        .mockReturnValueOnce('# Journal du 19');
-      mockAdjustMarkdownTitleLevels
         .mockReturnValueOnce('# Journal du 18')
         .mockReturnValueOnce('# Journal du 17')
         .mockReturnValueOnce('# Journal du 19');
@@ -195,7 +178,6 @@ describe('journalReader - Approche TDD (simple → complexe)', () => {
       mockFs.existsSync.mockReturnValueOnce(true);
       mockFs.readdirSync.mockReturnValueOnce(['2026-01-18.md'] as any);
       mockFs.readFileSync.mockReturnValueOnce('Simple plain text title\n\nContenu du journal...');
-      mockAdjustMarkdownTitleLevels.mockReturnValueOnce('Simple plain text title\n\nContenu du journal...');
       
       const result = readJournalFiles();
       
@@ -212,8 +194,7 @@ describe('journalReader - Approche TDD (simple → complexe)', () => {
       mockPath.join.mockReturnValueOnce(`${mockCwd}/${coursesDir}`);
       mockFs.existsSync.mockReturnValueOnce(true);
       mockFs.readdirSync.mockReturnValueOnce(['01. Les fondamentaux de Git.md'] as any);
-      mockFs.readFileSync.mockReturnValueOnce('### Les fondamentaux de Git\n\nContenu...');
-      mockAdjustMarkdownTitleLevels.mockReturnValueOnce('#### Les fondamentaux de Git\n\nContenu...');
+      mockFs.readFileSync.mockReturnValueOnce('# Les fondamentaux de Git\n\nContenu...');
       
       const result = readCourseFiles();
       
@@ -222,15 +203,14 @@ describe('journalReader - Approche TDD (simple → complexe)', () => {
     });
 
     // ITÉRATION 2 : Extraire le titre du contenu
-    it('should extract title from H4 (after adjustment)', () => {
+    it('should extract title from H1 (new system)', () => {
       const coursesDir = 'JOURNAL_DE_BORD/COURS';
       const mockCwd = '/project';
       
       mockPath.join.mockReturnValueOnce(`${mockCwd}/${coursesDir}`);
       mockFs.existsSync.mockReturnValueOnce(true);
       mockFs.readdirSync.mockReturnValueOnce(['01. Git.md'] as any);
-      mockFs.readFileSync.mockReturnValueOnce('### Git');
-      mockAdjustMarkdownTitleLevels.mockReturnValueOnce('#### Git');
+      mockFs.readFileSync.mockReturnValueOnce('# Git');
       
       const result = readCourseFiles();
       
@@ -246,13 +226,9 @@ describe('journalReader - Approche TDD (simple → complexe)', () => {
       mockFs.existsSync.mockReturnValueOnce(true);
       mockFs.readdirSync.mockReturnValueOnce(['02. TypeScript.md', '01. Git.md', '03. Next.js.md'] as any);
       mockFs.readFileSync
-        .mockReturnValueOnce('### TypeScript')
-        .mockReturnValueOnce('### Git')
-        .mockReturnValueOnce('### Next.js');
-      mockAdjustMarkdownTitleLevels
-        .mockReturnValueOnce('#### TypeScript')
-        .mockReturnValueOnce('#### Git')
-        .mockReturnValueOnce('#### Next.js');
+        .mockReturnValueOnce('# TypeScript')
+        .mockReturnValueOnce('# Git')
+        .mockReturnValueOnce('# Next.js');
       
       const result = readCourseFiles();
       
@@ -284,8 +260,7 @@ describe('journalReader - Approche TDD (simple → complexe)', () => {
       mockPath.join.mockReturnValueOnce(`${mockCwd}/${coursesDir}`);
       mockFs.existsSync.mockReturnValueOnce(true);
       mockFs.readdirSync.mockReturnValueOnce(['README.txt', '01. Git.md', 'image.png'] as any);
-      mockFs.readFileSync.mockReturnValueOnce('### Git');
-      mockAdjustMarkdownTitleLevels.mockReturnValueOnce('#### Git');
+      mockFs.readFileSync.mockReturnValueOnce('# Git');
       
       const result = readCourseFiles();
       
@@ -294,8 +269,8 @@ describe('journalReader - Approche TDD (simple → complexe)', () => {
       expect(mockFs.readFileSync).toHaveBeenCalledTimes(1);
     });
 
-    // NOUVELLE ITÉRATION : Fallback pour titre H3 (non ajusté)
-    it('should extract title from H3 as fallback', () => {
+    // NOUVELLE ITÉRATION : Fallback pour titre H3 (ancien format)
+    it('should extract title from H3 as fallback (old format)', () => {
       const coursesDir = 'JOURNAL_DE_BORD/COURS';
       const mockCwd = '/project';
       
@@ -303,7 +278,6 @@ describe('journalReader - Approche TDD (simple → complexe)', () => {
       mockFs.existsSync.mockReturnValueOnce(true);
       mockFs.readdirSync.mockReturnValueOnce(['01. Git.md'] as any);
       mockFs.readFileSync.mockReturnValueOnce('### Git Basics');
-      mockAdjustMarkdownTitleLevels.mockReturnValueOnce('### Git Basics\n\nContent...'); // Pas ajusté
       
       const result = readCourseFiles();
       

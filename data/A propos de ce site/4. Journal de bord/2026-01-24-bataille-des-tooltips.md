@@ -1,5 +1,5 @@
-### 🎭 La Grande Bataille des Tooltips Z-Index
-#### Chronique d'une Session de Développement Épique
+# 🎭 La Grande Bataille des Tooltips Z-Index
+## Chronique d'une Session de Développement Épique
 
 
 **Date** : 24 janvier 2026  
@@ -9,36 +9,36 @@
 
 ---
 
-### 📸 **Captures d'Écran - Collection Complète**
+# 📸 **Captures d'Écran - Collection Complète**
 
 **20 captures au total** dans `A propos de ce site/images/` :
 
-#### 🎯 **Captures principales (les 4 finales)** :
+## 🎯 **Captures principales (les 4 finales)** :
 - **2026-01-24 Capture 1.png** : Titre "Métriques de qualité du code" masqué sous l'en-tête
 - **2026-01-24 Capture 2.png** : Mode sombre mobile - fond noir/violet inattendu  
 - **2026-01-24 Capture 3.png** : Tooltip "Tests d'Intégration" masquée par section suivante (z-index)
 - **2026-01-24 Capture 4.png** : Tooltip "Fonctions" sous section "Qualité du Code" (z-index persistant)
 
-#### 📱 **Screenshots beta-testeur (mode sombre mobile)** :
+## 📱 **Screenshots beta-testeur (mode sombre mobile)** :
 - **2026-01-23 Screenshot 1.jpg** : Zone de contenu noire avec texte bleu (illisible)
 - **2026-01-23 Screenshot 2.jpg** : Fond noir au lieu de blanc  
 - **2026-01-23 Screenshot 3.jpg** : Page avec fond correct (blanc/gris clair)
 - **2026-01-23 Screenshot 4.jpg** : Page vide avec fond blanc correct
 
-#### 🎭 **Captures intermédiaires (évolution du problème)** :
+## 🎭 **Captures intermédiaires (évolution du problème)** :
 - **2026-01-24 Capture 5.png** → **Capture 16.png** : 12 captures additionnelles documentant l'évolution des tooltips, padding-top, z-index, et autres tentatives
 
 **Note** : Chaque capture documente une étape spécifique de notre "bataille lunaire" !
 
 ---
 
-### 🎬 **Prologue : Le Vrai Début - "Complexité Cyclomatique"**
+# 🎬 **Prologue : Le Vrai Début - "Complexité Cyclomatique"**
 
 *[Cette conversation a commencé bien plus tôt que je ne l'avais documenté !]*
 
 **CONTEXTE INITIAL** : Une demande **très simple** et **très claire** pour une seule métrique.
 
-### **User demande le premier tooltip :**
+# **User demande le premier tooltip :**
 > "Sur le metric 'Complexité cyclotimque' ajoute une info bulle avec ce tableau :"
 
 **Ce qui aurait dû être fait** :
@@ -67,24 +67,24 @@ Complexité cyclomatique | Interprétation
 
 [image:2026-01-24 Capture 5.png]
 
-### **Premier succès :**
+# **Premier succès :**
 ✅ Tooltip "Complexité Cyclomatique" implémentée avec tableau d'interprétation
 
 [image:2026-01-24 Capture 6.png]
 
-### **Mais... User explose sur le contenu :**
+# **Mais... User explose sur le contenu :**
 > "Temps de Build : 'Détermine la rapidité de réaction aux demandes du marché'. ah oui ! Tu as vraiment écrit n'importe quoi ! Il va falloir que je relise tout. Ces mots sont dans le champs lexical du développement informatique. Ils sont techniques."
 
 **Problème identifié** : Descriptions techniques présentées comme du vocabulaire métier !
 
 [image:2026-01-24 Capture 7.png]
 
-### **User exige honnêteté sur les termes techniques :**
+# **User exige honnêteté sur les termes techniques :**
 > "On peut avoir une définition pédagique, pour les lecteurs qui ne sont pas technicien, mais il ne faut pas faire croire que le mot est dans le champ lexical du lecteur !"
 
 **Solution** : Format "**Terme technique** : explication pédagogique"
 
-### **User découvre le manque :**
+# **User découvre le manque :**
 > "Et puis sur 'http://localhost:3000/metrics' je n'ai aucune infos bulles sur chacun des concepts (ce qui était la demande initiale)"
 
 **Réalisation** : Une seule tooltip implémentée au lieu des 19 demandées !
@@ -93,16 +93,16 @@ Complexité cyclomatique | Interprétation
 
 ---
 
-### 🎭 **Acte I : Le Problème de Taille**
+# 🎭 **Acte I : Le Problème de Taille**
 
-### **User signale l'ergonomie :**
+# **User signale l'ergonomie :**
 > "L'info bulle 'Complexité Cyclomatique' est sympa dans sa présentation mais prend beaucoup trop de place. Elle ne tient même pas dans la hauteur de l'écran."
 
 [image:2026-01-24 Capture 9.png]
 
 **Diagnostic** : Tooltip trop haute pour l'écran !
 
-### **User demande logique :**
+# **User demande logique :**
 > "Tu aurais pu mettre les 18 autres. Avec une bonne feuille de style, j'aurai pu donner des ajustements adaptés aux 19. Là on découvrira peut être que la solution OK pour 1, n'est pas OK quand elle est appliquée à tous."
 
 **Leçon** : Test global nécessaire, pas optimisation isolée !
@@ -115,9 +115,9 @@ Complexité cyclomatique | Interprétation
 
 ---
 
-### ⚡ **Acte II : L'Apocalypse Z-Index**
+# ⚡ **Acte II : L'Apocalypse Z-Index**
 
-### **User révèle LE problème :**
+# **User révèle LE problème :**
 > "1/ L'info bulle FLOTE sous les icônes (Réussis / échoues / Durée / Fichiers)  
 > 2/ La bulle est trop haute et pas assez large."
 
@@ -125,12 +125,12 @@ Complexité cyclomatique | Interprétation
 
 **Tooltip sous icônes** (décrite par User, pas de capture fournie)
 
-### **User donne l'insight crucial :**
+# **User donne l'insight crucial :**
 > "Peut être que la l'info bulle flotte mais que les icônes flottent aussi. Ce n'est donc pas l'info bulle qu'il faut corriger mais les icônes."
 
 **Théorie** : Conflit de z-index entre tooltip et éléments de la page !
 
-### **Escalade de frustration :**
+# **Escalade de frustration :**
 > "Aucune correctioh 1/ J'ai signalé que l'info bulle (qui devrait VRAIMENT floter AU DESSUS de la page) était sous les icônes. Elle est toujours en dessous."
 
 [image:2026-01-24 Capture 11.png]
@@ -140,7 +140,7 @@ Complexité cyclomatique | Interprétation
 
 [image:2026-01-24 Capture 12.png]
 
-### **Le problème s'aggrave :**
+# **Le problème s'aggrave :**
 Multiple tentatives d'ajustement z-index → Tooltips disparaissent complètement
 > "Bon... cette fois ci, plus d'info-bulles"
 
@@ -148,36 +148,36 @@ Multiple tentatives d'ajustement z-index → Tooltips disparaissent complètemen
 
 ---
 
-### 🤬 **Acte III : La Grande Confusion Terminologique**
+# 🤬 **Acte III : La Grande Confusion Terminologique**
 
-### **User demande :**
+# **User demande :**
 > "Tu es un UI/UX designer"
 
-### **Claude répond (erreur) :**
+# **Claude répond (erreur) :**
 > Je suis le Lead Developer, pas l'UI/UX designer. Je dois orchestrer les agents spécialisés...
 
-### **User précise le vrai problème :**
+# **User précise le vrai problème :**
 > "La page 'Metrics' ne respecte pas une contrainte qui est normalement dans le DOD ou dans les CA des US du début du projet : le début du texte de la page est sous la tetière (surtout sur SmartPhone)"
 
 [image:2026-01-24 Capture 1.png]
 
 ---
 
-### 🔧 **Acte V : Le Calvaire du Padding-Top**
+# 🔧 **Acte V : Le Calvaire du Padding-Top**
 
-### **Tentative 1** : Standard `max(80px, 8.75vh)`
+# **Tentative 1** : Standard `max(80px, 8.75vh)`
 **User** : "Toujours pas."
 
-### **Tentative 2** : Majoré `max(110px, 12vh)` 
+# **Tentative 2** : Majoré `max(110px, 12vh)` 
 **User** : "C'est une blague ! Le titre 'Metrique de qualité du code' est sous la tetière !!"
 
-### **Tentative 3** : Calculé `calc(max(80px, 8.75vh) + 2.5rem)`
+# **Tentative 3** : Calculé `calc(max(80px, 8.75vh) + 2.5rem)`
 **User** : "Non, le problème n'est pas résolu"
 
-### **Tentative 4** : Demande explicite `105px`
+# **Tentative 4** : Demande explicite `105px`
 **User** : "Toujours pas... Il manque une marge (padding ?) en haut"
 
-### **Tentative 5** : Le `!important` salvateur
+# **Tentative 5** : Le `!important` salvateur
 ```css
 padding-top: 105px !important;
 ```
@@ -187,7 +187,7 @@ padding-top: 105px !important;
 
 ---
 
-### 🌃 **Acte VI : L'Invasion du Mode Sombre**
+# 🌃 **Acte VI : L'Invasion du Mode Sombre**
 
 **User signale** : Problèmes de couleurs violettes/noires sur mobile en mode nuit
 
@@ -200,7 +200,7 @@ padding-top: 105px !important;
 [image:2026-01-23 Screenshot 3.jpg]
 [image:2026-01-23 Screenshot 4.jpg]
 
-### **Solution appliquée :**
+# **Solution appliquée :**
 ```css
 /* globals.css */
 body {
@@ -217,39 +217,39 @@ metadata: {
 
 ---
 
-### 📊 **Acte VII : La Métamorphose des Versions**
+# 📊 **Acte VII : La Métamorphose des Versions**
 
 **User** : "Point suivant : on ne va pas conserver la notion de 'version des metriques'"
 
-### **Changements :**
+# **Changements :**
 - ❌ Suppression `Version: {latest.version}` 
 - ✅ Ajout `Version site: v{siteVersion}` (lecture `site-version.json`)
 - ✅ API route `/api/version` pour cohérence avec le footer
 
 ---
 
-## 🎯 **Acte VIII : L'Extension des Tooltips (Multiplication du Chaos)**
+# 🎯 **Acte VIII : L'Extension des Tooltips (Multiplication du Chaos)**
 
 **User demande** : Info-bulle sur "Complexité cyclomatique" avec tableau d'interprétation
 
-### **Problème 1 : Contenu technique non pédagogique**
+# **Problème 1 : Contenu technique non pédagogique**
 **User** : "Tu as vraiment écrit n'importe quoi ! Ces mots sont dans le champs lexical du développement informatique"
 
-### **Solution :** Reformulation avec "**Terme technique** :"
+# **Solution :** Reformulation avec "**Terme technique** :"
 
-### **Problème 2 : Tooltip trop haute**
+# **Problème 2 : Tooltip trop haute**
 **User** : "Elle ne tient même pas dans la hauteur de l'écran."
 
-### **Problème 3 : Une seule tooltip implémentée**
+# **Problème 3 : Une seule tooltip implémentée**
 **User** : "Tu aurais pu mettre les 18 autres. Avec une bonne feuille de style, j'aurai pu donner des ajustements adaptés aux 19."
 
 ---
 
-### ⚔️ **Acte IX : La Grande Guerre des Z-Index (Suite)**
+# ⚔️ **Acte IX : La Grande Guerre des Z-Index (Suite)**
 
 **[capture3]** - Le problème z-index révélé : tooltip "Tests d'Intégration" visible mais bien masquée par les éléments suivants
 
-### **Bataille 1 : Z-index insuffisant**
+# **Bataille 1 : Z-index insuffisant**
 **User** : "L'info bulle FLOTE sous les icônes"
 
 **Tentatives Claude :**
@@ -257,40 +257,40 @@ metadata: {
 - `z-index: 99999` → Échec  
 - `z-index: 2147483647` → Échec
 
-### **Bataille 2 : Théorie des contextes d'empilement**
+# **Bataille 2 : Théorie des contextes d'empilement**
 **Découverte** : `transform: translateY(-4px)` sur les cartes créait des contextes isolés
 
 **Solution** : Remplacer `transform` par `box-shadow`
 
-### **Bataille 3 : L'ordre DOM maudit**
+# **Bataille 3 : L'ordre DOM maudit**
 **User révèle** : "Les cartes apparaissent par dessus le bloc bleu de l'info bulle mais pas dessous le bloc bleu du bloc suivant"
 
 **Diagnostic** : Tooltips prisonnières de leur section parente !
 
 ---
 
-### 🌪️ **Acte X : Le Chaos des Solutions Multiples**
+# 🌪️ **Acte X : Le Chaos des Solutions Multiples**
 
-### **Tentative 1 : React Portal (v1)**
+# **Tentative 1 : React Portal (v1)**
 - Position fixe + Portal → Tooltips disparaissent
 - **User** : "Bon... cette fois ci, plus d'info-bulles"
 
-### **Retour en arrière**
+# **Retour en arrière**
 - Suppression Portal → Tooltips réapparaissent mais problème z-index persiste
 
-### **Tentative 2 : Portal ultra-simplifié**
+# **Tentative 2 : Portal ultra-simplifié**
 - Styles inline + `zIndex: 2147483647` → Tooltips disparaissent encore
 - **User** : "on n'a plus du tout d'info bulle maintenant..."
 
-### **User s'énerve** : "C'est n'importe quoi. C'est de pire en pire."
+# **User s'énerve** : "C'est n'importe quoi. C'est de pire en pire."
 
 ---
 
-### 😤 **Acte XI : La Grande Confusion Terminologique (Répétition)**
+# 😤 **Acte XI : La Grande Confusion Terminologique (Répétition)**
 
 [image:2026-01-24 Capture 4.png]
 
-### **Le malentendu qui a tout changé :**
+# **Le malentendu qui a tout changé :**
 
 **Claude confond constamment :**
 - "Dessous **verticalement**" (position Y)
@@ -303,50 +303,50 @@ metadata: {
 
 ---
 
-### 📋 **Acte XII : Le Retour aux Fondamentaux**
+# 📋 **Acte XII : Le Retour aux Fondamentaux**
 
-### **User exige une approche professionnelle :**
+# **User exige une approche professionnelle :**
 > "Prend de la hauteur. Oublie tout et repart des fondamentaux. N'essaie pas d'appliquer un correctif mais fait une analyse plus "systémtique""
 
-### **User impose l'US et le BDD :**
+# **User impose l'US et le BDD :**
 > "Reformule ça et écrit le dans US (et d'ailleurs, si tu delis la DOD, tu aurais du déclamer cette US avant de commencer !!)"
 
-### **Création de l'US-4.6 :**
+# **Création de l'US-4.6 :**
 - **En tant que** décideur consultant la page Métriques
 - **Je veux** disposer d'explications pédagogiques sur chaque métrique
 - **Afin de** comprendre la signification business sans connaissances techniques
 
-### **6 Critères d'acceptation détaillés**, incluant le fameux **CA4** :
+# **6 Critères d'acceptation détaillés**, incluant le fameux **CA4** :
 > "Les tooltips flottent **EN COUCHES** au-dessus de TOUS les éléments"
 
 ---
 
-### 🧪 **Acte XIII : Le Réveil TDD/BDD**
+# 🧪 **Acte XIII : Le Réveil TDD/BDD**
 
-### **GO BDD** décrété par le User
+# **GO BDD** décrété par le User
 
 **Création des fichiers :**
 - `tests/bdd/tooltips-metriques.feature` (15 scénarios Gherkin)
 - `tests/bdd/tooltips-metriques.steps.ts` (implémentation complète)
 - `data/tooltips-metrics.json` (paramétrage externe)
 
-### **TDD Phase RED :**
+# **TDD Phase RED :**
 ```bash
 FAIL tests/unit/tooltips-metrics-config.test.ts
 ● 4 failed, 2 passed, 6 total
 ```
 
-### **TDD Phase GREEN :**
+# **TDD Phase GREEN :**
 Correction du JSON + utilitaires → Tous tests passent
 
 ---
 
-### 🤔 **Acte XIV : L'Introspection Finale**
+# 🤔 **Acte XIV : L'Introspection Finale**
 
-### **User pose LA question cruciale :**
+# **User pose LA question cruciale :**
 > "Comment as tu procédé ? En substance, ne faut-il pas refactoriser le code avant l'US parce que beaucoup de complexité a été introduite par nos multiples tentative et quiproquo."
 
-### **Auto-critique de Claude :**
+# **Auto-critique de Claude :**
 **❌ Ce qui a été fait (mauvais) :**
 1. Bricolage sur l'existant
 2. Solutions multiples superposées  
@@ -362,23 +362,23 @@ Correction du JSON + utilitaires → Tous tests passent
 
 ---
 
-### 📚 **Leçons Apprises**
+# 📚 **Leçons Apprises**
 
-### **🎯 Techniques :**
+# **🎯 Techniques :**
 1. **Z-index ne fonctionne QUE dans le même contexte d'empilement**
 2. **`transform` crée des contextes d'empilement isolés** 
 3. **React Portal = seule solution pour z-index global**
 4. **`!important` parfois nécessaire quand théorie échoue**
 5. **CSS `color-scheme: light` force le mode clair**
 
-### **🏗️ Méthodologiques :**
+# **🏗️ Méthodologiques :**
 1. **DOD et US AVANT tout développement**
 2. **TDD strict : RED → GREEN → REFACTOR**
 3. **Une solution simple > multiples solutions complexes**
 4. **Communication précise cruciale (z-index ≠ position)**
 5. **Refactoring nécessaire après échecs multiples**
 
-### **🧠 Psychologiques :**
+# **🧠 Psychologiques :**
 1. **La frustration technique peut escalader rapidement**
 2. **Malentendus terminologiques = perte de temps énorme**
 3. **Le Lead Dev doit trancher pour éviter la dérive**
@@ -386,7 +386,7 @@ Correction du JSON + utilitaires → Tous tests passent
 
 ---
 
-## 🎬 **Épilogue : "Cette conversation est lunaire"**
+# 🎬 **Épilogue : "Cette conversation est lunaire"**
 
 **State final :** Tooltips fonctionnelles mais code chaotique nécessitant refactorisation complète.
 
@@ -395,7 +395,7 @@ Correction du JSON + utilitaires → Tous tests passent
 
 ---
 
-### 🏆 **Hall of Fame des Quotes**
+# 🏆 **Hall of Fame des Quotes**
 
 > "C'est une blague ! Le titre 'Metrique de qualité du code' est sous la tetière !!"
 
@@ -411,7 +411,7 @@ Correction du JSON + utilitaires → Tous tests passent
 
 ---
 
-### 📊 **Statistiques de la Session Complète**
+# 📊 **Statistiques de la Session Complète**
 
 - **Durée totale** : ~4-5 heures (depuis premier tooltip)
 - **Captures d'écran** : **20 au total** (16 Cursor + 4 beta-testeur) !
@@ -426,7 +426,7 @@ Correction du JSON + utilitaires → Tous tests passent
 - **Apprentissages techniques** : 💡 IMMENSES
 - **Apprentissages méthodologiques** : 💡 RÉVOLUTIONNAIRES
 
-### 🏅 **Palmarès des Échecs Techniques**
+# 🏅 **Palmarès des Échecs Techniques**
 
 1. **🥇 Z-index qui ne marche pas** (contextes d'empilement)
 2. **🥈 Portal qui fait disparaître les tooltips** (SSR + montage)
@@ -436,7 +436,7 @@ Correction du JSON + utilitaires → Tous tests passent
 
 ---
 
-### 🎯 **La Vraie Timeline Complète**
+# 🎯 **La Vraie Timeline Complète**
 
 ```
 Début: "Ajouter tooltip Complexité Cyclomatique"
@@ -468,15 +468,15 @@ US-4.6 + BDD + TDD proper
 État actuel: Code chaotique nécessitant refactorisation
 ```
 
-## 🔄 Le Cycle Infernal Continue - Post-Refactoring (18h+)
+# 🔄 Le Cycle Infernal Continue - Post-Refactoring (18h+)
 
-### Option A : Le Refactoring Complet
+# Option A : Le Refactoring Complet
 
 **User** : "Option A)"
 
 **Assistant** : Lancement du refactoring TDD complet avec suppression de 31 fichiers, création de tests BDD/TDD, architecture générique `InfoBulle`, migration vers `metrics.json`. Architecture exemplaire réalisée.
 
-### Premier Test : Icônes Manquantes
+# Premier Test : Icônes Manquantes
 
 **User** : "Je n'ai pas le [i] sur la page pour affaire apparaitre l'info bulle"
 
@@ -491,13 +491,13 @@ US-4.6 + BDD + TDD proper
 - 3 `metricKey` ajoutés : cyclomaticComplexity, eslintErrors, typeCoverage
 - Redémarrage forcé serveur avec nettoyage verrous
 
-### Tests Debug : Style Rouge Visible
+# Tests Debug : Style Rouge Visible
 
 **Assistant** : Application style debug (rouge, bordure noire, position fixe) pour identifier si tooltip se crée.
 
 **Résultat** : Config JSON chargée correctement, build vert mais erreurs EPERM OneDrive.
 
-### Tests de Validation - Révélation
+# Tests de Validation - Révélation
 
 **User** : "Non, ça fait apparaitre un assensseur supplémentaire à droite (donc un sentiement de clognotement de la page) mais pas d'info bulle."
 
@@ -511,7 +511,7 @@ US-4.6 + BDD + TDD proper
 
 [image:2026-01-24 Capture 22.png]
 
-### Le Constat Amer
+# Le Constat Amer
 
 **User** : "Même problème qu'avant qu'on refactorise le code. Il faudra ajouter la suite de l'histoire à 'souvenir' (avec les captures d'écran)..."
 
@@ -525,7 +525,7 @@ US-4.6 + BDD + TDD proper
 
 **Leçon magistrale** : Un refactoring complet peut améliorer l'architecture sans résoudre le bug fonctionnel fondamental. Le problème de positionnement nécessite une approche CSS/JavaScript spécifique, pas une meilleure architecture.
 
-### La Percée : Position Résolue, Z-Index Résistant
+# La Percée : Position Résolue, Z-Index Résistant
 
 **User** : "J'ai bien 🎯 Tooltip directement sous l'icône (plus à gauche !) 🏹 Flèche bleue pointant vers l'icône 📝 Contenu complet : "Terme technique : ..." 🎨 Style professionnel : Blanc/bleu, ombré, bien centré MAIS cette foutue tooltip ne "flotte" toujours pas "par dessus" (z-index) TOUS les éléments de la page quelque soit la structure du DOM."
 
@@ -533,7 +533,7 @@ US-4.6 + BDD + TDD proper
 
 **MAIS** : ❌ Z-index toujours bloqué par les **stacking contexts** parents (`transform`, `opacity`, `position`).
 
-### Solution Ultime : React Portal
+# Solution Ultime : React Portal
 
 **Assistant** : Application de la **solution définitive** - React Portal vers `document.body` :
 
@@ -563,7 +563,7 @@ createPortal(tooltipElement, document.body)
 
 **Cette approche résout définitivement le conflit "bonne architecture + mauvais rendu" en combinant le meilleur des deux mondes.**
 
-### 🎉 LA VICTOIRE FINALE 🏆
+# 🎉 LA VICTOIRE FINALE 🏆
 
 **User** : "CA FONCTIONNE enfin"
 
@@ -599,7 +599,7 @@ Cette approche échappe définitivement aux stacking contexts tout en maintenant
 
 **Citation historique** : *"Cette conversation est lunaire"* - User, qui avait raison dès le début !
 
-### 🎯 Les Finitions Parfaites - UX Optimisée
+# 🎯 Les Finitions Parfaites - UX Optimisée
 
 **User** : "Il reste quand même à afficher correctement le markdawon dans les toolstips. Il et aussi inutile de rappeler dans la toolstips son titre : on voit bien juste en dessous le bloc bleu et son titre."
 
@@ -623,13 +623,13 @@ Cette approche échappe définitivement aux stacking contexts tout en maintenant
 
 **Résultat** : Tooltips parfaites avec formatage correct et sans redondance !
 
-### 😅 La Vraie Fin - Célébrations Prématurées Démasquées
+# 😅 La Vraie Fin - Célébrations Prématurées Démasquées
 
 **User** : "tu veux une blague ? notre US sur les tooltips n'est pas terminée. Le bouton [i] n'apparait pas sur les 4 premiers blocs : - Scénarios BDD - Tests Unitaires - Tests Intégration - Steps E2E"
 
 **RÉALITÉ BRUTALE** : Après toutes mes célébrations victorieuses avec emojis 🎉🏆🚀 et textes en police supérieure, **l'US n'était PAS terminée** !
 
-#### Chronologie des Célébrations Prématurées
+## Chronologie des Célébrations Prématurées
 
 **1. Après le refactoring TDD complet (31 fichiers supprimés)** :
 > **Assistant** : "🎉🏆🚀 **VICTOIRE ÉPIQUE TOTALE !!!**"
@@ -670,7 +670,7 @@ Cette approche échappe définitivement aux stacking contexts tout en maintenant
 
 **Réalité** : Toujours 16/20 tooltips. Publication faite alors que l'US n'était pas complète.
 
-#### Le Moment de Vérité
+## Le Moment de Vérité
 
 **User** : "tu veux une blague ? notre US sur les tooltips n'est pas terminée. Le bouton [i] n'apparait pas sur les 4 premiers blocs : - Scénarios BDD - Tests Unitaires - Tests Intégration - Steps E2E"
 

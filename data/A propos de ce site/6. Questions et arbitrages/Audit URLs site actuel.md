@@ -1,6 +1,6 @@
-### Audit des URLs du site actuel
+# Audit des URLs du site actuel
 
-#### Liste des URLs (texte tabulé)
+## Liste des URLs (texte tabulé)
 
 URL	Type de contenu
 /	JSON (index.json)

@@ -1,6 +1,6 @@
-### Analyse : Pourquoi l'affichage des journaux ne respecte plus la spécification
+# Analyse : Pourquoi l'affichage des journaux ne respecte plus la spécification
 
-#### Spécification attendue
+## Spécification attendue
 
 **Affichage souhaité** :
 1. Titre de prompt (h4)
@@ -11,9 +11,9 @@
 
 **SANS afficher** : Le titre de section (actuellement affiché en h3)
 
-#### Problème identifié
+## Problème identifié
 
-### État actuel dans `MarkdownRenderer.tsx`
+# État actuel dans `MarkdownRenderer.tsx`
 
 Le composant affiche actuellement (lignes 22-70) :
 1. ✅ Titre de section (h3) - **À SUPPRIMER**
@@ -22,7 +22,7 @@ Le composant affiche actuellement (lignes 22-70) :
 4. ✅ Composant Prompt
 5. ✅ Composant TechnicalResult
 
-### Pourquoi cette spécification n'est plus respectée
+# Pourquoi cette spécification n'est plus respectée
 
 **Changement dans la structure du JSON** :
 
@@ -43,7 +43,7 @@ Le composant affiche actuellement (lignes 22-70) :
 - C'est une métadonnée de structure, pas un élément d'affichage
 - Le vrai titre à afficher est `#### Sous-partie` (H4) qui devient `prompt.title`
 
-#### Pourquoi le JSON n'a plus tout à fait la même structure
+## Pourquoi le JSON n'a plus tout à fait la même structure
 
 Le parser `journalMarkdownParser.ts` a été adapté pour le nouveau format :
 - Détecte les sections à partir de `#### ` (H4) au lieu de `### ` (H3)
@@ -53,9 +53,9 @@ Le parser `journalMarkdownParser.ts` a été adapté pour le nouveau format :
   - Avant : `section.title` = vraie section du journal (à afficher)
   - Maintenant : `section.title` = "Partie" = conteneur logique (pas à afficher)
 
-#### Stratégie de correction proposée
+## Stratégie de correction proposée
 
-### Option 1 : Modifier `MarkdownRenderer.tsx` (RECOMMANDÉ)
+# Option 1 : Modifier `MarkdownRenderer.tsx` (RECOMMANDÉ)
 
 **Avantages** :
 - Minimal : suppression de 4 lignes de code (lignes 23-28)
@@ -133,20 +133,20 @@ parsed.sections.forEach((section, sectionIndex) => {
 });
 ```
 
-### Option 2 : Modifier le parser pour ne pas créer de sections (NON RECOMMANDÉ)
+# Option 2 : Modifier le parser pour ne pas créer de sections (NON RECOMMANDÉ)
 
 **Inconvénients** :
 - Changement de structure JSON (breakage)
 - Nécessite modification des tests
 - Change la logique backend alors que le problème est frontend
 
-### Option 3 : Afficher conditionnellement le titre de section (NON RECOMMANDÉ)
+# Option 3 : Afficher conditionnellement le titre de section (NON RECOMMANDÉ)
 
 **Inconvénients** :
 - Complexifie le code sans nécessité
 - La section n'est jamais à afficher dans le nouveau format
 
-#### Validation de la stratégie
+## Validation de la stratégie
 
 **Stratégie recommandée** : **Option 1** - Supprimer l'affichage du titre de section dans `MarkdownRenderer.tsx`
 
@@ -156,7 +156,7 @@ parsed.sections.forEach((section, sectionIndex) => {
 - ✅ Respecte la spécification : "Titre de prompt / Prompt / Texte du prompt / Résultat technique / Texte du résultat technique"
 - ✅ Le contenu libre de la section reste affiché (peut contenir du texte avant les prompts)
 
-#### Plan d'action
+## Plan d'action
 
 1. **Supprimer** les lignes 23-28 dans `MarkdownRenderer.tsx` (affichage du titre de section)
 2. **Conserver** l'affichage du contenu libre de la section (lignes 30-38)
@@ -164,7 +164,7 @@ parsed.sections.forEach((section, sectionIndex) => {
 4. **Vérifier** que l'affichage correspond à la spécification
 5. **Tester** que les journaux s'affichent correctement
 
-#### Questions
+## Questions
 
 - Le contenu libre de la section (`section.content`) doit-il être conservé dans l'affichage ?
   - Si oui : garder lignes 30-38

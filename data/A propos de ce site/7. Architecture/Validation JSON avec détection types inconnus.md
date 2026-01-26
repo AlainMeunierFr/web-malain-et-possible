@@ -1,6 +1,6 @@
-### Validation des JSON avec détection de types inconnus qui force l'implémentation ou la suppression
+# Validation des JSON avec détection de types inconnus qui force l'implémentation ou la suppression
 
-#### Introduction
+## Introduction
 
 Dans la plupart des projets, les fichiers JSON de configuration sont lus et utilisés sans validation stricte des types. Si un nouveau type est ajouté dans un JSON mais n'est pas implémenté dans le code, l'erreur n'apparaît qu'au runtime, voire jamais, créant des incohérences et des bugs difficiles à détecter.
 
@@ -11,7 +11,7 @@ Le besoin identifié est triple :
 
 Pour répondre à ces besoins, un système de validation des JSON a été mis en place, où les tests d'intégration parcourent tous les fichiers JSON, détectent les types inconnus (types présents dans les JSON mais non gérés dans le code), et échouent avec un message détaillé qui force le développeur à soit implémenter le type, soit le supprimer. Aucun type inconnu ne peut rester dans le projet.
 
-#### Résumé
+## Résumé
 
 Cette stratégie repose sur trois mécanismes interconnectés :
 
@@ -32,9 +32,9 @@ Cette approche transforme les types JSON en contraintes techniques : un type pr�
 
 ---
 
-#### Inventaire des types gérés
+## Inventaire des types gérés
 
-##### Types définis dans le code
+### Types définis dans le code
 
 Les types de contenu sont définis dans `utils/indexReader.ts` :
 
@@ -64,7 +64,7 @@ export type ElementContenu =
 
 **Résultat** : Un inventaire exhaustif et type-safe de tous les types gérés.
 
-##### Types gérés dans le renderer
+### Types gérés dans le renderer
 
 Les types doivent également être gérés dans `PageContentRenderer.tsx` :
 
@@ -84,9 +84,9 @@ switch (element.type) {
 
 ---
 
-#### Détection des types inconnus
+## Détection des types inconnus
 
-##### Parcours des fichiers JSON
+### Parcours des fichiers JSON
 
 Les tests d'intégration parcourent tous les fichiers JSON dans `data/` :
 
@@ -132,7 +132,7 @@ describe('Validation des fichiers JSON', () => {
 
 **Résultat** : Tous les types présents dans les JSON sont vérifiés contre l'inventaire des types gérés.
 
-##### Détection exhaustive
+### Détection exhaustive
 
 Le système détecte les types inconnus dans :
 - Tous les fichiers JSON de `data/`
@@ -143,9 +143,9 @@ Le système détecte les types inconnus dans :
 
 ---
 
-#### Message d'erreur actionnable
+## Message d'erreur actionnable
 
-##### Format du message
+### Format du message
 
 Le message d'erreur est structuré pour être actionnable :
 
@@ -170,7 +170,7 @@ Actions possibles :
 - Les actions possibles sont clairement indiquées
 - Pas d'ambiguïté sur ce qui doit être fait
 
-##### Intégration dans le workflow
+### Intégration dans le workflow
 
 Dans le workflow CI/CD, les tests Jest sont exécutés avant le build :
 
@@ -184,9 +184,9 @@ Dans le workflow CI/CD, les tests Jest sont exécutés avant le build :
 
 ---
 
-#### Processus de résolution
+## Processus de résolution
 
-##### Option 1 : Implémenter le type
+### Option 1 : Implémenter le type
 
 Si le type doit être ajouté au système :
 
@@ -227,7 +227,7 @@ export default function MonNouveauComposant({ element }: { element: ElementMonNo
 
 **Résultat** : Le type est maintenant géré, le test passe.
 
-##### Option 2 : Supprimer le type
+### Option 2 : Supprimer le type
 
 Si le type n'est pas nécessaire :
 
@@ -237,30 +237,30 @@ Si le type n'est pas nécessaire :
 
 ---
 
-#### Avantages de cette approche
+## Avantages de cette approche
 
-##### 1. Cohérence garantie
+### 1. Cohérence garantie
 
 Tous les types présents dans les JSON sont explicitement gérés :
 - **Pas de types orphelins** : Aucun type ne peut exister dans un JSON sans être géré dans le code
 - **Pas de code mort** : Si un type est supprimé du code, il doit être supprimé des JSON
 - **Documentation vivante** : Les types gérés sont clairement identifiés
 
-##### 2. Détection précoce
+### 2. Détection précoce
 
 Les types inconnus sont détectés au build, pas au runtime :
 - **Avant le déploiement** : Les erreurs sont détectées lors des tests
 - **Pas de surprises en production** : Aucun risque qu'un type inconnu cause des problèmes en production
 - **Feedback immédiat** : Le développeur sait immédiatement si un type est inconnu
 
-##### 3. Décision forcée
+### 3. Décision forcée
 
 Le développeur doit explicitement décider :
 - **Implémenter** : Le type est nécessaire, il faut l'implémenter
 - **Supprimer** : Le type n'est pas nécessaire, il faut le supprimer
 - **Pas d'ambiguïté** : Aucun type ne peut rester dans un état indéterminé
 
-##### 4. Maintenance facilitée
+### 4. Maintenance facilitée
 
 L'ajout de nouveaux types est guidé :
 - **Processus clair** : Les étapes pour ajouter un type sont documentées
@@ -269,9 +269,9 @@ L'ajout de nouveaux types est guidé :
 
 ---
 
-#### Comparaison avec les approches traditionnelles
+## Comparaison avec les approches traditionnelles
 
-##### Approche traditionnelle
+### Approche traditionnelle
 
 Dans les projets classiques, les types JSON ne sont pas validés strictement :
 
@@ -292,7 +292,7 @@ function renderContent(element: any) {
 - Erreurs découvertes au runtime (ou jamais)
 - Pas de garantie de cohérence
 
-##### Approche avec validation stricte
+### Approche avec validation stricte
 
 ```typescript
 // ✅ Validation stricte
@@ -308,9 +308,9 @@ function renderContent(element: any) {
 
 ---
 
-#### Exemples concrets
+## Exemples concrets
 
-##### Exemple 1 : Type inconnu détecté
+### Exemple 1 : Type inconnu détecté
 
 **Fichier** (`data/index.json`) :
 ```json
@@ -338,7 +338,7 @@ Actions possibles :
 
 **Solution** : Soit implémenter `nouveauType`, soit supprimer l'objet du JSON.
 
-##### Exemple 2 : Type correctement géré
+### Exemple 2 : Type correctement géré
 
 **Fichier** (`data/index.json`) :
 ```json
@@ -361,7 +361,7 @@ Actions possibles :
 
 ---
 
-#### Conclusion
+## Conclusion
 
 Cette stratégie garantit que :
 - ✅ Tous les types présents dans les JSON sont explicitement gérés dans le code

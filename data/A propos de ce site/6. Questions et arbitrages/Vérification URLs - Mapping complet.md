@@ -1,6 +1,6 @@
-### Vérification complète - Mapping URLs Ancien Site vs Nouveau Site
+# Vérification complète - Mapping URLs Ancien Site vs Nouveau Site
 
-#### Tableau comparatif (texte tabulé)
+## Tableau comparatif (texte tabulé)
 
 URL Ancien Site	URL Nouveau Site	Statut	Type de contenu / Action
 /	/	✅ Identique	JSON (index.json)
@@ -15,7 +15,7 @@ URL Ancien Site	URL Nouveau Site	Statut	Type de contenu / Action
 -	/about	ℹ️ Nouveau	Wiki (anciennement /about-site, renommé pour SEO)
 -	/robustesse	ℹ️ Nouveau	JSON (Robustesse.json - nouveau contenu)
 
-#### Résumé
+## Résumé
 
 **✅ URLs identiques :** 8/9
 - Toutes les URLs principales de l'ancien site existent et sont identiques dans le nouveau site
@@ -27,7 +27,7 @@ URL Ancien Site	URL Nouveau Site	Statut	Type de contenu / Action
 - `/about` : Nouvelle page wiki (anciennement /about-site, renommé pour SEO)
 - `/robustesse` : Nouveau contenu non présent dans l'ancien site
 
-#### Validation
+## Validation
 
 ✅ Toutes les URLs de l'ancien site ont été mappées (identiques ou redirection 301)
 ✅ Aucune URL n'a été supprimée

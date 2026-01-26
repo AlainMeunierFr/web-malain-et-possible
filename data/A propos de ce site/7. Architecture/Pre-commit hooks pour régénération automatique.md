@@ -1,6 +1,6 @@
-### Pre-commit hooks pour régénération automatique des artefacts
+# Pre-commit hooks pour régénération automatique des artefacts
 
-#### Introduction
+## Introduction
 
 Dans la plupart des projets, les artefacts générés (scénarios de test, plans de site, etc.) doivent être régénérés manuellement après chaque modification du code source. Cette approche crée un risque d'oubli et de désynchronisation entre le code source et les artefacts générés.
 
@@ -11,7 +11,7 @@ Le besoin identifié est triple :
 
 Pour répondre à ces besoins, un système de pre-commit hooks a été mis en place : utilisation de hooks pre-commit pour régénérer automatiquement les artefacts (scénarios E2E, plan de site) avant chaque commit, garantissant que ces fichiers sont toujours synchronisés avec le code source.
 
-#### Résumé
+## Résumé
 
 Cette stratégie repose sur trois mécanismes interconnectés :
 
@@ -28,9 +28,9 @@ Cette approche élimine le risque d'oublier de régénérer les artefacts et gar
 
 ---
 
-#### Script de régénération
+## Script de régénération
 
-##### Génération automatique des scénarios E2E
+### Génération automatique des scénarios E2E
 
 Le script `generate-e2e-scenario.ts` génère automatiquement le scénario E2E complet :
 
@@ -47,7 +47,7 @@ Le script `generate-e2e-scenario.ts` génère automatiquement le scénario E2E c
 
 **Résultat** : Scénario E2E toujours synchronisé avec le plan du site.
 
-##### Autres artefacts
+### Autres artefacts
 
 D'autres artefacts peuvent être régénérés automatiquement :
 - Plan de site (`Pages-Et-Lien.json`) : Mis à jour automatiquement par les tests d'intégration
@@ -56,9 +56,9 @@ D'autres artefacts peuvent être régénérés automatiquement :
 
 ---
 
-#### Hook pre-commit
+## Hook pre-commit
 
-##### Script pre-commit
+### Script pre-commit
 
 Le script `pre-commit-generate-e2e.ts` exécute la régénération avant chaque commit :
 
@@ -89,7 +89,7 @@ const main = () => {
 - Avertissement en cas d'erreur (ne bloque pas le commit)
 - Message clair pour le développeur
 
-##### Intégration dans package.json
+### Intégration dans package.json
 
 Le hook est déclenché via le script `precommit` dans `package.json` :
 
@@ -105,9 +105,9 @@ Le hook est déclenché via le script `precommit` dans `package.json` :
 
 ---
 
-#### Intégration dans le workflow
+## Intégration dans le workflow
 
-##### Workflow Git
+### Workflow Git
 
 Le hook s'intègre naturellement dans le workflow Git :
 
@@ -120,7 +120,7 @@ Le hook s'intègre naturellement dans le workflow Git :
 
 **Résultat** : Les artefacts sont toujours à jour dans le dépôt, sans effort du développeur.
 
-##### Gestion des erreurs
+### Gestion des erreurs
 
 En cas d'erreur lors de la régénération :
 - **Avertissement** : Un message d'erreur est affiché
@@ -131,30 +131,30 @@ En cas d'erreur lors de la régénération :
 
 ---
 
-#### Avantages de cette approche
+## Avantages de cette approche
 
-##### 1. Synchronisation garantie
+### 1. Synchronisation garantie
 
 Les artefacts sont toujours synchronisés avec le code source :
 - **Régénération automatique** : Les artefacts sont régénérés avant chaque commit
 - **Pas d'oubli possible** : Impossible d'oublier de régénérer les artefacts
 - **Cohérence garantie** : Le dépôt contient toujours des fichiers à jour
 
-##### 2. Charge mentale réduite
+### 2. Charge mentale réduite
 
 Le développeur n'a plus à se souvenir de régénérer les artefacts :
 - **Automatisation** : Tout est automatique et transparent
 - **Focus sur le code** : Le développeur peut se concentrer sur le code, pas sur la maintenance des artefacts
 - **Confiance** : Le système garantit que les artefacts sont toujours à jour
 
-##### 3. Maintenance facilitée
+### 3. Maintenance facilitée
 
 La maintenance des artefacts est facilitée :
 - **Un seul script** : Un seul script à maintenir pour la régénération
 - **Processus clair** : Le processus de régénération est clair et documenté
 - **Extensibilité** : Facile d'ajouter de nouveaux artefacts à régénérer
 
-##### 4. Intégration naturelle
+### 4. Intégration naturelle
 
 Le hook s'intègre naturellement dans le workflow :
 - **Transparent** : Le développeur ne remarque pas la régénération (sauf en cas d'erreur)
@@ -163,9 +163,9 @@ Le hook s'intègre naturellement dans le workflow :
 
 ---
 
-#### Comparaison avec les approches traditionnelles
+## Comparaison avec les approches traditionnelles
 
-##### Approche traditionnelle
+### Approche traditionnelle
 
 Dans les projets classiques, les artefacts sont régénérés manuellement :
 
@@ -184,7 +184,7 @@ git commit
 - Risque d'oubli et de désynchronisation
 - Charge mentale pour le développeur
 
-##### Approche avec pre-commit hooks
+### Approche avec pre-commit hooks
 
 ```bash
 # ✅ Pre-commit hooks
@@ -200,9 +200,9 @@ git commit  # ← Hook déclenche automatiquement la régénération
 
 ---
 
-#### Exemples concrets
+## Exemples concrets
 
-##### Exemple 1 : Ajout d'une nouvelle page
+### Exemple 1 : Ajout d'une nouvelle page
 
 **Scénario** : Le développeur ajoute une nouvelle page `/nouvelle-page`.
 
@@ -216,7 +216,7 @@ git commit  # ← Hook déclenche automatiquement la régénération
 
 **Résultat** : Tout est automatique, pas d'effort supplémentaire.
 
-##### Exemple 2 : Modification d'un lien
+### Exemple 2 : Modification d'un lien
 
 **Scénario** : Le développeur modifie un lien dans un fichier JSON.
 
@@ -228,7 +228,7 @@ git commit  # ← Hook déclenche automatiquement la régénération
 
 **Résultat** : Synchronisation garantie, pas de désynchronisation possible.
 
-##### Exemple 3 : Erreur lors de la régénération
+### Exemple 3 : Erreur lors de la régénération
 
 **Scénario** : Une erreur survient lors de la régénération.
 
@@ -242,7 +242,7 @@ git commit  # ← Hook déclenche automatiquement la régénération
 
 ---
 
-#### Conclusion
+## Conclusion
 
 Cette stratégie garantit que :
 - ✅ Les artefacts sont régénérés automatiquement avant chaque commit

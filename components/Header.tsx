@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useEditing } from '../contexts/EditingContext';
+import { usePageTitle } from '../contexts/PageTitleContext';
 import PasswordModal from './PasswordModal';
 import styles from './Header.module.css';
 import { ROUTES } from '../constants/routes';
@@ -11,6 +12,7 @@ import { HEADER_IMAGES } from '../constants/headerImages';
 const Header: React.FC = () => {
   const router = useRouter();
   const { setIsAuthenticated } = useEditing();
+  const { pageTitle } = usePageTitle();
   const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
 
   const handleLogoClick = () => {
@@ -49,6 +51,11 @@ const Header: React.FC = () => {
             }}
           />
         </div>
+        {pageTitle && (
+          <div className={styles.titleContainer}>
+            <h1 className={styles.pageTitle}>{pageTitle}</h1>
+          </div>
+        )}
         <div className={styles.photoContainer}>
           <img
             src={HEADER_IMAGES.photo.src}

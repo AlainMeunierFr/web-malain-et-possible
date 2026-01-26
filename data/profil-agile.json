@@ -1,0 +1,69 @@
+{
+  "contenu": [
+    {
+      "type": "video",
+      "urlYouTube": "https://youtu.be/XoruJezxpsI",
+      "lancementAuto": true,
+      "e2eID": "v10-profil-agile-1"
+    },
+    {
+      "type": "titreDePage",
+      "texte": "Transformation Agile"
+    },
+    {
+      "type": "domaineDeCompetence",
+      "ref": "bien-applique-l-agilite-est-un-cadre-puissant-pour-delivrer-de-la-valeur"
+    },
+    {
+      "type": "domaineDeCompetence",
+      "ref": "la-distance-entre-reve-et-realite-s-appelle-l-action"
+    },
+    {
+      "type": "domaineDeCompetence",
+      "ref": "management"
+    },
+    {
+      "type": "domaineDeCompetence",
+      "ref": "experience-en-equipe"
+    },
+    {
+      "type": "domaineDeCompetence",
+      "ref": "animation-d-atelier"
+    },
+    {
+      "type": "domaineDeCompetence",
+      "ref": "transmission"
+    },
+    {
+      "type": "domaineDeCompetence",
+      "ref": "engager-les-equipes"
+    },
+    {
+      "type": "domaineDeCompetence",
+      "ref": "l-usage-des-visuels-au-service-des-interactions-pour-soutenir-un-processus-de-travail"
+    },
+    {
+      "type": "domaineDeCompetence",
+      "ref": "activites-extra-professionnelles-au-service-de-ma-profession"
+    },
+    {
+      "type": "video",
+      "urlYouTube": "https://youtu.be/mPif5EjzFYg",
+      "lancementAuto": false,
+      "e2eID": "v10-profil-agile-2"
+    },
+    {
+      "type": "callToAction",
+      "action": "On discute ?",
+      "e2eID": "a-profil-agile"
+    },
+    {
+      "type": "titre",
+      "texte": "Témoignages"
+    },
+    {
+      "type": "temoignages",
+      "source": "_temoignages.json"
+    }
+  ]
+}

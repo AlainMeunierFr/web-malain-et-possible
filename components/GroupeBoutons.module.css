@@ -22,8 +22,8 @@
 }
 
 .bouton {
-  /* État normal = aspect actuel de "active" (fond bleu clair, transform, ombre) */
-  background-color: var(--BoutonCouleurFondHover);
+  /* État normal = design formel (fond blanc, bordure, pas d'effet) */
+  background-color: var(--BoutonCouleurFond);
   border: var(--BoutonContour);
   border-radius: var(--BoutonContourRadius);
   cursor: pointer;
@@ -36,9 +36,9 @@
   font-family: var(--BoutonPolice);
   font-size: 18px; /* Taille spécifique pour GroupeBoutons */
   font-weight: var(--BoutonPoidsPolice);
-  color: var(--BoutonCouleurTexteHover);
-  transform: var(--BoutonTransformHover);
-  box-shadow: var(--BoutonOmbreHover);
+  color: var(--BoutonCouleur);
+  transform: translateY(0);
+  box-shadow: none;
 }
 
 .taillePetite .bouton {
@@ -59,15 +59,15 @@
 }
 
 .bouton:hover {
-  /* Hover = aspect actuel de "normal" (fond blanc, texte bleu, pas de transform, pas d'ombre) */
-  background-color: var(--BoutonCouleurFond);
-  color: var(--BoutonCouleur);
-  transform: translateY(0);
-  box-shadow: none;
+  /* Hover = fond bleu clair avec effet (plus interactif) */
+  background-color: var(--BoutonCouleurFondHover);
+  color: var(--BoutonCouleurTexteHover);
+  transform: var(--BoutonTransformHover);
+  box-shadow: var(--BoutonOmbreHover);
 }
 
 .bouton:active {
-  /* Active = aspect actuel de "normal" (fond blanc, texte bleu, pas de transform, pas d'ombre) */
+  /* Active = retour à l'état normal (formel) */
   background-color: var(--BoutonCouleurFond);
   color: var(--BoutonCouleur);
   transform: translateY(0);

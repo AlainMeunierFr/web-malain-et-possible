@@ -2,8 +2,8 @@
 
 Fonctionnalité: Affichage formaté des User Stories avec typeDeContenu
 
-  Scénario: Détection d'une User Story par son titre H4
-    Étant donné un fichier Markdown contenant "#### Titre US"
+  Scénario: Détection d'une User Story par son titre H2
+    Étant donné un fichier Markdown contenant "## Titre US"
     Quand le parser analyse le fichier
     Alors le bloc est détecté comme une User Story
     Et le titre "Titre US" est extrait
@@ -38,7 +38,7 @@ Fonctionnalité: Affichage formaté des User Stories avec typeDeContenu
   Scénario: Pas d'attribution typeDeContenu si les éléments ne sont pas sous un titre d'US
     Étant donné un fichier Markdown avec des listes normales :
       """
-      ### Partie normale
+      # Partie normale
       - **En tant que** Visiteur
       - **Je souhaite** Voir quelque chose
       - **Afin de** Faire quelque chose

@@ -1,9 +1,9 @@
 /**
- * Script pour générer un scénario E2E qui parcourt tous les liens de Pages-Et-Lien.json
+ * Script pour générer un scénario E2E qui parcourt tous les liens de _Pages-Et-Lien.json
  * et teste tous les e2eID présents sur chaque page
  * 
  * Principe :
- * 1. Lit la liste des liens depuis Pages-Et-Lien.json
+ * 1. Lit la liste des liens depuis _Pages-Et-Lien.json
  * 2. Crée une copie en RAM
  * 3. Construit un scénario qui passe par tous les liens
  * 4. À chaque fois qu'un lien est utilisé, on le supprime de la copie RAM
@@ -109,7 +109,7 @@ const getE2eIdsForPage = (pageUrl: string, inventory: E2eIdInventoryItem[]): E2e
   
   // Les boutons du footer sont présents sur toutes les pages
   const footerButtons = inventory.filter((item) => 
-    item.file === 'footerButtons.json' && item.e2eID !== null
+    item.file === '_footerButtons.json' && item.e2eID !== null
   );
   e2eIds.push(...footerButtons);
   
@@ -124,7 +124,7 @@ const getE2eIdsForPage = (pageUrl: string, inventory: E2eIdInventoryItem[]): E2e
   // On peut améliorer cela plus tard si nécessaire
   const otherE2eIds = inventory.filter((item) => 
     item.source === 'json' && 
-    item.file !== 'footerButtons.json' && 
+    item.file !== '_footerButtons.json' && 
     item.e2eID !== null
   );
   e2eIds.push(...otherE2eIds);
@@ -180,7 +180,7 @@ const genererCodeTest = (chemin: string[], liens: PlanLien[], inventory: E2eIdIn
   lignes.push("import { test, expect } from '@playwright/test';");
   lignes.push("");
   lignes.push("test('parcours complet de tous les liens du site et test de tous les e2eID', async ({ page }) => {");
-  lignes.push("  // Scénario généré automatiquement depuis Pages-Et-Lien.json");
+  lignes.push("  // Scénario généré automatiquement depuis _Pages-Et-Lien.json");
   lignes.push("  // Ce test parcourt tous les liens du site et teste tous les e2eID présents");
   lignes.push("");
   
@@ -557,9 +557,9 @@ const genererCodeTest = (chemin: string[], liens: PlanLien[], inventory: E2eIdIn
 
 // Main
 const main = () => {
-  console.log('🔍 Lecture de Pages-Et-Lien.json...\n');
+  console.log('🔍 Lecture de _Pages-Et-Lien.json...\n');
 
-  const siteMapPath = path.join(process.cwd(), 'data', 'Pages-Et-Lien.json');
+  const siteMapPath = path.join(process.cwd(), 'data', '_Pages-Et-Lien.json');
   
   if (!fs.existsSync(siteMapPath)) {
     console.error('❌ Erreur : Le fichier Pages-Et-Lien.json n\'existe pas');
@@ -585,7 +585,7 @@ const main = () => {
     console.log(`⚠️  ${liensFiltres} lien(s) exclu(s) (pages exclues: ${PAGES_EXCLUES.join(', ')})`);
   }
   
-  console.log(`📊 ${liens.length} liens détectés dans Pages-Et-Lien.json\n`);
+  console.log(`📊 ${liens.length} liens détectés dans _Pages-Et-Lien.json\n`);
 
   // Créer une copie en RAM
   const liensCopie = [...liens];

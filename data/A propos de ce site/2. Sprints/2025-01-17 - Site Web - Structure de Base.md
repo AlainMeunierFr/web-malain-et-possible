@@ -1,7 +1,7 @@
-### Sprint Goal
+# Sprint Goal
 Mettre en place un CI/CD pour publie les fondations d'un site Web exposé sur Internet.
 
-#### US-1.1 : Affichage initial "Hello World" ✅ COMPLÉTÉ
+## US-1.1 : Affichage initial "Hello World" ✅ COMPLÉTÉ
 - **En tant que** Visiteur du site
 - **Je souhaite** Voir une page "Hello World" s'afficher
 - **Afin de** Vérifier que le site fonctionne et que le déploiement CI/CD est opérationnel
@@ -12,7 +12,7 @@ Mettre en place un CI/CD pour publie les fondations d'un site Web exposé sur In
 
 ---
 
-#### US-1.2 : Page avec header, footer, logo et photo ✅ COMPLÉTÉ
+## US-1.2 : Page avec header, footer, logo et photo ✅ COMPLÉTÉ
 - **En tant que** Visiteur du site
 - **Je souhaite** Voir une page avec un header fixe en haut, un footer fixe en bas, un logo en haut à gauche et une photo en haut à droite
 - **Afin de** Avoir une structure de base cohérente pour le site
@@ -36,7 +36,7 @@ Mettre en place un CI/CD pour publie les fondations d'un site Web exposé sur In
 
 ---
 
-#### US-1.3 : Boutons footer configurables via JSON ✅ COMPLÉTÉ
+## US-1.3 : Boutons footer configurables via JSON ✅ COMPLÉTÉ
 - **En tant que** Product Manager
 - **Je souhaite** Pouvoir ajouter/modifier des boutons dans le footer via un fichier JSON
 - **Afin de** Faciliter l'ajout de nouveaux boutons sans modifier le code
@@ -50,7 +50,7 @@ Mettre en place un CI/CD pour publie les fondations d'un site Web exposé sur In
 
 ---
 
-#### US-1.4a : Navigation vers la page "À propos de moi" ✅ COMPLÉTÉ
+## US-1.4a : Navigation vers la page "À propos de moi" ✅ COMPLÉTÉ
 - **En tant que** Visiteur du site
 - **Je souhaite** Pouvoir accéder à une page "À propos de moi" en cliquant sur la photo
 - **Afin de** Découvrir des informations sur la personne
@@ -62,7 +62,7 @@ Mettre en place un CI/CD pour publie les fondations d'un site Web exposé sur In
 
 ---
 
-#### US-1.4b : Navigation vers la page "HomePage" ✅ COMPLÉTÉ
+## US-1.4b : Navigation vers la page "HomePage" ✅ COMPLÉTÉ
 - **En tant que** Visiteur du site
 - **Je souhaite** Pouvoir accéder à une page "HomePage" en cliquant sur le logo
 - **Afin de** Revenir à l'accueil du site

@@ -1,6 +1,6 @@
-### TDD strict avec progression visible : les tests racontent l'histoire du code
+# TDD strict avec progression visible : les tests racontent l'histoire du code
 
-#### Introduction
+## Introduction
 
 Dans la plupart des projets, les tests sont écrits après le code ou servent principalement à vérifier la non-régression. Ils documentent ce que fait le code, mais pas comment il a émergé. Cette approche rend difficile la compréhension de l'évolution du code et de la démarche de développement.
 
@@ -11,7 +11,7 @@ Le besoin identifié est triple :
 
 Pour répondre à ces besoins, une approche TDD stricte a été mise en place, où les tests montrent explicitement la progression du simple au complexe avec des commentaires "ITÉRATION 1", "ITÉRATION 2", etc. La structure des tests raconte l'histoire de l'émergence du code, rendant la démarche TDD authentique visible et pédagogique.
 
-#### Résumé
+## Résumé
 
 Cette stratégie repose sur trois principes fondamentaux :
 
@@ -28,9 +28,9 @@ Cette approche transforme les tests en outil pédagogique : en lisant les tests 
 
 ---
 
-#### Structure des tests : progression visible
+## Structure des tests : progression visible
 
-##### Format standardisé
+### Format standardisé
 
 Chaque fichier de test suit une structure standardisée qui montre la progression :
 
@@ -57,7 +57,7 @@ describe('nomFonction - Approche TDD (simple → complexe)', () => {
 });
 ```
 
-##### Commentaires d'itérations explicites
+### Commentaires d'itérations explicites
 
 Chaque itération est clairement identifiée avec un commentaire qui explique :
 - **Ce qui est testé** : La fonctionnalité ajoutée à cette itération
@@ -89,9 +89,9 @@ it('should return null for unknown command', () => {
 
 ---
 
-#### Cycle RED → GREEN → REFACTOR strict
+## Cycle RED → GREEN → REFACTOR strict
 
-##### Principe : un test à la fois
+### Principe : un test à la fois
 
 Chaque itération suit strictement le cycle TDD avec un seul test à la fois :
 
@@ -107,7 +107,7 @@ Chaque itération suit strictement le cycle TDD avec un seul test à la fois :
 
 **Règle absolue** : Ne jamais écrire plusieurs tests en même temps. Toujours commencer par le cas le plus simple possible.
 
-##### Exemple concret : `buttonHandlers.ts`
+### Exemple concret : `buttonHandlers.ts`
 
 **ITÉRATION 1** (RED → GREEN → REFACTOR) :
 ```typescript
@@ -160,9 +160,9 @@ export const getRouteForCommand = (command: string): string | null => {
 
 ---
 
-#### Tests comme documentation vivante
+## Tests comme documentation vivante
 
-##### Raconter l'histoire du code
+### Raconter l'histoire du code
 
 Les tests racontent l'histoire de l'émergence du code :
 
@@ -195,7 +195,7 @@ describe('validerContenuMarkdown - APPROCHE TDD', () => {
 - Pourquoi chaque itération a été ajoutée
 - Comment chaque fonctionnalité a été implémentée
 
-##### Pédagogie et onboarding
+### Pédagogie et onboarding
 
 Cette approche facilite l'onboarding :
 
@@ -212,7 +212,7 @@ Cette approche facilite l'onboarding :
 - Puis la logique de navigation interne/externe
 - Etc.
 
-##### Maintenance facilitée
+### Maintenance facilitée
 
 Cette approche facilite la maintenance :
 
@@ -230,30 +230,30 @@ Cette approche facilite la maintenance :
 
 ---
 
-#### Avantages de cette approche
+## Avantages de cette approche
 
-##### 1. Pédagogie
+### 1. Pédagogie
 
 Les tests deviennent un outil pédagogique :
 - **Compréhension immédiate** : On comprend comment le code a émergé en lisant les tests
 - **Progression visible** : La structure montre clairement la progression du simple au complexe
 - **Intention préservée** : Les commentaires d'itérations préservent l'intention derrière chaque étape
 
-##### 2. Onboarding facilité
+### 2. Onboarding facilité
 
 L'intégration de nouveaux développeurs est facilitée :
 - **Tests comme documentation** : Les tests expliquent non seulement ce que fait le code, mais aussi comment il a émergé
 - **Progression claire** : Un nouveau développeur peut suivre la progression étape par étape
 - **Compréhension rapide** : Pas besoin de deviner l'intention, elle est explicite dans les tests
 
-##### 3. Maintenance améliorée
+### 3. Maintenance améliorée
 
 La maintenance est facilitée :
 - **Intention préservée** : Les commentaires d'itérations préservent l'intention originale
 - **Évolution guidée** : La structure guide l'ajout de nouvelles fonctionnalités
 - **Refactoring sécurisé** : Comprendre la progression aide à refactoriser sans casser l'intention
 
-##### 4. Qualité de code
+### 4. Qualité de code
 
 La qualité du code est améliorée :
 - **Code minimal** : Chaque itération ajoute le code minimal nécessaire
@@ -262,9 +262,9 @@ La qualité du code est améliorée :
 
 ---
 
-#### Comparaison avec les approches traditionnelles
+## Comparaison avec les approches traditionnelles
 
-##### Approche traditionnelle
+### Approche traditionnelle
 
 Dans les projets classiques, les tests sont souvent écrits après le code :
 
@@ -293,7 +293,7 @@ describe('getRouteForCommand', () => {
 - Pas de visibilité sur l'émergence du code
 - Intention perdue (pourquoi ce code existe-t-il ?)
 
-##### Approche TDD avec progression visible
+### Approche TDD avec progression visible
 
 ```typescript
 // ✅ TDD avec progression visible
@@ -317,9 +317,9 @@ describe('getRouteForCommand - Approche TDD (simple → complexe)', () => {
 
 ---
 
-#### Exemples concrets
+## Exemples concrets
 
-##### Exemple 1 : `buttonHandlers.test.ts`
+### Exemple 1 : `buttonHandlers.test.ts`
 
 **Structure visible** :
 ```typescript
@@ -342,7 +342,7 @@ describe('buttonHandlers - Approche TDD (simple → complexe)', () => {
 
 **Résultat** : La progression est claire et visible.
 
-##### Exemple 2 : `aboutSiteReader.test.ts`
+### Exemple 2 : `aboutSiteReader.test.ts`
 
 **Structure visible** :
 ```typescript
@@ -374,7 +374,7 @@ describe('validerContenuMarkdown - APPROCHE TDD', () => {
 
 ---
 
-#### Conclusion
+## Conclusion
 
 Cette stratégie garantit que :
 - ✅ Les tests montrent explicitement la progression du simple au complexe

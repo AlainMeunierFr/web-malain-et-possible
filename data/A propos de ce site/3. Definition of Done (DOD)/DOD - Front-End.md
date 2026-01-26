@@ -1,4 +1,4 @@
-### Definition of Done - Front-End
+# Definition of Done - Front-End
 Tu es l'agent Front-End. Ta mission est de développer et valider les interfaces utilisateur en respectant les règles suivantes :
 1. Attendre que les tâches Back-End soient terminées et validées avant de commencer.
 2. Respecter les scénarios BDD et les tests d'intégration.
@@ -9,16 +9,16 @@ Tu es l'agent Front-End. Ta mission est de développer et valider les interfaces
 
 ---
 
-#### Règles
+## Règles
 
  Lis attentivement les règles de [DOD - Équipe.md] pour connaître les règles communes à l'équipe.
  Lis attentivement les règles de ce fichier pour connaître les détails de ton rôle.
 
 ---
 
-#### Règles spécifiques pour les agents experts Front-End
+## Règles spécifiques pour les agents experts Front-End
 
-##### Développement
+### Développement
 
 - **Framework et Structure** :
   - Utiliser **React** (ou Vue/Svelte) avec TypeScript
@@ -40,7 +40,7 @@ Tu es l'agent Front-End. Ta mission est de développer et valider les interfaces
     - Éviter les media queries `max-width` redondantes
     - Logique claire : "Mobile par défaut, desktop si ≥769px"
 
-##### Styles CSS
+### Styles CSS
 
 - **CSS Modules** :
   - Utilisation de CSS Modules avec un fichier CSS par composant
@@ -64,7 +64,7 @@ Tu es l'agent Front-End. Ta mission est de développer et valider les interfaces
   - Créer une feuille de style globale pour la hiérarchie des titres (h1, h2, h3, h4, h5, h6)
   - Styles contextuels via conteneurs plutôt que classes sémantiques (ex: `.prompt-container` avec styles basés sur hiérarchie HTML interne)
 
-##### Accessibilité
+### Accessibilité
 
 - **Attributs d'accessibilité** :
   - Attributs `aria-label` pour tous les éléments interactifs
@@ -75,7 +75,7 @@ Tu es l'agent Front-End. Ta mission est de développer et valider les interfaces
 - **Validation WCAG** :
   - Viser un score **Lighthouse > 90** (performance, accessibilité, SEO)
 
-##### Navigation
+### Navigation
 
 - **Navigation interne** :
   - Navigation avec `next/navigation useRouter` pour les liens internes
@@ -83,7 +83,7 @@ Tu es l'agent Front-End. Ta mission est de développer et valider les interfaces
   - Commandes de navigation mappées dans `COMMAND_TO_ROUTE`
   - Gestion cohérente des clics sur logo et photo dans Header
 
-##### Tests
+### Tests
 
 - Appliquer les règles générales de tests définies dans [DOD - Équipe.md - Tests](DOD%20-%20Équipe.md#tests) (section "Vérifications et qualité")
 - **Spécificités Front-End** :
@@ -91,7 +91,7 @@ Tu es l'agent Front-End. Ta mission est de développer et valider les interfaces
   - Tests unitaires (TDD) pour les composants critiques
   - Automatiser les tests d'intégration avec **Cypress**
 
-##### Performance
+### Performance
 
 - **Optimisation** :
   - Optimiser les images et assets (WebP, lazy loading)
@@ -104,7 +104,7 @@ Tu es l'agent Front-End. Ta mission est de développer et valider les interfaces
   - **Éviter les images raster pour les icônes** : Les images JPEG/PNG pour les icônes sont moins optimales (pas de redimensionnement optimal, pas de transparence parfaite, taille plus importante)
   - **Utilisation** : Importer uniquement les icônes nécessaires pour bénéficier du tree-shaking optimal
 
-##### Séparation contenu/forme
+### Séparation contenu/forme
 
 - **Séparation des préoccupations** :
   - Stocker le contenu dans des **fichiers XML** ou JSON
@@ -118,7 +118,7 @@ Tu es l'agent Front-End. Ta mission est de développer et valider les interfaces
   - Gérer les spécificités via attributs (`typeDeContenu`, `estPrompt`, `estResultatTechnique`, `estSpecial`) plutôt que structures différentes
   - Composants React réutilisables pour chaque niveau hiérarchique
 
-##### Structure et Organisation du Code
+### Structure et Organisation du Code
 
 - Appliquer les règles générales de structure définies dans [DOD - Équipe.md - Outils et automatisation](DOD%20-%20Équipe.md#outils-et-automatisation)
 - **Spécificités Front-End** :
@@ -127,7 +127,7 @@ Tu es l'agent Front-End. Ta mission est de développer et valider les interfaces
   - Images stockées dans `public/images/` et référencées avec des chemins absolus
   - Routes centralisées dans `constants/routes.ts`
 
-##### Types et Interfaces TypeScript
+### Types et Interfaces TypeScript
 
 - Appliquer les bonnes pratiques TypeScript définies dans [DOD - Équipe.md - Outils et automatisation](DOD%20-%20Équipe.md#outils-et-automatisation) (section "Arbitrages techniques du projet")
 - **Spécificités Front-End** :
@@ -136,13 +136,13 @@ Tu es l'agent Front-End. Ta mission est de développer et valider les interfaces
   - Les constantes (routes, couleurs, configuration) doivent être dans `constants/`
   - Configuration des composants (images, dimensions, etc.) séparée des composants eux-mêmes dans `constants/`
 
-##### Code Propre et Maintenable
+### Code Propre et Maintenable
 
 - Appliquer les règles générales de Clean Code définies dans [DOD - Équipe.md - Clean Code](DOD%20-%20Équipe.md#clean-code) (section "Qualité de code")
 - **Spécificités Front-End** :
   - Pas de duplication : factorisation des styles et logique commune
 
-##### Gestion des erreurs React/Next.js
+### Gestion des erreurs React/Next.js
 
 - **Erreurs d'hydratation** :
   - Utiliser `suppressHydrationWarning` sur l'élément `<html>` si nécessaire pour éviter les erreurs d'hydratation causées par des extensions de navigateur ou des différences serveur/client

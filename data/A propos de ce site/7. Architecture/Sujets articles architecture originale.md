@@ -1,10 +1,10 @@
-### Sujets d'articles sur les pratiques architecturales originales
+# Sujets d'articles sur les pratiques architecturales originales
 
 Ce document liste les choix architecturaux et pratiques peu courantes identifiés dans le projet, qui pourraient faire l'objet d'articles de blog ou de publications LinkedIn.
 
 ---
 
-#### 1. Tests d'intégration qui modifient automatiquement le code source
+## 1. Tests d'intégration qui modifient automatiquement le code source
 
 **Statut** : ✅ Article rédigé (`Stratégie couverture liens tests E2E.md`)
 
@@ -14,7 +14,7 @@ Ce document liste les choix architecturaux et pratiques peu courantes identifié
 
 ---
 
-#### 2. Architecture hexagonale appliquée à Next.js : séparation Backend Pur / Backend Next.js
+## 2. Architecture hexagonale appliquée à Next.js : séparation Backend Pur / Backend Next.js
 
 **Statut** : ✅ Article rédigé (`Architecture hexagonale appliquée à Next.js.md`)
 
@@ -32,7 +32,7 @@ Ce document liste les choix architecturaux et pratiques peu courantes identifié
 
 ---
 
-#### 3. Validation des fichiers Markdown avec règles métier qui font échouer le build
+## 3. Validation des fichiers Markdown avec règles métier qui font échouer le build
 
 **Statut** : ✅ Article rédigé (`Validation Markdown avec règles métier au build.md`)
 
@@ -48,7 +48,7 @@ Ce document liste les choix architecturaux et pratiques peu courantes identifié
 
 ---
 
-#### 4. Architecture unifiée pour parsing Markdown : un seul parser pour tous les types de fichiers
+## 4. Architecture unifiée pour parsing Markdown : un seul parser pour tous les types de fichiers
 
 **Statut** : ⏳ À rédiger
 
@@ -64,7 +64,7 @@ Ce document liste les choix architecturaux et pratiques peu courantes identifié
 
 ---
 
-#### 5. TDD strict avec progression visible : les tests racontent l'histoire du code
+## 5. TDD strict avec progression visible : les tests racontent l'histoire du code
 
 **Statut** : ✅ Article rédigé (`TDD strict avec progression visible.md`)
 
@@ -80,7 +80,7 @@ Ce document liste les choix architecturaux et pratiques peu courantes identifié
 
 ---
 
-#### 6. Tests d'intégration qui corrigent automatiquement les fichiers tout en préservant les métadonnées
+## 6. Tests d'intégration qui corrigent automatiquement les fichiers tout en préservant les métadonnées
 
 **Statut** : ✅ Article rédigé (`Tests d'intégration qui corrigent automatiquement.md`)
 
@@ -96,7 +96,7 @@ Ce document liste les choix architecturaux et pratiques peu courantes identifié
 
 ---
 
-#### 7. Validation des JSON avec détection de types inconnus qui force l'implémentation ou la suppression
+## 7. Validation des JSON avec détection de types inconnus qui force l'implémentation ou la suppression
 
 **Statut** : ⏳ À rédiger
 
@@ -112,7 +112,7 @@ Ce document liste les choix architecturaux et pratiques peu courantes identifié
 
 ---
 
-#### 8. Système de métriques automatiques avec historique et tendances
+## 8. Système de métriques automatiques avec historique et tendances
 
 **Statut** : ⏳ À rédiger
 
@@ -128,7 +128,7 @@ Ce document liste les choix architecturaux et pratiques peu courantes identifié
 
 ---
 
-#### 9. Journal de bord structuré avec parsing automatique pour génération de pages
+## 9. Journal de bord structuré avec parsing automatique pour génération de pages
 
 **Statut** : ⏳ À rédiger
 
@@ -144,7 +144,7 @@ Ce document liste les choix architecturaux et pratiques peu courantes identifié
 
 ---
 
-#### 10. Pre-commit hooks pour régénération automatique des artefacts
+## 10. Pre-commit hooks pour régénération automatique des artefacts
 
 **Statut** : ⏳ À rédiger (partiellement couvert dans l'article E2E)
 
@@ -160,7 +160,7 @@ Ce document liste les choix architecturaux et pratiques peu courantes identifié
 
 ---
 
-### Priorisation des articles à rédiger
+# Priorisation des articles à rédiger
 
 **Articles prioritaires** (pratiques les plus originales et impactantes) :
 
@@ -180,7 +180,7 @@ Ce document liste les choix architecturaux et pratiques peu courantes identifié
 
 ---
 
-### Format des articles
+# Format des articles
 
 Chaque article doit suivre le format de "Stratégie couverture liens tests E2E.md" :
 - Introduction avec contexte et besoin

@@ -62,6 +62,11 @@ jest.mock('../../components/VideoDetournement', () => ({
   default: () => <div data-e2eid="video-detournement">Détournements</div>,
 }));
 
+jest.mock('../../components/HeroSection', () => ({
+  __esModule: true,
+  default: ({ element }: any) => <div data-e2eid="hero">{element.titre}</div>,
+}));
+
 describe('PageContentRenderer', () => {
   it('devrait afficher un titre', () => {
     const contenu: ElementContenu[] = [
@@ -147,5 +152,26 @@ describe('PageContentRenderer', () => {
     expect(screen.getByTestId('titre')).toBeInTheDocument();
     expect(screen.getByTestId('texte-large')).toBeInTheDocument();
     expect(screen.getByTestId('video')).toBeInTheDocument();
+  });
+
+  it('devrait afficher un élément de type hero', () => {
+    const contenu: ElementContenu[] = [
+      {
+        type: 'hero',
+        titre: 'Alain Meunier',
+        sousTitre: 'Je recherche un projet stimulant',
+        description: 'Description...',
+        boutonPrincipal: {
+          texte: 'On discute ?',
+          action: '/faisons-connaissance',
+        },
+        profils: [],
+      },
+    ];
+
+    render(<PageContentRenderer contenu={contenu} />);
+    
+    expect(screen.getByTestId('hero')).toBeInTheDocument();
+    expect(screen.getByText('Alain Meunier')).toBeInTheDocument();
   });
 });

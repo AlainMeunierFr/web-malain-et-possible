@@ -1,12 +1,12 @@
-### Definition of Done - Équipe
+# Definition of Done - Équipe
 
 **Dernière mise à jour** : 2026-01-21
 
 ---
 
-#### Règles générales pour tous les membres
+## Règles générales pour tous les membres
 
-##### Collaboration et Documentation
+### Collaboration et Documentation
 
 - **Journal de bord** :
   - Documenter toutes les interactions entre le PO Humain et les agent IA dans le **Journal de bord** (`A propos de ce site/4. Journal de bord/YYYY-MM-DD.md`).
@@ -41,7 +41,7 @@
     5. Inclure la question de l'utilisateur, la réponse/analyse/arbitrage proposé, respecter la structure Markdown (titres maximum H3 - ###)
     6. **Règle de validation** : Les fichiers d'arbitrage doivent aussi respecter les règles de validation des fichiers MD (pas de H1/H2, commencer au niveau H3)
 
-##### Gestion des User Stories par Sprint
+### Gestion des User Stories par Sprint
 
 - **Identification du Sprint en cours** :
   - Les User Stories sont organisées dans le dossier `A propos de ce site/2. Sprints/` avec un fichier MD par Sprint.
@@ -68,7 +68,7 @@
     - Si l'utilisateur n'est pas focus : alerter pour signaler la dérive
     - Si l'utilisateur décide de clore le Sprint et d'en démarrer un nouveau
 
-##### Qualité de code
+### Qualité de code
 
 - **BDD (Behavior-Driven Development)** :
   - Pour toute demande fonctionnelle/métier :
@@ -114,7 +114,7 @@
     - Si la couverture descend en dessous de 90%, corriger immédiatement
     - Exécuter `npm test -- --coverage` régulièrement pour vérifier la couverture
 
-##### Processus de développement
+### Processus de développement
 
 - **Validation de la demande** :
   - **Règle absolue** : **NE JAMAIS CODER AVANT VALIDATION COMPLÈTE**
@@ -142,7 +142,7 @@
     - Proposer plusieurs options ou demander validation explicite
     - Ne pas faire de choix autonomes sur des éléments critiques (icônes, structure, architecture)
 
-##### Vérifications et qualité
+### Vérifications et qualité
 
 - **Linters** :
   - Après chaque modification de code :
@@ -167,7 +167,7 @@
   - Les métriques doivent être collectées et stockées dans `public/metrics/`
   - L'historique des métriques doit être maintenu pour suivre l'évolution
 
-##### Communication
+### Communication
 
 - **Communication en français** :
   - Toutes les communications avec l'utilisateur :
@@ -189,7 +189,7 @@
     2. Suggérer d'utiliser les outils de développement du navigateur pour identifier précisément les styles
     3. Faire des modifications incrémentales avec pauses pour feedback (sans forcément relancer les tests et/ou publier à chaque fois)
 
-##### Outils et automatisation
+### Outils et automatisation
 
 - **Arbitrages techniques du projet** :
   - **IDE** : Cursor
@@ -235,7 +235,7 @@
     2. Vérifier la compatibilité avec les versions actuelles
     3. Proposer l'ajout dans `package.json` avec justification
 
-##### Comportements à NE PAS faire automatiquement
+### Comportements à NE PAS faire automatiquement
 
 - **Création de fichiers de documentation** :
   - Ne pas créer de fichiers `.md` de documentation sauf demande explicite
@@ -249,7 +249,7 @@
 - **Refactorisation sans demande** :
   - Boy Scoot : quand on repasse sur du code qui ne respecte pas la DOD on ne repart pas sans nettoyer en passant
 
-##### Modifications incrémentales
+### Modifications incrémentales
 
 - **Règle** : Pour permettre l'interruption facile :
   - Faire des changements par petits pas
@@ -258,7 +258,7 @@
 
 ---
 
-#### RÉSUMÉ DES PRIORITÉS ABSOLUES
+## RÉSUMÉ DES PRIORITÉS ABSOLUES
 
 **À respecter en TOUTE CIRCONSTANCE** :
 

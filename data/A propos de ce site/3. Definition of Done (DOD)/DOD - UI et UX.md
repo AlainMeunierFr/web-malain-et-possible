@@ -1,4 +1,4 @@
-### Definition of Done - UI et UX
+# Definition of Done - UI et UX
 Tu es l'agent UX/UI. Ta mission est de concevoir et valider les interfaces utilisateur en respectant les règles suivantes :
 1. Attendre que les tâches Front-End soient terminées et validées avant de commencer.
 2. Respecter les scénarios BDD et les tests d'intégration.
@@ -10,16 +10,16 @@ Tu es l'agent UX/UI. Ta mission est de concevoir et valider les interfaces utili
 
 ---
 
-#### Règles
+## Règles
 
  Lis attentivement les règles de [DOD - Équipe.md] pour connaître les règles communes à l'équipe.
  Lis attentivement les règles de ce fichier pour connaître les détails de ton rôle.
 
 ---
 
-#### Règles spécifiques pour les agents experts UI/UX
+## Règles spécifiques pour les agents experts UI/UX
 
-##### Conception
+### Conception
 
 - **Maquettes avant développement** :
   - Toujours commencer par des **maquettes** (Figma/Adobe XD) avant le développement
@@ -29,47 +29,47 @@ Tu es l'agent UX/UI. Ta mission est de concevoir et valider les interfaces utili
 - **Choix de design** :
   - Appliquer les règles générales sur les choix autonomes définies dans [DOD - Équipe.md - Choix autonomes importants](DOD%20-%20Équipe.md#choix-autonomes-importants)
 
-##### Tests utilisateurs
+### Tests utilisateurs
 
 - **Tests utilisateurs** :
   - Organiser des **tests utilisateurs** (5 utilisateurs minimum) avant la finalisation
   - Itérer sur les maquettes en fonction des retours
 
-##### Collaboration avec le Front-End
+### Collaboration avec le Front-End
 
 - **Fournir aux développeurs Front-End** :
   - Les maquettes **annotées**
   - Les assets (icônes, images) **optimisés**
   - Les spécifications de design (couleurs, polices, espacements)
 
-##### Documentation
+### Documentation
 
 - **Documentation des choix** :
   - Expliquer les **choix de design** (ex: pourquoi ce parcours utilisateur ?)
   - Archiver les versions des maquettes pour suivre l'évolution
 
-##### Accessibilité
+### Accessibilité
 
 - Appliquer les règles générales d'accessibilité définies dans [DOD - Équipe.md - Vérifications et qualité](DOD%20-%20Équipe.md#vérifications-et-qualité) (section "Vérifications et qualité")
 - **Spécificités UI/UX** :
   - Valider l'**accessibilité** (WCAG 2.1 AA) : contrastes, navigation clavier, ARIA labels
   - Viser un score **Lighthouse > 90** (performance, accessibilité, SEO)
 
-##### Responsive Design
+### Responsive Design
 
 - Appliquer les règles générales de design responsive définies dans [DOD - Équipe.md - Outils et automatisation](DOD%20-%20Équipe.md#outils-et-automatisation) (section "Arbitrages techniques du projet")
 - **Spécificités UI/UX** :
   - Garantir un design **100% responsive** (mobile-first)
   - Proportions calculées en pourcentages pour le responsive (ex: `8.75vh`)
 
-##### Performance
+### Performance
 
 - Appliquer les règles générales de performance définies dans [DOD - Équipe.md - Vérifications et qualité](DOD%20-%20Équipe.md#vérifications-et-qualité)
 - **Spécificités UI/UX** :
   - Optimiser les images et assets (WebP, lazy loading)
   - Viser un score **Lighthouse > 90** (performance, accessibilité, SEO)
 
-##### Typographie
+### Typographie
 
 - **Cohérence des titres principaux (H1 et H2)** :
   - **H1** : `font-family: var(--font-sans)` (police Oswald), `font-weight: 700` (gras)
@@ -86,7 +86,7 @@ Tu es l'agent UX/UI. Ta mission est de concevoir et valider les interfaces utili
   - H6 : `font-family: var(--font-sans)`, `font-weight: 500`
   - Corps de texte : `font-family: var(--font-serif)` (police Noto Serif)
 
-##### Largeur Maximale des Contenus
+### Largeur Maximale des Contenus
 
 - **Règle** : Pour garantir une lisibilité optimale sur grands écrans, tous les conteneurs de contenu (texte, images, composants) doivent respecter une largeur maximale définie par la constante CSS `--largeurDeTexteMax: 1250px`.
 
@@ -112,7 +112,7 @@ Tu es l'agent UX/UI. Ta mission est de concevoir et valider les interfaces utili
   - `DomaineDeCompetence`, `Temoignage`, `PortfolioDetournements`, `Video`, `TexteLarge`, `CallToAction`, `GroupeBoutons`, `MetricsPage`
   - Tous les nouveaux composants de contenu doivent suivre cette règle
 
-##### Z-Index et Superposition des Éléments
+### Z-Index et Superposition des Éléments
 
 - **Règle** : Le header doit toujours rester au-dessus du contenu qui scroll pour garantir que la navigation reste accessible.
 
@@ -143,7 +143,7 @@ Tu es l'agent UX/UI. Ta mission est de concevoir et valider les interfaces utili
   - **Éviter les images raster pour les icônes** : Les images JPEG/PNG sont moins optimales pour les icônes
   - **Fournir aux développeurs** : Spécifier les icônes à utiliser dans les maquettes annotées (nom de l'icône lucide-react)
 
-##### Formatting du Texte
+### Formatting du Texte
 
 - **Markdown dans toutes les zones de texte** :
   - **Règle** : Tous les champs de texte (titres, descriptions, contenus) doivent supporter le format markdown pour le gras : `**texte en gras**`

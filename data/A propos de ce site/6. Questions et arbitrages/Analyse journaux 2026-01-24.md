@@ -1,6 +1,6 @@
-### Analyse comparative des journaux de bord du 24 janvier 2026
+# Analyse comparative des journaux de bord du 24 janvier 2026
 
-#### Métadonnées des fichiers
+## Métadonnées des fichiers
 
 | Fichier | Taille | Date de modification | Sections (H3/H4/H5) |
 |---------|--------|---------------------|---------------------|
@@ -11,7 +11,7 @@
 
 ---
 
-#### Structure et contenu identique
+## Structure et contenu identique
 
 **Sections communes** (présentes dans les deux fichiers) :
 
@@ -48,20 +48,20 @@
 
 ---
 
-#### Différences identifiées
+## Différences identifiées
 
-##### 1. Section finale présente uniquement dans `2026-01-24.md`
+### 1. Section finale présente uniquement dans `2026-01-24.md`
 
 **Section absente de `2026-01-24 bis.md`** :
 
 ```markdown
-### Leçon Critique - Célébrations Prématurées et Dérive
+# Leçon Critique - Célébrations Prématurées et Dérive
 
-#### Contexte : Début Simple vs Dérive Réelle
+## Contexte : Début Simple vs Dérive Réelle
 [...]
-#### Célébrations Prématurées Documentées
+## Célébrations Prématurées Documentées
 [...]
-#### Leçon Apprise
+## Leçon Apprise
 [...]
 ```
 
@@ -75,7 +75,7 @@
 
 ---
 
-##### 2. Différences de formatage et structure
+### 2. Différences de formatage et structure
 
 **`2026-01-24.md` (fichier principal)** :
 - Format plus détaillé avec emojis et mise en forme accentuée
@@ -89,17 +89,17 @@
 
 ---
 
-#### Hypothèses sur l'origine des deux fichiers
+## Hypothèses sur l'origine des deux fichiers
 
-##### Hypothèse 1 : Génération automatique vs manuelle
+### Hypothèse 1 : Génération automatique vs manuelle
 - **`2026-01-24.md`** : Généré automatiquement par le système de journal de bord (DOD)
 - **`2026-01-24 bis.md`** : Créé manuellement ou depuis un autre emplacement
 
-##### Hypothèse 2 : Version enrichie vs version initiale
+### Hypothèse 2 : Version enrichie vs version initiale
 - **`2026-01-24.md`** : Version enrichie avec analyse critique ajoutée après coup
 - **`2026-01-24 bis.md`** : Version initiale avant l'ajout de la section "Leçon Critique"
 
-##### Hypothèse 3 : Emplacements différents
+### Hypothèse 3 : Emplacements différents
 - **`2026-01-24.md`** : Journal principal dans l'emplacement standard
 - **`2026-01-24 bis.md`** : Copie ou version alternative créée depuis un autre contexte
 
@@ -107,9 +107,9 @@
 
 ---
 
-#### Recommandations
+## Recommandations
 
-##### Option A : Fusionner les deux fichiers
+### Option A : Fusionner les deux fichiers
 **Avantages** :
 - Un seul fichier de référence
 - Contenu complet (sections communes + section "Leçon Critique")
@@ -120,7 +120,7 @@
 2. Vérifier qu'il contient tout le contenu de `2026-01-24 bis.md`
 3. Supprimer `2026-01-24 bis.md` après validation
 
-##### Option B : Conserver les deux avec clarification
+### Option B : Conserver les deux avec clarification
 **Avantages** :
 - Historique préservé
 - Traçabilité des deux versions
@@ -130,7 +130,7 @@
 2. Ajouter un en-tête expliquant l'origine
 3. Documenter pourquoi deux versions existent
 
-##### Option C : Archiver le fichier bis
+### Option C : Archiver le fichier bis
 **Avantages** :
 - Journal principal reste propre
 - Version alternative conservée pour référence
@@ -141,7 +141,7 @@
 
 ---
 
-#### Analyse de conformité DOD
+## Analyse de conformité DOD
 
 **Selon la DOD** : Un journal de bord par jour, mis à jour après chaque modification de code.
 
@@ -156,7 +156,7 @@
 
 ---
 
-#### Conclusion
+## Conclusion
 
 **Les deux fichiers contiennent essentiellement le même contenu** (sections communes identiques), avec une différence majeure :
 

@@ -1,7 +1,7 @@
-### Sprint Goal
+# Sprint Goal
 Mettre en place une page Metrics pour suivre automatiquement la qualité du code et l'évolution du projet à travers différentes métriques techniques (tests, couverture, qualité, taille, dépendances, performance).
 
-#### US-4.1 : Définition des types de métriques à collecter ✅ COMPLÉTÉ
+## US-4.1 : Définition des types de métriques à collecter ✅ COMPLÉTÉ
 - **En tant que** Manager technico-fonctionnel
 - **Je souhaite** Avoir une structure TypeScript bien définie pour tous les types de métriques que je souhaite suivre
 - **Afin de** Garantir la cohérence des données collectées et faciliter leur exploitation
@@ -31,7 +31,7 @@ Mettre en place une page Metrics pour suivre automatiquement la qualité du code
   - Interface `MetricsConfig` : configuration du collecteur
   - Contient : dossier de sortie, limite d'historique, seuils minimums (coverage, quality, complexity)
 
-#### US-4.2 : Script de collecte automatique des métriques ✅ COMPLÉTÉ
+## US-4.2 : Script de collecte automatique des métriques ✅ COMPLÉTÉ
 - **En tant que** Développeur
 - **Je souhaite** Avoir un script qui collecte automatiquement toutes les métriques du projet
 - **Afin de** Générer un snapshot de métriques sans intervention manuelle
@@ -112,7 +112,7 @@ Mettre en place une page Metrics pour suivre automatiquement la qualité du code
   - Continue la collecte même si certaines métriques échouent
   - Retourne des valeurs par défaut (0 ou undefined) pour les métriques non disponibles
 
-#### US-4.3 : Page d'affichage des métriques avec dashboard visuel ✅ COMPLÉTÉ
+## US-4.3 : Page d'affichage des métriques avec dashboard visuel ✅ COMPLÉTÉ
 - **En tant que** Manager technico-fonctionnel
 - **Je souhaite** Voir un dashboard visuel des métriques de qualité du code dans le navigateur
 - **Afin de** Suivre facilement l'évolution de la qualité du projet sans regarder les fichiers JSON bruts
@@ -215,7 +215,7 @@ Mettre en place une page Metrics pour suivre automatiquement la qualité du code
   - Padding de la page : ajusté pour éviter que le contenu soit caché par le header fixe
   - Container principal : max-width 1400px, centré
 
-#### US-4.4 : Intégration de la collecte de métriques dans le workflow de développement ✅ COMPLÉTÉ
+## US-4.4 : Intégration de la collecte de métriques dans le workflow de développement ✅ COMPLÉTÉ
 - **En tant que** Développeur
 - **Je souhaite** Collecter automatiquement les métriques à chaque fois que j'exécute les tests ou que je fais un build
 - **Afin de** Avoir des métriques toujours à jour sans effort supplémentaire
@@ -240,7 +240,7 @@ Mettre en place une page Metrics pour suivre automatiquement la qualité du code
   - Comparer les tendances avant/après une fonctionnalité ou un refactoring
   - Utiliser les métriques pour valider l'amélioration continue de la qualité du code
 
-#### US-4.5 : Ajout d'un lien vers la page Metrics dans la navigation ✅ COMPLÉTÉ
+## US-4.5 : Ajout d'un lien vers la page Metrics dans la navigation ✅ COMPLÉTÉ
 - **En tant que** Développeur ou Manager
 - **Je souhaite** Accéder facilement à la page Metrics depuis n'importe quelle page du site
 - **Afin de** Consulter les métriques sans avoir à taper l'URL manuellement
@@ -266,7 +266,7 @@ Mettre en place une page Metrics pour suivre automatiquement la qualité du code
   - ✅ Vérifie que le clic sur le bouton Metrics redirige vers `/metrics`
   - ✅ TDD strict : RED → GREEN → REFACTOR respecté
 
-#### US-4.6 : Tooltips informatifs pour les métriques ✅ COMPLÉTÉ
+## US-4.6 : Tooltips informatifs pour les métriques ✅ COMPLÉTÉ
 - **En tant que** décideur consultant la page Métriques
 - **Je veux** disposer d'explications pédagogiques sur chaque métrique via des info-bulles
 - **Afin de** comprendre la signification business de chaque indicateur technique sans connaissances préalables en développement

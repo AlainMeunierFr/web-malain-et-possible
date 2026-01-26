@@ -5,6 +5,8 @@
 
 import fs from 'fs';
 import path from 'path';
+import { readCompetences, readDomaines } from './bibliothequeReader';
+import { resolvePageReferences } from './profilBuilder';
 
 /**
  * Interface pour une Compétence
@@ -36,13 +38,21 @@ export interface DomaineDeCompetences {
 /**
  * Types d'éléments de contenu de page
  */
-export type TypeElementContenu = 'titre' | 'video' | 'texteLarge' | 'domaineDeCompetence' | 'callToAction' | 'groupeBoutons' | 'listeDesPages' | 'videoDetournement' | 'temoignages';
+export type TypeElementContenu = 'titre' | 'titreDePage' | 'video' | 'texteLarge' | 'domaineDeCompetence' | 'callToAction' | 'groupeBoutons' | 'listeDesPages' | 'videoDetournement' | 'temoignages' | 'hero' | 'profil';
 
 /**
  * Interface pour un élément de type "Titre"
  */
 export interface ElementTitre {
   type: 'titre';
+  texte: string;
+}
+
+/**
+ * Interface pour un élément de type "Titre de Page" (affiché dans le header)
+ */
+export interface ElementTitreDePage {
+  type: 'titreDePage';
   texte: string;
 }
 
@@ -137,10 +147,38 @@ export interface ElementTemoignages {
 }
 
 /**
+ * Interface pour un profil dans la HERO
+ */
+export interface Profil {
+  type: 'profil';
+  titre: string;
+  jobTitles: string[];
+  slug: string;
+  route: string;
+  cvPath: string;
+}
+
+/**
+ * Interface pour un élément de type "Hero"
+ */
+export interface ElementHero {
+  type: 'hero';
+  titre: string;
+  sousTitre: string;
+  description: string;
+  boutonPrincipal: {
+    texte: string;
+    action: string;
+  };
+  profils: Profil[];
+}
+
+/**
  * Union type pour tous les éléments de contenu
  */
 export type ElementContenu = 
   | ElementTitre 
+  | ElementTitreDePage
   | ElementVideo 
   | ElementTexteLarge 
   | ElementDomaineDeCompetence
@@ -148,7 +186,9 @@ export type ElementContenu =
   | ElementGroupeBoutons
   | ElementListeDesPages
   | ElementVideoDetournement
-  | ElementTemoignages;
+  | ElementTemoignages
+  | ElementHero
+  | Profil;
 
 /**
  * Interface pour la structure "contenu de page"
@@ -228,7 +268,7 @@ export const readPageData = (filename: string = 'index.json'): PageData => {
       
       if (element.type === 'domaineDeCompetence') {
         // Si l'élément a "competences" au lieu de "items", le mapper
-        if ('competences' in elementAny && !('items' in elementAny)) {
+        if ('competences' in elementAny && !('items' in elementAny) && !('ref' in elementAny)) {
           return {
             ...element,
             items: elementAny.competences,
@@ -260,6 +300,41 @@ export const readPageData = (filename: string = 'index.json'): PageData => {
       
       return element;
     });
+  }
+
+  // Détecter si la page contient des références vers la bibliothèque
+  const hasReferences = pageData.contenu && pageData.contenu.some((element) => {
+    if (element.type === 'domaineDeCompetence') {
+      const elementAny = element as any;
+      return 'ref' in elementAny && typeof elementAny.ref === 'string';
+    }
+    return false;
+  });
+
+  // Si la page contient des références, les résoudre
+  if (hasReferences) {
+    try {
+      const competences = readCompetences();
+      const domaines = readDomaines();
+      const resolved = resolvePageReferences(pageData, competences, domaines);
+      // Vérifier que les références ont bien été résolues
+      const stillHasRefs = resolved.contenu.some((element) => {
+        if (element.type === 'domaineDeCompetence') {
+          const elementAny = element as any;
+          return 'ref' in elementAny && typeof elementAny.ref === 'string';
+        }
+        return false;
+      });
+      if (stillHasRefs) {
+        console.error(`Des références n'ont pas été résolues pour ${filename}`);
+      }
+      return resolved;
+    } catch (error) {
+      // Si la bibliothèque n'existe pas encore, continuer sans résolution (compatibilité ascendante)
+      console.error(`Impossible de résoudre les références pour ${filename}:`, error);
+      // Ne pas retourner pageData avec des refs non résolues, cela rendrait la page vide
+      throw error;
+    }
   }
 
   return pageData;

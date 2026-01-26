@@ -155,7 +155,7 @@ describe('indexReader', () => {
         contenu: [
           {
             type: 'temoignages',
-            source: 'temoignages.json',
+            source: '_temoignages.json',
           },
         ],
       };
@@ -178,14 +178,14 @@ describe('indexReader', () => {
       };
 
       mockFs.existsSync.mockImplementation((p: any) => {
-        return p.includes('test.json') || p.includes('temoignages.json');
+        return p.includes('test.json') || p.includes('_temoignages.json');
       });
 
       mockFs.readFileSync.mockImplementation((p: any) => {
         if (p.includes('test.json')) {
           return JSON.stringify(mockPageData);
         }
-        if (p.includes('temoignages.json')) {
+        if (p.includes('_temoignages.json')) {
           return JSON.stringify(mockTemoignagesData);
         }
         return '';
@@ -277,6 +277,89 @@ describe('indexReader', () => {
       expect(() => readDomaineData('missing.json')).toThrow(
         "Le fichier missing.json n'existe pas"
       );
+    });
+  });
+
+  describe('readPageData avec type hero', () => {
+    it('devrait lire un élément de type hero', () => {
+      const mockData: PageData = {
+        contenu: [
+          {
+            type: 'hero',
+            titre: 'Alain Meunier',
+            sousTitre: 'Je recherche un projet stimulant (CDI ou freelance)',
+            description: 'Description de la valeur...',
+            boutonPrincipal: {
+              texte: 'On discute ?',
+              action: '/faisons-connaissance',
+            },
+            profils: [
+              {
+                type: 'profil',
+                titre: 'Produit logiciel',
+                jobTitles: ['CPO - Chief Product Officer'],
+                slug: 'cpo',
+                route: '/profil/cpo',
+                cvPath: '/data/CV/cpo.pdf',
+              },
+            ],
+          },
+        ],
+      };
+
+      mockFs.existsSync.mockReturnValue(true);
+      mockFs.readFileSync.mockReturnValue(JSON.stringify(mockData));
+
+      const result = readPageData('test.json');
+
+      expect(result.contenu).toHaveLength(1);
+      expect(result.contenu[0].type).toBe('hero');
+      const hero = result.contenu[0] as any;
+      expect(hero.titre).toBe('Alain Meunier');
+      expect(hero.profils).toHaveLength(1);
+    });
+
+    it('devrait lire un élément hero avec plusieurs profils', () => {
+      const mockData: PageData = {
+        contenu: [
+          {
+            type: 'hero',
+            titre: 'Alain Meunier',
+            sousTitre: 'Je recherche un projet stimulant (CDI ou freelance)',
+            description: 'Description...',
+            boutonPrincipal: {
+              texte: 'On discute ?',
+              action: '/faisons-connaissance',
+            },
+            profils: [
+              {
+                type: 'profil',
+                titre: 'Produit logiciel',
+                jobTitles: [],
+                slug: 'cpo',
+                route: '/profil/cpo',
+                cvPath: '/data/CV/cpo.pdf',
+              },
+              {
+                type: 'profil',
+                titre: 'Opérations',
+                jobTitles: [],
+                slug: 'coo',
+                route: '/profil/coo',
+                cvPath: '/data/CV/coo.pdf',
+              },
+            ],
+          },
+        ],
+      };
+
+      mockFs.existsSync.mockReturnValue(true);
+      mockFs.readFileSync.mockReturnValue(JSON.stringify(mockData));
+
+      const result = readPageData('test.json');
+
+      const hero = result.contenu[0] as any;
+      expect(hero.profils).toHaveLength(2);
     });
   });
 });

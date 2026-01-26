@@ -1,9 +1,9 @@
-### BDD pour US-3.10a : Pertinence et recommandation
+# BDD pour US-3.10a : Pertinence et recommandation
 
-#### Question posée
+## Question posée
 **Est-ce cohérent de faire des BDD pour US-3.10a ?**
 
-#### Analyse de l'US-3.10a
+## Analyse de l'US-3.10a
 
 **Objectif de l'US** : Créer un test d'intégration qui :
 1. Détecte automatiquement toutes les pages et liens internes du site
@@ -11,7 +11,7 @@
 3. Vérifie la conformité entre le plan détecté et le plan JSON
 4. Valide que chaque élément a un emplacement défini
 
-#### Pourquoi BDD serait cohérent
+## Pourquoi BDD serait cohérent
 
 **✅ Avantages du BDD pour cette US** :
 
@@ -38,7 +38,7 @@
    - Force à réfléchir aux cas limites (pages supprimées, liens obsolètes, etc.)
    - Vérifie que la détection couvre tous les cas (header, footer, JSON, composants)
 
-#### Exemple de scénarios BDD possibles
+## Exemple de scénarios BDD possibles
 
 ```gherkin
 Feature: Génération automatique du plan du site
@@ -73,7 +73,7 @@ Feature: Génération automatique du plan du site
     And les pages sans emplacement sont listées dans l'erreur
 ```
 
-#### Recommandation
+## Recommandation
 
 **✅ OUI, le BDD est cohérent pour cette US** pour les raisons suivantes :
 
@@ -85,14 +85,14 @@ Feature: Génération automatique du plan du site
 
 4. **Cohérence avec l'approche** : Le projet utilise déjà BDD pour d'autres US (navigation, footer, critères d'acceptation)
 
-#### Alternative : TDD pur
+## Alternative : TDD pur
 
 Si vous préférez une approche plus technique et moins verbeuse, vous pourriez :
 - Utiliser uniquement des tests unitaires/intégration en TypeScript
 - Documenter les comportements dans les commentaires du code
 - Plus rapide à écrire, mais moins lisible pour les non-développeurs
 
-#### Conclusion
+## Conclusion
 
 **Recommandation finale** : **BDD recommandé** car :
 - L'US teste un comportement métier complexe (détection + validation)

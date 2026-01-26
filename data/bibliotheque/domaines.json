@@ -1,0 +1,181 @@
+{
+  "domaines": {
+    "interactions-humaines": {
+      "id": "interactions-humaines",
+      "titre": "Interactions humaines",
+      "contenu": "« Lorsque les gens sont financièrement investis, ils veulent un retour. Lorsque les gens sont émotionnellement investis, ils veulent contribuer. »",
+      "auteur": "Simon Sinek",
+      "competences": [
+        "service-client",
+        "gestion-des-talents"
+      ]
+    },
+    "faire-avec-les-equipes": {
+      "id": "faire-avec-les-equipes",
+      "titre": "Faire avec les équipes",
+      "contenu": "Par souci d'exemplarité je préfère \"faire avec\" que \"faire faire\".",
+      "competences": []
+    },
+    "l-usage-des-visuels-au-service-des-interactions-pour-soutenir-un-processus-de-travail": {
+      "id": "l-usage-des-visuels-au-service-des-interactions-pour-soutenir-un-processus-de-travail",
+      "titre": "L'usage des visuels au service des interactions pour soutenir un processus de travail.",
+      "contenu": "",
+      "competences": [
+        "creativite",
+        "viralite",
+        "engagement"
+      ]
+    },
+    "strategie-et-transformations": {
+      "id": "strategie-et-transformations",
+      "titre": "Stratégie et transformations",
+      "contenu": "",
+      "competences": [
+        "culture-d-entreprise",
+        "strategie",
+        "conduite-du-changement"
+      ]
+    },
+    "developpement-informatique": {
+      "id": "developpement-informatique",
+      "titre": "Développement informatique",
+      "contenu": "",
+      "competences": [
+        "management-de-produit-logiciel",
+        "ingenierie-logicielle",
+        "data-et-business-intelligence"
+      ]
+    },
+    "management": {
+      "id": "management",
+      "titre": "Management",
+      "contenu": "",
+      "competences": [
+        "le-sens-avant-tout",
+        "management-3-0",
+        "leader-agile"
+      ]
+    },
+    "animation-d-atelier": {
+      "id": "animation-d-atelier",
+      "titre": "Animation d'atelier",
+      "contenu": "",
+      "competences": [
+        "serious-game",
+        "modelisation-graphique",
+        "codev"
+      ]
+    },
+    "transmission": {
+      "id": "transmission",
+      "titre": "Transmission",
+      "contenu": "",
+      "competences": [
+        "formateur",
+        "conference",
+        "mentora"
+      ]
+    },
+    "engager-les-equipes": {
+      "id": "engager-les-equipes",
+      "titre": "Engager les équipes",
+      "contenu": "Collaborer pour faire face à un défi engendre des défis inédits, absents lorsqu'on agit seul.\nLes dynamiques collaboratives, et donc relationnelles, doivent être au cœur du programme de transformation.",
+      "competences": [
+        "reseau-social-professionnel",
+        "membre-actif-de-communautes",
+        "detournement-video"
+      ]
+    },
+    "diagnostic-civilisationnel": {
+      "id": "diagnostic-civilisationnel",
+      "titre": "Diagnostic civilisationnel",
+      "contenu": "« Comment est-il possible que nous construisions collectivement ce qu'individuellement aucun d'entre nous ne voudrions ? »\n\nPour inscrire votre **stratégie dans le long terme** il faut commencer par prendre connaissance de l'état et de l'évolution de notre monde. Ce diagnostic invite chacun à **challenger certaines de ses croyances**. Je suis en mesure d'animer et faciliter 3 ateliers complémentaires servant cet objectif de transparence :",
+      "auteur": "Otto Scharmer",
+      "competences": [
+        "la-science-les-faits",
+        "les-ordres-de-grandeur",
+        "une-vision-systemique"
+      ]
+    },
+    "activites-extra-professionnelles-au-service-de-ma-profession": {
+      "id": "activites-extra-professionnelles-au-service-de-ma-profession",
+      "titre": "Activités extra-professionnelles... au service de ma profession",
+      "contenu": "",
+      "competences": [
+        "improvisation-theatrale",
+        "jeux-de-strategie",
+        "musique"
+      ]
+    },
+    "developpeur": {
+      "id": "developpeur",
+      "titre": "Développeur",
+      "contenu": "Suis-je encore développeur ? Je n'ai pas de réponse définitive à cette question. En revanche je préfère confier les projets sérieux à des professionnels mais je sais intérragir avec eux.",
+      "competences": [
+        "4d",
+        "no-code",
+        "ia-pair-programming"
+      ]
+    },
+    "experience-en-equipe": {
+      "id": "experience-en-equipe",
+      "titre": "Expérience en équipe",
+      "contenu": "[ToDo] Pratiques collaboratives et méthodes agiles pour développer en équipe avec qualité et efficacité.",
+      "competences": [
+        "bdd",
+        "tdd",
+        "ci-cd"
+      ]
+    },
+    "autres-pratiques-connues": {
+      "id": "autres-pratiques-connues",
+      "titre": "Autres pratiques connues",
+      "contenu": "Connaissances approfondies en architecture logicielle et bonnes pratiques de développement.",
+      "competences": [
+        "cleancode",
+        "architecture-hexagonale",
+        "cqrs-es"
+      ]
+    },
+    "bien-applique-l-agilite-est-un-cadre-puissant-pour-delivrer-de-la-valeur": {
+      "id": "bien-applique-l-agilite-est-un-cadre-puissant-pour-delivrer-de-la-valeur",
+      "titre": "Bien appliqué, l'agilité est un cadre puissant pour délivrer de la valeur.",
+      "contenu": "",
+      "competences": [
+        "vision-produit",
+        "empirisme",
+        "excellence-technique"
+      ]
+    },
+    "et-si-nous-rendions-votre-entreprise-stable-malgre-les-fluctuations": {
+      "id": "et-si-nous-rendions-votre-entreprise-stable-malgre-les-fluctuations",
+      "titre": "Et si nous rendions votre entreprise stable malgré les fluctuations ?",
+      "contenu": "",
+      "competences": [
+        "performance",
+        "polycrises",
+        "sante"
+      ]
+    },
+    "la-robustesse-est-la-reponse-operationnelle-a-un-monde-fluctuant": {
+      "id": "la-robustesse-est-la-reponse-operationnelle-a-un-monde-fluctuant",
+      "titre": "La ROBUSTESSE est la réponse opérationnelle à un monde fluctuant !*",
+      "contenu": "*Olivier Hamant, Chercheur à l'INRAE, directeur de l'institut Michel Serres et auteur de « La troisième voie du vivant » et « Antidote à la performance ».",
+      "competences": [
+        "key-robustness-incentive",
+        "exploration",
+        "cadre"
+      ]
+    },
+    "la-distance-entre-reve-et-realite-s-appelle-l-action": {
+      "id": "la-distance-entre-reve-et-realite-s-appelle-l-action",
+      "titre": "La distance entre rêve et réalité s'appelle l'action.",
+      "contenu": "",
+      "competences": [
+        "faire-emerger-une-vision-partagee",
+        "realiser-un-diagnostic-sincere",
+        "generer-de-l-engagement"
+      ]
+    }
+  }
+}

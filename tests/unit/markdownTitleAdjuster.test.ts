@@ -9,6 +9,9 @@
  * - Test 4 : Combiner plusieurs titres
  * - Test 5 : Ajouter des titres H4, H5, H6
  * - Test 6 : Cas limites (lignes vides, texte non-titre, espaces)
+ * 
+ * ⚠️ OBSOLÈTE : Cette fonction est maintenant obsolète avec US-5.5.
+ * Les tests sont conservés pour compatibilité avec d'anciens scripts.
  */
 
 import { adjustMarkdownTitleLevels } from '../../utils/markdownTitleAdjuster';

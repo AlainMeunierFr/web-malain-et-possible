@@ -1,9 +1,9 @@
-### Sprint Goal
+# Sprint Goal
 Enrichir le site avec une page dédiée présentant les compétences techniques d'Alain en ingénierie logiciel, permettant aux visiteurs de découvrir ses domaines d'expertise en développement, pratiques d'équipe et architectures.
 
 ---
 
-#### US-6.5 : Page dédiée "Ingénierie logiciel"
+## US-6.5 : Page dédiée "Ingénierie logiciel"
 
 - **En tant que** visiteur du site
 - **Je souhaite** accéder à une page dédiée au thème "Ingénierie logiciel"

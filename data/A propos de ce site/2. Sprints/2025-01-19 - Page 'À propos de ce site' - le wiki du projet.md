@@ -1,7 +1,7 @@
-### Sprint Goal
+# Sprint Goal
 Afficher dans une page Web à la façon d'un Wiki le contenu du dossier "A propos de ce site" qui contient des sous dossiers et fichiers au format MarkDown.
 
-#### US-2.1 : Lecture des dossiers du répertoire "A propos de ce site" ✅ COMPLÉTÉ
+## US-2.1 : Lecture des dossiers du répertoire "A propos de ce site" ✅ COMPLÉTÉ
 - **En tant que** Système backend
 - **Je souhaite** Lire la liste des dossiers présents dans "A propos de ce site"
 - **Afin de** Construire la structure hiérarchique des chapitres
@@ -13,7 +13,7 @@ Afficher dans une page Web à la façon d'un Wiki le contenu du dossier "A propo
 
 ---
 
-#### US-2.2 : Lecture des fichiers Markdown dans chaque dossier ✅ COMPLÉTÉ
+## US-2.2 : Lecture des fichiers Markdown dans chaque dossier ✅ COMPLÉTÉ
 - **En tant que** Système backend
 - **Je souhaite** Lire tous les fichiers Markdown (.md) présents dans chaque dossier
 - **Afin de** Construire la liste des sections pour chaque chapitre
@@ -25,7 +25,7 @@ Afficher dans une page Web à la façon d'un Wiki le contenu du dossier "A propo
 
 ---
 
-#### US-2.3 : Parsing de la hiérarchie (Parties, Sous-parties, Blocs) ✅ COMPLÉTÉ
+## US-2.3 : Parsing de la hiérarchie (Parties, Sous-parties, Blocs) ✅ COMPLÉTÉ
 - **En tant que** Système backend
 - **Je souhaite** Extraire la structure hiérarchique complète d'un fichier MD : parties (###), sous-parties (####) et blocs (#####)
 - **Afin de** Construire la structure hiérarchique Partie → Sous-partie → Bloc
@@ -37,7 +37,7 @@ Afficher dans une page Web à la façon d'un Wiki le contenu du dossier "A propo
 
 ---
 
-#### US-2.4 : Détection des blocs "Prompt" et "Résultat technique" ✅ COMPLÉTÉ
+## US-2.4 : Détection des blocs "Prompt" et "Résultat technique" ✅ COMPLÉTÉ
 - **En tant que** Système backend
 - **Je souhaite** Identifier les blocs avec les titres "##### Prompt" et "##### Résultat technique" et leur contenu
 - **Afin de** Leur attribuer un typeDeContenu spécial pour le style CSS
@@ -49,7 +49,7 @@ Afficher dans une page Web à la façon d'un Wiki le contenu du dossier "A propo
 
 ---
 
-#### US-2.5 : Parsing du contenu texte (paragraphes, listes) dans une partie/sous-partie/bloc ✅ COMPLÉTÉ
+## US-2.5 : Parsing du contenu texte (paragraphes, listes) dans une partie/sous-partie/bloc ✅ COMPLÉTÉ
 - **En tant que** Système backend
 - **Je souhaite** Extraire les paragraphes, listes à puce et listes numérotées dans le contenu
 - **Afin de** Construire le JSON avec le contenu textuel structuré
@@ -62,7 +62,7 @@ Afficher dans une page Web à la façon d'un Wiki le contenu du dossier "A propo
 
 ---
 
-#### US-2.6 : Validation - Interdiction des titres H1 et H2 dans les fichiers MD ✅ COMPLÉTÉ
+## US-2.6 : Validation - Interdiction des titres H1 et H2 dans les fichiers MD ✅ COMPLÉTÉ
 - **En tant que** Développeur
 - **Je souhaite** Détecter et rejeter les fichiers MD contenant des titres H1 (#) ou H2 (##)
 - **Afin de** Garantir une structure cohérente et éviter les erreurs de hiérarchie
@@ -73,7 +73,7 @@ Afficher dans une page Web à la façon d'un Wiki le contenu du dossier "A propo
 
 ---
 
-#### US-2.7 : Validation - Interdiction des H4 sans H3 précédent ✅ COMPLÉTÉ
+## US-2.7 : Validation - Interdiction des H4 sans H3 précédent ✅ COMPLÉTÉ
 - **En tant que** Développeur
 - **Je souhaite** Détecter et rejeter les fichiers MD contenant un H4 (####) sans H3 (###) précédent
 - **Afin de** Garantir une hiérarchie de titres cohérente
@@ -84,7 +84,7 @@ Afficher dans une page Web à la façon d'un Wiki le contenu du dossier "A propo
 
 ---
 
-#### US-2.8 : Validation - Minimum 2 sections par chapitre ✅ COMPLÉTÉ
+## US-2.8 : Validation - Minimum 2 sections par chapitre ✅ COMPLÉTÉ
 - **En tant que** Développeur
 - **Je souhaite** Détecter et rejeter les dossiers contenant un seul fichier MD valide
 - **Afin de** Garantir que chaque chapitre contient au moins 2 sections
@@ -95,7 +95,7 @@ Afficher dans une page Web à la façon d'un Wiki le contenu du dossier "A propo
 
 ---
 
-#### US-2.9 : Génération du JSON avec structure hiérarchique complète ✅ COMPLÉTÉ
+## US-2.9 : Génération du JSON avec structure hiérarchique complète ✅ COMPLÉTÉ
 - **En tant que** Système backend
 - **Je souhaite** Générer un JSON avec la structure Chapitre → Section → Partie → Sous-partie → Bloc
 - **Afin de** Exposer les données structurées pour le frontend
@@ -109,7 +109,7 @@ Afficher dans une page Web à la façon d'un Wiki le contenu du dossier "A propo
 
 ---
 
-#### US-2.10 : Récupération des données via Server Component ✅ COMPLÉTÉ
+## US-2.10 : Récupération des données via Server Component ✅ COMPLÉTÉ
 - **En tant que** Système frontend
 - **Je souhaite** Récupérer le JSON structuré depuis le backend pur via un Server Component
 - **Afin de** Générer le HTML complet côté serveur pour le SEO et faciliter le travail des crawlers
@@ -122,7 +122,7 @@ Afficher dans une page Web à la façon d'un Wiki le contenu du dossier "A propo
 
 ---
 
-#### US-2.11 : Accordéon pour H1 et H2 ✅ COMPLÉTÉ
+## US-2.11 : Accordéon pour H1 et H2 ✅ COMPLÉTÉ
 - **En tant que** Visiteur de la page "À propos de ce site"
 - **Je souhaite** Pouvoir déplier/replier les chapitres (H1) et sections (H2) avec un système d'accordéon
 - **Afin de** Naviguer facilement dans le contenu sans être submergé
@@ -135,7 +135,7 @@ Afficher dans une page Web à la façon d'un Wiki le contenu du dossier "A propo
 
 ---
 
-#### US-2.12 : Affichage de la hiérarchie complète (H3, H4, H5) ✅ COMPLÉTÉ
+## US-2.12 : Affichage de la hiérarchie complète (H3, H4, H5) ✅ COMPLÉTÉ
 - **En tant que** Visiteur de la page "À propos de ce site"
 - **Je souhaite** Voir la structure complète du contenu avec les parties (H3), sous-parties (H4) et blocs (H5)
 - **Afin de** Comprendre la structure du contenu
@@ -147,7 +147,7 @@ Afficher dans une page Web à la façon d'un Wiki le contenu du dossier "A propo
 
 ---
 
-#### US-2.13 : Masquage des titres "Prompt" et "Résultat technique" ✅ COMPLÉTÉ
+## US-2.13 : Masquage des titres "Prompt" et "Résultat technique" ✅ COMPLÉTÉ
 - **En tant que** Visiteur de la page "À propos de ce site"
 - **Je souhaite** Ne pas voir les titres "Prompt" et "Résultat technique" affichés
 - **Afin de** Avoir une présentation plus claire et moins répétitive
@@ -158,7 +158,7 @@ Afficher dans une page Web à la façon d'un Wiki le contenu du dossier "A propo
 
 ---
 
-#### US-2.14 : Fond bleu clair pour le contenu des prompts ✅ COMPLÉTÉ
+## US-2.14 : Fond bleu clair pour le contenu des prompts ✅ COMPLÉTÉ
 - **En tant que** Visiteur de la page "À propos de ce site"
 - **Je souhaite** Voir le contenu des prompts avec un fond bleu clair
 - **Afin de** Identifier visuellement les prompts dans les journaux
@@ -169,7 +169,7 @@ Afficher dans une page Web à la façon d'un Wiki le contenu du dossier "A propo
 
 ---
 
-#### US-2.15 : Affichage du contenu (paragraphes, listes) ✅ COMPLÉTÉ
+## US-2.15 : Affichage du contenu (paragraphes, listes) ✅ COMPLÉTÉ
 - **En tant que** Visiteur de la page "À propos de ce site"
 - **Je souhaite** Voir les paragraphes, listes à puce et listes numérotées correctement formatés
 - **Afin de** Lire le contenu facilement
@@ -182,7 +182,7 @@ Afficher dans une page Web à la façon d'un Wiki le contenu du dossier "A propo
 
 ---
 
-#### US-2.16 : Tailles de police adaptées à la lecture ✅ COMPLÉTÉ
+## US-2.16 : Tailles de police adaptées à la lecture ✅ COMPLÉTÉ
 - **En tant que** Visiteur de la page "À propos de ce site"
 - **Je souhaite** Voir un texte de taille adaptée à la lecture (style blog/article)
 - **Afin de** Lire le contenu confortablement

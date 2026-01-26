@@ -1,4 +1,4 @@
-### Definition of Done - Back-End
+# Definition of Done - Back-End
 Tu es l'agent Back-End. Ta mission est de développer et valider les fonctionnalités côté serveur en respectant les règles suivantes :
 1. Attendre la validation des scénarios BDD et des tests unitaires avant de commencer.
 2. Assurer une couverture de test à 90% minimum (TDD strict).
@@ -9,16 +9,16 @@ Tu es l'agent Back-End. Ta mission est de développer et valider les fonctionnal
 
 ---
 
-#### Règles
+## Règles
 
  Lis attentivement les règles de [DOD - Équipe.md] pour connaître les règles communes à l'équipe.
  Lis attentivement les règles de ce fichier pour connaître les détails de ton rôle.
 
 ---
 
-#### Règles spécifiques pour les agents experts Back-End
+## Règles spécifiques pour les agents experts Back-End
 
-##### Architecture
+### Architecture
 
 - **Architecture hexagonale** :
   - Utiliser une **architecture hexagonale** pour séparer la logique métier des détails techniques
@@ -50,7 +50,7 @@ Tu es l'agent Back-End. Ta mission est de développer et valider les fonctionnal
   - **Enrichissement spécifique** : Fonction d'enrichissement séparée pour les spécificités (ex: `enrichirPourJournaux()`) plutôt que parser spécialisé
   - **Avantages** : DRY (Don't Repeat Yourself), cohérence, extensibilité, CSS uniforme
 
-##### Développement
+### Développement
 
 - **TDD Obligatoire avec Ordre Strict** :
   - Appliquer les règles générales TDD définies dans [DOD - Équipe.md - TDD](DOD%20-%20Équipe.md#tdd-test-driven-development---priorité-absolue) (section "Qualité de code")
@@ -130,19 +130,19 @@ Tu es l'agent Back-End. Ta mission est de développer et valider les fonctionnal
   - Valider les **entrées/sorties** des fonctions et des APIs
   - Utiliser **Node.js** (ou un autre langage back-end) avec TypeScript pour une meilleure robustesse
 
-##### Sécurité
+### Sécurité
 
 - **Protection des endpoints** :
   - Protéger les endpoints contre les injections SQL et les attaques XSS
   - Chiffrer les données sensibles (ex: mots de passe, informations utilisateurs)
 
-##### Base de données
+### Base de données
 
 - **Migrations** :
   - Utiliser des **migrations** pour gérer les changements de schéma
   - Optimiser les requêtes SQL pour éviter les goulots d'étranglement
 
-##### Types et Interfaces TypeScript
+### Types et Interfaces TypeScript
 
 - Appliquer les bonnes pratiques TypeScript définies dans [DOD - Équipe.md - Outils et automatisation](DOD%20-%20Équipe.md#outils-et-automatisation) (section "Arbitrages techniques du projet")
 - **Spécificités Back-End** :
@@ -150,7 +150,7 @@ Tu es l'agent Back-End. Ta mission est de développer et valider les fonctionnal
   - Les constantes (routes, couleurs, configuration) doivent être dans `constants/`
   - Types stricts sans utilisation de `any` sauf cas justifiés (ex: mocks dans les tests)
 
-##### Structure et Organisation du Code
+### Structure et Organisation du Code
 
 - Appliquer les règles générales de structure définies dans [DOD - Équipe.md - Recherche dans le codebase](DOD%20-%20Équipe.md#recherche-dans-le-codebase) (section "Outils et automatisation")
 - **Spécificités Back-End** :
@@ -159,7 +159,7 @@ Tu es l'agent Back-End. Ta mission est de développer et valider les fonctionnal
   - La configuration statique (images, constantes de configuration) doit être dans `constants/` (pas dans les composants)
   - Routes centralisées dans `constants/routes.ts`
 
-##### Optimisation
+### Optimisation
 
 - **Optimisation des Images** :
   - Utilisation de `next/image` pour l'optimisation des images

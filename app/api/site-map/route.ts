@@ -4,7 +4,7 @@ import path from 'path';
 import type { PlanSite } from '../../../utils/siteMapGenerator';
 
 const getSiteMapPath = () => {
-  return path.join(process.cwd(), 'data', 'Pages-Et-Lien.json');
+  return path.join(process.cwd(), 'data', '_Pages-Et-Lien.json');
 };
 
 export async function GET() {

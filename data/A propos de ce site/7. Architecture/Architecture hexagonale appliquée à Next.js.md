@@ -1,6 +1,6 @@
-### Architecture hexagonale appliquée à Next.js : séparation Backend Pur / Backend Next.js
+# Architecture hexagonale appliquée à Next.js : séparation Backend Pur / Backend Next.js
 
-#### Introduction
+## Introduction
 
 Dans les projets Next.js classiques, la logique métier est souvent mélangée avec la logique de présentation et de génération HTML. Cette approche rend le code difficile à tester, à réutiliser, et à maintenir. La logique métier devient dépendante de React, Next.js, et du contexte navigateur, ce qui complique les tests et limite la réutilisabilité.
 
@@ -11,7 +11,7 @@ Le besoin identifié est triple :
 
 Pour répondre à ces besoins, les principes de l'architecture hexagonale ont été appliqués à Next.js, créant une séparation claire entre le "backend pur" (logique métier) et le "backend Next.js" (génération HTML et interactivité). Cette approche, bien que peu courante dans les projets Next.js standards, permet d'atteindre un niveau de testabilité et de maintenabilité élevé.
 
-#### Résumé
+## Résumé
 
 Cette stratégie repose sur une séparation architecturale en deux couches distinctes :
 
@@ -32,9 +32,9 @@ Cette architecture crée une frontière claire entre la logique métier (testabl
 
 ---
 
-#### Principe fondamental : séparation des préoccupations
+## Principe fondamental : séparation des préoccupations
 
-##### Backend Pur : la logique métier isolée
+### Backend Pur : la logique métier isolée
 
 Le backend pur contient toute la logique métier qui peut être testée et réutilisée indépendamment de Next.js. Cette logique inclut :
 - Parsing de fichiers (JSON, Markdown)
@@ -67,7 +67,7 @@ export const getButtonAction = (command: string, url: string | null): ButtonActi
 
 Cette fonction peut être testée directement, utilisée dans un composant React, ou appelée depuis une ligne de commande.
 
-##### Backend Next.js : la génération HTML et l'interactivité
+### Backend Next.js : la génération HTML et l'interactivité
 
 Le backend Next.js gère tout ce qui est spécifique à Next.js :
 - Génération HTML côté serveur (Server Components)
@@ -106,9 +106,9 @@ Le composant React se contente d'appeler le backend pur et d'utiliser le résult
 
 ---
 
-#### Exemples concrets dans le projet
+## Exemples concrets dans le projet
 
-##### Exemple 1 : Lecture de données JSON
+### Exemple 1 : Lecture de données JSON
 
 **Backend Pur** (`utils/indexReader.ts`) :
 ```typescript
@@ -142,7 +142,7 @@ export default function HomePage() {
 - `readPageData()` peut être utilisée dans un script en ligne de commande
 - `HomePage` reste simple et se contente d'appeler le backend pur
 
-##### Exemple 2 : Parsing Markdown
+### Exemple 2 : Parsing Markdown
 
 **Backend Pur** (`utils/aboutSiteReader.ts`) :
 ```typescript
@@ -171,7 +171,7 @@ export default function AboutSitePage() {
 - Le parsing peut être utilisé dans un script pour générer de la documentation
 - La page Next.js reste simple et déclarative
 
-##### Exemple 3 : Gestion des actions de boutons
+### Exemple 3 : Gestion des actions de boutons
 
 **Backend Pur** (`utils/buttonHandlers.ts`) :
 ```typescript
@@ -211,9 +211,9 @@ const handleClick = (command: string, url: string | null) => {
 
 ---
 
-#### Avantages de cette architecture
+## Avantages de cette architecture
 
-##### 1. Testabilité maximale
+### 1. Testabilité maximale
 
 Le backend pur peut être testé sans aucune dépendance externe :
 - Pas besoin de mocker React, Next.js, ou le navigateur
@@ -231,7 +231,7 @@ describe('getButtonAction', () => {
 });
 ```
 
-##### 2. Réutilisabilité
+### 2. Réutilisabilité
 
 Le backend pur peut être utilisé dans différents contextes :
 - **Ligne de commande** : Scripts pour générer de la documentation, valider des fichiers, etc.
@@ -248,14 +248,14 @@ const data = readPageData('index.json');
 // Validation, transformation, etc.
 ```
 
-##### 3. Maintenabilité
+### 3. Maintenabilité
 
 La séparation claire facilite la maintenance :
 - **Logique métier** : Modifications dans `utils/`, tests correspondants
 - **Présentation** : Modifications dans `components/`, tests de rendu
 - **Pas de couplage** : Changer la logique métier n'affecte pas la présentation, et vice versa
 
-##### 4. Évolutivité
+### 4. Évolutivité
 
 L'architecture facilite l'évolution :
 - **Nouveaux contextes** : Le backend pur peut être utilisé dans de nouveaux contextes (API REST, GraphQL, etc.) sans modification
@@ -264,9 +264,9 @@ L'architecture facilite l'évolution :
 
 ---
 
-#### Structure du projet
+## Structure du projet
 
-##### Organisation des dossiers
+### Organisation des dossiers
 
 ```
 .
@@ -286,7 +286,7 @@ L'architecture facilite l'évolution :
     └── integration/          # Tests d'intégration
 ```
 
-##### Convention de nommage
+### Convention de nommage
 
 Les fichiers du backend pur commencent par un commentaire explicite :
 ```typescript
@@ -302,9 +302,9 @@ Cette convention permet d'identifier rapidement les fichiers du backend pur et d
 
 ---
 
-#### Comparaison avec les approches traditionnelles
+## Comparaison avec les approches traditionnelles
 
-##### Approche traditionnelle Next.js
+### Approche traditionnelle Next.js
 
 Dans les projets Next.js classiques, la logique métier est souvent dans les composants :
 
@@ -324,7 +324,7 @@ export default function HomePage() {
 - Non réutilisable (couplé à Next.js)
 - Logique métier et présentation mélangées
 
-##### Approche avec architecture hexagonale
+### Approche avec architecture hexagonale
 
 ```typescript
 // ✅ Backend Pur (utils/indexReader.ts)
@@ -346,7 +346,7 @@ export default function HomePage() {
 
 ---
 
-#### Conclusion
+## Conclusion
 
 Cette stratégie garantit que :
 - ✅ La logique métier est isolée et testable indépendamment de Next.js

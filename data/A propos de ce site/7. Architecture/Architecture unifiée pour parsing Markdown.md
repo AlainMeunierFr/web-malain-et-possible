@@ -1,6 +1,6 @@
-### Architecture unifiée pour parsing Markdown : un seul parser pour tous les types de fichiers
+# Architecture unifiée pour parsing Markdown : un seul parser pour tous les types de fichiers
 
-#### Introduction
+## Introduction
 
 Dans la plupart des projets, chaque type de fichier Markdown (journaux, documentation, cours, etc.) a son propre parser spécialisé. Cette approche crée de la duplication de code, des incohérences dans le traitement, et rend l'ajout de nouveaux types de fichiers complexe.
 
@@ -11,7 +11,7 @@ Le besoin identifié est triple :
 
 Pour répondre à ces besoins, une architecture unifiée a été mise en place : un seul parser Markdown générique (`parseMarkdown()`) pour tous les types de fichiers MD, avec une structure JSON unifiée (`ParsedFolder`) et gestion des spécificités via attributs (`typeDeContenu`, `estPrompt`, etc.) plutôt que parsers spécialisés.
 
-#### Résumé
+## Résumé
 
 Cette stratégie repose sur trois principes fondamentaux :
 
@@ -33,9 +33,9 @@ Cette approche transforme le parsing Markdown en opération générique et réut
 
 ---
 
-#### Parser générique unique
+## Parser générique unique
 
-##### Principe : un parser pour tous
+### Principe : un parser pour tous
 
 Le parser générique `parseMarkdownContent()` traite n'importe quel contenu Markdown et génère une structure JSON unifiée :
 
@@ -57,7 +57,7 @@ export const parseMarkdownContent = (contenu: string): ContenuElement[] => {
 
 **Avantage** : Un seul parser à maintenir, un seul comportement à tester, une seule logique à comprendre.
 
-##### Structure JSON unifiée
+### Structure JSON unifiée
 
 Tous les types de fichiers génèrent la même structure de base :
 
@@ -89,9 +89,9 @@ interface Bloc {
 
 ---
 
-#### Structure hiérarchique unifiée
+## Structure hiérarchique unifiée
 
-##### Convention hiérarchique
+### Convention hiérarchique
 
 Tous les fichiers Markdown suivent la même convention hiérarchique :
 
@@ -104,27 +104,27 @@ Tous les fichiers Markdown suivent la même convention hiérarchique :
 
 **Exemple pour "A propos de ce site"** :
 ````markdown
-### Partie principale (H3)
+# Partie principale (H3)
 
-#### Sous-partie (H4)
+## Sous-partie (H4)
 
-##### Bloc (H5)
+### Bloc (H5)
 Contenu du bloc...
 ````
 
 **Exemple pour journaux** (après ajustement des niveaux) :
 ````markdown
-#### Partie (H4, était H3 dans le fichier source)
+## Partie (H4, était H3 dans le fichier source)
 
-##### Sous-partie (H5, était H4 dans le fichier source)
+### Sous-partie (H5, était H4 dans le fichier source)
 
-###### Prompt (H6, était H5 dans le fichier source)
+#### Prompt (H6, était H5 dans le fichier source)
 Contenu du prompt...
 ````
 
 **Avantage** : Hiérarchie cohérente, styles CSS uniformes, mode lecture des navigateurs fonctionnel.
 
-##### Ajustement des niveaux
+### Ajustement des niveaux
 
 Pour les journaux, les niveaux sont ajustés automatiquement pour respecter la convention :
 
@@ -138,9 +138,9 @@ content = adjustMarkdownTitleLevels(content);
 
 ---
 
-#### Gestion des spécificités via attributs
+## Gestion des spécificités via attributs
 
-##### Principe : attributs plutôt que parsers spécialisés
+### Principe : attributs plutôt que parsers spécialisés
 
 Les spécificités de chaque type de fichier sont gérées via des attributs plutôt que des parsers spécialisés :
 
@@ -169,7 +169,7 @@ sousPartieCourante = {
 
 **Avantage** : Pas besoin de parser spécialisé, la spécificité est gérée via un attribut dans la structure unifiée.
 
-##### Enrichissement spécifique
+### Enrichissement spécifique
 
 Pour les spécificités complexes (ex: User Stories), une fonction d'enrichissement séparée est utilisée :
 
@@ -200,15 +200,15 @@ sousPartieCourante.contenuParse = detecterUserStory(contenuParse, contenuBrut);
 
 ---
 
-#### Exemples concrets
+## Exemples concrets
 
-##### Exemple 1 : Parser pour "A propos de ce site"
+### Exemple 1 : Parser pour "A propos de ce site"
 
 **Fichier** (`A propos de ce site/1. A propos du projet/1. Contexte.md`) :
 ````markdown
-### Partie principale
+# Partie principale
 
-#### Sous-partie
+## Sous-partie
 
 Contenu de la sous-partie...
 ````
@@ -222,18 +222,18 @@ const contenuParse = parseSectionContent(contenu);
 
 **Résultat** : Structure unifiée, prête pour le rendu React.
 
-##### Exemple 2 : Parser pour journaux
+### Exemple 2 : Parser pour journaux
 
 **Fichier** (`A propos de ce site/4. Journal de bord/2026-01-21.md`) :
 ````markdown
-### Sujet du jour
+# Sujet du jour
 
-#### Titre du prompt
+## Titre du prompt
 
-##### Prompt
+### Prompt
 Texte du prompt...
 
-##### Résultat technique
+### Résultat technique
 Texte du résultat...
 ````
 
@@ -253,7 +253,7 @@ const parsed = parseJournalMarkdown(content);
 
 **Résultat** : Structure unifiée avec `typeDeContenu: "Prompt"` et `typeDeContenu: "Résultat technique"`.
 
-##### Exemple 3 : Réutilisation des composants React
+### Exemple 3 : Réutilisation des composants React
 
 **Composant unifié** :
 ```typescript
@@ -277,30 +277,30 @@ function SousPartieRenderer({ sousPartie }: { sousPartie: SousPartie }) {
 
 ---
 
-#### Avantages de cette architecture
+## Avantages de cette architecture
 
-##### 1. Éviter la duplication
+### 1. Éviter la duplication
 
 Un seul parser pour tous les types de fichiers :
 - **Maintenance simplifiée** : Un seul parser à maintenir
 - **Cohérence garantie** : Même comportement pour tous les types
 - **Tests unifiés** : Un seul ensemble de tests pour le parser
 
-##### 2. Cohérence
+### 2. Cohérence
 
 Même structure pour tous les types de fichiers :
 - **Styles CSS uniformes** : Styles basés sur la hiérarchie HTML (h3, h4, h5)
 - **Composants React réutilisables** : Un seul composant pour tous les types
 - **Mode lecture navigateur** : Fonctionne correctement grâce à la hiérarchie cohérente
 
-##### 3. Extensibilité
+### 3. Extensibilité
 
 Faciliter l'ajout de nouveaux types de fichiers :
 - **Pas de nouveau parser** : Utiliser le parser générique existant
 - **Attributs pour spécificités** : Gérer les spécificités via attributs
 - **Enrichissement séparé** : Fonctions d'enrichissement pour les cas complexes
 
-##### 4. Maintenabilité
+### 4. Maintenabilité
 
 Architecture claire et maintenable :
 - **Séparation des préoccupations** : Parsing générique vs enrichissement spécifique
@@ -309,9 +309,9 @@ Architecture claire et maintenable :
 
 ---
 
-#### Comparaison avec les approches traditionnelles
+## Comparaison avec les approches traditionnelles
 
-##### Approche traditionnelle
+### Approche traditionnelle
 
 Dans les projets classiques, chaque type de fichier a son propre parser :
 
@@ -328,7 +328,7 @@ function parseCourse(markdown: string): CourseStructure { /* ... */ }
 - Incohérences dans le traitement
 - Maintenance difficile (changements à faire dans plusieurs parsers)
 
-##### Approche avec architecture unifiée
+### Approche avec architecture unifiée
 
 ```typescript
 // ✅ Architecture unifiée
@@ -347,7 +347,7 @@ function parseJournalMarkdown(markdown: string): ParsedJournal {
 
 ---
 
-#### Conclusion
+## Conclusion
 
 Cette stratégie garantit que :
 - ✅ Un seul parser générique pour tous les types de fichiers Markdown

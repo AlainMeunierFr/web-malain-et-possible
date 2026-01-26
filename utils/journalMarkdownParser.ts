@@ -46,9 +46,8 @@ export const parseJournalMarkdown = (markdown: string): ParsedJournal => {
     const ligne = lines[i];
     const trimmedLine = ligne.trim();
     
-    // Partie H4 (était H3 dans le fichier source, mais ajusté par journalReader)
-    // Après ajustement : ### devient ####
-    if (trimmedLine.startsWith('#### ') && !trimmedLine.startsWith('##### ')) {
+    // Partie H1 (avec décalage +2 : # dans MD → h3 en HTML)
+    if (trimmedLine.startsWith('# ') && !trimmedLine.startsWith('## ')) {
       // Finaliser le bloc courant si il existe
       if (blocCourant) {
         blocCourant.contenuParse = parseMarkdownContent(blocCourant.contenu.trim());
@@ -75,7 +74,7 @@ export const parseJournalMarkdown = (markdown: string): ParsedJournal => {
       }
       
       // Créer une nouvelle partie
-      const titre = trimmedLine.substring(5).trim(); // Enlever "#### "
+      const titre = trimmedLine.substring(2).trim(); // Enlever "# "
       partieCourante = {
         titre,
         contenu: '',
@@ -87,8 +86,8 @@ export const parseJournalMarkdown = (markdown: string): ParsedJournal => {
       continue;
     }
     
-    // Sous-partie H5 (était H4 dans le fichier source, mais ajusté par journalReader)
-    if (trimmedLine.startsWith('##### ') && !trimmedLine.startsWith('###### ')) {
+    // Sous-partie H2 (avec décalage +2 : ## dans MD → h4 en HTML)
+    if (trimmedLine.startsWith('## ') && !trimmedLine.startsWith('### ')) {
       if (partieCourante) {
         // Finaliser le bloc courant si il existe
         if (blocCourant) {
@@ -108,7 +107,7 @@ export const parseJournalMarkdown = (markdown: string): ParsedJournal => {
         }
         
         // Créer une nouvelle sous-partie
-        const titre = trimmedLine.substring(6).trim(); // Enlever "##### "
+        const titre = trimmedLine.substring(3).trim(); // Enlever "## "
         sousPartieCourante = {
           titre,
           contenu: '',
@@ -121,9 +120,9 @@ export const parseJournalMarkdown = (markdown: string): ParsedJournal => {
       continue;
     }
     
-    // Début d'un bloc H6 (était H5 dans le fichier source, mais ajusté par journalReader)
-    // "###### Prompt" ou "###### Résultat technique"
-    if (trimmedLine === '###### Prompt' || trimmedLine === '###### Résultat technique') {
+    // Début d'un bloc H3 (avec décalage +2 : ### dans MD → h5 en HTML)
+    // "### Prompt" ou "### Résultat technique"
+    if (trimmedLine === '### Prompt' || trimmedLine === '### Résultat technique') {
       if (sousPartieCourante) {
         // Finaliser le bloc précédent si il existe
         if (blocCourant) {
@@ -132,7 +131,7 @@ export const parseJournalMarkdown = (markdown: string): ParsedJournal => {
         }
         
         // Créer un nouveau bloc
-        const typeDeContenu = trimmedLine === '###### Prompt' ? 'Prompt' : 'Résultat technique';
+        const typeDeContenu = trimmedLine === '### Prompt' ? 'Prompt' : 'Résultat technique';
         blocCourant = {
           titre: typeDeContenu,
           contenu: '',

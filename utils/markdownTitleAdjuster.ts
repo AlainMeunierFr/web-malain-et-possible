@@ -6,12 +6,20 @@
  * Ces fonctions sont utilisables partout : ligne de commande, tests, composants React
  * 
  * APPROCHE TDD : Code fait émerger progressivement du simple au complexe
+ * 
+ * ⚠️ OBSOLÈTE : Cette fonction était utilisée pour ajuster les niveaux avant le nouveau système.
+ * Avec US-5.5, les fichiers MD utilisent directement les niveaux standards (#, ##, ###, etc.)
+ * et le décalage +2 est appliqué lors du rendu HTML.
+ * Cette fonction est conservée pour compatibilité avec d'anciens scripts et fichiers.
  */
 
 /**
- * Ajuste les niveaux de titres dans un contenu markdown
+ * Ajuste les niveaux de titres dans un contenu markdown (ANCIEN SYSTÈME)
  * Ajoute un # devant chaque niveau de titre existant
  * Exemple : ## Section devient ### Section
+ * 
+ * ⚠️ OBSOLÈTE : Utilisée uniquement pour migration d'anciens fichiers.
+ * Les nouveaux fichiers doivent utiliser directement #, ##, ###, etc.
  */
 export const adjustMarkdownTitleLevels = (content: string): string => {
   const lines = content.split('\n');

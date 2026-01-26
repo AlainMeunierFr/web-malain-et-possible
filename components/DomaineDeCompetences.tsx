@@ -6,6 +6,7 @@
 
 import React from 'react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import {
   Rocket,
   Globe,
@@ -275,11 +276,41 @@ export interface DomaineDeCompetencesProps {
 }
 
 const DomaineDeCompetences: React.FC<DomaineDeCompetencesProps> = ({ domaine, backgroundColor = 'white' }) => {
+  const pathname = usePathname();
+  
   // Protection : vérifier que items existe et est un tableau
   if (!domaine.items || !Array.isArray(domaine.items)) {
-    console.error('DomaineDeCompetences: items is missing or not an array', domaine);
+    console.error('DomaineDeCompetences: items is missing or not an array', {
+      titre: domaine.titre,
+      hasItems: !!domaine.items,
+      itemsType: typeof domaine.items,
+      itemsIsArray: Array.isArray(domaine.items),
+      domaine
+    });
     return null;
   }
+  
+  // Debug : vérifier la structure des compétences
+  if (domaine.items.length === 0) {
+    console.warn('DomaineDeCompetences: items array is empty', domaine.titre);
+  }
+  
+  /**
+   * Vérifie si un bouton doit être affiché
+   * Masque le bouton si il pointe vers un profil et qu'on est déjà sur cette page
+   */
+  const shouldDisplayButton = (bouton: { texte: string; action: string } | null): boolean => {
+    if (!bouton) return false;
+    
+    // Si le bouton pointe vers un profil
+    if (bouton.action.startsWith('/profil/')) {
+      // Vérifier si on est déjà sur cette page
+      return pathname !== bouton.action;
+    }
+    
+    // Pour les autres boutons, toujours les afficher
+    return true;
+  };
 
   const containerClass = backgroundColor === 'light' 
     ? `${styles.container} ${styles.containerLight}`
@@ -326,7 +357,7 @@ const DomaineDeCompetences: React.FC<DomaineDeCompetencesProps> = ({ domaine, ba
                 {parseMarkdownContent(competence.description)}
               </div>
               <div className={styles.competenceBoutonContainer}>
-                {competence.bouton ? (
+                {competence.bouton && shouldDisplayButton(competence.bouton) ? (
                   isExternalUrl(competence.bouton.action) ? (
                     <a
                       href={competence.bouton.action}

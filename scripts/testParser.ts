@@ -6,7 +6,6 @@
 import fs from 'fs';
 import path from 'path';
 import { parseJournalMarkdown } from '../utils/journalMarkdownParser';
-import { adjustMarkdownTitleLevels } from '../utils/markdownTitleAdjuster';
 
 const filePath = process.argv[2];
 
@@ -24,13 +23,10 @@ if (!fs.existsSync(fullPath)) {
 
 console.log(`Parsing: ${filePath}\n`);
 
-// Lire le contenu
-let content = fs.readFileSync(fullPath, 'utf-8');
+// Lire le contenu (nouveau système : pas d'ajustement nécessaire)
+const content = fs.readFileSync(fullPath, 'utf-8');
 
-// Appliquer l'ajustement des niveaux (comme dans journalReader)
-content = adjustMarkdownTitleLevels(content);
-
-console.log('=== CONTENU APRÈS AJUSTEMENT ===');
+console.log('=== CONTENU ===');
 console.log(content.substring(0, 500));
 console.log('...\n');
 

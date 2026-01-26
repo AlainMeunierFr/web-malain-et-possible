@@ -1,6 +1,6 @@
-### Tests d'intégration qui corrigent automatiquement les fichiers tout en préservant les métadonnées
+# Tests d'intégration qui corrigent automatiquement les fichiers tout en préservant les métadonnées
 
-#### Introduction
+## Introduction
 
 Dans la plupart des projets, les tests d'intégration vérifient l'état du système et signalent les problèmes, mais ne les corrigent pas. Si un fichier de configuration est obsolète ou incohérent, le test échoue et le développeur doit corriger manuellement. Cette approche crée une charge de maintenance et des risques d'oubli.
 
@@ -11,7 +11,7 @@ Le besoin identifié est triple :
 
 Pour répondre à ces besoins, un système de tests d'intégration qui corrigent automatiquement les fichiers a été mis en place. Ces tests auditent les fichiers, détectent les incohérences, et les corrigent automatiquement tout en préservant les métadonnées existantes. Cette approche crée une collaboration harmonieuse entre automatisation et intervention humaine.
 
-#### Résumé
+## Résumé
 
 Cette stratégie repose sur trois mécanismes interconnectés :
 
@@ -36,9 +36,9 @@ Cette approche combine audit automatique et correction intelligente qui respecte
 
 ---
 
-#### Audit automatique des fichiers
+## Audit automatique des fichiers
 
-##### Détection de l'état réel
+### Détection de l'état réel
 
 Les tests d'intégration parcourent le code source pour détecter l'état réel du système :
 
@@ -63,7 +63,7 @@ export const detecterLiensInternes = (): PlanLien[] => {
 
 **Résultat** : Un inventaire complet et à jour de l'état réel du système.
 
-##### Comparaison avec les fichiers existants
+### Comparaison avec les fichiers existants
 
 Les tests comparent l'état réel avec les fichiers de configuration :
 
@@ -97,9 +97,9 @@ const liensObsolètes = planExistant.liens.filter((l) => !liensDetectesUrls.has(
 
 ---
 
-#### Détection d'incohérences
+## Détection d'incohérences
 
-##### Types d'incohérences détectées
+### Types d'incohérences détectées
 
 **1. Pages manquantes**
 Pages détectées dans le code mais absentes du fichier de configuration.
@@ -126,7 +126,7 @@ Liens présents dans le fichier mais qui n'existent plus dans le code.
 
 **Exemple** : Un CallToAction est supprimé, mais le lien correspondant reste dans `Pages-Et-Lien.json`.
 
-##### Messages d'erreur détaillés
+### Messages d'erreur détaillés
 
 Les incohérences sont signalées avec des messages détaillés :
 
@@ -151,9 +151,9 @@ if (erreursDetectees.length > 0) {
 
 ---
 
-#### Correction automatique avec préservation
+## Correction automatique avec préservation
 
-##### Principe : préserver ce qui est utile
+### Principe : préserver ce qui est utile
 
 La correction automatique préserve les métadonnées utiles ajoutées manuellement par le développeur :
 
@@ -167,7 +167,7 @@ La correction automatique préserve les métadonnées utiles ajoutées manuellem
 **Métadonnées mises à jour** :
 - **Titres** : Extraits depuis les JSON de contenu (source de vérité)
 
-##### Algorithme de mise à jour
+### Algorithme de mise à jour
 
 **Pour les pages** :
 ```typescript
@@ -221,9 +221,9 @@ for (const lienDetecte of liens) {
 
 ---
 
-#### Exemples concrets
+## Exemples concrets
 
-##### Exemple 1 : Ajout d'une nouvelle page
+### Exemple 1 : Ajout d'une nouvelle page
 
 **État initial** :
 - Code : Page `/nouvelle-page` créée dans `app/nouvelle-page/page.tsx`
@@ -253,7 +253,7 @@ for (const lienDetecte of liens) {
 
 **Résultat** : La page est ajoutée automatiquement, le développeur peut ensuite ajouter les coordonnées manuellement si nécessaire.
 
-##### Exemple 2 : Mise à jour d'un titre avec préservation des métadonnées
+### Exemple 2 : Mise à jour d'un titre avec préservation des métadonnées
 
 **État initial** :
 - Code : Titre de `/` changé dans `index.json` : "Mon parcours, mes transformations"
@@ -286,7 +286,7 @@ for (const lienDetecte of liens) {
 
 **Résultat** : Le titre est mis à jour, toutes les métadonnées utiles sont préservées.
 
-##### Exemple 3 : Suppression d'une page obsolète
+### Exemple 3 : Suppression d'une page obsolète
 
 **État initial** :
 - Code : Page `/ancienne-page` supprimée (fichier `app/ancienne-page/page.tsx` n'existe plus)
@@ -307,16 +307,16 @@ for (const lienDetecte of liens) {
 
 ---
 
-#### Avantages de cette approche
+## Avantages de cette approche
 
-##### 1. Synchronisation automatique
+### 1. Synchronisation automatique
 
 Les fichiers de configuration restent synchronisés avec le code source :
 - **Détection automatique** : Les changements dans le code sont détectés automatiquement
 - **Correction automatique** : Les fichiers sont mis à jour sans intervention manuelle
 - **Pas d'oubli** : Impossible d'oublier de mettre à jour un fichier de configuration
 
-##### 2. Préservation du travail manuel
+### 2. Préservation du travail manuel
 
 Les métadonnées utiles ajoutées manuellement sont préservées :
 - **Coordonnées** : Les positions des pages pour l'affichage visuel sont conservées
@@ -324,14 +324,14 @@ Les métadonnées utiles ajoutées manuellement sont préservées :
 - **Labels personnalisés** : Les labels des liens sont conservés
 - **Collaboration harmonieuse** : L'automatisation respecte le travail manuel
 
-##### 3. Correction intelligente
+### 3. Correction intelligente
 
 La correction est contextuelle et respecte les intentions :
 - **Mise à jour sélective** : Seules les valeurs qui doivent être synchronisées sont mises à jour
 - **Valeurs par défaut** : Les valeurs par défaut sont appliquées intelligemment (ex: `dessiner: "Oui"`)
 - **Suppression automatique** : Les éléments obsolètes sont supprimés automatiquement
 
-##### 4. Charge mentale réduite
+### 4. Charge mentale réduite
 
 Le développeur n'a plus à se soucier de la synchronisation :
 - **Pas de maintenance manuelle** : Les fichiers sont mis à jour automatiquement
@@ -340,9 +340,9 @@ Le développeur n'a plus à se soucier de la synchronisation :
 
 ---
 
-#### Comparaison avec les approches traditionnelles
+## Comparaison avec les approches traditionnelles
 
-##### Approche traditionnelle
+### Approche traditionnelle
 
 Dans les projets classiques, les fichiers de configuration sont maintenus manuellement :
 
@@ -358,7 +358,7 @@ Dans les projets classiques, les fichiers de configuration sont maintenus manuel
 - Risque d'oubli et de désynchronisation
 - Charge mentale pour le développeur
 
-##### Approche avec correction automatique
+### Approche avec correction automatique
 
 ```typescript
 // ✅ Correction automatique
@@ -375,7 +375,7 @@ Dans les projets classiques, les fichiers de configuration sont maintenus manuel
 
 ---
 
-#### Conclusion
+## Conclusion
 
 Cette stratégie garantit que :
 - ✅ Les fichiers de configuration restent synchronisés avec le code source automatiquement

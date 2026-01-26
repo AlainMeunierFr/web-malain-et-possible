@@ -13,11 +13,15 @@ console.log(`Correction du fichier: ${filePath}`);
 
 let content = fs.readFileSync(filePath, 'utf-8');
 
-// Replace H2 (##) with H4 (####)
-content = content.replace(/^## /gm, '#### ');
-
-// Replace H3 (###) with H5 (#####)
-content = content.replace(/^### /gm, '##### ');
+// ⚠️ OBSOLÈTE : Ce script convertit vers l'ancien format (avant US-5.5)
+// Avec US-5.5, les fichiers MD utilisent directement #, ##, ###, etc.
+// Ce script est conservé pour migration inverse si nécessaire.
+// 
+// Replace H2 (##) with H4 (####) - ANCIEN FORMAT
+// content = content.replace(/^## /gm, '#### ');
+// 
+// Replace H3 (###) with H5 (#####) - ANCIEN FORMAT
+// content = content.replace(/^### /gm, '##### ');
 
 fs.writeFileSync(filePath, content, 'utf-8');
 

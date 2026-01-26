@@ -166,34 +166,18 @@ export const validerContenuMarkdown = (contenu: string, filePath: string): void 
       continue;
     }
     
-    // ITÉRATION 1 : Détecter un titre H1
-    if (trimmed.startsWith('# ')) {
-      throw new ValidationError(
-        `Le fichier "${filePath}" contient un titre de niveau 1 (#). Les fichiers MD doivent commencer au niveau 3 (###).`,
-        filePath
-      );
-    }
-    
-    // ITÉRATION 2 : Détecter un titre H2 (mais pas H3 ou plus)
-    if (trimmed.startsWith('## ') && !trimmed.startsWith('### ')) {
-      throw new ValidationError(
-        `Le fichier "${filePath}" contient un titre de niveau 2 (##). Les fichiers MD doivent commencer au niveau 3 (###).`,
-        filePath
-      );
-    }
-    
-    // ITÉRATION 3 : Tracker H3 et H4
-    if (trimmed.startsWith('### ') && !trimmed.startsWith('#### ')) {
-      hasH3 = true;
-    } else if (trimmed.startsWith('#### ')) {
-      hasH4 = true;
+    // ITÉRATION 3 : Tracker H1 et H2 (pour validation hiérarchique)
+    if (trimmed.startsWith('# ') && !trimmed.startsWith('## ')) {
+      hasH3 = true; // H1 dans MD
+    } else if (trimmed.startsWith('## ') && !trimmed.startsWith('### ')) {
+      hasH4 = true; // H2 dans MD
     }
   }
   
-  // ITÉRATION 3 : Vérifier si H4 existe sans H3
+  // ITÉRATION 3 : Vérifier si H2 existe sans H1
   if (hasH4 && !hasH3) {
     throw new ValidationError(
-      `Le fichier "${filePath}" contient un titre de niveau 4 (####) sans titre de niveau 3 (###). Les sous-parties (####) doivent être dans une partie (###).`,
+      `Le fichier "${filePath}" contient un titre de niveau 2 (##) sans titre de niveau 1 (#). Les sous-parties (##) doivent être dans une partie (#).`,
       filePath
     );
   }
@@ -462,8 +446,9 @@ export const parseSectionContent = (contenu: string): SectionContent => {
     const ligne = lignes[i];
     const trimmedLine = ligne.trim();
 
-    // Détecter une partie (###) - mais pas ####, #####, ######
-    if (trimmedLine.startsWith('### ') && !trimmedLine.startsWith('#### ')) {
+    // Détecter une partie (#) - mais pas ##, ###, etc.
+    // Avec décalage +2 : # dans MD → h3 en HTML
+    if (trimmedLine.startsWith('# ') && !trimmedLine.startsWith('## ')) {
       dansContenuInitial = false;
       
       // Finaliser la partie précédente si elle existe
@@ -495,7 +480,7 @@ export const parseSectionContent = (contenu: string): SectionContent => {
       }
 
       // Créer une nouvelle partie
-      const titre = trimmedLine.substring(4).trim(); // Enlever "### "
+      const titre = trimmedLine.substring(2).trim(); // Enlever "# "
       partieCourante = {
         titre,
         contenu: '',
@@ -505,8 +490,9 @@ export const parseSectionContent = (contenu: string): SectionContent => {
       sousPartieCourante = null;
       blocCourant = null;
     }
-    // Détecter une sous-partie (####) - mais pas #####, ######
-    else if (trimmedLine.startsWith('#### ') && !trimmedLine.startsWith('##### ')) {
+    // Détecter une sous-partie (##) - mais pas ###, ####, etc.
+    // Avec décalage +2 : ## dans MD → h4 en HTML
+    else if (trimmedLine.startsWith('## ') && !trimmedLine.startsWith('### ')) {
       if (partieCourante) {
         // Finaliser le bloc courant si il existe
         if (blocCourant) {
@@ -530,7 +516,7 @@ export const parseSectionContent = (contenu: string): SectionContent => {
         }
 
         // Créer une nouvelle sous-partie
-        const titre = trimmedLine.substring(5).trim(); // Enlever "#### "
+        const titre = trimmedLine.substring(3).trim(); // Enlever "## "
         // Détecter si c'est une sous-partie spéciale (Prompt ou Résultat technique)
         const titreLower = titre.toLowerCase();
         const typeDeContenu = (titreLower === 'prompt' || titreLower === 'résultat technique' || titreLower === 'resultat technique') 
@@ -547,8 +533,9 @@ export const parseSectionContent = (contenu: string): SectionContent => {
         blocCourant = null;
       }
     }
-    // Détecter un bloc (#####) - mais pas ######
-    else if (trimmedLine.startsWith('##### ') && !trimmedLine.startsWith('###### ')) {
+    // Détecter un bloc (###) - mais pas ####, #####, etc.
+    // Avec décalage +2 : ### dans MD → h5 en HTML
+    else if (trimmedLine.startsWith('### ') && !trimmedLine.startsWith('#### ')) {
       if (sousPartieCourante) {
         // Finaliser le bloc précédent si il existe
         if (blocCourant) {
@@ -557,7 +544,7 @@ export const parseSectionContent = (contenu: string): SectionContent => {
         }
 
         // Créer un nouveau bloc
-        const titre = trimmedLine.substring(6).trim(); // Enlever "##### "
+        const titre = trimmedLine.substring(4).trim(); // Enlever "### "
         // Détecter si c'est un bloc spécial (Prompt ou Résultat technique)
         const titreLower = titre.toLowerCase();
         const typeDeContenu = (titreLower === 'prompt' || titreLower === 'résultat technique' || titreLower === 'resultat technique') 

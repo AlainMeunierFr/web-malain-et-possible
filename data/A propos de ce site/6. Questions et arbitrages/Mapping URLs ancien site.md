@@ -1,6 +1,6 @@
-### Mapping des URLs de l'ancien site vers le nouveau site
+# Mapping des URLs de l'ancien site vers le nouveau site
 
-#### Tableau comparatif (texte tabulé)
+## Tableau comparatif (texte tabulé)
 
 Site à cloner	Site actuel	Type de contenu actuel
 /	/	JSON associé (index.json)
@@ -18,6 +18,6 @@ Site à cloner	Site actuel	Type de contenu actuel
 	/sitemap	Supprimé (redirection 301 configurée vers /site-map)
 /transformation	/transformation	JSON associé (Conduite du changement.json)
 
-#### Notes
+## Notes
 
 - `/transformation` : La page a été renommée de `/conduite-du-changement` vers `/transformation` pour correspondre à l'URL de l'ancien site. Une redirection 301 a été configurée.

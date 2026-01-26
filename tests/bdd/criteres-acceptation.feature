@@ -17,7 +17,7 @@ Fonctionnalité: Affichage structuré des critères d'acceptation dans le wiki
 
   Scénario: Fin de la section "Critères d'acceptation" à la prochaine US
     Étant donné qu'une section "Critères d'acceptation" est ouverte
-    Quand une ligne commence par "#### US-"
+    Quand une ligne commence par "## US-"
     Alors la section "Critères d'acceptation" se termine avant cette ligne
     Et les lignes suivantes ne sont plus considérées comme faisant partie des critères d'acceptation
 
@@ -28,8 +28,8 @@ Fonctionnalité: Affichage structuré des critères d'acceptation dans le wiki
     Et les lignes suivantes ne sont plus considérées comme faisant partie des critères d'acceptation
 
   Scénario: Fin de la section "Critères d'acceptation" à la fin de la sous-partie
-    Étant donné qu'une section "Critères d'acceptation" est ouverte dans une sous-partie (H4)
-    Quand une nouvelle sous-partie (H4) commence ou la sous-partie se termine
+    Étant donné qu'une section "Critères d'acceptation" est ouverte dans une sous-partie (H2)
+    Quand une nouvelle sous-partie (H2) commence ou la sous-partie se termine
     Alors la section "Critères d'acceptation" se termine
     Et les lignes suivantes ne sont plus considérées comme faisant partie des critères d'acceptation
 

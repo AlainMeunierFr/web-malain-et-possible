@@ -1,0 +1,88 @@
+/**
+ * Tests unitaires pour le composant ProfilContainer
+ * TDD : RED → GREEN → REFACTOR
+ */
+
+import React from 'react';
+import { render, screen } from '@testing-library/react';
+import ProfilContainer from '../../components/ProfilContainer';
+import type { Profil } from '../../utils/indexReader';
+
+// Mock next/link
+jest.mock('next/link', () => {
+  return ({ children, href, className }: { children: React.ReactNode; href: string; className?: string }) => {
+    return React.createElement('a', { href, className }, children);
+  };
+});
+
+describe('Composant ProfilContainer', () => {
+  it('devrait afficher le titre du profil', () => {
+    const profil: Profil = {
+      type: 'profil',
+      titre: 'Produit logiciel',
+      jobTitles: ['CPO - Chief Product Officer'],
+      slug: 'cpo',
+      route: '/profil/cpo',
+      cvPath: '/CV/cpo.pdf',
+    };
+
+    render(<ProfilContainer profil={profil} />);
+
+    expect(screen.getByText('Produit logiciel')).toBeInTheDocument();
+  });
+
+  it('devrait afficher tous les job titles', () => {
+    const profil: Profil = {
+      type: 'profil',
+      titre: 'Produit logiciel',
+      jobTitles: [
+        'CPO - Chief Product Officer',
+        'HOP - Head of Product',
+        'Product Manager',
+      ],
+      slug: 'cpo',
+      route: '/profil/cpo',
+      cvPath: '/CV/cpo.pdf',
+    };
+
+    render(<ProfilContainer profil={profil} />);
+
+    expect(screen.getByText('CPO - Chief Product Officer')).toBeInTheDocument();
+    expect(screen.getByText('HOP - Head of Product')).toBeInTheDocument();
+    expect(screen.getByText('Product Manager')).toBeInTheDocument();
+  });
+
+  it('devrait avoir un bouton d\'accès vers la route du profil', () => {
+    const profil: Profil = {
+      type: 'profil',
+      titre: 'Produit logiciel',
+      jobTitles: [],
+      slug: 'cpo',
+      route: '/profil/cpo',
+      cvPath: '/CV/cpo.pdf',
+    };
+
+    render(<ProfilContainer profil={profil} />);
+
+    const boutonAcces = screen.getByRole('link', { name: /découvrir|en savoir plus|voir le profil/i });
+    expect(boutonAcces).toHaveAttribute('href', '/profil/cpo');
+  });
+
+  it('devrait avoir un lien "Voir mon CV"', () => {
+    const profil: Profil = {
+      type: 'profil',
+      titre: 'Produit logiciel',
+      jobTitles: [],
+      slug: 'cpo',
+      route: '/profil/cpo',
+      cvPath: '/CV/cpo.pdf',
+    };
+
+    render(<ProfilContainer profil={profil} />);
+
+    const lienCV = screen.getByText('Voir mon CV');
+    expect(lienCV).toBeInTheDocument();
+    expect(lienCV).toHaveAttribute('href', '/CV/cpo.pdf');
+    expect(lienCV).toHaveAttribute('download');
+  });
+});

@@ -13,19 +13,19 @@
   align-items: center;
   justify-content: center;
   padding: 1.5rem;
-  /* État normal = aspect actuel de "active" (fond bleu clair, transform, ombre) */
-  background-color: var(--BoutonCouleurFondHover);
+  /* État normal = design formel (fond blanc, bordure, pas d'effet) */
+  background-color: var(--BoutonCouleurFond);
   border: var(--BoutonContour);
   border-radius: var(--BoutonContourRadius);
   text-decoration: none;
-  color: var(--BoutonCouleurTexteHover);
+  color: var(--BoutonCouleur);
   font-family: var(--BoutonPolice);
   font-size: var(--BoutonTaillePolice);
   font-weight: var(--BoutonPoidsPolice);
   text-align: center;
   transition: var(--BoutonTransition);
-  transform: var(--BoutonTransformHover);
-  box-shadow: var(--BoutonOmbreHover);
+  transform: translateY(0);
+  box-shadow: none;
   /* Taille fixe pour tous les boutons */
   width: 100%;
   height: 80px;
@@ -34,15 +34,15 @@
 }
 
 .pageButton:hover {
-  /* Hover = aspect actuel de "normal" (fond blanc, texte bleu, pas de transform, pas d'ombre) */
-  background-color: var(--BoutonCouleurFond);
-  color: var(--BoutonCouleur);
-  transform: translateY(0);
-  box-shadow: none;
+  /* Hover = fond bleu clair avec effet (plus interactif) */
+  background-color: var(--BoutonCouleurFondHover);
+  color: var(--BoutonCouleurTexteHover);
+  transform: var(--BoutonTransformHover);
+  box-shadow: var(--BoutonOmbreHover);
 }
 
 .pageButton:active {
-  /* Active = aspect actuel de "normal" (fond blanc, texte bleu, pas de transform, pas d'ombre) */
+  /* Active = retour à l'état normal (formel) */
   background-color: var(--BoutonCouleurFond);
   color: var(--BoutonCouleur);
   transform: translateY(0);

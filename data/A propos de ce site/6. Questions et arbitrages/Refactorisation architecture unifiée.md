@@ -1,10 +1,10 @@
-### Plan de refactorisation : Architecture unifiée avec typeDeContenu
+# Plan de refactorisation : Architecture unifiée avec typeDeContenu
 
-#### Objectif
+## Objectif
 
 Unifier l'architecture avec une seule clé `typeDeContenu` (au lieu de booléens) pour tous les types de fichiers MD.
 
-#### Nouvelle structure JSON
+## Nouvelle structure JSON
 
 ```
 ParsedFolder
@@ -25,9 +25,9 @@ ParsedFolder
                                         └── typeDeContenu?: string  ← "Prompt", "Résultat technique" (pour style bleu clair)
 ```
 
-#### Changements
+## Changements
 
-##### Interfaces
+### Interfaces
 
 **Avant** :
 ```typescript
@@ -52,13 +52,13 @@ interface Bloc {
 }
 ```
 
-##### Utilisation
+### Utilisation
 
 - `typeDeContenu === "Prompt"` → Masquer titre (SousPartie) + Fond bleu clair (Bloc)
 - `typeDeContenu === "Résultat technique"` → Masquer titre (SousPartie)
 - `typeDeContenu === undefined` → Affichage normal
 
-#### Étapes de refactorisation
+## Étapes de refactorisation
 
 1. Définir nouvelles interfaces avec `typeDeContenu`
 2. Ajouter niveau `Bloc` (h5) dans `aboutSiteReader.ts`

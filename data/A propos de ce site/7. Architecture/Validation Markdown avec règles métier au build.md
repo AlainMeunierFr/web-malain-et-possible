@@ -1,6 +1,6 @@
-### Validation des fichiers Markdown avec règles métier qui font échouer le build
+# Validation des fichiers Markdown avec règles métier qui font échouer le build
 
-#### Introduction
+## Introduction
 
 Dans la plupart des projets, les fichiers Markdown sont traités comme de simples fichiers texte : ils sont lus, parsés, et affichés sans validation particulière. Si un fichier Markdown contient des erreurs de structure (titres mal hiérarchisés, formats incorrects), ces erreurs ne sont détectées qu'au runtime, voire jamais, créant des problèmes de cohérence et de qualité.
 
@@ -11,7 +11,7 @@ Le besoin identifié est triple :
 
 Pour répondre à ces besoins, un système de validation des fichiers Markdown a été mis en place, où les règles métier sont appliquées via des tests d'intégration qui lancent des erreurs synchrones, forçant l'échec du build si les règles ne sont pas respectées. Cette approche transforme les règles de documentation en contraintes techniques qui empêchent les erreurs avant même qu'elles n'atteignent la production.
 
-#### Résumé
+## Résumé
 
 Cette stratégie repose sur trois mécanismes interconnectés :
 
@@ -32,9 +32,9 @@ Cette approche transforme les règles de documentation en garde-fous techniques 
 
 ---
 
-#### Les règles métier
+## Les règles métier
 
-##### Règle 1 : Pas de titres H1 ou H2
+### Règle 1 : Pas de titres H1 ou H2
 
 **Règle** : Les fichiers Markdown ne doivent pas contenir de titres de niveau 1 (#) ou 2 (##). Ils doivent commencer au niveau 3 (###).
 
@@ -55,7 +55,7 @@ if (trimmed.startsWith('# ')) {
 }
 ```
 
-##### Règle 2 : H4 sans H3 précédent
+### Règle 2 : H4 sans H3 précédent
 
 **Règle** : Un titre H4 (####) ne peut pas exister sans titre H3 (###) précédent dans le même fichier.
 
@@ -79,7 +79,7 @@ if (hasH4 && !hasH3) {
 }
 ```
 
-##### Règle 3 : Ignorer les blocs de code
+### Règle 3 : Ignorer les blocs de code
 
 **Règle** : Les titres présents dans les blocs de code markdown (entre ```) sont ignorés lors de la validation.
 
@@ -99,7 +99,7 @@ if (dansBlocCode) {
 }
 ```
 
-##### Règle 4 : Fichiers vides
+### Règle 4 : Fichiers vides
 
 **Règle** : Les fichiers Markdown vides sont considérés comme inexistants et ne déclenchent pas d'erreur.
 
@@ -114,9 +114,9 @@ if (!contenu.trim()) {
 
 ---
 
-#### Validation au build via tests d'intégration
+## Validation au build via tests d'intégration
 
-##### Principe : erreurs synchrones qui font échouer le build
+### Principe : erreurs synchrones qui font échouer le build
 
 Les règles métier sont appliquées via des tests d'intégration qui parcourent tous les fichiers Markdown du projet. Si une règle n'est pas respectée, le test lance une `ValidationError` synchrone.
 
@@ -132,7 +132,7 @@ export class ValidationError extends Error {
 
 Cette classe permet de distinguer les erreurs de validation (règles métier) des erreurs techniques (fichier introuvable, erreur de parsing, etc.).
 
-##### Test d'intégration
+### Test d'intégration
 
 **Test** (`tests/integration/aboutSiteReader.integration.test.ts`) :
 ```typescript
@@ -154,7 +154,7 @@ describe('Validation des fichiers Markdown', () => {
 - Le test échoue avec un message détaillé
 - Le build échoue (les tests sont exécutés avant le build dans le workflow CI/CD)
 
-##### Forcer l'échec du build
+### Forcer l'échec du build
 
 Pour garantir que les erreurs de validation font échouer le build (et pas seulement apparaître au runtime), les erreurs sont lancées de manière synchrone dans les Server Components :
 
@@ -177,9 +177,9 @@ export default function AboutSitePage() {
 
 ---
 
-#### Messages d'erreur actionnables
+## Messages d'erreur actionnables
 
-##### Structure des messages d'erreur
+### Structure des messages d'erreur
 
 Les messages d'erreur sont structurés pour être actionnables :
 
@@ -201,7 +201,7 @@ Les fichiers MD doivent commencer au niveau 3 (###).
 - Le problème est clairement expliqué
 - La solution est évidente (remplacer # par ###)
 
-##### Intégration dans le workflow CI/CD
+### Intégration dans le workflow CI/CD
 
 Dans le workflow GitHub Actions, les tests Jest sont exécutés avant le build :
 
@@ -215,30 +215,30 @@ Dans le workflow GitHub Actions, les tests Jest sont exécutés avant le build :
 
 ---
 
-#### Avantages de cette approche
+## Avantages de cette approche
 
-##### 1. Détection précoce
+### 1. Détection précoce
 
 Les erreurs sont détectées au build, pas au runtime :
 - **Avant le déploiement** : Les erreurs sont détectées lors des tests, avant même que le code ne soit déployé
 - **Pas de surprises en production** : Aucun risque qu'un fichier Markdown mal formé cause des problèmes en production
 - **Feedback immédiat** : Le développeur sait immédiatement si son fichier est conforme
 
-##### 2. Cohérence garantie
+### 2. Cohérence garantie
 
 Tous les fichiers Markdown respectent la même structure :
 - **Hiérarchie uniforme** : Tous les fichiers suivent la même convention (H3 pour parties, H4 pour sous-parties)
 - **Pas d'exceptions** : Aucun fichier ne peut contourner les règles
 - **Documentation vivante** : La structure est garantie par les tests, pas par la mémoire des développeurs
 
-##### 3. Règles métier transformées en contraintes techniques
+### 3. Règles métier transformées en contraintes techniques
 
 Les règles de documentation deviennent des contraintes techniques :
 - **Enforcement automatique** : Les règles sont appliquées automatiquement, pas manuellement
 - **Pas d'oubli possible** : Un développeur ne peut pas oublier de respecter une règle
 - **Évolution facilitée** : Si une règle change, il suffit de modifier les tests
 
-##### 4. Messages d'erreur pédagogiques
+### 4. Messages d'erreur pédagogiques
 
 Les messages d'erreur sont conçus pour être pédagogiques :
 - **Explication claire** : Pourquoi la règle existe
@@ -247,9 +247,9 @@ Les messages d'erreur sont conçus pour être pédagogiques :
 
 ---
 
-#### Comparaison avec les approches traditionnelles
+## Comparaison avec les approches traditionnelles
 
-##### Approche traditionnelle
+### Approche traditionnelle
 
 Dans les projets classiques, les fichiers Markdown sont souvent validés manuellement ou pas du tout :
 
@@ -267,7 +267,7 @@ function parseMarkdown(content: string) {
 - Pas de garantie de cohérence
 - Dépendance à la vigilance des développeurs
 
-##### Approche avec validation au build
+### Approche avec validation au build
 
 ```typescript
 // ✅ Validation au build
@@ -284,15 +284,15 @@ function parseMarkdown(content: string, filePath: string) {
 
 ---
 
-#### Exemples concrets
+## Exemples concrets
 
-##### Exemple 1 : Fichier avec titre H1
+### Exemple 1 : Fichier avec titre H1
 
 **Fichier** (`exemple.md`) :
 ````markdown
-### Titre H1 incorrect (devrait être H3)
+# Titre H1 incorrect (devrait être H3)
 
-### Partie 1
+# Partie 1
 Contenu...
 ````
 
@@ -304,11 +304,11 @@ Les fichiers MD doivent commencer au niveau 3 (###).
 
 **Solution** : Remplacer le titre H1 par un titre H3 : `### Titre H1 incorrect`
 
-##### Exemple 2 : H4 sans H3
+### Exemple 2 : H4 sans H3
 
 **Fichier** (`exemple.md`) :
 ```markdown
-#### Sous-partie sans partie
+## Sous-partie sans partie
 
 Contenu...
 ```
@@ -321,20 +321,20 @@ Les sous-parties (####) doivent être dans une partie (###).
 
 **Solution** : Ajouter un titre H3 avant le H4 :
 ```markdown
-### Partie
-#### Sous-partie
+# Partie
+## Sous-partie
 
 Contenu...
 ```
 
-##### Exemple 3 : Titre dans un bloc de code (ignoré)
+### Exemple 3 : Titre dans un bloc de code (ignoré)
 
 **Fichier** (`exemple.md`) :
 ````markdown
-### Partie 1
+# Partie 1
 
 ```markdown
-### Exemple de titre dans du code (H3 au lieu de H1)
+# Exemple de titre dans du code (H3 au lieu de H1)
 ```
 ````
 
@@ -342,7 +342,7 @@ Contenu...
 
 ---
 
-#### Conclusion
+## Conclusion
 
 Cette stratégie garantit que :
 - ✅ Tous les fichiers Markdown respectent les règles métier définies

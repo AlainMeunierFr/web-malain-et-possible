@@ -40,14 +40,19 @@ export function calculateMaxCounter(): number {
   const jsonFiles = files.filter((file) => file.endsWith('.json'));
 
   // Fichiers à ignorer (configuration, pas de contenu interactif)
+  // Les fichiers avec préfixe _ sont automatiquement ignorés
   const ignoredFiles = new Set([
-    'Pages-Et-Lien.json',
+    '_Pages-Et-Lien.json',
     'plan-du-site.json',
-    'motdepasse.json',
+    '_motdepasse.json',
+    '_footerButtons.json',
+    '_metrics.json',
+    '_temoignages.json',
   ]);
 
   for (const jsonFile of jsonFiles) {
-    if (ignoredFiles.has(jsonFile)) {
+    // Ignorer les fichiers avec préfixe _ (fichiers de configuration)
+    if (jsonFile.startsWith('_') || ignoredFiles.has(jsonFile)) {
       continue;
     }
 

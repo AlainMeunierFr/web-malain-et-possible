@@ -322,7 +322,7 @@ L'application supporte 8 types de contenu distincts pour composer les pages. Cha
 
 **Champs optionnels** (au moins l'un des deux requis) :
 - `items`: Liste de témoignages inline (array de `Temoignage`)
-- `source`: Nom du fichier JSON source contenant les témoignages (string, ex: `"temoignages.json"`)
+- `source`: Nom du fichier JSON source contenant les témoignages (string, ex: `"_temoignages.json"`)
 
 **Structure d'un témoignage (`Temoignage`)** :
 - `nom`: Nom de la personne (string, obligatoire)
@@ -349,7 +349,7 @@ L'application supporte 8 types de contenu distincts pour composer les pages. Cha
 ```json
 {
   "type": "temoignages",
-  "source": "temoignages.json"
+  "source": "_temoignages.json"
 }
 ```
 

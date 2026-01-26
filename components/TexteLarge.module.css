@@ -11,7 +11,7 @@
 /* Texte : style normal (pas un titre) */
 .texteLargeText {
   font-family: var(--font-serif);
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 400;
   line-height: 1.4;
   text-align: left;
@@ -31,7 +31,7 @@
   }
 
   .texteLargeText {
-    font-size: 16px; /* Augmenté pour meilleure lisibilité */
+    font-size: 13px; /* Aligné avec HeroSection.description */
     margin-bottom: 0.7em; /* 50% de la hauteur de ligne (1.4 * 0.5 = 0.7em) */
   }
   

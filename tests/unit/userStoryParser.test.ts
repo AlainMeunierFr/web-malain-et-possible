@@ -14,8 +14,8 @@ describe('parseSectionContent - Détection User Stories', () => {
   describe('ITÉRATION 1 : Détecter une User Story complète avec les 4 éléments', () => {
     it('devrait détecter une User Story et attribuer les typeDeContenu', () => {
       // ARRANGE : User Story complète avec les 4 éléments
-      const contenu = `### Epic 1
-#### US-1.1 : Affichage initial
+      const contenu = `# Epic 1
+## US-1.1 : Affichage initial
 - **En tant que** Visiteur du site
 - **Je souhaite** Voir une page s'afficher
 - **Afin de** Vérifier que le site fonctionne
@@ -51,8 +51,8 @@ describe('parseSectionContent - Détection User Stories', () => {
   describe('ITÉRATION 2 : Ne pas attribuer typeDeContenu si les 4 éléments ne sont pas présents', () => {
     it('ne devrait pas attribuer typeDeContenu si seulement 2 éléments sont présents', () => {
       // ARRANGE : User Story incomplète
-      const contenu = `### Epic 1
-#### US-1.1 : Affichage initial
+      const contenu = `# Epic 1
+## US-1.1 : Affichage initial
 - **En tant que** Visiteur du site
 - **Je souhaite** Voir une page s'afficher
 `;
@@ -77,7 +77,7 @@ describe('parseSectionContent - Détection User Stories', () => {
   describe('ITÉRATION 3 : Ne pas attribuer typeDeContenu si les éléments ne sont pas sous un H4', () => {
     it('ne devrait pas attribuer typeDeContenu si les listes sont sous un H3', () => {
       // ARRANGE : Listes normales sous un H3
-      const contenu = `### Partie normale
+      const contenu = `# Partie normale
 - **En tant que** Visiteur
 - **Je souhaite** Voir quelque chose
 - **Afin de** Faire quelque chose
@@ -103,15 +103,15 @@ describe('parseSectionContent - Détection User Stories', () => {
   describe('ITÉRATION 4 : Gérer plusieurs User Stories dans un même fichier', () => {
     it('devrait détecter plusieurs User Stories et attribuer les typeDeContenu à chacune', () => {
       // ARRANGE : Plusieurs User Stories
-      const contenu = `### Epic 1
-#### US-1.1 : Première US
+      const contenu = `# Epic 1
+## US-1.1 : Première US
 - **En tant que** Visiteur
 - **Je souhaite** Voir quelque chose
 - **Afin de** Faire quelque chose
 - **Critères d'acceptation** :
   - Critère 1
 
-#### US-1.2 : Deuxième US
+## US-1.2 : Deuxième US
 - **En tant que** Utilisateur
 - **Je souhaite** Faire autre chose
 - **Afin de** Atteindre un objectif

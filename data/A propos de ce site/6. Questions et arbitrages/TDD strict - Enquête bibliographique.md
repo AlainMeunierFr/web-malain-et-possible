@@ -1,11 +1,11 @@
-### Enquête bibliographique : TDD strict et bonnes pratiques
+# Enquête bibliographique : TDD strict et bonnes pratiques
 
 **Date** : 2026-01-20
 **Objectif** : Documenter les bonnes pratiques du TDD strict (un test à la fois, code minimal, refactoring systématique) pour justifier leur intégration dans le DOD.
 
 ---
 
-#### Résumé exécutif
+## Résumé exécutif
 
 **TDD ≠ couverture de code**. Le TDD est une **discipline de développement** qui vise à faire émerger le code le plus simple possible en écrivant les tests d'abord. L'approche stricte consiste à :
 1. Écrire **un seul test** à la fois (le plus simple possible)
@@ -15,9 +15,9 @@
 
 ---
 
-#### Outils open source qui forcent le TDD strict
+## Outils open source qui forcent le TDD strict
 
-##### TDD Guard (nizos/tdd-guard)
+### TDD Guard (nizos/tdd-guard)
 **GitHub** : https://github.com/nizos/tdd-guard
 
 **Description** : Outil open source conçu spécifiquement pour **Claude Code** qui empêche :
@@ -36,7 +36,7 @@
 
 ---
 
-##### TDD.sh
+### TDD.sh
 **Site** : https://tdd.sh/
 
 **Description** : Outil CLI open source pour pratiquer le TDD selon **Kent Beck** : red → green → refactor.
@@ -54,9 +54,9 @@
 
 ---
 
-#### Articles et études académiques
+## Articles et études académiques
 
-##### 1. "Best practices in test-driven development" (Opensource.com)
+### 1. "Best practices in test-driven development" (Opensource.com)
 **Source** : https://opensource.com/article/19/10/test-driven-development-best-practices
 
 **Points clés** :
@@ -70,7 +70,7 @@
 
 ---
 
-##### 2. "Towards a TDD maturity model through an anti-patterns framework"
+### 2. "Towards a TDD maturity model through an anti-patterns framework"
 **Source** : ArXiv (2023) - https://arxiv.org/abs/2307.11534
 
 **Points clés** :
@@ -85,7 +85,7 @@
 
 ---
 
-##### 3. "A Longitudinal Cohort Study on the Retainment of Test-Driven Development"
+### 3. "A Longitudinal Cohort Study on the Retainment of Test-Driven Development"
 **Source** : ArXiv (2018) - https://arxiv.org/abs/1807.02971
 
 **Points clés** :
@@ -97,7 +97,7 @@
 
 ---
 
-##### 4. "Improving Development Practices through Experimentation: an Industrial TDD Case"
+### 4. "Improving Development Practices through Experimentation: an Industrial TDD Case"
 **Source** : ArXiv (2018) - https://arxiv.org/abs/1809.01828
 
 **Points clés** :
@@ -109,7 +109,7 @@
 
 ---
 
-##### 5. "A Comparative Study on the Impact of Test-Driven Development (TDD) and Behavior-Driven Development (BDD)"
+### 5. "A Comparative Study on the Impact of Test-Driven Development (TDD) and Behavior-Driven Development (BDD)"
 **Source** : ArXiv (2024) - https://arxiv.org/abs/2411.04141
 
 **Points clés** :
@@ -120,9 +120,9 @@
 
 ---
 
-#### Confrontation des sources : TDD = couverture vs TDD = discipline
+## Confrontation des sources : TDD = couverture vs TDD = discipline
 
-##### Vision partielle (TDD = couverture de code)
+### Vision partielle (TDD = couverture de code)
 **Problème identifié** : Beaucoup d'articles et d'outils se concentrent uniquement sur la **couverture de code** comme métrique du TDD.
 
 **Exemples** :
@@ -132,7 +132,7 @@
 
 **Limite** : Ces outils mesurent la **résultat** (couverture), pas le **processus** (test-first, minimal code).
 
-##### Vision complète (TDD = discipline d'émergence)
+### Vision complète (TDD = discipline d'émergence)
 **Vraie nature du TDD** : Le TDD n'est pas une métrique de couverture, mais une **discipline de développement** qui vise à :
 1. **Faire émerger le code le plus simple possible**
 2. **Clarifier les exigences** avant de coder (via les tests)
@@ -148,9 +148,9 @@
 
 ---
 
-#### Principes du TDD strict identifiés
+## Principes du TDD strict identifiés
 
-##### 1. One test at a time (un test à la fois)
+### 1. One test at a time (un test à la fois)
 **Sources** :
 - TDD Guard empêche d'écrire plusieurs tests en même temps
 - Anti-patterns framework : "tests dépendants" = mauvais
@@ -163,7 +163,7 @@
 
 ---
 
-##### 2. Smallest possible test first (commencer par le cas le plus simple)
+### 2. Smallest possible test first (commencer par le cas le plus simple)
 **Sources** :
 - TDD.sh : Timer pour limiter le temps en phase "red" = incite à commencer simple
 - Anti-patterns : "tests peu clairs" = éviter
@@ -176,7 +176,7 @@
 
 ---
 
-##### 3. Minimal code (code minimal pour faire passer le test)
+### 3. Minimal code (code minimal pour faire passer le test)
 **Sources** :
 - **TDD Guard** : Empêche explicitement "d'implémenter plus que ce que le test exige"
 - **Opensource.com** : "then just enough code to make it pass"
@@ -189,7 +189,7 @@
 
 ---
 
-##### 4. Refactor after each green (refactoriser après chaque test vert)
+### 4. Refactor after each green (refactoriser après chaque test vert)
 **Sources** :
 - **TDD.sh** : Guide le cycle red-green-**refactor** strict
 - **Anti-patterns** : "réorganisation sans tests" = mauvais
@@ -202,9 +202,9 @@
 
 ---
 
-#### Outils pour forcer le respect du TDD strict
+## Outils pour forcer le respect du TDD strict
 
-##### Outils d'enforcement technique
+### Outils d'enforcement technique
 
 | Outil | Type | Force le TDD strict ? | Comment |
 |-------|------|----------------------|---------|
@@ -218,53 +218,53 @@
 
 ---
 
-#### Recommandations pour intégrer le TDD strict dans le DOD
+## Recommandations pour intégrer le TDD strict dans le DOD
 
-##### Niveau 1 : Règles processuelles (Facile)
+### Niveau 1 : Règles processuelles (Facile)
 1. **One test at a time** : Chaque US doit commencer par écrire **un seul test** (le plus simple possible)
 2. **Minimal code** : Écrire le **code minimal** pour faire passer le test
 3. **Refactor after green** : Refactoriser après chaque test vert avant de passer au suivant
 4. **Smallest first** : Commencer par le cas le plus simple (fichier vide, puis 1 ligne, etc.)
 
-##### Niveau 2 : Outils d'enforcement (Moyen)
+### Niveau 2 : Outils d'enforcement (Moyen)
 1. **TDD Guard** : Intégrer dans le workflow CI/CD
 2. **TDD.sh** : Utiliser pour les sessions de développement critiques
 3. **CI/CD strict** : Bloquer les PR sans tests, exiger que tous les tests passent
 
-##### Niveau 3 : Culture et formation (Complexe)
+### Niveau 3 : Culture et formation (Complexe)
 1. **Pair programming** : Aide à respecter la discipline (selon Infoworld)
 2. **Code review TDD-focused** : Vérifier que le cycle red-green-refactor a été respecté
 3. **Formation interne** : Sessions régulières pour partager les bonnes pratiques
 
 ---
 
-#### Bibliographie complète
+## Bibliographie complète
 
-##### Outils
+### Outils
 1. **TDD Guard** : https://github.com/nizos/tdd-guard
 2. **TDD.sh** : https://tdd.sh/
 3. **SonarQube** : https://www.sonarsource.com/
 4. **CodeScene** : https://codescene.io/
 5. **GitLab Coverage** : https://docs.gitlab.com/ee/ci/testing/code_coverage/
 
-##### Articles
+### Articles
 1. **Best practices in test-driven development** : https://opensource.com/article/19/10/test-driven-development-best-practices
 2. **Why Test-Driven Development After All?** : https://www.wwt.com/blog/why-test-driven-development-after-all
 3. **Best practices for test-driven development** : https://www.infoworld.com/article/2163948/best-practices-for-test-driven-development.html
 
-##### Études académiques
+### Études académiques
 1. **Towards a TDD maturity model through an anti-patterns framework** (2023) : https://arxiv.org/abs/2307.11534
 2. **A Longitudinal Cohort Study on the Retainment of Test-Driven Development** (2018) : https://arxiv.org/abs/1807.02971
 3. **Improving Development Practices through Experimentation: an Industrial TDD Case** (2018) : https://arxiv.org/abs/1809.01828
 4. **A Comparative Study on the Impact of Test-Driven Development (TDD) and Behavior-Driven Development (BDD)** (2024) : https://arxiv.org/abs/2411.04141
 
-##### Projets open source
+### Projets open source
 1. **FitNesse** : Projet en Java (~50 000 lignes), construit avec TDD, couverture ~90%
 2. **OpenFlexure** : Projet Python avec exigence explicite de tests unitaires pour chaque contribution
 
 ---
 
-#### Conclusion
+## Conclusion
 
 **Le TDD strict (one test at a time, minimal code, refactor) est bien documenté** dans la littérature et supporté par des outils concrets (TDD Guard, TDD.sh).
 

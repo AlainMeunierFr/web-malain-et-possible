@@ -4,13 +4,12 @@
  */
 
 import { parseJournalMarkdown } from '../../utils/journalMarkdownParser';
-import { adjustMarkdownTitleLevels } from '../../utils/markdownTitleAdjuster';
 
 describe('parseJournalMarkdown', () => {
   describe('Test 1 - Une partie', () => {
-    it('devrait parser une partie simple (niveaux après ajustement)', () => {
-      // Après ajustement, ### devient ####
-      const markdown = `#### Ma partie 1`;
+    it('devrait parser une partie simple (nouveaux niveaux)', () => {
+      // Avec décalage +2 : # dans MD → h3 en HTML
+      const markdown = `# Ma partie 1`;
       
       const result = parseJournalMarkdown(markdown);
       
@@ -21,10 +20,10 @@ describe('parseJournalMarkdown', () => {
   });
 
   describe('Test 2 - Une partie et une sous-partie', () => {
-    it('devrait parser une partie avec une sous-partie (niveaux après ajustement)', () => {
-      // Après ajustement, ### devient ####, #### devient #####
-      const markdown = `#### Ma partie 2
-##### Ma sous-partie 1`;
+    it('devrait parser une partie avec une sous-partie (nouveaux niveaux)', () => {
+      // Avec décalage +2 : # dans MD → h3, ## dans MD → h4
+      const markdown = `# Ma partie 2
+## Ma sous-partie 1`;
       
       const result = parseJournalMarkdown(markdown);
       
@@ -37,14 +36,12 @@ describe('parseJournalMarkdown', () => {
   });
 
   describe('Test 3 - Une partie, une sous-partie et un bloc Prompt', () => {
-    it('devrait parser une partie avec une sous-partie et un bloc Prompt (niveaux après ajustement)', () => {
-      // Format AVANT ajustement : ### devient ####, #### devient #####, ##### devient ######
-      const markdownBeforeAdjust = `### Ma partie 3
-#### Ma sous-partie 2
-##### Prompt
+    it('devrait parser une partie avec une sous-partie et un bloc Prompt (nouveaux niveaux)', () => {
+      // Avec décalage +2 : # dans MD → h3, ## dans MD → h4, ### dans MD → h5
+      const markdown = `# Ma partie 3
+## Ma sous-partie 2
+### Prompt
 Mon prompt 2`;
-      // Après ajustement
-      const markdown = adjustMarkdownTitleLevels(markdownBeforeAdjust);
       
       const result = parseJournalMarkdown(markdown);
       
@@ -60,16 +57,14 @@ Mon prompt 2`;
   });
 
   describe('Test 4 - Une partie, une sous-partie, un bloc Prompt et un bloc Résultat technique', () => {
-    it('devrait parser une partie avec une sous-partie, un bloc Prompt et un bloc Résultat technique (niveaux après ajustement)', () => {
-      // Format AVANT ajustement : ### devient ####, #### devient #####, ##### devient ######
-      const markdownBeforeAdjust = `### Ma partie 4
-#### Ma sous-partie 3
-##### Prompt
+    it('devrait parser une partie avec une sous-partie, un bloc Prompt et un bloc Résultat technique (nouveaux niveaux)', () => {
+      // Avec décalage +2 : # dans MD → h3, ## dans MD → h4, ### dans MD → h5
+      const markdown = `# Ma partie 4
+## Ma sous-partie 3
+### Prompt
 Mon prompt 3
-##### Résultat technique
+### Résultat technique
 Mon résultat technique 3`;
-      // Après ajustement
-      const markdown = adjustMarkdownTitleLevels(markdownBeforeAdjust);
       
       const result = parseJournalMarkdown(markdown);
       
@@ -88,21 +83,19 @@ Mon résultat technique 3`;
   });
 
   describe('Test 5 - Une partie et 2 sous-parties avec blocs', () => {
-    it('devrait parser une partie avec plusieurs sous-parties et blocs (niveaux après ajustement)', () => {
-      // Format AVANT ajustement : ### devient ####, #### devient #####, ##### devient ######
-      const markdownBeforeAdjust = `### Ma partie 5
-#### Ma sous-partie 4
-##### Prompt
+    it('devrait parser une partie avec plusieurs sous-parties et blocs (nouveaux niveaux)', () => {
+      // Avec décalage +2 : # dans MD → h3, ## dans MD → h4, ### dans MD → h5
+      const markdown = `# Ma partie 5
+## Ma sous-partie 4
+### Prompt
 Mon prompt 4
-##### Résultat technique
+### Résultat technique
 Mon résultat technique 4
-#### Ma sous-partie 5
-##### Prompt
+## Ma sous-partie 5
+### Prompt
 Mon prompt 5
-##### Résultat technique
+### Résultat technique
 Mon résultat technique 5`;
-      // Après ajustement
-      const markdown = adjustMarkdownTitleLevels(markdownBeforeAdjust);
       
       const result = parseJournalMarkdown(markdown);
       
@@ -126,17 +119,15 @@ Mon résultat technique 5`;
 
   describe('Test 6 - Cas réel avec lignes vides', () => {
     it('devrait parser un bloc Prompt avec des lignes vides dans le contenu', () => {
-      // Format AVANT ajustement
-      const markdownBeforeAdjust = `### Ma partie 6
-#### Ma sous-partie 6
-##### Prompt
+      // Avec décalage +2 : # dans MD → h3, ## dans MD → h4, ### dans MD → h5
+      const markdown = `# Ma partie 6
+## Ma sous-partie 6
+### Prompt
 Mon prompt 6 avec plusieurs lignes
 
 Et une ligne vide au milieu
-##### Résultat technique
+### Résultat technique
 Mon résultat technique 6`;
-      // Après ajustement
-      const markdown = adjustMarkdownTitleLevels(markdownBeforeAdjust);
       
       const result = parseJournalMarkdown(markdown);
       
@@ -154,18 +145,14 @@ Mon résultat technique 6`;
 
   describe('Test 7 - Cas réel du fichier journal', () => {
     it('devrait parser un exemple réel du journal', () => {
-      // Format AVANT ajustement (cas où il n'y a pas de sous-partie, juste une partie avec des blocs directs)
-      // Mais en fait, les journaux ont TOUJOURS une sous-partie. Ce cas devrait être adapté.
-      // Format réel : ### Partie, #### Sous-partie, ##### Prompt, ##### Résultat technique
-      const markdownBeforeAdjust = `### Refactorisation de la couleur en variable CSS
-#### Refactorisation de la couleur en variable CSS
-##### Prompt
+      // Avec décalage +2 : # dans MD → h3, ## dans MD → h4, ### dans MD → h5
+      const markdown = `# Refactorisation de la couleur en variable CSS
+## Refactorisation de la couleur en variable CSS
+### Prompt
 Faire en sorte que la couleur bleue ne soit pas évoquée directement dans le code par #0070C0 mais plutôt par une variable qui soit nommée "BleuFoncé". Ainsi, si je veux changer la couleur elle sera cohérente sur tout le site.
 
-##### Résultat technique
+### Résultat technique
 (commit \`a78db21\`) : Refactorisation de la couleur bleue en variable CSS \`--BleuFonce\` dans \`globals.css\``;
-      // Après ajustement
-      const markdown = adjustMarkdownTitleLevels(markdownBeforeAdjust);
       
       const result = parseJournalMarkdown(markdown);
       

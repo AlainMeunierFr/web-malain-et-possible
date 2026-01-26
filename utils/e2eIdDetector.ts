@@ -43,10 +43,14 @@ const COMPOSANTS_EXCLUS_MD = new Set([
 ]);
 
 // Fichiers JSON à ignorer (configuration, pas de contenu interactif)
+// Les fichiers avec préfixe _ sont automatiquement ignorés
 const FICHIERS_JSON_IGNORES = new Set([
-  'Pages-Et-Lien.json',
+  '_Pages-Et-Lien.json',
   'plan-du-site.json',
-  'motdepasse.json',
+  '_motdepasse.json',
+  '_footerButtons.json',
+  '_metrics.json',
+  '_temoignages.json',
 ]);
 
 export interface DetectionItem {
@@ -84,7 +88,8 @@ function detectInJsonFiles(): DetectionItem[] {
   const jsonFiles = files.filter((file) => file.endsWith('.json'));
 
   for (const jsonFile of jsonFiles) {
-    if (FICHIERS_JSON_IGNORES.has(jsonFile)) {
+    // Ignorer les fichiers avec préfixe _ (fichiers de configuration)
+    if (jsonFile.startsWith('_') || FICHIERS_JSON_IGNORES.has(jsonFile)) {
       continue;
     }
 
@@ -199,8 +204,8 @@ function detectInJsonFiles(): DetectionItem[] {
         });
       }
 
-      // Vérifier aussi footerButtons.json
-      if (jsonFile === 'footerButtons.json') {
+      // Vérifier aussi _footerButtons.json
+      if (jsonFile === '_footerButtons.json') {
         if (data.boutons && Array.isArray(data.boutons)) {
           data.boutons.forEach((bouton: any, index: number) => {
             if (!bouton.e2eID) {

@@ -45,8 +45,8 @@ function countCompletedUS(): { count: number; usList: CompletedUS[] } {
     for (let i = 0; i < lines.length; i++) {
       const line = lines[i].replace(/\r$/, ''); // Supprimer le \r en fin de ligne (Windows)
       
-      // Détecter une User Story (format: #### US-X.Y : Titre ou #### US-X.Ya : Titre)
-      const usMatch = line.match(/^####\s+(US-\d+\.\d+[a-z]?)\s*:\s*(.+)$/);
+      // Détecter une User Story (format: ## US-X.Y : Titre ou ## US-X.Ya : Titre)
+      const usMatch = line.match(/^##\s+(US-\d+\.\d+[a-z]?)\s*:\s*(.+)$/);
       if (usMatch) {
         // Vérifier si l'US précédente était complétée avant de passer à la suivante
         if (currentUS) {
