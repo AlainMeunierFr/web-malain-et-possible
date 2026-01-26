@@ -8,20 +8,22 @@
   font-size: 2rem;
   margin: 1.5rem 0 1rem 0;
   color: var(--BleuFonce);
-  font-family: 'Oswald', sans-serif;
+  font-family: 'Outfit', sans-serif;
   border-bottom: 3px solid var(--BleuFonce);
   padding-bottom: 0.5rem;
-  font-weight: 600;
+  font-weight: 700;
+  letter-spacing: -0.02em;
 }
 
 .markdownContent h2 {
   font-size: 1.5rem;
   margin: 2rem 0 1rem 0;
   color: var(--BleuFonce);
-  font-family: 'Oswald', sans-serif;
+  font-family: 'Outfit', sans-serif;
   border-bottom: 2px solid var(--BleuFonce);
   padding-bottom: 0.5rem;
-  font-weight: 600;
+  font-weight: 700;
+  letter-spacing: -0.02em;
 }
 
 .markdownContent h2:first-child {
@@ -32,24 +34,26 @@
   font-size: 1.25rem;
   margin: 1.5rem 0 0.75rem 0;
   color: #1a1a1a;
-  font-family: 'Oswald', sans-serif;
+  font-family: 'Outfit', sans-serif;
   font-weight: 600;
+  letter-spacing: -0.01em;
 }
 
 .markdownContent h4 {
   font-size: 1.1rem;
   margin: 1rem 0 0.5rem 0;
   color: var(--BleuFonce);
-  font-family: 'Oswald', sans-serif;
+  font-family: 'Outfit', sans-serif;
   font-weight: 600;
+  letter-spacing: -0.01em;
 }
 
 .markdownContent h5 {
   font-size: 1rem;
   margin: 0.8rem 0 0.4rem 0;
   color: #666;
-  font-family: 'Oswald', sans-serif;
-  font-weight: 500;
+  font-family: 'Outfit', sans-serif;
+  font-weight: 600;
 }
 
 .markdownContent p {
@@ -115,8 +119,8 @@
   font-size: 0.9rem;
   margin: 0.7rem 0 0.3rem 0;
   color: #666;
-  font-family: 'Oswald', sans-serif;
-  font-weight: 500;
+  font-family: 'Outfit', sans-serif;
+  font-weight: 600;
 }
 
 .markdownContent blockquote {

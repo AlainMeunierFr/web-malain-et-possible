@@ -15,7 +15,7 @@
 
 /* Titre du détournement (H2) - fond bleu clair avec texte noir, comme H1 avec fond bleu foncé */
 .detournementTitle {
-  font-family: 'Oswald', sans-serif;
+  font-family: var(--font-sans);
   font-size: 20px;
   font-weight: 700;
   line-height: 1.4;
@@ -56,7 +56,7 @@
 
 /* Titre de la section vidéo (H3) - même police que titre domaine de compétence */
 .videoTitle {
-  font-family: 'Oswald', sans-serif;
+  font-family: var(--font-sans);
   font-size: 18px;
   font-weight: 700;
   line-height: 1.2;
@@ -68,7 +68,7 @@
 
 /* Sous-titre en italique */
 .videoSubtitle {
-  font-family: 'Noto Serif', serif;
+  font-family: var(--font-serif);
   font-size: 14px;
   font-style: italic;
   line-height: 1.4;
@@ -218,7 +218,7 @@
 }
 
 .droitsAuteurContent {
-  font-family: 'Noto Serif', serif;
+  font-family: var(--font-serif);
   font-size: 13px;
   line-height: 1.6;
   color: rgba(9, 23, 71, 1);

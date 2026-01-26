@@ -10,7 +10,7 @@
 }
 
 .titreText {
-  font-family: 'Oswald', sans-serif;
+  font-family: var(--font-sans);
   font-size: 1.5rem;
   font-weight: 700;
   color: #ffffff;

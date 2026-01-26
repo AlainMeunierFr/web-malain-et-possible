@@ -10,7 +10,7 @@
 
 /* Texte : style normal (pas un titre) */
 .texteLargeText {
-  font-family: 'Noto Serif', serif;
+  font-family: var(--font-serif);
   font-size: 14px;
   font-weight: 400;
   line-height: 1.4;

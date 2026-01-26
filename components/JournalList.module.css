@@ -37,7 +37,7 @@
   font-size: 1.25rem; /* H2 - plus petit que H1 (1.75rem) */
   margin: 0;
   color: var(--BleuFonce);
-  font-family: 'Oswald', sans-serif;
+  font-family: var(--font-sans);
   font-weight: 600;
   flex: 1;
   /* Pas de bordure/soulignement pour H2 */

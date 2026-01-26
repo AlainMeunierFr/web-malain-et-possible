@@ -15,7 +15,7 @@
 
 /* Titre de la vidéo (optionnel) : h2, gras, centré, largeur comme domaine de compétence */
 .videoTitre {
-  font-family: 'Oswald', sans-serif;
+  font-family: var(--font-sans);
   font-size: 18px;
   font-weight: 700;
   text-align: center;

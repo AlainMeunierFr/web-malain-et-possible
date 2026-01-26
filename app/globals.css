@@ -1,6 +1,51 @@
-@import url('https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400&family=Oswald:wght@400;500;600;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Clint+Marker&display=swap');
 @import "tailwindcss";
+
+/* ============================================
+   POLICES CHARGÉES LOCALEMENT
+   Toutes les polices sont servies depuis le domaine pour garantir la disponibilité sur tous les navigateurs
+   ============================================ */
+
+/* Police Clint Marker - Utilisée pour les boutons */
+@font-face {
+  font-family: 'Clint Marker';
+  src: url('/fonts/ClintMarker.woff2') format('woff2'),
+       url('/fonts/ClintMarker.woff') format('woff'),
+       url('/fonts/ClintMarker.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Police Outfit - Utilisée pour les titres et le texte (moderne, spacieuse mais compacte) */
+@font-face {
+  font-family: 'Outfit';
+  src: url('/fonts/Outfit-Regular.woff2') format('woff2'),
+       url('/fonts/Outfit-Regular.woff') format('woff'),
+       url('/fonts/Outfit-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Outfit';
+  src: url('/fonts/Outfit-SemiBold.woff2') format('woff2'),
+       url('/fonts/Outfit-SemiBold.woff') format('woff'),
+       url('/fonts/Outfit-SemiBold.ttf') format('truetype');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Outfit';
+  src: url('/fonts/Outfit-Bold.woff2') format('woff2'),
+       url('/fonts/Outfit-Bold.woff') format('woff'),
+       url('/fonts/Outfit-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
 
 :root {
   --background: #ffffff;
@@ -31,8 +76,9 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: 'Outfit', sans-serif; /* Police pour les titres */
+  --font-serif: 'Outfit', sans-serif; /* Police pour le corps de texte (même famille) */
+  --font-mono: 'Courier New', monospace; /* Police pour le code */
 }
 
 /* Mode sombre automatique désactivé pour préserver la lisibilité sur mobile
@@ -47,7 +93,7 @@
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: 'Noto Serif', Arial, Helvetica, sans-serif;
+  font-family: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 }
 
 * {
