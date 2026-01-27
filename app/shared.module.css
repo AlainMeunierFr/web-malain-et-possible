@@ -6,3 +6,11 @@
   min-height: 100vh;
   width: 100%;
 }
+
+/* Très grands écrans (≥1920px) - Ajuster les paddings */
+@media (min-width: 1920px) {
+  .main {
+    padding-top: max(100px, 8.75vh);
+    padding-bottom: max(60px, 5.47vh);
+  }
+}

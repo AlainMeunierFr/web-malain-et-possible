@@ -27,22 +27,11 @@ const Footer: React.FC = () => {
       .catch(() => setVersion(''));
   }, []);
 
+  // Plus besoin de handleButtonClick car FooterButton gère maintenant les liens directement
+  // On garde la fonction pour compatibilité mais elle n'est plus utilisée
   const handleButtonClick = (command: string, url: string | null) => {
-    // Backend pur : détermine l'action (logique métier)
-    const action = getButtonAction(command, url);
-
-    // Frontend : exécute l'action (interactivité navigateur)
-    switch (action.type) {
-      case 'internal':
-        router.push(action.route);
-        break;
-      case 'external':
-        window.open(action.url, '_blank', 'noopener,noreferrer');
-        break;
-      case 'alert':
-        alert(action.message);
-        break;
-    }
+    // Cette fonction n'est plus nécessaire car FooterButton utilise maintenant des liens
+    // Mais on la garde pour compatibilité avec l'interface
   };
 
   // Vérifier que footerButtons existe et a une structure valide
@@ -70,7 +59,6 @@ const Footer: React.FC = () => {
               key={button.id}
               {...button}
               url={button.url ?? null}
-              onButtonClick={handleButtonClick}
             />
           );
         })}

@@ -418,7 +418,7 @@
         "src": "TDD.png",
         "alt": "TDD"
       },
-      "description": "Le TDD, **Test-Driven Development**, consiste à écrire d’abord **un test pour le cas le plus simple**. Le test échoue, on code juste ce qu’il faut pour qu’il passe, puis on refactorise. En répétant ce cycle avec des cas de plus en plus complexes, **le code émerge progressivement, simple et robuste**. Par effet de bord, sur le long terme ce sont aussi des tests de **non-regression**.",
+      "description": "Le TDD, **Test-Driven Development**, consiste à écrire, avant d'implémenter, d’abord **un test pour le cas le plus simple**. Le test échoue, on code juste ce qu’il faut pour qu’il passe, puis on refactorise. En répétant ce cycle avec des cas de plus en plus complexes, **le code émerge progressivement, simple et robuste**. Par effet de bord, sur le long terme ce sont aussi des tests de **non-regression**.",
       "bouton": {
         "type": "bouton",
         "texte": "En savoir plus...",

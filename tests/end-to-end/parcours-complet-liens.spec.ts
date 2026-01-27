@@ -141,10 +141,28 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
   if (await element24.count() > 0) {
     await expect(element24).toBeVisible();
   }
-  // Test e2eID: hero-bouton-principal (react - HeroSection.tsx)
-  const element25 = page.getByTestId('e2eid-hero-bouton-principal');
+  // Test e2eID: l33 (react - FooterButton.tsx)
+  const element25 = page.getByTestId('e2eid-l33');
   if (await element25.count() > 0) {
     await expect(element25).toBeVisible();
+    // Élément interactif présent et visible
+  }
+  // Test e2eID: l34 (react - GroupeBoutons.tsx)
+  const element26 = page.getByTestId('e2eid-l34');
+  if (await element26.count() > 0) {
+    await expect(element26).toBeVisible();
+    // Élément interactif présent et visible
+  }
+  // Test e2eID: l35 (react - Header.tsx)
+  const element27 = page.getByTestId('e2eid-l35');
+  if (await element27.count() > 0) {
+    await expect(element27).toBeVisible();
+    // Élément interactif présent et visible
+  }
+  // Test e2eID: hero-bouton-principal (react - HeroSection.tsx)
+  const element28 = page.getByTestId('e2eid-hero-bouton-principal');
+  if (await element28.count() > 0) {
+    await expect(element28).toBeVisible();
     // Élément interactif présent et visible
   }
 
@@ -1056,6 +1074,6 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
   // Test des e2eID présents sur /profil/cto
 
   // Tous les liens ont été parcourus
-  // 26 e2eID ont été testés
+  // 29 e2eID ont été testés
   console.log('✅ Parcours complet : tous les liens et e2eID ont été testés');
 });

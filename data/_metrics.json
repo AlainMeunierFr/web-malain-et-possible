@@ -6,7 +6,7 @@
     {
       "id": "cyclomaticComplexity",
       "title": "Complexité Cyclomatique",
-      "description": "**Terme technique** : Mesure technique qui évalue la difficulté à comprendre et modifier le code. Plus le chiffre est élevé, plus le code est complexe et difficile à maintenir.",
+      "description": "**Mesure technique qui évalue la difficulté à comprendre et modifier le code. Plus le chiffre est élevé, plus le code est complexe et difficile à maintenir.",
       "interpretation": [
         {
           "range": "1-10",
@@ -38,7 +38,7 @@
     {
       "id": "bddScenarios",
       "title": "Scénarios BDD",
-      "description": "**Terme technique** : Tests automatisés qui vérifient que le logiciel correspond aux besoins exprimés par les utilisateurs. L'équipe technique écrit des tests en langage naturel pour s'assurer que chaque fonctionnalité répond aux attentes métier.",
+      "description": "Le BDD, **Behavior-Driven Development**, permet de formaliser les besoins sous forme de scénarios **compréhensibles par tous**, y compris par des personnes non techniques (Etant donné... lorsque... alors...). Ces scénarios servent de support commun entre métier et développement et garantissent que le logiciel produit reflète réellement les comportements attendus. En plus, **ils restent dans le code source**.",
       "interpretation": [
         {
           "range": "80-100%",
@@ -70,7 +70,7 @@
     {
       "id": "unitTests",
       "title": "Tests Unitaires",
-      "description": "**Terme technique** : Tests automatiques que les développeurs créent pour vérifier que chaque petite partie du code fonctionne isolément. Comme vérifier que chaque pièce d'un moteur fonctionne avant d'assembler le véhicule.",
+      "description": "Tests automatiques que les développeurs créent pour vérifier que chaque petite partie du code fonctionne isolément. Comme vérifier que chaque pièce d'un moteur fonctionne avant d'assembler le véhicule. Pour ce projet l'IA a été invité à pratiquer les TDD (Test driven development). Le TDD, **Test-Driven Development**, consiste à écrire, avant d'implémenter, d’abord **un test pour le cas le plus simple**. Le test échoue, on code juste ce qu’il faut pour qu’il passe, puis on refactorise. En répétant ce cycle avec des cas de plus en plus complexes, **le code émerge progressivement, simple et robuste**. Par effet de bord, sur le long terme ce sont aussi des tests de **non-regression**.",
       "interpretation": [
         {
           "range": "500+",
@@ -102,7 +102,7 @@
     {
       "id": "integrationTests",
       "title": "Tests d'Intégration", 
-      "description": "**Terme technique** : Tests qui vérifient que plusieurs parties du logiciel fonctionnent bien ensemble. Comme tester que le moteur, la transmission et les freins d'une voiture fonctionnent en harmonie.",
+      "description": "Tests qui vérifient que plusieurs parties du logiciel fonctionnent bien ensemble. Comme tester que le moteur, la transmission et les freins d'une voiture fonctionnent en harmonie.",
       "interpretation": [
         {
           "range": "100+",
@@ -134,7 +134,7 @@
     {
       "id": "e2eSteps",
       "title": "Steps E2E",
-      "description": "**Terme technique** : Tests qui simulent automatiquement un parcours utilisateur complet dans l'application, comme si un robot utilisait l'interface pour vérifier que tout fonctionne de bout en bout.",
+      "description": "Tests qui simulent automatiquement un parcours utilisateur complet dans l'application, comme si un robot utilisait l'interface pour vérifier que tout fonctionne de bout en bout.",
       "interpretation": [
         {
           "range": "200+",
@@ -166,7 +166,7 @@
     {
       "id": "eslintErrors",
       "title": "Erreurs ESLint",
-      "description": "**Terme technique** : Erreurs détectées par un outil automatique qui analyse le code pour identifier des problèmes de sécurité, des bugs potentiels ou des violations de règles de programmation.",
+      "description": "Erreurs détectées par un outil automatique qui analyse le code pour identifier des problèmes de sécurité, des bugs potentiels ou des violations de règles de programmation.",
       "interpretation": [
         {
           "range": "0",
@@ -198,7 +198,7 @@
     {
       "id": "eslintWarnings", 
       "title": "Warnings ESLint",
-      "description": "**Terme technique** : Avertissements détectés par un outil automatique qui signale des pratiques de code non optimales ou des améliorations possibles, sans être des erreurs bloquantes.",
+      "description": "Avertissements détectés par un outil automatique qui signale des pratiques de code non optimales ou des améliorations possibles, sans être des erreurs bloquantes.",
       "interpretation": [
         {
           "range": "0-10",
@@ -230,7 +230,7 @@
     {
       "id": "typeCoverage",
       "title": "Couverture de Types",
-      "description": "**Terme technique** : Pourcentage du code qui bénéficie d'un typage strict TypeScript. Plus ce pourcentage est élevé, plus le code est protégé contre les erreurs de type et facile à maintenir.",
+      "description": "Pourcentage du code qui bénéficie d'un typage strict TypeScript. Plus ce pourcentage est élevé, plus le code est protégé contre les erreurs de type et facile à maintenir.",
       "interpretation": [
         {
           "range": "90-100%",
@@ -262,7 +262,7 @@
     {
       "id": "codeLinesPercentage",
       "title": "Lignes (Couverture)",
-      "description": "**Terme technique** : Pourcentage de lignes de code effectivement exécutées lors des tests automatiques. Une ligne couverte signifie qu'au moins un test a fait exécuter cette ligne pendant les tests.",
+      "description": "Pourcentage de lignes de code effectivement exécutées lors des tests automatiques. Une ligne couverte signifie qu'au moins un test a fait exécuter cette ligne pendant les tests.",
       "interpretation": [
         {
           "range": "90-100%",
@@ -294,7 +294,7 @@
     {
       "id": "statementsPercentage",
       "title": "Statements (Couverture)",
-      "description": "**Terme technique** : Pourcentage d'instructions de code (affectations, appels de fonction) exécutées pendant les tests. Mesure plus précise que les lignes car compte les instructions individuelles.",
+      "description": "Pourcentage d'instructions de code (affectations, appels de fonction) exécutées pendant les tests. Mesure plus précise que les lignes car compte les instructions individuelles.",
       "interpretation": [
         {
           "range": "90-100%",
@@ -326,7 +326,7 @@
     {
       "id": "functionsPercentage", 
       "title": "Fonctions (Couverture)",
-      "description": "**Terme technique** : Pourcentage de fonctions appelées au moins une fois pendant les tests. Une fonction couverte signifie qu'au moins un test l'a exécutée.",
+      "description": "Pourcentage de fonctions appelées au moins une fois pendant les tests. Une fonction couverte signifie qu'au moins un test l'a exécutée.",
       "interpretation": [
         {
           "range": "95-100%",
@@ -358,7 +358,7 @@
     {
       "id": "branchesPercentage",
       "title": "Branches (Couverture)",
-      "description": "**Terme technique** : Pourcentage de branches de code (conditions if/else, switch) testées dans tous leurs cas possibles. La métrique la plus exigeante car elle vérifie tous les chemins d'exécution.",
+      "description": "Pourcentage de branches de code (conditions if/else, switch) testées dans tous leurs cas possibles. La métrique la plus exigeante car elle vérifie tous les chemins d'exécution.",
       "interpretation": [
         {
           "range": "85-100%",
@@ -390,7 +390,7 @@
     {
       "id": "totalFiles",
       "title": "Fichiers Total",
-      "description": "**Terme technique** : Nombre total de fichiers source dans le projet (TypeScript, JavaScript, composants React, etc.). Indicateur de la taille et de la complexité structurelle du projet.",
+      "description": "Nombre total de fichiers source dans le projet (TypeScript, JavaScript, composants React, etc.). Indicateur de la taille et de la complexité structurelle du projet.",
       "interpretation": [
         {
           "range": "1-50",
@@ -422,7 +422,7 @@
     {
       "id": "sourceLines",
       "title": "Lignes de Code", 
-      "description": "**Terme technique** : Nombre total de lignes de code source écrites (hors commentaires et lignes vides). Mesure la quantité de logique métier implémentée dans le projet.",
+      "description": "Nombre total de lignes de code source écrites (hors commentaires et lignes vides). Mesure la quantité de logique métier implémentée dans le projet.",
       "interpretation": [
         {
           "range": "1-5000",
@@ -454,7 +454,7 @@
     {
       "id": "components", 
       "title": "Composants",
-      "description": "**Terme technique** : Nombre de composants React créés dans le projet. Chaque composant représente une partie réutilisable de l'interface utilisateur.",
+      "description": "Nombre de composants React créés dans le projet. Chaque composant représente une partie réutilisable de l'interface utilisateur.",
       "interpretation": [
         {
           "range": "1-20",
@@ -486,7 +486,7 @@
     {
       "id": "pages", 
       "title": "Pages",
-      "description": "**Terme technique** : Nombre de pages/routes différentes dans l'application. Chaque page représente une URL unique accessible aux utilisateurs.",
+      "description": "Nombre de pages/routes différentes dans l'application. Chaque page représente une URL unique accessible aux utilisateurs.",
       "interpretation": [
         {
           "range": "1-10",
@@ -518,7 +518,7 @@
     {
       "id": "dependenciesTotal",
       "title": "Total Dépendances",
-      "description": "**Terme technique** : Nombre total de bibliothèques externes utilisées par le projet (production + développement). Chaque dépendance ajoute des fonctionnalités mais aussi du risque et de la complexité.",
+      "description": "Nombre total de bibliothèques externes utilisées par le projet (production + développement). Chaque dépendance ajoute des fonctionnalités mais aussi du risque et de la complexité.",
       "interpretation": [
         {
           "range": "1-50", 
@@ -550,7 +550,7 @@
     {
       "id": "vulnerabilities", 
       "title": "Vulnérabilités",
-      "description": "**Terme technique** : Nombre de failles de sécurité détectées dans les dépendances du projet. Ces vulnérabilités peuvent être exploitées par des attaquants pour compromettre l'application.",
+      "description": "Nombre de failles de sécurité détectées dans les dépendances du projet. Ces vulnérabilités peuvent être exploitées par des attaquants pour compromettre l'application.",
       "interpretation": [
         {
           "range": "0",
@@ -582,7 +582,7 @@
     {
       "id": "bundleSize",
       "title": "Taille Bundle",
-      "description": "**Terme technique** : Taille en kilo-octets du code JavaScript final envoyé au navigateur. Plus le bundle est petit, plus l'application charge rapidement pour les utilisateurs.",
+      "description": "Taille en kilo-octets du code JavaScript final envoyé au navigateur. Plus le bundle est petit, plus l'application charge rapidement pour les utilisateurs.",
       "interpretation": [
         {
           "range": "0-500",
@@ -614,7 +614,7 @@
     {
       "id": "buildTime", 
       "title": "Temps de Build",
-      "description": "**Terme technique** : Durée nécessaire pour compiler et préparer l'application pour la production. Un temps court améliore la productivité des développeurs et la rapidité de déploiement.",
+      "description": "Durée nécessaire pour compiler et préparer l'application pour la production. Un temps court améliore la productivité des développeurs et la rapidité de déploiement.",
       "interpretation": [
         {
           "range": "0-30",

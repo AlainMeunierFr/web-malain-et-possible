@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import type { ElementGroupeBoutons, BoutonGroupe } from '../utils/indexReader';
 import { getButtonAction } from '../utils/buttonHandlers';
 import {
@@ -29,56 +29,6 @@ const iconMap: Record<string, LucideIcon> = {
 };
 
 const GroupeBoutons: React.FC<GroupeBoutonsProps> = ({ element }) => {
-  const router = useRouter();
-
-  const handleButtonClick = (bouton: BoutonGroupe) => {
-    // Détecter si l'URL est locale (même origine) - côté client uniquement
-    if (typeof window !== 'undefined' && bouton.url) {
-      const isLocalUrl = 
-        bouton.url.startsWith('/') || 
-        bouton.url.includes(window.location.hostname) ||
-        bouton.url.startsWith('http://localhost') ||
-        bouton.url.startsWith('http://127.0.0.1');
-
-      // Si URL locale, utiliser la navigation interne Next.js
-      if (isLocalUrl) {
-        // Extraire le chemin de l'URL locale
-        let path = bouton.url;
-        if (path.startsWith('http://localhost') || path.startsWith('http://127.0.0.1')) {
-          try {
-            const url = new URL(path);
-            path = url.pathname;
-          } catch (e) {
-            // Si l'URL est invalide, utiliser tel quel
-          }
-        }
-        router.push(path);
-        return;
-      }
-    }
-
-    // Backend pur : détermine l'action (logique métier)
-    const action = getButtonAction(bouton.command || '', bouton.url);
-
-    // Frontend : exécute l'action (interactivité navigateur)
-    switch (action.type) {
-      case 'internal':
-        router.push(action.route);
-        break;
-      case 'external':
-        // Pour tel: et mailto:, utiliser window.location.href au lieu de window.open
-        if (bouton.url && (bouton.url.startsWith('tel:') || bouton.url.startsWith('mailto:'))) {
-          // eslint-disable-next-line react-hooks/immutability
-          window.location.href = bouton.url;
-        } else {
-          window.open(action.url, '_blank', 'noopener,noreferrer');
-        }
-        break;
-      case 'alert':
-        alert(action.message);
-        break;
-    }
-  };
 
   const tailleClass = element.taille === 'petite' ? 'taillePetite' : 'tailleGrande';
 
@@ -94,20 +44,70 @@ const GroupeBoutons: React.FC<GroupeBoutonsProps> = ({ element }) => {
 
         const afficherTexte = element.taille === 'grande' && bouton.texte;
 
-        return (
-          <button
-            key={bouton.id}
-            className="bouton"
-            onClick={() => handleButtonClick(bouton)}
-            aria-label={bouton.texte || bouton.icone}
-            type="button"
-          >
+        // Déterminer l'action pour savoir si c'est un lien interne ou externe
+        const action = getButtonAction(bouton.command || '', bouton.url);
+
+        // Props communes pour les liens
+        const linkProps = {
+          key: bouton.id,
+          className: 'bouton',
+          'aria-label': bouton.texte || bouton.icone,
+        };
+
+        // Contenu commun (icône + texte)
+        const linkContent = (
+          <>
             <IconComponent
               size={element.taille === 'petite' ? 30 : 24}
               className="icon"
             />
             {afficherTexte && <span className="texte">{bouton.texte}</span>}
-          </button>
+          </>
+        );
+
+        // Navigation interne : utiliser Link de Next.js
+        if (action.type === 'internal') {
+          return (
+            <Link href={action.route} {...linkProps}data-e2eid="l34">
+              {linkContent}
+            </Link>
+          );
+        }
+
+        // Navigation externe : utiliser <a>
+        if (action.type === 'external') {
+          // Pour tel: et mailto:, pas de target="_blank"
+          const isProtocolLink = bouton.url && (
+            bouton.url.startsWith('tel:') || 
+            bouton.url.startsWith('mailto:')
+          );
+
+          return (
+            <a
+              href={action.url}
+              target={isProtocolLink ? undefined : '_blank'}
+              rel={isProtocolLink ? undefined : 'noopener noreferrer'}
+              {...linkProps}
+            >
+              {linkContent}
+            </a>
+          );
+        }
+
+        // Fallback : alert (cas rare)
+        const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+          e.preventDefault();
+          alert(action.message);
+        };
+
+        return (
+          <a
+            href="#"
+            onClick={handleClick}
+            {...linkProps}
+          >
+            {linkContent}
+          </a>
         );
       })}
     </div>

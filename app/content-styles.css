@@ -880,3 +880,126 @@
     gap: 0.375rem;
   }
 }
+
+/* ============================================
+   TRÈS GRANDS ÉCRANS (≥1920px) - Optimisation pour 3840x1080
+   ============================================ */
+@media (min-width: 1920px) {
+  /* Augmenter légèrement les max-width pour utiliser plus d'espace */
+  .texteLarge,
+  .domaineDeCompetence,
+  .callToAction,
+  .groupeBoutons {
+    max-width: 1400px;
+  }
+
+  .hero .content {
+    max-width: 1400px;
+  }
+
+  .video {
+    max-width: 900px;
+  }
+
+  .videoDetournement,
+  .temoignages {
+    max-width: 1100px;
+  }
+
+  .listeDesPages {
+    max-width: 1400px;
+  }
+
+  /* Augmenter légèrement les polices pour meilleure lisibilité */
+  .titre h1 {
+    font-size: 2.5rem;
+  }
+
+  .texteLarge p {
+    font-size: 15px;
+    line-height: 1.5;
+  }
+
+  .domaineDeCompetence h2 {
+    font-size: 28px;
+  }
+
+  .domaineDeCompetence .domaineContenu,
+  .domaineDeCompetence .domaineAuteur {
+    font-size: 18px;
+  }
+
+  .domaineDeCompetence .competenceTitre {
+    font-size: 20px;
+  }
+
+  .domaineDeCompetence .competenceDescription {
+    font-size: 18px;
+  }
+
+  .video h2 {
+    font-size: 28px;
+  }
+
+  .videoDetournement h2 {
+    font-size: 28px;
+  }
+
+  .videoDetournement h3 {
+    font-size: 22px;
+  }
+
+  .temoignages h2 {
+    font-size: 22px;
+  }
+
+  .temoignages .temoignageFonction,
+  .temoignages .temoignageTexte {
+    font-size: 18px;
+  }
+
+  .hero h1 {
+    font-size: 2.5rem;
+  }
+
+  .hero h2 {
+    font-size: 1.5rem;
+  }
+
+  .hero .description {
+    font-size: 15px;
+    max-width: 900px;
+  }
+
+  /* Augmenter les espacements */
+  .texteLarge {
+    padding: 3rem 2rem;
+  }
+
+  .domaineDeCompetence {
+    padding: 30px;
+  }
+
+  .callToAction,
+  .groupeBoutons {
+    padding: 3rem 2rem;
+  }
+
+  .video {
+    padding: 3rem 2rem;
+  }
+
+  .videoDetournement,
+  .temoignages {
+    padding: 30px;
+  }
+
+  .hero {
+    padding: 3rem 2rem;
+  }
+
+  .titre {
+    padding: 1.5rem 2rem;
+    margin-top: 40px;
+  }
+}

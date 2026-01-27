@@ -53,3 +53,23 @@
   margin-left: 30px; /* +30px par rapport à h1 */
   color: var(--foreground);
 }
+
+/* Très grands écrans (≥1920px) */
+@media (min-width: 1920px) {
+  .content {
+    max-width: 1400px;
+    font-size: 1rem;
+  }
+
+  .partieTitle {
+    font-size: 1.125rem;
+  }
+
+  .sousPartieTitle {
+    font-size: 1.05rem;
+  }
+
+  .blocTitle {
+    font-size: 1rem;
+  }
+}

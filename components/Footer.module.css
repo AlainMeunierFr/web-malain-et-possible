@@ -40,6 +40,8 @@
   align-items: center;
   justify-content: center;
   transition: opacity 0.2s ease;
+  text-decoration: none;
+  color: inherit;
 }
 
 .iconButton:hover {
@@ -67,5 +69,22 @@
   .version {
     margin-left: 60px;
     font-size: 0.75rem;
+  }
+}
+
+/* Très grands écrans (≥1920px) - Augmenter proportionnellement */
+@media (min-width: 1920px) {
+  .footer {
+    min-height: 60px;
+  }
+
+  .version {
+    font-size: 1rem;
+    margin-left: 80px;
+  }
+
+  .iconImage {
+    min-height: 40px;
+    min-width: 40px;
   }
 }

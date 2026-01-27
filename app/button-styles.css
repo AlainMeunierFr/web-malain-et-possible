@@ -60,6 +60,18 @@
   /* Hérite du style de base .bouton (thème 2) */
 }
 
+/* Très grands écrans (≥1920px) */
+@media (min-width: 1920px) {
+  .callToAction .bouton {
+    max-width: 1100px;
+  }
+
+  .bouton {
+    font-size: 18px;
+    padding: 14px 28px;
+  }
+}
+
 .callToAction .bouton:hover {
   /* Hérite du style hover de base .bouton:hover (thème 2) */
 }
