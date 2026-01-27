@@ -178,6 +178,26 @@ function syncVersionWithUS(): void {
 }
 
 /**
+ * Génère automatiquement le plan du site (_Pages-Et-Lien.json)
+ * pour s'assurer qu'il est toujours à jour lors du build
+ */
+function generateSiteMap(): void {
+  try {
+    console.log('📋 Génération automatique du plan du site...');
+    execSync('ts-node scripts/update-site-map.ts', {
+      stdio: 'inherit',
+      encoding: 'utf8',
+      cwd: process.cwd(),
+    });
+    console.log('✅ Plan du site généré avec succès\n');
+  } catch (error: any) {
+    console.warn('⚠️  Erreur lors de la génération du plan du site:', error?.message || error);
+    console.warn('   Le build continuera, mais le plan du site pourrait être incomplet\n');
+    // Ne pas bloquer le build, juste avertir
+  }
+}
+
+/**
  * Mesure le temps de build Next.js et le stocke dans .next/build-metrics.json
  */
 function measureBuildTime(): void {
@@ -282,6 +302,8 @@ switch (command) {
     syncVersionWithUS();
     break;
   case 'build':
+    // Générer le plan du site avant le build pour s'assurer qu'il est à jour
+    generateSiteMap();
     // Mesurer le temps de build
     console.log('[DEBUG] Exécution de measureBuildTime()...');
     measureBuildTime();
