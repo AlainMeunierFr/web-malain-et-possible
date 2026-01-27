@@ -82,10 +82,10 @@ export interface CoverageMetrics {
 export interface CodeQualityMetrics {
   eslintErrors: number;
   eslintWarnings: number;
-  typeCoverage: number;        // % de types TypeScript
-  cyclomaticComplexity: number; // Complexité moyenne
-  maintainabilityIndex: number; // Index de maintenabilité (0-100)
-  technicalDebt: string;        // Dette technique estimée
+  typeCoverage: number | "NC";        // % de types TypeScript ou "NC" si non calculé
+  cyclomaticComplexity: number | "NC"; // Complexité moyenne ou "NC" si non calculé
+  maintainabilityIndex: number | "NC"; // Index de maintenabilité (0-100) ou "NC" si non calculé
+  technicalDebt: string | "NC";        // Dette technique estimée ou "NC" si non calculé
 }
 
 /**
@@ -126,7 +126,7 @@ export interface DependencyMetrics {
 export interface PerformanceMetrics {
   bundleSize: number;          // Taille du bundle (KB)
   buildTime: number;           // Temps de build (ms)
-  lighthouseScore?: number;    // Score Lighthouse (0-100)
+  lighthouseScore?: number | "NC";    // Score Lighthouse (0-100) ou "NC" si non calculé
 }
 
 /**

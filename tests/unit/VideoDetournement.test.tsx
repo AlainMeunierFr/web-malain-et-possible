@@ -157,11 +157,11 @@ describe('Composant VideoDetournement', () => {
     expect(screen.getByText('Original 2')).toBeInTheDocument();
   });
 
-  it('devrait avoir la classe CSS container', () => {
+  it('devrait avoir la classe CSS videoDetournement', () => {
     const { container } = render(<VideoDetournement element={mockElement} />);
     const div = container.firstChild as HTMLElement;
 
-    expect(div).toHaveClass('container');
+    expect(div).toHaveClass('videoDetournement');
   });
 
   it('devrait retourner null pour un élément vide', () => {

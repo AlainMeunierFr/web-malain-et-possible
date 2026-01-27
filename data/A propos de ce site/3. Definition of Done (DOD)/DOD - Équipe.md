@@ -136,6 +136,7 @@
     1. Expliquer comment je compte m'y prendre techniquement
     2. Lister les tâches techniques que je vais réaliser
     3. **Discuter avec l'utilisateur de l'approche avant de coder**
+  - **Règle absolue** : **D'une manière générale, ne pas modifier le code dans un GO de l'utilisateur** sans validation explicite
 
 - **Choix autonomes importants** :
   - Pour les choix de design/structure importants :
@@ -161,6 +162,16 @@
     - Lancer les tests pertinents (pas tous les tests à chaque modification)
     - Vérifier que tous les tests passent
     - Vérifier la couverture de code
+  - **Refactorisation et tests** :
+    - **Quand on fait une refactorisation suite à une demande explicite** :
+      1. Lancer les tests immédiatement après la refactorisation
+      2. Voir qu'ils passent au rouge
+      3. **Arbitrer que c'est le test qui est devenu faux** (les exigences ont évolué)
+      4. **Ne pas laisser traîner ce test** - corriger le test immédiatement pour refléter les nouvelles exigences
+    - **Si une refactorisation a été oubliée et qu'un test échoue** :
+      1. **Demander à l'utilisateur** si le test doit être corrigé car les exigences ont évolué
+      2. **OU** si le code contient un bug qu'il faut corriger
+      3. **Ne pas modifier le code dans un GO** sans confirmation de l'utilisateur
 
 - **Collecte des métriques** :
   - Lors de chaque build, lancer automatiquement `npm run metrics:collect` pour collecter les métriques

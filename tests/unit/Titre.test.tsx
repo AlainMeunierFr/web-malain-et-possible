@@ -31,6 +31,6 @@ describe('Composant Titre', () => {
     const { container } = render(<Titre element={element} />);
     const div = container.firstChild as HTMLElement;
     
-    expect(div).toHaveClass('titreContainer');
+    expect(div).toHaveClass('titre');
   });
 });

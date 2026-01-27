@@ -103,13 +103,14 @@
 }
 
 .cardTitle {
-  font-size: 0.9rem;
+  font-size: 0.8rem;
   font-weight: 500;
   margin: 0;
   opacity: 0.9;
   text-transform: uppercase;
   letter-spacing: 0.5px;
   flex: 1;
+  line-height: 1.3;
 }
 
 .infoIcon {
@@ -175,12 +176,13 @@
 }
 
 .testCardTitle {
-  font-size: 0.9rem;
+  font-size: 0.8rem;
   font-weight: 500;
   margin: 0;
   opacity: 0.9;
   text-transform: uppercase;
   letter-spacing: 0.5px;
+  line-height: 1.3;
 }
 
 .testCardValue {
@@ -385,7 +387,7 @@
   }
 
   .cardTitle {
-    font-size: 0.8rem;
+    font-size: 0.75rem;
   }
 
   .infoIcon {

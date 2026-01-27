@@ -60,7 +60,7 @@ describe('Composant Video', () => {
     const { container } = render(<Video element={element} />);
     const div = container.firstChild as HTMLElement;
     
-    expect(div).toHaveClass('videoContainer');
+    expect(div).toHaveClass('video');
   });
 
   it('devrait afficher une erreur pour URL YouTube invalide', () => {

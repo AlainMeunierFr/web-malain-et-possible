@@ -30,7 +30,7 @@ describe('Composant TexteLarge', () => {
     const { container } = render(<TexteLarge element={element} />);
     const div = container.firstChild as HTMLElement;
     
-    expect(div).toHaveClass('texteLargeContainer');
+    expect(div).toHaveClass('texteLarge');
   });
 
   it('devrait avoir une largeur maximale de 947px', () => {
@@ -45,6 +45,6 @@ describe('Composant TexteLarge', () => {
     
     // Note: getComputedStyle ne retourne pas toujours max-width en test
     // On vérifie que la classe est présente
-    expect(div).toHaveClass('texteLargeContainer');
+    expect(div).toHaveClass('texteLarge');
   });
 });

@@ -180,9 +180,7 @@ Garantir la qualité et la cohérence des fichiers Markdown et JSON du projet en
   - Les parsers (`aboutSiteReader`, `journalMarkdownParser`) cherchent les nouveaux niveaux :
     - `# ` pour les parties (au lieu de `### `)
     - `## ` pour les sous-parties (au lieu de `#### `)
-    - `### ` pour les blocs (au lieu de `##### `)
-
-- **Scénarios BDD** :
+    - `### ` pour les blocs (au lieu de `##### `)- **Scénarios BDD** :
   - Création du fichier `tests/bdd/markdown-heading-levels.feature` avec 6 scénarios couvrant :
     - Titre H1 Markdown devient H3 HTML
     - Titre H2 Markdown devient H4 HTML

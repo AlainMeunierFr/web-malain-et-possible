@@ -170,6 +170,8 @@ function countE2ESteps(dir: string): number {
 
 /**
  * Collecte les métriques E2E depuis les résultats Playwright
+ * IMPORTANT : Ne retourne JAMAIS de durée depuis data.json car elle peut contenir BDD+E2E combinés
+ * La durée E2E doit toujours venir de durations.json (mesurée avec Date.now())
  */
 function collectE2EMetrics(): { total: number; passed: number; failed: number; duration: number; lastRunDate?: string } | undefined {
   try {
@@ -203,15 +205,16 @@ function collectE2EMetrics(): { total: number; passed: number; failed: number; d
           const total = (stats.expected || 0) + (stats.unexpected || 0) + (stats.skipped || 0);
           const passed = stats.expected || 0;
           const failed = stats.unexpected || 0;
-          // La durée est en millisecondes dans le reporter JSON (vérifié: 86072 ms = 86 s)
-          const duration = Math.round(stats.duration || 0);
+          // ⚠️ NE PAS utiliser stats.duration car il peut contenir BDD+E2E combinés
+          // La durée sera fournie depuis durations.json (mesurée avec Date.now())
+          const duration = 0; // Toujours 0, sera remplacée par la durée depuis durations.json
           
           if (total > 0) {
             resultData = {
               total,
               passed,
               failed,
-              duration: duration,
+              duration: duration, // Toujours 0
             };
           }
         } else if (data.files && Array.isArray(data.files)) {
@@ -219,7 +222,8 @@ function collectE2EMetrics(): { total: number; passed: number; failed: number; d
           let total = 0;
           let passed = 0;
           let failed = 0;
-          let totalDuration = 0;
+          // ⚠️ NE PAS additionner les durées car elles peuvent contenir BDD+E2E combinés
+          // La durée sera fournie depuis durations.json (mesurée avec Date.now())
           
           for (const file of data.files) {
             if (file.tests && Array.isArray(file.tests)) {
@@ -232,11 +236,7 @@ function collectE2EMetrics(): { total: number; passed: number; failed: number; d
                     } else if (result.status === 'failed' || result.status === 'timedOut') {
                       failed++;
                     }
-                    
-                    // Durée en millisecondes
-                    if (result.duration !== undefined) {
-                      totalDuration += result.duration;
-                    }
+                    // ⚠️ Ne pas additionner result.duration
                   }
                 }
               }
@@ -248,7 +248,7 @@ function collectE2EMetrics(): { total: number; passed: number; failed: number; d
               total,
               passed,
               failed,
-              duration: totalDuration,
+              duration: 0, // Toujours 0, sera remplacée par la durée depuis durations.json
             };
           }
         }
@@ -264,7 +264,7 @@ function collectE2EMetrics(): { total: number; passed: number; failed: number; d
       let total = 0;
       let passed = 0;
       let failed = 0;
-      let totalDuration = 0;
+      // ⚠️ NE PAS additionner les durées car elles peuvent contenir BDD+E2E combinés
       let latestFileDate: Date | null = null;
       
       function walkResultsDir(currentPath: string) {
@@ -294,10 +294,7 @@ function collectE2EMetrics(): { total: number; passed: number; failed: number; d
                   } else if (result.status === 'failed' || result.status === 'timedOut') {
                     failed++;
                   }
-                  
-                  if (result.duration !== undefined) {
-                    totalDuration += result.duration;
-                  }
+                  // ⚠️ Ne pas utiliser result.duration
                 }
               } catch (e) {
                 // Ignorer les fichiers JSON invalides
@@ -328,7 +325,7 @@ function collectE2EMetrics(): { total: number; passed: number; failed: number; d
             total,
             passed,
             failed,
-            duration: totalDuration,
+            duration: 0, // Toujours 0, sera remplacée par la durée depuis durations.json
           };
         }
       }
@@ -480,22 +477,29 @@ function collectTestMetrics() {
   let e2eTests = e2eTestsRaw ?? undefined;
 
   // Durées BDD et E2E : Date.now() avant/après chaque run, persistant dans durations.json
+  // IMPORTANT : Ne JAMAIS utiliser la durée depuis collectE2EMetrics() car elle peut contenir BDD+E2E combinés
   let bddDuration = 0;
   let e2eDurationFromTiming = 0;
-  const durationsPath = path.join(process.cwd(), 'playwright-report', 'durations.json');
-  if (fs.existsSync(durationsPath)) {
+  const durationsPathForBDDE2E = path.join(process.cwd(), 'playwright-report', 'durations.json');
+  if (fs.existsSync(durationsPathForBDDE2E)) {
     try {
-      const d = JSON.parse(fs.readFileSync(durationsPath, 'utf-8'));
+      const d = JSON.parse(fs.readFileSync(durationsPathForBDDE2E, 'utf-8'));
       bddDuration = Math.round(Number(d.bddDuration) || 0);
       e2eDurationFromTiming = Math.round(Number(d.e2eDuration) || 0);
     } catch {
       /* ignorer */
     }
   }
-  if (e2eTests && e2eDurationFromTiming > 0) {
-    e2eTests = { ...e2eTests, duration: e2eDurationFromTiming };
-  } else if (e2eTests) {
-    e2eTests = { ...e2eTests, duration: e2eTests.duration };
+  // Utiliser UNIQUEMENT la durée depuis durations.json (mesurée avec Date.now())
+  // Ne JAMAIS utiliser e2eTests.duration depuis collectE2EMetrics()
+  if (e2eTests) {
+    if (e2eDurationFromTiming > 0) {
+      // Utiliser la durée mesurée avec Date.now()
+      e2eTests = { ...e2eTests, duration: e2eDurationFromTiming };
+    } else {
+      // Si pas de durée mesurée, mettre 0 (ne pas utiliser la durée depuis data.json)
+      e2eTests = { ...e2eTests, duration: 0 };
+    }
   }
 
   if (e2eTests) {
@@ -511,13 +515,28 @@ function collectTestMetrics() {
   const e2eScenarioFiles = countE2EFiles(path.join(testsDir, 'end-to-end'));
   const e2eSteps = countE2ESteps(path.join(testsDir, 'end-to-end'));
 
-  // Collecter les durées depuis Jest
+  // Collecter les résultats Jest (passing/failing tests) depuis test-results.json
   const jestDurations = collectJestTestDurations();
   
-  if (jestDurations.totalDuration > 0) {
-    console.log(`✅ Durées Jest: Total=${jestDurations.totalDuration}ms, Unit=${jestDurations.unitDuration}ms, Integration=${jestDurations.integrationDuration}ms`);
+  // Durées Jest : Date.now() avant/après chaque run, persistant dans durations.json
+  // IMPORTANT : Ne JAMAIS utiliser les durées depuis collectJestTestDurations() car elles peuvent être imprécises
+  let unitDurationFromTiming = 0;
+  let integrationDurationFromTiming = 0;
+  const durationsPathForJest = path.join(process.cwd(), 'playwright-report', 'durations.json');
+  if (fs.existsSync(durationsPathForJest)) {
+    try {
+      const d = JSON.parse(fs.readFileSync(durationsPathForJest, 'utf-8'));
+      unitDurationFromTiming = Math.round(Number(d.unitDuration) || 0);
+      integrationDurationFromTiming = Math.round(Number(d.integrationDuration) || 0);
+    } catch {
+      /* ignorer */
+    }
+  }
+  
+  if (unitDurationFromTiming > 0 || integrationDurationFromTiming > 0) {
+    console.log(`✅ Durées Jest (Date.now()): Unit=${unitDurationFromTiming}ms, Integration=${integrationDurationFromTiming}ms`);
   } else {
-    console.warn('⚠️  Aucune durée collectée depuis Jest (totalDuration = 0)');
+    console.warn('⚠️  Aucune durée Jest mesurée. Pour obtenir les durées, exécutez d\'abord: npm run metrics:collect (qui lance les tests Jest).');
   }
 
   // RÈGLE 1: Utiliser les tests DÉFINIS dans les fichiers comme base (pas les tests exécutés)
@@ -724,14 +743,14 @@ function collectTestMetrics() {
     unitTestFiles,
     unitTestPassed,
     unitTestFailed,
-    unitTestDuration: jestDurations.unitDuration,
+    unitTestDuration: unitDurationFromTiming,
     
     // Tests d'intégration
     integrationTests,
     integrationTestFiles,
     integrationTestPassed,
     integrationTestFailed,
-    integrationTestDuration: jestDurations.integrationDuration,
+    integrationTestDuration: integrationDurationFromTiming,
     
     // BDD
     bddFeatures,
@@ -754,7 +773,7 @@ function collectTestMetrics() {
     totalTestFiles,
     passingTests,
     failingTests,
-    testDuration: jestDurations.totalDuration,
+    testDuration: unitDurationFromTiming + integrationDurationFromTiming + bddDuration + e2eDurationFromTiming,
   };
 }
 
@@ -867,10 +886,10 @@ function collectQualityMetrics() {
   return {
     eslintErrors,
     eslintWarnings,
-    typeCoverage: 95,
-    cyclomaticComplexity: 5,
-    maintainabilityIndex: 75,
-    technicalDebt: '2h',
+    typeCoverage: "NC" as "NC",
+    cyclomaticComplexity: "NC" as "NC",
+    maintainabilityIndex: "NC" as "NC",
+    technicalDebt: "NC" as "NC",
   };
 }
 
@@ -998,7 +1017,7 @@ function collectPerformanceMetrics() {
   return {
     bundleSize,
     buildTime,
-    lighthouseScore: undefined,
+    lighthouseScore: "NC" as "NC",
   };
 }
 
@@ -1160,30 +1179,8 @@ async function main() {
     fs.mkdirSync(OUTPUT_DIR, { recursive: true });
   }
 
-  // Générer la couverture de code AVANT de collecter les métriques
-  // Vérifier si test-results.json existe déjà (par exemple, généré par le workflow CI/CD)
-  const jestResultsPath = path.join(process.cwd(), 'test-results.json');
-  const coverageSummaryPath = path.join(process.cwd(), 'coverage', 'coverage-summary.json');
-  
-  if (!fs.existsSync(jestResultsPath) || !fs.existsSync(coverageSummaryPath)) {
-    console.log('📊 Génération de la couverture de code...');
-    try {
-      // Utiliser --json pour générer test-results.json avec les durées
-      // Utiliser --coverageReporters=json-summary pour générer coverage-summary.json
-      // Ordre correct selon Jest : --json --outputFile=<filename>
-      execSync('npm test -- --coverage --coverageReporters=json-summary --coverageReporters=text --json --outputFile=test-results.json --silent', { 
-        encoding: 'utf-8', 
-        stdio: 'inherit' 
-      });
-      console.log('✅ Couverture générée avec succès\n');
-    } catch (e) {
-      console.warn('⚠️  Erreur lors de la génération de la couverture (tests peuvent avoir échoué)');
-      console.warn('   Les métriques de couverture pourront ne pas être disponibles\n');
-    }
-  } else {
-    console.log('✅ Fichiers de résultats existants trouvés (test-results.json et coverage-summary.json)');
-    console.log('   Réutilisation des résultats existants\n');
-  }
+  // Note : La couverture de code sera générée lors de l'exécution des tests Jest (unitaires et intégration)
+  // dans la section de rechronométrage ci-dessous
 
   // Générer les résultats E2E/BDD AVANT de collecter les métriques
   // Durées mesurées par Date.now() avant/après chaque run (soustraction = durée réelle)
@@ -1203,7 +1200,14 @@ async function main() {
   const currentCommit = gitInfo.commit;
   
   // Lire les durées existantes (si présentes)
-  let existingDurations: { bddDuration?: number; e2eDuration?: number; commit?: string; hasError?: boolean } = {};
+  let existingDurations: { 
+    unitDuration?: number; 
+    integrationDuration?: number; 
+    bddDuration?: number; 
+    e2eDuration?: number; 
+    commit?: string; 
+    hasError?: boolean 
+  } = {};
   if (fs.existsSync(durationsPath)) {
     try {
       existingDurations = JSON.parse(fs.readFileSync(durationsPath, 'utf-8'));
@@ -1218,6 +1222,8 @@ async function main() {
                       existingDurations.commit !== currentCommit ||
                       existingDurations.hasError === true;
   
+  let unitDurationMs = existingDurations.unitDuration || 0;
+  let integrationDurationMs = existingDurations.integrationDuration || 0;
   let bddDurationMs = existingDurations.bddDuration || 0;
   let e2eDurationMs = existingDurations.e2eDuration || 0;
   let hasError = false;
@@ -1227,32 +1233,135 @@ async function main() {
                    !existingDurations.commit ? 'première exécution' :
                    existingDurations.commit !== currentCommit ? `nouveau commit (${currentCommit} vs ${existingDurations.commit})` :
                    'erreur précédente détectée';
-    console.log(`📊 Rechronométrage des tests BDD et E2E (${reason})...\n`);
+    console.log(`📊 Rechronométrage de tous les tests (${reason})...\n`);
+    
+    const playwrightReportData = path.join(process.cwd(), 'playwright-report', 'data.json');
+    const jestResultsPath = path.join(process.cwd(), 'test-results.json');
+    const coverageSummaryPath = path.join(process.cwd(), 'coverage', 'coverage-summary.json');
+    
+    // Générer la couverture de code une fois (tous les tests Jest)
+    // Cette exécution génère test-results.json et coverage-summary.json
+    if (!fs.existsSync(jestResultsPath) || !fs.existsSync(coverageSummaryPath)) {
+      console.log('📊 Génération de la couverture de code (tous les tests Jest)...');
+      try {
+        execSync('npm test -- --coverage --coverageReporters=json-summary --coverageReporters=text --json --outputFile=test-results.json --silent', { 
+          encoding: 'utf-8', 
+          stdio: 'inherit' 
+        });
+        console.log('✅ Couverture générée avec succès\n');
+      } catch (e) {
+        console.warn('⚠️  Erreur lors de la génération de la couverture (tests peuvent avoir échoué)');
+        console.warn('   Les métriques de couverture pourront ne pas être disponibles\n');
+        hasError = true;
+      }
+    } else {
+      console.log('✅ Fichiers de résultats existants trouvés (test-results.json et coverage-summary.json)');
+      console.log('   Réutilisation des résultats existants\n');
+    }
+    
+    // Exécuter Tests Unitaires (séparé pour mesurer la durée précise)
+    let unitStart: number | undefined;
+    try {
+      console.log('⏱️  Exécution des tests unitaires (chronométrage)...');
+      unitStart = Date.now();
+      execSync('npm test -- --testPathPatterns="tests/unit" --silent', { 
+        encoding: 'utf-8', 
+        stdio: 'inherit' 
+      });
+      unitDurationMs = Date.now() - unitStart;
+      console.log(`   ✅ Tests unitaires: ${(unitDurationMs / 1000).toFixed(2)}s\n`);
+    } catch (e) {
+      // Même en cas d'erreur, mesurer la durée jusqu'à l'erreur
+      if (unitStart !== undefined) {
+        unitDurationMs = Date.now() - unitStart;
+        console.warn(`   ⚠️  Erreur lors de l'exécution des tests unitaires (durée mesurée: ${(unitDurationMs / 1000).toFixed(2)}s)`);
+      } else {
+        console.warn('   ⚠️  Erreur lors de l\'exécution des tests unitaires (durée non mesurée)');
+      }
+      console.warn('   Les autres tests seront quand même exécutés\n');
+      hasError = true;
+    }
+    
+    // Exécuter Tests d'Intégration (même si unitaires ont échoué)
+    let integrationStart: number | undefined;
+    try {
+      console.log('⏱️  Exécution des tests d\'intégration (chronométrage)...');
+      integrationStart = Date.now();
+      execSync('npm test -- --testPathPatterns="tests/integration" --silent', { 
+        encoding: 'utf-8', 
+        stdio: 'inherit' 
+      });
+      integrationDurationMs = Date.now() - integrationStart;
+      console.log(`   ✅ Tests d'intégration: ${(integrationDurationMs / 1000).toFixed(2)}s\n`);
+    } catch (e) {
+      // Même en cas d'erreur, mesurer la durée jusqu'à l'erreur
+      if (integrationStart !== undefined) {
+        integrationDurationMs = Date.now() - integrationStart;
+        console.warn(`   ⚠️  Erreur lors de l'exécution des tests d'intégration (durée mesurée: ${(integrationDurationMs / 1000).toFixed(2)}s)`);
+      } else {
+        console.warn('   ⚠️  Erreur lors de l\'exécution des tests d\'intégration (durée non mesurée)');
+      }
+      console.warn('   Les tests BDD et E2E seront quand même exécutés\n');
+      hasError = true;
+    }
     
     // Exécuter BDD (séparé pour permettre E2E même si BDD échoue)
+    let bddStart: number | undefined;
     try {
       console.log('🔄 Génération des tests BDD...');
       execSync('npm run test:bdd:generate', { encoding: 'utf-8', stdio: 'inherit' });
+      
+      // Nettoyer data.json avant de mesurer BDD pour éviter de lire des résultats obsolètes
+      if (fs.existsSync(playwrightReportData)) {
+        try {
+          fs.renameSync(playwrightReportData, playwrightReportData + '.backup-bdd');
+        } catch (e) {
+          // Si le fichier est verrouillé, continuer quand même
+        }
+      }
+      
       console.log('⏱️  Exécution des tests BDD...');
-      const bddStart = Date.now();
+      bddStart = Date.now();
       execSync('npx playwright test .features-gen', { encoding: 'utf-8', stdio: 'inherit' });
       bddDurationMs = Date.now() - bddStart;
       console.log(`   ✅ BDD: ${(bddDurationMs / 1000).toFixed(2)}s\n`);
     } catch (e) {
-      console.warn('   ⚠️  Erreur lors de l\'exécution des tests BDD');
+      // Même en cas d'erreur, mesurer la durée jusqu'à l'erreur
+      if (bddStart !== undefined) {
+        bddDurationMs = Date.now() - bddStart;
+        console.warn(`   ⚠️  Erreur lors de l'exécution des tests BDD (durée mesurée: ${(bddDurationMs / 1000).toFixed(2)}s)`);
+      } else {
+        console.warn('   ⚠️  Erreur lors de l\'exécution des tests BDD (durée non mesurée)');
+      }
       console.warn('   Les tests E2E seront quand même exécutés\n');
       hasError = true;
     }
     
     // Exécuter E2E (même si BDD a échoué)
+    let e2eStart: number | undefined;
     try {
+      // Nettoyer data.json avant de mesurer E2E pour éviter de lire des résultats BDD
+      if (fs.existsSync(playwrightReportData)) {
+        try {
+          fs.renameSync(playwrightReportData, playwrightReportData + '.backup-e2e');
+        } catch (e) {
+          // Si le fichier est verrouillé, continuer quand même
+        }
+      }
+      
       console.log('⏱️  Exécution des tests E2E...');
-      const e2eStart = Date.now();
+      e2eStart = Date.now();
       execSync('npx playwright test tests/end-to-end', { encoding: 'utf-8', stdio: 'inherit' });
       e2eDurationMs = Date.now() - e2eStart;
       console.log(`   ✅ E2E: ${(e2eDurationMs / 1000).toFixed(2)}s\n`);
     } catch (e) {
-      console.warn('   ⚠️  Erreur lors de l\'exécution des tests E2E\n');
+      // Même en cas d'erreur, mesurer la durée jusqu'à l'erreur
+      if (e2eStart !== undefined) {
+        e2eDurationMs = Date.now() - e2eStart;
+        console.warn(`   ⚠️  Erreur lors de l'exécution des tests E2E (durée mesurée: ${(e2eDurationMs / 1000).toFixed(2)}s)`);
+      } else {
+        console.warn('   ⚠️  Erreur lors de l\'exécution des tests E2E (durée non mesurée)');
+      }
       hasError = true;
     }
     
@@ -1260,6 +1369,8 @@ async function main() {
     const reportDir = path.dirname(durationsPath);
     if (!fs.existsSync(reportDir)) fs.mkdirSync(reportDir, { recursive: true });
     fs.writeFileSync(durationsPath, JSON.stringify({
+      unitDuration: unitDurationMs,
+      integrationDuration: integrationDurationMs,
       bddDuration: bddDurationMs,
       e2eDuration: e2eDurationMs,
       commit: currentCommit,
@@ -1270,11 +1381,11 @@ async function main() {
     if (hasError) {
       console.log('⚠️  Tests exécutés avec erreurs (durées enregistrées, rechronométrage nécessaire au prochain run)\n');
     } else {
-      console.log('✅ Tests BDD et E2E exécutés avec succès (durées enregistrées dans playwright-report/durations.json)\n');
+      console.log('✅ Tous les tests exécutés avec succès (durées enregistrées dans playwright-report/durations.json)\n');
     }
   } else {
     console.log(`✅ Durées existantes trouvées pour le commit ${currentCommit}`);
-    console.log(`   BDD: ${(bddDurationMs / 1000).toFixed(2)}s | E2E: ${(e2eDurationMs / 1000).toFixed(2)}s`);
+    console.log(`   Unitaires: ${(unitDurationMs / 1000).toFixed(2)}s | Intégration: ${(integrationDurationMs / 1000).toFixed(2)}s | BDD: ${(bddDurationMs / 1000).toFixed(2)}s | E2E: ${(e2eDurationMs / 1000).toFixed(2)}s`);
     console.log('   Réutilisation des durées (utilisez --force pour forcer le rechronométrage)\n');
   }
 

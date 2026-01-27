@@ -4,7 +4,7 @@
       "type": "video",
       "urlYouTube": "https://youtu.be/XoruJezxpsI",
       "lancementAuto": true,
-      "e2eID": "v10-profil-agile-1"
+      "e2eID": "v11"
     },
     {
       "type": "titreDePage",
@@ -50,12 +50,12 @@
       "type": "video",
       "urlYouTube": "https://youtu.be/mPif5EjzFYg",
       "lancementAuto": false,
-      "e2eID": "v10-profil-agile-2"
+      "e2eID": "v12"
     },
     {
       "type": "callToAction",
       "action": "On discute ?",
-      "e2eID": "a-profil-agile"
+      "e2eID": "a26"
     },
     {
       "type": "titre",

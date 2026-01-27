@@ -6,6 +6,7 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import PageContentRenderer from '../../components/PageContentRenderer';
 import type { ElementContenu } from '../../utils/indexReader';
+import { PageTitleProvider } from '../../contexts/PageTitleContext';
 
 // Mock all child components
 jest.mock('../../components/Titre', () => ({
@@ -68,12 +69,16 @@ jest.mock('../../components/HeroSection', () => ({
 }));
 
 describe('PageContentRenderer', () => {
+  const renderWithProvider = (component: React.ReactElement) => {
+    return render(<PageTitleProvider>{component}</PageTitleProvider>);
+  };
+
   it('devrait afficher un titre', () => {
     const contenu: ElementContenu[] = [
       { type: 'titre', texte: 'Test Titre' },
     ];
 
-    render(<PageContentRenderer contenu={contenu} />);
+    renderWithProvider(<PageContentRenderer contenu={contenu} />);
     
     expect(screen.getByTestId('titre')).toBeInTheDocument();
     expect(screen.getByText('Test Titre')).toBeInTheDocument();
@@ -84,7 +89,7 @@ describe('PageContentRenderer', () => {
       { type: 'video', urlYouTube: 'test', lancementAuto: false },
     ];
 
-    render(<PageContentRenderer contenu={contenu} />);
+    renderWithProvider(<PageContentRenderer contenu={contenu} />);
     
     expect(screen.getByTestId('video')).toBeInTheDocument();
   });
@@ -94,7 +99,7 @@ describe('PageContentRenderer', () => {
       { type: 'texteLarge', texte: 'Test Text' },
     ];
 
-    render(<PageContentRenderer contenu={contenu} />);
+    renderWithProvider(<PageContentRenderer contenu={contenu} />);
     
     expect(screen.getByTestId('texte-large')).toBeInTheDocument();
   });
@@ -105,11 +110,11 @@ describe('PageContentRenderer', () => {
         type: 'domaineDeCompetence',
         titre: 'Test Domaine',
         contenu: 'Description',
-        competences: [],
+        items: [],
       },
     ];
 
-    render(<PageContentRenderer contenu={contenu} />);
+    renderWithProvider(<PageContentRenderer contenu={contenu} />);
     
     expect(screen.getByTestId('domaine')).toBeInTheDocument();
   });
@@ -119,7 +124,7 @@ describe('PageContentRenderer', () => {
       { type: 'callToAction', texte: 'Test CTA', url: '#' },
     ];
 
-    render(<PageContentRenderer contenu={contenu} />);
+    renderWithProvider(<PageContentRenderer contenu={contenu} />);
     
     expect(screen.getByTestId('cta')).toBeInTheDocument();
   });
@@ -129,13 +134,13 @@ describe('PageContentRenderer', () => {
       { type: 'groupeBoutons', groupes: [] },
     ];
 
-    render(<PageContentRenderer contenu={contenu} />);
+    renderWithProvider(<PageContentRenderer contenu={contenu} />);
     
     expect(screen.getByTestId('groupe-boutons')).toBeInTheDocument();
   });
 
   it('devrait gérer un contenu vide', () => {
-    const { container } = render(<PageContentRenderer contenu={[]} />);
+    const { container } = renderWithProvider(<PageContentRenderer contenu={[]} />);
     
     expect(container.firstChild).toBeNull();
   });
@@ -147,7 +152,7 @@ describe('PageContentRenderer', () => {
       { type: 'video', urlYouTube: 'test', lancementAuto: false },
     ];
 
-    render(<PageContentRenderer contenu={contenu} />);
+    renderWithProvider(<PageContentRenderer contenu={contenu} />);
     
     expect(screen.getByTestId('titre')).toBeInTheDocument();
     expect(screen.getByTestId('texte-large')).toBeInTheDocument();
@@ -169,7 +174,7 @@ describe('PageContentRenderer', () => {
       },
     ];
 
-    render(<PageContentRenderer contenu={contenu} />);
+    renderWithProvider(<PageContentRenderer contenu={contenu} />);
     
     expect(screen.getByTestId('hero')).toBeInTheDocument();
     expect(screen.getByText('Alain Meunier')).toBeInTheDocument();

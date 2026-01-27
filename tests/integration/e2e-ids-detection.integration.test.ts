@@ -157,7 +157,8 @@ describe('Détection des éléments sans e2eID', () => {
           }
 
           if (typeof obj.e2eID === 'string') {
-            if (!formatRegex.test(obj.e2eID)) {
+            // Ignorer les e2eID vides (seront traités par la détection)
+            if (obj.e2eID !== '' && !formatRegex.test(obj.e2eID)) {
               throw new Error(
                 `Format e2eID invalide dans ${jsonFile} à ${path}: "${obj.e2eID}" (format attendu: [lettre][chiffres], ex: "v10", "b15")`
               );

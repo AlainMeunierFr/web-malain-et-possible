@@ -7,6 +7,7 @@
 import fs from 'fs';
 import path from 'path';
 import { E2E_IDS } from '../constants/e2eIds';
+import { isInReservedRange } from './e2eIdFromUrl';
 
 /**
  * Extrait le numéro d'un e2eID (2e caractère et suivants)
@@ -70,7 +71,9 @@ export function calculateMaxCounter(): number {
         // Si l'objet a un e2eID
         if (typeof obj.e2eID === 'string') {
           const num = extractNumberFromE2eId(obj.e2eID);
-          if (num > maxCounter) {
+          // Exclure les plages réservées pour les liens du plan du site (l600-l749 et l800-l949)
+          // Ces plages sont utilisées par generateE2eIdFromUrl() et ne doivent pas être comptées
+          if (num > maxCounter && !isInReservedRange(num)) {
             maxCounter = num;
           }
         }

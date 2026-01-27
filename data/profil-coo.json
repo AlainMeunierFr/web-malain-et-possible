@@ -4,7 +4,7 @@
       "type": "video",
       "urlYouTube": "https://youtu.be/9rwtuxXiKC0",
       "lancementAuto": true,
-      "e2eID": "v10-profil-coo"
+      "e2eID": "v27"
     },
     {
       "type": "titreDePage",
@@ -41,7 +41,7 @@
     {
       "type": "callToAction",
       "action": "On discute ?",
-      "e2eID": "a-profil-coo"
+      "e2eID": "a28"
     },
     {
       "type": "titre",

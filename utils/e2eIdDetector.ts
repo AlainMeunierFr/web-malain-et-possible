@@ -48,7 +48,7 @@ const FICHIERS_JSON_IGNORES = new Set([
   '_Pages-Et-Lien.json',
   'plan-du-site.json',
   '_motdepasse.json',
-  '_footerButtons.json',
+  // '_footerButtons.json' retiré : doit être vérifié pour les e2eID
   '_metrics.json',
   '_temoignages.json',
 ]);
@@ -89,7 +89,8 @@ function detectInJsonFiles(): DetectionItem[] {
 
   for (const jsonFile of jsonFiles) {
     // Ignorer les fichiers avec préfixe _ (fichiers de configuration)
-    if (jsonFile.startsWith('_') || FICHIERS_JSON_IGNORES.has(jsonFile)) {
+    // Exception : _footerButtons.json doit être vérifié pour les e2eID
+    if ((jsonFile.startsWith('_') && jsonFile !== '_footerButtons.json') || FICHIERS_JSON_IGNORES.has(jsonFile)) {
       continue;
     }
 

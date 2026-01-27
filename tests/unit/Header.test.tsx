@@ -8,6 +8,7 @@ import fs from 'fs';
 import path from 'path';
 import Header from '../../components/Header';
 import { EditingProvider } from '../../contexts/EditingContext';
+import { PageTitleProvider } from '../../contexts/PageTitleContext';
 
 // Mock next/navigation
 const mockPush = jest.fn();
@@ -26,9 +27,13 @@ jest.mock('next/image', () => ({
   },
 }));
 
-// Helper pour wrapper les composants avec EditingProvider
+// Helper pour wrapper les composants avec EditingProvider et PageTitleProvider
 const renderWithProvider = (ui: React.ReactElement) => {
-  return render(<EditingProvider>{ui}</EditingProvider>);
+  return render(
+    <PageTitleProvider>
+      <EditingProvider>{ui}</EditingProvider>
+    </PageTitleProvider>
+  );
 };
 
 describe('Header', () => {

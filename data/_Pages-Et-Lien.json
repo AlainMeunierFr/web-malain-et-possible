@@ -3,106 +3,98 @@
     {
       "url": "/",
       "titre": "Home",
-      "x": null,
-      "y": null,
+      "x": 500,
+      "y": 600,
+      "numero": 42,
       "dessiner": "Oui",
-      "zone": "HomePage"
+      "e2eIDs": [
+        "e2e1",
+        "e2e2"
+      ]
     },
     {
       "url": "/a-propos-du-site",
       "titre": "a-propos-du-site",
-      "x": null,
-      "y": null,
-      "dessiner": "Oui",
-      "zone": "Footer"
+      "x": 200,
+      "y": 200,
+      "dessiner": "Oui"
     },
     {
       "url": "/detournement-video",
       "titre": "Détournement de scènes cultes du cinéma",
       "x": null,
       "y": null,
-      "dessiner": "Oui",
-      "zone": "Autres"
+      "dessiner": "Oui"
     },
     {
       "url": "/faisons-connaissance",
       "titre": "Faisons connaissance",
       "x": null,
       "y": null,
-      "dessiner": "Oui",
-      "zone": "Footer"
+      "dessiner": "Oui"
     },
     {
       "url": "/maintenance",
       "titre": "maintenance",
       "x": null,
       "y": null,
-      "dessiner": "Non",
-      "zone": "Masqué"
+      "dessiner": "Non"
     },
     {
       "url": "/metrics",
       "titre": "metrics",
       "x": null,
       "y": null,
-      "dessiner": "Oui",
-      "zone": "Footer"
+      "dessiner": "Oui"
     },
     {
       "url": "/plan-du-site",
       "titre": "Plan du site",
       "x": null,
       "y": null,
-      "dessiner": "Non",
-      "zone": "Masqué"
+      "dessiner": "Non"
     },
     {
       "url": "/portfolio-detournements",
       "titre": "Portfolio de detournements vidéos",
       "x": null,
       "y": null,
-      "dessiner": "Oui",
-      "zone": "Autres"
+      "dessiner": "Oui"
     },
     {
       "url": "/pour-aller-plus-loin",
       "titre": "Pour aller plus loin, je vous propose une expérience...",
       "x": null,
       "y": null,
-      "dessiner": "Oui",
-      "zone": "Autres"
+      "dessiner": "Oui"
     },
     {
       "url": "/profil/cpo",
       "titre": "Produit logiciel",
       "x": null,
       "y": null,
-      "dessiner": "Oui",
-      "zone": "Profils"
+      "dessiner": "Oui"
     },
     {
       "url": "/profil/coo",
       "titre": "Opérations",
       "x": null,
       "y": null,
-      "dessiner": "Oui",
-      "zone": "Profils"
+      "dessiner": "Oui"
     },
     {
       "url": "/profil/agile",
       "titre": "Transformation Agile",
       "x": null,
       "y": null,
-      "dessiner": "Oui",
-      "zone": "Profils"
+      "dessiner": "Oui"
     },
     {
       "url": "/profil/cto",
       "titre": "Technologie",
       "x": null,
       "y": null,
-      "dessiner": "Oui",
-      "zone": "Profils"
+      "dessiner": "Oui"
     }
   ],
   "liens": [

@@ -212,7 +212,7 @@ describe('profilPages - Approche TDD', () => {
             type: 'video',
             urlYouTube: 'https://youtu.be/XoruJezxpsI',
             lancementAuto: true,
-            e2eID: 'v10-profil-agile-1',
+            e2eID: 'v11',
           },
           {
             type: 'titre',
@@ -226,7 +226,7 @@ describe('profilPages - Approche TDD', () => {
             type: 'video',
             urlYouTube: 'https://youtu.be/mPif5EjzFYg',
             lancementAuto: false,
-            e2eID: 'v10-profil-agile-2',
+            e2eID: 'v12',
           },
           {
             type: 'callToAction',
@@ -236,8 +236,47 @@ describe('profilPages - Approche TDD', () => {
         ],
       };
 
-      mockFs.existsSync.mockReturnValue(true);
-      mockFs.readFileSync.mockReturnValue(JSON.stringify(mockPageData));
+      // Mock competences.json avec la structure correcte
+      const mockCompetences = {
+        competences: {
+          'test-competence': {
+            id: 'test-competence',
+            titre: 'Test',
+            type: 'competence',
+          },
+        },
+      };
+
+      // Mock domaines.json
+      const mockDomaines = {
+        domaines: {
+          'bien-applique-l-agilite-est-un-cadre-puissant-pour-delivrer-de-la-valeur': {
+            id: 'bien-applique-l-agilite-est-un-cadre-puissant-pour-delivrer-de-la-valeur',
+            titre: 'Test Domaine',
+            competences: [],
+          },
+        },
+      };
+
+      mockFs.existsSync.mockImplementation((filePath: string) => {
+        if (filePath.includes('profil-agile.json')) return true;
+        if (filePath.includes('competences.json')) return true;
+        if (filePath.includes('domaines.json')) return true;
+        return false;
+      });
+
+      mockFs.readFileSync.mockImplementation((filePath: string) => {
+        if (filePath.includes('profil-agile.json')) {
+          return JSON.stringify(mockPageData);
+        }
+        if (filePath.includes('competences.json')) {
+          return JSON.stringify(mockCompetences);
+        }
+        if (filePath.includes('domaines.json')) {
+          return JSON.stringify(mockDomaines);
+        }
+        return '{}';
+      });
 
       // ACT
       const result = readPageData('profil-agile.json');
@@ -311,8 +350,37 @@ describe('profilPages - Approche TDD', () => {
         ],
       };
 
-      mockFs.existsSync.mockReturnValue(true);
-      mockFs.readFileSync.mockReturnValue(JSON.stringify(mockPageData));
+      const competencesPath = path.join(process.cwd(), 'data', 'bibliotheque', 'competences.json');
+      const domainesPath = path.join(process.cwd(), 'data', 'bibliotheque', 'domaines.json');
+      const profilPath = path.join(process.cwd(), 'data', 'profil-cpo.json');
+
+      mockFs.existsSync.mockImplementation((filePath: string) => {
+        return filePath === profilPath || filePath === competencesPath || filePath === domainesPath;
+      });
+
+      mockFs.readFileSync.mockImplementation((file: string) => {
+        if (file === profilPath || file.includes('profil-cpo.json')) {
+          return JSON.stringify(mockPageData);
+        }
+        if (file === domainesPath || file.includes('bibliotheque/domaines.json')) {
+          return JSON.stringify({
+            domaines: {
+              'bien-applique-l-agilite-est-un-cadre-puissant-pour-delivrer-de-la-valeur': {
+                id: 'bien-applique-l-agilite-est-un-cadre-puissant-pour-delivrer-de-la-valeur',
+                titre: 'Bien appliqué, l\'agilité est un cadre puissant pour délivrer de la valeur.',
+                contenu: '',
+                competences: [],
+              },
+            },
+          });
+        }
+        if (file === competencesPath || file.includes('bibliotheque/competences.json')) {
+          return JSON.stringify({
+            competences: {},
+          });
+        }
+        return '{}';
+      });
 
       // ACT
       const result = readPageData('profil-cpo.json');
@@ -327,7 +395,8 @@ describe('profilPages - Approche TDD', () => {
   describe('Intégrité référentielle des pages de profils', () => {
     it('devrait détecter une référence cassée dans profil-cpo.json', () => {
       // ARRANGE
-      const mockPageData = {
+      // Créer directement les données sans passer par readPageData qui lance une erreur pour les références cassées
+      const pageData = {
         contenu: [
           {
             type: 'domaineDeCompetence',
@@ -339,11 +408,7 @@ describe('profilPages - Approche TDD', () => {
       const competences = new Map();
       const domaines = new Map();
 
-      mockFs.existsSync.mockReturnValue(true);
-      mockFs.readFileSync.mockReturnValue(JSON.stringify(mockPageData));
-
       // ACT
-      const pageData = readPageData('profil-cpo.json');
       const integrityCheck = checkReferentialIntegrity(pageData, competences, domaines);
 
       // ASSERT
@@ -379,8 +444,44 @@ describe('profilPages - Approche TDD', () => {
         competences: ['vision-produit'],
       } as any);
 
-      mockFs.existsSync.mockReturnValue(true);
-      mockFs.readFileSync.mockReturnValue(JSON.stringify(mockPageData));
+      const competencesPath = path.join(process.cwd(), 'data', 'bibliotheque', 'competences.json');
+      const domainesPath = path.join(process.cwd(), 'data', 'bibliotheque', 'domaines.json');
+      const profilPath = path.join(process.cwd(), 'data', 'profil-cpo.json');
+
+      mockFs.existsSync.mockImplementation((filePath: string) => {
+        return filePath === profilPath || filePath === competencesPath || filePath === domainesPath;
+      });
+
+      mockFs.readFileSync.mockImplementation((file: string) => {
+        if (file === profilPath || file.includes('profil-cpo.json')) {
+          return JSON.stringify(mockPageData);
+        }
+        if (file === domainesPath || file.includes('bibliotheque/domaines.json')) {
+          return JSON.stringify({
+            domaines: {
+              'bien-applique-l-agilite-est-un-cadre-puissant-pour-delivrer-de-la-valeur': {
+                id: 'bien-applique-l-agilite-est-un-cadre-puissant-pour-delivrer-de-la-valeur',
+                titre: 'Bien appliqué, l\'agilité...',
+                contenu: '',
+                competences: ['vision-produit'],
+              },
+            },
+          });
+        }
+        if (file === competencesPath || file.includes('bibliotheque/competences.json')) {
+          return JSON.stringify({
+            competences: {
+              'vision-produit': {
+                id: 'vision-produit',
+                titre: 'Vision produit',
+                type: 'competence',
+                bouton: null,
+              },
+            },
+          });
+        }
+        return '{}';
+      });
 
       // ACT
       const pageData = readPageData('profil-cpo.json');

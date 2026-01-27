@@ -7,6 +7,7 @@ import fs from 'fs';
 import path from 'path';
 import { getNextAvailableId, calculateMaxCounter } from './e2eIdCounter';
 import { detectMissingE2eIds, generateAuditFile } from './e2eIdDetector';
+import { isInReservedRange } from './e2eIdFromUrl';
 import type { DetectionItem } from './e2eIdDetector';
 
 interface AuditFile {
@@ -219,6 +220,11 @@ export function generateE2eIdsFromAudit(): {
   for (const item of audit.json) {
     if (item.action === 'add') {
       currentCounter++;
+      // Si le compteur tombe dans une plage réservée (l600-l749 ou l800-l949), le sauter
+      // Ces plages sont réservées pour les liens du plan du site (génération déterministe)
+      while (item.type === 'link' && isInReservedRange(currentCounter)) {
+        currentCounter++;
+      }
       const e2eId = generateE2eId(item.type, currentCounter);
       try {
         updateJsonFile(item.file, item.path, e2eId);
@@ -241,6 +247,11 @@ export function generateE2eIdsFromAudit(): {
   for (const item of audit.react) {
     if (item.action === 'add') {
       currentCounter++;
+      // Si le compteur tombe dans une plage réservée (l600-l749 ou l800-l949), le sauter
+      // Ces plages sont réservées pour les liens du plan du site (génération déterministe)
+      while (item.type === 'link' && isInReservedRange(currentCounter)) {
+        currentCounter++;
+      }
       const e2eId = generateE2eId(item.type, currentCounter);
       try {
         if (item.line) {
@@ -274,8 +285,10 @@ export function generateE2eIdsFromAudit(): {
     const newAuditFile = generateAuditFile(newResult);
 
     if (newAuditFile === null) {
-      // Plus d'erreurs, supprimer le fichier d'audit
-      fs.unlinkSync(auditPath);
+      // Plus d'erreurs, supprimer le fichier d'audit s'il existe
+      if (fs.existsSync(auditPath)) {
+        fs.unlinkSync(auditPath);
+      }
       return {
         success: true,
         generated,

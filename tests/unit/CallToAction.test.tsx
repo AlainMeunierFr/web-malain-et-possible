@@ -40,7 +40,7 @@ describe('Composant CallToAction', () => {
     expect(lien).toHaveAttribute('href', '/faisons-connaissance');
   });
 
-  it('devrait avoir la classe CSS callToActionContainer', () => {
+  it('devrait avoir la classe CSS callToAction', () => {
     const element: ElementCallToAction = {
       type: 'callToAction',
       action: 'Test',
@@ -49,10 +49,10 @@ describe('Composant CallToAction', () => {
     const { container } = render(<CallToAction element={element} />);
     const div = container.firstChild as HTMLElement;
 
-    expect(div).toHaveClass('callToActionContainer');
+    expect(div).toHaveClass('callToAction');
   });
 
-  it('devrait avoir la classe CSS callToActionButton sur le lien', () => {
+  it('devrait avoir la classe CSS bouton sur le lien', () => {
     const element: ElementCallToAction = {
       type: 'callToAction',
       action: 'Test',
@@ -61,6 +61,6 @@ describe('Composant CallToAction', () => {
     render(<CallToAction element={element} />);
 
     const lien = screen.getByRole('link');
-    expect(lien).toHaveClass('callToActionButton');
+    expect(lien).toHaveClass('bouton');
   });
 });

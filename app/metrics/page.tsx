@@ -418,17 +418,35 @@ export default function MetricsPage() {
               value={latest.quality.eslintWarnings}
               metricKey="eslintWarnings"
             />
-            <MetricCard 
-              title="Type Coverage" 
-              value={latest.quality.typeCoverage}
-              unit="%"
-              metricKey="typeCoverage"
-            />
-            <MetricCard 
-              title="Complexité Cyclomatique" 
-              value={latest.quality.cyclomaticComplexity}
-              metricKey="cyclomaticComplexity"
-            />
+            {latest.quality.typeCoverage !== "NC" && (
+              <MetricCard 
+                title="Type Coverage" 
+                value={latest.quality.typeCoverage}
+                unit="%"
+                metricKey="typeCoverage"
+              />
+            )}
+            {latest.quality.cyclomaticComplexity !== "NC" && (
+              <MetricCard 
+                title="Complexité Cyclomatique" 
+                value={latest.quality.cyclomaticComplexity}
+                metricKey="cyclomaticComplexity"
+              />
+            )}
+            {latest.quality.maintainabilityIndex !== "NC" && (
+              <MetricCard 
+                title="Index de Maintenabilité" 
+                value={latest.quality.maintainabilityIndex}
+                metricKey="maintainabilityIndex"
+              />
+            )}
+            {latest.quality.technicalDebt !== "NC" && (
+              <MetricCard 
+                title="Dette Technique" 
+                value={latest.quality.technicalDebt}
+                metricKey="technicalDebt"
+              />
+            )}
           </div>
         </section>
 
@@ -494,7 +512,7 @@ export default function MetricsPage() {
               unit="s"
               metricKey="buildTime"
             />
-            {latest.performance.lighthouseScore && (
+            {latest.performance.lighthouseScore && latest.performance.lighthouseScore !== "NC" && (
               <MetricCard 
                 title="Score Lighthouse" 
                 value={latest.performance.lighthouseScore}

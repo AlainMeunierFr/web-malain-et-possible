@@ -96,50 +96,56 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
   if (await element15.count() > 0) {
     await expect(element15).toBeVisible();
   }
-  // Test e2eID: v10-profil-agile-1 (video - profil-agile.json)
-  const element16 = page.getByTestId('e2eid-v10-profil-agile-1');
+  // Test e2eID: v11 (video - profil-agile.json)
+  const element16 = page.getByTestId('e2eid-v11');
   if (await element16.count() > 0) {
     await expect(element16).toBeVisible();
   }
-  // Test e2eID: v10-profil-agile-2 (video - profil-agile.json)
-  const element17 = page.getByTestId('e2eid-v10-profil-agile-2');
+  // Test e2eID: v12 (video - profil-agile.json)
+  const element17 = page.getByTestId('e2eid-v12');
   if (await element17.count() > 0) {
     await expect(element17).toBeVisible();
   }
-  // Test e2eID: a-profil-agile (callToAction - profil-agile.json)
-  const element18 = page.getByTestId('e2eid-a-profil-agile');
+  // Test e2eID: a26 (callToAction - profil-agile.json)
+  const element18 = page.getByTestId('e2eid-a26');
   if (await element18.count() > 0) {
     await expect(element18).toBeVisible();
   }
-  // Test e2eID: v10-profil-coo (video - profil-coo.json)
-  const element19 = page.getByTestId('e2eid-v10-profil-coo');
+  // Test e2eID: v27 (video - profil-coo.json)
+  const element19 = page.getByTestId('e2eid-v27');
   if (await element19.count() > 0) {
     await expect(element19).toBeVisible();
   }
-  // Test e2eID: a-profil-coo (callToAction - profil-coo.json)
-  const element20 = page.getByTestId('e2eid-a-profil-coo');
+  // Test e2eID: a28 (callToAction - profil-coo.json)
+  const element20 = page.getByTestId('e2eid-a28');
   if (await element20.count() > 0) {
     await expect(element20).toBeVisible();
   }
-  // Test e2eID: v10-profil-cpo (video - profil-cpo.json)
-  const element21 = page.getByTestId('e2eid-v10-profil-cpo');
+  // Test e2eID: v29 (video - profil-cpo.json)
+  const element21 = page.getByTestId('e2eid-v29');
   if (await element21.count() > 0) {
     await expect(element21).toBeVisible();
   }
-  // Test e2eID: a-profil-cpo (callToAction - profil-cpo.json)
-  const element22 = page.getByTestId('e2eid-a-profil-cpo');
+  // Test e2eID: a30 (callToAction - profil-cpo.json)
+  const element22 = page.getByTestId('e2eid-a30');
   if (await element22.count() > 0) {
     await expect(element22).toBeVisible();
   }
-  // Test e2eID: v10-profil-cto (video - profil-cto.json)
-  const element23 = page.getByTestId('e2eid-v10-profil-cto');
+  // Test e2eID: v31 (video - profil-cto.json)
+  const element23 = page.getByTestId('e2eid-v31');
   if (await element23.count() > 0) {
     await expect(element23).toBeVisible();
   }
-  // Test e2eID: a-profil-cto (callToAction - profil-cto.json)
-  const element24 = page.getByTestId('e2eid-a-profil-cto');
+  // Test e2eID: a32 (callToAction - profil-cto.json)
+  const element24 = page.getByTestId('e2eid-a32');
   if (await element24.count() > 0) {
     await expect(element24).toBeVisible();
+  }
+  // Test e2eID: hero-bouton-principal (react - HeroSection.tsx)
+  const element25 = page.getByTestId('e2eid-hero-bouton-principal');
+  if (await element25.count() > 0) {
+    await expect(element25).toBeVisible();
+    // Élément interactif présent et visible
   }
 
   await test.step("Étape 2: Navigation de / vers /plan-du-site (Plan du site)", async () => {
@@ -153,69 +159,12 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
     }
   });
 
-  await test.step("Étape 3: Navigation de /plan-du-site vers /plan-du-site (Plan du site)", async () => {
-    // On est déjà sur /plan-du-site, pas besoin de naviguer vers la même page
-    // Vérifier simplement qu'on est bien sur la bonne page
-    await expect(page).toHaveURL('/plan-du-site');
-  });
-
-  await test.step("Étape 4: Navigation de /plan-du-site vers /metrics (BarChart3)", async () => {
+  await test.step("Étape 3: Navigation de /plan-du-site vers /a-propos-du-site (Info)", async () => {
     // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
-    const liens3 = page.getByRole('link', { name: /BarChart3/i });
-    if (await liens3.count() > 0) {
+    const liens2 = page.getByRole('link', { name: /Info/i });
+    if (await liens2.count() > 0) {
       // Si plusieurs liens avec le même label, trouver celui qui va vers la bonne destination
-      const liensTrouves = await liens3.all();
-      let lienTrouve = null;
-      for (const lien of liensTrouves) {
-        const href = await lien.getAttribute('href');
-        // Normaliser l'URL (enlever le slash final si présent)
-        const hrefNormalise = href ? href.replace(/\/$/, '') : '';
-        const destinationNormalisee = '/metrics'.replace(/\/$/, '');
-        if (hrefNormalise === destinationNormalisee || hrefNormalise === destinationNormalisee + '/' || href === destinationNormalisee || href === destinationNormalisee + '/') {
-          lienTrouve = lien;
-          break;
-        }
-      }
-      if (lienTrouve) {
-        await lienTrouve.click();
-      } else {
-        // Aucun lien trouvé vers la destination exacte, échouer pour détecter les incohérences
-        throw new Error(`Impossible de trouver un lien vers /metrics depuis /plan-du-site (label: "BarChart3"). Vérifiez que le lien existe et est accessible depuis cette page.`);
-      }
-    } else {
-      // Lien non trouvé par label, navigation via plan-du-site ou accueil
-      // Le footer et le header sont toujours disponibles sur toutes les pages
-      // /metrics est accessible via le bouton du footer (b14), pas via un lien
-      const boutonMetrics = page.getByTestId('e2eid-b14');
-      if (await boutonMetrics.count() > 0) {
-        await boutonMetrics.click();
-        await expect(page).toHaveURL('/metrics');
-      } else {
-        throw new Error('Impossible de trouver le bouton Metrics (e2eid-b14) dans le footer.');
-      }
-    }
-    await expect(page).toHaveURL('/metrics');
-  });
-
-  // Test des e2eID présents sur /metrics
-
-  await test.step("Étape 5: Navigation de /metrics vers /plan-du-site (Plan du site)", async () => {
-    // /plan-du-site est accessible via le bouton du footer (b13), pas via un lien
-    const boutonPlanDuSite = page.getByTestId('e2eid-b13');
-    if (await boutonPlanDuSite.count() > 0) {
-      await boutonPlanDuSite.click();
-      await expect(page).toHaveURL('/plan-du-site');
-    } else {
-      throw new Error('Impossible de trouver le bouton Plan du site (e2eid-b13) dans le footer.');
-    }
-  });
-
-  await test.step("Étape 6: Navigation de /plan-du-site vers /a-propos-du-site (Info)", async () => {
-    // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
-    const liens5 = page.getByRole('link', { name: /Info/i });
-    if (await liens5.count() > 0) {
-      // Si plusieurs liens avec le même label, trouver celui qui va vers la bonne destination
-      const liensTrouves = await liens5.all();
+      const liensTrouves = await liens2.all();
       let lienTrouve = null;
       for (const lien of liensTrouves) {
         const href = await lien.getAttribute('href');
@@ -250,2259 +199,12 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
 
   // Test des e2eID présents sur /a-propos-du-site
 
-  await test.step("Étape 7: Navigation de /a-propos-du-site vers /plan-du-site (Plan du site)", async () => {
-    // /plan-du-site est accessible via le bouton du footer (b13), pas via un lien
-    const boutonPlanDuSite = page.getByTestId('e2eid-b13');
-    if (await boutonPlanDuSite.count() > 0) {
-      await boutonPlanDuSite.click();
-      await expect(page).toHaveURL('/plan-du-site');
-    } else {
-      throw new Error('Impossible de trouver le bouton Plan du site (e2eid-b13) dans le footer.');
-    }
-  });
-
-  await test.step("Étape 8: Navigation de /plan-du-site vers /detournement-video (lien)", async () => {
+  await test.step("Étape 4: Navigation de /a-propos-du-site vers /detournement-video (lien)", async () => {
     // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
-    const liens7 = page.getByRole('link', { name: /lien/i });
-    if (await liens7.count() > 0) {
+    const liens3 = page.getByRole('link', { name: /lien/i });
+    if (await liens3.count() > 0) {
       // Si plusieurs liens avec le même label, trouver celui qui va vers la bonne destination
-      const liensTrouves = await liens7.all();
-      let lienTrouve = null;
-      for (const lien of liensTrouves) {
-        const href = await lien.getAttribute('href');
-        // Normaliser l'URL (enlever le slash final si présent)
-        const hrefNormalise = href ? href.replace(/\/$/, '') : '';
-        const destinationNormalisee = '/detournement-video'.replace(/\/$/, '');
-        if (hrefNormalise === destinationNormalisee || hrefNormalise === destinationNormalisee + '/' || href === destinationNormalisee || href === destinationNormalisee + '/') {
-          lienTrouve = lien;
-          break;
-        }
-      }
-      if (lienTrouve) {
-        await lienTrouve.click();
-      } else {
-        // Aucun lien trouvé vers la destination exacte, échouer pour détecter les incohérences
-        throw new Error(`Impossible de trouver un lien vers /detournement-video depuis /plan-du-site (label: "lien"). Vérifiez que le lien existe et est accessible depuis cette page.`);
-      }
-    } else {
-      // Lien non trouvé par label, navigation via plan-du-site ou accueil
-      // Le footer et le header sont toujours disponibles sur toutes les pages
-      // Option 1 : Essayer via le plan du site (footer) - c'est un bouton, pas un lien
-      const boutonPlanDuSite = page.getByTestId('e2eid-b13');
-      if (await boutonPlanDuSite.count() > 0) {
-        await boutonPlanDuSite.click();
-        await expect(page).toHaveURL('/plan-du-site');
-        // Vérifier si la destination est accessible via un bouton du footer ou si c'est /plan-du-site ou /
-        if ('/detournement-video' === '/plan-du-site') {
-          // On est déjà sur /plan-du-site, pas besoin de naviguer à nouveau
-        } else if ('/detournement-video' === '/') {
-          // Pour aller à l'accueil, utiliser le logo du header (h1)
-          const logo = page.getByTestId('e2eid-h1');
-          if (await logo.count() > 0) {
-            await logo.click();
-            await expect(page).toHaveURL('/');
-          } else {
-            // Fallback : navigation directe
-            await page.goto('/');
-          }
-        } else if ('/detournement-video' === '/metrics') {
-          // /metrics est accessible via le bouton du footer (b14)
-          const boutonMetrics = page.getByTestId('e2eid-b14');
-          if (await boutonMetrics.count() > 0) {
-            await boutonMetrics.click();
-            await expect(page).toHaveURL('/metrics');
-          } else {
-            throw new Error('Impossible de trouver le bouton Metrics (e2eid-b14) dans le footer.');
-          }
-        } else if ('/detournement-video' === '/a-propos-du-site') {
-          // /a-propos-du-site est accessible via le bouton du footer (b15)
-          const boutonAbout = page.getByTestId('e2eid-b15');
-          if (await boutonAbout.count() > 0) {
-            await boutonAbout.click();
-            await expect(page).toHaveURL('/a-propos-du-site');
-          } else {
-            throw new Error('Impossible de trouver le bouton About (e2eid-b15) dans le footer.');
-          }
-        } else {
-          // Depuis le plan du site, chercher le lien par son e2eID (généré de manière déterministe)
-          // Chercher le lien par son e2eID (généré de manière déterministe depuis l'URL)
-          // Attendre que le plan du site soit chargé (les liens sont chargés de manière asynchrone)
-          await page.waitForSelector('[data-e2eid^="e2eid-l"]', { timeout: 5000 }).catch(() => {});
-          const lienDepuisPlan7 = page.getByTestId('e2eid-l756');
-          if (await lienDepuisPlan7.count() === 0) {
-            throw new Error('Impossible de trouver un lien vers /detournement-video (e2eID: e2eid-l756) depuis le plan du site. La page n\'est peut-être pas accessible ou le lien est manquant dans le plan du site.');
-          }
-          await lienDepuisPlan7.first().click();
-        }
-      } else {
-        // Option 2 : Via le logo (header) vers l'accueil
-        const logo = page.getByAltText('Logo Malain et possible');
-        if (await logo.count() > 0) {
-          await logo.click();
-          await expect(page).toHaveURL('/');
-        } else {
-          // Fallback : navigation directe vers l'accueil
-          await page.goto('/');
-        }
-        // Depuis l'accueil, chercher le lien vers la destination
-        const lienDepuisAccueil7 = page.getByRole('link', { name: new RegExp(`/detournement-video`, 'i') });
-        if (await lienDepuisAccueil7.count() === 0) {
-          // Essayer aussi par le label original si disponible
-          const lienParLabel7 = page.getByRole('link', { name: new RegExp(`lien`, 'i') });
-          if (await lienParLabel7.count() === 0) {
-            throw new Error(`Impossible de trouver un lien vers /detournement-video depuis l'accueil (label: "lien"). La page n'est peut-être pas accessible depuis l'accueil ou le lien est manquant.`);
-          }
-          await lienParLabel7.first().click();
-        } else {
-          await lienDepuisAccueil7.first().click();
-        }
-      }
-    }
-    await expect(page).toHaveURL('/detournement-video');
-  });
-
-  // Test des e2eID présents sur /detournement-video
-
-  await test.step("Étape 9: Navigation de /detournement-video vers /plan-du-site (Plan du site)", async () => {
-    // /plan-du-site est accessible via le bouton du footer (b13), pas via un lien
-    const boutonPlanDuSite = page.getByTestId('e2eid-b13');
-    if (await boutonPlanDuSite.count() > 0) {
-      await boutonPlanDuSite.click();
-      await expect(page).toHaveURL('/plan-du-site');
-    } else {
-      throw new Error('Impossible de trouver le bouton Plan du site (e2eid-b13) dans le footer.');
-    }
-  });
-
-  await test.step("Étape 10: Navigation de /plan-du-site vers /portfolio-detournements (lien)", async () => {
-    // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
-    const liens9 = page.getByRole('link', { name: /lien/i });
-    if (await liens9.count() > 0) {
-      // Si plusieurs liens avec le même label, trouver celui qui va vers la bonne destination
-      const liensTrouves = await liens9.all();
-      let lienTrouve = null;
-      for (const lien of liensTrouves) {
-        const href = await lien.getAttribute('href');
-        // Normaliser l'URL (enlever le slash final si présent)
-        const hrefNormalise = href ? href.replace(/\/$/, '') : '';
-        const destinationNormalisee = '/portfolio-detournements'.replace(/\/$/, '');
-        if (hrefNormalise === destinationNormalisee || hrefNormalise === destinationNormalisee + '/' || href === destinationNormalisee || href === destinationNormalisee + '/') {
-          lienTrouve = lien;
-          break;
-        }
-      }
-      if (lienTrouve) {
-        await lienTrouve.click();
-      } else {
-        // Aucun lien trouvé vers la destination exacte, échouer pour détecter les incohérences
-        throw new Error(`Impossible de trouver un lien vers /portfolio-detournements depuis /plan-du-site (label: "lien"). Vérifiez que le lien existe et est accessible depuis cette page.`);
-      }
-    } else {
-      // Lien non trouvé par label, navigation via plan-du-site ou accueil
-      // Le footer et le header sont toujours disponibles sur toutes les pages
-      // Option 1 : Essayer via le plan du site (footer) - c'est un bouton, pas un lien
-      const boutonPlanDuSite = page.getByTestId('e2eid-b13');
-      if (await boutonPlanDuSite.count() > 0) {
-        await boutonPlanDuSite.click();
-        await expect(page).toHaveURL('/plan-du-site');
-        // Vérifier si la destination est accessible via un bouton du footer ou si c'est /plan-du-site ou /
-        if ('/portfolio-detournements' === '/plan-du-site') {
-          // On est déjà sur /plan-du-site, pas besoin de naviguer à nouveau
-        } else if ('/portfolio-detournements' === '/') {
-          // Pour aller à l'accueil, utiliser le logo du header (h1)
-          const logo = page.getByTestId('e2eid-h1');
-          if (await logo.count() > 0) {
-            await logo.click();
-            await expect(page).toHaveURL('/');
-          } else {
-            // Fallback : navigation directe
-            await page.goto('/');
-          }
-        } else if ('/portfolio-detournements' === '/metrics') {
-          // /metrics est accessible via le bouton du footer (b14)
-          const boutonMetrics = page.getByTestId('e2eid-b14');
-          if (await boutonMetrics.count() > 0) {
-            await boutonMetrics.click();
-            await expect(page).toHaveURL('/metrics');
-          } else {
-            throw new Error('Impossible de trouver le bouton Metrics (e2eid-b14) dans le footer.');
-          }
-        } else if ('/portfolio-detournements' === '/a-propos-du-site') {
-          // /a-propos-du-site est accessible via le bouton du footer (b15)
-          const boutonAbout = page.getByTestId('e2eid-b15');
-          if (await boutonAbout.count() > 0) {
-            await boutonAbout.click();
-            await expect(page).toHaveURL('/a-propos-du-site');
-          } else {
-            throw new Error('Impossible de trouver le bouton About (e2eid-b15) dans le footer.');
-          }
-        } else {
-          // Depuis le plan du site, chercher le lien par son e2eID (généré de manière déterministe)
-          // Chercher le lien par son e2eID (généré de manière déterministe depuis l'URL)
-          // Attendre que le plan du site soit chargé (les liens sont chargés de manière asynchrone)
-          await page.waitForSelector('[data-e2eid^="e2eid-l"]', { timeout: 5000 }).catch(() => {});
-          const lienDepuisPlan9 = page.getByTestId('e2eid-l696');
-          if (await lienDepuisPlan9.count() === 0) {
-            throw new Error('Impossible de trouver un lien vers /portfolio-detournements (e2eID: e2eid-l696) depuis le plan du site. La page n\'est peut-être pas accessible ou le lien est manquant dans le plan du site.');
-          }
-          await lienDepuisPlan9.first().click();
-        }
-      } else {
-        // Option 2 : Via le logo (header) vers l'accueil
-        const logo = page.getByAltText('Logo Malain et possible');
-        if (await logo.count() > 0) {
-          await logo.click();
-          await expect(page).toHaveURL('/');
-        } else {
-          // Fallback : navigation directe vers l'accueil
-          await page.goto('/');
-        }
-        // Depuis l'accueil, chercher le lien vers la destination
-        const lienDepuisAccueil9 = page.getByRole('link', { name: new RegExp(`/portfolio-detournements`, 'i') });
-        if (await lienDepuisAccueil9.count() === 0) {
-          // Essayer aussi par le label original si disponible
-          const lienParLabel9 = page.getByRole('link', { name: new RegExp(`lien`, 'i') });
-          if (await lienParLabel9.count() === 0) {
-            throw new Error(`Impossible de trouver un lien vers /portfolio-detournements depuis l'accueil (label: "lien"). La page n'est peut-être pas accessible depuis l'accueil ou le lien est manquant.`);
-          }
-          await lienParLabel9.first().click();
-        } else {
-          await lienDepuisAccueil9.first().click();
-        }
-      }
-    }
-    await expect(page).toHaveURL('/portfolio-detournements');
-  });
-
-  // Test des e2eID présents sur /portfolio-detournements
-
-  await test.step("Étape 11: Navigation de /portfolio-detournements vers /plan-du-site (Plan du site)", async () => {
-    // /plan-du-site est accessible via le bouton du footer (b13), pas via un lien
-    const boutonPlanDuSite = page.getByTestId('e2eid-b13');
-    if (await boutonPlanDuSite.count() > 0) {
-      await boutonPlanDuSite.click();
-      await expect(page).toHaveURL('/plan-du-site');
-    } else {
-      throw new Error('Impossible de trouver le bouton Plan du site (e2eid-b13) dans le footer.');
-    }
-  });
-
-  await test.step("Étape 12: Navigation de /plan-du-site vers /pour-aller-plus-loin (lien)", async () => {
-    // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
-    const liens11 = page.getByRole('link', { name: /lien/i });
-    if (await liens11.count() > 0) {
-      // Si plusieurs liens avec le même label, trouver celui qui va vers la bonne destination
-      const liensTrouves = await liens11.all();
-      let lienTrouve = null;
-      for (const lien of liensTrouves) {
-        const href = await lien.getAttribute('href');
-        // Normaliser l'URL (enlever le slash final si présent)
-        const hrefNormalise = href ? href.replace(/\/$/, '') : '';
-        const destinationNormalisee = '/pour-aller-plus-loin'.replace(/\/$/, '');
-        if (hrefNormalise === destinationNormalisee || hrefNormalise === destinationNormalisee + '/' || href === destinationNormalisee || href === destinationNormalisee + '/') {
-          lienTrouve = lien;
-          break;
-        }
-      }
-      if (lienTrouve) {
-        await lienTrouve.click();
-      } else {
-        // Aucun lien trouvé vers la destination exacte, échouer pour détecter les incohérences
-        throw new Error(`Impossible de trouver un lien vers /pour-aller-plus-loin depuis /plan-du-site (label: "lien"). Vérifiez que le lien existe et est accessible depuis cette page.`);
-      }
-    } else {
-      // Lien non trouvé par label, navigation via plan-du-site ou accueil
-      // Le footer et le header sont toujours disponibles sur toutes les pages
-      // Option 1 : Essayer via le plan du site (footer) - c'est un bouton, pas un lien
-      const boutonPlanDuSite = page.getByTestId('e2eid-b13');
-      if (await boutonPlanDuSite.count() > 0) {
-        await boutonPlanDuSite.click();
-        await expect(page).toHaveURL('/plan-du-site');
-        // Vérifier si la destination est accessible via un bouton du footer ou si c'est /plan-du-site ou /
-        if ('/pour-aller-plus-loin' === '/plan-du-site') {
-          // On est déjà sur /plan-du-site, pas besoin de naviguer à nouveau
-        } else if ('/pour-aller-plus-loin' === '/') {
-          // Pour aller à l'accueil, utiliser le logo du header (h1)
-          const logo = page.getByTestId('e2eid-h1');
-          if (await logo.count() > 0) {
-            await logo.click();
-            await expect(page).toHaveURL('/');
-          } else {
-            // Fallback : navigation directe
-            await page.goto('/');
-          }
-        } else if ('/pour-aller-plus-loin' === '/metrics') {
-          // /metrics est accessible via le bouton du footer (b14)
-          const boutonMetrics = page.getByTestId('e2eid-b14');
-          if (await boutonMetrics.count() > 0) {
-            await boutonMetrics.click();
-            await expect(page).toHaveURL('/metrics');
-          } else {
-            throw new Error('Impossible de trouver le bouton Metrics (e2eid-b14) dans le footer.');
-          }
-        } else if ('/pour-aller-plus-loin' === '/a-propos-du-site') {
-          // /a-propos-du-site est accessible via le bouton du footer (b15)
-          const boutonAbout = page.getByTestId('e2eid-b15');
-          if (await boutonAbout.count() > 0) {
-            await boutonAbout.click();
-            await expect(page).toHaveURL('/a-propos-du-site');
-          } else {
-            throw new Error('Impossible de trouver le bouton About (e2eid-b15) dans le footer.');
-          }
-        } else {
-          // Depuis le plan du site, chercher le lien par son e2eID (généré de manière déterministe)
-          // Chercher le lien par son e2eID (généré de manière déterministe depuis l'URL)
-          // Attendre que le plan du site soit chargé (les liens sont chargés de manière asynchrone)
-          await page.waitForSelector('[data-e2eid^="e2eid-l"]', { timeout: 5000 }).catch(() => {});
-          const lienDepuisPlan11 = page.getByTestId('e2eid-l907');
-          if (await lienDepuisPlan11.count() === 0) {
-            throw new Error('Impossible de trouver un lien vers /pour-aller-plus-loin (e2eID: e2eid-l907) depuis le plan du site. La page n\'est peut-être pas accessible ou le lien est manquant dans le plan du site.');
-          }
-          await lienDepuisPlan11.first().click();
-        }
-      } else {
-        // Option 2 : Via le logo (header) vers l'accueil
-        const logo = page.getByAltText('Logo Malain et possible');
-        if (await logo.count() > 0) {
-          await logo.click();
-          await expect(page).toHaveURL('/');
-        } else {
-          // Fallback : navigation directe vers l'accueil
-          await page.goto('/');
-        }
-        // Depuis l'accueil, chercher le lien vers la destination
-        const lienDepuisAccueil11 = page.getByRole('link', { name: new RegExp(`/pour-aller-plus-loin`, 'i') });
-        if (await lienDepuisAccueil11.count() === 0) {
-          // Essayer aussi par le label original si disponible
-          const lienParLabel11 = page.getByRole('link', { name: new RegExp(`lien`, 'i') });
-          if (await lienParLabel11.count() === 0) {
-            throw new Error(`Impossible de trouver un lien vers /pour-aller-plus-loin depuis l'accueil (label: "lien"). La page n'est peut-être pas accessible depuis l'accueil ou le lien est manquant.`);
-          }
-          await lienParLabel11.first().click();
-        } else {
-          await lienDepuisAccueil11.first().click();
-        }
-      }
-    }
-    await expect(page).toHaveURL('/pour-aller-plus-loin');
-  });
-
-  // Test des e2eID présents sur /pour-aller-plus-loin
-
-  await test.step("Étape 13: Navigation de /pour-aller-plus-loin vers /plan-du-site (Plan du site)", async () => {
-    // /plan-du-site est accessible via le bouton du footer (b13), pas via un lien
-    const boutonPlanDuSite = page.getByTestId('e2eid-b13');
-    if (await boutonPlanDuSite.count() > 0) {
-      await boutonPlanDuSite.click();
-      await expect(page).toHaveURL('/plan-du-site');
-    } else {
-      throw new Error('Impossible de trouver le bouton Plan du site (e2eid-b13) dans le footer.');
-    }
-  });
-
-  await test.step("Étape 14: Navigation de /plan-du-site vers /test-fonts (lien)", async () => {
-    // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
-    const liens13 = page.getByRole('link', { name: /lien/i });
-    if (await liens13.count() > 0) {
-      // Si plusieurs liens avec le même label, trouver celui qui va vers la bonne destination
-      const liensTrouves = await liens13.all();
-      let lienTrouve = null;
-      for (const lien of liensTrouves) {
-        const href = await lien.getAttribute('href');
-        // Normaliser l'URL (enlever le slash final si présent)
-        const hrefNormalise = href ? href.replace(/\/$/, '') : '';
-        const destinationNormalisee = '/test-fonts'.replace(/\/$/, '');
-        if (hrefNormalise === destinationNormalisee || hrefNormalise === destinationNormalisee + '/' || href === destinationNormalisee || href === destinationNormalisee + '/') {
-          lienTrouve = lien;
-          break;
-        }
-      }
-      if (lienTrouve) {
-        await lienTrouve.click();
-      } else {
-        // Aucun lien trouvé vers la destination exacte, échouer pour détecter les incohérences
-        throw new Error(`Impossible de trouver un lien vers /test-fonts depuis /plan-du-site (label: "lien"). Vérifiez que le lien existe et est accessible depuis cette page.`);
-      }
-    } else {
-      // Lien non trouvé par label, navigation via plan-du-site ou accueil
-      // Le footer et le header sont toujours disponibles sur toutes les pages
-      // Option 1 : Essayer via le plan du site (footer) - c'est un bouton, pas un lien
-      const boutonPlanDuSite = page.getByTestId('e2eid-b13');
-      if (await boutonPlanDuSite.count() > 0) {
-        await boutonPlanDuSite.click();
-        await expect(page).toHaveURL('/plan-du-site');
-        // Vérifier si la destination est accessible via un bouton du footer ou si c'est /plan-du-site ou /
-        if ('/test-fonts' === '/plan-du-site') {
-          // On est déjà sur /plan-du-site, pas besoin de naviguer à nouveau
-        } else if ('/test-fonts' === '/') {
-          // Pour aller à l'accueil, utiliser le logo du header (h1)
-          const logo = page.getByTestId('e2eid-h1');
-          if (await logo.count() > 0) {
-            await logo.click();
-            await expect(page).toHaveURL('/');
-          } else {
-            // Fallback : navigation directe
-            await page.goto('/');
-          }
-        } else if ('/test-fonts' === '/metrics') {
-          // /metrics est accessible via le bouton du footer (b14)
-          const boutonMetrics = page.getByTestId('e2eid-b14');
-          if (await boutonMetrics.count() > 0) {
-            await boutonMetrics.click();
-            await expect(page).toHaveURL('/metrics');
-          } else {
-            throw new Error('Impossible de trouver le bouton Metrics (e2eid-b14) dans le footer.');
-          }
-        } else if ('/test-fonts' === '/a-propos-du-site') {
-          // /a-propos-du-site est accessible via le bouton du footer (b15)
-          const boutonAbout = page.getByTestId('e2eid-b15');
-          if (await boutonAbout.count() > 0) {
-            await boutonAbout.click();
-            await expect(page).toHaveURL('/a-propos-du-site');
-          } else {
-            throw new Error('Impossible de trouver le bouton About (e2eid-b15) dans le footer.');
-          }
-        } else {
-          // Depuis le plan du site, chercher le lien par son e2eID (généré de manière déterministe)
-          // Chercher le lien par son e2eID (généré de manière déterministe depuis l'URL)
-          // Attendre que le plan du site soit chargé (les liens sont chargés de manière asynchrone)
-          await page.waitForSelector('[data-e2eid^="e2eid-l"]', { timeout: 5000 }).catch(() => {});
-          const lienDepuisPlan13 = page.getByTestId('e2eid-l767');
-          if (await lienDepuisPlan13.count() === 0) {
-            throw new Error('Impossible de trouver un lien vers /test-fonts (e2eID: e2eid-l767) depuis le plan du site. La page n\'est peut-être pas accessible ou le lien est manquant dans le plan du site.');
-          }
-          await lienDepuisPlan13.first().click();
-        }
-      } else {
-        // Option 2 : Via le logo (header) vers l'accueil
-        const logo = page.getByAltText('Logo Malain et possible');
-        if (await logo.count() > 0) {
-          await logo.click();
-          await expect(page).toHaveURL('/');
-        } else {
-          // Fallback : navigation directe vers l'accueil
-          await page.goto('/');
-        }
-        // Depuis l'accueil, chercher le lien vers la destination
-        const lienDepuisAccueil13 = page.getByRole('link', { name: new RegExp(`/test-fonts`, 'i') });
-        if (await lienDepuisAccueil13.count() === 0) {
-          // Essayer aussi par le label original si disponible
-          const lienParLabel13 = page.getByRole('link', { name: new RegExp(`lien`, 'i') });
-          if (await lienParLabel13.count() === 0) {
-            throw new Error(`Impossible de trouver un lien vers /test-fonts depuis l'accueil (label: "lien"). La page n'est peut-être pas accessible depuis l'accueil ou le lien est manquant.`);
-          }
-          await lienParLabel13.first().click();
-        } else {
-          await lienDepuisAccueil13.first().click();
-        }
-      }
-    }
-    await expect(page).toHaveURL('/test-fonts');
-  });
-
-  // Test des e2eID présents sur /test-fonts
-
-  await test.step("Étape 15: Navigation de /test-fonts vers /plan-du-site (Plan du site)", async () => {
-    // /plan-du-site est accessible via le bouton du footer (b13), pas via un lien
-    const boutonPlanDuSite = page.getByTestId('e2eid-b13');
-    if (await boutonPlanDuSite.count() > 0) {
-      await boutonPlanDuSite.click();
-      await expect(page).toHaveURL('/plan-du-site');
-    } else {
-      throw new Error('Impossible de trouver le bouton Plan du site (e2eid-b13) dans le footer.');
-    }
-  });
-
-  await test.step("Étape 16: Navigation de /plan-du-site vers /profil/cpo (lien)", async () => {
-    // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
-    const liens15 = page.getByRole('link', { name: /lien/i });
-    if (await liens15.count() > 0) {
-      // Si plusieurs liens avec le même label, trouver celui qui va vers la bonne destination
-      const liensTrouves = await liens15.all();
-      let lienTrouve = null;
-      for (const lien of liensTrouves) {
-        const href = await lien.getAttribute('href');
-        // Normaliser l'URL (enlever le slash final si présent)
-        const hrefNormalise = href ? href.replace(/\/$/, '') : '';
-        const destinationNormalisee = '/profil/cpo'.replace(/\/$/, '');
-        if (hrefNormalise === destinationNormalisee || hrefNormalise === destinationNormalisee + '/' || href === destinationNormalisee || href === destinationNormalisee + '/') {
-          lienTrouve = lien;
-          break;
-        }
-      }
-      if (lienTrouve) {
-        await lienTrouve.click();
-      } else {
-        // Aucun lien trouvé vers la destination exacte, échouer pour détecter les incohérences
-        throw new Error(`Impossible de trouver un lien vers /profil/cpo depuis /plan-du-site (label: "lien"). Vérifiez que le lien existe et est accessible depuis cette page.`);
-      }
-    } else {
-      // Lien non trouvé par label, navigation via plan-du-site ou accueil
-      // Le footer et le header sont toujours disponibles sur toutes les pages
-      // Option 1 : Essayer via le plan du site (footer) - c'est un bouton, pas un lien
-      const boutonPlanDuSite = page.getByTestId('e2eid-b13');
-      if (await boutonPlanDuSite.count() > 0) {
-        await boutonPlanDuSite.click();
-        await expect(page).toHaveURL('/plan-du-site');
-        // Vérifier si la destination est accessible via un bouton du footer ou si c'est /plan-du-site ou /
-        if ('/profil/cpo' === '/plan-du-site') {
-          // On est déjà sur /plan-du-site, pas besoin de naviguer à nouveau
-        } else if ('/profil/cpo' === '/') {
-          // Pour aller à l'accueil, utiliser le logo du header (h1)
-          const logo = page.getByTestId('e2eid-h1');
-          if (await logo.count() > 0) {
-            await logo.click();
-            await expect(page).toHaveURL('/');
-          } else {
-            // Fallback : navigation directe
-            await page.goto('/');
-          }
-        } else if ('/profil/cpo' === '/metrics') {
-          // /metrics est accessible via le bouton du footer (b14)
-          const boutonMetrics = page.getByTestId('e2eid-b14');
-          if (await boutonMetrics.count() > 0) {
-            await boutonMetrics.click();
-            await expect(page).toHaveURL('/metrics');
-          } else {
-            throw new Error('Impossible de trouver le bouton Metrics (e2eid-b14) dans le footer.');
-          }
-        } else if ('/profil/cpo' === '/a-propos-du-site') {
-          // /a-propos-du-site est accessible via le bouton du footer (b15)
-          const boutonAbout = page.getByTestId('e2eid-b15');
-          if (await boutonAbout.count() > 0) {
-            await boutonAbout.click();
-            await expect(page).toHaveURL('/a-propos-du-site');
-          } else {
-            throw new Error('Impossible de trouver le bouton About (e2eid-b15) dans le footer.');
-          }
-        } else {
-          // Depuis le plan du site, chercher le lien par son e2eID (généré de manière déterministe)
-          // Chercher le lien par son e2eID (généré de manière déterministe depuis l'URL)
-          // Attendre que le plan du site soit chargé (les liens sont chargés de manière asynchrone)
-          await page.waitForSelector('[data-e2eid^="e2eid-l"]', { timeout: 5000 }).catch(() => {});
-          const lienDepuisPlan15 = page.getByTestId('e2eid-l399');
-          if (await lienDepuisPlan15.count() === 0) {
-            throw new Error('Impossible de trouver un lien vers /profil/cpo (e2eID: e2eid-l399) depuis le plan du site. La page n\'est peut-être pas accessible ou le lien est manquant dans le plan du site.');
-          }
-          await lienDepuisPlan15.first().click();
-        }
-      } else {
-        // Option 2 : Via le logo (header) vers l'accueil
-        const logo = page.getByAltText('Logo Malain et possible');
-        if (await logo.count() > 0) {
-          await logo.click();
-          await expect(page).toHaveURL('/');
-        } else {
-          // Fallback : navigation directe vers l'accueil
-          await page.goto('/');
-        }
-        // Depuis l'accueil, chercher le lien vers la destination
-        const lienDepuisAccueil15 = page.getByRole('link', { name: new RegExp(`/profil/cpo`, 'i') });
-        if (await lienDepuisAccueil15.count() === 0) {
-          // Essayer aussi par le label original si disponible
-          const lienParLabel15 = page.getByRole('link', { name: new RegExp(`lien`, 'i') });
-          if (await lienParLabel15.count() === 0) {
-            throw new Error(`Impossible de trouver un lien vers /profil/cpo depuis l'accueil (label: "lien"). La page n'est peut-être pas accessible depuis l'accueil ou le lien est manquant.`);
-          }
-          await lienParLabel15.first().click();
-        } else {
-          await lienDepuisAccueil15.first().click();
-        }
-      }
-    }
-    await expect(page).toHaveURL('/profil/cpo');
-  });
-
-  // Test des e2eID présents sur /profil/cpo
-
-  await test.step("Étape 17: Navigation de /profil/cpo vers /plan-du-site (Plan du site)", async () => {
-    // /plan-du-site est accessible via le bouton du footer (b13), pas via un lien
-    const boutonPlanDuSite = page.getByTestId('e2eid-b13');
-    if (await boutonPlanDuSite.count() > 0) {
-      await boutonPlanDuSite.click();
-      await expect(page).toHaveURL('/plan-du-site');
-    } else {
-      throw new Error('Impossible de trouver le bouton Plan du site (e2eid-b13) dans le footer.');
-    }
-  });
-
-  await test.step("Étape 18: Navigation de /plan-du-site vers /profil/coo (lien)", async () => {
-    // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
-    const liens17 = page.getByRole('link', { name: /lien/i });
-    if (await liens17.count() > 0) {
-      // Si plusieurs liens avec le même label, trouver celui qui va vers la bonne destination
-      const liensTrouves = await liens17.all();
-      let lienTrouve = null;
-      for (const lien of liensTrouves) {
-        const href = await lien.getAttribute('href');
-        // Normaliser l'URL (enlever le slash final si présent)
-        const hrefNormalise = href ? href.replace(/\/$/, '') : '';
-        const destinationNormalisee = '/profil/coo'.replace(/\/$/, '');
-        if (hrefNormalise === destinationNormalisee || hrefNormalise === destinationNormalisee + '/' || href === destinationNormalisee || href === destinationNormalisee + '/') {
-          lienTrouve = lien;
-          break;
-        }
-      }
-      if (lienTrouve) {
-        await lienTrouve.click();
-      } else {
-        // Aucun lien trouvé vers la destination exacte, échouer pour détecter les incohérences
-        throw new Error(`Impossible de trouver un lien vers /profil/coo depuis /plan-du-site (label: "lien"). Vérifiez que le lien existe et est accessible depuis cette page.`);
-      }
-    } else {
-      // Lien non trouvé par label, navigation via plan-du-site ou accueil
-      // Le footer et le header sont toujours disponibles sur toutes les pages
-      // Option 1 : Essayer via le plan du site (footer) - c'est un bouton, pas un lien
-      const boutonPlanDuSite = page.getByTestId('e2eid-b13');
-      if (await boutonPlanDuSite.count() > 0) {
-        await boutonPlanDuSite.click();
-        await expect(page).toHaveURL('/plan-du-site');
-        // Vérifier si la destination est accessible via un bouton du footer ou si c'est /plan-du-site ou /
-        if ('/profil/coo' === '/plan-du-site') {
-          // On est déjà sur /plan-du-site, pas besoin de naviguer à nouveau
-        } else if ('/profil/coo' === '/') {
-          // Pour aller à l'accueil, utiliser le logo du header (h1)
-          const logo = page.getByTestId('e2eid-h1');
-          if (await logo.count() > 0) {
-            await logo.click();
-            await expect(page).toHaveURL('/');
-          } else {
-            // Fallback : navigation directe
-            await page.goto('/');
-          }
-        } else if ('/profil/coo' === '/metrics') {
-          // /metrics est accessible via le bouton du footer (b14)
-          const boutonMetrics = page.getByTestId('e2eid-b14');
-          if (await boutonMetrics.count() > 0) {
-            await boutonMetrics.click();
-            await expect(page).toHaveURL('/metrics');
-          } else {
-            throw new Error('Impossible de trouver le bouton Metrics (e2eid-b14) dans le footer.');
-          }
-        } else if ('/profil/coo' === '/a-propos-du-site') {
-          // /a-propos-du-site est accessible via le bouton du footer (b15)
-          const boutonAbout = page.getByTestId('e2eid-b15');
-          if (await boutonAbout.count() > 0) {
-            await boutonAbout.click();
-            await expect(page).toHaveURL('/a-propos-du-site');
-          } else {
-            throw new Error('Impossible de trouver le bouton About (e2eid-b15) dans le footer.');
-          }
-        } else {
-          // Depuis le plan du site, chercher le lien par son e2eID (généré de manière déterministe)
-          // Chercher le lien par son e2eID (généré de manière déterministe depuis l'URL)
-          // Attendre que le plan du site soit chargé (les liens sont chargés de manière asynchrone)
-          await page.waitForSelector('[data-e2eid^="e2eid-l"]', { timeout: 5000 }).catch(() => {});
-          const lienDepuisPlan17 = page.getByTestId('e2eid-l430');
-          if (await lienDepuisPlan17.count() === 0) {
-            throw new Error('Impossible de trouver un lien vers /profil/coo (e2eID: e2eid-l430) depuis le plan du site. La page n\'est peut-être pas accessible ou le lien est manquant dans le plan du site.');
-          }
-          await lienDepuisPlan17.first().click();
-        }
-      } else {
-        // Option 2 : Via le logo (header) vers l'accueil
-        const logo = page.getByAltText('Logo Malain et possible');
-        if (await logo.count() > 0) {
-          await logo.click();
-          await expect(page).toHaveURL('/');
-        } else {
-          // Fallback : navigation directe vers l'accueil
-          await page.goto('/');
-        }
-        // Depuis l'accueil, chercher le lien vers la destination
-        const lienDepuisAccueil17 = page.getByRole('link', { name: new RegExp(`/profil/coo`, 'i') });
-        if (await lienDepuisAccueil17.count() === 0) {
-          // Essayer aussi par le label original si disponible
-          const lienParLabel17 = page.getByRole('link', { name: new RegExp(`lien`, 'i') });
-          if (await lienParLabel17.count() === 0) {
-            throw new Error(`Impossible de trouver un lien vers /profil/coo depuis l'accueil (label: "lien"). La page n'est peut-être pas accessible depuis l'accueil ou le lien est manquant.`);
-          }
-          await lienParLabel17.first().click();
-        } else {
-          await lienDepuisAccueil17.first().click();
-        }
-      }
-    }
-    await expect(page).toHaveURL('/profil/coo');
-  });
-
-  // Test des e2eID présents sur /profil/coo
-
-  await test.step("Étape 19: Navigation de /profil/coo vers /plan-du-site (Plan du site)", async () => {
-    // /plan-du-site est accessible via le bouton du footer (b13), pas via un lien
-    const boutonPlanDuSite = page.getByTestId('e2eid-b13');
-    if (await boutonPlanDuSite.count() > 0) {
-      await boutonPlanDuSite.click();
-      await expect(page).toHaveURL('/plan-du-site');
-    } else {
-      throw new Error('Impossible de trouver le bouton Plan du site (e2eid-b13) dans le footer.');
-    }
-  });
-
-  await test.step("Étape 20: Navigation de /plan-du-site vers /profil/agile (lien)", async () => {
-    // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
-    const liens19 = page.getByRole('link', { name: /lien/i });
-    if (await liens19.count() > 0) {
-      // Si plusieurs liens avec le même label, trouver celui qui va vers la bonne destination
-      const liensTrouves = await liens19.all();
-      let lienTrouve = null;
-      for (const lien of liensTrouves) {
-        const href = await lien.getAttribute('href');
-        // Normaliser l'URL (enlever le slash final si présent)
-        const hrefNormalise = href ? href.replace(/\/$/, '') : '';
-        const destinationNormalisee = '/profil/agile'.replace(/\/$/, '');
-        if (hrefNormalise === destinationNormalisee || hrefNormalise === destinationNormalisee + '/' || href === destinationNormalisee || href === destinationNormalisee + '/') {
-          lienTrouve = lien;
-          break;
-        }
-      }
-      if (lienTrouve) {
-        await lienTrouve.click();
-      } else {
-        // Aucun lien trouvé vers la destination exacte, échouer pour détecter les incohérences
-        throw new Error(`Impossible de trouver un lien vers /profil/agile depuis /plan-du-site (label: "lien"). Vérifiez que le lien existe et est accessible depuis cette page.`);
-      }
-    } else {
-      // Lien non trouvé par label, navigation via plan-du-site ou accueil
-      // Le footer et le header sont toujours disponibles sur toutes les pages
-      // Option 1 : Essayer via le plan du site (footer) - c'est un bouton, pas un lien
-      const boutonPlanDuSite = page.getByTestId('e2eid-b13');
-      if (await boutonPlanDuSite.count() > 0) {
-        await boutonPlanDuSite.click();
-        await expect(page).toHaveURL('/plan-du-site');
-        // Vérifier si la destination est accessible via un bouton du footer ou si c'est /plan-du-site ou /
-        if ('/profil/agile' === '/plan-du-site') {
-          // On est déjà sur /plan-du-site, pas besoin de naviguer à nouveau
-        } else if ('/profil/agile' === '/') {
-          // Pour aller à l'accueil, utiliser le logo du header (h1)
-          const logo = page.getByTestId('e2eid-h1');
-          if (await logo.count() > 0) {
-            await logo.click();
-            await expect(page).toHaveURL('/');
-          } else {
-            // Fallback : navigation directe
-            await page.goto('/');
-          }
-        } else if ('/profil/agile' === '/metrics') {
-          // /metrics est accessible via le bouton du footer (b14)
-          const boutonMetrics = page.getByTestId('e2eid-b14');
-          if (await boutonMetrics.count() > 0) {
-            await boutonMetrics.click();
-            await expect(page).toHaveURL('/metrics');
-          } else {
-            throw new Error('Impossible de trouver le bouton Metrics (e2eid-b14) dans le footer.');
-          }
-        } else if ('/profil/agile' === '/a-propos-du-site') {
-          // /a-propos-du-site est accessible via le bouton du footer (b15)
-          const boutonAbout = page.getByTestId('e2eid-b15');
-          if (await boutonAbout.count() > 0) {
-            await boutonAbout.click();
-            await expect(page).toHaveURL('/a-propos-du-site');
-          } else {
-            throw new Error('Impossible de trouver le bouton About (e2eid-b15) dans le footer.');
-          }
-        } else {
-          // Depuis le plan du site, chercher le lien par son e2eID (généré de manière déterministe)
-          // Chercher le lien par son e2eID (généré de manière déterministe depuis l'URL)
-          // Attendre que le plan du site soit chargé (les liens sont chargés de manière asynchrone)
-          await page.waitForSelector('[data-e2eid^="e2eid-l"]', { timeout: 5000 }).catch(() => {});
-          const lienDepuisPlan19 = page.getByTestId('e2eid-l805');
-          if (await lienDepuisPlan19.count() === 0) {
-            throw new Error('Impossible de trouver un lien vers /profil/agile (e2eID: e2eid-l805) depuis le plan du site. La page n\'est peut-être pas accessible ou le lien est manquant dans le plan du site.');
-          }
-          await lienDepuisPlan19.first().click();
-        }
-      } else {
-        // Option 2 : Via le logo (header) vers l'accueil
-        const logo = page.getByAltText('Logo Malain et possible');
-        if (await logo.count() > 0) {
-          await logo.click();
-          await expect(page).toHaveURL('/');
-        } else {
-          // Fallback : navigation directe vers l'accueil
-          await page.goto('/');
-        }
-        // Depuis l'accueil, chercher le lien vers la destination
-        const lienDepuisAccueil19 = page.getByRole('link', { name: new RegExp(`/profil/agile`, 'i') });
-        if (await lienDepuisAccueil19.count() === 0) {
-          // Essayer aussi par le label original si disponible
-          const lienParLabel19 = page.getByRole('link', { name: new RegExp(`lien`, 'i') });
-          if (await lienParLabel19.count() === 0) {
-            throw new Error(`Impossible de trouver un lien vers /profil/agile depuis l'accueil (label: "lien"). La page n'est peut-être pas accessible depuis l'accueil ou le lien est manquant.`);
-          }
-          await lienParLabel19.first().click();
-        } else {
-          await lienDepuisAccueil19.first().click();
-        }
-      }
-    }
-    await expect(page).toHaveURL('/profil/agile');
-  });
-
-  // Test des e2eID présents sur /profil/agile
-
-  await test.step("Étape 21: Navigation de /profil/agile vers /plan-du-site (Plan du site)", async () => {
-    // /plan-du-site est accessible via le bouton du footer (b13), pas via un lien
-    const boutonPlanDuSite = page.getByTestId('e2eid-b13');
-    if (await boutonPlanDuSite.count() > 0) {
-      await boutonPlanDuSite.click();
-      await expect(page).toHaveURL('/plan-du-site');
-    } else {
-      throw new Error('Impossible de trouver le bouton Plan du site (e2eid-b13) dans le footer.');
-    }
-  });
-
-  await test.step("Étape 22: Navigation de /plan-du-site vers /profil/cto (lien)", async () => {
-    // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
-    const liens21 = page.getByRole('link', { name: /lien/i });
-    if (await liens21.count() > 0) {
-      // Si plusieurs liens avec le même label, trouver celui qui va vers la bonne destination
-      const liensTrouves = await liens21.all();
-      let lienTrouve = null;
-      for (const lien of liensTrouves) {
-        const href = await lien.getAttribute('href');
-        // Normaliser l'URL (enlever le slash final si présent)
-        const hrefNormalise = href ? href.replace(/\/$/, '') : '';
-        const destinationNormalisee = '/profil/cto'.replace(/\/$/, '');
-        if (hrefNormalise === destinationNormalisee || hrefNormalise === destinationNormalisee + '/' || href === destinationNormalisee || href === destinationNormalisee + '/') {
-          lienTrouve = lien;
-          break;
-        }
-      }
-      if (lienTrouve) {
-        await lienTrouve.click();
-      } else {
-        // Aucun lien trouvé vers la destination exacte, échouer pour détecter les incohérences
-        throw new Error(`Impossible de trouver un lien vers /profil/cto depuis /plan-du-site (label: "lien"). Vérifiez que le lien existe et est accessible depuis cette page.`);
-      }
-    } else {
-      // Lien non trouvé par label, navigation via plan-du-site ou accueil
-      // Le footer et le header sont toujours disponibles sur toutes les pages
-      // Option 1 : Essayer via le plan du site (footer) - c'est un bouton, pas un lien
-      const boutonPlanDuSite = page.getByTestId('e2eid-b13');
-      if (await boutonPlanDuSite.count() > 0) {
-        await boutonPlanDuSite.click();
-        await expect(page).toHaveURL('/plan-du-site');
-        // Vérifier si la destination est accessible via un bouton du footer ou si c'est /plan-du-site ou /
-        if ('/profil/cto' === '/plan-du-site') {
-          // On est déjà sur /plan-du-site, pas besoin de naviguer à nouveau
-        } else if ('/profil/cto' === '/') {
-          // Pour aller à l'accueil, utiliser le logo du header (h1)
-          const logo = page.getByTestId('e2eid-h1');
-          if (await logo.count() > 0) {
-            await logo.click();
-            await expect(page).toHaveURL('/');
-          } else {
-            // Fallback : navigation directe
-            await page.goto('/');
-          }
-        } else if ('/profil/cto' === '/metrics') {
-          // /metrics est accessible via le bouton du footer (b14)
-          const boutonMetrics = page.getByTestId('e2eid-b14');
-          if (await boutonMetrics.count() > 0) {
-            await boutonMetrics.click();
-            await expect(page).toHaveURL('/metrics');
-          } else {
-            throw new Error('Impossible de trouver le bouton Metrics (e2eid-b14) dans le footer.');
-          }
-        } else if ('/profil/cto' === '/a-propos-du-site') {
-          // /a-propos-du-site est accessible via le bouton du footer (b15)
-          const boutonAbout = page.getByTestId('e2eid-b15');
-          if (await boutonAbout.count() > 0) {
-            await boutonAbout.click();
-            await expect(page).toHaveURL('/a-propos-du-site');
-          } else {
-            throw new Error('Impossible de trouver le bouton About (e2eid-b15) dans le footer.');
-          }
-        } else {
-          // Depuis le plan du site, chercher le lien par son e2eID (généré de manière déterministe)
-          // Chercher le lien par son e2eID (généré de manière déterministe depuis l'URL)
-          // Attendre que le plan du site soit chargé (les liens sont chargés de manière asynchrone)
-          await page.waitForSelector('[data-e2eid^="e2eid-l"]', { timeout: 5000 }).catch(() => {});
-          const lienDepuisPlan21 = page.getByTestId('e2eid-l275');
-          if (await lienDepuisPlan21.count() === 0) {
-            throw new Error('Impossible de trouver un lien vers /profil/cto (e2eID: e2eid-l275) depuis le plan du site. La page n\'est peut-être pas accessible ou le lien est manquant dans le plan du site.');
-          }
-          await lienDepuisPlan21.first().click();
-        }
-      } else {
-        // Option 2 : Via le logo (header) vers l'accueil
-        const logo = page.getByAltText('Logo Malain et possible');
-        if (await logo.count() > 0) {
-          await logo.click();
-          await expect(page).toHaveURL('/');
-        } else {
-          // Fallback : navigation directe vers l'accueil
-          await page.goto('/');
-        }
-        // Depuis l'accueil, chercher le lien vers la destination
-        const lienDepuisAccueil21 = page.getByRole('link', { name: new RegExp(`/profil/cto`, 'i') });
-        if (await lienDepuisAccueil21.count() === 0) {
-          // Essayer aussi par le label original si disponible
-          const lienParLabel21 = page.getByRole('link', { name: new RegExp(`lien`, 'i') });
-          if (await lienParLabel21.count() === 0) {
-            throw new Error(`Impossible de trouver un lien vers /profil/cto depuis l'accueil (label: "lien"). La page n'est peut-être pas accessible depuis l'accueil ou le lien est manquant.`);
-          }
-          await lienParLabel21.first().click();
-        } else {
-          await lienDepuisAccueil21.first().click();
-        }
-      }
-    }
-    await expect(page).toHaveURL('/profil/cto');
-  });
-
-  // Test des e2eID présents sur /profil/cto
-
-  await test.step("Étape 23: Navigation de /profil/cto vers /plan-du-site (Plan du site)", async () => {
-    // /plan-du-site est accessible via le bouton du footer (b13), pas via un lien
-    const boutonPlanDuSite = page.getByTestId('e2eid-b13');
-    if (await boutonPlanDuSite.count() > 0) {
-      await boutonPlanDuSite.click();
-      await expect(page).toHaveURL('/plan-du-site');
-    } else {
-      throw new Error('Impossible de trouver le bouton Plan du site (e2eid-b13) dans le footer.');
-    }
-  });
-
-  await test.step("Étape 24: Navigation de /plan-du-site vers / (lien)", async () => {
-    // Pour aller à l'accueil, utiliser le logo du header (h1)
-    const logo = page.getByTestId('e2eid-h1');
-    if (await logo.count() > 0) {
-      await logo.click();
-      await expect(page).toHaveURL('/');
-    } else {
-      // Fallback : navigation directe
-      await page.goto('/');
-    }
-  });
-
-  await test.step("Étape 25: Navigation de / vers /metrics (BarChart3)", async () => {
-    // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
-    const liens24 = page.getByRole('link', { name: /BarChart3/i });
-    if (await liens24.count() > 0) {
-      // Si plusieurs liens avec le même label, trouver celui qui va vers la bonne destination
-      const liensTrouves = await liens24.all();
-      let lienTrouve = null;
-      for (const lien of liensTrouves) {
-        const href = await lien.getAttribute('href');
-        // Normaliser l'URL (enlever le slash final si présent)
-        const hrefNormalise = href ? href.replace(/\/$/, '') : '';
-        const destinationNormalisee = '/metrics'.replace(/\/$/, '');
-        if (hrefNormalise === destinationNormalisee || hrefNormalise === destinationNormalisee + '/' || href === destinationNormalisee || href === destinationNormalisee + '/') {
-          lienTrouve = lien;
-          break;
-        }
-      }
-      if (lienTrouve) {
-        await lienTrouve.click();
-      } else {
-        // Aucun lien trouvé vers la destination exacte, échouer pour détecter les incohérences
-        throw new Error(`Impossible de trouver un lien vers /metrics depuis / (label: "BarChart3"). Vérifiez que le lien existe et est accessible depuis cette page.`);
-      }
-    } else {
-      // Lien non trouvé par label, navigation via plan-du-site ou accueil
-      // Le footer et le header sont toujours disponibles sur toutes les pages
-      // /metrics est accessible via le bouton du footer (b14), pas via un lien
-      const boutonMetrics = page.getByTestId('e2eid-b14');
-      if (await boutonMetrics.count() > 0) {
-        await boutonMetrics.click();
-        await expect(page).toHaveURL('/metrics');
-      } else {
-        throw new Error('Impossible de trouver le bouton Metrics (e2eid-b14) dans le footer.');
-      }
-    }
-    await expect(page).toHaveURL('/metrics');
-  });
-
-  // Test des e2eID présents sur /metrics
-
-  await test.step("Étape 26: Navigation de /metrics vers /metrics (BarChart3)", async () => {
-    // On est déjà sur /metrics, pas besoin de naviguer vers la même page
-    // Vérifier simplement qu'on est bien sur la bonne page
-    await expect(page).toHaveURL('/metrics');
-  });
-
-  await test.step("Étape 27: Navigation de /metrics vers /a-propos-du-site (Info)", async () => {
-    // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
-    const liens26 = page.getByRole('link', { name: /Info/i });
-    if (await liens26.count() > 0) {
-      // Si plusieurs liens avec le même label, trouver celui qui va vers la bonne destination
-      const liensTrouves = await liens26.all();
-      let lienTrouve = null;
-      for (const lien of liensTrouves) {
-        const href = await lien.getAttribute('href');
-        // Normaliser l'URL (enlever le slash final si présent)
-        const hrefNormalise = href ? href.replace(/\/$/, '') : '';
-        const destinationNormalisee = '/a-propos-du-site'.replace(/\/$/, '');
-        if (hrefNormalise === destinationNormalisee || hrefNormalise === destinationNormalisee + '/' || href === destinationNormalisee || href === destinationNormalisee + '/') {
-          lienTrouve = lien;
-          break;
-        }
-      }
-      if (lienTrouve) {
-        await lienTrouve.click();
-      } else {
-        // Aucun lien trouvé vers la destination exacte, échouer pour détecter les incohérences
-        throw new Error(`Impossible de trouver un lien vers /a-propos-du-site depuis /metrics (label: "Info"). Vérifiez que le lien existe et est accessible depuis cette page.`);
-      }
-    } else {
-      // Lien non trouvé par label, navigation via plan-du-site ou accueil
-      // Le footer et le header sont toujours disponibles sur toutes les pages
-      // /a-propos-du-site est accessible via le bouton du footer (b15), pas via un lien
-      const boutonAbout = page.getByTestId('e2eid-b15');
-      if (await boutonAbout.count() > 0) {
-        await boutonAbout.click();
-        await expect(page).toHaveURL('/a-propos-du-site');
-      } else {
-        throw new Error('Impossible de trouver le bouton About (e2eid-b15) dans le footer.');
-      }
-    }
-    await expect(page).toHaveURL('/a-propos-du-site');
-  });
-
-  // Test des e2eID présents sur /a-propos-du-site
-
-  await test.step("Étape 28: Navigation de /a-propos-du-site vers /metrics (BarChart3)", async () => {
-    // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
-    const liens27 = page.getByRole('link', { name: /BarChart3/i });
-    if (await liens27.count() > 0) {
-      // Si plusieurs liens avec le même label, trouver celui qui va vers la bonne destination
-      const liensTrouves = await liens27.all();
-      let lienTrouve = null;
-      for (const lien of liensTrouves) {
-        const href = await lien.getAttribute('href');
-        // Normaliser l'URL (enlever le slash final si présent)
-        const hrefNormalise = href ? href.replace(/\/$/, '') : '';
-        const destinationNormalisee = '/metrics'.replace(/\/$/, '');
-        if (hrefNormalise === destinationNormalisee || hrefNormalise === destinationNormalisee + '/' || href === destinationNormalisee || href === destinationNormalisee + '/') {
-          lienTrouve = lien;
-          break;
-        }
-      }
-      if (lienTrouve) {
-        await lienTrouve.click();
-      } else {
-        // Aucun lien trouvé vers la destination exacte, échouer pour détecter les incohérences
-        throw new Error(`Impossible de trouver un lien vers /metrics depuis /a-propos-du-site (label: "BarChart3"). Vérifiez que le lien existe et est accessible depuis cette page.`);
-      }
-    } else {
-      // Lien non trouvé par label, navigation via plan-du-site ou accueil
-      // Le footer et le header sont toujours disponibles sur toutes les pages
-      // /metrics est accessible via le bouton du footer (b14), pas via un lien
-      const boutonMetrics = page.getByTestId('e2eid-b14');
-      if (await boutonMetrics.count() > 0) {
-        await boutonMetrics.click();
-        await expect(page).toHaveURL('/metrics');
-      } else {
-        throw new Error('Impossible de trouver le bouton Metrics (e2eid-b14) dans le footer.');
-      }
-    }
-    await expect(page).toHaveURL('/metrics');
-  });
-
-  // Test des e2eID présents sur /metrics
-
-  await test.step("Étape 29: Navigation de /metrics vers /detournement-video (lien)", async () => {
-    // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
-    const liens28 = page.getByRole('link', { name: /lien/i });
-    if (await liens28.count() > 0) {
-      // Si plusieurs liens avec le même label, trouver celui qui va vers la bonne destination
-      const liensTrouves = await liens28.all();
-      let lienTrouve = null;
-      for (const lien of liensTrouves) {
-        const href = await lien.getAttribute('href');
-        // Normaliser l'URL (enlever le slash final si présent)
-        const hrefNormalise = href ? href.replace(/\/$/, '') : '';
-        const destinationNormalisee = '/detournement-video'.replace(/\/$/, '');
-        if (hrefNormalise === destinationNormalisee || hrefNormalise === destinationNormalisee + '/' || href === destinationNormalisee || href === destinationNormalisee + '/') {
-          lienTrouve = lien;
-          break;
-        }
-      }
-      if (lienTrouve) {
-        await lienTrouve.click();
-      } else {
-        // Aucun lien trouvé vers la destination exacte, échouer pour détecter les incohérences
-        throw new Error(`Impossible de trouver un lien vers /detournement-video depuis /metrics (label: "lien"). Vérifiez que le lien existe et est accessible depuis cette page.`);
-      }
-    } else {
-      // Lien non trouvé par label, navigation via plan-du-site ou accueil
-      // Le footer et le header sont toujours disponibles sur toutes les pages
-      // Option 1 : Essayer via le plan du site (footer) - c'est un bouton, pas un lien
-      const boutonPlanDuSite = page.getByTestId('e2eid-b13');
-      if (await boutonPlanDuSite.count() > 0) {
-        await boutonPlanDuSite.click();
-        await expect(page).toHaveURL('/plan-du-site');
-        // Vérifier si la destination est accessible via un bouton du footer ou si c'est /plan-du-site ou /
-        if ('/detournement-video' === '/plan-du-site') {
-          // On est déjà sur /plan-du-site, pas besoin de naviguer à nouveau
-        } else if ('/detournement-video' === '/') {
-          // Pour aller à l'accueil, utiliser le logo du header (h1)
-          const logo = page.getByTestId('e2eid-h1');
-          if (await logo.count() > 0) {
-            await logo.click();
-            await expect(page).toHaveURL('/');
-          } else {
-            // Fallback : navigation directe
-            await page.goto('/');
-          }
-        } else if ('/detournement-video' === '/metrics') {
-          // /metrics est accessible via le bouton du footer (b14)
-          const boutonMetrics = page.getByTestId('e2eid-b14');
-          if (await boutonMetrics.count() > 0) {
-            await boutonMetrics.click();
-            await expect(page).toHaveURL('/metrics');
-          } else {
-            throw new Error('Impossible de trouver le bouton Metrics (e2eid-b14) dans le footer.');
-          }
-        } else if ('/detournement-video' === '/a-propos-du-site') {
-          // /a-propos-du-site est accessible via le bouton du footer (b15)
-          const boutonAbout = page.getByTestId('e2eid-b15');
-          if (await boutonAbout.count() > 0) {
-            await boutonAbout.click();
-            await expect(page).toHaveURL('/a-propos-du-site');
-          } else {
-            throw new Error('Impossible de trouver le bouton About (e2eid-b15) dans le footer.');
-          }
-        } else {
-          // Depuis le plan du site, chercher le lien par son e2eID (généré de manière déterministe)
-          // Chercher le lien par son e2eID (généré de manière déterministe depuis l'URL)
-          // Attendre que le plan du site soit chargé (les liens sont chargés de manière asynchrone)
-          await page.waitForSelector('[data-e2eid^="e2eid-l"]', { timeout: 5000 }).catch(() => {});
-          const lienDepuisPlan28 = page.getByTestId('e2eid-l756');
-          if (await lienDepuisPlan28.count() === 0) {
-            throw new Error('Impossible de trouver un lien vers /detournement-video (e2eID: e2eid-l756) depuis le plan du site. La page n\'est peut-être pas accessible ou le lien est manquant dans le plan du site.');
-          }
-          await lienDepuisPlan28.first().click();
-        }
-      } else {
-        // Option 2 : Via le logo (header) vers l'accueil
-        const logo = page.getByAltText('Logo Malain et possible');
-        if (await logo.count() > 0) {
-          await logo.click();
-          await expect(page).toHaveURL('/');
-        } else {
-          // Fallback : navigation directe vers l'accueil
-          await page.goto('/');
-        }
-        // Depuis l'accueil, chercher le lien vers la destination
-        const lienDepuisAccueil28 = page.getByRole('link', { name: new RegExp(`/detournement-video`, 'i') });
-        if (await lienDepuisAccueil28.count() === 0) {
-          // Essayer aussi par le label original si disponible
-          const lienParLabel28 = page.getByRole('link', { name: new RegExp(`lien`, 'i') });
-          if (await lienParLabel28.count() === 0) {
-            throw new Error(`Impossible de trouver un lien vers /detournement-video depuis l'accueil (label: "lien"). La page n'est peut-être pas accessible depuis l'accueil ou le lien est manquant.`);
-          }
-          await lienParLabel28.first().click();
-        } else {
-          await lienDepuisAccueil28.first().click();
-        }
-      }
-    }
-    await expect(page).toHaveURL('/detournement-video');
-  });
-
-  // Test des e2eID présents sur /detournement-video
-
-  await test.step("Étape 30: Navigation de /detournement-video vers /metrics (BarChart3)", async () => {
-    // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
-    const liens29 = page.getByRole('link', { name: /BarChart3/i });
-    if (await liens29.count() > 0) {
-      // Si plusieurs liens avec le même label, trouver celui qui va vers la bonne destination
-      const liensTrouves = await liens29.all();
-      let lienTrouve = null;
-      for (const lien of liensTrouves) {
-        const href = await lien.getAttribute('href');
-        // Normaliser l'URL (enlever le slash final si présent)
-        const hrefNormalise = href ? href.replace(/\/$/, '') : '';
-        const destinationNormalisee = '/metrics'.replace(/\/$/, '');
-        if (hrefNormalise === destinationNormalisee || hrefNormalise === destinationNormalisee + '/' || href === destinationNormalisee || href === destinationNormalisee + '/') {
-          lienTrouve = lien;
-          break;
-        }
-      }
-      if (lienTrouve) {
-        await lienTrouve.click();
-      } else {
-        // Aucun lien trouvé vers la destination exacte, échouer pour détecter les incohérences
-        throw new Error(`Impossible de trouver un lien vers /metrics depuis /detournement-video (label: "BarChart3"). Vérifiez que le lien existe et est accessible depuis cette page.`);
-      }
-    } else {
-      // Lien non trouvé par label, navigation via plan-du-site ou accueil
-      // Le footer et le header sont toujours disponibles sur toutes les pages
-      // /metrics est accessible via le bouton du footer (b14), pas via un lien
-      const boutonMetrics = page.getByTestId('e2eid-b14');
-      if (await boutonMetrics.count() > 0) {
-        await boutonMetrics.click();
-        await expect(page).toHaveURL('/metrics');
-      } else {
-        throw new Error('Impossible de trouver le bouton Metrics (e2eid-b14) dans le footer.');
-      }
-    }
-    await expect(page).toHaveURL('/metrics');
-  });
-
-  // Test des e2eID présents sur /metrics
-
-  await test.step("Étape 31: Navigation de /metrics vers /portfolio-detournements (lien)", async () => {
-    // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
-    const liens30 = page.getByRole('link', { name: /lien/i });
-    if (await liens30.count() > 0) {
-      // Si plusieurs liens avec le même label, trouver celui qui va vers la bonne destination
-      const liensTrouves = await liens30.all();
-      let lienTrouve = null;
-      for (const lien of liensTrouves) {
-        const href = await lien.getAttribute('href');
-        // Normaliser l'URL (enlever le slash final si présent)
-        const hrefNormalise = href ? href.replace(/\/$/, '') : '';
-        const destinationNormalisee = '/portfolio-detournements'.replace(/\/$/, '');
-        if (hrefNormalise === destinationNormalisee || hrefNormalise === destinationNormalisee + '/' || href === destinationNormalisee || href === destinationNormalisee + '/') {
-          lienTrouve = lien;
-          break;
-        }
-      }
-      if (lienTrouve) {
-        await lienTrouve.click();
-      } else {
-        // Aucun lien trouvé vers la destination exacte, échouer pour détecter les incohérences
-        throw new Error(`Impossible de trouver un lien vers /portfolio-detournements depuis /metrics (label: "lien"). Vérifiez que le lien existe et est accessible depuis cette page.`);
-      }
-    } else {
-      // Lien non trouvé par label, navigation via plan-du-site ou accueil
-      // Le footer et le header sont toujours disponibles sur toutes les pages
-      // Option 1 : Essayer via le plan du site (footer) - c'est un bouton, pas un lien
-      const boutonPlanDuSite = page.getByTestId('e2eid-b13');
-      if (await boutonPlanDuSite.count() > 0) {
-        await boutonPlanDuSite.click();
-        await expect(page).toHaveURL('/plan-du-site');
-        // Vérifier si la destination est accessible via un bouton du footer ou si c'est /plan-du-site ou /
-        if ('/portfolio-detournements' === '/plan-du-site') {
-          // On est déjà sur /plan-du-site, pas besoin de naviguer à nouveau
-        } else if ('/portfolio-detournements' === '/') {
-          // Pour aller à l'accueil, utiliser le logo du header (h1)
-          const logo = page.getByTestId('e2eid-h1');
-          if (await logo.count() > 0) {
-            await logo.click();
-            await expect(page).toHaveURL('/');
-          } else {
-            // Fallback : navigation directe
-            await page.goto('/');
-          }
-        } else if ('/portfolio-detournements' === '/metrics') {
-          // /metrics est accessible via le bouton du footer (b14)
-          const boutonMetrics = page.getByTestId('e2eid-b14');
-          if (await boutonMetrics.count() > 0) {
-            await boutonMetrics.click();
-            await expect(page).toHaveURL('/metrics');
-          } else {
-            throw new Error('Impossible de trouver le bouton Metrics (e2eid-b14) dans le footer.');
-          }
-        } else if ('/portfolio-detournements' === '/a-propos-du-site') {
-          // /a-propos-du-site est accessible via le bouton du footer (b15)
-          const boutonAbout = page.getByTestId('e2eid-b15');
-          if (await boutonAbout.count() > 0) {
-            await boutonAbout.click();
-            await expect(page).toHaveURL('/a-propos-du-site');
-          } else {
-            throw new Error('Impossible de trouver le bouton About (e2eid-b15) dans le footer.');
-          }
-        } else {
-          // Depuis le plan du site, chercher le lien par son e2eID (généré de manière déterministe)
-          // Chercher le lien par son e2eID (généré de manière déterministe depuis l'URL)
-          // Attendre que le plan du site soit chargé (les liens sont chargés de manière asynchrone)
-          await page.waitForSelector('[data-e2eid^="e2eid-l"]', { timeout: 5000 }).catch(() => {});
-          const lienDepuisPlan30 = page.getByTestId('e2eid-l696');
-          if (await lienDepuisPlan30.count() === 0) {
-            throw new Error('Impossible de trouver un lien vers /portfolio-detournements (e2eID: e2eid-l696) depuis le plan du site. La page n\'est peut-être pas accessible ou le lien est manquant dans le plan du site.');
-          }
-          await lienDepuisPlan30.first().click();
-        }
-      } else {
-        // Option 2 : Via le logo (header) vers l'accueil
-        const logo = page.getByAltText('Logo Malain et possible');
-        if (await logo.count() > 0) {
-          await logo.click();
-          await expect(page).toHaveURL('/');
-        } else {
-          // Fallback : navigation directe vers l'accueil
-          await page.goto('/');
-        }
-        // Depuis l'accueil, chercher le lien vers la destination
-        const lienDepuisAccueil30 = page.getByRole('link', { name: new RegExp(`/portfolio-detournements`, 'i') });
-        if (await lienDepuisAccueil30.count() === 0) {
-          // Essayer aussi par le label original si disponible
-          const lienParLabel30 = page.getByRole('link', { name: new RegExp(`lien`, 'i') });
-          if (await lienParLabel30.count() === 0) {
-            throw new Error(`Impossible de trouver un lien vers /portfolio-detournements depuis l'accueil (label: "lien"). La page n'est peut-être pas accessible depuis l'accueil ou le lien est manquant.`);
-          }
-          await lienParLabel30.first().click();
-        } else {
-          await lienDepuisAccueil30.first().click();
-        }
-      }
-    }
-    await expect(page).toHaveURL('/portfolio-detournements');
-  });
-
-  // Test des e2eID présents sur /portfolio-detournements
-
-  await test.step("Étape 32: Navigation de /portfolio-detournements vers /metrics (BarChart3)", async () => {
-    // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
-    const liens31 = page.getByRole('link', { name: /BarChart3/i });
-    if (await liens31.count() > 0) {
-      // Si plusieurs liens avec le même label, trouver celui qui va vers la bonne destination
-      const liensTrouves = await liens31.all();
-      let lienTrouve = null;
-      for (const lien of liensTrouves) {
-        const href = await lien.getAttribute('href');
-        // Normaliser l'URL (enlever le slash final si présent)
-        const hrefNormalise = href ? href.replace(/\/$/, '') : '';
-        const destinationNormalisee = '/metrics'.replace(/\/$/, '');
-        if (hrefNormalise === destinationNormalisee || hrefNormalise === destinationNormalisee + '/' || href === destinationNormalisee || href === destinationNormalisee + '/') {
-          lienTrouve = lien;
-          break;
-        }
-      }
-      if (lienTrouve) {
-        await lienTrouve.click();
-      } else {
-        // Aucun lien trouvé vers la destination exacte, échouer pour détecter les incohérences
-        throw new Error(`Impossible de trouver un lien vers /metrics depuis /portfolio-detournements (label: "BarChart3"). Vérifiez que le lien existe et est accessible depuis cette page.`);
-      }
-    } else {
-      // Lien non trouvé par label, navigation via plan-du-site ou accueil
-      // Le footer et le header sont toujours disponibles sur toutes les pages
-      // /metrics est accessible via le bouton du footer (b14), pas via un lien
-      const boutonMetrics = page.getByTestId('e2eid-b14');
-      if (await boutonMetrics.count() > 0) {
-        await boutonMetrics.click();
-        await expect(page).toHaveURL('/metrics');
-      } else {
-        throw new Error('Impossible de trouver le bouton Metrics (e2eid-b14) dans le footer.');
-      }
-    }
-    await expect(page).toHaveURL('/metrics');
-  });
-
-  // Test des e2eID présents sur /metrics
-
-  await test.step("Étape 33: Navigation de /metrics vers /pour-aller-plus-loin (lien)", async () => {
-    // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
-    const liens32 = page.getByRole('link', { name: /lien/i });
-    if (await liens32.count() > 0) {
-      // Si plusieurs liens avec le même label, trouver celui qui va vers la bonne destination
-      const liensTrouves = await liens32.all();
-      let lienTrouve = null;
-      for (const lien of liensTrouves) {
-        const href = await lien.getAttribute('href');
-        // Normaliser l'URL (enlever le slash final si présent)
-        const hrefNormalise = href ? href.replace(/\/$/, '') : '';
-        const destinationNormalisee = '/pour-aller-plus-loin'.replace(/\/$/, '');
-        if (hrefNormalise === destinationNormalisee || hrefNormalise === destinationNormalisee + '/' || href === destinationNormalisee || href === destinationNormalisee + '/') {
-          lienTrouve = lien;
-          break;
-        }
-      }
-      if (lienTrouve) {
-        await lienTrouve.click();
-      } else {
-        // Aucun lien trouvé vers la destination exacte, échouer pour détecter les incohérences
-        throw new Error(`Impossible de trouver un lien vers /pour-aller-plus-loin depuis /metrics (label: "lien"). Vérifiez que le lien existe et est accessible depuis cette page.`);
-      }
-    } else {
-      // Lien non trouvé par label, navigation via plan-du-site ou accueil
-      // Le footer et le header sont toujours disponibles sur toutes les pages
-      // Option 1 : Essayer via le plan du site (footer) - c'est un bouton, pas un lien
-      const boutonPlanDuSite = page.getByTestId('e2eid-b13');
-      if (await boutonPlanDuSite.count() > 0) {
-        await boutonPlanDuSite.click();
-        await expect(page).toHaveURL('/plan-du-site');
-        // Vérifier si la destination est accessible via un bouton du footer ou si c'est /plan-du-site ou /
-        if ('/pour-aller-plus-loin' === '/plan-du-site') {
-          // On est déjà sur /plan-du-site, pas besoin de naviguer à nouveau
-        } else if ('/pour-aller-plus-loin' === '/') {
-          // Pour aller à l'accueil, utiliser le logo du header (h1)
-          const logo = page.getByTestId('e2eid-h1');
-          if (await logo.count() > 0) {
-            await logo.click();
-            await expect(page).toHaveURL('/');
-          } else {
-            // Fallback : navigation directe
-            await page.goto('/');
-          }
-        } else if ('/pour-aller-plus-loin' === '/metrics') {
-          // /metrics est accessible via le bouton du footer (b14)
-          const boutonMetrics = page.getByTestId('e2eid-b14');
-          if (await boutonMetrics.count() > 0) {
-            await boutonMetrics.click();
-            await expect(page).toHaveURL('/metrics');
-          } else {
-            throw new Error('Impossible de trouver le bouton Metrics (e2eid-b14) dans le footer.');
-          }
-        } else if ('/pour-aller-plus-loin' === '/a-propos-du-site') {
-          // /a-propos-du-site est accessible via le bouton du footer (b15)
-          const boutonAbout = page.getByTestId('e2eid-b15');
-          if (await boutonAbout.count() > 0) {
-            await boutonAbout.click();
-            await expect(page).toHaveURL('/a-propos-du-site');
-          } else {
-            throw new Error('Impossible de trouver le bouton About (e2eid-b15) dans le footer.');
-          }
-        } else {
-          // Depuis le plan du site, chercher le lien par son e2eID (généré de manière déterministe)
-          // Chercher le lien par son e2eID (généré de manière déterministe depuis l'URL)
-          // Attendre que le plan du site soit chargé (les liens sont chargés de manière asynchrone)
-          await page.waitForSelector('[data-e2eid^="e2eid-l"]', { timeout: 5000 }).catch(() => {});
-          const lienDepuisPlan32 = page.getByTestId('e2eid-l907');
-          if (await lienDepuisPlan32.count() === 0) {
-            throw new Error('Impossible de trouver un lien vers /pour-aller-plus-loin (e2eID: e2eid-l907) depuis le plan du site. La page n\'est peut-être pas accessible ou le lien est manquant dans le plan du site.');
-          }
-          await lienDepuisPlan32.first().click();
-        }
-      } else {
-        // Option 2 : Via le logo (header) vers l'accueil
-        const logo = page.getByAltText('Logo Malain et possible');
-        if (await logo.count() > 0) {
-          await logo.click();
-          await expect(page).toHaveURL('/');
-        } else {
-          // Fallback : navigation directe vers l'accueil
-          await page.goto('/');
-        }
-        // Depuis l'accueil, chercher le lien vers la destination
-        const lienDepuisAccueil32 = page.getByRole('link', { name: new RegExp(`/pour-aller-plus-loin`, 'i') });
-        if (await lienDepuisAccueil32.count() === 0) {
-          // Essayer aussi par le label original si disponible
-          const lienParLabel32 = page.getByRole('link', { name: new RegExp(`lien`, 'i') });
-          if (await lienParLabel32.count() === 0) {
-            throw new Error(`Impossible de trouver un lien vers /pour-aller-plus-loin depuis l'accueil (label: "lien"). La page n'est peut-être pas accessible depuis l'accueil ou le lien est manquant.`);
-          }
-          await lienParLabel32.first().click();
-        } else {
-          await lienDepuisAccueil32.first().click();
-        }
-      }
-    }
-    await expect(page).toHaveURL('/pour-aller-plus-loin');
-  });
-
-  // Test des e2eID présents sur /pour-aller-plus-loin
-
-  await test.step("Étape 34: Navigation de /pour-aller-plus-loin vers /metrics (BarChart3)", async () => {
-    // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
-    const liens33 = page.getByRole('link', { name: /BarChart3/i });
-    if (await liens33.count() > 0) {
-      // Si plusieurs liens avec le même label, trouver celui qui va vers la bonne destination
-      const liensTrouves = await liens33.all();
-      let lienTrouve = null;
-      for (const lien of liensTrouves) {
-        const href = await lien.getAttribute('href');
-        // Normaliser l'URL (enlever le slash final si présent)
-        const hrefNormalise = href ? href.replace(/\/$/, '') : '';
-        const destinationNormalisee = '/metrics'.replace(/\/$/, '');
-        if (hrefNormalise === destinationNormalisee || hrefNormalise === destinationNormalisee + '/' || href === destinationNormalisee || href === destinationNormalisee + '/') {
-          lienTrouve = lien;
-          break;
-        }
-      }
-      if (lienTrouve) {
-        await lienTrouve.click();
-      } else {
-        // Aucun lien trouvé vers la destination exacte, échouer pour détecter les incohérences
-        throw new Error(`Impossible de trouver un lien vers /metrics depuis /pour-aller-plus-loin (label: "BarChart3"). Vérifiez que le lien existe et est accessible depuis cette page.`);
-      }
-    } else {
-      // Lien non trouvé par label, navigation via plan-du-site ou accueil
-      // Le footer et le header sont toujours disponibles sur toutes les pages
-      // /metrics est accessible via le bouton du footer (b14), pas via un lien
-      const boutonMetrics = page.getByTestId('e2eid-b14');
-      if (await boutonMetrics.count() > 0) {
-        await boutonMetrics.click();
-        await expect(page).toHaveURL('/metrics');
-      } else {
-        throw new Error('Impossible de trouver le bouton Metrics (e2eid-b14) dans le footer.');
-      }
-    }
-    await expect(page).toHaveURL('/metrics');
-  });
-
-  // Test des e2eID présents sur /metrics
-
-  await test.step("Étape 35: Navigation de /metrics vers /test-fonts (lien)", async () => {
-    // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
-    const liens34 = page.getByRole('link', { name: /lien/i });
-    if (await liens34.count() > 0) {
-      // Si plusieurs liens avec le même label, trouver celui qui va vers la bonne destination
-      const liensTrouves = await liens34.all();
-      let lienTrouve = null;
-      for (const lien of liensTrouves) {
-        const href = await lien.getAttribute('href');
-        // Normaliser l'URL (enlever le slash final si présent)
-        const hrefNormalise = href ? href.replace(/\/$/, '') : '';
-        const destinationNormalisee = '/test-fonts'.replace(/\/$/, '');
-        if (hrefNormalise === destinationNormalisee || hrefNormalise === destinationNormalisee + '/' || href === destinationNormalisee || href === destinationNormalisee + '/') {
-          lienTrouve = lien;
-          break;
-        }
-      }
-      if (lienTrouve) {
-        await lienTrouve.click();
-      } else {
-        // Aucun lien trouvé vers la destination exacte, échouer pour détecter les incohérences
-        throw new Error(`Impossible de trouver un lien vers /test-fonts depuis /metrics (label: "lien"). Vérifiez que le lien existe et est accessible depuis cette page.`);
-      }
-    } else {
-      // Lien non trouvé par label, navigation via plan-du-site ou accueil
-      // Le footer et le header sont toujours disponibles sur toutes les pages
-      // Option 1 : Essayer via le plan du site (footer) - c'est un bouton, pas un lien
-      const boutonPlanDuSite = page.getByTestId('e2eid-b13');
-      if (await boutonPlanDuSite.count() > 0) {
-        await boutonPlanDuSite.click();
-        await expect(page).toHaveURL('/plan-du-site');
-        // Vérifier si la destination est accessible via un bouton du footer ou si c'est /plan-du-site ou /
-        if ('/test-fonts' === '/plan-du-site') {
-          // On est déjà sur /plan-du-site, pas besoin de naviguer à nouveau
-        } else if ('/test-fonts' === '/') {
-          // Pour aller à l'accueil, utiliser le logo du header (h1)
-          const logo = page.getByTestId('e2eid-h1');
-          if (await logo.count() > 0) {
-            await logo.click();
-            await expect(page).toHaveURL('/');
-          } else {
-            // Fallback : navigation directe
-            await page.goto('/');
-          }
-        } else if ('/test-fonts' === '/metrics') {
-          // /metrics est accessible via le bouton du footer (b14)
-          const boutonMetrics = page.getByTestId('e2eid-b14');
-          if (await boutonMetrics.count() > 0) {
-            await boutonMetrics.click();
-            await expect(page).toHaveURL('/metrics');
-          } else {
-            throw new Error('Impossible de trouver le bouton Metrics (e2eid-b14) dans le footer.');
-          }
-        } else if ('/test-fonts' === '/a-propos-du-site') {
-          // /a-propos-du-site est accessible via le bouton du footer (b15)
-          const boutonAbout = page.getByTestId('e2eid-b15');
-          if (await boutonAbout.count() > 0) {
-            await boutonAbout.click();
-            await expect(page).toHaveURL('/a-propos-du-site');
-          } else {
-            throw new Error('Impossible de trouver le bouton About (e2eid-b15) dans le footer.');
-          }
-        } else {
-          // Depuis le plan du site, chercher le lien par son e2eID (généré de manière déterministe)
-          // Chercher le lien par son e2eID (généré de manière déterministe depuis l'URL)
-          // Attendre que le plan du site soit chargé (les liens sont chargés de manière asynchrone)
-          await page.waitForSelector('[data-e2eid^="e2eid-l"]', { timeout: 5000 }).catch(() => {});
-          const lienDepuisPlan34 = page.getByTestId('e2eid-l767');
-          if (await lienDepuisPlan34.count() === 0) {
-            throw new Error('Impossible de trouver un lien vers /test-fonts (e2eID: e2eid-l767) depuis le plan du site. La page n\'est peut-être pas accessible ou le lien est manquant dans le plan du site.');
-          }
-          await lienDepuisPlan34.first().click();
-        }
-      } else {
-        // Option 2 : Via le logo (header) vers l'accueil
-        const logo = page.getByAltText('Logo Malain et possible');
-        if (await logo.count() > 0) {
-          await logo.click();
-          await expect(page).toHaveURL('/');
-        } else {
-          // Fallback : navigation directe vers l'accueil
-          await page.goto('/');
-        }
-        // Depuis l'accueil, chercher le lien vers la destination
-        const lienDepuisAccueil34 = page.getByRole('link', { name: new RegExp(`/test-fonts`, 'i') });
-        if (await lienDepuisAccueil34.count() === 0) {
-          // Essayer aussi par le label original si disponible
-          const lienParLabel34 = page.getByRole('link', { name: new RegExp(`lien`, 'i') });
-          if (await lienParLabel34.count() === 0) {
-            throw new Error(`Impossible de trouver un lien vers /test-fonts depuis l'accueil (label: "lien"). La page n'est peut-être pas accessible depuis l'accueil ou le lien est manquant.`);
-          }
-          await lienParLabel34.first().click();
-        } else {
-          await lienDepuisAccueil34.first().click();
-        }
-      }
-    }
-    await expect(page).toHaveURL('/test-fonts');
-  });
-
-  // Test des e2eID présents sur /test-fonts
-
-  await test.step("Étape 36: Navigation de /test-fonts vers /metrics (BarChart3)", async () => {
-    // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
-    const liens35 = page.getByRole('link', { name: /BarChart3/i });
-    if (await liens35.count() > 0) {
-      // Si plusieurs liens avec le même label, trouver celui qui va vers la bonne destination
-      const liensTrouves = await liens35.all();
-      let lienTrouve = null;
-      for (const lien of liensTrouves) {
-        const href = await lien.getAttribute('href');
-        // Normaliser l'URL (enlever le slash final si présent)
-        const hrefNormalise = href ? href.replace(/\/$/, '') : '';
-        const destinationNormalisee = '/metrics'.replace(/\/$/, '');
-        if (hrefNormalise === destinationNormalisee || hrefNormalise === destinationNormalisee + '/' || href === destinationNormalisee || href === destinationNormalisee + '/') {
-          lienTrouve = lien;
-          break;
-        }
-      }
-      if (lienTrouve) {
-        await lienTrouve.click();
-      } else {
-        // Aucun lien trouvé vers la destination exacte, échouer pour détecter les incohérences
-        throw new Error(`Impossible de trouver un lien vers /metrics depuis /test-fonts (label: "BarChart3"). Vérifiez que le lien existe et est accessible depuis cette page.`);
-      }
-    } else {
-      // Lien non trouvé par label, navigation via plan-du-site ou accueil
-      // Le footer et le header sont toujours disponibles sur toutes les pages
-      // /metrics est accessible via le bouton du footer (b14), pas via un lien
-      const boutonMetrics = page.getByTestId('e2eid-b14');
-      if (await boutonMetrics.count() > 0) {
-        await boutonMetrics.click();
-        await expect(page).toHaveURL('/metrics');
-      } else {
-        throw new Error('Impossible de trouver le bouton Metrics (e2eid-b14) dans le footer.');
-      }
-    }
-    await expect(page).toHaveURL('/metrics');
-  });
-
-  // Test des e2eID présents sur /metrics
-
-  await test.step("Étape 37: Navigation de /metrics vers /profil/cpo (lien)", async () => {
-    // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
-    const liens36 = page.getByRole('link', { name: /lien/i });
-    if (await liens36.count() > 0) {
-      // Si plusieurs liens avec le même label, trouver celui qui va vers la bonne destination
-      const liensTrouves = await liens36.all();
-      let lienTrouve = null;
-      for (const lien of liensTrouves) {
-        const href = await lien.getAttribute('href');
-        // Normaliser l'URL (enlever le slash final si présent)
-        const hrefNormalise = href ? href.replace(/\/$/, '') : '';
-        const destinationNormalisee = '/profil/cpo'.replace(/\/$/, '');
-        if (hrefNormalise === destinationNormalisee || hrefNormalise === destinationNormalisee + '/' || href === destinationNormalisee || href === destinationNormalisee + '/') {
-          lienTrouve = lien;
-          break;
-        }
-      }
-      if (lienTrouve) {
-        await lienTrouve.click();
-      } else {
-        // Aucun lien trouvé vers la destination exacte, échouer pour détecter les incohérences
-        throw new Error(`Impossible de trouver un lien vers /profil/cpo depuis /metrics (label: "lien"). Vérifiez que le lien existe et est accessible depuis cette page.`);
-      }
-    } else {
-      // Lien non trouvé par label, navigation via plan-du-site ou accueil
-      // Le footer et le header sont toujours disponibles sur toutes les pages
-      // Option 1 : Essayer via le plan du site (footer) - c'est un bouton, pas un lien
-      const boutonPlanDuSite = page.getByTestId('e2eid-b13');
-      if (await boutonPlanDuSite.count() > 0) {
-        await boutonPlanDuSite.click();
-        await expect(page).toHaveURL('/plan-du-site');
-        // Vérifier si la destination est accessible via un bouton du footer ou si c'est /plan-du-site ou /
-        if ('/profil/cpo' === '/plan-du-site') {
-          // On est déjà sur /plan-du-site, pas besoin de naviguer à nouveau
-        } else if ('/profil/cpo' === '/') {
-          // Pour aller à l'accueil, utiliser le logo du header (h1)
-          const logo = page.getByTestId('e2eid-h1');
-          if (await logo.count() > 0) {
-            await logo.click();
-            await expect(page).toHaveURL('/');
-          } else {
-            // Fallback : navigation directe
-            await page.goto('/');
-          }
-        } else if ('/profil/cpo' === '/metrics') {
-          // /metrics est accessible via le bouton du footer (b14)
-          const boutonMetrics = page.getByTestId('e2eid-b14');
-          if (await boutonMetrics.count() > 0) {
-            await boutonMetrics.click();
-            await expect(page).toHaveURL('/metrics');
-          } else {
-            throw new Error('Impossible de trouver le bouton Metrics (e2eid-b14) dans le footer.');
-          }
-        } else if ('/profil/cpo' === '/a-propos-du-site') {
-          // /a-propos-du-site est accessible via le bouton du footer (b15)
-          const boutonAbout = page.getByTestId('e2eid-b15');
-          if (await boutonAbout.count() > 0) {
-            await boutonAbout.click();
-            await expect(page).toHaveURL('/a-propos-du-site');
-          } else {
-            throw new Error('Impossible de trouver le bouton About (e2eid-b15) dans le footer.');
-          }
-        } else {
-          // Depuis le plan du site, chercher le lien par son e2eID (généré de manière déterministe)
-          // Chercher le lien par son e2eID (généré de manière déterministe depuis l'URL)
-          // Attendre que le plan du site soit chargé (les liens sont chargés de manière asynchrone)
-          await page.waitForSelector('[data-e2eid^="e2eid-l"]', { timeout: 5000 }).catch(() => {});
-          const lienDepuisPlan36 = page.getByTestId('e2eid-l399');
-          if (await lienDepuisPlan36.count() === 0) {
-            throw new Error('Impossible de trouver un lien vers /profil/cpo (e2eID: e2eid-l399) depuis le plan du site. La page n\'est peut-être pas accessible ou le lien est manquant dans le plan du site.');
-          }
-          await lienDepuisPlan36.first().click();
-        }
-      } else {
-        // Option 2 : Via le logo (header) vers l'accueil
-        const logo = page.getByAltText('Logo Malain et possible');
-        if (await logo.count() > 0) {
-          await logo.click();
-          await expect(page).toHaveURL('/');
-        } else {
-          // Fallback : navigation directe vers l'accueil
-          await page.goto('/');
-        }
-        // Depuis l'accueil, chercher le lien vers la destination
-        const lienDepuisAccueil36 = page.getByRole('link', { name: new RegExp(`/profil/cpo`, 'i') });
-        if (await lienDepuisAccueil36.count() === 0) {
-          // Essayer aussi par le label original si disponible
-          const lienParLabel36 = page.getByRole('link', { name: new RegExp(`lien`, 'i') });
-          if (await lienParLabel36.count() === 0) {
-            throw new Error(`Impossible de trouver un lien vers /profil/cpo depuis l'accueil (label: "lien"). La page n'est peut-être pas accessible depuis l'accueil ou le lien est manquant.`);
-          }
-          await lienParLabel36.first().click();
-        } else {
-          await lienDepuisAccueil36.first().click();
-        }
-      }
-    }
-    await expect(page).toHaveURL('/profil/cpo');
-  });
-
-  // Test des e2eID présents sur /profil/cpo
-
-  await test.step("Étape 38: Navigation de /profil/cpo vers /metrics (BarChart3)", async () => {
-    // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
-    const liens37 = page.getByRole('link', { name: /BarChart3/i });
-    if (await liens37.count() > 0) {
-      // Si plusieurs liens avec le même label, trouver celui qui va vers la bonne destination
-      const liensTrouves = await liens37.all();
-      let lienTrouve = null;
-      for (const lien of liensTrouves) {
-        const href = await lien.getAttribute('href');
-        // Normaliser l'URL (enlever le slash final si présent)
-        const hrefNormalise = href ? href.replace(/\/$/, '') : '';
-        const destinationNormalisee = '/metrics'.replace(/\/$/, '');
-        if (hrefNormalise === destinationNormalisee || hrefNormalise === destinationNormalisee + '/' || href === destinationNormalisee || href === destinationNormalisee + '/') {
-          lienTrouve = lien;
-          break;
-        }
-      }
-      if (lienTrouve) {
-        await lienTrouve.click();
-      } else {
-        // Aucun lien trouvé vers la destination exacte, échouer pour détecter les incohérences
-        throw new Error(`Impossible de trouver un lien vers /metrics depuis /profil/cpo (label: "BarChart3"). Vérifiez que le lien existe et est accessible depuis cette page.`);
-      }
-    } else {
-      // Lien non trouvé par label, navigation via plan-du-site ou accueil
-      // Le footer et le header sont toujours disponibles sur toutes les pages
-      // /metrics est accessible via le bouton du footer (b14), pas via un lien
-      const boutonMetrics = page.getByTestId('e2eid-b14');
-      if (await boutonMetrics.count() > 0) {
-        await boutonMetrics.click();
-        await expect(page).toHaveURL('/metrics');
-      } else {
-        throw new Error('Impossible de trouver le bouton Metrics (e2eid-b14) dans le footer.');
-      }
-    }
-    await expect(page).toHaveURL('/metrics');
-  });
-
-  // Test des e2eID présents sur /metrics
-
-  await test.step("Étape 39: Navigation de /metrics vers /profil/coo (lien)", async () => {
-    // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
-    const liens38 = page.getByRole('link', { name: /lien/i });
-    if (await liens38.count() > 0) {
-      // Si plusieurs liens avec le même label, trouver celui qui va vers la bonne destination
-      const liensTrouves = await liens38.all();
-      let lienTrouve = null;
-      for (const lien of liensTrouves) {
-        const href = await lien.getAttribute('href');
-        // Normaliser l'URL (enlever le slash final si présent)
-        const hrefNormalise = href ? href.replace(/\/$/, '') : '';
-        const destinationNormalisee = '/profil/coo'.replace(/\/$/, '');
-        if (hrefNormalise === destinationNormalisee || hrefNormalise === destinationNormalisee + '/' || href === destinationNormalisee || href === destinationNormalisee + '/') {
-          lienTrouve = lien;
-          break;
-        }
-      }
-      if (lienTrouve) {
-        await lienTrouve.click();
-      } else {
-        // Aucun lien trouvé vers la destination exacte, échouer pour détecter les incohérences
-        throw new Error(`Impossible de trouver un lien vers /profil/coo depuis /metrics (label: "lien"). Vérifiez que le lien existe et est accessible depuis cette page.`);
-      }
-    } else {
-      // Lien non trouvé par label, navigation via plan-du-site ou accueil
-      // Le footer et le header sont toujours disponibles sur toutes les pages
-      // Option 1 : Essayer via le plan du site (footer) - c'est un bouton, pas un lien
-      const boutonPlanDuSite = page.getByTestId('e2eid-b13');
-      if (await boutonPlanDuSite.count() > 0) {
-        await boutonPlanDuSite.click();
-        await expect(page).toHaveURL('/plan-du-site');
-        // Vérifier si la destination est accessible via un bouton du footer ou si c'est /plan-du-site ou /
-        if ('/profil/coo' === '/plan-du-site') {
-          // On est déjà sur /plan-du-site, pas besoin de naviguer à nouveau
-        } else if ('/profil/coo' === '/') {
-          // Pour aller à l'accueil, utiliser le logo du header (h1)
-          const logo = page.getByTestId('e2eid-h1');
-          if (await logo.count() > 0) {
-            await logo.click();
-            await expect(page).toHaveURL('/');
-          } else {
-            // Fallback : navigation directe
-            await page.goto('/');
-          }
-        } else if ('/profil/coo' === '/metrics') {
-          // /metrics est accessible via le bouton du footer (b14)
-          const boutonMetrics = page.getByTestId('e2eid-b14');
-          if (await boutonMetrics.count() > 0) {
-            await boutonMetrics.click();
-            await expect(page).toHaveURL('/metrics');
-          } else {
-            throw new Error('Impossible de trouver le bouton Metrics (e2eid-b14) dans le footer.');
-          }
-        } else if ('/profil/coo' === '/a-propos-du-site') {
-          // /a-propos-du-site est accessible via le bouton du footer (b15)
-          const boutonAbout = page.getByTestId('e2eid-b15');
-          if (await boutonAbout.count() > 0) {
-            await boutonAbout.click();
-            await expect(page).toHaveURL('/a-propos-du-site');
-          } else {
-            throw new Error('Impossible de trouver le bouton About (e2eid-b15) dans le footer.');
-          }
-        } else {
-          // Depuis le plan du site, chercher le lien par son e2eID (généré de manière déterministe)
-          // Chercher le lien par son e2eID (généré de manière déterministe depuis l'URL)
-          // Attendre que le plan du site soit chargé (les liens sont chargés de manière asynchrone)
-          await page.waitForSelector('[data-e2eid^="e2eid-l"]', { timeout: 5000 }).catch(() => {});
-          const lienDepuisPlan38 = page.getByTestId('e2eid-l430');
-          if (await lienDepuisPlan38.count() === 0) {
-            throw new Error('Impossible de trouver un lien vers /profil/coo (e2eID: e2eid-l430) depuis le plan du site. La page n\'est peut-être pas accessible ou le lien est manquant dans le plan du site.');
-          }
-          await lienDepuisPlan38.first().click();
-        }
-      } else {
-        // Option 2 : Via le logo (header) vers l'accueil
-        const logo = page.getByAltText('Logo Malain et possible');
-        if (await logo.count() > 0) {
-          await logo.click();
-          await expect(page).toHaveURL('/');
-        } else {
-          // Fallback : navigation directe vers l'accueil
-          await page.goto('/');
-        }
-        // Depuis l'accueil, chercher le lien vers la destination
-        const lienDepuisAccueil38 = page.getByRole('link', { name: new RegExp(`/profil/coo`, 'i') });
-        if (await lienDepuisAccueil38.count() === 0) {
-          // Essayer aussi par le label original si disponible
-          const lienParLabel38 = page.getByRole('link', { name: new RegExp(`lien`, 'i') });
-          if (await lienParLabel38.count() === 0) {
-            throw new Error(`Impossible de trouver un lien vers /profil/coo depuis l'accueil (label: "lien"). La page n'est peut-être pas accessible depuis l'accueil ou le lien est manquant.`);
-          }
-          await lienParLabel38.first().click();
-        } else {
-          await lienDepuisAccueil38.first().click();
-        }
-      }
-    }
-    await expect(page).toHaveURL('/profil/coo');
-  });
-
-  // Test des e2eID présents sur /profil/coo
-
-  await test.step("Étape 40: Navigation de /profil/coo vers /metrics (BarChart3)", async () => {
-    // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
-    const liens39 = page.getByRole('link', { name: /BarChart3/i });
-    if (await liens39.count() > 0) {
-      // Si plusieurs liens avec le même label, trouver celui qui va vers la bonne destination
-      const liensTrouves = await liens39.all();
-      let lienTrouve = null;
-      for (const lien of liensTrouves) {
-        const href = await lien.getAttribute('href');
-        // Normaliser l'URL (enlever le slash final si présent)
-        const hrefNormalise = href ? href.replace(/\/$/, '') : '';
-        const destinationNormalisee = '/metrics'.replace(/\/$/, '');
-        if (hrefNormalise === destinationNormalisee || hrefNormalise === destinationNormalisee + '/' || href === destinationNormalisee || href === destinationNormalisee + '/') {
-          lienTrouve = lien;
-          break;
-        }
-      }
-      if (lienTrouve) {
-        await lienTrouve.click();
-      } else {
-        // Aucun lien trouvé vers la destination exacte, échouer pour détecter les incohérences
-        throw new Error(`Impossible de trouver un lien vers /metrics depuis /profil/coo (label: "BarChart3"). Vérifiez que le lien existe et est accessible depuis cette page.`);
-      }
-    } else {
-      // Lien non trouvé par label, navigation via plan-du-site ou accueil
-      // Le footer et le header sont toujours disponibles sur toutes les pages
-      // /metrics est accessible via le bouton du footer (b14), pas via un lien
-      const boutonMetrics = page.getByTestId('e2eid-b14');
-      if (await boutonMetrics.count() > 0) {
-        await boutonMetrics.click();
-        await expect(page).toHaveURL('/metrics');
-      } else {
-        throw new Error('Impossible de trouver le bouton Metrics (e2eid-b14) dans le footer.');
-      }
-    }
-    await expect(page).toHaveURL('/metrics');
-  });
-
-  // Test des e2eID présents sur /metrics
-
-  await test.step("Étape 41: Navigation de /metrics vers /profil/agile (lien)", async () => {
-    // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
-    const liens40 = page.getByRole('link', { name: /lien/i });
-    if (await liens40.count() > 0) {
-      // Si plusieurs liens avec le même label, trouver celui qui va vers la bonne destination
-      const liensTrouves = await liens40.all();
-      let lienTrouve = null;
-      for (const lien of liensTrouves) {
-        const href = await lien.getAttribute('href');
-        // Normaliser l'URL (enlever le slash final si présent)
-        const hrefNormalise = href ? href.replace(/\/$/, '') : '';
-        const destinationNormalisee = '/profil/agile'.replace(/\/$/, '');
-        if (hrefNormalise === destinationNormalisee || hrefNormalise === destinationNormalisee + '/' || href === destinationNormalisee || href === destinationNormalisee + '/') {
-          lienTrouve = lien;
-          break;
-        }
-      }
-      if (lienTrouve) {
-        await lienTrouve.click();
-      } else {
-        // Aucun lien trouvé vers la destination exacte, échouer pour détecter les incohérences
-        throw new Error(`Impossible de trouver un lien vers /profil/agile depuis /metrics (label: "lien"). Vérifiez que le lien existe et est accessible depuis cette page.`);
-      }
-    } else {
-      // Lien non trouvé par label, navigation via plan-du-site ou accueil
-      // Le footer et le header sont toujours disponibles sur toutes les pages
-      // Option 1 : Essayer via le plan du site (footer) - c'est un bouton, pas un lien
-      const boutonPlanDuSite = page.getByTestId('e2eid-b13');
-      if (await boutonPlanDuSite.count() > 0) {
-        await boutonPlanDuSite.click();
-        await expect(page).toHaveURL('/plan-du-site');
-        // Vérifier si la destination est accessible via un bouton du footer ou si c'est /plan-du-site ou /
-        if ('/profil/agile' === '/plan-du-site') {
-          // On est déjà sur /plan-du-site, pas besoin de naviguer à nouveau
-        } else if ('/profil/agile' === '/') {
-          // Pour aller à l'accueil, utiliser le logo du header (h1)
-          const logo = page.getByTestId('e2eid-h1');
-          if (await logo.count() > 0) {
-            await logo.click();
-            await expect(page).toHaveURL('/');
-          } else {
-            // Fallback : navigation directe
-            await page.goto('/');
-          }
-        } else if ('/profil/agile' === '/metrics') {
-          // /metrics est accessible via le bouton du footer (b14)
-          const boutonMetrics = page.getByTestId('e2eid-b14');
-          if (await boutonMetrics.count() > 0) {
-            await boutonMetrics.click();
-            await expect(page).toHaveURL('/metrics');
-          } else {
-            throw new Error('Impossible de trouver le bouton Metrics (e2eid-b14) dans le footer.');
-          }
-        } else if ('/profil/agile' === '/a-propos-du-site') {
-          // /a-propos-du-site est accessible via le bouton du footer (b15)
-          const boutonAbout = page.getByTestId('e2eid-b15');
-          if (await boutonAbout.count() > 0) {
-            await boutonAbout.click();
-            await expect(page).toHaveURL('/a-propos-du-site');
-          } else {
-            throw new Error('Impossible de trouver le bouton About (e2eid-b15) dans le footer.');
-          }
-        } else {
-          // Depuis le plan du site, chercher le lien par son e2eID (généré de manière déterministe)
-          // Chercher le lien par son e2eID (généré de manière déterministe depuis l'URL)
-          // Attendre que le plan du site soit chargé (les liens sont chargés de manière asynchrone)
-          await page.waitForSelector('[data-e2eid^="e2eid-l"]', { timeout: 5000 }).catch(() => {});
-          const lienDepuisPlan40 = page.getByTestId('e2eid-l805');
-          if (await lienDepuisPlan40.count() === 0) {
-            throw new Error('Impossible de trouver un lien vers /profil/agile (e2eID: e2eid-l805) depuis le plan du site. La page n\'est peut-être pas accessible ou le lien est manquant dans le plan du site.');
-          }
-          await lienDepuisPlan40.first().click();
-        }
-      } else {
-        // Option 2 : Via le logo (header) vers l'accueil
-        const logo = page.getByAltText('Logo Malain et possible');
-        if (await logo.count() > 0) {
-          await logo.click();
-          await expect(page).toHaveURL('/');
-        } else {
-          // Fallback : navigation directe vers l'accueil
-          await page.goto('/');
-        }
-        // Depuis l'accueil, chercher le lien vers la destination
-        const lienDepuisAccueil40 = page.getByRole('link', { name: new RegExp(`/profil/agile`, 'i') });
-        if (await lienDepuisAccueil40.count() === 0) {
-          // Essayer aussi par le label original si disponible
-          const lienParLabel40 = page.getByRole('link', { name: new RegExp(`lien`, 'i') });
-          if (await lienParLabel40.count() === 0) {
-            throw new Error(`Impossible de trouver un lien vers /profil/agile depuis l'accueil (label: "lien"). La page n'est peut-être pas accessible depuis l'accueil ou le lien est manquant.`);
-          }
-          await lienParLabel40.first().click();
-        } else {
-          await lienDepuisAccueil40.first().click();
-        }
-      }
-    }
-    await expect(page).toHaveURL('/profil/agile');
-  });
-
-  // Test des e2eID présents sur /profil/agile
-
-  await test.step("Étape 42: Navigation de /profil/agile vers /metrics (BarChart3)", async () => {
-    // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
-    const liens41 = page.getByRole('link', { name: /BarChart3/i });
-    if (await liens41.count() > 0) {
-      // Si plusieurs liens avec le même label, trouver celui qui va vers la bonne destination
-      const liensTrouves = await liens41.all();
-      let lienTrouve = null;
-      for (const lien of liensTrouves) {
-        const href = await lien.getAttribute('href');
-        // Normaliser l'URL (enlever le slash final si présent)
-        const hrefNormalise = href ? href.replace(/\/$/, '') : '';
-        const destinationNormalisee = '/metrics'.replace(/\/$/, '');
-        if (hrefNormalise === destinationNormalisee || hrefNormalise === destinationNormalisee + '/' || href === destinationNormalisee || href === destinationNormalisee + '/') {
-          lienTrouve = lien;
-          break;
-        }
-      }
-      if (lienTrouve) {
-        await lienTrouve.click();
-      } else {
-        // Aucun lien trouvé vers la destination exacte, échouer pour détecter les incohérences
-        throw new Error(`Impossible de trouver un lien vers /metrics depuis /profil/agile (label: "BarChart3"). Vérifiez que le lien existe et est accessible depuis cette page.`);
-      }
-    } else {
-      // Lien non trouvé par label, navigation via plan-du-site ou accueil
-      // Le footer et le header sont toujours disponibles sur toutes les pages
-      // /metrics est accessible via le bouton du footer (b14), pas via un lien
-      const boutonMetrics = page.getByTestId('e2eid-b14');
-      if (await boutonMetrics.count() > 0) {
-        await boutonMetrics.click();
-        await expect(page).toHaveURL('/metrics');
-      } else {
-        throw new Error('Impossible de trouver le bouton Metrics (e2eid-b14) dans le footer.');
-      }
-    }
-    await expect(page).toHaveURL('/metrics');
-  });
-
-  // Test des e2eID présents sur /metrics
-
-  await test.step("Étape 43: Navigation de /metrics vers /profil/cto (lien)", async () => {
-    // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
-    const liens42 = page.getByRole('link', { name: /lien/i });
-    if (await liens42.count() > 0) {
-      // Si plusieurs liens avec le même label, trouver celui qui va vers la bonne destination
-      const liensTrouves = await liens42.all();
-      let lienTrouve = null;
-      for (const lien of liensTrouves) {
-        const href = await lien.getAttribute('href');
-        // Normaliser l'URL (enlever le slash final si présent)
-        const hrefNormalise = href ? href.replace(/\/$/, '') : '';
-        const destinationNormalisee = '/profil/cto'.replace(/\/$/, '');
-        if (hrefNormalise === destinationNormalisee || hrefNormalise === destinationNormalisee + '/' || href === destinationNormalisee || href === destinationNormalisee + '/') {
-          lienTrouve = lien;
-          break;
-        }
-      }
-      if (lienTrouve) {
-        await lienTrouve.click();
-      } else {
-        // Aucun lien trouvé vers la destination exacte, échouer pour détecter les incohérences
-        throw new Error(`Impossible de trouver un lien vers /profil/cto depuis /metrics (label: "lien"). Vérifiez que le lien existe et est accessible depuis cette page.`);
-      }
-    } else {
-      // Lien non trouvé par label, navigation via plan-du-site ou accueil
-      // Le footer et le header sont toujours disponibles sur toutes les pages
-      // Option 1 : Essayer via le plan du site (footer) - c'est un bouton, pas un lien
-      const boutonPlanDuSite = page.getByTestId('e2eid-b13');
-      if (await boutonPlanDuSite.count() > 0) {
-        await boutonPlanDuSite.click();
-        await expect(page).toHaveURL('/plan-du-site');
-        // Vérifier si la destination est accessible via un bouton du footer ou si c'est /plan-du-site ou /
-        if ('/profil/cto' === '/plan-du-site') {
-          // On est déjà sur /plan-du-site, pas besoin de naviguer à nouveau
-        } else if ('/profil/cto' === '/') {
-          // Pour aller à l'accueil, utiliser le logo du header (h1)
-          const logo = page.getByTestId('e2eid-h1');
-          if (await logo.count() > 0) {
-            await logo.click();
-            await expect(page).toHaveURL('/');
-          } else {
-            // Fallback : navigation directe
-            await page.goto('/');
-          }
-        } else if ('/profil/cto' === '/metrics') {
-          // /metrics est accessible via le bouton du footer (b14)
-          const boutonMetrics = page.getByTestId('e2eid-b14');
-          if (await boutonMetrics.count() > 0) {
-            await boutonMetrics.click();
-            await expect(page).toHaveURL('/metrics');
-          } else {
-            throw new Error('Impossible de trouver le bouton Metrics (e2eid-b14) dans le footer.');
-          }
-        } else if ('/profil/cto' === '/a-propos-du-site') {
-          // /a-propos-du-site est accessible via le bouton du footer (b15)
-          const boutonAbout = page.getByTestId('e2eid-b15');
-          if (await boutonAbout.count() > 0) {
-            await boutonAbout.click();
-            await expect(page).toHaveURL('/a-propos-du-site');
-          } else {
-            throw new Error('Impossible de trouver le bouton About (e2eid-b15) dans le footer.');
-          }
-        } else {
-          // Depuis le plan du site, chercher le lien par son e2eID (généré de manière déterministe)
-          // Chercher le lien par son e2eID (généré de manière déterministe depuis l'URL)
-          // Attendre que le plan du site soit chargé (les liens sont chargés de manière asynchrone)
-          await page.waitForSelector('[data-e2eid^="e2eid-l"]', { timeout: 5000 }).catch(() => {});
-          const lienDepuisPlan42 = page.getByTestId('e2eid-l275');
-          if (await lienDepuisPlan42.count() === 0) {
-            throw new Error('Impossible de trouver un lien vers /profil/cto (e2eID: e2eid-l275) depuis le plan du site. La page n\'est peut-être pas accessible ou le lien est manquant dans le plan du site.');
-          }
-          await lienDepuisPlan42.first().click();
-        }
-      } else {
-        // Option 2 : Via le logo (header) vers l'accueil
-        const logo = page.getByAltText('Logo Malain et possible');
-        if (await logo.count() > 0) {
-          await logo.click();
-          await expect(page).toHaveURL('/');
-        } else {
-          // Fallback : navigation directe vers l'accueil
-          await page.goto('/');
-        }
-        // Depuis l'accueil, chercher le lien vers la destination
-        const lienDepuisAccueil42 = page.getByRole('link', { name: new RegExp(`/profil/cto`, 'i') });
-        if (await lienDepuisAccueil42.count() === 0) {
-          // Essayer aussi par le label original si disponible
-          const lienParLabel42 = page.getByRole('link', { name: new RegExp(`lien`, 'i') });
-          if (await lienParLabel42.count() === 0) {
-            throw new Error(`Impossible de trouver un lien vers /profil/cto depuis l'accueil (label: "lien"). La page n'est peut-être pas accessible depuis l'accueil ou le lien est manquant.`);
-          }
-          await lienParLabel42.first().click();
-        } else {
-          await lienDepuisAccueil42.first().click();
-        }
-      }
-    }
-    await expect(page).toHaveURL('/profil/cto');
-  });
-
-  // Test des e2eID présents sur /profil/cto
-
-  await test.step("Étape 44: Navigation de /profil/cto vers /metrics (BarChart3)", async () => {
-    // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
-    const liens43 = page.getByRole('link', { name: /BarChart3/i });
-    if (await liens43.count() > 0) {
-      // Si plusieurs liens avec le même label, trouver celui qui va vers la bonne destination
-      const liensTrouves = await liens43.all();
-      let lienTrouve = null;
-      for (const lien of liensTrouves) {
-        const href = await lien.getAttribute('href');
-        // Normaliser l'URL (enlever le slash final si présent)
-        const hrefNormalise = href ? href.replace(/\/$/, '') : '';
-        const destinationNormalisee = '/metrics'.replace(/\/$/, '');
-        if (hrefNormalise === destinationNormalisee || hrefNormalise === destinationNormalisee + '/' || href === destinationNormalisee || href === destinationNormalisee + '/') {
-          lienTrouve = lien;
-          break;
-        }
-      }
-      if (lienTrouve) {
-        await lienTrouve.click();
-      } else {
-        // Aucun lien trouvé vers la destination exacte, échouer pour détecter les incohérences
-        throw new Error(`Impossible de trouver un lien vers /metrics depuis /profil/cto (label: "BarChart3"). Vérifiez que le lien existe et est accessible depuis cette page.`);
-      }
-    } else {
-      // Lien non trouvé par label, navigation via plan-du-site ou accueil
-      // Le footer et le header sont toujours disponibles sur toutes les pages
-      // /metrics est accessible via le bouton du footer (b14), pas via un lien
-      const boutonMetrics = page.getByTestId('e2eid-b14');
-      if (await boutonMetrics.count() > 0) {
-        await boutonMetrics.click();
-        await expect(page).toHaveURL('/metrics');
-      } else {
-        throw new Error('Impossible de trouver le bouton Metrics (e2eid-b14) dans le footer.');
-      }
-    }
-    await expect(page).toHaveURL('/metrics');
-  });
-
-  // Test des e2eID présents sur /metrics
-
-  await test.step("Étape 45: Navigation de /metrics vers / (lien)", async () => {
-    // Pour aller à l'accueil, utiliser le logo du header (h1)
-    const logo = page.getByTestId('e2eid-h1');
-    if (await logo.count() > 0) {
-      await logo.click();
-      await expect(page).toHaveURL('/');
-    } else {
-      // Fallback : navigation directe
-      await page.goto('/');
-    }
-  });
-
-  await test.step("Étape 46: Navigation de / vers /a-propos-du-site (Info)", async () => {
-    // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
-    const liens45 = page.getByRole('link', { name: /Info/i });
-    if (await liens45.count() > 0) {
-      // Si plusieurs liens avec le même label, trouver celui qui va vers la bonne destination
-      const liensTrouves = await liens45.all();
-      let lienTrouve = null;
-      for (const lien of liensTrouves) {
-        const href = await lien.getAttribute('href');
-        // Normaliser l'URL (enlever le slash final si présent)
-        const hrefNormalise = href ? href.replace(/\/$/, '') : '';
-        const destinationNormalisee = '/a-propos-du-site'.replace(/\/$/, '');
-        if (hrefNormalise === destinationNormalisee || hrefNormalise === destinationNormalisee + '/' || href === destinationNormalisee || href === destinationNormalisee + '/') {
-          lienTrouve = lien;
-          break;
-        }
-      }
-      if (lienTrouve) {
-        await lienTrouve.click();
-      } else {
-        // Aucun lien trouvé vers la destination exacte, échouer pour détecter les incohérences
-        throw new Error(`Impossible de trouver un lien vers /a-propos-du-site depuis / (label: "Info"). Vérifiez que le lien existe et est accessible depuis cette page.`);
-      }
-    } else {
-      // Lien non trouvé par label, navigation via plan-du-site ou accueil
-      // Le footer et le header sont toujours disponibles sur toutes les pages
-      // /a-propos-du-site est accessible via le bouton du footer (b15), pas via un lien
-      const boutonAbout = page.getByTestId('e2eid-b15');
-      if (await boutonAbout.count() > 0) {
-        await boutonAbout.click();
-        await expect(page).toHaveURL('/a-propos-du-site');
-      } else {
-        throw new Error('Impossible de trouver le bouton About (e2eid-b15) dans le footer.');
-      }
-    }
-    await expect(page).toHaveURL('/a-propos-du-site');
-  });
-
-  // Test des e2eID présents sur /a-propos-du-site
-
-  await test.step("Étape 47: Navigation de /a-propos-du-site vers /a-propos-du-site (Info)", async () => {
-    // On est déjà sur /a-propos-du-site, pas besoin de naviguer vers la même page
-    // Vérifier simplement qu'on est bien sur la bonne page
-    await expect(page).toHaveURL('/a-propos-du-site');
-  });
-
-  await test.step("Étape 48: Navigation de /a-propos-du-site vers /detournement-video (lien)", async () => {
-    // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
-    const liens47 = page.getByRole('link', { name: /lien/i });
-    if (await liens47.count() > 0) {
-      // Si plusieurs liens avec le même label, trouver celui qui va vers la bonne destination
-      const liensTrouves = await liens47.all();
+      const liensTrouves = await liens3.all();
       let lienTrouve = null;
       for (const lien of liensTrouves) {
         const href = await lien.getAttribute('href');
@@ -2564,11 +266,11 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
           // Chercher le lien par son e2eID (généré de manière déterministe depuis l'URL)
           // Attendre que le plan du site soit chargé (les liens sont chargés de manière asynchrone)
           await page.waitForSelector('[data-e2eid^="e2eid-l"]', { timeout: 5000 }).catch(() => {});
-          const lienDepuisPlan47 = page.getByTestId('e2eid-l756');
-          if (await lienDepuisPlan47.count() === 0) {
-            throw new Error('Impossible de trouver un lien vers /detournement-video (e2eID: e2eid-l756) depuis le plan du site. La page n\'est peut-être pas accessible ou le lien est manquant dans le plan du site.');
+          const lienDepuisPlan3 = page.getByTestId('e2eid-l806');
+          if (await lienDepuisPlan3.count() === 0) {
+            throw new Error('Impossible de trouver un lien vers /detournement-video (e2eID: e2eid-l806) depuis le plan du site. La page n\'est peut-être pas accessible ou le lien est manquant dans le plan du site.');
           }
-          await lienDepuisPlan47.first().click();
+          await lienDepuisPlan3.first().click();
         }
       } else {
         // Option 2 : Via le logo (header) vers l'accueil
@@ -2581,16 +283,16 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
           await page.goto('/');
         }
         // Depuis l'accueil, chercher le lien vers la destination
-        const lienDepuisAccueil47 = page.getByRole('link', { name: new RegExp(`/detournement-video`, 'i') });
-        if (await lienDepuisAccueil47.count() === 0) {
+        const lienDepuisAccueil3 = page.getByRole('link', { name: new RegExp(`/detournement-video`, 'i') });
+        if (await lienDepuisAccueil3.count() === 0) {
           // Essayer aussi par le label original si disponible
-          const lienParLabel47 = page.getByRole('link', { name: new RegExp(`lien`, 'i') });
-          if (await lienParLabel47.count() === 0) {
+          const lienParLabel3 = page.getByRole('link', { name: new RegExp(`lien`, 'i') });
+          if (await lienParLabel3.count() === 0) {
             throw new Error(`Impossible de trouver un lien vers /detournement-video depuis l'accueil (label: "lien"). La page n'est peut-être pas accessible depuis l'accueil ou le lien est manquant.`);
           }
-          await lienParLabel47.first().click();
+          await lienParLabel3.first().click();
         } else {
-          await lienDepuisAccueil47.first().click();
+          await lienDepuisAccueil3.first().click();
         }
       }
     }
@@ -2599,18 +301,18 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
 
   // Test des e2eID présents sur /detournement-video
 
-  await test.step("Étape 49: Navigation de /detournement-video vers /a-propos-du-site (Info)", async () => {
+  await test.step("Étape 5: Navigation de /detournement-video vers /faisons-connaissance (lien)", async () => {
     // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
-    const liens48 = page.getByRole('link', { name: /Info/i });
-    if (await liens48.count() > 0) {
+    const liens4 = page.getByRole('link', { name: /lien/i });
+    if (await liens4.count() > 0) {
       // Si plusieurs liens avec le même label, trouver celui qui va vers la bonne destination
-      const liensTrouves = await liens48.all();
+      const liensTrouves = await liens4.all();
       let lienTrouve = null;
       for (const lien of liensTrouves) {
         const href = await lien.getAttribute('href');
         // Normaliser l'URL (enlever le slash final si présent)
         const hrefNormalise = href ? href.replace(/\/$/, '') : '';
-        const destinationNormalisee = '/a-propos-du-site'.replace(/\/$/, '');
+        const destinationNormalisee = '/faisons-connaissance'.replace(/\/$/, '');
         if (hrefNormalise === destinationNormalisee || hrefNormalise === destinationNormalisee + '/' || href === destinationNormalisee || href === destinationNormalisee + '/') {
           lienTrouve = lien;
           break;
@@ -2620,31 +322,133 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
         await lienTrouve.click();
       } else {
         // Aucun lien trouvé vers la destination exacte, échouer pour détecter les incohérences
-        throw new Error(`Impossible de trouver un lien vers /a-propos-du-site depuis /detournement-video (label: "Info"). Vérifiez que le lien existe et est accessible depuis cette page.`);
+        throw new Error(`Impossible de trouver un lien vers /faisons-connaissance depuis /detournement-video (label: "lien"). Vérifiez que le lien existe et est accessible depuis cette page.`);
       }
     } else {
       // Lien non trouvé par label, navigation via plan-du-site ou accueil
       // Le footer et le header sont toujours disponibles sur toutes les pages
-      // /a-propos-du-site est accessible via le bouton du footer (b15), pas via un lien
-      const boutonAbout = page.getByTestId('e2eid-b15');
-      if (await boutonAbout.count() > 0) {
-        await boutonAbout.click();
-        await expect(page).toHaveURL('/a-propos-du-site');
+      // Option 1 : Essayer via le plan du site (footer) - c'est un bouton, pas un lien
+      const boutonPlanDuSite = page.getByTestId('e2eid-b13');
+      if (await boutonPlanDuSite.count() > 0) {
+        await boutonPlanDuSite.click();
+        await expect(page).toHaveURL('/plan-du-site');
+        // Vérifier si la destination est accessible via un bouton du footer ou si c'est /plan-du-site ou /
+        if ('/faisons-connaissance' === '/plan-du-site') {
+          // On est déjà sur /plan-du-site, pas besoin de naviguer à nouveau
+        } else if ('/faisons-connaissance' === '/') {
+          // Pour aller à l'accueil, utiliser le logo du header (h1)
+          const logo = page.getByTestId('e2eid-h1');
+          if (await logo.count() > 0) {
+            await logo.click();
+            await expect(page).toHaveURL('/');
+          } else {
+            // Fallback : navigation directe
+            await page.goto('/');
+          }
+        } else if ('/faisons-connaissance' === '/metrics') {
+          // /metrics est accessible via le bouton du footer (b14)
+          const boutonMetrics = page.getByTestId('e2eid-b14');
+          if (await boutonMetrics.count() > 0) {
+            await boutonMetrics.click();
+            await expect(page).toHaveURL('/metrics');
+          } else {
+            throw new Error('Impossible de trouver le bouton Metrics (e2eid-b14) dans le footer.');
+          }
+        } else if ('/faisons-connaissance' === '/a-propos-du-site') {
+          // /a-propos-du-site est accessible via le bouton du footer (b15)
+          const boutonAbout = page.getByTestId('e2eid-b15');
+          if (await boutonAbout.count() > 0) {
+            await boutonAbout.click();
+            await expect(page).toHaveURL('/a-propos-du-site');
+          } else {
+            throw new Error('Impossible de trouver le bouton About (e2eid-b15) dans le footer.');
+          }
+        } else {
+          // Depuis le plan du site, chercher le lien par son e2eID (généré de manière déterministe)
+          // Chercher le lien par son e2eID (généré de manière déterministe depuis l'URL)
+          // Attendre que le plan du site soit chargé (les liens sont chargés de manière asynchrone)
+          await page.waitForSelector('[data-e2eid^="e2eid-l"]', { timeout: 5000 }).catch(() => {});
+          const lienDepuisPlan4 = page.getByTestId('e2eid-l719');
+          if (await lienDepuisPlan4.count() === 0) {
+            throw new Error('Impossible de trouver un lien vers /faisons-connaissance (e2eID: e2eid-l719) depuis le plan du site. La page n\'est peut-être pas accessible ou le lien est manquant dans le plan du site.');
+          }
+          await lienDepuisPlan4.first().click();
+        }
       } else {
-        throw new Error('Impossible de trouver le bouton About (e2eid-b15) dans le footer.');
+        // Option 2 : Via le logo (header) vers l'accueil
+        const logo = page.getByAltText('Logo Malain et possible');
+        if (await logo.count() > 0) {
+          await logo.click();
+          await expect(page).toHaveURL('/');
+        } else {
+          // Fallback : navigation directe vers l'accueil
+          await page.goto('/');
+        }
+        // Depuis l'accueil, chercher le lien vers la destination
+        const lienDepuisAccueil4 = page.getByRole('link', { name: new RegExp(`/faisons-connaissance`, 'i') });
+        if (await lienDepuisAccueil4.count() === 0) {
+          // Essayer aussi par le label original si disponible
+          const lienParLabel4 = page.getByRole('link', { name: new RegExp(`lien`, 'i') });
+          if (await lienParLabel4.count() === 0) {
+            throw new Error(`Impossible de trouver un lien vers /faisons-connaissance depuis l'accueil (label: "lien"). La page n'est peut-être pas accessible depuis l'accueil ou le lien est manquant.`);
+          }
+          await lienParLabel4.first().click();
+        } else {
+          await lienDepuisAccueil4.first().click();
+        }
       }
     }
-    await expect(page).toHaveURL('/a-propos-du-site');
+    await expect(page).toHaveURL('/faisons-connaissance');
   });
 
-  // Test des e2eID présents sur /a-propos-du-site
+  // Test des e2eID présents sur /faisons-connaissance
 
-  await test.step("Étape 50: Navigation de /a-propos-du-site vers /portfolio-detournements (lien)", async () => {
+  await test.step("Étape 6: Navigation de /faisons-connaissance vers /metrics (BarChart3)", async () => {
     // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
-    const liens49 = page.getByRole('link', { name: /lien/i });
-    if (await liens49.count() > 0) {
+    const liens5 = page.getByRole('link', { name: /BarChart3/i });
+    if (await liens5.count() > 0) {
       // Si plusieurs liens avec le même label, trouver celui qui va vers la bonne destination
-      const liensTrouves = await liens49.all();
+      const liensTrouves = await liens5.all();
+      let lienTrouve = null;
+      for (const lien of liensTrouves) {
+        const href = await lien.getAttribute('href');
+        // Normaliser l'URL (enlever le slash final si présent)
+        const hrefNormalise = href ? href.replace(/\/$/, '') : '';
+        const destinationNormalisee = '/metrics'.replace(/\/$/, '');
+        if (hrefNormalise === destinationNormalisee || hrefNormalise === destinationNormalisee + '/' || href === destinationNormalisee || href === destinationNormalisee + '/') {
+          lienTrouve = lien;
+          break;
+        }
+      }
+      if (lienTrouve) {
+        await lienTrouve.click();
+      } else {
+        // Aucun lien trouvé vers la destination exacte, échouer pour détecter les incohérences
+        throw new Error(`Impossible de trouver un lien vers /metrics depuis /faisons-connaissance (label: "BarChart3"). Vérifiez que le lien existe et est accessible depuis cette page.`);
+      }
+    } else {
+      // Lien non trouvé par label, navigation via plan-du-site ou accueil
+      // Le footer et le header sont toujours disponibles sur toutes les pages
+      // /metrics est accessible via le bouton du footer (b14), pas via un lien
+      const boutonMetrics = page.getByTestId('e2eid-b14');
+      if (await boutonMetrics.count() > 0) {
+        await boutonMetrics.click();
+        await expect(page).toHaveURL('/metrics');
+      } else {
+        throw new Error('Impossible de trouver le bouton Metrics (e2eid-b14) dans le footer.');
+      }
+    }
+    await expect(page).toHaveURL('/metrics');
+  });
+
+  // Test des e2eID présents sur /metrics
+
+  await test.step("Étape 7: Navigation de /metrics vers /portfolio-detournements (lien)", async () => {
+    // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
+    const liens6 = page.getByRole('link', { name: /lien/i });
+    if (await liens6.count() > 0) {
+      // Si plusieurs liens avec le même label, trouver celui qui va vers la bonne destination
+      const liensTrouves = await liens6.all();
       let lienTrouve = null;
       for (const lien of liensTrouves) {
         const href = await lien.getAttribute('href');
@@ -2660,7 +464,7 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
         await lienTrouve.click();
       } else {
         // Aucun lien trouvé vers la destination exacte, échouer pour détecter les incohérences
-        throw new Error(`Impossible de trouver un lien vers /portfolio-detournements depuis /a-propos-du-site (label: "lien"). Vérifiez que le lien existe et est accessible depuis cette page.`);
+        throw new Error(`Impossible de trouver un lien vers /portfolio-detournements depuis /metrics (label: "lien"). Vérifiez que le lien existe et est accessible depuis cette page.`);
       }
     } else {
       // Lien non trouvé par label, navigation via plan-du-site ou accueil
@@ -2706,11 +510,11 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
           // Chercher le lien par son e2eID (généré de manière déterministe depuis l'URL)
           // Attendre que le plan du site soit chargé (les liens sont chargés de manière asynchrone)
           await page.waitForSelector('[data-e2eid^="e2eid-l"]', { timeout: 5000 }).catch(() => {});
-          const lienDepuisPlan49 = page.getByTestId('e2eid-l696');
-          if (await lienDepuisPlan49.count() === 0) {
+          const lienDepuisPlan6 = page.getByTestId('e2eid-l696');
+          if (await lienDepuisPlan6.count() === 0) {
             throw new Error('Impossible de trouver un lien vers /portfolio-detournements (e2eID: e2eid-l696) depuis le plan du site. La page n\'est peut-être pas accessible ou le lien est manquant dans le plan du site.');
           }
-          await lienDepuisPlan49.first().click();
+          await lienDepuisPlan6.first().click();
         }
       } else {
         // Option 2 : Via le logo (header) vers l'accueil
@@ -2723,16 +527,16 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
           await page.goto('/');
         }
         // Depuis l'accueil, chercher le lien vers la destination
-        const lienDepuisAccueil49 = page.getByRole('link', { name: new RegExp(`/portfolio-detournements`, 'i') });
-        if (await lienDepuisAccueil49.count() === 0) {
+        const lienDepuisAccueil6 = page.getByRole('link', { name: new RegExp(`/portfolio-detournements`, 'i') });
+        if (await lienDepuisAccueil6.count() === 0) {
           // Essayer aussi par le label original si disponible
-          const lienParLabel49 = page.getByRole('link', { name: new RegExp(`lien`, 'i') });
-          if (await lienParLabel49.count() === 0) {
+          const lienParLabel6 = page.getByRole('link', { name: new RegExp(`lien`, 'i') });
+          if (await lienParLabel6.count() === 0) {
             throw new Error(`Impossible de trouver un lien vers /portfolio-detournements depuis l'accueil (label: "lien"). La page n'est peut-être pas accessible depuis l'accueil ou le lien est manquant.`);
           }
-          await lienParLabel49.first().click();
+          await lienParLabel6.first().click();
         } else {
-          await lienDepuisAccueil49.first().click();
+          await lienDepuisAccueil6.first().click();
         }
       }
     }
@@ -2741,52 +545,12 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
 
   // Test des e2eID présents sur /portfolio-detournements
 
-  await test.step("Étape 51: Navigation de /portfolio-detournements vers /a-propos-du-site (Info)", async () => {
+  await test.step("Étape 8: Navigation de /portfolio-detournements vers /pour-aller-plus-loin (lien)", async () => {
     // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
-    const liens50 = page.getByRole('link', { name: /Info/i });
-    if (await liens50.count() > 0) {
+    const liens7 = page.getByRole('link', { name: /lien/i });
+    if (await liens7.count() > 0) {
       // Si plusieurs liens avec le même label, trouver celui qui va vers la bonne destination
-      const liensTrouves = await liens50.all();
-      let lienTrouve = null;
-      for (const lien of liensTrouves) {
-        const href = await lien.getAttribute('href');
-        // Normaliser l'URL (enlever le slash final si présent)
-        const hrefNormalise = href ? href.replace(/\/$/, '') : '';
-        const destinationNormalisee = '/a-propos-du-site'.replace(/\/$/, '');
-        if (hrefNormalise === destinationNormalisee || hrefNormalise === destinationNormalisee + '/' || href === destinationNormalisee || href === destinationNormalisee + '/') {
-          lienTrouve = lien;
-          break;
-        }
-      }
-      if (lienTrouve) {
-        await lienTrouve.click();
-      } else {
-        // Aucun lien trouvé vers la destination exacte, échouer pour détecter les incohérences
-        throw new Error(`Impossible de trouver un lien vers /a-propos-du-site depuis /portfolio-detournements (label: "Info"). Vérifiez que le lien existe et est accessible depuis cette page.`);
-      }
-    } else {
-      // Lien non trouvé par label, navigation via plan-du-site ou accueil
-      // Le footer et le header sont toujours disponibles sur toutes les pages
-      // /a-propos-du-site est accessible via le bouton du footer (b15), pas via un lien
-      const boutonAbout = page.getByTestId('e2eid-b15');
-      if (await boutonAbout.count() > 0) {
-        await boutonAbout.click();
-        await expect(page).toHaveURL('/a-propos-du-site');
-      } else {
-        throw new Error('Impossible de trouver le bouton About (e2eid-b15) dans le footer.');
-      }
-    }
-    await expect(page).toHaveURL('/a-propos-du-site');
-  });
-
-  // Test des e2eID présents sur /a-propos-du-site
-
-  await test.step("Étape 52: Navigation de /a-propos-du-site vers /pour-aller-plus-loin (lien)", async () => {
-    // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
-    const liens51 = page.getByRole('link', { name: /lien/i });
-    if (await liens51.count() > 0) {
-      // Si plusieurs liens avec le même label, trouver celui qui va vers la bonne destination
-      const liensTrouves = await liens51.all();
+      const liensTrouves = await liens7.all();
       let lienTrouve = null;
       for (const lien of liensTrouves) {
         const href = await lien.getAttribute('href');
@@ -2802,7 +566,7 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
         await lienTrouve.click();
       } else {
         // Aucun lien trouvé vers la destination exacte, échouer pour détecter les incohérences
-        throw new Error(`Impossible de trouver un lien vers /pour-aller-plus-loin depuis /a-propos-du-site (label: "lien"). Vérifiez que le lien existe et est accessible depuis cette page.`);
+        throw new Error(`Impossible de trouver un lien vers /pour-aller-plus-loin depuis /portfolio-detournements (label: "lien"). Vérifiez que le lien existe et est accessible depuis cette page.`);
       }
     } else {
       // Lien non trouvé par label, navigation via plan-du-site ou accueil
@@ -2848,11 +612,11 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
           // Chercher le lien par son e2eID (généré de manière déterministe depuis l'URL)
           // Attendre que le plan du site soit chargé (les liens sont chargés de manière asynchrone)
           await page.waitForSelector('[data-e2eid^="e2eid-l"]', { timeout: 5000 }).catch(() => {});
-          const lienDepuisPlan51 = page.getByTestId('e2eid-l907');
-          if (await lienDepuisPlan51.count() === 0) {
-            throw new Error('Impossible de trouver un lien vers /pour-aller-plus-loin (e2eID: e2eid-l907) depuis le plan du site. La page n\'est peut-être pas accessible ou le lien est manquant dans le plan du site.');
+          const lienDepuisPlan7 = page.getByTestId('e2eid-l707');
+          if (await lienDepuisPlan7.count() === 0) {
+            throw new Error('Impossible de trouver un lien vers /pour-aller-plus-loin (e2eID: e2eid-l707) depuis le plan du site. La page n\'est peut-être pas accessible ou le lien est manquant dans le plan du site.');
           }
-          await lienDepuisPlan51.first().click();
+          await lienDepuisPlan7.first().click();
         }
       } else {
         // Option 2 : Via le logo (header) vers l'accueil
@@ -2865,16 +629,16 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
           await page.goto('/');
         }
         // Depuis l'accueil, chercher le lien vers la destination
-        const lienDepuisAccueil51 = page.getByRole('link', { name: new RegExp(`/pour-aller-plus-loin`, 'i') });
-        if (await lienDepuisAccueil51.count() === 0) {
+        const lienDepuisAccueil7 = page.getByRole('link', { name: new RegExp(`/pour-aller-plus-loin`, 'i') });
+        if (await lienDepuisAccueil7.count() === 0) {
           // Essayer aussi par le label original si disponible
-          const lienParLabel51 = page.getByRole('link', { name: new RegExp(`lien`, 'i') });
-          if (await lienParLabel51.count() === 0) {
+          const lienParLabel7 = page.getByRole('link', { name: new RegExp(`lien`, 'i') });
+          if (await lienParLabel7.count() === 0) {
             throw new Error(`Impossible de trouver un lien vers /pour-aller-plus-loin depuis l'accueil (label: "lien"). La page n'est peut-être pas accessible depuis l'accueil ou le lien est manquant.`);
           }
-          await lienParLabel51.first().click();
+          await lienParLabel7.first().click();
         } else {
-          await lienDepuisAccueil51.first().click();
+          await lienDepuisAccueil7.first().click();
         }
       }
     }
@@ -2883,194 +647,12 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
 
   // Test des e2eID présents sur /pour-aller-plus-loin
 
-  await test.step("Étape 53: Navigation de /pour-aller-plus-loin vers /a-propos-du-site (Info)", async () => {
+  await test.step("Étape 9: Navigation de /pour-aller-plus-loin vers /profil/cpo (lien)", async () => {
     // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
-    const liens52 = page.getByRole('link', { name: /Info/i });
-    if (await liens52.count() > 0) {
+    const liens8 = page.getByRole('link', { name: /lien/i });
+    if (await liens8.count() > 0) {
       // Si plusieurs liens avec le même label, trouver celui qui va vers la bonne destination
-      const liensTrouves = await liens52.all();
-      let lienTrouve = null;
-      for (const lien of liensTrouves) {
-        const href = await lien.getAttribute('href');
-        // Normaliser l'URL (enlever le slash final si présent)
-        const hrefNormalise = href ? href.replace(/\/$/, '') : '';
-        const destinationNormalisee = '/a-propos-du-site'.replace(/\/$/, '');
-        if (hrefNormalise === destinationNormalisee || hrefNormalise === destinationNormalisee + '/' || href === destinationNormalisee || href === destinationNormalisee + '/') {
-          lienTrouve = lien;
-          break;
-        }
-      }
-      if (lienTrouve) {
-        await lienTrouve.click();
-      } else {
-        // Aucun lien trouvé vers la destination exacte, échouer pour détecter les incohérences
-        throw new Error(`Impossible de trouver un lien vers /a-propos-du-site depuis /pour-aller-plus-loin (label: "Info"). Vérifiez que le lien existe et est accessible depuis cette page.`);
-      }
-    } else {
-      // Lien non trouvé par label, navigation via plan-du-site ou accueil
-      // Le footer et le header sont toujours disponibles sur toutes les pages
-      // /a-propos-du-site est accessible via le bouton du footer (b15), pas via un lien
-      const boutonAbout = page.getByTestId('e2eid-b15');
-      if (await boutonAbout.count() > 0) {
-        await boutonAbout.click();
-        await expect(page).toHaveURL('/a-propos-du-site');
-      } else {
-        throw new Error('Impossible de trouver le bouton About (e2eid-b15) dans le footer.');
-      }
-    }
-    await expect(page).toHaveURL('/a-propos-du-site');
-  });
-
-  // Test des e2eID présents sur /a-propos-du-site
-
-  await test.step("Étape 54: Navigation de /a-propos-du-site vers /test-fonts (lien)", async () => {
-    // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
-    const liens53 = page.getByRole('link', { name: /lien/i });
-    if (await liens53.count() > 0) {
-      // Si plusieurs liens avec le même label, trouver celui qui va vers la bonne destination
-      const liensTrouves = await liens53.all();
-      let lienTrouve = null;
-      for (const lien of liensTrouves) {
-        const href = await lien.getAttribute('href');
-        // Normaliser l'URL (enlever le slash final si présent)
-        const hrefNormalise = href ? href.replace(/\/$/, '') : '';
-        const destinationNormalisee = '/test-fonts'.replace(/\/$/, '');
-        if (hrefNormalise === destinationNormalisee || hrefNormalise === destinationNormalisee + '/' || href === destinationNormalisee || href === destinationNormalisee + '/') {
-          lienTrouve = lien;
-          break;
-        }
-      }
-      if (lienTrouve) {
-        await lienTrouve.click();
-      } else {
-        // Aucun lien trouvé vers la destination exacte, échouer pour détecter les incohérences
-        throw new Error(`Impossible de trouver un lien vers /test-fonts depuis /a-propos-du-site (label: "lien"). Vérifiez que le lien existe et est accessible depuis cette page.`);
-      }
-    } else {
-      // Lien non trouvé par label, navigation via plan-du-site ou accueil
-      // Le footer et le header sont toujours disponibles sur toutes les pages
-      // Option 1 : Essayer via le plan du site (footer) - c'est un bouton, pas un lien
-      const boutonPlanDuSite = page.getByTestId('e2eid-b13');
-      if (await boutonPlanDuSite.count() > 0) {
-        await boutonPlanDuSite.click();
-        await expect(page).toHaveURL('/plan-du-site');
-        // Vérifier si la destination est accessible via un bouton du footer ou si c'est /plan-du-site ou /
-        if ('/test-fonts' === '/plan-du-site') {
-          // On est déjà sur /plan-du-site, pas besoin de naviguer à nouveau
-        } else if ('/test-fonts' === '/') {
-          // Pour aller à l'accueil, utiliser le logo du header (h1)
-          const logo = page.getByTestId('e2eid-h1');
-          if (await logo.count() > 0) {
-            await logo.click();
-            await expect(page).toHaveURL('/');
-          } else {
-            // Fallback : navigation directe
-            await page.goto('/');
-          }
-        } else if ('/test-fonts' === '/metrics') {
-          // /metrics est accessible via le bouton du footer (b14)
-          const boutonMetrics = page.getByTestId('e2eid-b14');
-          if (await boutonMetrics.count() > 0) {
-            await boutonMetrics.click();
-            await expect(page).toHaveURL('/metrics');
-          } else {
-            throw new Error('Impossible de trouver le bouton Metrics (e2eid-b14) dans le footer.');
-          }
-        } else if ('/test-fonts' === '/a-propos-du-site') {
-          // /a-propos-du-site est accessible via le bouton du footer (b15)
-          const boutonAbout = page.getByTestId('e2eid-b15');
-          if (await boutonAbout.count() > 0) {
-            await boutonAbout.click();
-            await expect(page).toHaveURL('/a-propos-du-site');
-          } else {
-            throw new Error('Impossible de trouver le bouton About (e2eid-b15) dans le footer.');
-          }
-        } else {
-          // Depuis le plan du site, chercher le lien par son e2eID (généré de manière déterministe)
-          // Chercher le lien par son e2eID (généré de manière déterministe depuis l'URL)
-          // Attendre que le plan du site soit chargé (les liens sont chargés de manière asynchrone)
-          await page.waitForSelector('[data-e2eid^="e2eid-l"]', { timeout: 5000 }).catch(() => {});
-          const lienDepuisPlan53 = page.getByTestId('e2eid-l767');
-          if (await lienDepuisPlan53.count() === 0) {
-            throw new Error('Impossible de trouver un lien vers /test-fonts (e2eID: e2eid-l767) depuis le plan du site. La page n\'est peut-être pas accessible ou le lien est manquant dans le plan du site.');
-          }
-          await lienDepuisPlan53.first().click();
-        }
-      } else {
-        // Option 2 : Via le logo (header) vers l'accueil
-        const logo = page.getByAltText('Logo Malain et possible');
-        if (await logo.count() > 0) {
-          await logo.click();
-          await expect(page).toHaveURL('/');
-        } else {
-          // Fallback : navigation directe vers l'accueil
-          await page.goto('/');
-        }
-        // Depuis l'accueil, chercher le lien vers la destination
-        const lienDepuisAccueil53 = page.getByRole('link', { name: new RegExp(`/test-fonts`, 'i') });
-        if (await lienDepuisAccueil53.count() === 0) {
-          // Essayer aussi par le label original si disponible
-          const lienParLabel53 = page.getByRole('link', { name: new RegExp(`lien`, 'i') });
-          if (await lienParLabel53.count() === 0) {
-            throw new Error(`Impossible de trouver un lien vers /test-fonts depuis l'accueil (label: "lien"). La page n'est peut-être pas accessible depuis l'accueil ou le lien est manquant.`);
-          }
-          await lienParLabel53.first().click();
-        } else {
-          await lienDepuisAccueil53.first().click();
-        }
-      }
-    }
-    await expect(page).toHaveURL('/test-fonts');
-  });
-
-  // Test des e2eID présents sur /test-fonts
-
-  await test.step("Étape 55: Navigation de /test-fonts vers /a-propos-du-site (Info)", async () => {
-    // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
-    const liens54 = page.getByRole('link', { name: /Info/i });
-    if (await liens54.count() > 0) {
-      // Si plusieurs liens avec le même label, trouver celui qui va vers la bonne destination
-      const liensTrouves = await liens54.all();
-      let lienTrouve = null;
-      for (const lien of liensTrouves) {
-        const href = await lien.getAttribute('href');
-        // Normaliser l'URL (enlever le slash final si présent)
-        const hrefNormalise = href ? href.replace(/\/$/, '') : '';
-        const destinationNormalisee = '/a-propos-du-site'.replace(/\/$/, '');
-        if (hrefNormalise === destinationNormalisee || hrefNormalise === destinationNormalisee + '/' || href === destinationNormalisee || href === destinationNormalisee + '/') {
-          lienTrouve = lien;
-          break;
-        }
-      }
-      if (lienTrouve) {
-        await lienTrouve.click();
-      } else {
-        // Aucun lien trouvé vers la destination exacte, échouer pour détecter les incohérences
-        throw new Error(`Impossible de trouver un lien vers /a-propos-du-site depuis /test-fonts (label: "Info"). Vérifiez que le lien existe et est accessible depuis cette page.`);
-      }
-    } else {
-      // Lien non trouvé par label, navigation via plan-du-site ou accueil
-      // Le footer et le header sont toujours disponibles sur toutes les pages
-      // /a-propos-du-site est accessible via le bouton du footer (b15), pas via un lien
-      const boutonAbout = page.getByTestId('e2eid-b15');
-      if (await boutonAbout.count() > 0) {
-        await boutonAbout.click();
-        await expect(page).toHaveURL('/a-propos-du-site');
-      } else {
-        throw new Error('Impossible de trouver le bouton About (e2eid-b15) dans le footer.');
-      }
-    }
-    await expect(page).toHaveURL('/a-propos-du-site');
-  });
-
-  // Test des e2eID présents sur /a-propos-du-site
-
-  await test.step("Étape 56: Navigation de /a-propos-du-site vers /profil/cpo (lien)", async () => {
-    // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
-    const liens55 = page.getByRole('link', { name: /lien/i });
-    if (await liens55.count() > 0) {
-      // Si plusieurs liens avec le même label, trouver celui qui va vers la bonne destination
-      const liensTrouves = await liens55.all();
+      const liensTrouves = await liens8.all();
       let lienTrouve = null;
       for (const lien of liensTrouves) {
         const href = await lien.getAttribute('href');
@@ -3086,7 +668,7 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
         await lienTrouve.click();
       } else {
         // Aucun lien trouvé vers la destination exacte, échouer pour détecter les incohérences
-        throw new Error(`Impossible de trouver un lien vers /profil/cpo depuis /a-propos-du-site (label: "lien"). Vérifiez que le lien existe et est accessible depuis cette page.`);
+        throw new Error(`Impossible de trouver un lien vers /profil/cpo depuis /pour-aller-plus-loin (label: "lien"). Vérifiez que le lien existe et est accessible depuis cette page.`);
       }
     } else {
       // Lien non trouvé par label, navigation via plan-du-site ou accueil
@@ -3132,11 +714,11 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
           // Chercher le lien par son e2eID (généré de manière déterministe depuis l'URL)
           // Attendre que le plan du site soit chargé (les liens sont chargés de manière asynchrone)
           await page.waitForSelector('[data-e2eid^="e2eid-l"]', { timeout: 5000 }).catch(() => {});
-          const lienDepuisPlan55 = page.getByTestId('e2eid-l399');
-          if (await lienDepuisPlan55.count() === 0) {
-            throw new Error('Impossible de trouver un lien vers /profil/cpo (e2eID: e2eid-l399) depuis le plan du site. La page n\'est peut-être pas accessible ou le lien est manquant dans le plan du site.');
+          const lienDepuisPlan8 = page.getByTestId('e2eid-l699');
+          if (await lienDepuisPlan8.count() === 0) {
+            throw new Error('Impossible de trouver un lien vers /profil/cpo (e2eID: e2eid-l699) depuis le plan du site. La page n\'est peut-être pas accessible ou le lien est manquant dans le plan du site.');
           }
-          await lienDepuisPlan55.first().click();
+          await lienDepuisPlan8.first().click();
         }
       } else {
         // Option 2 : Via le logo (header) vers l'accueil
@@ -3149,16 +731,16 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
           await page.goto('/');
         }
         // Depuis l'accueil, chercher le lien vers la destination
-        const lienDepuisAccueil55 = page.getByRole('link', { name: new RegExp(`/profil/cpo`, 'i') });
-        if (await lienDepuisAccueil55.count() === 0) {
+        const lienDepuisAccueil8 = page.getByRole('link', { name: new RegExp(`/profil/cpo`, 'i') });
+        if (await lienDepuisAccueil8.count() === 0) {
           // Essayer aussi par le label original si disponible
-          const lienParLabel55 = page.getByRole('link', { name: new RegExp(`lien`, 'i') });
-          if (await lienParLabel55.count() === 0) {
+          const lienParLabel8 = page.getByRole('link', { name: new RegExp(`lien`, 'i') });
+          if (await lienParLabel8.count() === 0) {
             throw new Error(`Impossible de trouver un lien vers /profil/cpo depuis l'accueil (label: "lien"). La page n'est peut-être pas accessible depuis l'accueil ou le lien est manquant.`);
           }
-          await lienParLabel55.first().click();
+          await lienParLabel8.first().click();
         } else {
-          await lienDepuisAccueil55.first().click();
+          await lienDepuisAccueil8.first().click();
         }
       }
     }
@@ -3167,52 +749,12 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
 
   // Test des e2eID présents sur /profil/cpo
 
-  await test.step("Étape 57: Navigation de /profil/cpo vers /a-propos-du-site (Info)", async () => {
+  await test.step("Étape 10: Navigation de /profil/cpo vers /profil/coo (lien)", async () => {
     // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
-    const liens56 = page.getByRole('link', { name: /Info/i });
-    if (await liens56.count() > 0) {
+    const liens9 = page.getByRole('link', { name: /lien/i });
+    if (await liens9.count() > 0) {
       // Si plusieurs liens avec le même label, trouver celui qui va vers la bonne destination
-      const liensTrouves = await liens56.all();
-      let lienTrouve = null;
-      for (const lien of liensTrouves) {
-        const href = await lien.getAttribute('href');
-        // Normaliser l'URL (enlever le slash final si présent)
-        const hrefNormalise = href ? href.replace(/\/$/, '') : '';
-        const destinationNormalisee = '/a-propos-du-site'.replace(/\/$/, '');
-        if (hrefNormalise === destinationNormalisee || hrefNormalise === destinationNormalisee + '/' || href === destinationNormalisee || href === destinationNormalisee + '/') {
-          lienTrouve = lien;
-          break;
-        }
-      }
-      if (lienTrouve) {
-        await lienTrouve.click();
-      } else {
-        // Aucun lien trouvé vers la destination exacte, échouer pour détecter les incohérences
-        throw new Error(`Impossible de trouver un lien vers /a-propos-du-site depuis /profil/cpo (label: "Info"). Vérifiez que le lien existe et est accessible depuis cette page.`);
-      }
-    } else {
-      // Lien non trouvé par label, navigation via plan-du-site ou accueil
-      // Le footer et le header sont toujours disponibles sur toutes les pages
-      // /a-propos-du-site est accessible via le bouton du footer (b15), pas via un lien
-      const boutonAbout = page.getByTestId('e2eid-b15');
-      if (await boutonAbout.count() > 0) {
-        await boutonAbout.click();
-        await expect(page).toHaveURL('/a-propos-du-site');
-      } else {
-        throw new Error('Impossible de trouver le bouton About (e2eid-b15) dans le footer.');
-      }
-    }
-    await expect(page).toHaveURL('/a-propos-du-site');
-  });
-
-  // Test des e2eID présents sur /a-propos-du-site
-
-  await test.step("Étape 58: Navigation de /a-propos-du-site vers /profil/coo (lien)", async () => {
-    // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
-    const liens57 = page.getByRole('link', { name: /lien/i });
-    if (await liens57.count() > 0) {
-      // Si plusieurs liens avec le même label, trouver celui qui va vers la bonne destination
-      const liensTrouves = await liens57.all();
+      const liensTrouves = await liens9.all();
       let lienTrouve = null;
       for (const lien of liensTrouves) {
         const href = await lien.getAttribute('href');
@@ -3228,7 +770,7 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
         await lienTrouve.click();
       } else {
         // Aucun lien trouvé vers la destination exacte, échouer pour détecter les incohérences
-        throw new Error(`Impossible de trouver un lien vers /profil/coo depuis /a-propos-du-site (label: "lien"). Vérifiez que le lien existe et est accessible depuis cette page.`);
+        throw new Error(`Impossible de trouver un lien vers /profil/coo depuis /profil/cpo (label: "lien"). Vérifiez que le lien existe et est accessible depuis cette page.`);
       }
     } else {
       // Lien non trouvé par label, navigation via plan-du-site ou accueil
@@ -3274,11 +816,11 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
           // Chercher le lien par son e2eID (généré de manière déterministe depuis l'URL)
           // Attendre que le plan du site soit chargé (les liens sont chargés de manière asynchrone)
           await page.waitForSelector('[data-e2eid^="e2eid-l"]', { timeout: 5000 }).catch(() => {});
-          const lienDepuisPlan57 = page.getByTestId('e2eid-l430');
-          if (await lienDepuisPlan57.count() === 0) {
-            throw new Error('Impossible de trouver un lien vers /profil/coo (e2eID: e2eid-l430) depuis le plan du site. La page n\'est peut-être pas accessible ou le lien est manquant dans le plan du site.');
+          const lienDepuisPlan9 = page.getByTestId('e2eid-l730');
+          if (await lienDepuisPlan9.count() === 0) {
+            throw new Error('Impossible de trouver un lien vers /profil/coo (e2eID: e2eid-l730) depuis le plan du site. La page n\'est peut-être pas accessible ou le lien est manquant dans le plan du site.');
           }
-          await lienDepuisPlan57.first().click();
+          await lienDepuisPlan9.first().click();
         }
       } else {
         // Option 2 : Via le logo (header) vers l'accueil
@@ -3291,16 +833,16 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
           await page.goto('/');
         }
         // Depuis l'accueil, chercher le lien vers la destination
-        const lienDepuisAccueil57 = page.getByRole('link', { name: new RegExp(`/profil/coo`, 'i') });
-        if (await lienDepuisAccueil57.count() === 0) {
+        const lienDepuisAccueil9 = page.getByRole('link', { name: new RegExp(`/profil/coo`, 'i') });
+        if (await lienDepuisAccueil9.count() === 0) {
           // Essayer aussi par le label original si disponible
-          const lienParLabel57 = page.getByRole('link', { name: new RegExp(`lien`, 'i') });
-          if (await lienParLabel57.count() === 0) {
+          const lienParLabel9 = page.getByRole('link', { name: new RegExp(`lien`, 'i') });
+          if (await lienParLabel9.count() === 0) {
             throw new Error(`Impossible de trouver un lien vers /profil/coo depuis l'accueil (label: "lien"). La page n'est peut-être pas accessible depuis l'accueil ou le lien est manquant.`);
           }
-          await lienParLabel57.first().click();
+          await lienParLabel9.first().click();
         } else {
-          await lienDepuisAccueil57.first().click();
+          await lienDepuisAccueil9.first().click();
         }
       }
     }
@@ -3309,52 +851,12 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
 
   // Test des e2eID présents sur /profil/coo
 
-  await test.step("Étape 59: Navigation de /profil/coo vers /a-propos-du-site (Info)", async () => {
+  await test.step("Étape 11: Navigation de /profil/coo vers /profil/agile (lien)", async () => {
     // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
-    const liens58 = page.getByRole('link', { name: /Info/i });
-    if (await liens58.count() > 0) {
+    const liens10 = page.getByRole('link', { name: /lien/i });
+    if (await liens10.count() > 0) {
       // Si plusieurs liens avec le même label, trouver celui qui va vers la bonne destination
-      const liensTrouves = await liens58.all();
-      let lienTrouve = null;
-      for (const lien of liensTrouves) {
-        const href = await lien.getAttribute('href');
-        // Normaliser l'URL (enlever le slash final si présent)
-        const hrefNormalise = href ? href.replace(/\/$/, '') : '';
-        const destinationNormalisee = '/a-propos-du-site'.replace(/\/$/, '');
-        if (hrefNormalise === destinationNormalisee || hrefNormalise === destinationNormalisee + '/' || href === destinationNormalisee || href === destinationNormalisee + '/') {
-          lienTrouve = lien;
-          break;
-        }
-      }
-      if (lienTrouve) {
-        await lienTrouve.click();
-      } else {
-        // Aucun lien trouvé vers la destination exacte, échouer pour détecter les incohérences
-        throw new Error(`Impossible de trouver un lien vers /a-propos-du-site depuis /profil/coo (label: "Info"). Vérifiez que le lien existe et est accessible depuis cette page.`);
-      }
-    } else {
-      // Lien non trouvé par label, navigation via plan-du-site ou accueil
-      // Le footer et le header sont toujours disponibles sur toutes les pages
-      // /a-propos-du-site est accessible via le bouton du footer (b15), pas via un lien
-      const boutonAbout = page.getByTestId('e2eid-b15');
-      if (await boutonAbout.count() > 0) {
-        await boutonAbout.click();
-        await expect(page).toHaveURL('/a-propos-du-site');
-      } else {
-        throw new Error('Impossible de trouver le bouton About (e2eid-b15) dans le footer.');
-      }
-    }
-    await expect(page).toHaveURL('/a-propos-du-site');
-  });
-
-  // Test des e2eID présents sur /a-propos-du-site
-
-  await test.step("Étape 60: Navigation de /a-propos-du-site vers /profil/agile (lien)", async () => {
-    // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
-    const liens59 = page.getByRole('link', { name: /lien/i });
-    if (await liens59.count() > 0) {
-      // Si plusieurs liens avec le même label, trouver celui qui va vers la bonne destination
-      const liensTrouves = await liens59.all();
+      const liensTrouves = await liens10.all();
       let lienTrouve = null;
       for (const lien of liensTrouves) {
         const href = await lien.getAttribute('href');
@@ -3370,7 +872,7 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
         await lienTrouve.click();
       } else {
         // Aucun lien trouvé vers la destination exacte, échouer pour détecter les incohérences
-        throw new Error(`Impossible de trouver un lien vers /profil/agile depuis /a-propos-du-site (label: "lien"). Vérifiez que le lien existe et est accessible depuis cette page.`);
+        throw new Error(`Impossible de trouver un lien vers /profil/agile depuis /profil/coo (label: "lien"). Vérifiez que le lien existe et est accessible depuis cette page.`);
       }
     } else {
       // Lien non trouvé par label, navigation via plan-du-site ou accueil
@@ -3416,11 +918,11 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
           // Chercher le lien par son e2eID (généré de manière déterministe depuis l'URL)
           // Attendre que le plan du site soit chargé (les liens sont chargés de manière asynchrone)
           await page.waitForSelector('[data-e2eid^="e2eid-l"]', { timeout: 5000 }).catch(() => {});
-          const lienDepuisPlan59 = page.getByTestId('e2eid-l805');
-          if (await lienDepuisPlan59.count() === 0) {
-            throw new Error('Impossible de trouver un lien vers /profil/agile (e2eID: e2eid-l805) depuis le plan du site. La page n\'est peut-être pas accessible ou le lien est manquant dans le plan du site.');
+          const lienDepuisPlan10 = page.getByTestId('e2eid-l605');
+          if (await lienDepuisPlan10.count() === 0) {
+            throw new Error('Impossible de trouver un lien vers /profil/agile (e2eID: e2eid-l605) depuis le plan du site. La page n\'est peut-être pas accessible ou le lien est manquant dans le plan du site.');
           }
-          await lienDepuisPlan59.first().click();
+          await lienDepuisPlan10.first().click();
         }
       } else {
         // Option 2 : Via le logo (header) vers l'accueil
@@ -3433,16 +935,16 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
           await page.goto('/');
         }
         // Depuis l'accueil, chercher le lien vers la destination
-        const lienDepuisAccueil59 = page.getByRole('link', { name: new RegExp(`/profil/agile`, 'i') });
-        if (await lienDepuisAccueil59.count() === 0) {
+        const lienDepuisAccueil10 = page.getByRole('link', { name: new RegExp(`/profil/agile`, 'i') });
+        if (await lienDepuisAccueil10.count() === 0) {
           // Essayer aussi par le label original si disponible
-          const lienParLabel59 = page.getByRole('link', { name: new RegExp(`lien`, 'i') });
-          if (await lienParLabel59.count() === 0) {
+          const lienParLabel10 = page.getByRole('link', { name: new RegExp(`lien`, 'i') });
+          if (await lienParLabel10.count() === 0) {
             throw new Error(`Impossible de trouver un lien vers /profil/agile depuis l'accueil (label: "lien"). La page n'est peut-être pas accessible depuis l'accueil ou le lien est manquant.`);
           }
-          await lienParLabel59.first().click();
+          await lienParLabel10.first().click();
         } else {
-          await lienDepuisAccueil59.first().click();
+          await lienDepuisAccueil10.first().click();
         }
       }
     }
@@ -3451,52 +953,12 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
 
   // Test des e2eID présents sur /profil/agile
 
-  await test.step("Étape 61: Navigation de /profil/agile vers /a-propos-du-site (Info)", async () => {
+  await test.step("Étape 12: Navigation de /profil/agile vers /profil/cto (lien)", async () => {
     // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
-    const liens60 = page.getByRole('link', { name: /Info/i });
-    if (await liens60.count() > 0) {
+    const liens11 = page.getByRole('link', { name: /lien/i });
+    if (await liens11.count() > 0) {
       // Si plusieurs liens avec le même label, trouver celui qui va vers la bonne destination
-      const liensTrouves = await liens60.all();
-      let lienTrouve = null;
-      for (const lien of liensTrouves) {
-        const href = await lien.getAttribute('href');
-        // Normaliser l'URL (enlever le slash final si présent)
-        const hrefNormalise = href ? href.replace(/\/$/, '') : '';
-        const destinationNormalisee = '/a-propos-du-site'.replace(/\/$/, '');
-        if (hrefNormalise === destinationNormalisee || hrefNormalise === destinationNormalisee + '/' || href === destinationNormalisee || href === destinationNormalisee + '/') {
-          lienTrouve = lien;
-          break;
-        }
-      }
-      if (lienTrouve) {
-        await lienTrouve.click();
-      } else {
-        // Aucun lien trouvé vers la destination exacte, échouer pour détecter les incohérences
-        throw new Error(`Impossible de trouver un lien vers /a-propos-du-site depuis /profil/agile (label: "Info"). Vérifiez que le lien existe et est accessible depuis cette page.`);
-      }
-    } else {
-      // Lien non trouvé par label, navigation via plan-du-site ou accueil
-      // Le footer et le header sont toujours disponibles sur toutes les pages
-      // /a-propos-du-site est accessible via le bouton du footer (b15), pas via un lien
-      const boutonAbout = page.getByTestId('e2eid-b15');
-      if (await boutonAbout.count() > 0) {
-        await boutonAbout.click();
-        await expect(page).toHaveURL('/a-propos-du-site');
-      } else {
-        throw new Error('Impossible de trouver le bouton About (e2eid-b15) dans le footer.');
-      }
-    }
-    await expect(page).toHaveURL('/a-propos-du-site');
-  });
-
-  // Test des e2eID présents sur /a-propos-du-site
-
-  await test.step("Étape 62: Navigation de /a-propos-du-site vers /profil/cto (lien)", async () => {
-    // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
-    const liens61 = page.getByRole('link', { name: /lien/i });
-    if (await liens61.count() > 0) {
-      // Si plusieurs liens avec le même label, trouver celui qui va vers la bonne destination
-      const liensTrouves = await liens61.all();
+      const liensTrouves = await liens11.all();
       let lienTrouve = null;
       for (const lien of liensTrouves) {
         const href = await lien.getAttribute('href');
@@ -3512,7 +974,7 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
         await lienTrouve.click();
       } else {
         // Aucun lien trouvé vers la destination exacte, échouer pour détecter les incohérences
-        throw new Error(`Impossible de trouver un lien vers /profil/cto depuis /a-propos-du-site (label: "lien"). Vérifiez que le lien existe et est accessible depuis cette page.`);
+        throw new Error(`Impossible de trouver un lien vers /profil/cto depuis /profil/agile (label: "lien"). Vérifiez que le lien existe et est accessible depuis cette page.`);
       }
     } else {
       // Lien non trouvé par label, navigation via plan-du-site ou accueil
@@ -3558,11 +1020,11 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
           // Chercher le lien par son e2eID (généré de manière déterministe depuis l'URL)
           // Attendre que le plan du site soit chargé (les liens sont chargés de manière asynchrone)
           await page.waitForSelector('[data-e2eid^="e2eid-l"]', { timeout: 5000 }).catch(() => {});
-          const lienDepuisPlan61 = page.getByTestId('e2eid-l275');
-          if (await lienDepuisPlan61.count() === 0) {
-            throw new Error('Impossible de trouver un lien vers /profil/cto (e2eID: e2eid-l275) depuis le plan du site. La page n\'est peut-être pas accessible ou le lien est manquant dans le plan du site.');
+          const lienDepuisPlan11 = page.getByTestId('e2eid-l925');
+          if (await lienDepuisPlan11.count() === 0) {
+            throw new Error('Impossible de trouver un lien vers /profil/cto (e2eID: e2eid-l925) depuis le plan du site. La page n\'est peut-être pas accessible ou le lien est manquant dans le plan du site.');
           }
-          await lienDepuisPlan61.first().click();
+          await lienDepuisPlan11.first().click();
         }
       } else {
         // Option 2 : Via le logo (header) vers l'accueil
@@ -3575,16 +1037,16 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
           await page.goto('/');
         }
         // Depuis l'accueil, chercher le lien vers la destination
-        const lienDepuisAccueil61 = page.getByRole('link', { name: new RegExp(`/profil/cto`, 'i') });
-        if (await lienDepuisAccueil61.count() === 0) {
+        const lienDepuisAccueil11 = page.getByRole('link', { name: new RegExp(`/profil/cto`, 'i') });
+        if (await lienDepuisAccueil11.count() === 0) {
           // Essayer aussi par le label original si disponible
-          const lienParLabel61 = page.getByRole('link', { name: new RegExp(`lien`, 'i') });
-          if (await lienParLabel61.count() === 0) {
+          const lienParLabel11 = page.getByRole('link', { name: new RegExp(`lien`, 'i') });
+          if (await lienParLabel11.count() === 0) {
             throw new Error(`Impossible de trouver un lien vers /profil/cto depuis l'accueil (label: "lien"). La page n'est peut-être pas accessible depuis l'accueil ou le lien est manquant.`);
           }
-          await lienParLabel61.first().click();
+          await lienParLabel11.first().click();
         } else {
-          await lienDepuisAccueil61.first().click();
+          await lienDepuisAccueil11.first().click();
         }
       }
     }
@@ -3593,47 +1055,7 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
 
   // Test des e2eID présents sur /profil/cto
 
-  await test.step("Étape 63: Navigation de /profil/cto vers /a-propos-du-site (Info)", async () => {
-    // Chercher le lien par label, puis vérifier la destination pour éviter les ambiguïtés
-    const liens62 = page.getByRole('link', { name: /Info/i });
-    if (await liens62.count() > 0) {
-      // Si plusieurs liens avec le même label, trouver celui qui va vers la bonne destination
-      const liensTrouves = await liens62.all();
-      let lienTrouve = null;
-      for (const lien of liensTrouves) {
-        const href = await lien.getAttribute('href');
-        // Normaliser l'URL (enlever le slash final si présent)
-        const hrefNormalise = href ? href.replace(/\/$/, '') : '';
-        const destinationNormalisee = '/a-propos-du-site'.replace(/\/$/, '');
-        if (hrefNormalise === destinationNormalisee || hrefNormalise === destinationNormalisee + '/' || href === destinationNormalisee || href === destinationNormalisee + '/') {
-          lienTrouve = lien;
-          break;
-        }
-      }
-      if (lienTrouve) {
-        await lienTrouve.click();
-      } else {
-        // Aucun lien trouvé vers la destination exacte, échouer pour détecter les incohérences
-        throw new Error(`Impossible de trouver un lien vers /a-propos-du-site depuis /profil/cto (label: "Info"). Vérifiez que le lien existe et est accessible depuis cette page.`);
-      }
-    } else {
-      // Lien non trouvé par label, navigation via plan-du-site ou accueil
-      // Le footer et le header sont toujours disponibles sur toutes les pages
-      // /a-propos-du-site est accessible via le bouton du footer (b15), pas via un lien
-      const boutonAbout = page.getByTestId('e2eid-b15');
-      if (await boutonAbout.count() > 0) {
-        await boutonAbout.click();
-        await expect(page).toHaveURL('/a-propos-du-site');
-      } else {
-        throw new Error('Impossible de trouver le bouton About (e2eid-b15) dans le footer.');
-      }
-    }
-    await expect(page).toHaveURL('/a-propos-du-site');
-  });
-
-  // Test des e2eID présents sur /a-propos-du-site
-
   // Tous les liens ont été parcourus
-  // 25 e2eID ont été testés
+  // 26 e2eID ont été testés
   console.log('✅ Parcours complet : tous les liens et e2eID ont été testés');
 });

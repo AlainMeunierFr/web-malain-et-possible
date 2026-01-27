@@ -16,6 +16,8 @@ import * as path from 'path';
 import type { PlanLien } from '../utils/siteMapGenerator';
 import { generateE2eIdInventory, type E2eIdInventoryItem } from '../utils/e2eIdInventory';
 import { generateE2eIdFromUrl } from '../utils/e2eIdFromUrl';
+import { detectMissingE2eIds, generateAuditFile } from '../utils/e2eIdDetector';
+import { generateE2eIdsFromAudit } from '../utils/e2eIdGenerator';
 
 interface LienAvecIndex extends PlanLien {
   index: number; // Index original dans le tableau
@@ -28,8 +30,13 @@ interface LienAvecIndex extends PlanLien {
 const PAGES_EXCLUES = ['/maintenance'];
 
 /**
- * Génère un chemin qui parcourt tous les liens
- * Utilise un algorithme glouton : on part d'une page et on essaie de suivre les liens disponibles
+ * Génère un chemin qui visite chaque page une seule fois
+ * et teste tous les liens depuis chaque page visitée
+ * 
+ * Principe :
+ * 1. Extraire toutes les pages uniques depuis les liens
+ * 2. Visiter chaque page une seule fois dans un ordre optimal
+ * 3. Pour chaque page visitée, marquer tous ses liens comme testés
  */
 const genererCheminComplet = (liens: PlanLien[]): { chemin: string[]; liensUtilises: PlanLien[] } => {
   // Créer une copie en RAM (on va la modifier)
@@ -37,63 +44,74 @@ const genererCheminComplet = (liens: PlanLien[]): { chemin: string[]; liensUtili
 
   const chemin: string[] = [];
   const liensUtilises: PlanLien[] = [];
+  const pagesVisitees = new Set<string>();
 
-  // Commencer par la page d'accueil
-  let pageCourante = '/';
-  chemin.push(pageCourante);
+  // Extraire toutes les pages uniques (sources et destinations)
+  const pagesUniques = new Set<string>();
+  liensRestants.forEach((lien) => {
+    if (!PAGES_EXCLUES.includes(lien.source)) {
+      pagesUniques.add(lien.source);
+    }
+    if (!PAGES_EXCLUES.includes(lien.destination)) {
+      pagesUniques.add(lien.destination);
+    }
+  });
 
-  // Tant qu'il reste des liens à parcourir
-  while (liensRestants.length > 0) {
-    // Chercher un lien disponible depuis la page courante
-    const lienIndex = liensRestants.findIndex(
-      (l) => l.source === pageCourante
-    );
+  // Commencer par la page d'accueil si elle existe
+  let pageCourante: string | null = null;
+  if (pagesUniques.has('/')) {
+    pageCourante = '/';
+  } else if (pagesUniques.size > 0) {
+    // Prendre la première page disponible
+    pageCourante = Array.from(pagesUniques)[0];
+  }
 
-    if (lienIndex !== -1) {
-      // Trouvé un lien depuis la page courante
-      const lien = liensRestants[lienIndex];
-      liensUtilises.push({ ...lien }); // Ajouter aux liens utilisés
-      liensRestants.splice(lienIndex, 1); // Supprimer de la copie RAM
-      
-      // Aller à la destination (si elle n'est pas exclue)
-      const destination = lien.destination;
-      if (!PAGES_EXCLUES.includes(destination)) {
-        pageCourante = destination;
-        chemin.push(pageCourante);
-      } else {
-        // Page exclue, ne pas l'ajouter au chemin et ne pas changer pageCourante
-        // On reste sur la page précédente et on cherchera un autre lien
-        console.warn(`⚠️  Page exclue ignorée: ${destination}`);
-        // Ne pas changer pageCourante, on reste sur la page précédente
-        // Le lien a été supprimé de liensRestants, donc on cherchera un autre lien
+  // Visiter toutes les pages une seule fois
+  while (pageCourante && pagesUniques.size > 0) {
+    // Ajouter la page au chemin si elle n'a pas encore été visitée
+    if (!pagesVisitees.has(pageCourante)) {
+      chemin.push(pageCourante);
+      pagesVisitees.add(pageCourante);
+      pagesUniques.delete(pageCourante);
+    }
+
+    // Marquer tous les liens depuis cette page comme utilisés
+    const liensDepuisPage = liensRestants.filter((l) => l.source === pageCourante);
+    liensDepuisPage.forEach((lien) => {
+      liensUtilises.push({ ...lien });
+      // Retirer le lien de la liste restante
+      const index = liensRestants.findIndex(
+        (l) => l.source === lien.source && l.destination === lien.destination
+      );
+      if (index !== -1) {
+        liensRestants.splice(index, 1);
       }
-    } else {
-      // Pas de lien disponible depuis la page courante
-      // Chercher n'importe quel lien restant et naviguer vers sa source
-      if (liensRestants.length > 0) {
-        const lienRestant = liensRestants[0];
-        
-        // Naviguer vers la source du lien restant si nécessaire (si elle n'est pas exclue)
-        if (pageCourante !== lienRestant.source && !PAGES_EXCLUES.includes(lienRestant.source)) {
-          chemin.push(lienRestant.source);
-          pageCourante = lienRestant.source;
-        }
-        
-        // Suivre le lien (si la destination n'est pas exclue)
-        liensUtilises.push({ ...lienRestant }); // Ajouter aux liens utilisés
-        const destination = lienRestant.destination;
-        if (!PAGES_EXCLUES.includes(destination)) {
-          pageCourante = destination;
-          chemin.push(pageCourante);
-        } else {
-          // Page exclue, ne pas l'ajouter au chemin et ne pas changer pageCourante
-          console.warn(`⚠️  Page exclue ignorée: ${destination}`);
-          // Ne pas changer pageCourante, on reste sur la page précédente
-        }
-        
-        liensRestants.splice(0, 1); // Supprimer de la copie RAM
+    });
+
+    // Trouver la prochaine page à visiter
+    // Priorité : une page qui a des liens restants depuis elle
+    let prochainePage: string | null = null;
+    
+    // Chercher une page avec des liens restants
+    for (const page of pagesUniques) {
+      const aDesLiensRestants = liensRestants.some((l) => l.source === page);
+      if (aDesLiensRestants) {
+        prochainePage = page;
+        break;
       }
     }
+
+    // Si aucune page avec liens restants, prendre n'importe quelle page non visitée
+    if (!prochainePage && pagesUniques.size > 0) {
+      prochainePage = Array.from(pagesUniques)[0];
+    }
+
+    pageCourante = prochainePage;
+  }
+
+  // Vérifier s'il reste des liens non testés (liens vers des pages exclues, etc.)
+  if (liensRestants.length > 0) {
+    console.warn(`⚠️  ${liensRestants.length} lien(s) non testé(s) (vers pages exclues ou inaccessibles)`);
   }
 
   return { chemin, liensUtilises };
@@ -123,7 +141,7 @@ const getE2eIdsForPage = (pageUrl: string, inventory: E2eIdInventoryItem[]): E2e
   // (car on ne peut pas facilement mapper un JSON à une route spécifique)
   // On peut améliorer cela plus tard si nécessaire
   const otherE2eIds = inventory.filter((item) => 
-    item.source === 'json' && 
+    (item.source === 'json' || item.source === 'react') && 
     item.file !== '_footerButtons.json' && 
     item.e2eID !== null
   );
@@ -557,6 +575,89 @@ const genererCodeTest = (chemin: string[], liens: PlanLien[], inventory: E2eIdIn
 
 // Main
 const main = () => {
+  console.log('🔍 Détection des e2eID manquants...\n');
+
+  // Phase 1 : Détecter les e2eID manquants
+  const detectionResult = detectMissingE2eIds();
+  const totalMissing = detectionResult.json.length + detectionResult.react.length;
+
+  if (totalMissing > 0) {
+    console.log(`📋 ${totalMissing} élément(s) sans e2eID détecté(s):`);
+    console.log(`   - ${detectionResult.json.length} élément(s) dans les JSON`);
+    console.log(`   - ${detectionResult.react.length} élément(s) dans les composants React\n`);
+
+    // Générer le fichier d'audit
+    const auditPath = generateAuditFile(detectionResult);
+    if (auditPath) {
+      console.log(`📄 Fichier d'audit généré : ${auditPath}\n`);
+
+      // Lire le fichier d'audit et mettre "add" pour tous les éléments JSON
+      // (les éléments React sont généralement exclus car ils utilisent des props du JSON)
+      const auditContent = fs.readFileSync(auditPath, 'utf8');
+      const audit = JSON.parse(auditContent);
+
+      let autoAdded = 0;
+      // Pour les éléments JSON, mettre automatiquement "add" (générer e2eID)
+      for (const item of audit.json) {
+        if (item.action === '') {
+          item.action = 'add';
+          autoAdded++;
+        }
+      }
+
+      // Pour les éléments React, vérifier s'ils utilisent des props du JSON
+      // Si oui, mettre "null" (exclure), sinon "add"
+      for (const item of audit.react) {
+        if (item.action === '') {
+          // Si l'élément a une note indiquant qu'il utilise une prop du JSON, exclure
+          if (item._note && item._note.includes('e2eID est déjà dans le JSON')) {
+            item.action = 'null';
+          } else {
+            // Sinon, générer un e2eID
+            item.action = 'add';
+            autoAdded++;
+          }
+        }
+      }
+
+      // Sauvegarder le fichier d'audit modifié
+      fs.writeFileSync(auditPath, JSON.stringify(audit, null, 2), 'utf8');
+
+      if (autoAdded > 0) {
+        console.log(`✅ ${autoAdded} élément(s) automatiquement marqué(s) pour génération d'e2eID\n`);
+
+        // Phase 2 : Générer les e2eID
+        console.log('🔧 Génération des e2eID...\n');
+        const generationResult = generateE2eIdsFromAudit();
+
+        if (generationResult.success) {
+          console.log(`✅ Génération réussie :`);
+          console.log(`   - ${generationResult.generated} e2eID généré(s)`);
+          console.log(`   - ${generationResult.excluded} élément(s) exclu(s)\n`);
+
+          if (generationResult.errors.length > 0) {
+            console.warn(`⚠️  Erreurs lors de la génération :`);
+            generationResult.errors.forEach((error) => {
+              console.warn(`   - ${error}`);
+            });
+            console.warn('');
+          }
+        } else {
+          console.error(`❌ Erreurs lors de la génération des e2eID :`);
+          generationResult.errors.forEach((error) => {
+            console.error(`   - ${error}`);
+          });
+          console.error('');
+          process.exit(1);
+        }
+      } else {
+        console.log('ℹ️  Aucun élément à générer automatiquement\n');
+      }
+    }
+  } else {
+    console.log('✅ Aucun e2eID manquant détecté\n');
+  }
+
   console.log('🔍 Lecture de _Pages-Et-Lien.json...\n');
 
   const siteMapPath = path.join(process.cwd(), 'data', '_Pages-Et-Lien.json');

@@ -79,11 +79,11 @@ describe('Composant Temoignages', () => {
     expect(paragraphes.length).toBeGreaterThanOrEqual(3);
   });
 
-  it('devrait avoir la classe CSS container', () => {
+  it('devrait avoir la classe CSS temoignages', () => {
     const { container } = render(<Temoignages element={mockElement} />);
     const div = container.firstChild as HTMLElement;
 
-    expect(div).toHaveClass('container');
+    expect(div).toHaveClass('temoignages');
   });
 
   it('devrait gérer un témoignage vide', () => {

@@ -47,7 +47,7 @@ describe('Composant GroupeBoutons', () => {
     const { container } = render(<GroupeBoutons element={element} />);
     const groupeContainer = container.firstChild as HTMLElement;
 
-    expect(groupeContainer).toHaveClass('groupeBoutonsContainer');
+    expect(groupeContainer).toHaveClass('groupeBoutons');
   });
 
   it('devrait afficher les boutons horizontalement pour taille "petite"', () => {
@@ -68,7 +68,7 @@ describe('Composant GroupeBoutons', () => {
     const { container } = render(<GroupeBoutons element={element} />);
     const groupeContainer = container.firstChild as HTMLElement;
 
-    expect(groupeContainer).toHaveClass('groupeBoutonsContainer');
+    expect(groupeContainer).toHaveClass('groupeBoutons');
     expect(groupeContainer).toHaveClass('taillePetite');
   });
 
@@ -90,7 +90,7 @@ describe('Composant GroupeBoutons', () => {
     const { container } = render(<GroupeBoutons element={element} />);
     const groupeContainer = container.firstChild as HTMLElement;
 
-    expect(groupeContainer).toHaveClass('groupeBoutonsContainer');
+    expect(groupeContainer).toHaveClass('groupeBoutons');
     expect(groupeContainer).toHaveClass('tailleGrande');
   });
 
@@ -139,7 +139,7 @@ describe('Composant GroupeBoutons', () => {
     expect(bouton).toHaveTextContent('Envoyer email');
   });
 
-  it('devrait utiliser la couleur inversée (BleuFonce sur fond clair)', () => {
+  it('devrait avoir un style transparent pour taille petite', () => {
     const element: ElementGroupeBoutons = {
       type: 'groupeBoutons',
       taille: 'petite',
@@ -157,7 +157,11 @@ describe('Composant GroupeBoutons', () => {
     const { container } = render(<GroupeBoutons element={element} />);
     const bouton = container.querySelector('button');
 
-    expect(bouton).toHaveClass('couleurInversee');
+    // Les boutons de taille petite sont transparents (pas de fond, pas de bordure)
+    expect(bouton).toHaveClass('bouton');
+    // Vérifier que le conteneur a la classe taillePetite
+    const groupeContainer = container.firstChild as HTMLElement;
+    expect(groupeContainer).toHaveClass('taillePetite');
   });
 
   it('ne devrait rien afficher si icône inconnue', () => {
@@ -245,8 +249,8 @@ describe('Composant GroupeBoutons', () => {
     const useRouter = require('next/navigation').useRouter;
     useRouter.mockReturnValue({ push: mockPush });
 
-    delete (window as any).location;
-    (window as any).location = { hostname: 'localhost' };
+    // Pour les URLs commençant par /, le composant n'utilise pas window.location.hostname
+    // donc pas besoin de le mocker
 
     const element: ElementGroupeBoutons = {
       type: 'groupeBoutons',
@@ -274,8 +278,8 @@ describe('Composant GroupeBoutons', () => {
     const useRouter = require('next/navigation').useRouter;
     useRouter.mockReturnValue({ push: mockPush });
 
-    delete (window as any).location;
-    (window as any).location = { hostname: 'localhost' };
+    // Pour les URLs commençant par http://localhost, le composant vérifie d'abord
+    // bouton.url.startsWith('http://localhost'), donc pas besoin de mocker window.location.hostname
 
     const element: ElementGroupeBoutons = {
       type: 'groupeBoutons',

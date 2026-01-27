@@ -343,10 +343,21 @@ describe('siteMapGenerator - Tests d\'intégration avec données réelles', () =
       const contenuFinal = fs.readFileSync(siteMapPath, 'utf8');
       const planFinal: PlanSite = JSON.parse(contenuFinal);
       
-      // Vérifier que toutes les pages sont présentes
-      expect(planFinal.pages.length).toBe(pages.length);
+      // Vérifier que toutes les pages détectées sont présentes dans le plan final
+      // Note : mettreAJourPlanJSON conserve les pages existantes (même obsolètes) pour préserver les métadonnées
+      // donc planFinal.pages.length peut être >= pages.length
+      const urlsPagesDetectees = new Set(pages.map((p) => p.url));
+      const urlsPagesFinales = new Set(planFinal.pages.map((p) => p.url));
       
-      // Vérifier que tous les liens sont présents
+      // Vérifier que toutes les pages détectées sont dans le plan final
+      urlsPagesDetectees.forEach((url) => {
+        expect(urlsPagesFinales.has(url)).toBe(true);
+      });
+      
+      // Vérifier que le plan final contient au moins toutes les pages détectées
+      expect(planFinal.pages.length).toBeGreaterThanOrEqual(pages.length);
+      
+      // Vérifier que tous les liens sont présents (les liens sont remplacés, pas conservés)
       expect(planFinal.liens.length).toBe(liens.length);
       
       // Le fichier est maintenant corrigé et laissé dans cet état
