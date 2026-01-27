@@ -20,6 +20,7 @@ export const COMMANDS = {
   SITEMAP: 'cmd-PlanDuSite',
   ABOUT_SITE: 'cmd-AProposDuSite',
   METRICS: 'cmd-Metrics',
+  FAISONS_CONNAISSANCE: 'cmd-FaisonsConnaissance',
 } as const;
 
 export type Command = typeof COMMANDS[keyof typeof COMMANDS];

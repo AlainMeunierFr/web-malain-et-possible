@@ -142,12 +142,27 @@ export const detecterPages = (): PlanPage[] => {
           const pagesNonDessinees = ['/maintenance', '/plan-du-site'];
           const dessiner = pagesNonDessinees.includes(url) ? 'Non' : 'Oui';
 
+          // Assigner automatiquement une zone selon l'URL
+          let zone: 'HomePage' | 'Profils' | 'Autres' | 'Footer' | 'Masqué' | undefined;
+          if (url === '/') {
+            zone = 'HomePage';
+          } else if (url.startsWith('/profil/')) {
+            zone = 'Profils';
+          } else if (url === '/metrics' || url === '/a-propos-du-site' || url === '/faisons-connaissance') {
+            zone = 'Footer';
+          } else if (url === '/maintenance' || url === '/plan-du-site') {
+            zone = 'Masqué';
+          } else {
+            zone = 'Autres';
+          }
+
           pages.push({
             url,
             titre,
             x: null,
             y: null,
             dessiner,
+            zone,
           });
         } else {
           // Continuer à scanner récursivement
@@ -189,6 +204,7 @@ export const detecterPages = (): PlanPage[] => {
         x: null,
         y: null,
         dessiner: 'Oui',
+        zone: 'Profils', // Les profils sont dans la zone Profils
       });
     }
   }
@@ -208,7 +224,7 @@ export const detecterPages = (): PlanPage[] => {
       // Garder le titre par défaut
     }
     // HomePage doit être dessinée par défaut (seules /maintenance et /plan-du-site sont "Non")
-    pages.unshift({ url: '/', titre: titreHome, x: null, y: null, dessiner: 'Oui' });
+    pages.unshift({ url: '/', titre: titreHome, x: null, y: null, dessiner: 'Oui', zone: 'HomePage' });
   }
 
   return pages;
@@ -392,6 +408,10 @@ export const mettreAJourPlanJSON = (pages: PlanPage[], liens: PlanLien[]): void 
       // Page existe déjà : conserver TOUTES les valeurs existantes sauf le titre qui est mis à jour
       // Si dessiner est vide/null, utiliser 'Oui' par défaut
       const dessiner = pageExistante.dessiner || pageDetectee.dessiner || 'Oui';
+      // Pour /faisons-connaissance, forcer la zone Footer (mise à jour de l'US)
+      const zone = pageDetectee.url === '/faisons-connaissance' 
+        ? 'Footer' 
+        : (pageExistante.zone || pageDetectee.zone);
       pagesMisesAJour.push({
         url: pageExistante.url,
         titre: pageDetectee.titre, // Seule valeur mise à jour depuis l'algo
@@ -400,7 +420,7 @@ export const mettreAJourPlanJSON = (pages: PlanPage[], liens: PlanLien[]): void 
         numero: pageExistante.numero, // Conserver le numéro existant
         dessiner,
         e2eIDs: pageExistante.e2eIDs, // Conserver les e2eIDs existants
-        zone: pageExistante.zone, // Conserver la zone existante
+        zone, // Utiliser la zone calculée (Footer pour /faisons-connaissance, sinon existante ou détectée)
       });
     } else {
       // Page n'existe pas : créer une nouvelle page
@@ -411,6 +431,7 @@ export const mettreAJourPlanJSON = (pages: PlanPage[], liens: PlanLien[]): void 
         titre: pageDetectee.titre,
         x: null,
         y: null,
+        zone: pageDetectee.zone, // Utiliser la zone détectée
         dessiner,
         // zone n'est pas définie pour les nouvelles pages (sera assignée manuellement)
       });

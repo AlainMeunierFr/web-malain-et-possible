@@ -8,6 +8,7 @@ import {
   Network,
   Info,
   BarChart3,
+  Calendar,
   type LucideIcon,
 } from 'lucide-react';
 import styles from './Footer.module.css';
@@ -26,6 +27,7 @@ const iconMap: Record<string, LucideIcon> = {
   'Plan du site': Network, // Alias français pour Network
   Info,
   BarChart3, // Pour "Metrics"
+  Calendar, // Pour "Faisons connaissance"
 };
 
 const FooterButton: React.FC<FooterButtonProps> = ({

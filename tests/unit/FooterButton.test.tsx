@@ -9,6 +9,11 @@ jest.mock('lucide-react', () => ({
       <title>Mail Icon</title>
     </svg>
   ),
+  Calendar: ({ 'aria-label': ariaLabel, 'data-e2eid': testId }: any) => (
+    <svg aria-label={ariaLabel} data-e2eid={testId}>
+      <title>Calendar Icon</title>
+    </svg>
+  ),
 }));
 
 describe('FooterButton', () => {
@@ -64,5 +69,28 @@ describe('FooterButton', () => {
     fireEvent.click(button);
 
     expect(mockOnButtonClick).toHaveBeenCalledWith('cmd-email', null);
+  });
+
+  it('should render Calendar icon for Faisons connaissance button', () => {
+    const mockOnButtonClick = jest.fn();
+    const calendarProps = {
+      id: 'calendar',
+      icone: 'Calendar',
+      command: 'cmd-FaisonsConnaissance',
+      alt: 'Faisons connaissance',
+      url: null,
+      tooltip: 'faisons connaissance',
+      e2eID: 'b9',
+    };
+
+    render(<FooterButton {...calendarProps} onButtonClick={mockOnButtonClick} />);
+
+    const button = screen.getByTestId('e2eid-b9');
+    expect(button).toBeInTheDocument();
+    expect(button).toHaveAttribute('title', 'faisons connaissance');
+    expect(button).toHaveAttribute('aria-label', 'Faisons connaissance');
+
+    const icon = screen.getByTitle('Calendar Icon');
+    expect(icon).toBeInTheDocument();
   });
 });

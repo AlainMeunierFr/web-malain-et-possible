@@ -33,6 +33,7 @@ describe('buttonHandlers - Approche TDD (simple → complexe)', () => {
       expect(getRouteForCommand(COMMANDS.SITEMAP)).toBe(ROUTES.SITEMAP);
       expect(getRouteForCommand(COMMANDS.ABOUT_SITE)).toBe(ROUTES.ABOUT);
       expect(getRouteForCommand(COMMANDS.METRICS)).toBe(ROUTES.METRICS);
+      expect(getRouteForCommand(COMMANDS.FAISONS_CONNAISSANCE)).toBe(ROUTES.FAISONS_CONNAISSANCE);
     });
 
     // ITÉRATION 3 : Gérer les commandes inconnues
@@ -60,6 +61,8 @@ describe('buttonHandlers - Approche TDD (simple → complexe)', () => {
     it('should return true for all internal navigation commands', () => {
       expect(isInternalNavigation(COMMANDS.SITEMAP)).toBe(true);
       expect(isInternalNavigation(COMMANDS.ABOUT_SITE)).toBe(true);
+      expect(isInternalNavigation(COMMANDS.METRICS)).toBe(true);
+      expect(isInternalNavigation(COMMANDS.FAISONS_CONNAISSANCE)).toBe(true);
     });
 
     // ITÉRATION 3 : Gérer les commandes externes
@@ -98,6 +101,12 @@ describe('buttonHandlers - Approche TDD (simple → complexe)', () => {
       expect(action2.type).toBe('internal');
       if (action2.type === 'internal') {
         expect(action2.route).toBe(ROUTES.ABOUT);
+      }
+
+      const action3 = getButtonAction(COMMANDS.FAISONS_CONNAISSANCE, null);
+      expect(action3.type).toBe('internal');
+      if (action3.type === 'internal') {
+        expect(action3.route).toBe(ROUTES.FAISONS_CONNAISSANCE);
       }
     });
 
@@ -173,6 +182,8 @@ describe('buttonHandlers - Approche TDD (simple → complexe)', () => {
         }> = [
           { command: COMMANDS.SITEMAP, url: null, expectedType: 'internal' },
           { command: COMMANDS.ABOUT_SITE, url: null, expectedType: 'internal' },
+          { command: COMMANDS.METRICS, url: null, expectedType: 'internal' },
+          { command: COMMANDS.FAISONS_CONNAISSANCE, url: null, expectedType: 'internal' },
           { command: COMMANDS.EMAIL, url: 'mailto:test@example.com', expectedType: 'external' },
           { command: COMMANDS.YOUTUBE, url: 'https://youtube.com', expectedType: 'external' },
           { command: COMMANDS.LINKEDIN, url: 'https://linkedin.com', expectedType: 'external' },

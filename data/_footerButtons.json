@@ -4,6 +4,16 @@
   "boutons": [
     {
       "type": "bouton",
+      "id": "calendar",
+      "icone": "Calendar",
+      "texte": null,
+      "url": null,
+      "command": "cmd-FaisonsConnaissance",
+      "tooltip": "faisons connaissance",
+      "e2eID": "b9"
+    },
+    {
+      "type": "bouton",
       "id": "email",
       "icone": "Mail",
       "texte": null,

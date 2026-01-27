@@ -17,6 +17,7 @@ export const getRouteForCommand = (command: string): string | null => {
     [COMMANDS.SITEMAP]: ROUTES.SITEMAP,
     [COMMANDS.ABOUT_SITE]: ROUTES.ABOUT,
     [COMMANDS.METRICS]: ROUTES.METRICS,
+    [COMMANDS.FAISONS_CONNAISSANCE]: ROUTES.FAISONS_CONNAISSANCE,
   };
 
   return commandToRouteMap[command] || null;
