@@ -1,7 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
 import type { ElementCallToAction } from '../utils/indexReader';
-import styles from './CallToAction.module.css';
 
 export interface CallToActionProps {
   element: ElementCallToAction;
@@ -9,10 +8,10 @@ export interface CallToActionProps {
 
 const CallToAction: React.FC<CallToActionProps> = ({ element }) => {
   return (
-    <div className={styles.callToActionContainer}>
+    <div className="callToAction">
       <Link 
         href="/faisons-connaissance" 
-        className={styles.callToActionButton}
+        className="bouton"
         data-e2eid={element.e2eID || undefined}
       >
         {element.action}

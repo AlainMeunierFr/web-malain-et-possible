@@ -18,6 +18,7 @@ export interface PlanPage {
   numero?: number; // Numéro d'ordre pour l'affichage dans le plan du site
   dessiner?: 'Oui' | 'Non'; // Indique si la page doit être dessinée sur le plan
   e2eIDs?: string[]; // Liste des e2eID présents sur la page (un e2eID par élément interactif)
+  zone?: 'HomePage' | 'Profils' | 'Autres' | 'Footer' | 'Masqué'; // Zone d'affichage dans le plan du site
 }
 
 /**
@@ -112,11 +113,8 @@ export const detecterPages = (): PlanPage[] => {
             ? `/${fichier.name}` 
             : `${urlPrefix}/${fichier.name}`;
 
-          // Exclure la page "Faisons connaissance..." car toutes les pages y amènent
-          // et ça rend le plan illisible
-          if (url === '/faisons-connaissance') {
-            continue;
-          }
+          // La page "Faisons connaissance" est maintenant incluse dans le plan du site
+          // avec la zone "Footer"
 
           // Essayer de déduire le titre depuis le JSON associé
           let titre = fichier.name;
@@ -127,7 +125,9 @@ export const detecterPages = (): PlanPage[] => {
               const cheminJSON = path.join(process.cwd(), 'data', nomFichierJSON);
               if (fs.existsSync(cheminJSON)) {
                 const contenuJSON = JSON.parse(fs.readFileSync(cheminJSON, 'utf8'));
-                const titreElement = contenuJSON.contenu?.find((el: any) => el.type === 'titre');
+                // Chercher d'abord titreDePage, puis titre en fallback
+                const titreElement = contenuJSON.contenu?.find((el: any) => el.type === 'titreDePage') 
+                  || contenuJSON.contenu?.find((el: any) => el.type === 'titre');
                 if (titreElement) {
                   titre = titreElement.texte;
                 }
@@ -173,7 +173,9 @@ export const detecterPages = (): PlanPage[] => {
         const cheminJSON = path.join(process.cwd(), 'data', nomFichierJSON);
         if (fs.existsSync(cheminJSON)) {
           const contenuJSON = JSON.parse(fs.readFileSync(cheminJSON, 'utf8'));
-          const titreElement = contenuJSON.contenu?.find((el: any) => el.type === 'titre');
+          // Chercher d'abord titreDePage, puis titre en fallback
+          const titreElement = contenuJSON.contenu?.find((el: any) => el.type === 'titreDePage') 
+            || contenuJSON.contenu?.find((el: any) => el.type === 'titre');
           if (titreElement) {
             titre = titreElement.texte;
           }
@@ -196,7 +198,9 @@ export const detecterPages = (): PlanPage[] => {
     let titreHome = 'Home';
     try {
       const indexData = JSON.parse(fs.readFileSync(path.join(process.cwd(), 'data', 'index.json'), 'utf8'));
-      const titreElement = indexData.contenu?.find((el: any) => el.type === 'titre');
+      // Chercher d'abord titreDePage, puis titre en fallback
+      const titreElement = indexData.contenu?.find((el: any) => el.type === 'titreDePage') 
+        || indexData.contenu?.find((el: any) => el.type === 'titre');
       if (titreElement) {
         titreHome = titreElement.texte;
       }
@@ -396,6 +400,7 @@ export const mettreAJourPlanJSON = (pages: PlanPage[], liens: PlanLien[]): void 
         numero: pageExistante.numero, // Conserver le numéro existant
         dessiner,
         e2eIDs: pageExistante.e2eIDs, // Conserver les e2eIDs existants
+        zone: pageExistante.zone, // Conserver la zone existante
       });
     } else {
       // Page n'existe pas : créer une nouvelle page
@@ -407,6 +412,7 @@ export const mettreAJourPlanJSON = (pages: PlanPage[], liens: PlanLien[]): void 
         x: null,
         y: null,
         dessiner,
+        // zone n'est pas définie pour les nouvelles pages (sera assignée manuellement)
       });
     }
   }

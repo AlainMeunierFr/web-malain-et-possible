@@ -313,38 +313,37 @@ const DomaineDeCompetences: React.FC<DomaineDeCompetencesProps> = ({ domaine, ba
   };
 
   const containerClass = backgroundColor === 'light' 
-    ? `${styles.container} ${styles.containerLight}`
-    : styles.container;
+    ? 'domaineDeCompetence light'
+    : 'domaineDeCompetence';
 
   return (
     <div className={containerClass}>
       {/* Premier sous-bloc : Domaine de compétences */}
-      <div className={styles.domaineHeader}>
-        <h2 className={styles.domaineTitre}>{domaine.titre}</h2>
+      <div className="domaineHeader">
+        <h2>{domaine.titre}</h2>
         {domaine.contenu && domaine.contenu.trim() && (
-          <p className={styles.domaineContenu}>
+          <p className="domaineContenu">
             {parseInlineMarkdown(domaine.contenu)}
           </p>
         )}
         {domaine.auteur && (
-          <p className={styles.domaineAuteur}>{domaine.auteur}</p>
+          <p className="domaineAuteur">{domaine.auteur}</p>
         )}
       </div>
 
       {/* Second bloc : compétences organisées verticalement par compétence */}
-      <div className={styles.competencesContainer}>
+      <div className="competencesContainer">
         {domaine.items.map((competence, index) => {
           const IconComponent = competence.icon ? iconMap[competence.icon] : null;
           return (
-            <div key={`competence-${index}`} className={styles.competenceCard}>
-              <h3 className={styles.competenceTitre}>{competence.titre}</h3>
-              <div className={styles.competenceImage}>
+            <div key={`competence-${index}`} className="competenceCard">
+              <h3 className="competenceTitre">{competence.titre}</h3>
+              <div className="competenceImage">
                 {IconComponent ? (
                   <IconComponent
                     size={120}
                     color="rgba(9, 23, 71, 1)"
                     strokeWidth={1.5}
-                    className={styles.competenceIcon}
                   />
                 ) : competence.image ? (
                   <img 
@@ -353,28 +352,31 @@ const DomaineDeCompetences: React.FC<DomaineDeCompetencesProps> = ({ domaine, ba
                   />
                 ) : null}
               </div>
-              <div className={styles.competenceDescription}>
+              <div className="competenceDescription">
                 {parseMarkdownContent(competence.description)}
               </div>
-              <div className={styles.competenceBoutonContainer}>
+              {competence.auteur && (
+                <p className="competenceAuteur">{competence.auteur}</p>
+              )}
+              <div className="competenceBoutonContainer">
                 {competence.bouton && shouldDisplayButton(competence.bouton) ? (
                   isExternalUrl(competence.bouton.action) ? (
                     <a
                       href={competence.bouton.action}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className={styles.competenceBouton}
+                      className="bouton"
                       data-e2eid={null}
                     >
                       {competence.bouton.texte}
                     </a>
                   ) : (
-                    <Link href={competence.bouton.action} className={styles.competenceBouton} data-e2eid={null}>
+                    <Link href={competence.bouton.action} className="bouton" data-e2eid={null}>
                       {competence.bouton.texte}
                     </Link>
                   )
                 ) : (
-                  <div className={styles.competenceBoutonPlaceholder}></div>
+                  <div className="competenceBoutonPlaceholder"></div>
                 )}
               </div>
             </div>

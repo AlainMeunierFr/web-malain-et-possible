@@ -6,7 +6,6 @@
 import React from 'react';
 import Image from 'next/image';
 import { getJsonImagePath } from '../utils/imagePath';
-import styles from './Temoignages.module.css';
 
 interface Temoignage {
   nom: string;
@@ -31,29 +30,29 @@ const Temoignages: React.FC<TemoignagesProps> = ({ element }) => {
   }
 
   return (
-    <div className={styles.container}>
-      <div className={styles.temoignagesGrid}>
+    <div className="temoignages">
+      <div className="temoignagesGrid">
         {element.items.map((temoignage, index) => (
-          <div key={index} className={styles.temoignage}>
-            <div className={styles.temoignageHeader}>
-              <div className={styles.temoignagePhoto}>
+          <div key={index} className="temoignage">
+            <div className="temoignageHeader">
+              <div className="temoignagePhoto">
                 <Image
                   src={getJsonImagePath(temoignage.photo)}
                   alt={temoignage.nom}
                   width={80}
                   height={80}
-                  className={styles.photoImage}
+                  className="photoImage"
                   loading="lazy"
                 />
               </div>
-              <div className={styles.temoignageInfo}>
-                <h2 className={styles.temoignageNom}>{temoignage.nom}</h2>
-                <p className={styles.temoignageFonction}>{temoignage.fonction}</p>
+              <div className="temoignageInfo">
+                <h2>{temoignage.nom}</h2>
+                <p className="temoignageFonction">{temoignage.fonction}</p>
               </div>
             </div>
-            <div className={styles.temoignageTexte}>
+            <div className="temoignageTexte">
               {temoignage.temoignage.split('\n\n').map((paragraph, pIndex) => (
-                <p key={pIndex} className={styles.paragraph}>
+                <p key={pIndex} className="paragraph">
                   {paragraph.trim()}
                 </p>
               ))}

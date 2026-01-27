@@ -1,0 +1,231 @@
+/* ============================================
+   FEUILLE DE STYLE GLOBALE POUR LES BOUTONS
+   Architecture : Un style = Un nom = Un TypeDeContenu
+   ============================================ */
+
+/* ============================================
+   STYLE DE BASE : .bouton
+   Tous les boutons du site utilisent cette classe
+   Architecture : Un style = Un nom = Un TypeDeContenu
+   ============================================ */
+.bouton {
+  font-family: 'Outfit', sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  padding: 12px 24px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  letter-spacing: 0.01em;
+  line-height: 1.4;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+  text-align: center;
+  /* Thème 2 : Bord et fond BleuFoncé + police blanc + bord carré */
+  background-color: var(--BleuFonce);
+  color: #ffffff;
+  border: 2px solid var(--BleuFonce);
+  border-radius: 0;
+  box-shadow: none;
+}
+
+/* ============================================
+   STYLES SPÉCIFIQUES PAR TYPEDECONTENU
+   ============================================ */
+
+/* TypeDeContenu : hero */
+.hero .bouton {
+  /* Styles spécifiques au bouton principal de la section hero */
+  /* Hérite du style de base .bouton (thème 2) */
+}
+
+.hero .bouton:hover {
+  /* Hérite du style hover de base .bouton:hover (thème 2) */
+}
+
+/* TypeDeContenu : domaineDeCompetence */
+.domaineDeCompetence .bouton {
+  /* Styles spécifiques aux boutons "En savoir plus..." des compétences */
+  /* Hérite du style de base .bouton (thème 2) */
+}
+
+.domaineDeCompetence .bouton:hover {
+  /* Hérite du style hover de base .bouton:hover (thème 2) */
+}
+
+/* TypeDeContenu : callToAction */
+.callToAction .bouton {
+  /* Styles spécifiques au call-to-action */
+  width: 100%;
+  max-width: 947px;
+  /* Hérite du style de base .bouton (thème 2) */
+}
+
+.callToAction .bouton:hover {
+  /* Hérite du style hover de base .bouton:hover (thème 2) */
+}
+
+/* TypeDeContenu : listeDesPages */
+.listeDesPages .bouton {
+  /* Styles spécifiques aux boutons du plan du site */
+  width: 100%;
+  height: 80px;
+  min-height: 80px;
+  max-height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* Hérite du style de base .bouton (thème 2) */
+}
+
+.listeDesPages .bouton:hover {
+  /* Hérite du style hover de base .bouton:hover (thème 2) */
+}
+
+/* TypeDeContenu : groupeBoutons */
+.groupeBoutons .bouton {
+  /* Styles spécifiques aux groupes de boutons */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  /* Hérite du style de base .bouton (thème 2) */
+}
+
+.groupeBoutons .bouton:hover {
+  /* Hérite du style hover de base .bouton:hover (thème 2) */
+}
+
+.groupeBoutons.taillePetite .bouton {
+  padding: 0;
+  border: none;
+  background-color: transparent;
+  box-shadow: none;
+}
+
+.groupeBoutons.taillePetite .bouton:hover {
+  background-color: transparent;
+  opacity: 0.8;
+}
+
+.groupeBoutons.tailleGrande .bouton {
+  width: 400px;
+  margin: 0 auto;
+  padding: 1rem 1.5rem;
+  text-align: left;
+}
+
+/* TypeDeContenu : profil (dans hero) */
+/* Les boutons des profils utilisent le même style que .hero .bouton */
+.hero .profil .bouton {
+  /* Largeur 100% pour remplir le conteneur du profil */
+  width: 100%;
+  min-height: 2.5rem;
+  /* Hérite automatiquement de .hero .bouton (même style que "On discute ?") */
+}
+
+/* ============================================
+   ÉTATS COMMUNS (hover, active)
+   Thème 2 : rollover fond BleuClair + texte BleuFonce
+   ============================================ */
+.bouton:hover {
+  background-color: var(--BleuClair);
+  color: var(--BleuFonce);
+  border-color: var(--BleuFonce);
+  transform: none;
+  box-shadow: none;
+}
+
+.bouton:active {
+  background-color: var(--BleuFonce);
+  color: #ffffff;
+  border-color: var(--BleuFonce);
+  transform: none;
+  box-shadow: none;
+}
+
+/* ============================================
+   THÈMES DE BOUTONS POUR PAGE TEST-FONTS
+   Utilisation de data-attributes pour surcharger les styles
+   Tous les thèmes sont des boutons carrés (border-radius: 0)
+   ============================================ */
+
+/* Désactiver le transform translateY pour tous les boutons dans un conteneur avec data-button-theme */
+[data-button-theme] .bouton:hover {
+  transform: none !important;
+}
+
+/* Thème 1 : Bord et police BleuFoncé + fond blanc + rollover fond BleuClair */
+[data-button-theme="theme1"] .domaineDeCompetence .bouton,
+[data-button-theme="theme1"] .bouton {
+  background-color: #ffffff !important;
+  color: var(--BleuFonce) !important;
+  border: 2px solid var(--BleuFonce) !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+[data-button-theme="theme1"] .domaineDeCompetence .bouton:hover,
+[data-button-theme="theme1"] .bouton:hover {
+  background-color: var(--BleuClair) !important;
+  color: var(--BleuFonce) !important;
+  border-color: var(--BleuFonce) !important;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+/* Thème 2 : Bord et fond BleuFoncé + police blanc + rollover fond BleuClair */
+[data-button-theme="theme2"] .domaineDeCompetence .bouton,
+[data-button-theme="theme2"] .bouton {
+  background-color: var(--BleuFonce) !important;
+  color: #ffffff !important;
+  border: 2px solid var(--BleuFonce) !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+[data-button-theme="theme2"] .domaineDeCompetence .bouton:hover,
+[data-button-theme="theme2"] .bouton:hover {
+  background-color: var(--BleuClair) !important;
+  color: var(--BleuFonce) !important;
+  border-color: var(--BleuFonce) !important;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+/* Thème 3 : Bord et police BleuClair + fond blanc + rollover fond BleuFoncé */
+[data-button-theme="theme3"] .domaineDeCompetence .bouton,
+[data-button-theme="theme3"] .bouton {
+  background-color: #ffffff !important;
+  color: var(--BleuClair) !important;
+  border: 2px solid var(--BleuClair) !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+[data-button-theme="theme3"] .domaineDeCompetence .bouton:hover,
+[data-button-theme="theme3"] .bouton:hover {
+  background-color: var(--BleuFonce) !important;
+  color: #ffffff !important;
+  border-color: var(--BleuFonce) !important;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+/* Thème 4 : Bord et fond BleuClair + police noire + rollover fond BleuFoncé */
+[data-button-theme="theme4"] .domaineDeCompetence .bouton,
+[data-button-theme="theme4"] .bouton {
+  background-color: var(--BleuClair) !important;
+  color: #000000 !important;
+  border: 2px solid var(--BleuClair) !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+[data-button-theme="theme4"] .domaineDeCompetence .bouton:hover,
+[data-button-theme="theme4"] .bouton:hover {
+  background-color: var(--BleuFonce) !important;
+  color: #ffffff !important;
+  border-color: var(--BleuFonce) !important;
+  transform: none !important;
+  box-shadow: none !important;
+}

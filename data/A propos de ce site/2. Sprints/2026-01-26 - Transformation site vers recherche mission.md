@@ -176,7 +176,7 @@ Cette transformation nécessite :
 
 ---
 
-## US-7.3 : Pages de profils ciblés (En cours)
+## US-7.3 : Pages de profils ciblés ✅ COMPLÉTÉ
 
 - **En tant que** visiteur/recruteur
 - **Je souhaite** accéder à des pages de profils ciblés selon le poste recherché
@@ -215,6 +215,118 @@ Cette transformation nécessite :
 - ⏳ Pages JSON à créer (`profil-cpo.json`, `profil-coo.json`, `profil-agile.json`, `profil-cto.json`)
 - ⏳ Routes Next.js à créer (`app/profil/[slug]/page.tsx` ou 4 routes distinctes)
 - ⏳ Tests à créer
+
+---
+
+## US-7.4 : Sections Témoignages dans tous les profils
+
+- **En tant que** visiteur/recruteur
+- **Je souhaite** voir des témoignages clients à la fin de chaque page de profil
+- **Afin de** renforcer ma confiance et la crédibilité d'Alain avant le call-to-action final
+
+- **Critères d'acceptation** :
+
+- **CA1 - Structure de la section Témoignages** :
+  - Chaque page de profil (`/profil/cpo`, `/profil/coo`, `/profil/agile`, `/profil/cto`) contient une section "Témoignages" à la fin, juste avant le call-to-action final
+  - La section est composée de :
+    1. Un titre "Témoignages" (type `titre`)
+    2. Un élément `temoignages` avec `source: "_temoignages.json"` pour charger les témoignages depuis le fichier partagé
+
+- **CA2 - Fichier de témoignages partagé** :
+  - Les témoignages sont centralisés dans `data/_temoignages.json`
+  - Le fichier contient une structure `temoignages` avec un tableau `items` de témoignages
+  - Chaque témoignage contient : `nom`, `fonction`, `photo`, `temoignage`
+  - Le composant `Temoignages.tsx` existant charge et affiche les témoignages depuis ce fichier
+
+- **CA3 - Intégration dans les profils** :
+  - `profil-cpo.json` : Section Témoignages ajoutée avant le call-to-action
+  - `profil-coo.json` : Section Témoignages ajoutée avant le call-to-action
+  - `profil-agile.json` : Section Témoignages ajoutée avant le call-to-action (avant la vidéo finale si présente)
+  - `profil-cto.json` : Section Témoignages ajoutée avant le call-to-action
+
+- **CA4 - Affichage** :
+  - Les témoignages s'affichent avec le composant `Temoignages.tsx` existant
+  - Le rendu respecte le design actuel (grille 2 colonnes sur desktop, empilé sur mobile)
+  - Les photos, noms, fonctions et textes de témoignages sont correctement affichés
+
+- **CA5 - Positionnement** :
+  - La section Témoignages apparaît systématiquement avant le dernier call-to-action de chaque profil
+  - L'ordre de contenu d'un profil est : Vidéo(s) → Titre → Domaines → Témoignages → Call-to-action
+
+**Résultat attendu :**
+- Tous les profils affichent des témoignages clients avant le call-to-action final
+- Amélioration de la crédibilité et de la confiance
+- Cohérence : mêmes témoignages partagés sur tous les profils (cohérence du message)
+
+---
+
+## US-7.5 : Améliorations design - TitreDePage et styles bouton HeroSection
+
+- **En tant que** visiteur/recruteur
+- **Je souhaite** avoir une meilleure expérience visuelle et de navigation
+- **Afin de** mieux identifier la page sur laquelle je me trouve et avoir un feedback visuel clair sur les interactions
+
+- **Critères d'acceptation** :
+
+- **CA1 - Type TitreDePage** :
+  - Création d'un nouveau type de contenu `titreDePage` dans `utils/indexReader.ts`
+  - Interface `ElementTitreDePage` avec `type: 'titreDePage'` et `texte: string`
+  - Le type est ajouté au type union `ElementContenu`
+
+- **CA2 - Affichage du titre dans le Header** :
+  - Le premier élément `titreDePage` de chaque page est extrait et affiché dans le header (bande bleue)
+  - Le titre s'affiche en police blanche, centré horizontalement et verticalement dans la bande bleue
+  - Positionnement : entre le logo et la photo
+  - Le titre est centré en hauteur dans la bande bleue (contrairement au logo et à la photo qui dépassent)
+
+- **CA3 - Contexte React pour partage du titre** :
+  - Création d'un contexte `PageTitleContext` (`contexts/PageTitleContext.tsx`)
+  - Provider `PageTitleProvider` avec state `pageTitle` et fonction `setPageTitle`
+  - Hook `usePageTitle()` pour accéder au contexte
+  - Intégration dans `app/layout.tsx` avec `PageTitleProvider`
+
+- **CA4 - Extraction et affichage** :
+  - `PageContentRenderer.tsx` extrait le premier `titreDePage` du contenu via `useEffect`
+  - Le titre est mis dans le contexte via `setPageTitle`
+  - Le `titreDePage` n'est pas affiché dans le contenu de la page (retourne `null` dans le switch)
+  - `Header.tsx` utilise `usePageTitle()` pour récupérer et afficher le titre conditionnellement
+
+- **CA5 - Styles du titre dans le Header** :
+  - `.titleContainer` : Position absolue, centré (`left: 50%`, `top: 50%`, `transform: translate(-50%, -50%)`)
+  - `.pageTitle` : Police blanche, police serif, taille 1.5rem, gras, centré
+  - Responsive : Réduction à 1.125rem sur mobile, ajustement du `max-width` pour éviter les chevauchements
+
+- **CA6 - Migration des pages** :
+  - Remplacement du premier `"type": "titre"` par `"type": "titreDePage"` dans :
+    - `profil-cpo.json` : "Produit logiciel"
+    - `profil-coo.json` : "Opérations"
+    - `profil-agile.json` : "Transformation Agile"
+    - `profil-cto.json` : "Technologie"
+    - `faisons-connaissance.json` : "Faisons connaissance"
+    - `detournement-video.json` : "Détournement de scènes cultes du cinéma"
+    - `portfolio-detournements.json` : "Portfolio de detournements vidéos"
+    - `pour-aller-plus-loin.json` : "Pour aller plus loin, je vous propose une expérience..."
+
+- **CA7 - Styles bouton principal HeroSection** :
+  - Inversion des styles hover/normal pour améliorer l'UX
+  - **État normal** (`.boutonPrincipal`) :
+    - `background-color: var(--BoutonCouleurFond)` (style sobre)
+    - `color: var(--BoutonCouleur)`
+    - `transform: translateY(0)` (pas de décalage)
+    - `box-shadow: none` (pas d'ombre)
+  - **État hover** (`.boutonPrincipal:hover`) :
+    - `background-color: var(--BoutonCouleurFondHover)` (style plus visible)
+    - `color: var(--BoutonCouleurTexteHover)`
+    - `transform: var(--BoutonTransformHover)` (effet de décalage)
+    - `box-shadow: var(--BoutonOmbreHover)` (ombre pour profondeur)
+
+- **CA8 - Client Component** :
+  - `PageContentRenderer.tsx` est marqué comme Client Component avec `'use client'` pour utiliser les hooks React (`useEffect`, `usePageTitle`)
+
+**Résultat attendu :**
+- Identification claire de la page courante via le titre dans le header
+- Meilleur feedback visuel sur les interactions (bouton sobre par défaut, plus visible au survol)
+- Expérience utilisateur améliorée avec navigation plus intuitive
 
 ---
 
@@ -268,7 +380,51 @@ Cette transformation nécessite :
 - Interlignes réduits pour optimiser l'espace vertical
 - Support du markdown inline (gras) dans les textes de la HERO
 
-### US-7.3 : ⏳ En attente
+### US-7.3 : ✅ Complétée
+
+**Livrables :**
+- ✅ 4 pages de profils créées : `/profil/cpo`, `/profil/coo`, `/profil/agile`, `/profil/cto`
+- ✅ Route Next.js dynamique : `app/profil/[slug]/page.tsx`
+- ✅ Pages JSON créées : `profil-cpo.json`, `profil-coo.json`, `profil-agile.json`, `profil-cto.json`
+- ✅ Domaines de compétences référencés depuis la bibliothèque selon PROPOSITION-DOMAINES-PAR-PROFIL.md
+- ✅ Vidéos intégrées selon LISTE-VIDEOS-PAR-PROFIL.md
+- ✅ Témoignages ajoutés avant le call-to-action (US-7.4)
+- ✅ Navigation fonctionnelle depuis la section HERO
+- ✅ Pages accessibles depuis le plan du site
+
+**Résultat :**
+- 4 profils ciblés opérationnels avec leurs domaines de compétences spécifiques
+- Structure cohérente : vidéo(s) → titre → domaines → témoignages → call-to-action
+- Navigation fluide depuis la page d'accueil vers les profils
+
+### US-7.4 : ✅ Complétée
+
+**Livrables :**
+- ✅ Section "Témoignages" ajoutée dans les 4 profils (`profil-cpo.json`, `profil-coo.json`, `profil-agile.json`, `profil-cto.json`)
+- ✅ Témoignages chargés depuis `data/_temoignages.json` partagé
+- ✅ Affichage via le composant `Temoignages.tsx` existant
+- ✅ Positionnement cohérent : avant le call-to-action final sur tous les profils
+
+**Résultat :**
+- Tous les profils affichent des témoignages clients avant le call-to-action
+- Amélioration de la crédibilité et de la confiance
+- Cohérence du message avec témoignages partagés
+
+### US-7.5 : ✅ Complétée
+
+**Livrables :**
+- ✅ Type `titreDePage` créé dans `utils/indexReader.ts`
+- ✅ Contexte `PageTitleContext` créé pour partager le titre avec le Header
+- ✅ `PageContentRenderer.tsx` marqué comme Client Component et extraction du titre
+- ✅ `Header.tsx` affiche le titre conditionnellement dans la bande bleue
+- ✅ Styles du titre : police blanche, centré verticalement et horizontalement
+- ✅ Migration de 8 pages : premier `titre` remplacé par `titreDePage`
+- ✅ Styles bouton HeroSection inversés : sobre par défaut, visible au survol
+
+**Résultat :**
+- Identification claire de la page courante via le titre dans le header
+- Meilleur feedback visuel sur les interactions (bouton principal)
+- Expérience utilisateur améliorée
 
 ---
 

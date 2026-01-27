@@ -48,7 +48,7 @@ Fonctionnalité: Section HERO orientée recherche d'emploi
     Alors je vois un container profil avec le titre depuis le JSON
     Et je vois la liste des job titles depuis le tableau jobTitles du JSON
     Et je vois un bouton d'accès qui pointe vers la route depuis le JSON
-    Et je vois le bouton "Voir mon CV"
+    Et je vois le bouton "Voir le CV"
 
   Scénario: Navigation vers une page de profil depuis le JSON
     Étant donné que le fichier "data/index.json" contient un élément de type "hero"
@@ -61,7 +61,7 @@ Fonctionnalité: Section HERO orientée recherche d'emploi
     Étant donné que le fichier "data/index.json" contient un élément de type "hero"
     Et que cet élément contient un profil avec cvPath "/data/CV/cpo.pdf"
     Quand je suis sur la page d'accueil
-    Et que je clique sur le bouton "Voir mon CV" du container profil correspondant
+    Et que je clique sur le bouton "Voir le CV" du container profil correspondant
     Alors le fichier CV défini dans cvPath du JSON est téléchargé
 
   Scénario: Disposition des containers de profils sur desktop

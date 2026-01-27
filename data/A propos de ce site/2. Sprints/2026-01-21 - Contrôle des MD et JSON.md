@@ -207,4 +207,3 @@ Garantir la qualité et la cohérence des fichiers Markdown et JSON du projet en
 - **Documentation** :
   - Mise à jour du journal de bord pour documenter cette implémentation
   - Note : Cette US invalide partiellement US-5.1 (qui validait l'interdiction H1/H2) et US-2.6 (ancienne validation H1/H2 interdits)
-

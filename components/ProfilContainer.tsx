@@ -7,7 +7,6 @@
 import React from 'react';
 import Link from 'next/link';
 import type { Profil } from '../utils/indexReader';
-import styles from './ProfilContainer.module.css';
 
 export interface ProfilContainerProps {
   profil: Profil;
@@ -15,21 +14,21 @@ export interface ProfilContainerProps {
 
 const ProfilContainer: React.FC<ProfilContainerProps> = ({ profil }) => {
   return (
-    <div className={styles.container}>
-      <h3 className={styles.titre}>{profil.titre}</h3>
+    <div className="profil">
+      <h3>{profil.titre}</h3>
       
-      <ul className={styles.jobTitles}>
+      <ul className="jobTitles">
         {profil.jobTitles.map((jobTitle, index) => (
-          <li key={index} className={styles.jobTitle}>
+          <li key={index} className="jobTitle">
             {jobTitle}
           </li>
         ))}
       </ul>
 
-      <div className={styles.boutons}>
+      <div className="boutons">
         <Link 
           href={profil.route} 
-          className={styles.boutonAcces}
+          className="bouton"
           data-e2eid={`profil-${profil.slug}-acces`}
         >
           Découvrir
@@ -38,10 +37,10 @@ const ProfilContainer: React.FC<ProfilContainerProps> = ({ profil }) => {
           href={profil.cvPath} 
           target="_blank"
           rel="noopener noreferrer"
-          className={styles.lienCV}
+          className="lienCV"
           data-e2eid={`profil-${profil.slug}-cv`}
         >
-          Voir mon CV
+          Voir le CV
         </a>
       </div>
     </div>

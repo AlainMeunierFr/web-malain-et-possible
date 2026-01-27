@@ -67,29 +67,28 @@ const VideoDetournement: React.FC<VideoDetournementProps> = ({ element }) => {
   });
 
   return (
-    <div className={styles.container}>
+    <div className="videoDetournement">
       {sortedItems.map((detournement, index) => {
         const videoDetourneeId = extraireIdYouTube(detournement.videoDetournee);
         const videoOriginaleId = extraireIdYouTube(detournement.videoOriginale);
         
         return (
-          <div key={detournement.id || index} className={styles.detournement}>
+          <div key={detournement.id || index} className="detournement">
             {/* Titre du détournement (H2) */}
-            <h2 className={styles.detournementTitle}>{detournement.titreVideoDetournee}</h2>
+            <h2>{detournement.titreVideoDetournee}</h2>
             
             {/* Pitch/Contexte */}
             <TexteLarge element={{ type: 'texteLarge', texte: detournement.pitch }} />
             
             {/* Container pour les deux vidéos côte à côte */}
-            <div className={styles.videosContainer}>
+            <div className="videosContainer">
               {/* Vidéo détournée (gauche) */}
-              <div className={styles.videoSection}>
-                <h3 className={styles.videoTitle}>Vidéo détournée</h3>
-                <p className={styles.videoSubtitle}>{detournement.pourLeCompteDe}</p>
+              <div className="videoSection">
+                <h3>Vidéo détournée</h3>
+                <p className="videoSubtitle">{detournement.pourLeCompteDe}</p>
                 {videoDetourneeId && (
-                  <div className={styles.videoWrapper}>
+                  <div className="videoWrapper">
                     <iframe
-                      className={styles.videoIframe}
                       src={`https://www.youtube.com/embed/${videoDetourneeId}?rel=0&modestbranding=1`}
                       title="Vidéo détournée"
                       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
@@ -144,13 +143,12 @@ const VideoDetournement: React.FC<VideoDetournementProps> = ({ element }) => {
               </div>
               
               {/* Vidéo originale (droite) */}
-              <div className={styles.videoSection}>
-                <h3 className={styles.videoTitle}>Vidéo originale</h3>
-                <p className={styles.videoSubtitle}>{detournement.titreVideoOriginale}</p>
+              <div className="videoSection">
+                <h3>Vidéo originale</h3>
+                <p className="videoSubtitle">{detournement.titreVideoOriginale}</p>
                 {videoOriginaleId && (
-                  <div className={styles.videoWrapper}>
+                  <div className="videoWrapper">
                     <iframe
-                      className={styles.videoIframe}
                       src={`https://www.youtube.com/embed/${videoOriginaleId}?rel=0&modestbranding=1`}
                       title="Vidéo originale"
                       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"

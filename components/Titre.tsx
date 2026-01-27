@@ -5,7 +5,6 @@
 
 import React from 'react';
 import type { ElementTitre } from '../utils/indexReader';
-import styles from './Titre.module.css';
 
 export interface TitreProps {
   element: ElementTitre;
@@ -13,8 +12,8 @@ export interface TitreProps {
 
 const Titre: React.FC<TitreProps> = ({ element }) => {
   return (
-    <div className={styles.titreContainer}>
-      <h1 className={styles.titreText}>{element.texte}</h1>
+    <div className="titre">
+      <h1>{element.texte}</h1>
     </div>
   );
 };

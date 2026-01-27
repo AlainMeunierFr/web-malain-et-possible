@@ -1,8 +1,8 @@
 {
   "contenu": [
     {
-      "type": "titre",
-      "texte": "Liste des pages du site"
+      "type": "titreDePage",
+      "texte": "Plan du site"
     },
     {
       "type": "listeDesPages"

@@ -68,7 +68,7 @@ describe('Composant ProfilContainer', () => {
     expect(boutonAcces).toHaveAttribute('href', '/profil/cpo');
   });
 
-  it('devrait avoir un lien "Voir mon CV"', () => {
+  it('devrait avoir un lien "Voir le CV"', () => {
     const profil: Profil = {
       type: 'profil',
       titre: 'Produit logiciel',
@@ -80,9 +80,9 @@ describe('Composant ProfilContainer', () => {
 
     render(<ProfilContainer profil={profil} />);
 
-    const lienCV = screen.getByText('Voir mon CV');
+    const lienCV = screen.getByText('Voir le CV');
     expect(lienCV).toBeInTheDocument();
     expect(lienCV).toHaveAttribute('href', '/CV/cpo.pdf');
-    expect(lienCV).toHaveAttribute('download');
+    expect(lienCV).toHaveAttribute('target', '_blank');
   });
 });

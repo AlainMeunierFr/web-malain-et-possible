@@ -19,6 +19,7 @@ export interface Competence {
   };
   icon?: string; // Nom de l'icône lucide-react (ex: "Rocket", "Globe")
   description: string;
+  auteur?: string; // Auteur optionnel de la citation
   bouton: {
     texte: string;
     action: string;

@@ -3,98 +3,106 @@
     {
       "url": "/",
       "titre": "Home",
-      "x": 500,
-      "y": 600,
-      "numero": 42,
+      "x": null,
+      "y": null,
       "dessiner": "Oui",
-      "e2eIDs": [
-        "e2e1",
-        "e2e2"
-      ]
+      "zone": "HomePage"
     },
     {
       "url": "/a-propos-du-site",
       "titre": "a-propos-du-site",
-      "x": 200,
-      "y": 200,
-      "dessiner": "Oui"
+      "x": null,
+      "y": null,
+      "dessiner": "Oui",
+      "zone": "Footer"
     },
     {
       "url": "/detournement-video",
-      "titre": "detournement-video",
+      "titre": "Détournement de scènes cultes du cinéma",
       "x": null,
       "y": null,
-      "dessiner": "Oui"
+      "dessiner": "Oui",
+      "zone": "Autres"
+    },
+    {
+      "url": "/faisons-connaissance",
+      "titre": "Faisons connaissance",
+      "x": null,
+      "y": null,
+      "dessiner": "Oui",
+      "zone": "Footer"
     },
     {
       "url": "/maintenance",
       "titre": "maintenance",
       "x": null,
       "y": null,
-      "dessiner": "Non"
+      "dessiner": "Non",
+      "zone": "Masqué"
     },
     {
       "url": "/metrics",
       "titre": "metrics",
       "x": null,
       "y": null,
-      "dessiner": "Oui"
+      "dessiner": "Oui",
+      "zone": "Footer"
     },
     {
       "url": "/plan-du-site",
-      "titre": "Liste des pages du site",
+      "titre": "Plan du site",
       "x": null,
       "y": null,
-      "dessiner": "Non"
+      "dessiner": "Non",
+      "zone": "Masqué"
     },
     {
       "url": "/portfolio-detournements",
-      "titre": "portfolio-detournements",
+      "titre": "Portfolio de detournements vidéos",
       "x": null,
       "y": null,
-      "dessiner": "Oui"
+      "dessiner": "Oui",
+      "zone": "Autres"
     },
     {
       "url": "/pour-aller-plus-loin",
-      "titre": "A propos de moi",
+      "titre": "Pour aller plus loin, je vous propose une expérience...",
       "x": null,
       "y": null,
-      "dessiner": "Oui"
-    },
-    {
-      "url": "/test-fonts",
-      "titre": "test-fonts",
-      "x": null,
-      "y": null,
-      "dessiner": "Oui"
+      "dessiner": "Oui",
+      "zone": "Autres"
     },
     {
       "url": "/profil/cpo",
-      "titre": "Témoignages",
+      "titre": "Produit logiciel",
       "x": null,
       "y": null,
-      "dessiner": "Oui"
+      "dessiner": "Oui",
+      "zone": "Profils"
     },
     {
       "url": "/profil/coo",
-      "titre": "Témoignages",
+      "titre": "Opérations",
       "x": null,
       "y": null,
-      "dessiner": "Oui"
+      "dessiner": "Oui",
+      "zone": "Profils"
     },
     {
       "url": "/profil/agile",
-      "titre": "Témoignages",
+      "titre": "Transformation Agile",
       "x": null,
       "y": null,
-      "dessiner": "Oui"
+      "dessiner": "Oui",
+      "zone": "Profils"
     },
     {
       "url": "/profil/cto",
-      "titre": "Témoignages",
+      "titre": "Technologie",
       "x": null,
       "y": null,
-      "dessiner": "Oui"
+      "dessiner": "Oui",
+      "zone": "Profils"
     }
   ],
   "liens": [
@@ -114,6 +122,11 @@
       "label": "Plan du site"
     },
     {
+      "source": "/faisons-connaissance",
+      "destination": "/plan-du-site",
+      "label": "Plan du site"
+    },
+    {
       "source": "/maintenance",
       "destination": "/plan-du-site",
       "label": "Plan du site"
@@ -135,11 +148,6 @@
     },
     {
       "source": "/pour-aller-plus-loin",
-      "destination": "/plan-du-site",
-      "label": "Plan du site"
-    },
-    {
-      "source": "/test-fonts",
       "destination": "/plan-du-site",
       "label": "Plan du site"
     },
@@ -179,6 +187,11 @@
       "label": "BarChart3"
     },
     {
+      "source": "/faisons-connaissance",
+      "destination": "/metrics",
+      "label": "BarChart3"
+    },
+    {
       "source": "/maintenance",
       "destination": "/metrics",
       "label": "BarChart3"
@@ -200,11 +213,6 @@
     },
     {
       "source": "/pour-aller-plus-loin",
-      "destination": "/metrics",
-      "label": "BarChart3"
-    },
-    {
-      "source": "/test-fonts",
       "destination": "/metrics",
       "label": "BarChart3"
     },
@@ -244,6 +252,11 @@
       "label": "Info"
     },
     {
+      "source": "/faisons-connaissance",
+      "destination": "/a-propos-du-site",
+      "label": "Info"
+    },
+    {
       "source": "/maintenance",
       "destination": "/a-propos-du-site",
       "label": "Info"
@@ -265,11 +278,6 @@
     },
     {
       "source": "/pour-aller-plus-loin",
-      "destination": "/a-propos-du-site",
-      "label": "Info"
-    },
-    {
-      "source": "/test-fonts",
       "destination": "/a-propos-du-site",
       "label": "Info"
     },

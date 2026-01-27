@@ -13,7 +13,6 @@ import {
   Phone,
   type LucideIcon,
 } from 'lucide-react';
-import styles from './GroupeBoutons.module.css';
 
 export interface GroupeBoutonsProps {
   element: ElementGroupeBoutons;
@@ -81,10 +80,10 @@ const GroupeBoutons: React.FC<GroupeBoutonsProps> = ({ element }) => {
     }
   };
 
-  const tailleClass = element.taille === 'petite' ? styles.taillePetite : styles.tailleGrande;
+  const tailleClass = element.taille === 'petite' ? 'taillePetite' : 'tailleGrande';
 
   return (
-    <div className={`${styles.groupeBoutonsContainer} ${tailleClass}`}>
+    <div className={`groupeBoutons ${tailleClass}`}>
       {element.boutons.map((bouton) => {
         const IconComponent = iconMap[bouton.icone];
 
@@ -98,16 +97,16 @@ const GroupeBoutons: React.FC<GroupeBoutonsProps> = ({ element }) => {
         return (
           <button
             key={bouton.id}
-            className={`${styles.bouton} ${styles.couleurInversee}`}
+            className="bouton"
             onClick={() => handleButtonClick(bouton)}
             aria-label={bouton.texte || bouton.icone}
             type="button"
           >
             <IconComponent
               size={element.taille === 'petite' ? 30 : 24}
-              className={styles.icon}
+              className="icon"
             />
-            {afficherTexte && <span className={styles.texte}>{bouton.texte}</span>}
+            {afficherTexte && <span className="texte">{bouton.texte}</span>}
           </button>
         );
       })}

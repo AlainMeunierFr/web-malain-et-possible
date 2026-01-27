@@ -66,6 +66,7 @@ export function resolvePageReferences(
           description: competence.description || '',
           image: competence.image,
           icon: competence.icon,
+          auteur: competence.auteur,
           bouton: boutonNormalise,
         };
         competencesResolues.push(competenceResolue);

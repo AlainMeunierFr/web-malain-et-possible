@@ -57,20 +57,23 @@
   /* Force le mode clair pour éviter les transformations automatiques */
   color-scheme: light;
   
-  /* Constantes conceptuelles pour les boutons standards (basées sur ListeDesPages) */
-  /* Ces constantes peuvent être modifiées en une seule fois pour changer tous les boutons */
-  --BoutonCouleur: var(--BleuFonce);
-  --BoutonCouleurFond: var(--background);
-  --BoutonCouleurFondHover: var(--BleuClair);
+  /* Constantes conceptuelles pour les boutons standards - Design moderne et professionnel */
+  /* Style moderne : fond plein avec ombre subtile, police Outfit pour cohérence */
+  --BoutonCouleur: #ffffff;
+  --BoutonCouleurFond: var(--BleuFonce);
+  --BoutonCouleurFondHover: #005A9E; /* Bleu plus foncé au hover */
   --BoutonCouleurTexteHover: var(--BoutonCouleur);
-  --BoutonPolice: 'Clint Marker', cursive;
-  --BoutonTaillePolice: 23.4px;
-  --BoutonPoidsPolice: bold;
-  --BoutonContour: 2px solid var(--BoutonCouleur);
-  --BoutonContourRadius: 8px;
-  --BoutonTransition: all 0.2s ease;
-  --BoutonOmbreHover: 0 4px 8px rgba(0, 112, 192, 0.3);
-  --BoutonTransformHover: translateY(-2px);
+  --BoutonPolice: 'Outfit', sans-serif; /* Police moderne au lieu de cursive */
+  --BoutonTaillePolice: 16px; /* Taille plus standard et professionnelle */
+  --BoutonPoidsPolice: 600; /* SemiBold pour un look moderne */
+  --BoutonContour: none; /* Pas de bordure pour un style plus moderne */
+  --BoutonContourRadius: 6px; /* Border radius légèrement réduit pour modernité */
+  --BoutonTransition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); /* Transition plus fluide */
+  --BoutonOmbre: 0 2px 4px rgba(0, 112, 192, 0.15); /* Ombre subtile par défaut */
+  --BoutonOmbreHover: 0 4px 12px rgba(0, 112, 192, 0.25); /* Ombre plus prononcée au hover */
+  --BoutonTransformHover: translateY(-1px); /* Déplacement plus subtil */
+  --BoutonPaddingVertical: 12px; /* Padding vertical généreux */
+  --BoutonPaddingHorizontal: 24px; /* Padding horizontal généreux */
 }
 
 @theme inline {

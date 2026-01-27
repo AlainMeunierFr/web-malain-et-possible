@@ -3,7 +3,7 @@ Créer 6 dessins en facilitation graphique pour enrichir le contenu visuel du si
 
 ---
 
-## US-6.1 : Création de 6 dessins en facilitation graphique
+## US-6.1 : Création de 6 dessins en facilitation graphique ✅ COMPLÉTÉ
 
 - **En tant que** Product Owner
 - **Je souhaite** Disposer de 6 dessins en facilitation graphique dans le style de l'existant

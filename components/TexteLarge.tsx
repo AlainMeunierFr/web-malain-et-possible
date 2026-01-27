@@ -7,7 +7,6 @@
 import React from 'react';
 import type { ElementTexteLarge } from '../utils/indexReader';
 import { parseInlineMarkdown } from '../utils/markdownInlineParser';
-import styles from './TexteLarge.module.css';
 
 export interface TexteLargeProps {
   element: ElementTexteLarge;
@@ -20,7 +19,7 @@ function renderTextWithLineBreaks(text: string): React.ReactNode[] {
   const paragraphs = text.split('\n\n');
   
   return paragraphs.map((paragraph, index) => (
-    <p key={index} className={styles.texteLargeText}>
+    <p key={index}>
       {parseInlineMarkdown(paragraph)}
     </p>
   ));
@@ -28,7 +27,7 @@ function renderTextWithLineBreaks(text: string): React.ReactNode[] {
 
 const TexteLarge: React.FC<TexteLargeProps> = ({ element }) => {
   return (
-    <div className={styles.texteLargeContainer}>
+    <div className="texteLarge">
       {renderTextWithLineBreaks(element.texte)}
     </div>
   );

@@ -5,7 +5,6 @@
 
 import React from 'react';
 import type { ElementVideo } from '../utils/indexReader';
-import styles from './Video.module.css';
 
 export interface VideoProps {
   element: ElementVideo;
@@ -38,8 +37,8 @@ const Video: React.FC<VideoProps> = ({ element, backgroundColor = 'white' }) => 
   const videoId = extraireIdYouTube(element.urlYouTube);
 
   const containerClass = backgroundColor === 'light'
-    ? `${styles.videoContainer} ${styles.videoContainerLight}`
-    : styles.videoContainer;
+    ? 'video light'
+    : 'video';
 
   if (!videoId) {
     return (
@@ -57,11 +56,10 @@ const Video: React.FC<VideoProps> = ({ element, backgroundColor = 'white' }) => 
   return (
     <div className={containerClass}>
       {(element as any).titre && (
-        <h2 className={styles.videoTitre}>{(element as any).titre}</h2>
+        <h2>{(element as any).titre}</h2>
       )}
-      <div className={styles.videoWrapper}>
+      <div className="videoWrapper">
         <iframe
-          className={styles.videoIframe}
           src={embedUrl}
           title="YouTube video player"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
