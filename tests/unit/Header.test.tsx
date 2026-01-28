@@ -57,28 +57,26 @@ describe('Header', () => {
   it('devrait naviguer vers HOME au clic sur le logo', () => {
     renderWithProvider(<Header />);
     
-    const logo = screen.getByAltText('Logo Malain et possible');
-    fireEvent.click(logo);
-    
-    expect(mockPush).toHaveBeenCalledWith('/');
+    const logoLink = screen.getByAltText('Logo Malain et possible').closest('a');
+    expect(logoLink).toBeInTheDocument();
+    // Le Link de Next.js pointe vers HOME
+    expect(logoLink).toHaveAttribute('href', '/');
   });
 
   it('devrait naviguer vers HOME avec Enter sur le logo', () => {
     renderWithProvider(<Header />);
     
-    const logo = screen.getByAltText('Logo Malain et possible');
-    fireEvent.keyDown(logo, { key: 'Enter' });
-    
-    expect(mockPush).toHaveBeenCalledWith('/');
+    const logoLink = screen.getByAltText('Logo Malain et possible').closest('a');
+    expect(logoLink).toBeInTheDocument();
+    expect(logoLink).toHaveAttribute('href', '/');
   });
 
   it('devrait naviguer vers HOME avec Space sur le logo', () => {
     renderWithProvider(<Header />);
     
-    const logo = screen.getByAltText('Logo Malain et possible');
-    fireEvent.keyDown(logo, { key: ' ' });
-    
-    expect(mockPush).toHaveBeenCalledWith('/');
+    const logoLink = screen.getByAltText('Logo Malain et possible').closest('a');
+    expect(logoLink).toBeInTheDocument();
+    expect(logoLink).toHaveAttribute('href', '/');
   });
 
   it('ne devrait pas naviguer avec une autre touche', () => {

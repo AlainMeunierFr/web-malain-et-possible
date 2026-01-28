@@ -21,6 +21,7 @@
     "metrics:collect": "ts-node scripts/collect-metrics-simple.ts",
     "metrics:view": "npm run dev",
     "metrics:full": "npm run metrics:collect && npm run dev",
+    "publie": "ts-node scripts/publie.ts",
     "precommit": "ts-node scripts/pre-commit-generate-e2e.ts",
     "version:patch": "ts-node scripts/increment-site-version.ts patch",
     "version:minor": "ts-node scripts/increment-site-version.ts minor",

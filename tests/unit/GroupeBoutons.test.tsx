@@ -111,7 +111,8 @@ describe('Composant GroupeBoutons', () => {
 
     render(<GroupeBoutons element={element} />);
 
-    const icone = screen.getByRole('button');
+    // Le composant rend un <a> (lien), pas un <button>
+    const icone = screen.getByRole('link');
     expect(icone).toBeInTheDocument();
     // Pas de texte visible pour les boutons "petite"
     expect(icone).not.toHaveTextContent('Test');
@@ -134,7 +135,8 @@ describe('Composant GroupeBoutons', () => {
 
     render(<GroupeBoutons element={element} />);
 
-    const bouton = screen.getByRole('button');
+    // Le composant rend un <a> (lien), pas un <button>
+    const bouton = screen.getByRole('link');
     expect(bouton).toBeInTheDocument();
     expect(bouton).toHaveTextContent('Envoyer email');
   });
@@ -155,7 +157,8 @@ describe('Composant GroupeBoutons', () => {
     };
 
     const { container } = render(<GroupeBoutons element={element} />);
-    const bouton = container.querySelector('button');
+    // Le composant rend un <a> (lien), pas un <button>
+    const bouton = container.querySelector('a');
 
     // Les boutons de taille petite sont transparents (pas de fond, pas de bordure)
     expect(bouton).toHaveClass('bouton');
@@ -210,10 +213,10 @@ describe('Composant GroupeBoutons', () => {
     };
 
     render(<GroupeBoutons element={element} />);
-    const bouton = screen.getByRole('button');
-    bouton.click();
-
-    expect(mockPush).toHaveBeenCalledWith('/test');
+    // Le composant rend un <Link> de Next.js pour les commandes internes
+    const bouton = screen.getByRole('link');
+    // Le Link pointe vers la route correspondant à la commande
+    expect(bouton).toHaveAttribute('href', '/test');
   });
 
   it('devrait ouvrir une URL externe via window.open', () => {
@@ -235,10 +238,11 @@ describe('Composant GroupeBoutons', () => {
     };
 
     render(<GroupeBoutons element={element} />);
-    const bouton = screen.getByRole('button');
-    bouton.click();
-
-    expect(mockOpen).toHaveBeenCalledWith('https://youtube.com', '_blank', 'noopener,noreferrer');
+    // Le composant rend un <a> (lien), pas un <button>
+    const bouton = screen.getByRole('link');
+    expect(bouton).toHaveAttribute('href', 'https://youtube.com');
+    expect(bouton).toHaveAttribute('target', '_blank');
+    expect(bouton).toHaveAttribute('rel', 'noopener noreferrer');
   });
 
   // Note: Tests pour mailto: et tel: (window.location.href) non testables avec JSDOM
@@ -267,10 +271,10 @@ describe('Composant GroupeBoutons', () => {
     };
 
     render(<GroupeBoutons element={element} />);
-    const bouton = screen.getByRole('button');
-    bouton.click();
-
-    expect(mockPush).toHaveBeenCalledWith('/about');
+    // Le composant rend un <a> externe pour les URLs sans commande correspondante
+    const bouton = screen.getByRole('link');
+    expect(bouton).toHaveAttribute('href', '/about');
+    expect(bouton).toHaveAttribute('target', '_blank');
   });
 
   it('devrait naviguer en interne pour URL localhost', () => {
@@ -296,9 +300,9 @@ describe('Composant GroupeBoutons', () => {
     };
 
     render(<GroupeBoutons element={element} />);
-    const bouton = screen.getByRole('button');
-    bouton.click();
-
-    expect(mockPush).toHaveBeenCalledWith('/about');
+    // Le composant rend un <a> externe pour les URLs localhost sans commande
+    const bouton = screen.getByRole('link');
+    expect(bouton).toHaveAttribute('href', 'http://localhost:3000/about');
+    expect(bouton).toHaveAttribute('target', '_blank');
   });
 });

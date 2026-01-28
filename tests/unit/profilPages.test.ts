@@ -87,7 +87,10 @@ describe('profilPages - Approche TDD', () => {
       const profilPath = path.join(process.cwd(), 'data', 'profil-cpo.json');
 
       mockFs.existsSync.mockImplementation((filePath: string) => {
-        return filePath === profilPath || filePath === competencesPath || filePath === domainesPath;
+        return filePath === profilPath || 
+               filePath === competencesPath || 
+               filePath === domainesPath ||
+               filePath.includes('experience-et-autres-informations.json');
       });
 
       mockFs.readFileSync.mockImplementation((file: string) => {
@@ -152,6 +155,11 @@ describe('profilPages - Approche TDD', () => {
                 bouton: null,
               },
             },
+          });
+        }
+        if (file.includes('experience-et-autres-informations.json')) {
+          return JSON.stringify({
+            autres: {},
           });
         }
         return '{}';
@@ -262,6 +270,7 @@ describe('profilPages - Approche TDD', () => {
         if (filePath.includes('profil-agile.json')) return true;
         if (filePath.includes('competences.json')) return true;
         if (filePath.includes('domaines.json')) return true;
+        if (filePath.includes('experience-et-autres-informations.json')) return true;
         return false;
       });
 
@@ -274,6 +283,9 @@ describe('profilPages - Approche TDD', () => {
         }
         if (filePath.includes('domaines.json')) {
           return JSON.stringify(mockDomaines);
+        }
+        if (filePath.includes('experience-et-autres-informations.json')) {
+          return JSON.stringify({ autres: {} });
         }
         return '{}';
       });
@@ -352,10 +364,15 @@ describe('profilPages - Approche TDD', () => {
 
       const competencesPath = path.join(process.cwd(), 'data', 'bibliotheque', 'competences.json');
       const domainesPath = path.join(process.cwd(), 'data', 'bibliotheque', 'domaines.json');
+      const autresPath = path.join(process.cwd(), 'data', 'bibliotheque', 'experience-et-autres-informations.json');
       const profilPath = path.join(process.cwd(), 'data', 'profil-cpo.json');
 
       mockFs.existsSync.mockImplementation((filePath: string) => {
-        return filePath === profilPath || filePath === competencesPath || filePath === domainesPath;
+        return filePath === profilPath || 
+               filePath === competencesPath || 
+               filePath === domainesPath || 
+               filePath === autresPath ||
+               filePath.includes('experience-et-autres-informations.json');
       });
 
       mockFs.readFileSync.mockImplementation((file: string) => {
@@ -378,6 +395,9 @@ describe('profilPages - Approche TDD', () => {
           return JSON.stringify({
             competences: {},
           });
+        }
+        if (file === autresPath || file.includes('experience-et-autres-informations.json')) {
+          return JSON.stringify({ autres: {} });
         }
         return '{}';
       });
@@ -446,10 +466,11 @@ describe('profilPages - Approche TDD', () => {
 
       const competencesPath = path.join(process.cwd(), 'data', 'bibliotheque', 'competences.json');
       const domainesPath = path.join(process.cwd(), 'data', 'bibliotheque', 'domaines.json');
+      const autresPath = path.join(process.cwd(), 'data', 'bibliotheque', 'experience-et-autres-informations.json');
       const profilPath = path.join(process.cwd(), 'data', 'profil-cpo.json');
 
       mockFs.existsSync.mockImplementation((filePath: string) => {
-        return filePath === profilPath || filePath === competencesPath || filePath === domainesPath;
+        return filePath === profilPath || filePath === competencesPath || filePath === domainesPath || filePath === autresPath;
       });
 
       mockFs.readFileSync.mockImplementation((file: string) => {
@@ -479,6 +500,9 @@ describe('profilPages - Approche TDD', () => {
               },
             },
           });
+        }
+        if (file === autresPath || file.includes('experience-et-autres-informations.json')) {
+          return JSON.stringify({ autres: {} });
         }
         return '{}';
       });

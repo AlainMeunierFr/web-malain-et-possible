@@ -114,6 +114,12 @@ const genererCheminComplet = (liens: PlanLien[]): { chemin: string[]; liensUtili
     console.warn(`⚠️  ${liensRestants.length} lien(s) non testé(s) (vers pages exclues ou inaccessibles)`);
   }
 
+  // Si le chemin est vide mais qu'il y a des pages dans le plan, visiter au moins l'accueil
+  if (chemin.length === 0) {
+    // Visiter au moins la page d'accueil pour pouvoir tester les e2eID
+    chemin.push('/');
+  }
+
   return { chemin, liensUtilises };
 };
 
@@ -218,6 +224,11 @@ const genererCodeTest = (chemin: string[], liens: PlanLien[], inventory: E2eIdIn
   // Créer un Set pour suivre les e2eID déjà testés
   const e2eIdsTestes = new Set<string>();
   let e2eIdTestIndex = 0;
+
+  // Si le chemin est vide, visiter au moins la page d'accueil pour tester les e2eID
+  if (chemin.length === 0 && inventory.length > 0) {
+    chemin = ['/']; // Visiter au moins la page d'accueil
+  }
 
   // Générer les étapes du test avec test.step() pour visibilité dans l'UI
   for (let i = 0; i < chemin.length; i++) {

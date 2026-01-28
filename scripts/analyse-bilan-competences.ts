@@ -22,6 +22,8 @@ interface Domaine {
   id: string;
   titre: string;
   competences: string[];
+  contenu?: string;
+  auteur?: string;
 }
 
 interface Experience {
