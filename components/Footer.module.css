@@ -88,3 +88,37 @@
     min-width: 40px;
   }
 }
+
+/* Écrans ultra-larges (≥2560px) - 2K et écrans ultra-larges */
+@media (min-width: 2560px) {
+  .footer {
+    min-height: 70px;
+  }
+
+  .version {
+    font-size: 1.125rem;
+    margin-left: 100px;
+  }
+
+  .iconImage {
+    min-height: 45px;
+    min-width: 45px;
+  }
+}
+
+/* Écrans ultra-ultra-larges (≥3840px) - 4K et écrans 32:9 */
+@media (min-width: 3840px) {
+  .footer {
+    min-height: 80px;
+  }
+
+  .version {
+    font-size: 1.25rem;
+    margin-left: 120px;
+  }
+
+  .iconImage {
+    min-height: 50px;
+    min-width: 50px;
+  }
+}

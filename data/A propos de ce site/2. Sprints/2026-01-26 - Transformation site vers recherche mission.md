@@ -260,7 +260,7 @@ Cette transformation nécessite :
 
 ---
 
-## US-7.5 : Améliorations design - TitreDePage et styles bouton HeroSection
+## US-7.5 : Améliorations design - TitreDePage et styles bouton HeroSection ✅ COMPLÉTÉ
 
 - **En tant que** visiteur/recruteur
 - **Je souhaite** avoir une meilleure expérience visuelle et de navigation
@@ -425,6 +425,151 @@ Cette transformation nécessite :
 - Identification claire de la page courante via le titre dans le header
 - Meilleur feedback visuel sur les interactions (bouton principal)
 - Expérience utilisateur améliorée
+
+## US-7.6 : Support écrans ultra-larges (3840x1080)
+
+- **En tant que** visiteur avec un écran ultra-large (3840x1080 ou similaire)
+- **Je souhaite** que le contenu soit centré et limité en largeur
+- **Afin de** garantir une lisibilité optimale et éviter que le texte soit trop étalé
+
+- **Critères d'acceptation :**
+
+- **CA1 - Container global pour centrer le contenu :**
+  - Création d'un container global dans `app/shared.module.css` pour centrer tout le contenu
+  - Largeur max adaptée pour les écrans ultra-larges (≥2560px)
+  - Centrage automatique avec `margin: 0 auto`
+
+- **CA2 - Media queries pour écrans ultra-larges :**
+  - Ajout de media queries pour `@media (min-width: 2560px)` (écrans 2K/ultra-larges)
+  - Ajout de media queries pour `@media (min-width: 3840px)` (écrans 4K/ultra-ultra-larges)
+  - Ajustement des `max-width` pour tous les types de contenu
+
+- **CA3 - Largeurs max optimisées :**
+  - **Écrans ≥2560px** : `max-width: 1600px` pour les contenus principaux
+  - **Écrans ≥3840px** : `max-width: 1800px` pour les contenus principaux
+  - Largeurs spécifiques pour vidéos, témoignages, etc.
+
+- **CA4 - Centrage systématique :**
+  - Tous les éléments de contenu sont centrés horizontalement
+  - Le contenu ne s'étale pas sur toute la largeur de l'écran
+  - Espacement équilibré de chaque côté
+
+- **CA5 - Ajustements de polices et espacements :**
+  - Polices légèrement augmentées pour meilleure lisibilité sur grands écrans
+  - Espacements (padding/margin) ajustés proportionnellement
+  - Cohérence visuelle maintenue
+
+**Résultat attendu :**
+- Le site est parfaitement lisible et centré sur écrans ultra-larges (3840x1080)
+- Le contenu ne s'étale pas sur toute la largeur
+- Expérience utilisateur optimale sur tous les types d'écrans
+
+### US-7.6 : ✅ Complétée
+
+**Livrables :**
+- ✅ Media queries pour écrans ultra-larges (≥2560px) ajoutées dans `app/content-styles.css`
+- ✅ Media queries pour écrans ultra-ultra-larges (≥3840px) ajoutées dans `app/content-styles.css`
+- ✅ Ajustements des `max-width` pour tous les types de contenu :
+  - **≥2560px** : `max-width: 1600px` pour contenus principaux
+  - **≥3840px** : `max-width: 1800px` pour contenus principaux
+- ✅ Ajustements des polices et espacements pour meilleure lisibilité
+- ✅ Media queries ajoutées pour pages spécifiques (`metrics.module.css`, `about.module.css`)
+- ✅ Centrage systématique avec `margin: 0 auto` sur tous les éléments
+
+**Résultat :**
+- Le site est parfaitement lisible et centré sur écrans ultra-larges (3840x1080)
+- Le contenu ne s'étale pas sur toute la largeur, restant dans des largeurs optimales pour la lisibilité
+- Expérience utilisateur optimale sur tous les types d'écrans (mobile, tablette, desktop, ultra-large)
+
+## US-7.8 : Support complet écrans ultra-larges 3840x1080 (Header et Footer)
+
+- **En tant que** visiteur avec un écran ultra-large (3840x1080 ou similaire)
+- **Je souhaite** que le Header et le Footer soient également optimisés pour mon écran
+- **Afin de** avoir une expérience cohérente et lisible sur tous les éléments de la page
+
+- **Critères d'acceptation :**
+
+- **CA1 - Header optimisé pour écrans ultra-larges :**
+  - Media queries pour `@media (min-width: 2560px)` ajoutées dans `Header.module.css`
+  - Media queries pour `@media (min-width: 3840px)` ajoutées dans `Header.module.css`
+  - Hauteur du header ajustée proportionnellement
+  - Logo et photo dimensionnés correctement
+  - Titre de page (pageTitle) avec taille de police adaptée
+
+- **CA2 - Footer optimisé pour écrans ultra-larges :**
+  - Media queries pour `@media (min-width: 2560px)` ajoutées dans `Footer.module.css`
+  - Media queries pour `@media (min-width: 3840px)` ajoutées dans `Footer.module.css`
+  - Hauteur du footer ajustée proportionnellement
+  - Icônes des boutons dimensionnées correctement
+  - Texte de version avec taille de police adaptée
+
+- **CA3 - Cohérence visuelle :**
+  - Les ajustements sont proportionnels et cohérents avec les autres éléments
+  - Le Header et Footer restent lisibles et fonctionnels sur tous les écrans
+  - Pas de chevauchement ou d'espacement excessif
+
+**Résultat attendu :**
+- Le Header et Footer sont parfaitement adaptés aux écrans ultra-larges (3840x1080)
+- Expérience utilisateur cohérente sur tous les éléments de la page
+- Support complet pour tous les types d'écrans (mobile, tablette, desktop, ultra-large)
+
+### US-7.8 : ✅ Complétée
+
+**Livrables :**
+- ✅ Media queries pour écrans ultra-larges (≥2560px) ajoutées dans `Header.module.css`
+- ✅ Media queries pour écrans ultra-ultra-larges (≥3840px) ajoutées dans `Header.module.css`
+- ✅ Media queries pour écrans ultra-larges (≥2560px) ajoutées dans `Footer.module.css`
+- ✅ Media queries pour écrans ultra-ultra-larges (≥3840px) ajoutées dans `Footer.module.css`
+- ✅ Ajustements proportionnels de hauteurs, tailles de police et espacements
+- ✅ Vérification que les styles HeroSection sont déjà gérés dans `content-styles.css`
+
+**Résultat :**
+- Le Header et Footer sont parfaitement adaptés aux écrans ultra-larges (3840x1080)
+- Hauteurs, logos, photos, icônes et textes sont dimensionnés proportionnellement
+- Expérience utilisateur cohérente sur tous les éléments de la page
+- Support complet pour tous les types d'écrans (mobile, tablette, desktop, ultra-large)
+
+## US-7.7 : Ajouter "Faisons connaissance" dans le footer ✅ COMPLÉTÉ
+
+- **En tant que** visiteur du site
+- **Je veux** accéder rapidement à la page "Faisons connaissance" depuis le footer
+- **Afin de** pouvoir prendre contact avec Alain Meunier et planifier un échange
+
+- **Critères d'acceptation :**
+
+- **CA1 - Bouton Calendrier dans le footer :**
+  - Un bouton avec l'icône "Calendrier" est présent dans le footer
+  - Le bouton est positionné à gauche du bouton "Email" (Mail)
+
+- **CA2 - Infobulle :**
+  - Au survol, une infobulle affiche "faisons connaissance"
+
+- **CA3 - Navigation :**
+  - Le clic sur le bouton redirige vers "/faisons-connaissance"
+
+- **CA4 - Plan du site :**
+  - Dans le plan du site, la page "Faisons connaissance" est dans la zone "Footer" (au lieu de "Autres")
+
+**Résultat attendu :**
+- Le bouton "Calendrier" est accessible depuis toutes les pages via le footer
+- Navigation fluide vers la page de contact
+- Cohérence avec les autres boutons du footer
+
+### US-7.7 : ✅ Complétée
+
+**Livrables :**
+- ✅ Commande `FAISONS_CONNAISSANCE` ajoutée dans `constants/routes.ts`
+- ✅ Mapping dans `utils/buttonHandlers.ts` pour la navigation
+- ✅ Icône `Calendar` ajoutée dans `components/FooterButton.tsx`
+- ✅ Bouton configuré dans `data/_footerButtons.json` avec tooltip "faisons connaissance"
+- ✅ Zone "Footer" assignée à `/faisons-connaissance` dans le plan du site
+- ✅ Tests unitaires créés et passent
+
+**Résultat :**
+- Le bouton "Calendrier" est présent dans le footer, à gauche du bouton "Email"
+- L'infobulle "faisons connaissance" s'affiche au survol
+- Le clic redirige vers "/faisons-connaissance"
+- La page "Faisons connaissance" est dans la zone "Footer" dans le plan du site
 
 ---
 

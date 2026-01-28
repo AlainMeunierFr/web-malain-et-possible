@@ -1003,3 +1003,269 @@
     margin-top: 40px;
   }
 }
+
+/* ============================================
+   ÉCRANS ULTRA-LARGES (≥2560px) - 2K et écrans ultra-larges
+   ============================================ */
+@media (min-width: 2560px) {
+  /* Augmenter les max-width pour utiliser plus d'espace tout en restant lisible */
+  .texteLarge,
+  .domaineDeCompetence,
+  .callToAction,
+  .groupeBoutons {
+    max-width: 1600px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .hero .content {
+    max-width: 1600px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .video {
+    max-width: 1000px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .videoDetournement,
+  .temoignages {
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .listeDesPages {
+    max-width: 1600px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* Augmenter légèrement les polices */
+  .titre h1 {
+    font-size: 3rem;
+  }
+
+  .texteLarge p {
+    font-size: 16px;
+    line-height: 1.6;
+  }
+
+  .domaineDeCompetence h2 {
+    font-size: 30px;
+  }
+
+  .domaineDeCompetence .domaineContenu,
+  .domaineDeCompetence .domaineAuteur {
+    font-size: 19px;
+  }
+
+  .domaineDeCompetence .competenceTitre {
+    font-size: 21px;
+  }
+
+  .domaineDeCompetence .competenceDescription {
+    font-size: 19px;
+  }
+
+  .video h2 {
+    font-size: 30px;
+  }
+
+  .videoDetournement h2 {
+    font-size: 30px;
+  }
+
+  .videoDetournement h3 {
+    font-size: 24px;
+  }
+
+  .temoignages h2 {
+    font-size: 24px;
+  }
+
+  .temoignages .temoignageFonction,
+  .temoignages .temoignageTexte {
+    font-size: 19px;
+  }
+
+  .hero h1 {
+    font-size: 3rem;
+  }
+
+  .hero h2 {
+    font-size: 1.75rem;
+  }
+
+  .hero .description {
+    font-size: 16px;
+    max-width: 1000px;
+  }
+
+  /* Augmenter les espacements */
+  .texteLarge {
+    padding: 4rem 3rem;
+  }
+
+  .domaineDeCompetence {
+    padding: 40px;
+  }
+
+  .callToAction,
+  .groupeBoutons {
+    padding: 4rem 3rem;
+  }
+
+  .video {
+    padding: 4rem 3rem;
+  }
+
+  .videoDetournement,
+  .temoignages {
+    padding: 40px;
+  }
+
+  .hero {
+    padding: 4rem 3rem;
+  }
+
+  .titre {
+    padding: 2rem 3rem;
+    margin-top: 50px;
+  }
+}
+
+/* ============================================
+   ÉCRANS ULTRA-ULTRA-LARGES (≥3840px) - 4K et écrans 32:9
+   ============================================ */
+@media (min-width: 3840px) {
+  /* Largeurs max optimales pour lisibilité sur écrans très larges */
+  .texteLarge,
+  .domaineDeCompetence,
+  .callToAction,
+  .groupeBoutons {
+    max-width: 1800px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .hero .content {
+    max-width: 1800px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .video {
+    max-width: 1100px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .videoDetournement,
+  .temoignages {
+    max-width: 1300px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .listeDesPages {
+    max-width: 1800px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* Polices optimisées pour lisibilité */
+  .titre h1 {
+    font-size: 3.5rem;
+  }
+
+  .texteLarge p {
+    font-size: 17px;
+    line-height: 1.6;
+  }
+
+  .domaineDeCompetence h2 {
+    font-size: 32px;
+  }
+
+  .domaineDeCompetence .domaineContenu,
+  .domaineDeCompetence .domaineAuteur {
+    font-size: 20px;
+  }
+
+  .domaineDeCompetence .competenceTitre {
+    font-size: 22px;
+  }
+
+  .domaineDeCompetence .competenceDescription {
+    font-size: 20px;
+  }
+
+  .video h2 {
+    font-size: 32px;
+  }
+
+  .videoDetournement h2 {
+    font-size: 32px;
+  }
+
+  .videoDetournement h3 {
+    font-size: 26px;
+  }
+
+  .temoignages h2 {
+    font-size: 26px;
+  }
+
+  .temoignages .temoignageFonction,
+  .temoignages .temoignageTexte {
+    font-size: 20px;
+  }
+
+  .hero h1 {
+    font-size: 3.5rem;
+  }
+
+  .hero h2 {
+    font-size: 2rem;
+  }
+
+  .hero .description {
+    font-size: 17px;
+    max-width: 1100px;
+  }
+
+  /* Espacements généreux */
+  .texteLarge {
+    padding: 5rem 4rem;
+  }
+
+  .domaineDeCompetence {
+    padding: 50px;
+  }
+
+  .callToAction,
+  .groupeBoutons {
+    padding: 5rem 4rem;
+  }
+
+  .video {
+    padding: 5rem 4rem;
+  }
+
+  .videoDetournement,
+  .temoignages {
+    padding: 50px;
+  }
+
+  .hero {
+    padding: 5rem 4rem;
+  }
+
+  .titre {
+    padding: 2.5rem 4rem;
+    margin-top: 60px;
+  }
+}

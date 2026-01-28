@@ -354,6 +354,20 @@
   margin: 0;
 }
 
+/* Écrans ultra-larges (≥2560px) */
+@media (min-width: 2560px) {
+  .container {
+    max-width: 1600px;
+  }
+}
+
+/* Écrans ultra-ultra-larges (≥3840px) */
+@media (min-width: 3840px) {
+  .container {
+    max-width: 1800px;
+  }
+}
+
 /* Responsive */
 @media (max-width: 768px) {
   .main {

@@ -108,3 +108,37 @@
     font-size: 1.875rem;
   }
 }
+
+/* Écrans ultra-larges (≥2560px) - 2K et écrans ultra-larges */
+@media (min-width: 2560px) {
+  .header {
+    min-height: 120px;
+  }
+
+  .logo,
+  .photo {
+    min-height: 140px;
+  }
+
+  .pageTitle {
+    font-size: 2.25rem;
+    max-width: calc(100% - 300px); /* Plus d'espace pour le logo et la photo */
+  }
+}
+
+/* Écrans ultra-ultra-larges (≥3840px) - 4K et écrans 32:9 */
+@media (min-width: 3840px) {
+  .header {
+    min-height: 140px;
+  }
+
+  .logo,
+  .photo {
+    min-height: 160px;
+  }
+
+  .pageTitle {
+    font-size: 2.5rem;
+    max-width: calc(100% - 350px); /* Encore plus d'espace pour le logo et la photo */
+  }
+}
