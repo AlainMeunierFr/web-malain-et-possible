@@ -5,7 +5,7 @@
 
 import { resolvePageReferences } from '../../utils/profilBuilder';
 import type { PageData } from '../../utils/indexReader';
-import type { CompetenceBibliotheque, DomaineBibliotheque } from '../../utils/bibliothequeReader';
+import type { CompetenceBibliotheque, DomaineBibliotheque, AutreElement } from '../../utils/bibliothequeReader';
 
 describe('profilBuilder - Approche TDD', () => {
   describe('resolvePageReferences', () => {
@@ -121,6 +121,57 @@ describe('profilBuilder - Approche TDD', () => {
       expect(() => resolvePageReferences(pageData, competences, domaines)).toThrow(
         'Compétence référencée introuvable: "competence-inexistante" dans le domaine "experience-equipe"'
       );
+    });
+
+    it('devrait inclure les expériences dans le domaine résolu', () => {
+      // ARRANGE
+      const competences = new Map<string, CompetenceBibliotheque>();
+      competences.set('tdd', {
+        id: 'tdd',
+        titre: 'TDD',
+        description: 'Test-Driven Development',
+        type: 'competence',
+        bouton: null,
+      });
+
+      const domaines = new Map<string, DomaineBibliotheque>();
+      domaines.set('experience-equipe', {
+        id: 'experience-equipe',
+        titre: 'Expérience en équipe',
+        contenu: 'Pratiques collaboratives',
+        competences: ['tdd'],
+        experiences: ['1', '2'],
+      });
+
+      const autres = new Map<string, AutreElement>();
+      autres.set('1', {
+        id: '1',
+        type: 'Expériences et apprentissages',
+        description: '**Expérience 1** - Description expérience 1',
+        periode: '2020-2023',
+      });
+      autres.set('2', {
+        id: '2',
+        type: 'Expériences et apprentissages',
+        description: '**Expérience 2** - Description expérience 2',
+        periode: null,
+      });
+
+      const pageData: PageData = {
+        contenu: [
+          { type: 'domaineDeCompetence', ref: 'experience-equipe' } as any,
+        ],
+      };
+
+      // ACT
+      const result = resolvePageReferences(pageData, competences, domaines, autres);
+
+      // ASSERT
+      const domaineResolu = result.contenu[0] as any;
+      expect(domaineResolu.experiences).toBeDefined();
+      expect(domaineResolu.experiences).toHaveLength(2);
+      expect(domaineResolu.experiences[0].description).toContain('Expérience 1');
+      expect(domaineResolu.experiences[1].description).toContain('Expérience 2');
     });
   });
 });

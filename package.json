@@ -24,7 +24,9 @@
     "precommit": "ts-node scripts/pre-commit-generate-e2e.ts",
     "version:patch": "ts-node scripts/increment-site-version.ts patch",
     "version:minor": "ts-node scripts/increment-site-version.ts minor",
-    "version:sync": "ts-node scripts/increment-site-version.ts sync"
+    "version:sync": "ts-node scripts/increment-site-version.ts sync",
+    "extract:pdf": "tsx scripts/extract-pdf-to-markdown.ts",
+    "analyse:bilan": "tsx scripts/analyse-bilan-competences.ts"
   },
   "dependencies": {
     "@xyflow/react": "^12.10.0",
@@ -42,6 +44,7 @@
     "@testing-library/react": "^16.3.1",
     "@testing-library/user-event": "^14.6.1",
     "@types/node": "^20",
+    "@types/pdf-parse": "^1.1.5",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "chart.js": "^4.5.1",
@@ -55,6 +58,7 @@
     "jest-coverage-badges": "^1.1.2",
     "jest-environment-jsdom": "^30.2.0",
     "jest-html-reporter": "^4.3.0",
+    "pdf-parse": "^1.1.4",
     "react-chartjs-2": "^5.3.1",
     "tailwindcss": "^4",
     "ts-jest": "^29.4.6",

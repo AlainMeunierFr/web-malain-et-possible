@@ -1,0 +1,838 @@
+{
+  "autres": {
+    "1": {
+      "id": "1",
+      "type": "Expériences et apprentissages",
+      "description": "Gestion de plateaux d'assistance technique (ticketing, télémaintenance, téléphonie, processus d'escalade) - **satisfaction client maximum**",
+      "periode": null
+    },
+    "2": {
+      "id": "2",
+      "type": "Expériences et apprentissages",
+      "description": "Recrutement et formation de plus de **100 collaborateurs** (techniciens, formateurs, commerciaux) avec alignement via \"moving motivators\" du Management 3.0",
+      "periode": null
+    },
+    "3": {
+      "id": "3",
+      "type": "Expériences et apprentissages",
+      "description": "Accueil-intégration et formation continue des équipes avec approche \"servant leader\" - ne pas \"faire faire\" mais **\"faire avec\"**",
+      "periode": null
+    },
+    "4": {
+      "id": "4",
+      "type": "Expériences et apprentissages",
+      "description": "**Approche opérationnelle servant leader** - Approche opérationnelle \"servant leader\" - ne pas \"faire faire\" mais \"faire avec\" pour l'exemplarité",
+      "periode": null
+    },
+    "5": {
+      "id": "5",
+      "type": "Expériences et apprentissages",
+      "description": "Accompagnement opérationnel des équipes avec cette philosophie",
+      "periode": "Depuis 1995"
+    },
+    "6": {
+      "id": "6",
+      "type": "Expériences et apprentissages",
+      "description": "**Gestion de projet avec approche faire avec** - Gestion de projet avec approche \"faire avec\" plutôt que \"faire faire\" - capacité multitasking",
+      "periode": null
+    },
+    "7": {
+      "id": "7",
+      "type": "Expériences et apprentissages",
+      "description": "**Expertise en détournement de scènes cultes du cinéma** - Expertise reconnue dans le détournement de scènes cultes du cinéma pour donner de la visibilité et créer de la viralité sur les messages stratégiques",
+      "periode": null
+    },
+    "8": {
+      "id": "8",
+      "type": "Expériences et apprentissages",
+      "description": "**Utilisation de techniques créatives pour objets audio-visuels** - Utilisation de techniques créatives pour créer des objets audio-visuels engageants favorisant l'engagement des équipes",
+      "periode": null
+    },
+    "9": {
+      "id": "9",
+      "type": "Expériences et apprentissages",
+      "description": "**Détournements vidéo viraux** - Le rire est une émotion positive qu'on aime partager - les détournements vidéo deviennent viraux et contribuent à construire une vision commune partagée",
+      "periode": null
+    },
+    "10": {
+      "id": "10",
+      "type": "Expériences et apprentissages",
+      "description": "Portfolio de détournements vidéos disponible",
+      "periode": null
+    },
+    "11": {
+      "id": "11",
+      "type": "Expériences et apprentissages",
+      "description": "**25 ans d'expérience** à transformer des **idées** en produits logiciels qui génèrent de la **valeur**",
+      "periode": "1995-2020"
+    },
+    "12": {
+      "id": "12",
+      "type": "Expériences et apprentissages",
+      "description": "Rachat du fond de commerce de la société Novealis : **intégration avec succès de 9 nouveaux collaborateurs**",
+      "periode": "2011"
+    },
+    "13": {
+      "id": "13",
+      "type": "Expériences et apprentissages",
+      "description": "Rachat de la société Cogitop : échec de l'intégration des 2 collaborateurs qui n'ont **pas souscrit à la culture de l'entreprise**",
+      "periode": "2013"
+    },
+    "14": {
+      "id": "14",
+      "type": "Expériences et apprentissages",
+      "description": "**Vente à Evolucare Technologie** : assister impuissant à de l'intégration des 15 collaborateurs d'Actibase et Cogitop par non reconnaissance d'une culture spécifique de l'entreprise absorbée",
+      "periode": "2020"
+    },
+    "15": {
+      "id": "15",
+      "type": "Expériences et apprentissages",
+      "description": "**Changement de business model vers SaaS** - Changement de business model : passage d'un modèle de licences payantes (mises à jour tous les 2 ans) à un modèle SaaS - 70% de CA récurrent dès le 1er janvier de chaque exercice en 2020",
+      "periode": "2020"
+    },
+    "16": {
+      "id": "16",
+      "type": "Expériences et apprentissages",
+      "description": "**Abandon stratégie répondre aux demandes clients** - Abandon de la stratégie \"répondre aux demandes des clients\" par une stratégie \"répondre aux attentes du marché\"",
+      "periode": null
+    },
+    "17": {
+      "id": "17",
+      "type": "Expériences et apprentissages",
+      "description": "Vision globale, pragmatique et transverse - prise en compte de toutes les dimensions depuis la conception jusqu'à la mise en œuvre sur le terrain",
+      "periode": null
+    },
+    "18": {
+      "id": "18",
+      "type": "Expériences et apprentissages",
+      "description": "Éditeur de logiciels pour les plateaux d'imagerie médicale - **15% des radiologues libéraux français équipés**",
+      "periode": null
+    },
+    "19": {
+      "id": "19",
+      "type": "Expériences et apprentissages",
+      "description": "**25 ans d'expertise** comme dirigeant et directeur technique d'un éditeur de progiciels",
+      "periode": "1995-2020"
+    },
+    "20": {
+      "id": "20",
+      "type": "Expériences et apprentissages",
+      "description": "Auteur du **premier Système d'Information** de Radiologie à interface graphique",
+      "periode": "1995"
+    },
+    "21": {
+      "id": "21",
+      "type": "Expériences et apprentissages",
+      "description": "Création et croissance d'un éditeur de logiciels médicaux : **35 collaborateurs, CA multiplié par 2 en 3 ans, excellence technique** (couverture de tests > 90%)",
+      "periode": null
+    },
+    "22": {
+      "id": "22",
+      "type": "Expériences et apprentissages",
+      "description": "Lancement d'un nouveau Système d'Information de Radiologie - **30 plateaux techniques déployés en \"clic-to-run\"**",
+      "periode": null
+    },
+    "23": {
+      "id": "23",
+      "type": "Expériences et apprentissages",
+      "description": "**Transformation des équipes vers Scrum/Kanban avec TDD/BDD/DDD** - Transformation des équipes : Passage à Scrum/Kanban avec approche TDD/BDD/DDD et CI/CD - plusieurs déploiements par semaine, temps de cycle de quelques jours",
+      "periode": "Depuis 2013"
+    },
+    "24": {
+      "id": "24",
+      "type": "Expériences et apprentissages",
+      "description": "**Premier logiciel DMP compatible homologué et déployé** - Accompagnement règlementaire des clients - Premier logiciel DMP compatible homologué et déployé",
+      "periode": "2011"
+    },
+    "25": {
+      "id": "25",
+      "type": "Expériences et apprentissages",
+      "description": "**Interopérabilité HL7 et intégrations SIH** - Interopérabilité : Déploiement d'HL7 chez l'ensemble des clients , participation à Connectathon régional , déploiement Cogitop à l'Hôpital Femme Mère Enfant à Lyon avec intégration au SIH",
+      "periode": "2007"
+    },
+    "26": {
+      "id": "26",
+      "type": "Expériences et apprentissages",
+      "description": "**Participation au Ségur de la Santé** - Participation aux échanges éditeurs/syndicat des radiologues/état pour le Ségur de la Santé",
+      "periode": "2020"
+    },
+    "27": {
+      "id": "27",
+      "type": "Expériences et apprentissages",
+      "description": "**Innovation No-code** - Innovation : No-code, prototypage rapide, tests utilisateurs [Bubble, Airtable, Notion, Zapier, Make]",
+      "periode": null
+    },
+    "28": {
+      "id": "28",
+      "type": "Expériences et apprentissages",
+      "description": "**Acculturation stratégique aux approches TDD, BDD, DDD, CI/CD, DevOps** - Ingénierie Logicielle : Acculturation stratégique aux approches TDD, BDD, DDD, CI/CD, DevOps, architecture logicielle, excellence technique [Git, Jenkins, AzureDevOps]",
+      "periode": null
+    },
+    "29": {
+      "id": "29",
+      "type": "Expériences et apprentissages",
+      "description": "**AGEPI - ProductOwner sur projet green field** - AGEPI : ProductOwner sur projet \"green field\" architecturé en CQRS:ES avec déploiement continu (une version quotidienne) - prospection, démonstrations, onboarding des beta-testeurs - création de la plateforme d'assistance avec release notes en no-code (AirTable + Bubble) - création du site vitrine - sélection d'un prestataire freelance pour création d'une identité visuelle",
+      "periode": "2022-2023"
+    },
+    "30": {
+      "id": "30",
+      "type": "Expériences et apprentissages",
+      "description": "**meaneo - Réalisation de tableaux de bord financiers** - meaneo  : Réalisation de tableaux de bord financiers pour répondre aux exigences de la due diligence dans le processus de vente - intégration Excel / SAP",
+      "periode": "février-juin 2022"
+    },
+    "31": {
+      "id": "31",
+      "type": "Expériences et apprentissages",
+      "description": "**Recrutement avec alignement via moving motivators** - Recrutement avec alignement via \"moving motivators\" du Management 3.0",
+      "periode": null
+    },
+    "32": {
+      "id": "32",
+      "type": "Expériences et apprentissages",
+      "description": "**AGEPI - Recrutement développeur sénior** - AGEPI : Recrutement d'un développeur sénior (crasfter) pour projet \"green field\"",
+      "periode": "2022-2023"
+    },
+    "33": {
+      "id": "33",
+      "type": "Formations et certifications",
+      "description": "**Certification Management 3.0** (Foundation Workshop) - Leadership agile et gestion d'équipe",
+      "periode": [2025]
+    },
+    "34": {
+      "id": "34",
+      "type": "Expériences et apprentissages",
+      "description": "Application des principes du **Management 3.0** pour favoriser l'agilité, la transparence et l'engagement",
+      "periode": null
+    },
+    "35": {
+      "id": "35",
+      "type": "Expériences et apprentissages",
+      "description": "Création d'un environnement où les équipes s'**auto-organisent**, apprennent de leurs erreurs et innovent, sans alourdir les processus",
+      "periode": null
+    },
+    "36": {
+      "id": "36",
+      "type": "Expériences et apprentissages",
+      "description": "**Gestion de crise - Réorganisation après départ associé** - Gestion de crise : Réorganisation après le départ d'un associé co-fondateur - 30 recrutements en 2 ans avec focus sur la transparence et la collaboration",
+      "periode": null
+    },
+    "37": {
+      "id": "37",
+      "type": "Expériences et apprentissages",
+      "description": "**Intégration post-fusion Novealis** - Intégration post-fusion : Rachat et intégration de 7 jeunes ingénieurs (Novealis) - maintien de la productivité",
+      "periode": null
+    },
+    "38": {
+      "id": "38",
+      "type": "Expériences et apprentissages",
+      "description": "**Expérience échec intégration Cogitop** - Expérience tirée de l'échec de l'intégration de 2 collaborateurs (Cogitop) - apprentissage pour les intégrations suivantes",
+      "periode": null
+    },
+    "39": {
+      "id": "39",
+      "type": "Expériences et apprentissages",
+      "description": "**Vision à 360°** de la gestion d'une entreprise acquise en tant que dirigeant pendant 25 ans",
+      "periode": "1995-2020"
+    },
+    "40": {
+      "id": "40",
+      "type": "Formations et certifications",
+      "description": "**Modélisation graphique - Formation Nicolas Gros** - Modélisation graphique - Formation auprès de Nicolas Gros, auteur du grand livre de la facilitation graphique",
+      "periode": null
+    },
+    "41": {
+      "id": "41",
+      "type": "Expériences et apprentissages",
+      "description": "Capacité à modéliser graphiquement une **pensée complexe**",
+      "periode": null
+    },
+    "42": {
+      "id": "42",
+      "type": "Expériences et apprentissages",
+      "description": "**Animation d'ateliers** (Retrospectives, Atelier des prénoms, Expérimentation de la WIP, Perdu dans le dessert...)",
+      "periode": null
+    },
+    "43": {
+      "id": "43",
+      "type": "Expériences et apprentissages",
+      "description": "Formation à la méthode CoDev (**Claude Champagne & Adrien Payette**) - animation d'ateliers collaboratifs pour co-construire des solutions en équipe",
+      "periode": null
+    },
+    "44": {
+      "id": "44",
+      "type": "Expériences et apprentissages",
+      "description": "Participation à **3 BoosterCamp** du réseau entreprendre, conçu sur le principe du CoDev (mais sur 2 jours)",
+      "periode": null
+    },
+    "45": {
+      "id": "45",
+      "type": "Expériences et apprentissages",
+      "description": "Membre de cercle de parole entre pairs avec utilisation du CoDev ou du **Case Clinic (Théorie U)**",
+      "periode": null
+    },
+    "46": {
+      "id": "46",
+      "type": "Expériences et apprentissages",
+      "description": "Facilitation d'ateliers **Design Thinking** : maquettes, parcours utilisateurs, event storming",
+      "periode": null
+    },
+    "47": {
+      "id": "47",
+      "type": "Expériences et apprentissages",
+      "description": "Interventions à l'INSA pour former des étudiants en informatique à l'entrepreneuriat, en utilisant des outils concrets comme le **Business Model Canvas**",
+      "periode": null
+    },
+    "48": {
+      "id": "48",
+      "type": "Expériences et apprentissages",
+      "description": "**Conférencier et mentor** pour la Filière Étudiant Entreprendre (INSA)",
+      "periode": null
+    },
+    "49": {
+      "id": "49",
+      "type": "Expériences et apprentissages",
+      "description": "**Interventions** lors d'événements dédiés à l'entrepreneuriat et à l'innovation : \"l'agile Lyon 2022\", ESI Business School (groupe GEMA), Freelance Journey, Séminaire d'idéation de la FEE à l'INSA",
+      "periode": "2022"
+    },
+    "50": {
+      "id": "50",
+      "type": "Expériences et apprentissages",
+      "description": "Membre du groupe de **conférenciers des shifters** (\"Teach the Shift\")",
+      "periode": null
+    },
+    "51": {
+      "id": "51",
+      "type": "Expériences et apprentissages",
+      "description": "**Formation à Scrum** pour des équipes (iDocteur, Paris Initiative Entreprendre)",
+      "periode": null
+    },
+    "52": {
+      "id": "52",
+      "type": "Expériences et apprentissages",
+      "description": "Formation des équipes au **no-code** (création de CRM/ERP) - Paris Initiative Entreprendre",
+      "periode": null
+    },
+    "53": {
+      "id": "53",
+      "type": "Expériences et apprentissages",
+      "description": "**Acculturation des équipes au concept de cercle de contrôle** - Acculturation des équipes au concept de \"cercle de contrôle\" pour les amener à concevoir et configurer eux-mêmes leur solution ERP/CRM via une approche no-code",
+      "periode": null
+    },
+    "54": {
+      "id": "54",
+      "type": "Expériences et apprentissages",
+      "description": "Mentorat et accompagnement de porteurs de projets pour le Réseau Entreprendre et la FEE de l'INSA",
+      "periode": null
+    },
+    "55": {
+      "id": "55",
+      "type": "Expériences et apprentissages",
+      "description": "**meaneo - Impact Enabler** - Impact Enabler chez meaneo - accompagnement et mentoring d'un dirigeant en cours de cession de son entreprise",
+      "periode": "février-juin 2022"
+    },
+    "56": {
+      "id": "56",
+      "type": "Expériences et apprentissages",
+      "description": "**Très actif sur LinkedIn** en relation avec un grand nombre d'acteurs engagés de l'économie",
+      "periode": null
+    },
+    "57": {
+      "id": "57",
+      "type": "Expériences et apprentissages",
+      "description": "**Growth Hacking pour Team for the Planet** - Growth Hacking poru Team for the Planet : 5000 messages envoyés, 200 nouveaux contats, 15 nouveaux actionnaires",
+      "periode": null
+    },
+    "58": {
+      "id": "58",
+      "type": "Expériences et apprentissages",
+      "description": "**5800 followers** sur Linkedin",
+      "periode": null
+    },
+    "59": {
+      "id": "59",
+      "type": "Expériences et apprentissages",
+      "description": "**Rang 12 et niveau 42** sur Discord Team for the Planet",
+      "periode": null
+    },
+    "60": {
+      "id": "60",
+      "type": "Expériences et apprentissages",
+      "description": "Détournements vidéo pour créer de la **viralité et de l'engagement** sur les messages stratégiques (voir portfolio)",
+      "periode": null
+    },
+    "61": {
+      "id": "61",
+      "type": "Expériences et apprentissages",
+      "description": "Animateur de la fresque du climat (**ceinture orange**, cheminement vers la verte)",
+      "periode": "Depuis 2022"
+    },
+    "62": {
+      "id": "62",
+      "type": "Expériences et apprentissages",
+      "description": "Animateur de l'**atelier 2 Tonnes** (en cours)",
+      "periode": "Depuis 2024"
+    },
+    "63": {
+      "id": "63",
+      "type": "Expériences et apprentissages",
+      "description": "**Membre actif** de Team for the Planet - Investissement significatif en argent et en temps",
+      "periode": "Depuis 2021"
+    },
+    "64": {
+      "id": "64",
+      "type": "Expériences et apprentissages",
+      "description": "Prise de conscience des enjeux énergétiques, climatiques et de l'empreinte matière",
+      "periode": "Depuis 2020"
+    },
+    "65": {
+      "id": "65",
+      "type": "Expériences et apprentissages",
+      "description": "**Inspirateurs** :  F. Lalloux, J.M. Jancovici, F. Bonnifet, G. Bœuf, A. Keller, O. Hamant",
+      "periode": null
+    },
+    "66": {
+      "id": "66",
+      "type": "Expériences et apprentissages",
+      "description": "Engagement dans les shifters",
+      "periode": null
+    },
+    "67": {
+      "id": "67",
+      "type": "Expériences et apprentissages",
+      "description": "Sensibilisation aux enjeux écologiques via animation d'ateliers",
+      "periode": null
+    },
+    "68": {
+      "id": "68",
+      "type": "Expériences et apprentissages",
+      "description": "**Membre d'une troupe d'improvisation théâtrale** - Membre d'une troupe de 2009 à 2011",
+      "periode": "2009-2011"
+    },
+    "69": {
+      "id": "69",
+      "type": "Expériences et apprentissages",
+      "description": "Membre de 3 clubs de jeux de plateaux (**dont 1 créé par moi**)",
+      "periode": null
+    },
+    "70": {
+      "id": "70",
+      "type": "Expériences et apprentissages",
+      "description": "**Guitariste dans Groove XP** - Guitariste dans \"Groove XP\" avec participation au \"Rock Soane Festival\" en première partie (de 2022 à 2024)",
+      "periode": "2022-2024"
+    },
+    "71": {
+      "id": "71",
+      "type": "Expériences et apprentissages",
+      "description": "**Développeur expert reconnu avec 4D** - Développeur expert reconnu avec le langage de 4e génération, générateur d'application 4e Dimension (4D)",
+      "periode": null
+    },
+    "72": {
+      "id": "72",
+      "type": "Expériences et apprentissages",
+      "description": "**Distribution CD-ROM de démonstration Apple Expo** - Distribution d'un CD-ROM de démontration pendant Apple Expo par 4Dinc. ne contenant que nos réalisations",
+      "periode": null
+    },
+    "73": {
+      "id": "73",
+      "type": "Expériences et apprentissages",
+      "description": "**No-code - Utilisation régulière** - No-code : Utilisation régulière de Bubble, Airtable, Notion, Make pour tester et itérer rapidement, et pour des besoins internes",
+      "periode": null
+    },
+    "74": {
+      "id": "74",
+      "type": "Expériences et apprentissages",
+      "description": "**IA-Pair Programming - Développement de ce site web** - IA-Pair Programming : Ce site web est développé sous Node.JS en TypeScript (langage que je ne connais pas) - pilotage de Cursor uniquement avec des prompts (US, BDD, TDD, TU, TI, US, UI, tests EndToEnd)",
+      "periode": null
+    },
+    "76": {
+      "id": "76",
+      "type": "Expériences et apprentissages",
+      "description": "**Plusieurs déploiements par semaine**, temps de cycle de quelques jours",
+      "periode": null
+    },
+    "77": {
+      "id": "77",
+      "type": "Expériences et apprentissages",
+      "description": "**Couverture de tests supérieure à 90%** - Couverture de tests > 90%",
+      "periode": null
+    },
+    "78": {
+      "id": "78",
+      "type": "Expériences et apprentissages",
+      "description": "**Accompagnement des équipes à l'excellence technique** - Accompagnement des équipes à la pratique de l'excellence technique (TDD, BDD, CI/CD)",
+      "periode": null
+    },
+    "79": {
+      "id": "79",
+      "type": "Expériences et apprentissages",
+      "description": "Compréhension de l'importance de l'**excellence technique** acquise lors de la mise en œuvre de Scrum et KanBan",
+      "periode": "2012-2016"
+    },
+    "80": {
+      "id": "80",
+      "type": "Expériences et apprentissages",
+      "description": "**Abandon méthode dépiler des tickets** - Abandon de la méthode \"dépiler des tickets\" et \"ordonnancement un PBL de 200 items\" au profit de sprints courts qui racontent une histoire",
+      "periode": null
+    },
+    "82": {
+      "id": "82",
+      "type": "Expériences et apprentissages",
+      "description": "**Collaboration avec artisans logiciel de haut niveau** - Collaboration systématique avec des artisans logiciel de haut niveau pratiquant BDD, TDD, DDD, CQRS, EventSourcing, CI/CD (à la recherche de la \"Silver Bullet\")",
+      "periode": null
+    },
+    "83": {
+      "id": "83",
+      "type": "Expériences et apprentissages",
+      "description": "**Acculturation stratégique aux approches techniques** - Acculturation stratégique aux approches TDD, BDD, DDD, CI/CD, DevOps, architecture logicielle, excellence technique",
+      "periode": null
+    },
+    "84": {
+      "id": "84",
+      "type": "Expériences et apprentissages",
+      "description": "**Agiliste**  - découverte de l'Agilité qui révolutionne la façon d'envisager l'animation opérationnelle des équipes et des projets",
+      "periode": "Depuis 2013"
+    },
+    "85": {
+      "id": "85",
+      "type": "Expériences et apprentissages",
+      "description": "**Mindset** cycles courts, test & learn, feed-back, empirisme, amélioration continue, co-responsabilité",
+      "periode": null
+    },
+    "86": {
+      "id": "86",
+      "type": "Expériences et apprentissages",
+      "description": "**Product Owner - vision, objectif concret** - Product Owner : vision, objectif concret, focus sur le \"pour quoi ?\", disponibilité",
+      "periode": null
+    },
+    "87": {
+      "id": "87",
+      "type": "Expériences et apprentissages",
+      "description": "**Scrum Master - amélioration continue** - Scrum Master : amélioration continue",
+      "periode": null
+    },
+    "88": {
+      "id": "88",
+      "type": "Expériences et apprentissages",
+      "description": "**Technique - excellence technique, TDD, BDD, DDD** - Technique : excellence technique, TDD, BDD, DDD, TI, intégration continue, DevOps",
+      "periode": null
+    },
+    "89": {
+      "id": "89",
+      "type": "Formations et certifications",
+      "description": "**Certification Scrum Life** \"Devient un meilleur Leader Agile\"",
+      "periode": "2023"
+    },
+    "90": {
+      "id": "90",
+      "type": "Formations et certifications",
+      "description": "**Certification WENSI** \"Gérer des projets avec la Méthode Agile\"",
+      "periode": "2023"
+    },
+    "91": {
+      "id": "91",
+      "type": "Expériences et apprentissages",
+      "description": "Adoption précoce de **Scrum/Kanban** (avant que cela ne devienne mainstream)",
+      "periode": null
+    },
+    "92": {
+      "id": "92",
+      "type": "Expériences et apprentissages",
+      "description": "**Transformation agile et leadership d'équipe Evolucare** - Transformation agile et leadership d'équipe dans un contexte de fusion (Evolucare 2020-2021)",
+      "periode": "2020-2021"
+    },
+    "93": {
+      "id": "93",
+      "type": "Expériences et apprentissages",
+      "description": "**Coaching et facilitation d'équipes agiles** (Scrum, Kanban) pour des organisations en transition",
+      "periode": null
+    },
+    "94": {
+      "id": "94",
+      "type": "Expériences et apprentissages",
+      "description": "**Transformation Agile - outils et méthodes** - Transformation Agile : Scrum, Kanban, coaching d'équipes, facilitation graphique, serious games [Miro, Mural, Trello, Jira, AzureDevOps]",
+      "periode": null
+    },
+    "96": {
+      "id": "96",
+      "type": "Expériences et apprentissages",
+      "description": "Engagement dans la transition écologique via Team for the Planet, Fresque du Climat, Atelier 2 Tonnes",
+      "periode": null
+    },
+    "97": {
+      "id": "97",
+      "type": "Expériences et apprentissages",
+      "description": "Sensibilisation aux polycrises (pandémie, approvisionnement énergétique, inflation, guerres, désinformation, polarisation, inondations, sécheresses, mégafeux)",
+      "periode": null
+    },
+    "98": {
+      "id": "98",
+      "type": "Expériences et apprentissages",
+      "description": "Intégration des enjeux systémiques dans la stratégie",
+      "periode": null
+    },
+    "99": {
+      "id": "99",
+      "type": "Expériences et apprentissages",
+      "description": "**Actibase piloté par sa mission** - Actibase était piloté par sa mission : accompanger les radiologues et leur personne dans les transformations de leur profession (numérisation de l'imagerie et consolidation en grands groupes)",
+      "periode": null
+    },
+    "100": {
+      "id": "100",
+      "type": "Expériences et apprentissages",
+      "description": "Reconstruction de la culture de l'entreprise après une grave crise de gouvernance après le départ d'un associé cofondateur et cogérant.",
+      "periode": null
+    },
+    "101": {
+      "id": "101",
+      "type": "Expériences et apprentissages",
+      "description": "Pour surmonter les difficultés : avoir le courage de changer de paradigme et poser un diagnostic sincère sur l'état de l'art, puis générer l'engagement du collectif au service d'un nouveau but, plus grand",
+      "periode": null
+    },
+    "102": {
+      "id": "102",
+      "type": "Expériences et apprentissages",
+      "description": "Cofondateur de l'entreprise Actibase dès la fin des études supérieures  - création à 22 ans",
+      "periode": "1995"
+    },
+    "103": {
+      "id": "103",
+      "type": "Expériences et apprentissages",
+      "description": "Dirigeant pendant 25 ans jusqu'à la cession en 2020",
+      "periode": "1995-2020"
+    },
+    "104": {
+      "id": "104",
+      "type": "Expériences et apprentissages",
+      "description": "**AGEPI - Facilitateur du projet** - AGEPI : Facilitateur du projet (pré-startup numérique dans le secteur du bâtiment) - ProductOwner, recrutement, prospection, démonstrations, onboarding beta-testeurs, création plateforme d'assistance no-code, sélection prestataire identité visuelle, création site vitrine",
+      "periode": "2022-2023"
+    },
+    "105": {
+      "id": "105",
+      "type": "Expériences et apprentissages",
+      "description": "Vente des entreprises Actibase et de Cogitop à Evolucare technologie  - Transfert Universel de Patrimoine (TUP)",
+      "periode": "2020"
+    },
+    "106": {
+      "id": "106",
+      "type": "Expériences et apprentissages",
+      "description": "**Expérience de la TPE, LBO interne, SCI** - Expérience de la TPE, un LBO interne (sorti d'un associé), de la SCI (pour les bureaux), de la croissance externe, du processus de revente",
+      "periode": null
+    },
+    "108": {
+      "id": "108",
+      "type": "Expériences et apprentissages",
+      "description": "**Gestion de crise - Réorganisation** - Gestion de crise : Réorganisation après le départ d'un associé co-fondateur - recentrage stratégique, sécurisation des clients, renouvellement d'équipe (30 recrutements en 2 ans)",
+      "periode": null
+    },
+    "109": {
+      "id": "109",
+      "type": "Expériences et apprentissages",
+      "description": "Diversification et croissance externe : Rachat de la société Cogitop , rachat du fond de commerce de la Start Up Novealis",
+      "periode": "2013"
+    },
+    "110": {
+      "id": "110",
+      "type": "Expériences et apprentissages",
+      "description": "Distributions de l'offre d'archivage médical Carestream  - Augmentation du CA de 1,5M€ à 3,5M€",
+      "periode": "2008-2010"
+    },
+    "111": {
+      "id": "111",
+      "type": "Expériences et apprentissages",
+      "description": "Arrivée à maturité en tant qu'éditeur  - 35 collaborateurs",
+      "periode": "2000-2008"
+    },
+    "112": {
+      "id": "112",
+      "type": "Expériences et apprentissages",
+      "description": "**Actibase devient éditeur d'Actibase Radiologie** - Actibase devient éditeur d'\"Actibase Radiologie\"  - recrutement techniciens, formateurs, commerciaux",
+      "periode": "1998-1999"
+    },
+    "113": {
+      "id": "113",
+      "type": "Expériences et apprentissages",
+      "description": "**Actibase agence de multimédia opérationnel** - Actibase est surtout une agence de multimédia opérationnel  - Biomérieux, Bollhoof Otalu",
+      "periode": "1995-1997"
+    },
+    "114": {
+      "id": "114",
+      "type": "Expériences et apprentissages",
+      "description": "Multipotentiel : Grand nombre de qualités développées (créativité, adaptabilité, flexibilité, polyvalence, autonomie, rapidité d'apprentissage) - soft skills recherchés par les recruteurs",
+      "periode": null
+    },
+    "115": {
+      "id": "115",
+      "type": "Expériences et apprentissages",
+      "description": "Profil transverse : Capacité d'appréhender les problématiques variées de toute entreprise IT depuis les enjeux de R&D jusqu'aux éléments financiers en passant par les aspects produits, marketing et commerciaux",
+      "periode": null
+    },
+    "116": {
+      "id": "116",
+      "type": "Expériences et apprentissages",
+      "description": "Compétences en forme de T : Expertise dans un domaine unique (barre verticale) + capacité de collaborer entre disciplines avec des experts d'autres domaines (barre horizontale)",
+      "periode": null
+    },
+    "117": {
+      "id": "117",
+      "type": "Expériences et apprentissages",
+      "description": "Pilotage transverse : Contribution transverse et organique sur le collectif et ses parties prenantes - mise en place de nouveaux modes d'organisation efficients au service d'une vision inspirante",
+      "periode": null
+    },
+    "118": {
+      "id": "118",
+      "type": "Expériences et apprentissages",
+      "description": "Gestion de projet : Compétence principale avec approche \"faire avec\" plutôt que \"faire faire\" - capacité multitasking",
+      "periode": null
+    },
+    "119": {
+      "id": "119",
+      "type": "Expériences et apprentissages",
+      "description": "Analyse approfondie : Qualités exceptionnelles d'analyse approfondie, de compréhension des aspects technologiques, de pro-activité pour trouver des solutions",
+      "periode": null
+    },
+    "120": {
+      "id": "120",
+      "type": "Expériences et apprentissages",
+      "description": "Empathie et écoute : Très porté sur l'échange, avec une grande capacité d'écoute et de remise en question - empathie sociale, très diplomate et intuitif, \"antenne sociale\", tendance naturelle à l'écoute",
+      "periode": null
+    },
+    "121": {
+      "id": "121",
+      "type": "Expériences et apprentissages",
+      "description": "Bienveillance et constructivité : Toujours pro-actif, cherche des solutions, jamais des excuses - bienveillant, constructif, grande prise de recul",
+      "periode": null
+    },
+    "122": {
+      "id": "122",
+      "type": "Formations et certifications",
+      "description": "École Supérieure des Dirigeants d'Entreprise  - Bac+4 (marketing/gestion)",
+      "periode": "1991-1995"
+    },
+    "123": {
+      "id": "123",
+      "type": "Formations et certifications",
+      "description": "Anglais - Courant (lu, écrit, parlé)",
+      "periode": null
+    },
+    "127": {
+      "id": "127",
+      "type": "Formations et certifications",
+      "description": "Modélisation graphique - Formation auprès de Nicolas Gros, auteur du grand livre de la facilitation graphique",
+      "periode": null
+    },
+    "128": {
+      "id": "128",
+      "type": "Engagements et Pro Bono",
+      "description": "Réseau Entreprendre () - Membre, parcours de progrès, booster camp, mentoring et accompagnement de porteurs de projets",
+      "periode": "Depuis 2022"
+    },
+    "129": {
+      "id": "129",
+      "type": "Engagements et Pro Bono",
+      "description": "Team for the Planet () - Membre actif, investissement significatif en argent et en temps dans l'entrepreneuriat à impact et la transition écologique",
+      "periode": "Depuis 2021"
+    },
+    "130": {
+      "id": "130",
+      "type": "Engagements et Pro Bono",
+      "description": "Fresque du Climat () - Animateur (ceinture orange, en chemin vers la verte)",
+      "periode": "Depuis 2022"
+    },
+    "131": {
+      "id": "131",
+      "type": "Engagements et Pro Bono",
+      "description": "Atelier 2 Tonnes () - Animateur (en cours)",
+      "periode": "Depuis 2024"
+    },
+    "132": {
+      "id": "132",
+      "type": "Engagements et Pro Bono",
+      "description": "Les shifters - Membre, groupe de conférenciers \"Teach the Shift\"",
+      "periode": null
+    },
+    "133": {
+      "id": "133",
+      "type": "Engagements et Pro Bono",
+      "description": "FEE de l'INSA - Conférencier et mentor pour la Filière Étudiant Entreprendre",
+      "periode": null
+    },
+    "134": {
+      "id": "134",
+      "type": "Réalisations notables",
+      "description": "**Éditeur de logiciels - 15% des radiologues libéraux français équipés** - Éditeur de logiciels pour les plateaux d'imagerie médicale - 15% des radiologues libéraux français équipés",
+      "periode": null
+    },
+    "135": {
+      "id": "135",
+      "type": "Réalisations notables",
+      "description": "**35 collaborateurs, CA multiplié par 2 en 3 ans** - 35 collaborateurs à maturité, CA multiplié par 2 en 3 ans",
+      "periode": null
+    },
+    "136": {
+      "id": "136",
+      "type": "Réalisations notables",
+      "description": "**Excellence technique - Couverture de tests > 90%** - Excellence technique : Couverture de tests > 90%",
+      "periode": null
+    },
+    "137": {
+      "id": "137",
+      "type": "Réalisations notables",
+      "description": "Premier Système d'Information de Radiologie à interface graphique",
+      "periode": "1995"
+    },
+    "139": {
+      "id": "139",
+      "type": "Réalisations notables",
+      "description": "Déploiement d'HL7 chez l'ensemble des clients  grâce à \"l'avenant 24\"",
+      "periode": "2007"
+    },
+    "140": {
+      "id": "140",
+      "type": "Réalisations notables",
+      "description": "**30 plateaux techniques déployés en clic-to-run** - 30 plateaux techniques déployés en \"clic-to-run\" pour le nouveau système d'information",
+      "periode": null
+    },
+    "141": {
+      "id": "141",
+      "type": "Réalisations notables",
+      "description": "Plusieurs déploiements par semaine, temps de cycle de quelques jours",
+      "periode": null
+    },
+    "142": {
+      "id": "142",
+      "type": "Réalisations notables",
+      "description": "Transition vers le SaaS : 70% de CA récurrent dès le 1er janvier de chaque exercice en 2020",
+      "periode": "2020"
+    },
+    "143": {
+      "id": "143",
+      "type": "Réalisations notables",
+      "description": "Intégration réussie de 7 jeunes ingénieurs (Novealis) - maintien de la productivité",
+      "periode": null
+    },
+    "144": {
+      "id": "144",
+      "type": "Réalisations notables",
+      "description": "30 recrutements en 2 ans lors de la gestion de crise post-départ associé",
+      "periode": null
+    },
+    "145": {
+      "id": "145",
+      "type": "Réalisations notables",
+      "description": "Recrutement et formation de plus de 100 collaborateurs (techniciens, formateurs, commerciaux) sur 25 ans",
+      "periode": "1995-2020"
+    },
+    "146": {
+      "id": "146",
+      "type": "Formations et certifications",
+      "description": "Grand cours Sator : Olivier Hamant - **Construire la robustesse** - Certifié",
+      "periode": "2025"
+    },
+    "147": {
+      "id": "147",
+      "type": "Formations et certifications",
+      "description": "Grand cours Sator : Arthur Keller - **Risques systémiques et stratégies de résilience** - En cours",
+      "periode": "2025"
+    }
+  }
+}

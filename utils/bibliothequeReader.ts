@@ -16,6 +16,7 @@ export interface DomaineBibliotheque {
   contenu: string;
   auteur?: string;
   competences: string[]; // IDs des compétences
+  experiences?: string[]; // IDs des expériences
 }
 
 /**
@@ -23,6 +24,16 @@ export interface DomaineBibliotheque {
  */
 export interface CompetenceBibliotheque extends Competence {
   id: string;
+}
+
+/**
+ * Interface pour un élément "Autres" (expériences, formations, etc.)
+ */
+export interface AutreElement {
+  id: string;
+  type: string;
+  description: string; // Contient le texte avec syntaxe MD (gras avec **)
+  periode: string | null;
 }
 
 /**
@@ -83,4 +94,34 @@ export function readDomaines(): Map<string, DomaineBibliotheque> {
   }
 
   return domainesMap;
+}
+
+/**
+ * Lit le fichier experience-et-autres-informations.json et retourne une Map des éléments
+ */
+export function readAutres(): Map<string, AutreElement> {
+  const autresPath = path.join(process.cwd(), 'data', 'bibliotheque', 'experience-et-autres-informations.json');
+  
+  if (!fs.existsSync(autresPath)) {
+    throw new Error(`Le fichier experience-et-autres-informations.json n'existe pas dans data/bibliotheque/`);
+  }
+
+  const fileContent = fs.readFileSync(autresPath, 'utf-8');
+  const data = JSON.parse(fileContent);
+
+  if (!data.autres || typeof data.autres !== 'object') {
+    throw new Error('Le fichier experience-et-autres-informations.json doit contenir un objet "autres"');
+  }
+
+  const autresMap = new Map<string, AutreElement>();
+
+  for (const [id, autre] of Object.entries(data.autres)) {
+    const elem = autre as AutreElement;
+    if (!elem.id) {
+      elem.id = id; // S'assurer que l'ID est présent
+    }
+    autresMap.set(id, elem);
+  }
+
+  return autresMap;
 }

@@ -4,7 +4,7 @@
  */
 
 import type { PageData, ElementContenu, ElementDomaineDeCompetence } from './indexReader';
-import type { CompetenceBibliotheque, DomaineBibliotheque } from './bibliothequeReader';
+import type { CompetenceBibliotheque, DomaineBibliotheque, AutreElement } from './bibliothequeReader';
 
 /**
  * Résout les références dans une page en chargeant les domaines et compétences depuis la bibliothèque
@@ -12,7 +12,8 @@ import type { CompetenceBibliotheque, DomaineBibliotheque } from './bibliotheque
 export function resolvePageReferences(
   pageData: PageData,
   competences: Map<string, CompetenceBibliotheque>,
-  domaines: Map<string, DomaineBibliotheque>
+  domaines: Map<string, DomaineBibliotheque>,
+  autres?: Map<string, AutreElement>
 ): PageData {
   const resolvedContenu: ElementContenu[] = [];
 
@@ -72,6 +73,17 @@ export function resolvePageReferences(
         competencesResolues.push(competenceResolue);
       }
 
+      // Charger les expériences référencées si disponibles
+      const experiencesResolues: AutreElement[] = [];
+      if (domaine.experiences && autres) {
+        for (const experienceId of domaine.experiences) {
+          const experience = autres.get(experienceId);
+          if (experience) {
+            experiencesResolues.push(experience);
+          }
+        }
+      }
+
       // Construire l'élément domaineDeCompetence complet au format attendu
       const domaineResolu: ElementDomaineDeCompetence = {
         type: 'domaineDeCompetence',
@@ -79,6 +91,7 @@ export function resolvePageReferences(
         contenu: domaine.contenu || '',
         auteur: domaine.auteur,
         items: competencesResolues, // Utiliser "items" comme attendu par le renderer
+        experiences: experiencesResolues.length > 0 ? experiencesResolues : undefined,
       };
 
       resolvedContenu.push(domaineResolu);

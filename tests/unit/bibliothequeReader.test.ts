@@ -5,7 +5,7 @@
 
 import fs from 'fs';
 import path from 'path';
-import { readCompetences, readDomaines } from '../../utils/bibliothequeReader';
+import { readCompetences, readDomaines, readAutres } from '../../utils/bibliothequeReader';
 
 // Mock fs
 jest.mock('fs');
@@ -110,6 +110,31 @@ describe('bibliothequeReader - Approche TDD', () => {
       expect(result.get('experience-equipe')?.competences).toEqual(['tdd', 'bdd']);
     });
 
+    it('devrait lire le champ experiences depuis domaines.json', () => {
+      // ARRANGE
+      const mockDomaines = {
+        domaines: {
+          'interactions-humaines': {
+            id: 'interactions-humaines',
+            titre: 'Interactions humaines',
+            contenu: 'Citation',
+            competences: ['service-client'],
+            experiences: ['1', '2', '3'],
+          },
+        },
+      };
+
+      mockPath.join.mockReturnValueOnce('/project/data/bibliotheque/domaines.json');
+      mockFs.existsSync.mockReturnValueOnce(true);
+      mockFs.readFileSync.mockReturnValueOnce(JSON.stringify(mockDomaines));
+
+      // ACT
+      const result = readDomaines();
+
+      // ASSERT
+      expect(result.get('interactions-humaines')?.experiences).toEqual(['1', '2', '3']);
+    });
+
     it('devrait lever une erreur si le fichier n\'existe pas', () => {
       // ARRANGE
       mockPath.join.mockReturnValueOnce('/project/data/bibliotheque/domaines.json');
@@ -117,6 +142,35 @@ describe('bibliothequeReader - Approche TDD', () => {
 
       // ACT & ASSERT
       expect(() => readDomaines()).toThrow('Le fichier domaines.json n\'existe pas');
+    });
+  });
+
+  describe('readAutres', () => {
+    it('devrait lire les expériences depuis experience-et-autres-informations.json', () => {
+      // ARRANGE
+      const mockAutres = {
+        autres: {
+          '1': {
+            id: '1',
+            type: 'Expériences et apprentissages',
+            description: '**Gestion de plateaux d\'assistance technique** - Description de l\'expérience',
+            periode: null,
+          },
+        },
+      };
+
+      mockPath.join.mockReturnValueOnce('/project/data/bibliotheque/experience-et-autres-informations.json');
+      mockFs.existsSync.mockReturnValueOnce(true);
+      mockFs.readFileSync.mockReturnValueOnce(JSON.stringify(mockAutres));
+
+      // ACT
+      const result = readAutres();
+
+      // ASSERT
+      expect(result.size).toBe(1);
+      expect(result.get('1')).toBeDefined();
+      expect(result.get('1')?.description).toContain('Gestion de plateaux d\'assistance technique');
+      expect(result.get('1')?.type).toBe('Expériences et apprentissages');
     });
   });
 });

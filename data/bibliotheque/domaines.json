@@ -8,13 +8,15 @@
       "competences": [
         "service-client",
         "gestion-des-talents"
-      ]
+      ],
+      "experiences": ["1", "2", "3"]
     },
     "faire-avec-les-equipes": {
       "id": "faire-avec-les-equipes",
       "titre": "Faire avec les équipes",
       "contenu": "Par souci d'exemplarité je préfère \"faire avec\" que \"faire faire\".",
-      "competences": []
+      "competences": [],
+      "experiences": ["4", "5", "6"]
     },
     "l-usage-des-visuels-au-service-des-interactions-pour-soutenir-un-processus-de-travail": {
       "id": "l-usage-des-visuels-au-service-des-interactions-pour-soutenir-un-processus-de-travail",
@@ -24,7 +26,8 @@
         "creativite",
         "viralite",
         "engagement"
-      ]
+      ],
+      "experiences": ["7", "8", "9", "10"]
     },
     "strategie-et-transformations": {
       "id": "strategie-et-transformations",
@@ -34,7 +37,8 @@
         "culture-d-entreprise",
         "strategie",
         "conduite-du-changement"
-      ]
+      ],
+      "experiences": ["11", "12", "13", "14", "15", "16", "17"]
     },
     "developpement-informatique": {
       "id": "developpement-informatique",
@@ -44,7 +48,8 @@
         "management-de-produit-logiciel",
         "ingenierie-logicielle",
         "data-et-business-intelligence"
-      ]
+      ],
+      "experiences": ["18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30"]
     },
     "management": {
       "id": "management",
@@ -54,7 +59,8 @@
         "le-sens-avant-tout",
         "management-3-0",
         "leader-agile"
-      ]
+      ],
+      "experiences": ["31", "32", "33", "34", "35", "36", "37", "38", "39"]
     },
     "animation-d-atelier": {
       "id": "animation-d-atelier",
@@ -64,7 +70,8 @@
         "serious-game",
         "modelisation-graphique",
         "codev"
-      ]
+      ],
+      "experiences": ["40", "41", "42", "43", "44", "45", "46"]
     },
     "transmission": {
       "id": "transmission",
@@ -74,7 +81,8 @@
         "formateur",
         "conference",
         "mentora"
-      ]
+      ],
+      "experiences": ["47", "48", "49", "50", "51", "52", "53", "54", "55"]
     },
     "engager-les-equipes": {
       "id": "engager-les-equipes",
@@ -84,7 +92,8 @@
         "reseau-social-professionnel",
         "membre-actif-de-communautes",
         "detournement-video"
-      ]
+      ],
+      "experiences": ["56", "57", "58", "59", "60"]
     },
     "diagnostic-civilisationnel": {
       "id": "diagnostic-civilisationnel",
@@ -95,7 +104,8 @@
         "la-science-les-faits",
         "les-ordres-de-grandeur",
         "une-vision-systemique"
-      ]
+      ],
+      "experiences": ["61", "62", "63", "64", "65", "66", "67"]
     },
     "activites-extra-professionnelles-au-service-de-ma-profession": {
       "id": "activites-extra-professionnelles-au-service-de-ma-profession",
@@ -105,7 +115,8 @@
         "improvisation-theatrale",
         "jeux-de-strategie",
         "musique"
-      ]
+      ],
+      "experiences": ["68", "69", "70"]
     },
     "developpeur": {
       "id": "developpeur",
@@ -115,7 +126,8 @@
         "4d",
         "no-code",
         "ia-pair-programming"
-      ]
+      ],
+      "experiences": ["71", "72", "73", "74"]
     },
     "experience-en-equipe": {
       "id": "experience-en-equipe",
@@ -125,7 +137,8 @@
         "bdd",
         "tdd",
         "ci-cd"
-      ]
+      ],
+      "experiences": ["23", "76", "77", "78", "79", "80"]
     },
     "autres-pratiques-connues": {
       "id": "autres-pratiques-connues",
@@ -135,7 +148,8 @@
         "cleancode",
         "architecture-hexagonale",
         "cqrs-es"
-      ]
+      ],
+      "experiences": ["29", "82", "83"]
     },
     "bien-applique-l-agilite-est-un-cadre-puissant-pour-delivrer-de-la-valeur": {
       "id": "bien-applique-l-agilite-est-un-cadre-puissant-pour-delivrer-de-la-valeur",
@@ -145,7 +159,8 @@
         "vision-produit",
         "empirisme",
         "excellence-technique"
-      ]
+      ],
+      "experiences": ["84", "85", "86", "87", "88", "89", "90", "91", "92", "93", "94"]
     },
     "et-si-nous-rendions-votre-entreprise-stable-malgre-les-fluctuations": {
       "id": "et-si-nous-rendions-votre-entreprise-stable-malgre-les-fluctuations",
@@ -155,7 +170,8 @@
         "performance",
         "polycrises",
         "sante"
-      ]
+      ],
+      "experiences": ["64", "96", "97", "98"]
     },
     "la-robustesse-est-la-reponse-operationnelle-a-un-monde-fluctuant": {
       "id": "la-robustesse-est-la-reponse-operationnelle-a-un-monde-fluctuant",
@@ -165,7 +181,8 @@
         "key-robustness-incentive",
         "exploration",
         "cadre"
-      ]
+      ],
+      "experiences": ["146", "147"]
     },
     "la-distance-entre-reve-et-realite-s-appelle-l-action": {
       "id": "la-distance-entre-reve-et-realite-s-appelle-l-action",
@@ -175,7 +192,8 @@
         "faire-emerger-une-vision-partagee",
         "realiser-un-diagnostic-sincere",
         "generer-de-l-engagement"
-      ]
+      ],
+      "experiences": ["99", "100", "101"]
     }
   }
 }

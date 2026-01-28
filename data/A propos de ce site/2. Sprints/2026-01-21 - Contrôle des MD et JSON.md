@@ -158,9 +158,7 @@ Garantir la qualité et la cohérence des fichiers Markdown et JSON du projet en
 ## US-5.5 : Décalage des niveaux de titre Markdown vers HTML ✅ COMPLÉTÉ
 - **En tant que** Rédacteur de contenu Markdown
 - **Je souhaite** Utiliser les niveaux de titre standards (#, ##, ###, etc.) dans mes fichiers MD sans être contraint par une validation qui impose de commencer au niveau 3
-- **Afin de** Écrire du contenu Markdown avec une hiérarchie naturelle et standard
-
-- **Critères d'acceptation** :
+- **Afin de** Écrire du contenu Markdown avec une hiérarchie naturelle et standard- **Critères d'acceptation** :
 
 - **Règle métier de décalage** :
   - Les niveaux de titre Markdown sont décalés de +2 lors du rendu HTML :

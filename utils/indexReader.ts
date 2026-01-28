@@ -5,7 +5,7 @@
 
 import fs from 'fs';
 import path from 'path';
-import { readCompetences, readDomaines } from './bibliothequeReader';
+import { readCompetences, readDomaines, readAutres, type AutreElement } from './bibliothequeReader';
 import { resolvePageReferences } from './profilBuilder';
 
 /**
@@ -34,6 +34,7 @@ export interface DomaineDeCompetences {
   contenu: string;
   auteur?: string; // Auteur optionnel de la citation/contenu
   items: Competence[];
+  experiences?: AutreElement[]; // Expériences associées au domaine
 }
 
 /**
@@ -83,6 +84,7 @@ export interface ElementDomaineDeCompetence {
   contenu: string;
   auteur?: string; // Auteur optionnel de la citation/contenu
   items: Competence[];
+  experiences?: AutreElement[]; // Expériences associées au domaine
 }
 
 /**
@@ -317,7 +319,8 @@ export const readPageData = (filename: string = 'index.json'): PageData => {
     try {
       const competences = readCompetences();
       const domaines = readDomaines();
-      const resolved = resolvePageReferences(pageData, competences, domaines);
+      const autres = readAutres();
+      const resolved = resolvePageReferences(pageData, competences, domaines, autres);
       // Vérifier que les références ont bien été résolues
       const stillHasRefs = resolved.contenu.some((element) => {
         if (element.type === 'domaineDeCompetence') {

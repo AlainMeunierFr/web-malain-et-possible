@@ -235,6 +235,7 @@
 
 .domaineDeCompetence .competenceBoutonContainer {
   margin-top: auto;
+  padding-top: 10px;
   width: 100%;
   display: flex;
   justify-content: center;
@@ -256,6 +257,62 @@
   margin-top: 0.5rem;
   margin-bottom: 0;
   width: 100%;
+}
+
+/* Styles pour les expériences */
+.domaineDeCompetence .experiencesContainer {
+  width: 100%;
+  margin-top: 10px; /* Réduit encore pour rapprocher davantage des compétences */
+  margin-bottom: 40px; /* Augmenté pour séparer du domaine suivant */
+  box-sizing: border-box;
+}
+
+.domaineDeCompetence .experiencesTitre {
+  font-family: var(--font-sans);
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.4;
+  text-align: left;
+  margin: 0 0 0.4rem 0; /* Identique à margin-bottom de .experienceItem */
+  color: var(--color-text-default);
+}
+
+.domaineDeCompetence .experiencesList {
+  list-style-type: disc;
+  padding-left: 1.5rem;
+  margin: 0;
+  width: 100%;
+}
+
+.domaineDeCompetence .experienceItem {
+  font-family: var(--font-serif);
+  font-size: 12px; /* Police un peu plus petite que les autres textes (13px) */
+  font-weight: 400;
+  line-height: 1.4; /* Réduit de 1.6 à 1.4 pour réduire l'interligne */
+  color: var(--color-text-default);
+  margin-bottom: 0.4rem; /* Réduit de 0.75rem à 0.4rem pour rapprocher les expériences */
+}
+
+.domaineDeCompetence .experienceItem:last-child {
+  margin-bottom: 0;
+}
+
+.domaineDeCompetence .experiencePeriode {
+  font-style: italic; /* Date en italique */
+}
+
+.domaineDeCompetence .experienceTitre {
+  font-weight: 700; /* Titre en gras */
+}
+
+.domaineDeCompetence .experienceDescription {
+  font-weight: 400; /* Description en normal */
+  display: inline; /* Pas de saut de ligne entre titre et description */
+}
+
+.domaineDeCompetence .experienceDescription p {
+  display: inline; /* Les paragraphes dans la description sont inline */
+  margin: 0; /* Pas de marge pour éviter les sauts de ligne */
 }
 
 /* Mobile : le domaineHeader prend 90-95% de la largeur de l'écran */

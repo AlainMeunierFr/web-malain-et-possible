@@ -383,6 +383,66 @@ const DomaineDeCompetences: React.FC<DomaineDeCompetencesProps> = ({ domaine, ba
           );
         })}
       </div>
+
+      {/* Troisième bloc : Expériences et apprentissages (si disponibles) */}
+      {domaine.experiences && domaine.experiences.length > 0 && (
+        <div className="experiencesContainer">
+          <h3 className="experiencesTitre">Expériences et apprentissages</h3>
+          <ul className="experiencesList">
+            {[...domaine.experiences]
+              .sort((a, b) => {
+                // Les périodes null en premier
+                if (!a.periode && !b.periode) return 0;
+                if (!a.periode) return -1;
+                if (!b.periode) return 1;
+                
+                // Extraire l'année la plus récente de chaque période
+                const getLatestYear = (periode: string | null): number => {
+                  if (!periode || typeof periode !== 'string') return 0;
+                  
+                  // Format "2022-2023" → prendre 2023
+                  const rangeMatch = periode.match(/(\d{4})-(\d{4})/);
+                  if (rangeMatch) {
+                    return parseInt(rangeMatch[2], 10);
+                  }
+                  
+                  // Format "Depuis 2020" → prendre 2020
+                  const depuisMatch = periode.match(/Depuis\s+(\d{4})/i);
+                  if (depuisMatch) {
+                    return parseInt(depuisMatch[1], 10);
+                  }
+                  
+                  // Format "février-juin 2022" ou "2022" → prendre l'année
+                  const yearMatch = periode.match(/(\d{4})/);
+                  if (yearMatch) {
+                    return parseInt(yearMatch[1], 10);
+                  }
+                  
+                  return 0;
+                };
+                
+                const yearA = getLatestYear(a.periode);
+                const yearB = getLatestYear(b.periode);
+                
+                // Ordre inverse chronologique (plus récent en premier)
+                return yearB - yearA;
+              })
+              .map((experience, index) => (
+              <li key={`experience-${experience.id || index}`} className="experienceItem">
+                {experience.periode && (
+                  <>
+                    <em className="experiencePeriode">[{experience.periode}]</em>
+                    {' - '}
+                  </>
+                )}
+                <span className="experienceDescription">
+                  {parseMarkdownContent(experience.description)}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
     </div>
   );
 };
