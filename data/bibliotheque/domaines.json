@@ -93,7 +93,7 @@
         "membre-actif-de-communautes",
         "detournement-video"
       ],
-      "experiences": ["56", "57", "58", "59", "60"]
+      "experiences": ["56", "57", "59", "60"]
     },
     "diagnostic-civilisationnel": {
       "id": "diagnostic-civilisationnel",
@@ -105,7 +105,7 @@
         "les-ordres-de-grandeur",
         "une-vision-systemique"
       ],
-      "experiences": ["61", "62", "63", "64", "65", "66", "67"]
+      "experiences": ["61", "62", "63", "65", "66", "67"]
     },
     "activites-extra-professionnelles-au-service-de-ma-profession": {
       "id": "activites-extra-professionnelles-au-service-de-ma-profession",
@@ -171,7 +171,7 @@
         "polycrises",
         "sante"
       ],
-      "experiences": ["64", "96", "97", "98"]
+      "experiences": ["96", "97", "98"]
     },
     "la-robustesse-est-la-reponse-operationnelle-a-un-monde-fluctuant": {
       "id": "la-robustesse-est-la-reponse-operationnelle-a-un-monde-fluctuant",
