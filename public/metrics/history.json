@@ -3997,23 +3997,122 @@
         "buildTime": 13399,
         "lighthouseScore": "NC"
       }
+    },
+    {
+      "timestamp": "2026-01-28T19:51:34.268Z",
+      "branch": "main",
+      "commit": "2761a3e",
+      "tests": {
+        "unitTests": 460,
+        "unitTestFiles": 56,
+        "unitTestPassed": 460,
+        "unitTestFailed": 0,
+        "unitTestDuration": 7421,
+        "integrationTests": 30,
+        "integrationTestFiles": 5,
+        "integrationTestPassed": 30,
+        "integrationTestFailed": 0,
+        "integrationTestDuration": 10654,
+        "bddFeatures": 15,
+        "bddScenarios": 111,
+        "bddScenariosPassed": 111,
+        "bddScenariosFailed": 0,
+        "bddSteps": 0,
+        "bddTestDuration": 0,
+        "e2eSteps": 25,
+        "e2eScenarioFiles": 1,
+        "e2eScenarios": 3,
+        "e2eStepsPassed": 22,
+        "e2eStepsFailed": 3,
+        "e2eTests": {
+          "total": 3,
+          "passed": 0,
+          "failed": 3,
+          "duration": 11063,
+          "lastRunDate": "2026-01-28T19:51:34.229Z"
+        },
+        "totalTests": 626,
+        "totalTestFiles": 77,
+        "passingTests": 623,
+        "failingTests": 3,
+        "testDuration": 29138
+      },
+      "coverage": {
+        "lines": {
+          "total": 2243,
+          "covered": 1716,
+          "percentage": 76.5
+        },
+        "statements": {
+          "total": 2333,
+          "covered": 1781,
+          "percentage": 76.33
+        },
+        "functions": {
+          "total": 273,
+          "covered": 213,
+          "percentage": 78.02
+        },
+        "branches": {
+          "total": 1506,
+          "covered": 982,
+          "percentage": 65.2
+        }
+      },
+      "quality": {
+        "eslintErrors": 0,
+        "eslintWarnings": 0,
+        "typeCoverage": "NC",
+        "cyclomaticComplexity": "NC",
+        "maintainabilityIndex": "NC",
+        "technicalDebt": "NC"
+      },
+      "size": {
+        "totalFiles": 60,
+        "totalLines": 8188,
+        "sourceLines": 8188,
+        "commentLines": 0,
+        "blankLines": 0,
+        "components": 29,
+        "pages": 10,
+        "utils": 21,
+        "tests": 61
+      },
+      "dependencies": {
+        "total": 35,
+        "production": 6,
+        "development": 29,
+        "outdated": 0,
+        "vulnerabilities": {
+          "low": 0,
+          "moderate": 0,
+          "high": 0,
+          "critical": 0,
+          "total": 0
+        }
+      },
+      "performance": {
+        "bundleSize": 643301,
+        "buildTime": 13399,
+        "lighthouseScore": "NC"
+      }
     }
   ],
   "latest": {
-    "timestamp": "2026-01-28T19:49:36.114Z",
+    "timestamp": "2026-01-28T19:51:34.268Z",
     "branch": "main",
-    "commit": "5d9611e",
+    "commit": "2761a3e",
     "tests": {
       "unitTests": 460,
       "unitTestFiles": 56,
       "unitTestPassed": 460,
       "unitTestFailed": 0,
-      "unitTestDuration": 9974,
+      "unitTestDuration": 7421,
       "integrationTests": 30,
       "integrationTestFiles": 5,
       "integrationTestPassed": 30,
       "integrationTestFailed": 0,
-      "integrationTestDuration": 10545,
+      "integrationTestDuration": 10654,
       "bddFeatures": 15,
       "bddScenarios": 111,
       "bddScenariosPassed": 111,
@@ -4029,14 +4128,14 @@
         "total": 3,
         "passed": 0,
         "failed": 3,
-        "duration": 12908,
-        "lastRunDate": "2026-01-28T19:49:36.074Z"
+        "duration": 11063,
+        "lastRunDate": "2026-01-28T19:51:34.229Z"
       },
       "totalTests": 626,
       "totalTestFiles": 77,
       "passingTests": 623,
       "failingTests": 3,
-      "testDuration": 33427
+      "testDuration": 29138
     },
     "coverage": {
       "lines": {
@@ -4093,14 +4192,14 @@
       }
     },
     "performance": {
-      "bundleSize": 618662,
+      "bundleSize": 643301,
       "buildTime": 13399,
       "lighthouseScore": "NC"
     }
   },
   "trends": {
     "tests": "stable",
-    "coverage": "up",
+    "coverage": "stable",
     "quality": "stable"
   }
 }
