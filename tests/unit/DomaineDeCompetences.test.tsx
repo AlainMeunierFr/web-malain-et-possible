@@ -3,12 +3,38 @@
  */
 
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import DomaineDeCompetences from '../../components/DomaineDeCompetences';
 import type { DomaineDeCompetences as DomaineDeCompetencesType } from '../../utils/indexReader';
 
+/** Ouvre le bloc "Expériences et apprentissages" en cliquant sur le bouton. */
+function ouvrirExperiences() {
+  const bouton = screen.getByRole('button', { name: /Expériences et apprentissages \(\d+\)/ });
+  fireEvent.click(bouton);
+}
+
 describe('DomaineDeCompetences', () => {
   describe('Affichage des expériences', () => {
+    it('devrait afficher le bouton Expériences et apprentissages (N) et masquer la liste par défaut', () => {
+      const domaine: DomaineDeCompetencesType = {
+        titre: 'Test Domaine',
+        contenu: 'Contenu du domaine',
+        items: [],
+        experiences: [
+          {
+            id: '1',
+            type: 'Expériences et apprentissages',
+            description: 'Une expérience',
+            periode: null,
+          },
+        ],
+      };
+      render(<DomaineDeCompetences domaine={domaine} />);
+
+      expect(screen.getByRole('button', { name: /Expériences et apprentissages \(1\)/ })).toBeInTheDocument();
+      expect(screen.queryByText('Une expérience')).not.toBeInTheDocument();
+    });
+
     it('devrait afficher les expériences avec le format correct : [periode] - description', () => {
       // ARRANGE
       const domaine: DomaineDeCompetencesType = {
@@ -33,6 +59,7 @@ describe('DomaineDeCompetences', () => {
 
       // ACT
       render(<DomaineDeCompetences domaine={domaine} />);
+      ouvrirExperiences();
 
       // ASSERT
       const experienceItem = screen.getByText(/Expérience avec période/).closest('li');
@@ -73,6 +100,7 @@ describe('DomaineDeCompetences', () => {
 
       // ACT
       render(<DomaineDeCompetences domaine={domaine} />);
+      ouvrirExperiences();
 
       // ASSERT
       const titreElement = screen.getByText('Expérience sans période');
@@ -103,7 +131,6 @@ describe('DomaineDeCompetences', () => {
           {
             id: '1',
             type: 'Expériences et apprentissages',
-            titre: 'Expérience test',
             description: 'Description',
             periode: null,
           },
@@ -138,7 +165,6 @@ describe('DomaineDeCompetences', () => {
           {
             id: '1',
             type: 'Expériences et apprentissages',
-            titre: 'Expérience test',
             description: 'Description',
             periode: null,
           },
@@ -209,7 +235,6 @@ describe('DomaineDeCompetences', () => {
           {
             id: '1',
             type: 'Expériences et apprentissages',
-            titre: 'Gestion de crise - Réorganisation après départ associé',
             description: 'Gestion de crise - Réorganisation après départ associé',
             periode: null,
           },
@@ -218,11 +243,11 @@ describe('DomaineDeCompetences', () => {
 
       // ACT
       render(<DomaineDeCompetences domaine={domaine} />);
+      ouvrirExperiences();
 
       // ASSERT
-      // Le titre ne doit apparaître qu'une seule fois
       const titreElements = screen.queryAllByText('Gestion de crise - Réorganisation après départ associé');
-      expect(titreElements.length).toBe(1); // Une seule occurrence (le titre en gras)
+      expect(titreElements.length).toBe(1);
     });
   });
 });

@@ -7,6 +7,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { useState } from 'react';
 import {
   Rocket,
   Globe,
@@ -14,6 +15,8 @@ import {
   Puzzle,
   Binoculars,
   Users,
+  ChevronDown,
+  ChevronUp,
   type LucideIcon,
 } from 'lucide-react';
 import type { DomaineDeCompetences } from '../utils/indexReader';
@@ -277,6 +280,7 @@ export interface DomaineDeCompetencesProps {
 
 const DomaineDeCompetences: React.FC<DomaineDeCompetencesProps> = ({ domaine, backgroundColor = 'white' }) => {
   const pathname = usePathname();
+  const [experiencesOuvert, setExperiencesOuvert] = useState(false);
   
   // Protection : vérifier que items existe et est un tableau
   if (!domaine.items || !Array.isArray(domaine.items)) {
@@ -341,7 +345,7 @@ const DomaineDeCompetences: React.FC<DomaineDeCompetencesProps> = ({ domaine, ba
               <div className="competenceImage">
                 {IconComponent ? (
                   <IconComponent
-                    size={120}
+                    size={72}
                     color="rgba(9, 23, 71, 1)"
                     strokeWidth={1.5}
                   />
@@ -384,63 +388,68 @@ const DomaineDeCompetences: React.FC<DomaineDeCompetencesProps> = ({ domaine, ba
         })}
       </div>
 
-      {/* Troisième bloc : Expériences et apprentissages (si disponibles) */}
+      {/* Troisième bloc : Expériences et apprentissages (à la demande) */}
       {domaine.experiences && domaine.experiences.length > 0 && (
         <div className="experiencesContainer">
-          <h3 className="experiencesTitre">Expériences et apprentissages</h3>
-          <ul className="experiencesList">
-            {[...domaine.experiences]
-              .sort((a, b) => {
-                // Les périodes null en premier
-                if (!a.periode && !b.periode) return 0;
-                if (!a.periode) return -1;
-                if (!b.periode) return 1;
-                
-                // Extraire l'année la plus récente de chaque période
-                const getLatestYear = (periode: string | null): number => {
-                  if (!periode || typeof periode !== 'string') return 0;
-                  
-                  // Format "2022-2023" → prendre 2023
-                  const rangeMatch = periode.match(/(\d{4})-(\d{4})/);
-                  if (rangeMatch) {
-                    return parseInt(rangeMatch[2], 10);
-                  }
-                  
-                  // Format "Depuis 2020" → prendre 2020
-                  const depuisMatch = periode.match(/Depuis\s+(\d{4})/i);
-                  if (depuisMatch) {
-                    return parseInt(depuisMatch[1], 10);
-                  }
-                  
-                  // Format "février-juin 2022" ou "2022" → prendre l'année
-                  const yearMatch = periode.match(/(\d{4})/);
-                  if (yearMatch) {
-                    return parseInt(yearMatch[1], 10);
-                  }
-                  
-                  return 0;
-                };
-                
-                const yearA = getLatestYear(a.periode);
-                const yearB = getLatestYear(b.periode);
-                
-                // Ordre inverse chronologique (plus récent en premier)
-                return yearB - yearA;
-              })
-              .map((experience, index) => (
-              <li key={`experience-${experience.id || index}`} className="experienceItem">
-                {experience.periode && (
-                  <>
-                    <em className="experiencePeriode">[{experience.periode}]</em>
-                    {' - '}
-                  </>
-                )}
-                <span className="experienceDescription">
-                  {parseMarkdownContent(experience.description)}
-                </span>
-              </li>
-            ))}
-          </ul>
+          <button
+            type="button"
+            className="experiencesToggle"
+            onClick={() => setExperiencesOuvert((o) => !o)}
+            aria-expanded={experiencesOuvert}
+            aria-controls={`experiences-list-${domaine.titre.replace(/\s+/g, '-')}`}
+          >
+            <h3 className="experiencesTitre">
+              Expériences et apprentissages ({domaine.experiences.length})
+            </h3>
+            {experiencesOuvert ? (
+              <ChevronUp className="experiencesToggleIcon" aria-hidden="true" />
+            ) : (
+              <ChevronDown className="experiencesToggleIcon" aria-hidden="true" />
+            )}
+          </button>
+          {experiencesOuvert && (
+            <div
+              id={`experiences-list-${domaine.titre.replace(/\s+/g, '-')}`}
+              className="experiencesContent"
+              role="region"
+              aria-label="Liste des expériences et apprentissages"
+            >
+              <ul className="experiencesList">
+                {[...domaine.experiences]
+                  .sort((a, b) => {
+                    // Les périodes null en premier
+                    if (!a.periode && !b.periode) return 0;
+                    if (!a.periode) return -1;
+                    if (!b.periode) return 1;
+
+                    const getLatestYear = (periode: string | null): number => {
+                      if (!periode || typeof periode !== 'string') return 0;
+                      const rangeMatch = periode.match(/(\d{4})-(\d{4})/);
+                      if (rangeMatch) return parseInt(rangeMatch[2], 10);
+                      const depuisMatch = periode.match(/Depuis\s+(\d{4})/i);
+                      if (depuisMatch) return parseInt(depuisMatch[1], 10);
+                      const yearMatch = periode.match(/(\d{4})/);
+                      if (yearMatch) return parseInt(yearMatch[1], 10);
+                      return 0;
+                    };
+                    return getLatestYear(b.periode) - getLatestYear(a.periode);
+                  })
+                  .map((experience, index) => (
+                    <li key={`experience-${experience.id || index}`} className="experienceItem">
+                      {experience.periode && (
+                        <>
+                          <em className="experiencePeriode">[{experience.periode}]</em>
+                          {' - '}
+                        </>
+                      )}
+                      <span className="experienceDescription">
+                        {parseMarkdownContent(experience.description)}
+                      </span>
+                    </li>
+                  ))}
+              </ul>
+            </div>
+          )}
         </div>
       )}
     </div>
