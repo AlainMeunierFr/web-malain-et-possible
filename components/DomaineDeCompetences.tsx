@@ -362,9 +362,9 @@ const DomaineDeCompetences: React.FC<DomaineDeCompetencesProps> = ({ domaine, ba
               {competence.auteur && (
                 <p className="competenceAuteur">{competence.auteur}</p>
               )}
-              <div className="competenceBoutonContainer">
-                {competence.bouton && shouldDisplayButton(competence.bouton) ? (
-                  isExternalUrl(competence.bouton.action) ? (
+              {competence.bouton && shouldDisplayButton(competence.bouton) && (
+                <div className="competenceBoutonContainer">
+                  {isExternalUrl(competence.bouton.action) ? (
                     <a
                       href={competence.bouton.action}
                       target="_blank"
@@ -378,11 +378,9 @@ const DomaineDeCompetences: React.FC<DomaineDeCompetencesProps> = ({ domaine, ba
                     <Link href={competence.bouton.action} className="bouton" data-e2eid={null}>
                       {competence.bouton.texte}
                     </Link>
-                  )
-                ) : (
-                  <div className="competenceBoutonPlaceholder"></div>
-                )}
-              </div>
+                  )}
+                </div>
+              )}
             </div>
           );
         })}
