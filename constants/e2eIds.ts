@@ -8,4 +8,9 @@ export const E2E_IDS = {
     logo: 'h1',
     photo: 'h2',
   },
+  /** Page 404 : boutons codés en dur (même convention lettre + numéro que footer b9–b15) */
+  notFound: {
+    accueil: 'b16',
+    planDuSite: 'b17',
+  },
 } as const;

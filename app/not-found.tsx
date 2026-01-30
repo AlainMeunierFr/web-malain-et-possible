@@ -4,6 +4,7 @@
  */
 import Link from 'next/link';
 import { ROUTES } from '../constants/routes';
+import { E2E_IDS } from '../constants/e2eIds';
 
 export const dynamic = 'force-dynamic';
 
@@ -39,10 +40,10 @@ export default function NotFound() {
         margin: '2rem auto',
         padding: '2rem 1rem'
       }}>
-        <Link href={ROUTES.HOME} className="bouton" e2eid="404-accueil" style={{ width: '100%', maxWidth: '400px', textAlign: 'center' }}>
+        <Link href={ROUTES.HOME} className="bouton" e2eid={`e2eid-${E2E_IDS.notFound.accueil}`} style={{ width: '100%', maxWidth: '400px', textAlign: 'center' }}>
           Retour à l'accueil
         </Link>
-        <Link href={ROUTES.SITEMAP} className="bouton" e2eid="404-plan-du-site" style={{ width: '100%', maxWidth: '400px', textAlign: 'center' }}>
+        <Link href={ROUTES.SITEMAP} className="bouton" e2eid={`e2eid-${E2E_IDS.notFound.planDuSite}`} style={{ width: '100%', maxWidth: '400px', textAlign: 'center' }}>
           Voir le plan du site
         </Link>
       </div>

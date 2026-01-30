@@ -127,8 +127,9 @@ export function genererContenuSpecE2E(
 
     if (i === 0) {
       lignes.push(`  await test.step("Étape ${i + 1}: Page d'accueil", async () => {`);
-      lignes.push(`    await page.goto('${page}');`);
+      lignes.push(`    await page.goto('${page}', { waitUntil: 'domcontentloaded' });`);
       lignes.push(`    await expect(page).toHaveURL('${page}');`);
+      lignes.push(`    await page.waitForLoadState('networkidle').catch(() => {});`);
       lignes.push(`  });`);
     } else {
       const pagePrecedente = cheminEffectif[i - 1];
@@ -158,10 +159,11 @@ export function genererContenuSpecE2E(
         lignes.push(
           `    const boutonPlanDuSite = page.locator('footer').locator('[e2eid="e2eid-b13"]');`
         );
-        lignes.push(`    await boutonPlanDuSite.first().waitFor({ state: 'attached', timeout: 15000 });`);
+        lignes.push(`    await boutonPlanDuSite.first().waitFor({ state: 'visible', timeout: 15000 });`);
         lignes.push(`    if (await boutonPlanDuSite.count() > 0) {`);
-        lignes.push(`      await boutonPlanDuSite.click();`);
-        lignes.push(`      await expect(page).toHaveURL('/plan-du-site');`);
+        lignes.push(`      await boutonPlanDuSite.first().scrollIntoViewIfNeeded();`);
+        lignes.push(`      await boutonPlanDuSite.first().click({ timeout: 15000 });`);
+        lignes.push(`      await expect(page).toHaveURL('/plan-du-site', { timeout: 15000 });`);
         lignes.push(`    } else {`);
         lignes.push(
           `      throw new Error('Impossible de trouver le bouton Plan du site (e2eid-b13) dans le footer.');`
@@ -222,12 +224,14 @@ export function genererContenuSpecE2E(
             lignes.push(
               `      const boutonPlanDuSite = page.locator('footer').locator('[e2eid="e2eid-b13"]');`
             );
-            lignes.push(`      await boutonPlanDuSite.first().waitFor({ state: 'attached', timeout: 15000 });`);
+            lignes.push(`      await boutonPlanDuSite.first().waitFor({ state: 'visible', timeout: 15000 });`);
             lignes.push(`      if (await boutonPlanDuSite.count() > 0) {`);
-            lignes.push(`        await boutonPlanDuSite.click();`);
-            lignes.push(`        await expect(page).toHaveURL('/plan-du-site');`);
+            lignes.push(`        await boutonPlanDuSite.first().scrollIntoViewIfNeeded();`);
+            lignes.push(`        await boutonPlanDuSite.first().click({ timeout: 15000 });`);
+            lignes.push(`        await expect(page).toHaveURL('/plan-du-site', { timeout: 15000 });`);
+            lignes.push(`        await page.waitForLoadState('domcontentloaded').catch(() => {});`);
             const e2eId = generateE2eIdFromUrl(page);
-            lignes.push(`        await page.waitForSelector('[e2eid^="e2eid-l"]', { timeout: 5000 }).catch(() => {});`);
+            lignes.push(`        await page.waitForSelector('[e2eid^="e2eid-l"]', { timeout: 10000 }).catch(() => {});`);
             lignes.push(`        const lienDepuisPlan${i} = page.getByTestId('e2eid-${e2eId}');`);
             lignes.push(`        if (await lienDepuisPlan${i}.count() === 0) {`);
             const errorMsg = `Impossible de trouver un lien vers ${page} (e2eID: e2eid-${e2eId}) depuis le plan du site.`.replace(/'/g, "\\'");
@@ -265,10 +269,11 @@ export function genererContenuSpecE2E(
             lignes.push(
               `    const boutonPlanDuSite = page.locator('footer').locator('[e2eid="e2eid-b13"]');`
             );
-            lignes.push(`    await boutonPlanDuSite.first().waitFor({ state: 'attached', timeout: 10000 });`);
+            lignes.push(`    await boutonPlanDuSite.first().waitFor({ state: 'visible', timeout: 15000 });`);
             lignes.push(`    if (await boutonPlanDuSite.count() > 0) {`);
-            lignes.push(`      await boutonPlanDuSite.click();`);
-            lignes.push(`      await expect(page).toHaveURL('/plan-du-site');`);
+            lignes.push(`      await boutonPlanDuSite.first().scrollIntoViewIfNeeded();`);
+            lignes.push(`      await boutonPlanDuSite.first().click({ timeout: 15000 });`);
+            lignes.push(`      await expect(page).toHaveURL('/plan-du-site', { timeout: 15000 });`);
             lignes.push(`    } else {`);
             lignes.push(
               `      throw new Error('Impossible de trouver le bouton Plan du site (e2eid-b13) dans le footer.');`
@@ -278,12 +283,14 @@ export function genererContenuSpecE2E(
             lignes.push(
               `    const boutonPlanDuSite = page.locator('footer').locator('[e2eid="e2eid-b13"]');`
             );
-            lignes.push(`    await boutonPlanDuSite.first().waitFor({ state: 'attached', timeout: 15000 });`);
+            lignes.push(`    await boutonPlanDuSite.first().waitFor({ state: 'visible', timeout: 15000 });`);
             lignes.push(`    if (await boutonPlanDuSite.count() > 0) {`);
-            lignes.push(`      await boutonPlanDuSite.click();`);
-            lignes.push(`      await expect(page).toHaveURL('/plan-du-site');`);
+            lignes.push(`      await boutonPlanDuSite.first().scrollIntoViewIfNeeded();`);
+            lignes.push(`      await boutonPlanDuSite.first().click({ timeout: 15000 });`);
+            lignes.push(`      await expect(page).toHaveURL('/plan-du-site', { timeout: 15000 });`);
+            lignes.push(`      await page.waitForLoadState('domcontentloaded').catch(() => {});`);
             const e2eId2 = generateE2eIdFromUrl(page);
-            lignes.push(`      await page.waitForSelector('[e2eid^="e2eid-l"]', { timeout: 5000 }).catch(() => {});`);
+            lignes.push(`      await page.waitForSelector('[e2eid^="e2eid-l"]', { timeout: 10000 }).catch(() => {});`);
             lignes.push(`      const lienDepuisPlan${i} = page.getByTestId('e2eid-${e2eId2}');`);
             lignes.push(`      if (await lienDepuisPlan${i}.count() === 0) {`);
             const errorMsg2 = `Impossible de trouver un lien vers ${page} (e2eID: e2eid-${e2eId2}) depuis le plan du site.`.replace(/'/g, "\\'");

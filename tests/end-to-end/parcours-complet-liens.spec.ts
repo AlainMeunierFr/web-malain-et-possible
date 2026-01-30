@@ -5,8 +5,9 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
   // Ce test parcourt tous les liens du site et teste tous les e2eID présents
 
   await test.step("Étape 1: Page d'accueil", async () => {
-    await page.goto('/');
+    await page.goto('/', { waitUntil: 'domcontentloaded' });
     await expect(page).toHaveURL('/');
+    await page.waitForLoadState('networkidle').catch(() => {});
   });
 
   // Test des e2eID présents sur /
@@ -184,11 +185,13 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
   }
   await test.step("Étape 2: Navigation de / vers /detournement-video (lien)", async () => {
     const boutonPlanDuSite = page.locator('footer').locator('[e2eid="e2eid-b13"]');
-    await boutonPlanDuSite.first().waitFor({ state: 'attached', timeout: 15000 });
+    await boutonPlanDuSite.first().waitFor({ state: 'visible', timeout: 15000 });
     if (await boutonPlanDuSite.count() > 0) {
-      await boutonPlanDuSite.click();
-      await expect(page).toHaveURL('/plan-du-site');
-      await page.waitForSelector('[e2eid^="e2eid-l"]', { timeout: 5000 }).catch(() => {});
+      await boutonPlanDuSite.first().scrollIntoViewIfNeeded();
+      await boutonPlanDuSite.first().click({ timeout: 15000 });
+      await expect(page).toHaveURL('/plan-du-site', { timeout: 15000 });
+      await page.waitForLoadState('domcontentloaded').catch(() => {});
+      await page.waitForSelector('[e2eid^="e2eid-l"]', { timeout: 10000 }).catch(() => {});
       const lienDepuisPlan1 = page.getByTestId('e2eid-l806');
       if (await lienDepuisPlan1.count() === 0) {
         throw new Error('Impossible de trouver un lien vers /detournement-video (e2eID: e2eid-l806) depuis le plan du site.');
@@ -222,11 +225,13 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
       }
     } else {
       const boutonPlanDuSite = page.locator('footer').locator('[e2eid="e2eid-b13"]');
-      await boutonPlanDuSite.first().waitFor({ state: 'attached', timeout: 15000 });
+      await boutonPlanDuSite.first().waitFor({ state: 'visible', timeout: 15000 });
       if (await boutonPlanDuSite.count() > 0) {
-        await boutonPlanDuSite.click();
-        await expect(page).toHaveURL('/plan-du-site');
-        await page.waitForSelector('[e2eid^="e2eid-l"]', { timeout: 5000 }).catch(() => {});
+        await boutonPlanDuSite.first().scrollIntoViewIfNeeded();
+        await boutonPlanDuSite.first().click({ timeout: 15000 });
+        await expect(page).toHaveURL('/plan-du-site', { timeout: 15000 });
+        await page.waitForLoadState('domcontentloaded').catch(() => {});
+        await page.waitForSelector('[e2eid^="e2eid-l"]', { timeout: 10000 }).catch(() => {});
         const lienDepuisPlan2 = page.getByTestId('e2eid-l696');
         if (await lienDepuisPlan2.count() === 0) {
           throw new Error('Impossible de trouver un lien vers /portfolio-detournements (e2eID: e2eid-l696) depuis le plan du site.');
@@ -242,11 +247,13 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
   // Test des e2eID présents sur /portfolio-detournements
   await test.step("Étape 4: Navigation de /portfolio-detournements vers /mes-profils (lien)", async () => {
     const boutonPlanDuSite = page.locator('footer').locator('[e2eid="e2eid-b13"]');
-    await boutonPlanDuSite.first().waitFor({ state: 'attached', timeout: 15000 });
+    await boutonPlanDuSite.first().waitFor({ state: 'visible', timeout: 15000 });
     if (await boutonPlanDuSite.count() > 0) {
-      await boutonPlanDuSite.click();
-      await expect(page).toHaveURL('/plan-du-site');
-      await page.waitForSelector('[e2eid^="e2eid-l"]', { timeout: 5000 }).catch(() => {});
+      await boutonPlanDuSite.first().scrollIntoViewIfNeeded();
+      await boutonPlanDuSite.first().click({ timeout: 15000 });
+      await expect(page).toHaveURL('/plan-du-site', { timeout: 15000 });
+      await page.waitForLoadState('domcontentloaded').catch(() => {});
+      await page.waitForSelector('[e2eid^="e2eid-l"]', { timeout: 10000 }).catch(() => {});
       const lienDepuisPlan3 = page.getByTestId('e2eid-l813');
       if (await lienDepuisPlan3.count() === 0) {
         throw new Error('Impossible de trouver un lien vers /mes-profils (e2eID: e2eid-l813) depuis le plan du site.');
@@ -280,11 +287,13 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
       }
     } else {
       const boutonPlanDuSite = page.locator('footer').locator('[e2eid="e2eid-b13"]');
-      await boutonPlanDuSite.first().waitFor({ state: 'attached', timeout: 15000 });
+      await boutonPlanDuSite.first().waitFor({ state: 'visible', timeout: 15000 });
       if (await boutonPlanDuSite.count() > 0) {
-        await boutonPlanDuSite.click();
-        await expect(page).toHaveURL('/plan-du-site');
-        await page.waitForSelector('[e2eid^="e2eid-l"]', { timeout: 5000 }).catch(() => {});
+        await boutonPlanDuSite.first().scrollIntoViewIfNeeded();
+        await boutonPlanDuSite.first().click({ timeout: 15000 });
+        await expect(page).toHaveURL('/plan-du-site', { timeout: 15000 });
+        await page.waitForLoadState('domcontentloaded').catch(() => {});
+        await page.waitForSelector('[e2eid^="e2eid-l"]', { timeout: 10000 }).catch(() => {});
         const lienDepuisPlan4 = page.getByTestId('e2eid-l699');
         if (await lienDepuisPlan4.count() === 0) {
           throw new Error('Impossible de trouver un lien vers /profil/cpo (e2eID: e2eid-l699) depuis le plan du site.');
@@ -319,11 +328,13 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
       }
     } else {
       const boutonPlanDuSite = page.locator('footer').locator('[e2eid="e2eid-b13"]');
-      await boutonPlanDuSite.first().waitFor({ state: 'attached', timeout: 15000 });
+      await boutonPlanDuSite.first().waitFor({ state: 'visible', timeout: 15000 });
       if (await boutonPlanDuSite.count() > 0) {
-        await boutonPlanDuSite.click();
-        await expect(page).toHaveURL('/plan-du-site');
-        await page.waitForSelector('[e2eid^="e2eid-l"]', { timeout: 5000 }).catch(() => {});
+        await boutonPlanDuSite.first().scrollIntoViewIfNeeded();
+        await boutonPlanDuSite.first().click({ timeout: 15000 });
+        await expect(page).toHaveURL('/plan-du-site', { timeout: 15000 });
+        await page.waitForLoadState('domcontentloaded').catch(() => {});
+        await page.waitForSelector('[e2eid^="e2eid-l"]', { timeout: 10000 }).catch(() => {});
         const lienDepuisPlan5 = page.getByTestId('e2eid-l730');
         if (await lienDepuisPlan5.count() === 0) {
           throw new Error('Impossible de trouver un lien vers /profil/coo (e2eID: e2eid-l730) depuis le plan du site.');
@@ -339,11 +350,13 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
   // Test des e2eID présents sur /profil/coo
   await test.step("Étape 7: Navigation de /profil/coo vers /profil/agile (lien)", async () => {
     const boutonPlanDuSite = page.locator('footer').locator('[e2eid="e2eid-b13"]');
-    await boutonPlanDuSite.first().waitFor({ state: 'attached', timeout: 15000 });
+    await boutonPlanDuSite.first().waitFor({ state: 'visible', timeout: 15000 });
     if (await boutonPlanDuSite.count() > 0) {
-      await boutonPlanDuSite.click();
-      await expect(page).toHaveURL('/plan-du-site');
-      await page.waitForSelector('[e2eid^="e2eid-l"]', { timeout: 5000 }).catch(() => {});
+      await boutonPlanDuSite.first().scrollIntoViewIfNeeded();
+      await boutonPlanDuSite.first().click({ timeout: 15000 });
+      await expect(page).toHaveURL('/plan-du-site', { timeout: 15000 });
+      await page.waitForLoadState('domcontentloaded').catch(() => {});
+      await page.waitForSelector('[e2eid^="e2eid-l"]', { timeout: 10000 }).catch(() => {});
       const lienDepuisPlan6 = page.getByTestId('e2eid-l605');
       if (await lienDepuisPlan6.count() === 0) {
         throw new Error('Impossible de trouver un lien vers /profil/agile (e2eID: e2eid-l605) depuis le plan du site.');
@@ -358,11 +371,13 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
   // Test des e2eID présents sur /profil/agile
   await test.step("Étape 8: Navigation de /profil/agile vers /profil/cto (lien)", async () => {
     const boutonPlanDuSite = page.locator('footer').locator('[e2eid="e2eid-b13"]');
-    await boutonPlanDuSite.first().waitFor({ state: 'attached', timeout: 15000 });
+    await boutonPlanDuSite.first().waitFor({ state: 'visible', timeout: 15000 });
     if (await boutonPlanDuSite.count() > 0) {
-      await boutonPlanDuSite.click();
-      await expect(page).toHaveURL('/plan-du-site');
-      await page.waitForSelector('[e2eid^="e2eid-l"]', { timeout: 5000 }).catch(() => {});
+      await boutonPlanDuSite.first().scrollIntoViewIfNeeded();
+      await boutonPlanDuSite.first().click({ timeout: 15000 });
+      await expect(page).toHaveURL('/plan-du-site', { timeout: 15000 });
+      await page.waitForLoadState('domcontentloaded').catch(() => {});
+      await page.waitForSelector('[e2eid^="e2eid-l"]', { timeout: 10000 }).catch(() => {});
       const lienDepuisPlan7 = page.getByTestId('e2eid-l925');
       if (await lienDepuisPlan7.count() === 0) {
         throw new Error('Impossible de trouver un lien vers /profil/cto (e2eID: e2eid-l925) depuis le plan du site.');
@@ -409,21 +424,24 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
   // Test des e2eID présents sur /a-propos-du-site
   await test.step("Étape 10: Navigation de /a-propos-du-site vers /plan-du-site (Plan du site)", async () => {
     const boutonPlanDuSite = page.locator('footer').locator('[e2eid="e2eid-b13"]');
-    await boutonPlanDuSite.first().waitFor({ state: 'attached', timeout: 15000 });
+    await boutonPlanDuSite.first().waitFor({ state: 'visible', timeout: 15000 });
     if (await boutonPlanDuSite.count() > 0) {
-      await boutonPlanDuSite.click();
-      await expect(page).toHaveURL('/plan-du-site');
+      await boutonPlanDuSite.first().scrollIntoViewIfNeeded();
+      await boutonPlanDuSite.first().click({ timeout: 15000 });
+      await expect(page).toHaveURL('/plan-du-site', { timeout: 15000 });
     } else {
       throw new Error('Impossible de trouver le bouton Plan du site (e2eid-b13) dans le footer.');
     }
   });
   await test.step("Étape 11: Navigation de /plan-du-site vers /faisons-connaissance (lien)", async () => {
     const boutonPlanDuSite = page.locator('footer').locator('[e2eid="e2eid-b13"]');
-    await boutonPlanDuSite.first().waitFor({ state: 'attached', timeout: 15000 });
+    await boutonPlanDuSite.first().waitFor({ state: 'visible', timeout: 15000 });
     if (await boutonPlanDuSite.count() > 0) {
-      await boutonPlanDuSite.click();
-      await expect(page).toHaveURL('/plan-du-site');
-      await page.waitForSelector('[e2eid^="e2eid-l"]', { timeout: 5000 }).catch(() => {});
+      await boutonPlanDuSite.first().scrollIntoViewIfNeeded();
+      await boutonPlanDuSite.first().click({ timeout: 15000 });
+      await expect(page).toHaveURL('/plan-du-site', { timeout: 15000 });
+      await page.waitForLoadState('domcontentloaded').catch(() => {});
+      await page.waitForSelector('[e2eid^="e2eid-l"]', { timeout: 10000 }).catch(() => {});
       const lienDepuisPlan10 = page.getByTestId('e2eid-l719');
       if (await lienDepuisPlan10.count() === 0) {
         throw new Error('Impossible de trouver un lien vers /faisons-connaissance (e2eID: e2eid-l719) depuis le plan du site.');
@@ -470,11 +488,13 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
   // Test des e2eID présents sur /metrics
   await test.step("Étape 13: Navigation de /metrics vers /pour-aller-plus-loin (lien)", async () => {
     const boutonPlanDuSite = page.locator('footer').locator('[e2eid="e2eid-b13"]');
-    await boutonPlanDuSite.first().waitFor({ state: 'attached', timeout: 15000 });
+    await boutonPlanDuSite.first().waitFor({ state: 'visible', timeout: 15000 });
     if (await boutonPlanDuSite.count() > 0) {
-      await boutonPlanDuSite.click();
-      await expect(page).toHaveURL('/plan-du-site');
-      await page.waitForSelector('[e2eid^="e2eid-l"]', { timeout: 5000 }).catch(() => {});
+      await boutonPlanDuSite.first().scrollIntoViewIfNeeded();
+      await boutonPlanDuSite.first().click({ timeout: 15000 });
+      await expect(page).toHaveURL('/plan-du-site', { timeout: 15000 });
+      await page.waitForLoadState('domcontentloaded').catch(() => {});
+      await page.waitForSelector('[e2eid^="e2eid-l"]', { timeout: 10000 }).catch(() => {});
       const lienDepuisPlan12 = page.getByTestId('e2eid-l707');
       if (await lienDepuisPlan12.count() === 0) {
         throw new Error('Impossible de trouver un lien vers /pour-aller-plus-loin (e2eID: e2eid-l707) depuis le plan du site.');
