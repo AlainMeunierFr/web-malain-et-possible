@@ -6,6 +6,6 @@ Une seule US à la fois. Ligne 1 = référence (ex. US-11.3), ligne 2 = titre co
 
 ---
 
-US-12.1
-Métriques NC calculées par outils gratuits et enregistrées dans history
-done
+US-12.2
+Colonnes du board basées sur agents.json
+US

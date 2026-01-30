@@ -11,10 +11,26 @@ const urlVisualisationDossier = (nomDossier: string) =>
 
 const aboutSiteDataPath = () => path.join(process.cwd(), 'data', 'A propos de ce site');
 
-// Steps partagés : navigation vers "A propos de ce site" et visualisation d'un dossier (US-11.2)
+// Steps partagés : navigation vers "A propos de ce site" et autres pages (US-11.2, affichage-contenu, etc.)
+// "je suis sur la page {string}" matche "Étant donné que je suis sur la page \"...\"" (keyword = Étant donné que)
+Given('je suis sur la page {string}', async ({ page }, pageName: string) => {
+  if (pageName === 'À propos du site' || pageName === 'A propos de ce site') {
+    await page.goto('/a-propos-du-site');
+  } else if (pageName === 'Portfolio détournements') {
+    await page.goto('/detournements-video');
+  } else if (pageName === 'Faisons connaissance') {
+    await page.goto('/faisons-connaissance');
+  }
+  // Autres pages : étendre au besoin
+});
+
 Given('que je suis sur la page {string}', async ({ page }, pageName: string) => {
   if (pageName === 'À propos du site' || pageName === 'A propos de ce site') {
     await page.goto('/a-propos-du-site');
+  } else if (pageName === 'Portfolio détournements') {
+    await page.goto('/detournements-video');
+  } else if (pageName === 'Faisons connaissance') {
+    await page.goto('/faisons-connaissance');
   }
 });
 

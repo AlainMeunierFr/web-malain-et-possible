@@ -18,6 +18,15 @@ const cursorAgentsPath = () => path.join(process.cwd(), '.cursor', 'agents');
 const zoneSprintLocator = (page: { locator: (s: string) => { first: () => { (): unknown; new (): unknown } } }) =>
   page.locator('[e2eid="e2eid-zone-sprint"], [e2eid="zone-sprint"], .sprintBoard, main').first();
 
+// Alias sans "que" pour matcher "Et que menu.json contient..." (step text = "menu.json contient...")
+Given('menu.json contient une ligne avec Titre {string}, Type {string}, Parametre {string}', async ({}, titre: string, type: string, parametre: string) => {
+  const menuPath = path.join(aboutSiteDataPath(), 'menu.json');
+  expect(fs.existsSync(menuPath)).toBe(true);
+  const menu = JSON.parse(fs.readFileSync(menuPath, 'utf8'));
+  const found = menu.some((l: { Titre?: string; Type?: string; Parametre?: string }) => l.Titre === titre && l.Type === type && l.Parametre === parametre);
+  expect(found).toBe(true);
+});
+
 Given('que menu.json contient une ligne avec Titre {string}, Type {string}, Parametre {string}', async ({}, titre: string, type: string, parametre: string) => {
   const menuPath = path.join(aboutSiteDataPath(), 'menu.json');
   expect(fs.existsSync(menuPath)).toBe(true);
@@ -30,6 +39,27 @@ Given('j\'ai cliqué sur la ligne de menu {string} dans la bande horizontale', a
   const lien = page.getByRole('link', { name: new RegExp(nomLigne.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'i') }).first();
   await lien.click();
   await page.waitForLoadState('networkidle');
+});
+
+// Alias sans "que" pour matcher "Étant donné que le sprint en cours possède..."
+Given('le sprint en cours possède un fichier {string} avec un Sprint Goal', async ({}, filename: string) => {
+  const usEnCoursPath = path.join(sprintsPath(), 'US en cours.md');
+  expect(fs.existsSync(usEnCoursPath)).toBe(true);
+  const content = fs.readFileSync(usEnCoursPath, 'utf8');
+  const lines = content.split(/\r?\n/).map((l) => l.trim());
+  const afterSep = lines.slice(lines.findIndex((l) => l.startsWith('---')) + 1);
+  const usId = afterSep[0];
+  expect(usId).toMatch(/^US-\d+\.\d+$/);
+  const sprintDirs = fs.readdirSync(sprintsPath(), { withFileTypes: true }).filter((d) => d.isDirectory());
+  let found = false;
+  for (const d of sprintDirs) {
+    const goalPath = path.join(sprintsPath(), d.name, filename);
+    if (fs.existsSync(goalPath)) {
+      const goalContent = fs.readFileSync(goalPath, 'utf8');
+      if (goalContent.includes('Sprint Goal') && goalContent.trim().length > 0) found = true;
+    }
+  }
+  expect(found).toBe(true);
 });
 
 Given('que le sprint en cours possède un fichier {string} avec un Sprint Goal', async ({}, filename: string) => {
@@ -52,6 +82,24 @@ Given('que le sprint en cours possède un fichier {string} avec un Sprint Goal',
   expect(found).toBe(true);
 });
 
+// Alias sans "que" pour matcher "Étant donné que le sprint en cours contient des US..."
+Given('le sprint en cours contient des US \\(fichiers US-X.Y\\)', async ({}) => {
+  const usEnCoursPath = path.join(sprintsPath(), 'US en cours.md');
+  expect(fs.existsSync(usEnCoursPath)).toBe(true);
+  const content = fs.readFileSync(usEnCoursPath, 'utf8');
+  const lines = content.split(/\r?\n/).map((l) => l.trim());
+  const afterSep = lines.slice(lines.findIndex((l) => l.startsWith('---')) + 1);
+  const usId = afterSep[0];
+  expect(usId).toMatch(/^US-\d+\.\d+$/);
+  const sprintDirs = fs.readdirSync(sprintsPath(), { withFileTypes: true }).filter((d) => d.isDirectory());
+  let hasUsFiles = false;
+  for (const d of sprintDirs) {
+    const files = fs.readdirSync(path.join(sprintsPath(), d.name), { withFileTypes: true });
+    if (files.some((f) => f.isFile() && /^US-\d+\.\d+\s+-/.test(f.name))) hasUsFiles = true;
+  }
+  expect(hasUsFiles).toBe(true);
+});
+
 Given('que le sprint en cours contient des US \\(fichiers US-X.Y\\)', async ({}) => {
   const usEnCoursPath = path.join(sprintsPath(), 'US en cours.md');
   expect(fs.existsSync(usEnCoursPath)).toBe(true);
@@ -69,12 +117,27 @@ Given('que le sprint en cours contient des US \\(fichiers US-X.Y\\)', async ({})
   expect(hasUsFiles).toBe(true);
 });
 
+// Alias avec slash échappé pour le parser (snippet génère .cursor\/agents)
+Given('le dossier .cursor\\/agents contient une liste de <fichiers>', async ({}) => {
+  const agentsDir = cursorAgentsPath();
+  expect(fs.existsSync(agentsDir)).toBe(true);
+  const entries = fs.readdirSync(agentsDir, { withFileTypes: true });
+  const files = entries.filter((e) => e.isFile() && e.name.endsWith('.md'));
+  expect(files.length).toBeGreaterThan(0);
+});
+
 Given('le dossier .cursor/agents contient une liste de <fichiers>', async ({}) => {
   const agentsDir = cursorAgentsPath();
   expect(fs.existsSync(agentsDir)).toBe(true);
   const entries = fs.readdirSync(agentsDir, { withFileTypes: true });
   const files = entries.filter((e) => e.isFile() && e.name.endsWith('.md'));
   expect(files.length).toBeGreaterThan(0);
+});
+
+Given('le board affiche au moins une carte US', async ({ page }) => {
+  const cards = page.locator('.sprintBoardCard');
+  await expect(cards.first()).toBeVisible({ timeout: 10000 });
+  expect(await cards.count()).toBeGreaterThan(0);
 });
 
 When('le contenu du container sprintEnCours s\'affiche', async ({ page }) => {

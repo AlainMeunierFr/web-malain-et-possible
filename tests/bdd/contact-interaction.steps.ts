@@ -3,9 +3,7 @@ import { expect } from '@playwright/test';
 
 const { Given, When, Then } = createBdd();
 
-Given('je suis sur la page "Faisons connaissance"', async ({ page }) => {
-  await page.goto('/faisons-connaissance');
-});
+// Given('je suis sur la page "Faisons connaissance"') : step partagé dans a-propos-du-site-tableau-de-bord.steps.ts (je suis sur la page {string})
 
 Given('je suis sur n\'importe quelle page du site', async ({ page }) => {
   await page.goto('/');

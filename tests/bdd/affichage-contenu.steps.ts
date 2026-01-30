@@ -29,10 +29,7 @@ Given('je suis sur une page contenant des témoignages', async ({ page }) => {
   });
 });
 
-Given('je suis sur la page "Portfolio détournements"', async ({ page }) => {
-  // Aller sur la page portfolio détournements
-  await page.goto('/detournements-video');
-});
+// Given('je suis sur la page "Portfolio détournements"') : step partagé dans a-propos-du-site-tableau-de-bord.steps.ts (je suis sur la page {string})
 
 // When('la page se charge') : défini dans a-propos-du-site-tableau-de-bord.steps.ts (step partagé)
 
