@@ -22,6 +22,6 @@ Ordre strict : **US** → **BDD** → **TDD-back-end** → **TDD-front-end**.
 
 ---
 
-US-11.5
-
-BDD
+US-12.1
+Métriques NC calculées par outils gratuits et enregistrées dans history
+done

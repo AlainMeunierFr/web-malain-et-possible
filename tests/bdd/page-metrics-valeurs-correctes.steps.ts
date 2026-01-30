@@ -116,10 +116,9 @@ Then(
   'la carte affiche un pourcentage entier \\(valeur réelle, pas un placeholder)',
   async ({ page }) => {
     const section = sectionQualiteCode(page);
-    const card = section.locator('.card').filter({
-      has: page.getByRole('heading', { level: 3, name: 'Type Coverage' }),
-    });
-    await expect(card).toBeVisible();
+    const heading = section.getByRole('heading', { level: 3, name: 'Type Coverage' });
+    await expect(heading).toBeVisible();
+    const card = heading.locator('xpath=../..');
     const cardValue = card.locator('[class*="cardValue"]');
     await expect(cardValue).toBeVisible();
     const text = await cardValue.textContent();
@@ -157,13 +156,12 @@ Then(
   'la carte affiche un nombre entre {int} et {int} \\(valeur réelle, pas un placeholder)',
   async ({ page }, minVal: number, maxVal: number) => {
     const section = sectionPerformance(page);
-    const card = section.locator('.card').filter({
-      has: page.getByRole('heading', {
-        level: 3,
-        name: 'Score Lighthouse',
-      }),
+    const heading = section.getByRole('heading', {
+      level: 3,
+      name: 'Score Lighthouse',
     });
-    await expect(card).toBeVisible();
+    await expect(heading).toBeVisible();
+    const card = heading.locator('xpath=../..');
     const cardValue = card.locator('[class*="cardValue"]');
     await expect(cardValue).toBeVisible();
     const text = await cardValue.textContent();

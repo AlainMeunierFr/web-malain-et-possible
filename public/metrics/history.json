@@ -1,7 +1,7 @@
 {
   "snapshots": [
     {
-      "timestamp": "2026-01-30T20:45:22.652Z",
+      "timestamp": "2026-01-30T20:51:27.605Z",
       "branch": "main",
       "commit": "test",
       "tests": {
@@ -56,7 +56,7 @@
       "quality": {
         "eslintErrors": 0,
         "eslintWarnings": 0,
-        "typeCoverage": 85,
+        "typeCoverage": "NC",
         "cyclomaticComplexity": "NC",
         "maintainabilityIndex": "NC",
         "technicalDebt": "NC"
@@ -90,191 +90,84 @@
         "buildTime": 0,
         "lighthouseScore": "NC"
       }
-    },
-    {
-      "timestamp": "2026-01-30T20:44:21.617Z",
-      "branch": "main",
-      "commit": "114630d",
-      "tests": {
-        "unitTests": 589,
-        "unitTestFiles": 70,
-        "unitTestPassed": 576,
-        "unitTestFailed": 13,
-        "unitTestDuration": 11948,
-        "integrationTests": 31,
-        "integrationTestFiles": 5,
-        "integrationTestPassed": 30,
-        "integrationTestFailed": 1,
-        "integrationTestDuration": 7656,
-        "bddFeatures": 22,
-        "bddScenarios": 180,
-        "bddScenariosPassed": 180,
-        "bddScenariosFailed": 0,
-        "bddSteps": 0,
-        "bddTestDuration": 0,
-        "e2eSteps": 20,
-        "e2eScenarioFiles": 1,
-        "e2eScenarios": 3,
-        "e2eStepsPassed": 20,
-        "e2eStepsFailed": 0,
-        "e2eTests": {
-          "total": 3,
-          "passed": 3,
-          "failed": 0,
-          "duration": 45742,
-          "lastRunDate": "2026-01-30T20:44:21.553Z"
-        },
-        "totalTests": 820,
-        "totalTestFiles": 98,
-        "passingTests": 806,
-        "failingTests": 14,
-        "testDuration": 65346
-      },
-      "coverage": {
-        "lines": {
-          "total": 2922,
-          "covered": 2356,
-          "percentage": 80.62
-        },
-        "statements": {
-          "total": 3093,
-          "covered": 2479,
-          "percentage": 80.14
-        },
-        "functions": {
-          "total": 408,
-          "covered": 336,
-          "percentage": 82.35
-        },
-        "branches": {
-          "total": 2036,
-          "covered": 1386,
-          "percentage": 68.07
-        }
-      },
-      "quality": {
-        "eslintErrors": 0,
-        "eslintWarnings": 0,
-        "typeCoverage": 95,
-        "cyclomaticComplexity": "NC",
-        "maintainabilityIndex": "NC",
-        "technicalDebt": "NC"
-      },
-      "size": {
-        "totalFiles": 74,
-        "totalLines": 10243,
-        "sourceLines": 10243,
-        "commentLines": 0,
-        "blankLines": 0,
-        "components": 35,
-        "pages": 12,
-        "utils": 27,
-        "tests": 75
-      },
-      "dependencies": {
-        "total": 36,
-        "production": 6,
-        "development": 30,
-        "outdated": 0,
-        "vulnerabilities": {
-          "low": 0,
-          "moderate": 0,
-          "high": 0,
-          "critical": 0,
-          "total": 0
-        }
-      },
-      "performance": {
-        "bundleSize": 994364,
-        "buildTime": 16968,
-        "lighthouseScore": "NC"
-      }
     }
   ],
   "latest": {
-    "timestamp": "2026-01-30T20:44:21.617Z",
+    "timestamp": "2026-01-30T20:51:27.605Z",
     "branch": "main",
-    "commit": "114630d",
+    "commit": "test",
     "tests": {
-      "unitTests": 589,
-      "unitTestFiles": 70,
-      "unitTestPassed": 576,
-      "unitTestFailed": 13,
-      "unitTestDuration": 11948,
-      "integrationTests": 31,
-      "integrationTestFiles": 5,
-      "integrationTestPassed": 30,
-      "integrationTestFailed": 1,
-      "integrationTestDuration": 7656,
-      "bddFeatures": 22,
-      "bddScenarios": 180,
-      "bddScenariosPassed": 180,
+      "unitTests": 0,
+      "unitTestFiles": 0,
+      "unitTestPassed": 0,
+      "unitTestFailed": 0,
+      "unitTestDuration": 0,
+      "integrationTests": 0,
+      "integrationTestFiles": 0,
+      "integrationTestPassed": 0,
+      "integrationTestFailed": 0,
+      "integrationTestDuration": 0,
+      "bddFeatures": 0,
+      "bddScenarios": 0,
+      "bddScenariosPassed": 0,
       "bddScenariosFailed": 0,
       "bddSteps": 0,
-      "bddTestDuration": 0,
-      "e2eSteps": 20,
-      "e2eScenarioFiles": 1,
-      "e2eScenarios": 3,
-      "e2eStepsPassed": 20,
+      "e2eSteps": 0,
+      "e2eScenarioFiles": 0,
+      "e2eScenarios": 0,
+      "e2eStepsPassed": 0,
       "e2eStepsFailed": 0,
-      "e2eTests": {
-        "total": 3,
-        "passed": 3,
-        "failed": 0,
-        "duration": 45742,
-        "lastRunDate": "2026-01-30T20:44:21.553Z"
-      },
-      "totalTests": 820,
-      "totalTestFiles": 98,
-      "passingTests": 806,
-      "failingTests": 14,
-      "testDuration": 65346
+      "totalTests": 0,
+      "totalTestFiles": 0,
+      "passingTests": 0,
+      "failingTests": 0,
+      "testDuration": 0
     },
     "coverage": {
       "lines": {
-        "total": 2922,
-        "covered": 2356,
-        "percentage": 80.62
+        "total": 0,
+        "covered": 0,
+        "percentage": 0
       },
       "statements": {
-        "total": 3093,
-        "covered": 2479,
-        "percentage": 80.14
+        "total": 0,
+        "covered": 0,
+        "percentage": 0
       },
       "functions": {
-        "total": 408,
-        "covered": 336,
-        "percentage": 82.35
+        "total": 0,
+        "covered": 0,
+        "percentage": 0
       },
       "branches": {
-        "total": 2036,
-        "covered": 1386,
-        "percentage": 68.07
+        "total": 0,
+        "covered": 0,
+        "percentage": 0
       }
     },
     "quality": {
       "eslintErrors": 0,
       "eslintWarnings": 0,
-      "typeCoverage": 95,
+      "typeCoverage": "NC",
       "cyclomaticComplexity": "NC",
       "maintainabilityIndex": "NC",
       "technicalDebt": "NC"
     },
     "size": {
-      "totalFiles": 74,
-      "totalLines": 10243,
-      "sourceLines": 10243,
+      "totalFiles": 0,
+      "totalLines": 0,
+      "sourceLines": 0,
       "commentLines": 0,
       "blankLines": 0,
-      "components": 35,
-      "pages": 12,
-      "utils": 27,
-      "tests": 75
+      "components": 0,
+      "pages": 0,
+      "utils": 0,
+      "tests": 0
     },
     "dependencies": {
-      "total": 36,
-      "production": 6,
-      "development": 30,
+      "total": 0,
+      "production": 0,
+      "development": 0,
       "outdated": 0,
       "vulnerabilities": {
         "low": 0,
@@ -285,14 +178,14 @@
       }
     },
     "performance": {
-      "bundleSize": 994364,
-      "buildTime": 16968,
+      "bundleSize": 0,
+      "buildTime": 0,
       "lighthouseScore": "NC"
     }
   },
   "trends": {
-    "tests": "up",
-    "coverage": "up",
+    "tests": "stable",
+    "coverage": "stable",
     "quality": "stable"
   }
 }

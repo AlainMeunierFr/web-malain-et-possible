@@ -43,6 +43,7 @@ next-env.d.ts
 
 # playwright-bdd generated files
 .features-gen/
+tests/bdd-generated/
 
 # Configuration sécurité Cursor (menu.ps1)
 .cursor-security-config.json
