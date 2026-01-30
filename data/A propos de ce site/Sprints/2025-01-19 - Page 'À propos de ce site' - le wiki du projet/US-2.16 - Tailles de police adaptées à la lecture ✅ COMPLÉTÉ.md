@@ -1,0 +1,11 @@
+# US-2.16 : Tailles de police adaptées à la lecture ✅ COMPLÉTÉ
+- **En tant que** Visiteur de la page "À propos de ce site"
+- **Je souhaite** Voir un texte de taille adaptée à la lecture (style blog/article)
+- **Afin de** Lire le contenu confortablement
+- **Critères d'acceptation** :
+- Les tailles de police sont réduites (style blog)
+- H1 : 1.2rem
+- H2 : 1.05rem
+- H3 : 1rem
+- H4 : 0.95rem
+- Paragraphes/listes : 0.9rem

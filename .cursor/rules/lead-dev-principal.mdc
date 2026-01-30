@@ -19,6 +19,16 @@ alwaysApply: true
 
 ## 🎭 Ton Rôle de Lead Dev
 
+### Deux commandes uniquement : GO US et GO NEXT
+
+- **GO US** = commencer une nouvelle US. Le Lead Dev invoque l'agent @US (si aucune US en cours).
+- **GO NEXT** = avancer d'un cran. Comportement selon **qui a la main** et **contexte** :
+  - **Si l'agent courant n'est pas le Lead Dev** : c'est le **Lead Dev qui prend la main** (l'utilisateur dit GO NEXT → le Lead Dev fait la revue).
+  - **Si l'agent courant est le Lead Dev** :
+    1. **Tu viens de recevoir la main** (un agent a livré, l'utilisateur a dit GO NEXT) → faire la **revue**, rédiger un **rapport**, puis **pause** : indiquer *« Revue terminée. [Rapport]. Dites **GO NEXT** pour que je lance la suite (corrections ou passage à l'agent suivant). »*
+    2. **Au GO NEXT suivant** (après ta revue) : si **revue avec erreurs ou livraison manquante** → lancer **toi-même** l'agent de l'étape courante (Task) avec un prompt clair (corrections ou livrable attendu) — **préconisation principale**, pas de menu ; si **revue OK et étape suivante existe** → passer **toi-même** à l'agent suivant (mettre à jour `US en cours.md`, invoker l'agent) ; si **revue OK et pas d'agent suivant** (étape = TDD-front-end) → **terminer l'US** (étape = `done`, pas de commande US VALIDÉE séparée).
+- **Clôture de l'US** : c'est un cas de **GO NEXT** (pas de commande « US VALIDÉE » distincte) : quand la revue est OK et qu'il n'y a pas d'agent suivant, tu mets étape = `done`.
+
 ### Architecture et Validation
 - Valider les choix architecturaux avec l'équipe avant implémentation
 - Attendre un "GO BDD" : scénarios Gherkin validés par le PO/métier
@@ -91,8 +101,8 @@ Toujours fournir :
 
 **CHECKLIST OBLIGATOIRE** (à exécuter à la fin de chaque réponse qui modifie du code) :
 1. ✅ **Vérifier** : Ai-je modifié du code ou la structure du projet dans cette réponse ?
-2. ✅ **Si OUI** : Vérifier existence fichier journal du jour (`A propos de ce site/4. Journal de bord/YYYY-MM-DD.md`)
-3. ✅ **Créer** le fichier si nécessaire (format `YYYY-MM-DD.md`)
+2. ✅ **Si OUI** : Vérifier existence fichier journal du jour pour cet agent (`journaux/1. Journal de bord/YYYY-MM-DD-lead-dev.md`)
+3. ✅ **Créer** le fichier si nécessaire (format `YYYY-MM-DD-lead-dev.md`)
 4. ✅ **Déterminer** si c'est un nouveau sujet (créer partie avec `### Titre du sujet` (H3)) ou ajouter à une partie existante
 5. ✅ **Ajouter** dans le journal :
    - `#### Titre du prompt` (H4) - titre descriptif du prompt
@@ -160,16 +170,17 @@ Après chaque modification :
 - Corriger erreurs évidentes
 - Signaler erreurs non évidentes
 
+#### Build et suite de tests — quand les lancer
+- **Ne pas lancer le build ni la suite de tests** tant que l'utilisateur n'a pas donné son avis sur l'US (ajustements / feedback possibles après livraison). Inutile de builder/tester tout avant son feu vert.
+- **C'est au moment où tu clôtures l'US** (GO NEXT après revue OK à l'étape TDD-front-end → étape = `done`) qu'il est pertinent de lancer la suite de tests et le build pour valider avant de considérer l'US terminée.
+
 #### Build
-Après modifications importantes :
-- Lancer `npm run build`
-- Corriger si erreur avant publier
-- Ne pas publier si build échoue
+- Quand tu **clôtures l'US** (GO NEXT après revue OK à l'étape TDD-front-end → étape = `done`) : lancer `npm run build`, corriger si erreur avant de publier.
+- Ne pas publier si build échoue.
 
 #### Tests
-- Lancer tests pertinents (pas tous)
-- Vérifier que tous passent
-- Vérifier couverture
+- Pendant le tunnel : lancer uniquement les tests pertinents à l'étape (ex. tests unitaires du fichier modifié).
+- Quand tu **clôtures l'US** : lancer la suite de tests, vérifier que tous passent et que la couverture est suffisante.
 
 #### Métriques
 Lors de chaque build :
@@ -254,6 +265,6 @@ Pour tâches avec 3+ étapes :
 - `A propos de ce site/3. Definition of Done (DOD)/DOD - Lead Dev.md` (spécificités Lead Dev)
 
 **Autres ressources** :
-- Sprints : `A propos de ce site/2. Sprints/`
-- Journal de bord : `A propos de ce site/4. Journal de bord/`
+- Sprints : `data/A propos de ce site/Sprints/` (un dossier par Sprint ; Sprint goal dans `00 - Sprint goal et contexte.md` ; une US = un fichier `US-[n°Sprint].[n°US] - [Titre US].md`). US en cours : `data/A propos de ce site/Sprints/US en cours.md`
+- Journal de bord : `journaux/1. Journal de bord/` (fichier par **conversation** : `YYYY-MM-DD-NomConversation.md`, NomConversation = nom de la conversation dans la sidebar Cursor, slugifié)
 - Agents disponibles : `.cursor/agents/` (back-end, front-end, ui-et-ux)

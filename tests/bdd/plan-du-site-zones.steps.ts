@@ -19,9 +19,7 @@ Given('que je suis sur la page plan-du-site', async ({ page }: { page: Page }) =
   await page.goto('/plan-du-site');
 });
 
-When('la page se charge', async ({ page }: { page: Page }) => {
-  await page.waitForLoadState('networkidle');
-});
+// When('la page se charge') : défini dans a-propos-du-site-tableau-de-bord.steps.ts (step partagé)
 
 Then('je vois {string} dans la têtière', async ({ page }: { page: Page }, titre: string) => {
   const headerTitle = page.locator('header h1.pageTitle');

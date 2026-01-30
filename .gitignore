@@ -58,5 +58,8 @@ node_modules/
 # Jest test results
 test-results.json
 
+# Rapport Lighthouse (généré si METRICS_LIGHTHOUSE_URL est défini)
+public/metrics/lighthouse-report.json
+
 # Cursor continue directory (not a git submodule)
 /continue/

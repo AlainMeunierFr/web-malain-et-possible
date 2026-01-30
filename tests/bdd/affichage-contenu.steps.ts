@@ -34,9 +34,7 @@ Given('je suis sur la page "Portfolio détournements"', async ({ page }) => {
   await page.goto('/detournements-video');
 });
 
-When('la page se charge', async ({ page }) => {
-  await page.waitForLoadState('networkidle');
-});
+// When('la page se charge') : défini dans a-propos-du-site-tableau-de-bord.steps.ts (step partagé)
 
 Then('je vois un lecteur vidéo YouTube intégré', async ({ page }) => {
   const video = page.locator('iframe[src*="youtube"]').first();

@@ -3,10 +3,7 @@ import { expect } from '@playwright/test';
 
 const { Given, When, Then } = createBdd();
 
-Given('je suis sur n\'importe quelle page du site', async ({ page }) => {
-  // Aller sur une page quelconque (par exemple la page d'accueil)
-  await page.goto('/');
-});
+// Given('je suis sur n\'importe quelle page du site') : défini dans contact-interaction.steps.ts (step partagé)
 
 Given('je suis sur une page avec un bouton "Faisons connaissance..."', async ({ page }) => {
   await page.goto('/');
@@ -41,14 +38,24 @@ Then('je suis redirigé vers la page d\'accueil', async ({ page }) => {
   expect(page.url()).toBe('http://localhost:3000/');
 });
 
-Then('je suis redirigé vers la page "À propos du site"', async ({ page }) => {
-  await page.waitForURL(/\/about|a-propos/i);
-  expect(page.url()).toMatch(/\/about|a-propos/i);
-});
+// Step générique : nom de page (libellé) ou chemin (ex. /profil/cpo)
+const pathForPageName = (name: string): string => {
+  if (name.startsWith('/')) return name;
+  const map: Record<string, string> = {
+    'À propos du site': '/a-propos-du-site',
+    'A propos de ce site': '/a-propos-du-site',
+    'Plan du site': '/plan-du-site',
+    'Faisons connaissance': '/faisons-connaissance',
+    'Mes Profils': '/mes-profils',
+  };
+  return map[name] ?? name;
+};
 
-Then('je suis redirigé vers la page "Plan du site"', async ({ page }) => {
-  await page.waitForURL(/\/sitemap|plan/i);
-  expect(page.url()).toMatch(/\/sitemap|plan/i);
+Then('je suis redirigé vers la page {string}', async ({ page }, nameOrPath: string) => {
+  const path = pathForPageName(nameOrPath);
+  const pattern = path.startsWith('/') ? new RegExp(path.replace(/\//g, '\\/')) : new RegExp(path.replace(/\//g, '\\/'), 'i');
+  await page.waitForURL(pattern, { timeout: 5000 });
+  expect(page.url()).toMatch(pattern);
 });
 
 Then('je vois une liste de toutes les pages disponibles avec des boutons cliquables', async ({ page }) => {
@@ -58,14 +65,4 @@ Then('je vois une liste de toutes les pages disponibles avec des boutons cliquab
   expect(count).toBeGreaterThan(0);
 });
 
-Then('je suis redirigé vers la page "Faisons connaissance"', async ({ page }) => {
-  await page.waitForURL(/\/faisons-connaissance|contact/i);
-  expect(page.url()).toMatch(/\/faisons-connaissance|contact/i);
-});
-
-Then('je vois des boutons de contact organisés en groupes', async ({ page }) => {
-  // Vérifier qu'il y a des boutons de contact
-  const buttons = page.getByRole('link', { name: /déjeuner|visio|téléphone|email|LinkedIn|YouTube/i });
-  const count = await buttons.count();
-  expect(count).toBeGreaterThan(0);
-});
+// Then('je vois des boutons de contact organisés en groupes') : défini dans contact-interaction.steps.ts (step partagé)

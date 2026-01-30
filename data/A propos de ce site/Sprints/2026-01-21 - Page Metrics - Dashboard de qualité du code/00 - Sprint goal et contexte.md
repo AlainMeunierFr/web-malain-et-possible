@@ -1,0 +1,2 @@
+# Sprint Goal
+Mettre en place une page Metrics pour suivre automatiquement la qualité du code et l'évolution du projet à travers différentes métriques techniques (tests, couverture, qualité, taille, dépendances, performance).

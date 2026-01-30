@@ -82,10 +82,12 @@ Fonctionnalité: Section HERO orientée recherche d'emploi
 
   Scénario: Contenu de la page d'accueil après la HERO
     Étant donné que le fichier "data/index.json" contient :
+      """
       - Un élément de type "hero" en premier
       - Un élément de type "callToAction" après la HERO
       - Un élément de type "video" après le callToAction
       - Un élément de type "texteLarge" après la vidéo
+      """
     Quand je charge la page d'accueil
     Et que je fais défiler la page après la section HERO
     Alors je vois le CallToAction défini dans le JSON

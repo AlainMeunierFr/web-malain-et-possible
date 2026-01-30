@@ -1,25 +1,20 @@
-import { readAboutSiteStructure } from '../../utils/aboutSiteReader';
-import AboutSiteContent from '../../components/AboutSiteContent';
+import { readMenu } from '../../utils/menuReader';
+import SprintDashboardLayout from '../../components/SprintDashboardLayout';
+import styles from './about.module.css';
 
 /**
- * Page "À propos du site"
- * Server Component : Appelle le backend pur pour générer le HTML complet
- * 
- * Architecture pédagogique :
- * - Backend pur (utils/aboutSiteReader.ts) : génère du JSON
- * - Backend Next.js (ce fichier) : appelle le backend pur et génère le HTML
- * - Client Component (AboutSiteContent) : reçoit les données via props et gère les interactions
- * 
- * Avantages :
- * - SEO optimal : HTML complet dans la réponse HTTP
- * - Performance : pas de fetch côté client
- * - Pas de problème d'hydratation : données identiques serveur/client
+ * Page « A propos de ce site » en tableau de bord (US-11.3)
+ * - Bande horizontale pilotée par menu.json (lignes de menu : Titre, Numéro, Type, Parametre)
+ * - Type Path : lien vers /a-propos-du-site/[parametre] (parametre = chemin encodé)
+ * - Type container : lien vers la même page (zone sous la bande)
+ * - Layout : menu à gauche, Sprint Goal à droite (même ligne) ; board en dessous (US-11.5)
  */
 export default function AboutSitePage() {
-  // Appel côté serveur : le backend pur génère le JSON
-  // Si une ValidationError est lancée, Next.js fera échouer le build automatiquement
-  const structure = readAboutSiteStructure();
-  
-  // Passage des données au Client Component via props
-  return <AboutSiteContent structure={structure} />;
+  const lignes = readMenu();
+
+  return (
+    <main className={styles.main}>
+      <SprintDashboardLayout lignes={lignes} />
+    </main>
+  );
 }

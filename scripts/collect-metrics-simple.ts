@@ -863,6 +863,28 @@ function collectCoverageMetrics() {
 }
 
 /**
+ * Collecte le type coverage TypeScript via type-coverage (CLI --json-output)
+ */
+function collectTypeCoverage(): number | "NC" {
+  try {
+    const out = execSync('npx type-coverage --json-output --suppressError', {
+      encoding: 'utf-8',
+      maxBuffer: 5 * 1024 * 1024,
+    });
+    const data = JSON.parse(out.trim()) as { percent?: number; correctCount?: number; totalCount?: number };
+    if (typeof data.percent === 'number') {
+      return Math.round(data.percent);
+    }
+    if (typeof data.totalCount === 'number' && data.totalCount > 0 && typeof data.correctCount === 'number') {
+      return Math.round(100 * data.correctCount / data.totalCount);
+    }
+  } catch {
+    // type-coverage peut échouer (projet non compilable, etc.)
+  }
+  return "NC";
+}
+
+/**
  * Collecte les métriques de qualité
  */
 function collectQualityMetrics() {
@@ -883,10 +905,15 @@ function collectQualityMetrics() {
     console.warn('⚠️  Analyse ESLint avec erreurs');
   }
 
+  const typeCoverage = collectTypeCoverage();
+  if (typeCoverage !== "NC") {
+    console.log(`✅ Type coverage: ${typeCoverage}%`);
+  }
+
   return {
     eslintErrors,
     eslintWarnings,
-    typeCoverage: "NC" as "NC",
+    typeCoverage,
     cyclomaticComplexity: "NC" as "NC",
     maintainabilityIndex: "NC" as "NC",
     technicalDebt: "NC" as "NC",
@@ -1014,10 +1041,33 @@ function collectPerformanceMetrics() {
     bundleSize = Math.round(getSize(nextDir) / 1024);
   }
 
+  // Score Lighthouse : exécuté si METRICS_LIGHTHOUSE_URL est défini (ex. http://localhost:3000)
+  let lighthouseScore: number | "NC" = "NC";
+  const lighthouseUrl = process.env.METRICS_LIGHTHOUSE_URL;
+  if (lighthouseUrl) {
+    const lighthouseReportPath = path.join(OUTPUT_DIR, 'lighthouse-report.json');
+    try {
+      execSync(
+        `npx lighthouse "${lighthouseUrl}" --output=json --output-path="${lighthouseReportPath}" --chrome-flags="--headless --no-sandbox --disable-gpu" --quiet`,
+        { encoding: 'utf-8', timeout: 120000, stdio: 'pipe' }
+      );
+      if (fs.existsSync(lighthouseReportPath)) {
+        const report = JSON.parse(fs.readFileSync(lighthouseReportPath, 'utf-8')) as { categories?: { performance?: { score?: number } } };
+        const perf = report.categories?.performance?.score;
+        if (typeof perf === 'number') {
+          lighthouseScore = Math.round(perf * 100);
+          console.log(`✅ Score Lighthouse (performance): ${lighthouseScore}`);
+        }
+      }
+    } catch (e) {
+      console.warn('⚠️  Lighthouse non disponible (Chrome/Chromium requis ou URL injoignable). Définir METRICS_LIGHTHOUSE_URL si le serveur tourne.');
+    }
+  }
+
   return {
     bundleSize,
     buildTime,
-    lighthouseScore: "NC" as "NC",
+    lighthouseScore,
   };
 }
 

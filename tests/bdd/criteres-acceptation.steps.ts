@@ -3,13 +3,11 @@ import { expect } from '@playwright/test';
 
 const { Given, When, Then } = createBdd();
 
-// Background
-Given('que je suis sur la page {string}', async ({ page }, pageName: string) => {
-  if (pageName === 'À propos du site') {
-    await page.goto('/a-propos-du-site');
-  }
-});
+/** Après US-11.2 : contenu DOD dans la visualisation du dossier. Steps "que je suis sur la page" / "j'affiche le dossier" dans a-propos-du-site-tableau-de-bord.steps.ts. */
+const urlVisualisationDossier = (nomDossier: string) =>
+  '/a-propos-du-site/' + encodeURIComponent(nomDossier);
 
+// Background
 Given('qu\'une User Story contient une section {string}', async ({}) => {
   // Cette donnée est vérifiée dans les scénarios individuels
 });
@@ -38,7 +36,7 @@ Then('cette section a le typeDeContenu {string}', async ({ page }, typeDeContenu
 // Scénario: Fin de la section "Critères d'acceptation" à la prochaine US
 Given('qu\'une section {string} est ouverte', async ({ page }, sectionName: string) => {
   // Naviguer vers la page et dérouler la section si nécessaire
-  await page.goto('/a-propos-du-site');
+  await page.goto(urlVisualisationDossier('3. Definition of Done'));
   const section = page.getByText(sectionName, { exact: false });
   await expect(section.first()).toBeVisible();
 });
@@ -64,7 +62,7 @@ When('une ligne contient uniquement {string}', async () => {
 
 // Scénario: Fin de la section "Critères d'acceptation" à la fin de la sous-partie
 Given('qu\'une section {string} est ouverte dans une sous-partie \\(H4\\)', async ({ page }, sectionName: string) => {
-  await page.goto('/a-propos-du-site');
+  await page.goto(urlVisualisationDossier('3. Definition of Done'));
   const section = page.getByText(sectionName, { exact: false });
   await expect(section.first()).toBeVisible();
 });
@@ -79,9 +77,7 @@ Then('la section {string} se termine', async ({ page }, sectionName: string) => 
 });
 
 // Scénario: Détection d'un thème de critère
-When('une ligne commence par {string}', async ({}) => {
-  // Vérifié via le parsing
-});
+// When('une ligne commence par {string}') : déjà défini plus haut dans ce fichier
 
 Then('cette ligne est détectée comme un {string}', async ({ page }, typeName: string) => {
   // Vérifier que le thème est présent sur la page
@@ -104,13 +100,7 @@ Then('le typeDeContenu {string} est attribué à cette ligne', async ({ page }, 
 });
 
 // Scénario: Détection d'un critère normal
-Then('cette ligne est détectée comme un {string}', async ({ page }, typeName: string) => {
-  if (typeName === 'Critère') {
-    // Vérifier qu'il y a des éléments de liste
-    const listItem = page.locator('li').first();
-    await expect(listItem).toBeVisible();
-  }
-});
+// Then('cette ligne est détectée comme un {string}') : déjà défini plus haut dans ce fichier (Thème de critère + Critère)
 
 Then('le texte après {string} est extrait comme contenu du critère', async ({ page }, prefix: string) => {
   // Vérifier que le contenu est présent
@@ -137,7 +127,7 @@ Then('{string} est associé à {string}', async ({ page }, critere: string, them
 
 // Scénario: Affichage d'un thème de critère
 Given('qu\'un thème de critère est détecté dans la section {string}', async ({ page }, sectionName: string) => {
-  await page.goto('/a-propos-du-site');
+  await page.goto(urlVisualisationDossier('3. Definition of Done'));
   const section = page.getByText(sectionName, { exact: false });
   await expect(section.first()).toBeVisible();
 });
@@ -166,7 +156,7 @@ Then('le thème n\'a pas d\'indentation supplémentaire', async ({ page }) => {
 
 // Scénario: Affichage d'un critère normal
 Given('qu\'un critère normal est détecté dans la section {string}', async ({ page }, sectionName: string) => {
-  await page.goto('/a-propos-du-site');
+  await page.goto(urlVisualisationDossier('3. Definition of Done'));
   const section = page.getByText(sectionName, { exact: false });
   await expect(section.first()).toBeVisible();
 });
@@ -197,7 +187,7 @@ Then('le critère est visuellement sous le thème correspondant', async ({ page 
 
 // Scénario: Structure hiérarchique visuelle
 Given('qu\'une section {string} contient des thèmes et des critères imbriqués', async ({ page }, sectionName: string) => {
-  await page.goto('/a-propos-du-site');
+  await page.goto(urlVisualisationDossier('3. Definition of Done'));
   const section = page.getByText(sectionName, { exact: false });
   await expect(section.first()).toBeVisible();
 });
@@ -212,7 +202,7 @@ Then('la hiérarchie visuelle est claire :', async ({ page }) => {
 
 // Scénario: Règle dans la DOD pour l'IA
 Given('que la DOD {string} existe', async ({ page }, dodName: string) => {
-  await page.goto('/a-propos-du-site');
+  await page.goto(urlVisualisationDossier('3. Definition of Done'));
   const dod = page.getByText(dodName, { exact: false });
   await expect(dod.first()).toBeVisible();
 });

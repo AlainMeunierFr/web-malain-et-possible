@@ -1,0 +1,2 @@
+# Sprint Goal
+Garantir la qualité et la cohérence des fichiers Markdown et JSON du projet en ajoutant des tests d'intégration qui détectent les erreurs de structure et de contenu avant qu'elles ne causent des bugs au runtime.

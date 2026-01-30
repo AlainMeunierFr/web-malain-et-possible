@@ -11,6 +11,75 @@
   padding-bottom: calc(max(50px, 5.47vh) + 2rem);
 }
 
+/* US-11.2 : Bande horizontale des dossiers (tableau de bord) */
+.bandeDossiers {
+  margin-bottom: 1.5rem;
+  padding: 0.75rem 0;
+  border-bottom: 0.125rem solid var(--BleuClair);
+}
+
+.bandeDossiersList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.bandeDossiersItem {
+  margin: 0;
+  padding: 0;
+}
+
+.bandeDossiersLink {
+  display: inline-block;
+  padding: 0.375rem 0.75rem;
+  border-radius: 0.25rem;
+  background-color: var(--BleuClair);
+  color: var(--BleuFonce);
+  font-weight: 500;
+  text-decoration: none;
+  font-size: 0.9rem;
+  border: 0.0625rem solid var(--BleuFonce);
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.bandeDossiersLink:hover {
+  background-color: var(--BleuFonce);
+  color: white;
+}
+
+.bandeDossiersLinkActive {
+  display: inline-block;
+  padding: 0.375rem 0.75rem;
+  border-radius: 0.25rem;
+  background-color: var(--BleuFonce);
+  color: white;
+  font-weight: 600;
+  text-decoration: none;
+  font-size: 0.9rem;
+  border: 0.0625rem solid var(--BleuFonce);
+}
+
+/* Zone réservée pour le sprint en cours (tableau juste sous menu + Sprint Goal) */
+.zoneSprint {
+  min-height: 6rem;
+  padding: 0.5rem 1rem 1rem 1rem;
+  background-color: var(--background);
+  border: 0.0625rem dashed var(--BleuClair);
+  border-radius: 0.5rem;
+}
+
+.zoneSprintPlaceholder {
+  margin: 0;
+  color: var(--foreground);
+  font-size: 0.9rem;
+  opacity: 0.8;
+}
+
 .content {
   max-width: 75rem;
   margin: 0 auto;

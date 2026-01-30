@@ -1,12 +1,16 @@
 /**
  * Tests pour AboutSiteContent
  * Approche TDD : Tests pour atteindre 100% de couverture
+ *
+ * Après US-11.2 (tableau de bord A propos de ce site) : la page racine devient un tableau de bord ;
+ * la visualisation d'un dossier (H2 = fichiers MD, H3+ = contenu) peut réutiliser ce composant ou un dérivé.
+ * Adapter ou dupliquer ces tests pour le nouveau rendu (bande dossiers + zone contenu) si besoin.
  */
 
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import AboutSiteContent from '../../components/AboutSiteContent';
-import type { AboutSiteStructure } from '../../utils/aboutSiteReader';
+import type { AboutSiteStructure, PathContentAtRoot } from '../../utils/aboutSiteReader';
 
 describe('AboutSiteContent', () => {
   // MOCK : Structure minimale valide
@@ -166,5 +170,23 @@ describe('AboutSiteContent', () => {
     expect(screen.getByText('Bloc 2')).toBeInTheDocument();
     // Les h5 doivent être présents
     expect(container.querySelector('h5')).toBeInTheDocument();
+  });
+
+  it('devrait afficher fichiers et dossiers en mode pathContent (US-11.4)', () => {
+    const pathContent: PathContentAtRoot = {
+      fichiers: [
+        {
+          nom: 'Fichier à la racine',
+          contenu: '# Fichier\nContenu',
+          parties: [{ titre: 'Partie', contenu: '', sousParties: [], contenuParse: [] }],
+        },
+      ],
+      dossiers: [{ nom: 'Dossier à la racine', path: 'data/A propos de ce site/A propos du projet' }],
+    };
+
+    render(<AboutSiteContent pathContent={pathContent} embedded />);
+
+    expect(screen.getByText('Fichier à la racine')).toBeInTheDocument();
+    expect(screen.getByText('Dossier à la racine')).toBeInTheDocument();
   });
 });

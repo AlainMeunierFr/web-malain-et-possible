@@ -1,21 +1,21 @@
 {
-  "timestamp": "2026-01-30T02:49:02.192Z",
+  "timestamp": "2026-01-30T20:01:24.767Z",
   "branch": "main",
-  "commit": "ff911c9",
+  "commit": "5a411e7",
   "tests": {
-    "unitTests": 541,
-    "unitTestFiles": 65,
-    "unitTestPassed": 531,
-    "unitTestFailed": 10,
-    "unitTestDuration": 17373,
+    "unitTests": 589,
+    "unitTestFiles": 70,
+    "unitTestPassed": 576,
+    "unitTestFailed": 13,
+    "unitTestDuration": 10237,
     "integrationTests": 31,
     "integrationTestFiles": 5,
     "integrationTestPassed": 30,
     "integrationTestFailed": 1,
-    "integrationTestDuration": 10654,
-    "bddFeatures": 18,
-    "bddScenarios": 146,
-    "bddScenariosPassed": 146,
+    "integrationTestDuration": 5799,
+    "bddFeatures": 22,
+    "bddScenarios": 180,
+    "bddScenariosPassed": 180,
     "bddScenariosFailed": 0,
     "bddSteps": 0,
     "bddTestDuration": 0,
@@ -28,60 +28,60 @@
       "total": 3,
       "passed": 3,
       "failed": 0,
-      "duration": 52293,
-      "lastRunDate": "2026-01-30T02:49:02.146Z"
+      "duration": 38233,
+      "lastRunDate": "2026-01-30T20:01:24.723Z"
     },
-    "totalTests": 738,
-    "totalTestFiles": 89,
-    "passingTests": 727,
-    "failingTests": 11,
-    "testDuration": 80320
+    "totalTests": 820,
+    "totalTestFiles": 98,
+    "passingTests": 806,
+    "failingTests": 14,
+    "testDuration": 54269
   },
   "coverage": {
     "lines": {
-      "total": 2636,
-      "covered": 2114,
-      "percentage": 80.19
+      "total": 2922,
+      "covered": 2356,
+      "percentage": 80.62
     },
     "statements": {
-      "total": 2766,
-      "covered": 2207,
-      "percentage": 79.79
+      "total": 3093,
+      "covered": 2479,
+      "percentage": 80.14
     },
     "functions": {
-      "total": 345,
-      "covered": 285,
-      "percentage": 82.6
+      "total": 408,
+      "covered": 336,
+      "percentage": 82.35
     },
     "branches": {
-      "total": 1777,
-      "covered": 1211,
-      "percentage": 68.14
+      "total": 2036,
+      "covered": 1386,
+      "percentage": 68.07
     }
   },
   "quality": {
     "eslintErrors": 0,
     "eslintWarnings": 0,
-    "typeCoverage": "NC",
+    "typeCoverage": 95,
     "cyclomaticComplexity": "NC",
     "maintainabilityIndex": "NC",
     "technicalDebt": "NC"
   },
   "size": {
-    "totalFiles": 66,
-    "totalLines": 9213,
-    "sourceLines": 9213,
+    "totalFiles": 74,
+    "totalLines": 10243,
+    "sourceLines": 10243,
     "commentLines": 0,
     "blankLines": 0,
-    "components": 31,
-    "pages": 11,
-    "utils": 24,
-    "tests": 70
+    "components": 35,
+    "pages": 12,
+    "utils": 27,
+    "tests": 75
   },
   "dependencies": {
-    "total": 35,
+    "total": 36,
     "production": 6,
-    "development": 29,
+    "development": 30,
     "outdated": 0,
     "vulnerabilities": {
       "low": 0,
@@ -92,8 +92,8 @@
     }
   },
   "performance": {
-    "bundleSize": 722508,
-    "buildTime": 19265,
+    "bundleSize": 1204151,
+    "buildTime": 16968,
     "lighthouseScore": "NC"
   }
 }

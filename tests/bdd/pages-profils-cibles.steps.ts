@@ -132,10 +132,7 @@ When('je charge la page {string}', async ({ page }, url: string) => {
   await page.waitForLoadState('networkidle');
 });
 
-When('je suis sur la page d\'accueil', async ({ page }) => {
-  await page.goto('/');
-  await page.waitForLoadState('networkidle');
-});
+// When('je suis sur la page d\'accueil') : défini comme Given dans navigation-domaines-competences.steps.ts (step partagé)
 
 When('que je clique sur le bouton {string} du profil {string}', async ({ page }, buttonText: string, profilSlug: string) => {
   const button = page.getByRole('link', { name: new RegExp(buttonText, 'i') }).filter({ has: page.locator(`[href*="/profil/${profilSlug}"]`) });
@@ -254,10 +251,7 @@ Then('je vois la deuxième vidéo après les domaines sans lancement auto', asyn
   // Note: On vérifie juste qu'elle existe, le paramètre autoplay peut être présent mais désactivé
 });
 
-Then('je suis redirigé vers la page {string}', async ({ page }, url: string) => {
-  await page.waitForURL(new RegExp(url.replace(/\//g, '\\/')), { timeout: 5000 });
-  expect(page.url()).toContain(url);
-});
+// Then('je suis redirigé vers la page {string}') : défini dans navigation-pages.steps.ts (step partagé)
 
 Then('la page {string} s\'affiche correctement', async ({ page }, url: string) => {
   await page.waitForLoadState('networkidle');

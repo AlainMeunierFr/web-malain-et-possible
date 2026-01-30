@@ -138,3 +138,32 @@ do {
             Write-Host "Appuyez sur une touche pour continuer..." -ForegroundColor Gray
             $null = $Host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown")
         }
+        "2" { Execute-Command -command "npm test" -description "Tests Jest (watch)" }
+        "3" { Execute-Command -command "npm run test:ti" -description "Tests d'intégration (watch)" }
+        "4" { Execute-Command -command "npm run test:e2e:ui" -description "Tests E2E Playwright (mode UI)" }
+        "5" { Execute-Command -command "npm run test:e2e:headed" -description "Tests E2E en navigateur visible" }
+        "6" { Execute-Command -command "npm run test:bdd" -description "Tests BDD métier (rapport HTML)" }
+        "7" { Execute-Command -command "npm run dev" -description "Serveur de développement" -NoWait }
+        "8" { Execute-Command -command "npm run build" -description "Build du projet" }
+        "9" { Execute-Command -command "npm run metrics:collect" -description "Collecter les métriques" }
+        "10" { Execute-Command -command "npm run e2e:plan" -description "Générer le plan de test E2E" }
+        "11" { Execute-Command -command "npm run lint" -description "Linter (ESLint)" }
+        "12" { Execute-Command -command "git add -A" -description "Stager tous les fichiers" }
+        "13" { Execute-Command -command "git status" -description "Statut Git" }
+        "14" { Execute-Command -command "git log -5 --oneline" -description "Derniers commits" }
+        "15" { Execute-Command -command "git reset --hard HEAD" -description "Annuler les modifications non commitées" }
+        "16" {
+            Set-SecurityConfig -enabled $false
+            Write-Host "[*] Contrôles désactivés (mode silencieux)" -ForegroundColor Yellow
+            $null = $Host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown")
+        }
+        "17" {
+            Set-SecurityConfig -enabled $true
+            Write-Host "[*] Contrôles réactivés" -ForegroundColor Yellow
+            $null = $Host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown")
+        }
+        "18" { Write-Host "Au revoir." -ForegroundColor Cyan; exit 0 }
+        "19" { Execute-Command -command "npm run test:all" -description "TOUS les tests (BDD + E2E) avec rapport HTML" }
+        default { Write-Host "Option non reconnue." -ForegroundColor Red; $null = $Host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown") }
+    }
+} while ($true)

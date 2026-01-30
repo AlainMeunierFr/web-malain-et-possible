@@ -1,20 +1,21 @@
 // Script pour tester le parsing du fichier de sprint et afficher le JSON résultant
+// Utilise readChapitreByPath (US-11.3) au lieu de readAboutSiteStructure (supprimé).
 const fs = require('fs');
 const path = require('path');
 
-// Importer les fonctions nécessaires
-const { readAboutSiteStructure } = require('./utils/aboutSiteReader.ts');
+const { readChapitreByPath } = require('./utils/aboutSiteReader.ts');
 
-// Lire le fichier de sprint
-const filePath = path.join('A propos de ce site', '2. Sprints', '2026-01-19 - Site vitrine - Structure et responsive.md');
-const content = fs.readFileSync(filePath, 'utf8');
+// Lire le chapitre 2. Sprints par chemin
+const sprintPath = 'data/A propos de ce site/2. Sprints';
+const content = fs.readFileSync(path.join(sprintPath, '2026-01-19 - Site vitrine - Structure et responsive.md'), 'utf8');
 
-// Parser le contenu
 try {
-  const structure = readAboutSiteStructure();
-  
-  // Trouver la section "Sprints" et la partie correspondante
-  const sprintSection = structure.chapitres.find(ch => ch.nom === '2. Sprints');
+  const chapitre = readChapitreByPath(sprintPath);
+  if (!chapitre) {
+    console.log('Chapitre 2. Sprints non trouvé ou vide');
+    process.exit(1);
+  }
+  const sprintSection = chapitre;
   if (sprintSection) {
     const sprintPartie = sprintSection.sections[0]?.parties?.find(p => 
       p.titre.includes('Site vitrine - Structure et responsive')
@@ -46,7 +47,7 @@ try {
     }
   } else {
     console.log('Section "2. Sprints" non trouvée');
-    console.log('Chapitres disponibles:', structure.chapitres.map(ch => ch.nom));
+    console.log('Sections disponibles:', sprintSection.sections.map(s => s.nom));
   }
 } catch (error) {
   console.error('Erreur:', error.message);

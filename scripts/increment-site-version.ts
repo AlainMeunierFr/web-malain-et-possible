@@ -10,7 +10,7 @@ import fs from 'fs';
 import path from 'path';
 import { execSync } from 'child_process';
 
-const SPRINTS_DIR = path.join(process.cwd(), 'data', 'A propos de ce site', '2. Sprints');
+const SPRINTS_DIR = path.join(process.cwd(), 'data', 'A propos de ce site', 'Sprints');
 
 interface CompletedUS {
   id: string;
@@ -18,96 +18,78 @@ interface CompletedUS {
   file: string;
 }
 
+/** Fichiers dont le nom correspond à une US (ex. US-7.1 - Titre.md) */
+const US_FILENAME_REGEX = /^US-\d+\.\d+[a-z]?\s*-/i;
+
+function isCompletedInFilename(filename: string): boolean {
+  const normalized = filename.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+  return (
+    /COMPL[EÉ]T[EÉ]/i.test(filename) ||
+    /COMPLETE/i.test(normalized) ||
+    filename.includes('✅')
+  );
+}
+
+function parseUsFilename(filename: string): { id: string; title: string } | null {
+  const base = filename.replace(/\.md$/i, '').trim();
+  const match = base.match(/^(US-\d+\.\d+[a-z]?)\s*-\s*(.+)$/i);
+  if (!match) return null;
+  const title = match[2]
+    .replace(/\s*✅\s*(COMPLÉTÉ|COMPLETÉ|COMPLETE)\s*/gi, '')
+    .trim();
+  return { id: match[1], title };
+}
+
 /**
- * Compte les User Stories complétées dans tous les fichiers de sprint
+ * Compte les User Stories complétées dans les sous-dossiers de Sprints.
+ * Structure : Sprints / [sprint-dir] / US-X.Y - Titre.md (ou ✅ COMPLÉTÉ dans le nom/contenu).
  */
 function countCompletedUS(): { count: number; usList: CompletedUS[] } {
   const usList: CompletedUS[] = [];
-  
+
   if (!fs.existsSync(SPRINTS_DIR)) {
     console.warn(`⚠️  Dossier sprints non trouvé: ${SPRINTS_DIR}`);
     return { count: 0, usList: [] };
   }
-  
-  const files = fs.readdirSync(SPRINTS_DIR);
-  
-  for (const file of files) {
-    if (!file.endsWith('.md')) {
-      continue;
-    }
-    
-    const filePath = path.join(SPRINTS_DIR, file);
-    const content = fs.readFileSync(filePath, 'utf-8');
-    const lines = content.split('\n');
-    
-    let currentUS: { id: string; title: string; startLine: number } | null = null;
-    
-    for (let i = 0; i < lines.length; i++) {
-      const line = lines[i].replace(/\r$/, ''); // Supprimer le \r en fin de ligne (Windows)
-      
-      // Détecter une User Story (format: ## US-X.Y : Titre ou ## US-X.Ya : Titre)
-      const usMatch = line.match(/^##\s+(US-\d+\.\d+[a-z]?)\s*:\s*(.+)$/);
-      if (usMatch) {
-        // Vérifier si l'US précédente était complétée avant de passer à la suivante
-        if (currentUS) {
-          // Si on avait une US précédente non complétée, on l'ignore
-          currentUS = null;
+
+  const entries = fs.readdirSync(SPRINTS_DIR, { withFileTypes: true });
+
+  for (const entry of entries) {
+    if (!entry.isDirectory()) continue;
+    const sprintDir = path.join(SPRINTS_DIR, entry.name);
+    const files = fs.readdirSync(sprintDir);
+
+    for (const file of files) {
+      if (!file.endsWith('.md')) continue;
+      if (!US_FILENAME_REGEX.test(file)) continue;
+
+      const parsed = parseUsFilename(file);
+      if (!parsed) continue;
+
+      let completed = isCompletedInFilename(file);
+      if (!completed) {
+        const filePath = path.join(sprintDir, file);
+        try {
+          const content = fs.readFileSync(filePath, 'utf-8');
+          completed =
+            content.includes('✅ COMPLÉTÉ') ||
+            content.includes('✅ COMPLETÉ') ||
+            /COMPL[EÉ]T[EÉ]/i.test(content);
+        } catch {
+          // ignorer
         }
-        
-        const usTitle = usMatch[2].trim();
-        // Vérifier si le marqueur de complétion est dans le titre lui-même
-        // Supporte les variantes : "✅ COMPLÉTÉ", "✅ COMPLETÉ", avec ou sans espace
-        // Le caractère ✅ peut être encodé différemment, donc on cherche aussi sans l'emoji
-        // Utilise une regex insensible à la casse pour détecter "COMPLÉTÉ" ou "COMPLETÉ"
-        // Normalise le texte pour gérer les problèmes d'encodage (É peut être encodé différemment)
-        const normalizedTitle = usTitle.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
-        const isCompletedInTitle = 
-          /COMPL[EÉ]T[EÉ]/i.test(usTitle) || 
-          /COMPLETE/i.test(normalizedTitle) ||
-          usTitle.includes('✅ COMPLÉTÉ') ||
-          usTitle.includes('✅ COMPLETÉ') ||
-          usTitle.includes('COMPLÉTÉ') ||
-          usTitle.includes('COMPLETÉ');
-        
-        if (isCompletedInTitle) {
-          // US complétée directement dans le titre
-          const cleanTitle = usTitle
-            .replace(/✅\s*(COMPLÉTÉ|COMPLETÉ|COMPLETE)\s*/gi, '')
-            .trim();
-          usList.push({
-            id: usMatch[1],
-            title: cleanTitle,
-            file: file,
-          });
-          currentUS = null;
-        } else {
-          // US non complétée dans le titre, on continue à chercher dans les lignes suivantes
-          currentUS = {
-            id: usMatch[1],
-            title: usTitle,
-            startLine: i,
-          };
-        }
-        continue;
       }
-      
-      // Vérifier si l'US courante est complétée dans les lignes suivantes
-      if (currentUS) {
-        // Chercher "✅ COMPLÉTÉ" ou "✅ COMPLETÉ" dans la ligne courante
-        const isCompleted = line.includes('✅ COMPLÉTÉ') || line.includes('✅ COMPLETÉ');
-        
-        if (isCompleted) {
-          usList.push({
-            id: currentUS.id,
-            title: currentUS.title,
-            file: file,
-          });
-          currentUS = null; // Reset pour éviter de compter plusieurs fois
-        }
+
+      if (completed) {
+        usList.push({
+          id: parsed.id,
+          title: parsed.title,
+          file: `${entry.name}/${file}`,
+        });
       }
     }
   }
-  
+
   return { count: usList.length, usList };
 }
 

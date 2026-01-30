@@ -183,6 +183,30 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
     await expect(element31).toBeVisible();
     // Élément interactif présent et visible
   }
+  // Test e2eID: sprint-goal (react - SprintBoardKanban.tsx)
+  const element32 = page.getByTestId('e2eid-sprint-goal');
+  if (await element32.count() > 0) {
+    await expect(element32).toBeVisible();
+    // Élément interactif présent et visible
+  }
+  // Test e2eID: zone-sprint (react - SprintDashboardLayout.tsx)
+  const element33 = page.getByTestId('e2eid-zone-sprint');
+  if (await element33.count() > 0) {
+    await expect(element33).toBeVisible();
+    // Élément interactif présent et visible
+  }
+  // Test e2eID: us-detail-modal (react - UsDetailModal.tsx)
+  const element34 = page.getByTestId('e2eid-us-detail-modal');
+  if (await element34.count() > 0) {
+    await expect(element34).toBeVisible();
+    // Élément interactif présent et visible
+  }
+  // Test e2eID: us-detail-modal-close (react - UsDetailModal.tsx)
+  const element35 = page.getByTestId('e2eid-us-detail-modal-close');
+  if (await element35.count() > 0) {
+    await expect(element35).toBeVisible();
+    // Élément interactif présent et visible
+  }
   await test.step("Étape 2: Navigation de / vers /detournement-video (lien)", async () => {
     const boutonPlanDuSite = page.locator('footer').locator('[e2eid="e2eid-b13"]');
     await boutonPlanDuSite.first().waitFor({ state: 'visible', timeout: 15000 });
@@ -509,6 +533,6 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
   // Test des e2eID présents sur /pour-aller-plus-loin
 
   // Tous les liens ont été parcourus
-  // 32 e2eID ont été testés
+  // 36 e2eID ont été testés
   console.log('✅ Parcours complet : tous les liens et e2eID ont été testés');
 });

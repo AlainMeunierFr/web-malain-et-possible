@@ -9,6 +9,8 @@ export interface AccordionTitleProps {
   level: 1 | 2;
   children: React.ReactNode;
   defaultOpen?: boolean;
+  /** Appelé quand l'accordéon est ouvert ou fermé (pour chargement lazy, etc.) */
+  onOpenChange?: (open: boolean) => void;
 }
 
 const AccordionTitle: React.FC<AccordionTitleProps> = ({
@@ -16,11 +18,14 @@ const AccordionTitle: React.FC<AccordionTitleProps> = ({
   level,
   children,
   defaultOpen = false,
+  onOpenChange,
 }) => {
   const [isOpen, setIsOpen] = useState(defaultOpen);
 
   const toggle = () => {
-    setIsOpen(!isOpen);
+    const next = !isOpen;
+    setIsOpen(next);
+    onOpenChange?.(next);
   };
 
   const TitleTag = level === 1 ? 'h1' : 'h2';

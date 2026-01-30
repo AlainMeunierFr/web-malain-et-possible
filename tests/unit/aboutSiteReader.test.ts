@@ -10,275 +10,18 @@
  * - Dossiers avec un seul fichier valide = erreur
  */
 
-import fs from 'fs';
 import path from 'path';
-import { readAboutSiteStructure, validerContenuMarkdown, ValidationError } from '../../utils/aboutSiteReader';
+import {
+  validerContenuMarkdown,
+  ValidationError,
+  readPathContentAtRoot,
+  readChapitreByPath,
+} from '../../utils/aboutSiteReader';
 
-describe('readAboutSiteStructure', () => {
-  let readdirSyncSpy: jest.SpyInstance;
-  let readFileSyncSpy: jest.SpyInstance;
-  let pathJoinSpy: jest.SpyInstance;
-  let cwdSpy: jest.SpyInstance;
-
-  beforeEach(() => {
-    jest.clearAllMocks();
-    cwdSpy = jest.spyOn(process, 'cwd').mockReturnValue('/project');
-    pathJoinSpy = jest.spyOn(path, 'join').mockImplementation((...args) => args.join('/'));
-    readdirSyncSpy = jest.spyOn(fs, 'readdirSync');
-    readFileSyncSpy = jest.spyOn(fs, 'readFileSync');
-  });
-
-  afterEach(() => {
-    jest.restoreAllMocks();
-  });
-
-  describe('Test 1 : Cas simple - un chapitre avec deux sections', () => {
-    it('devrait retourner un chapitre avec deux sections', () => {
-      // ARRANGE : Simuler un dossier avec deux fichiers MD valides
-      pathJoinSpy.mockImplementation((...args) => args.join('/'));
-
-      readdirSyncSpy
-        .mockReturnValueOnce([
-          { name: '1. A propos du projet', isDirectory: () => true, isFile: () => false },
-        ] as fs.Dirent[])
-        .mockReturnValueOnce([
-          { name: 'Section 1.md', isDirectory: () => false, isFile: () => true },
-          { name: 'Section 2.md', isDirectory: () => false, isFile: () => true },
-        ] as fs.Dirent[]);
-
-      readFileSyncSpy
-        .mockReturnValueOnce('# Partie 1\nContenu de la section 1.')
-        .mockReturnValueOnce('# Partie 2\nContenu de la section 2.');
-
-      // ACT
-      const result = readAboutSiteStructure();
-
-      // ASSERT
-      expect(result.chapitres).toHaveLength(1);
-      expect(result.chapitres[0].nom).toBe('1. A propos du projet');
-      expect(result.chapitres[0].sections).toHaveLength(2);
-      expect(result.chapitres[0].sections[0].nom).toBe('Section 1');
-      expect(result.chapitres[0].sections[1].nom).toBe('Section 2');
-    });
-  });
-
-  describe('Test 2 : Cas multiple - un chapitre avec plusieurs sections', () => {
-    it('devrait retourner un chapitre avec plusieurs sections triées', () => {
-      // ARRANGE : Simuler un dossier avec plusieurs fichiers MD valides
-      pathJoinSpy.mockImplementation((...args) => args.join('/'));
-
-      readdirSyncSpy
-        .mockReturnValueOnce([
-          { name: '2. Definition of Done (DOD)', isDirectory: () => true, isFile: () => false },
-        ] as fs.Dirent[])
-        .mockReturnValueOnce([
-          { name: '3. Règles pour le back-end Node.js.md', isDirectory: () => false, isFile: () => true },
-          { name: '1. Règles générales.md', isDirectory: () => false, isFile: () => true },
-          { name: '2. Règles pour les back-end métier.md', isDirectory: () => false, isFile: () => true },
-        ] as fs.Dirent[]);
-
-      readFileSyncSpy.mockReturnValue('# Partie\nContenu');
-
-      // ACT
-      const result = readAboutSiteStructure();
-
-      // ASSERT
-      expect(result.chapitres[0].sections).toHaveLength(3);
-      expect(result.chapitres[0].sections[0].nom).toBe('1. Règles générales');
-      expect(result.chapitres[0].sections[1].nom).toBe('2. Règles pour les back-end métier');
-      expect(result.chapitres[0].sections[2].nom).toBe('3. Règles pour le back-end Node.js');
-    });
-  });
-
-  describe('Test 3 : Cas avec fichiers non-MD mélangés', () => {
-    it('devrait ignorer les fichiers non-MD', () => {
-      // ARRANGE : Simuler des fichiers MD et non-MD mélangés
-      pathJoinSpy.mockImplementation((...args) => args.join('/'));
-
-      readdirSyncSpy
-        .mockReturnValueOnce([
-          { name: '1. A propos du projet', isDirectory: () => true, isFile: () => false },
-        ] as fs.Dirent[])
-        .mockReturnValueOnce([
-          { name: 'Section 1.md', isDirectory: () => false, isFile: () => true },
-          { name: 'fichier.txt', isDirectory: () => false, isFile: () => true },
-          { name: 'autre.pdf', isDirectory: () => false, isFile: () => true },
-          { name: 'Section 2.md', isDirectory: () => false, isFile: () => true },
-        ] as fs.Dirent[]);
-
-      readFileSyncSpy.mockReturnValue('# Partie\nContenu');
-
-      // ACT
-      const result = readAboutSiteStructure();
-
-      // ASSERT
-      expect(result.chapitres[0].sections).toHaveLength(2);
-      expect(result.chapitres[0].sections[0].nom).toBe('Section 1');
-      expect(result.chapitres[0].sections[1].nom).toBe('Section 2');
-    });
-  });
-
-  describe('Test 4 : Cas avec plusieurs chapitres', () => {
-    it('devrait retourner plusieurs chapitres avec leurs sections', () => {
-      // ARRANGE : Simuler plusieurs dossiers avec fichiers MD
-      pathJoinSpy.mockImplementation((...args) => args.join('/'));
-
-      readdirSyncSpy
-        .mockReturnValueOnce([
-          { name: '1. A propos du projet', isDirectory: () => true, isFile: () => false },
-          { name: '2. Definition of Done (DOD)', isDirectory: () => true, isFile: () => false },
-        ] as fs.Dirent[])
-        .mockReturnValueOnce([
-          { name: 'Section 1.md', isDirectory: () => false, isFile: () => true },
-          { name: 'Section 2.md', isDirectory: () => false, isFile: () => true },
-        ] as fs.Dirent[])
-        .mockReturnValueOnce([
-          { name: 'Section 1.md', isDirectory: () => false, isFile: () => true },
-          { name: 'Section 2.md', isDirectory: () => false, isFile: () => true },
-        ] as fs.Dirent[]);
-
-      readFileSyncSpy.mockReturnValue('# Partie\nContenu');
-
-      // ACT
-      const result = readAboutSiteStructure();
-
-      // ASSERT
-      expect(result.chapitres).toHaveLength(2);
-      expect(result.chapitres[0].nom).toBe('1. A propos du projet');
-      expect(result.chapitres[0].sections).toHaveLength(2);
-      expect(result.chapitres[1].nom).toBe('2. Definition of Done (DOD)');
-      expect(result.chapitres[1].sections).toHaveLength(2);
-    });
-  });
-
-  describe('Test 5 : Cas vide - chapitre sans sections valides', () => {
-    it('devrait ne pas retourner un chapitre sans sections valides', () => {
-      // ARRANGE : Simuler un dossier sans fichiers MD valides
-      pathJoinSpy.mockImplementation((...args) => args.join('/'));
-
-      readdirSyncSpy
-        .mockReturnValueOnce([
-          { name: '1. A propos du projet', isDirectory: () => true, isFile: () => false },
-        ] as fs.Dirent[])
-        .mockReturnValueOnce([] as fs.Dirent[]);
-
-      // ACT
-      const result = readAboutSiteStructure();
-
-      // ASSERT
-      expect(result.chapitres).toHaveLength(0);
-    });
-  });
-
-  describe('Test 6 : Erreur - chapitre avec un seul fichier MD valide', () => {
-    it('devrait lever une ValidationError si un chapitre contient un seul fichier MD valide', () => {
-      // ARRANGE : Simuler un dossier avec un seul fichier MD valide
-      pathJoinSpy.mockImplementation((...args) => args.join('/'));
-
-      readdirSyncSpy
-        .mockReturnValueOnce([
-          { name: '1. A propos du projet', isDirectory: () => true, isFile: () => false },
-        ] as fs.Dirent[])
-        .mockReturnValueOnce([
-          { name: 'Section 1.md', isDirectory: () => false, isFile: () => true },
-        ] as fs.Dirent[]);
-
-      readFileSyncSpy.mockReturnValue('# Partie\nContenu');
-
-      // ACT & ASSERT
-      expect(() => {
-        readAboutSiteStructure();
-      }).toThrow(ValidationError);
-      expect(() => {
-        // Réinitialiser les mocks pour le deuxième test
-        readdirSyncSpy
-          .mockReturnValueOnce([
-            { name: '1. A propos du projet', isDirectory: () => true, isFile: () => false },
-          ] as fs.Dirent[])
-          .mockReturnValueOnce([
-            { name: 'Section 1.md', isDirectory: () => false, isFile: () => true },
-          ] as fs.Dirent[]);
-        readFileSyncSpy.mockReturnValue('# Partie\nContenu');
-        readAboutSiteStructure();
-      }).toThrow(/au moins 2 sections/);
-    });
-  });
-
-
-  describe('Test 9 : Erreur - fichier MD avec H2 sans H1', () => {
-    it('devrait lever une ValidationError si un fichier contient H2 sans H1', () => {
-      // ARRANGE : Simuler un fichier avec H2 sans H1
-      pathJoinSpy.mockImplementation((...args) => args.join('/'));
-
-      readdirSyncSpy
-        .mockReturnValueOnce([
-          { name: '1. A propos du projet', isDirectory: () => true, isFile: () => false },
-        ] as fs.Dirent[])
-        .mockReturnValueOnce([
-          { name: 'Section 1.md', isDirectory: () => false, isFile: () => true },
-          { name: 'Section 2.md', isDirectory: () => false, isFile: () => true },
-        ] as fs.Dirent[]);
-
-      readFileSyncSpy
-        .mockReturnValueOnce('## Sous-partie sans partie\nContenu') // Fichier invalide : H2 sans H1
-        .mockReturnValueOnce('# Partie\nContenu');
-
-      // ACT & ASSERT
-      expect(() => {
-        readAboutSiteStructure();
-      }).toThrow(ValidationError);
-      expect(() => {
-        // Réinitialiser les mocks pour le deuxième test
-        readdirSyncSpy
-          .mockReturnValueOnce([
-            { name: '1. A propos du projet', isDirectory: () => true, isFile: () => false },
-          ] as fs.Dirent[])
-          .mockReturnValueOnce([
-            { name: 'Section 1.md', isDirectory: () => false, isFile: () => true },
-            { name: 'Section 2.md', isDirectory: () => false, isFile: () => true },
-          ] as fs.Dirent[]);
-        readFileSyncSpy
-          .mockReturnValueOnce('## Sous-partie sans partie\nContenu')
-          .mockReturnValueOnce('# Partie\nContenu');
-        readAboutSiteStructure();
-      }).toThrow(/titre de niveau 2.*sans titre de niveau 1/);
-    });
-  });
-
-  describe('Test 10 : Ignorer fichiers MD vides', () => {
-    it('devrait ignorer les fichiers MD vides', () => {
-      // ARRANGE : Simuler des fichiers MD dont certains sont vides
-      pathJoinSpy.mockImplementation((...args) => args.join('/'));
-
-      readdirSyncSpy
-        .mockReturnValueOnce([
-          { name: '1. A propos du projet', isDirectory: () => true, isFile: () => false },
-        ] as fs.Dirent[])
-        .mockReturnValueOnce([
-          { name: 'Section 1.md', isDirectory: () => false, isFile: () => true },
-          { name: 'vide.md', isDirectory: () => false, isFile: () => true },
-          { name: 'Section 2.md', isDirectory: () => false, isFile: () => true },
-        ] as fs.Dirent[]);
-
-      let readCount = 0;
-      readFileSyncSpy.mockImplementation((filePath: string) => {
-        readCount++;
-        if (readCount === 1) return '# Partie 1\nContenu section 1';
-        if (readCount === 2) return ''; // Fichier vide
-        if (readCount === 3) return '# Partie 2\nContenu section 2';
-        return '';
-      });
-
-      // ACT
-      const result = readAboutSiteStructure();
-
-      // ASSERT : Les fichiers vides doivent être ignorés
-      expect(result.chapitres).toHaveLength(1);
-      expect(result.chapitres[0].sections).toHaveLength(2);
-      expect(result.chapitres[0].sections.map(s => s.nom)).not.toContain('vide');
-    });
-  });
-});
+/**
+ * readAboutSiteStructure a été supprimé (US-11.3 : bande pilotée par menu.json, contenu par readChapitreByPath).
+ * Les tests ci-dessous concernent validerContenuMarkdown et readPathContentAtRoot (US-11.4).
+ */
 
 /**
  * Tests TDD pour validerContenuMarkdown
@@ -375,6 +118,58 @@ Contenu normal.`;
       // ACT & ASSERT : Ne doit pas lever d'erreur
       expect(() => validerContenuMarkdown(contenu, filePath)).not.toThrow();
     });
+  });
+});
+
+describe('readPathContentAtRoot - US-11.4 Path avec dossiers et accordéon', () => {
+  it('retourne null quand le chemin n\'existe pas', () => {
+    const result = readPathContentAtRoot('data/INEXISTANT_XYZ');
+    expect(result).toBeNull();
+  });
+
+  it('retourne null quand le chemin pointe vers un fichier (pas un dossier)', () => {
+    const result = readPathContentAtRoot(path.join('data', 'A propos de ce site', 'menu.json'));
+    expect(result).toBeNull();
+  });
+
+  it('retourne dossiers à la racine quand le dossier contient des sous-dossiers', () => {
+    const dirWithSubdirs = path.join('data', 'A propos de ce site');
+    const result = readPathContentAtRoot(dirWithSubdirs);
+    expect(result).not.toBeNull();
+    expect(result!.dossiers.length).toBeGreaterThan(0);
+    const noms = result!.dossiers.map((d) => d.nom);
+    expect(noms).toContain('A propos du projet');
+    expect(noms).toContain('Sprints');
+    expect(result!.dossiers.every((d) => d.path.length > 0 && d.nom.length > 0)).toBe(true);
+  });
+
+  it('retourne fichiers MD à la racine quand le dossier contient des .md', () => {
+    const dirWithMd = path.join('data', 'A propos de ce site', 'A propos du projet');
+    const result = readPathContentAtRoot(dirWithMd);
+    expect(result).not.toBeNull();
+    expect(result!.fichiers.length).toBeGreaterThan(0);
+    expect(result!.fichiers.every((s) => s.nom && s.contenu && Array.isArray(s.parties))).toBe(true);
+  });
+
+  it('retourne à la fois fichiers et dossiers triés par nom', () => {
+    const rootAbout = path.join('data', 'A propos de ce site');
+    const result = readPathContentAtRoot(rootAbout);
+    expect(result).not.toBeNull();
+    const nomsDossiers = result!.dossiers.map((d) => d.nom);
+    const nomsFichiers = result!.fichiers.map((f) => f.nom);
+    expect(nomsDossiers).toEqual([...nomsDossiers].sort((a, b) => a.localeCompare(b)));
+    expect(nomsFichiers).toEqual([...nomsFichiers].sort((a, b) => a.localeCompare(b)));
+  });
+
+  it('chaque dossier a un path utilisable par readChapitreByPath', () => {
+    const rootAbout = path.join('data', 'A propos de ce site');
+    const result = readPathContentAtRoot(rootAbout);
+    expect(result).not.toBeNull();
+    const sousDossier = result!.dossiers.find((d) => d.nom === 'A propos du projet');
+    expect(sousDossier).toBeDefined();
+    const chapitre = readChapitreByPath(sousDossier!.path);
+    expect(chapitre).not.toBeNull();
+    expect(chapitre!.sections.length).toBeGreaterThan(0);
   });
 });
 

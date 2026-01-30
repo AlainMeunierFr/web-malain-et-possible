@@ -7,6 +7,7 @@ Fonctionnalité: Affichage structuré des critères d'acceptation dans le wiki
 
   Contexte:
     Étant donné que je suis sur la page "À propos du site"
+    Et j'affiche le dossier "3. Definition of Done"
     Et qu'une User Story contient une section "Critères d'acceptation"
 
   Scénario: Détection de la section "Critères d'acceptation"
@@ -81,14 +82,18 @@ Fonctionnalité: Affichage structuré des critères d'acceptation dans le wiki
     Étant donné qu'une section "Critères d'acceptation" contient des thèmes et des critères imbriqués
     Quand le wiki affiche la User Story
     Alors la hiérarchie visuelle est claire :
+      """
       - Les thèmes (niveau 1) sont plus visibles
       - Les critères (niveau 2) sont indentés sous leur thème
       - La séparation entre différents thèmes est claire
+      """
 
   Scénario: Règle dans la DOD pour l'IA
     Étant donné que la DOD "Comportement implicite de l'IA" existe
     Quand je consulte cette DOD
     Alors je vois une règle spécifiant que lors de l'écriture d'une User Story dans le wiki, je dois respecter :
-      - `- **Thème de critère**` pour les thèmes de critères
-      - `- Critère normal` (sans `**` au début) pour les critères sous ce thème
+      """
+      - Thème de critère pour les thèmes de critères
+      - Critère normal (sans gras au début) pour les critères sous ce thème
       - Les critères doivent être placés après leur thème correspondant
+      """

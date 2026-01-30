@@ -1756,3 +1756,321 @@
     margin-top: 60px;
   }
 }
+
+/* ============================================
+   Board KanBan sprint en cours (US-11.5)
+   ============================================ */
+
+/* Partie supérieure statique : menu à gauche, Sprint Goal à droite (même ligne) ; tableau juste en dessous */
+.dashboardHeader {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 0.125rem solid var(--BleuClair);
+}
+
+.dashboardHeader nav {
+  flex: 0 1 auto;
+  margin-bottom: 0;
+}
+
+.sprintGoalContainer {
+  flex: 1 1 auto;
+  min-width: 12rem;
+  max-width: 50%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-start;
+}
+
+/* Style SprintGoal : Clint Marker, même taille que le menu (0.9rem) */
+.sprintGoal {
+  font-family: 'Clint Marker', cursive;
+  font-size: 0.9rem;
+  line-height: 1.4;
+  color: var(--BleuFonce);
+  margin: 0;
+  text-align: right;
+}
+
+.sprintGoal p {
+  margin: 0 0 0.35em 0;
+  font-family: 'Clint Marker', cursive;
+}
+
+.sprintGoal p:last-child {
+  margin-bottom: 0;
+}
+
+.sprintBoard {
+  min-height: 6rem;
+  padding: 1rem;
+  background-color: var(--background);
+  border: 0.0625rem solid var(--BleuClair);
+  border-radius: 0.5rem;
+}
+
+.sprintBoardGoal {
+  margin-bottom: 1rem;
+}
+
+.sprintBoardTable {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 0.5rem;
+}
+
+/* Titre des colonnes statique */
+.sprintBoardRow {
+  display: flex;
+  flex: 1 1 100%;
+  gap: 1rem;
+  min-width: 0;
+}
+
+.sprintBoardRowStatic {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: var(--background);
+}
+
+/* Colonnes : bordure visible pour les distinguer, bords sans arrondi */
+.sprintBoardColumn {
+  flex: 1 1 0;
+  min-width: 8rem;
+  border: 0.125rem solid var(--BleuFonce);
+  border-radius: 0;
+  padding: 0.75rem;
+  background-color: var(--background);
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+/* Titres et compteurs des colonnes : Clint Marker */
+.sprintBoardColumnHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 0.0625rem solid var(--BleuClair);
+  font-family: 'Clint Marker', cursive;
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--BleuFonce);
+  flex-shrink: 0;
+}
+
+.sprintBoardColumnTitle {
+  flex-shrink: 0;
+  font-family: 'Clint Marker', cursive;
+}
+
+.sprintBoardColumnCount {
+  font-family: 'Clint Marker', cursive;
+  font-weight: 500;
+  opacity: 0.9;
+}
+
+/* Colonne "A faire" : rouge (titre, compteur, bordure) */
+.sprintBoardColumn[data-column-type="a_faire"] {
+  border-color: #b91c1c;
+}
+
+.sprintBoardColumn[data-column-type="a_faire"] .sprintBoardColumnHeader,
+.sprintBoardColumn[data-column-type="a_faire"] .sprintBoardColumnTitle,
+.sprintBoardColumn[data-column-type="a_faire"] .sprintBoardColumnCount {
+  color: #b91c1c;
+}
+
+.sprintBoardColumn[data-column-type="a_faire"] .sprintBoardColumnHeader {
+  border-bottom-color: #b91c1c;
+}
+
+/* Colonne "Fait" : vert (titre, compteur, bordure) */
+.sprintBoardColumn[data-column-type="fait"] {
+  border-color: #15803d;
+}
+
+.sprintBoardColumn[data-column-type="fait"] .sprintBoardColumnHeader,
+.sprintBoardColumn[data-column-type="fait"] .sprintBoardColumnTitle,
+.sprintBoardColumn[data-column-type="fait"] .sprintBoardColumnCount {
+  color: #15803d;
+}
+
+.sprintBoardColumn[data-column-type="fait"] .sprintBoardColumnHeader {
+  border-bottom-color: #15803d;
+}
+
+/* Zone des cartes : scroll vertical si trop de cartes, pas d'ascenseur horizontal (rotation) */
+.sprintBoardColumnCards {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  overflow-y: auto;
+  overflow-x: hidden;
+  max-height: 50vh;
+  min-height: 4rem;
+  padding: 0.25rem 0.75rem;
+  box-sizing: border-box;
+}
+
+/* CardUS : forme post-it carrée (bordure noire, fond jaune), bords sans arrondi, cliquable (US-11.6) */
+.sprintBoardCard {
+  width: 100%;
+  aspect-ratio: 1;
+  padding: 0.35rem 0.5rem;
+  border-radius: 0;
+  background-color: #f7f7b2;
+  border: 0.125rem solid #000;
+  flex-shrink: 0;
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  min-width: 0;
+  max-width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  cursor: pointer;
+}
+
+/* CardUS : un seul texte Markdown **[ID]** - [Titre US] (Clint Marker), tient dans le carré */
+.sprintBoardCardContent,
+.sprintBoardCardContent.titreUS {
+  display: block;
+  flex: 1 1 0;
+  min-width: 0;
+  min-height: 0;
+  font-family: 'Clint Marker', cursive;
+  color: #1a1a1a;
+  font-size: 0.76rem;
+  line-height: 1.25;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-wrap: break-word;
+}
+
+.sprintBoardCardContent strong {
+  font-weight: 700;
+}
+
+/* Modal détail US (US-11.6) : ne recouvre pas header ni footer, utilise la hauteur disponible */
+.usDetailModalOverlay {
+  position: fixed;
+  top: max(80px, 8.75vh);
+  bottom: max(50px, 5.47vh);
+  left: 0;
+  right: 0;
+  z-index: 100;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  box-sizing: border-box;
+}
+
+/* Modal = même style post-it que les cartes : bord noir carré, fond jaune */
+.usDetailModal {
+  background: #f7f7b2;
+  border: 0.125rem solid #000;
+  border-radius: 0;
+  width: 100%;
+  max-width: 56rem;
+  /* Hauteur max = hauteur overlay (déjà entre header et footer) moins le padding */
+  max-height: 100%;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  font-family: 'Clint Marker', cursive;
+  box-shadow: 0 0.5rem 2rem rgba(0, 0, 0, 0.2);
+}
+
+.usDetailModalHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem 1.25rem;
+  border-bottom: 0.0625rem solid #000;
+  flex-shrink: 0;
+  font-family: 'Clint Marker', cursive;
+}
+
+.usDetailModalTitle {
+  margin: 0;
+  font-size: 1.125rem;
+  font-family: 'Clint Marker', cursive;
+  color: #1a1a1a;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.usDetailModalClose {
+  flex-shrink: 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.25rem;
+  color: #1a1a1a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0;
+}
+
+.usDetailModalClose:hover {
+  opacity: 0.8;
+}
+
+.usDetailModalFixed {
+  flex-shrink: 0;
+  padding: 0.75rem 1.25rem;
+  border-bottom: 0.0625rem solid #000;
+  font-family: 'Clint Marker', cursive;
+  overflow: hidden;
+}
+
+.usDetailModalFixed .markdownContent,
+.usDetailModalFixed p,
+.usDetailModalFixed ul,
+.usDetailModalFixed li {
+  font-family: 'Clint Marker', cursive;
+}
+
+.usDetailModalScroll {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 1rem 1.25rem;
+  font-family: 'Clint Marker', cursive;
+}
+
+.usDetailModalScroll .markdownContent,
+.usDetailModalScroll p,
+.usDetailModalScroll ul,
+.usDetailModalScroll li,
+.usDetailModalScroll h3,
+.usDetailModalScroll h4,
+.usDetailModalScroll h5,
+.usDetailModalScroll h6 {
+  font-family: 'Clint Marker', cursive;
+}
+
+.usDetailLoading {
+  position: absolute;
+  bottom: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--BleuFonce);
+}

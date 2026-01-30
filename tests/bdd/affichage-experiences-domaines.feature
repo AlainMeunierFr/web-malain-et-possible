@@ -50,9 +50,11 @@ Fonctionnalité: Affichage des expériences sous les domaines de compétences
 
   Scénario: Structure d'affichage d'un domaine complet
     Étant donné qu'un domaine contient :
+      """
       - Un titre et un contenu (citation)
       - 3 compétences affichées verticalement
       - Des expériences associées
+      """
     Quand je consulte la page affichant ce domaine
     Alors je vois dans l'ordre :
       | Ordre | Élément                    |

@@ -14,7 +14,8 @@ const CourseMarkdownRenderer: React.FC<CourseMarkdownRendererProps> = ({ content
   const lines = content.split('\n');
   const elements: React.ReactNode[] = [];
   let currentParagraph: string[] = [];
-  let currentList: string[] = [];
+  type ListItem = { text: string; children: string[] };
+  let currentList: ListItem[] = [];
   let currentQuote: string[] = [];
   let inCodeBlock = false;
   let codeBlockLines: string[] = [];
@@ -34,7 +35,16 @@ const CourseMarkdownRenderer: React.FC<CourseMarkdownRendererProps> = ({ content
       elements.push(
         <ul key={`ul-${elements.length}`}>
           {currentList.map((item, idx) => (
-            <li key={idx}>{parseInlineMarkdown(item)}</li>
+            <li key={idx}>
+              {parseInlineMarkdown(item.text)}
+              {item.children.length > 0 ? (
+                <ul>
+                  {item.children.map((sub, subIdx) => (
+                    <li key={subIdx}>{parseInlineMarkdown(sub)}</li>
+                  ))}
+                </ul>
+              ) : null}
+            </li>
           ))}
         </ul>
       );
@@ -138,12 +148,20 @@ const CourseMarkdownRenderer: React.FC<CourseMarkdownRendererProps> = ({ content
       return;
     }
 
-    // List item
-    if (trimmedLine.match(/^[-*+]\s+/)) {
+    // List item (niveau 0 ou imbriqué : indentation = sous-liste)
+    const listMatch = line.match(/^(\s*)[-*+]\s+(.*)$/);
+    if (listMatch) {
       flushParagraph();
       flushQuote();
-      const text = trimmedLine.replace(/^[-*+]\s+/, '');
-      currentList.push(text);
+      const indent = listMatch[1].length;
+      const text = listMatch[2].trim();
+      if (indent === 0) {
+        currentList.push({ text, children: [] });
+      } else if (currentList.length > 0) {
+        currentList[currentList.length - 1].children.push(text);
+      } else {
+        currentList.push({ text, children: [] });
+      }
       return;
     }
 

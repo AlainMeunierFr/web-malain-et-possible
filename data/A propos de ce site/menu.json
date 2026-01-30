@@ -1,0 +1,32 @@
+[
+  {
+    "Titre": "A propos du projet",
+    "Numéro": 1,
+    "Type": "Path",
+    "Parametre": "./data/A propos de ce site/A propos du projet",
+    "e2eID": "menu-a-propos-projet"
+  },
+  {
+    "Titre": "Sprint en cours",
+    "Numéro": 2,
+    "Type": "container",
+    "Parametre": "sprintEnCours",
+    "e2eID": "menu-sprint-en-cours"
+  },
+  {
+    "Titre": "Tous les sprints",
+    "Numéro": 3,
+    "Type": "Path",
+    "Parametre": "./data/A propos de ce site/Sprints",
+    "e2eID": "menu-tous-sprints"
+  },
+  {
+    "Titre": "Consignes aux agents",
+    "Numéro": 4,
+    "Type": "Path",
+    "Parametre": "./.cursor/agents",
+    "e2eID": "menu-consignes-agents"
+  }
+]
+
+

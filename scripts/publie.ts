@@ -199,16 +199,38 @@ function collectAllMetrics(): void {
 
 /**
  * Publie sur Git
+ * Sous Windows/OneDrive, active core.longpaths pour éviter "adding files failed" (chemins longs).
  */
 function publishToGit(message: string): void {
   console.log('📤 Publication sur Git...\n');
   try {
-    execSync('git add -A', { encoding: 'utf-8', stdio: 'inherit' });
-    execSync(`git commit -m "${message}"`, { encoding: 'utf-8', stdio: 'inherit' });
+    // Sous Windows/OneDrive : autoriser les chemins > 260 caractères
+    try {
+      execSync('git config core.longpaths true', { encoding: 'utf-8', stdio: 'pipe' });
+    } catch {
+      // Ignorer si config échoue
+    }
+    try {
+      execSync('git add -A', { encoding: 'utf-8', stdio: 'pipe', maxBuffer: 10 * 1024 * 1024 });
+    } catch (addError: unknown) {
+      const err = addError as { stderr?: string; stdout?: string; output?: (string | null)[] };
+      console.error('❌ Erreur lors de la publication Git (git add -A)');
+      const stderr = err?.stderr ?? err?.output?.[2];
+      const stdout = err?.stdout ?? err?.output?.[1];
+      if (stderr) console.error(stderr);
+      if (stdout) console.error(stdout);
+      if (!stderr && !stdout) console.error((addError as Error).message);
+      console.error('\nConseil : Si "Filename too long", exécuter : git config core.longpaths true');
+      throw addError;
+    }
+    execSync('git commit -m ' + JSON.stringify(message), { encoding: 'utf-8', stdio: 'inherit' });
     execSync('git push', { encoding: 'utf-8', stdio: 'inherit' });
     console.log('✅ Publication réussie\n');
-  } catch (error) {
-    console.error('❌ Erreur lors de la publication Git');
+  } catch (error: unknown) {
+    const err = error as { stderr?: string; stdout?: string };
+    if (!err?.stderr && !err?.stdout) {
+      console.error('❌ Erreur lors de la publication Git');
+    }
     throw error;
   }
 }

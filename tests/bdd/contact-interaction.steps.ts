@@ -11,9 +11,7 @@ Given('je suis sur n\'importe quelle page du site', async ({ page }) => {
   await page.goto('/');
 });
 
-When('la page se charge', async ({ page }) => {
-  await page.waitForLoadState('networkidle');
-});
+// When('la page se charge') : défini dans a-propos-du-site-tableau-de-bord.steps.ts (step partagé)
 
 When('je clique sur le bouton YouTube dans le footer', async ({ page }) => {
   const button = page.getByRole('link', { name: /YouTube/i }).or(page.locator('footer a[href*="youtube"]'));

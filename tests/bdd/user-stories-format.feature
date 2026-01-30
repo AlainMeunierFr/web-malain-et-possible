@@ -50,6 +50,7 @@ Fonctionnalité: Affichage formaté des User Stories avec typeDeContenu
 
   Scénario: Affichage formaté d'une User Story
     Étant donné que je suis sur la page "À propos du site"
+    Et j'affiche le dossier "1. A propos du projet"
     Et que la section "User Stories" est déroulée
     Quand je vois une User Story avec les éléments formatés
     Alors "**En tant que** Visiteur du site" est affiché sur une seule ligne

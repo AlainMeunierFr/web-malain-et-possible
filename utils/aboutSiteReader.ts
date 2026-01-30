@@ -104,17 +104,27 @@ export interface Chapitre {
 }
 
 /**
+ * Entrée dossier à la racine d'un Path (US-11.4).
+ * path = chemin relatif complet pour appeler readChapitreByPath(path) au dépliage.
+ */
+export interface DossierRacine {
+  nom: string;
+  path: string;
+}
+
+/**
+ * Contenu à la racine d'un Path : fichiers MD (H1) et dossiers (H1 accordéon) (US-11.4).
+ */
+export interface PathContentAtRoot {
+  fichiers: Section[];
+  dossiers: DossierRacine[];
+}
+
+/**
  * Interface pour le JSON retourné avec la structure complète
  */
 export interface AboutSiteStructure {
   chapitres: Chapitre[];
-}
-
-/**
- * Interface pour le JSON retourné avec les noms des chapitres (ancienne version, conservée pour compatibilité)
- */
-export interface AboutSiteFolders {
-  chapitres: string[];
 }
 
 /**
@@ -606,114 +616,91 @@ export const parseSectionContent = (contenu: string): SectionContent => {
 };
 
 /**
- * Lit la structure complète de "A propos de ce site"
- * Retourne un objet JSON avec les chapitres et leurs sections
- * 
- * @throws ValidationError Si les règles métier ne sont pas respectées
- * @returns Objet JSON avec les chapitres et sections
+ * Lit un dossier (chapitre) à partir d'un chemin relatif à la racine du projet (US-11.3 menu.json Parametre).
+ * Utilisé pour la page /a-propos-du-site/[parametre] quand le paramètre est un chemin (ex. data/A propos de ce site/md/A propos du projet).
+ * @param relativePath Chemin relatif au projet (ex. "data/A propos de ce site/md/A propos du projet")
+ * @returns Chapitre avec sections (fichiers MD) ou null si le dossier n'existe pas ou ne contient pas de MD valides
  */
-export const readAboutSiteStructure = (): AboutSiteStructure => {
-  const aboutSiteDir = path.join(process.cwd(), 'data', 'A propos de ce site');
-  
-  // Lire les dossiers (chapitres)
-  const entries = fs.readdirSync(aboutSiteDir, { withFileTypes: true });
-  
-  const chapitres: Chapitre[] = [];
-  
-  for (const entry of entries) {
-    if (!entry.isDirectory()) {
-      continue; // Ignorer les fichiers à la racine
-    }
-
-    const chapitreNom = entry.name;
-    const chapitreDir = path.join(aboutSiteDir, chapitreNom);
-    
-    // Lire les fichiers MD (sections) dans ce chapitre
-    let sections: Section[] = [];
-    
-    try {
-      const sectionEntries = fs.readdirSync(chapitreDir, { withFileTypes: true });
-      
-      // Filtrer uniquement les fichiers MD et valider leur contenu
-      for (const sectionEntry of sectionEntries) {
-        // Ignorer les fichiers non-MD
-        if (!sectionEntry.isFile() || !sectionEntry.name.endsWith('.md')) {
-          continue;
-        }
-
-        const sectionPath = path.join(chapitreDir, sectionEntry.name);
-        const contenu = fs.readFileSync(sectionPath, 'utf8');
-        
-        // Règle 4 : Fichiers MD vides sont considérés comme inexistants
-        if (!contenu.trim()) {
-          continue; // Ignorer les fichiers vides
-        }
-
-        // Règle 1, 2, 3 : Valider le contenu du fichier
-        validerContenuMarkdown(contenu, sectionPath);
-        
-        const nom = sectionEntry.name.replace(/\.md$/, ''); // Enlever l'extension .md
-        
-        // Parser le contenu pour extraire les parties (###) et sous-parties (####)
-        const contenuParse = parseSectionContent(contenu);
-        
-        sections.push({ 
-          nom, 
-          contenu,
-          parties: contenuParse.parties
-        });
-      }
-      
-      // Trier les sections par ordre alphabétique
-      sections.sort((a, b) => a.nom.localeCompare(b.nom));
-      
-      // Règle 6 : Un dossier contenant un seul fichier MD valide doit déclencher une erreur
-      if (sections.length === 1) {
-        throw new ValidationError(
-          `Le chapitre "${chapitreNom}" ne contient qu'une seule section ("${sections[0].nom}"). Un chapitre doit contenir au moins 2 sections. Veuillez créer au moins une deuxième section dans ce chapitre.`,
-          chapitreDir
-        );
-      }
-    } catch (error) {
-      // Si c'est une ValidationError, la propager
-      if (error instanceof ValidationError) {
-        throw error;
-      }
-      // Sinon, ignorer les erreurs de lecture (dossier vide ou inaccessible)
-      sections = [];
-    }
-    
-    // Règle 5 : Un dossier ne contenant aucun fichier MD valide n'est pas affiché
-    if (sections.length > 0) {
-      chapitres.push({
-        nom: chapitreNom,
-        sections
-      });
-    }
+export const readChapitreByPath = (relativePath: string): Chapitre | null => {
+  const normalizedPath = relativePath.replace(/^\.\//, '').split('/').join(path.sep);
+  const chapitreDir = path.join(process.cwd(), normalizedPath);
+  let entries: fs.Dirent[];
+  try {
+    entries = fs.readdirSync(chapitreDir, { withFileTypes: true });
+  } catch {
+    return null;
   }
-  
-  // Trier les chapitres par ordre alphabétique
-  chapitres.sort((a, b) => a.nom.localeCompare(b.nom));
-  
-  return { chapitres };
+  const chapitreNom = path.basename(normalizedPath);
+  const sections: Section[] = [];
+  for (const entry of entries) {
+    if (!entry.isFile() || !entry.name.endsWith('.md')) continue;
+    const sectionPath = path.join(chapitreDir, entry.name);
+    let contenu: string;
+    try {
+      contenu = fs.readFileSync(sectionPath, 'utf8');
+    } catch {
+      continue;
+    }
+    if (!contenu.trim()) continue;
+    try {
+      validerContenuMarkdown(contenu, sectionPath);
+    } catch {
+      continue;
+    }
+    const nom = entry.name.replace(/\.md$/, '');
+    const contenuParse = parseSectionContent(contenu);
+    sections.push({ nom, contenu, parties: contenuParse.parties });
+  }
+  sections.sort((a, b) => a.nom.localeCompare(b.nom));
+  if (sections.length === 0) return null;
+  return { nom: chapitreNom, sections };
 };
 
 /**
- * Lit les dossiers contenus dans "A propos de ce site"
- * Retourne un objet JSON avec les noms de chapitres triés par ordre alphabétique
- * 
- * @deprecated Utiliser readAboutSiteStructure() à la place
- * @returns Objet JSON avec les noms des chapitres
+ * Lit le contenu à la racine d'un Path : fichiers MD (H1) et dossiers (H1 accordéon) (US-11.4).
+ * Les dossiers peuvent être chargés ensuite via readChapitreByPath(dossier.path).
+ * @param relativePath Chemin relatif au projet (ex. "data/A propos de ce site/md/A propos du projet")
+ * @returns PathContentAtRoot avec fichiers et dossiers, ou null si le chemin n'existe pas ou n'est pas un dossier
  */
-export const readAboutSiteFolders = (): AboutSiteFolders => {
-  const aboutSiteDir = path.join(process.cwd(), 'data', 'A propos de ce site');
-  
-  const entries = fs.readdirSync(aboutSiteDir, { withFileTypes: true });
-  
-  const chapitres = entries
-    .filter(entry => entry.isDirectory())
-    .map(entry => entry.name)
-    .sort();
-  
-  return { chapitres };
+export const readPathContentAtRoot = (relativePath: string): PathContentAtRoot | null => {
+  const normalizedPath = relativePath.replace(/^\.\//, '').split('/').join(path.sep);
+  const dirAbsolu = path.join(process.cwd(), normalizedPath);
+  let entries: fs.Dirent[];
+  try {
+    entries = fs.readdirSync(dirAbsolu, { withFileTypes: true });
+  } catch {
+    return null;
+  }
+  const fichiers: Section[] = [];
+  const dossiers: DossierRacine[] = [];
+  const normalizedPathSlash = normalizedPath.split(path.sep).join('/');
+
+  for (const entry of entries) {
+    if (entry.isDirectory()) {
+      const dossierPath = normalizedPathSlash + (normalizedPathSlash ? '/' : '') + entry.name;
+      dossiers.push({ nom: entry.name, path: dossierPath });
+    } else if (entry.isFile() && entry.name.endsWith('.md')) {
+      const sectionPath = path.join(dirAbsolu, entry.name);
+      let contenu: string;
+      try {
+        contenu = fs.readFileSync(sectionPath, 'utf8');
+      } catch {
+        continue;
+      }
+      if (!contenu.trim()) continue;
+      try {
+        validerContenuMarkdown(contenu, sectionPath);
+      } catch {
+        continue;
+      }
+      const nom = entry.name.replace(/\.md$/, '');
+      const contenuParse = parseSectionContent(contenu);
+      fichiers.push({ nom, contenu, parties: contenuParse.parties });
+    }
+  }
+
+  fichiers.sort((a, b) => a.nom.localeCompare(b.nom));
+  dossiers.sort((a, b) => a.nom.localeCompare(b.nom));
+  return { fichiers, dossiers };
 };
+

@@ -1,0 +1,37 @@
+# US-3.1 : Affichage d'un Domaine de compétences mockup sur la page d'accueil ✅ COMPLÉTÉ
+- **En tant que** Product Manager
+- **Je souhaite** Voir s'afficher sur la page d'accueil un "Domaine de compétences" avec ses 3 compétences (données mockup)
+- **Afin de** Valider la structure et la mise en page d'un Domaine de compétences avant de développer les autres types de contenu
+- **Critères d'acceptation** :
+- Un fichier JSON `data/index.json` contient un objet "Domaine de compétences" mockup avec ses propriétés (titre, contenu, items)
+- Chaque compétence contient ses propriétés (titre, image, description, bouton optionnel)
+- Le JSON est chargé depuis le backend pur et affiché sur la page d'accueil via un composant React
+- **CSS responsive** :
+  - Un bloc conteneur principal qui régule la largeur selon les contraintes responsive : écran trop large = contrainte la largeur / écran pas assez large = écriture en plus petit
+  - Premier sous-bloc horizontal qui prend toute la largeur pour le "Domaine de compétences" :
+    - Ligne 1 : le titre en gras
+    - Ligne 2 : le texte en normal
+  - Second bloc qui contient 3 sous-blocs pour chacune des compétences :
+    - Ligne 1 : le titre
+    - Ligne 2 : l'image
+    - Ligne 3 : le texte (contenant éventuellement du gras sur certains mots)
+  - **Taille des images** :
+    - Les images dans les 3 blocs de compétence doivent occuper 80% de l'espace qui leur est réservé
+    - Les images doivent être centrées dans leur conteneur
+    - Le ratio hauteur/largeur doit être préservé (height: auto)
+  - **Alignement des boutons** :
+    - Les boutons "EN SAVOIR PLUS..." doivent être alignés horizontalement sur la même ligne
+    - Structure en 2 blocs : bloc de contenu (titre + image + texte) et bloc de boutons séparé
+    - Les boutons doivent s'afficher correctement même si les textes ont des hauteurs différentes
+    - Sur mobile, les boutons restent centrés sous leur contenu respectif (une colonne)
+  - **Centrage des titres de compétences** :
+    - Les titres H3 des 3 compétences doivent être centrés dans leur colonne respective
+  - **Largeur du texte d'introduction du domaine** :
+    - Sur desktop/tablette (> 768px) : le texte d'introduction (`domaine.contenu`) doit occuper 80% de la largeur du conteneur, centré
+    - Sur smartphone (≤ 768px) : le texte d'introduction occupe 100% de la largeur disponible
+    - Objectif : améliorer la lisibilité sur grands écrans en évitant les lignes de texte trop longues
+  - **Formatting du texte** :
+    - **Gras markdown** : Tous les textes (contenu du domaine, descriptions des compétences) doivent supporter le format `**texte**` pour afficher du texte en gras
+    - **Citations avec auteur** : Le format `"citation\n*auteur*"` doit être reconnu et affiché avec l'auteur en italique, sur une nouvelle ligne, aligné à droite
+    - **Texte non centré** : Le texte des descriptions ne doit PAS être centré (seuls les titres H3 des compétences sont centrés)
+- Les données mockup sont réalistes mais factices (texte lorem ipsum, images placeholder, etc.)

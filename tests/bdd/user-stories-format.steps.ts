@@ -3,6 +3,10 @@ import { expect } from '@playwright/test';
 
 const { Given, When, Then } = createBdd();
 
+/** Après US-11.2 : contenu US dans la visualisation du dossier "1. A propos du projet". Steps "que je suis sur la page" / "j'affiche le dossier" dans a-propos-du-site-tableau-de-bord.steps.ts. */
+const urlVisualisationDossier = (nomDossier: string) =>
+  '/a-propos-du-site/' + encodeURIComponent(nomDossier);
+
 // Scénario: Détection d'une User Story par son titre H4
 Given('un fichier Markdown contenant {string}', async ({}) => {
   // Cette donnée est vérifiée via le parsing dans les scénarios
@@ -14,7 +18,7 @@ When('le parser analyse le fichier', async ({}) => {
 
 Then('le bloc est détecté comme une User Story', async ({ page }) => {
   // Vérifier qu'il y a des User Stories sur la page
-  await page.goto('/a-propos-du-site');
+  await page.goto(urlVisualisationDossier('1. A propos du projet'));
   const us = page.getByText(/US-|User Story/i).first();
   await expect(us).toBeVisible();
 });
@@ -32,7 +36,7 @@ Given('un fichier Markdown avec une User Story complète :', async ({}) => {
 
 Then('l\'élément {string} a `typeDeContenu: {string}`', async ({ page }, element: string, typeDeContenu: string) => {
   // Vérifier que l'élément est présent avec le bon typeDeContenu
-  await page.goto('/a-propos-du-site');
+  await page.goto(urlVisualisationDossier('1. A propos du projet'));
   const elementText = page.getByText(element, { exact: false });
   await expect(elementText.first()).toBeVisible();
 });
@@ -44,7 +48,7 @@ Given('un fichier Markdown avec une User Story incomplète :', async ({}) => {
 
 Then('l\'élément {string} n\'a pas de `typeDeContenu`', async ({ page }, element: string) => {
   // Vérifier que l'élément est présent mais sans typeDeContenu
-  await page.goto('/a-propos-du-site');
+  await page.goto(urlVisualisationDossier('1. A propos du projet'));
   const elementText = page.getByText(element, { exact: false });
   await expect(elementText.first()).toBeVisible();
 });
@@ -56,18 +60,12 @@ Given('un fichier Markdown avec des listes normales :', async ({}) => {
 
 Then('aucun élément n\'a de `typeDeContenu` attribué', async ({ page }) => {
   // Vérifier que les éléments sont présents mais sans typeDeContenu
-  await page.goto('/a-propos-du-site');
+  await page.goto(urlVisualisationDossier('1. A propos du projet'));
   const listItems = page.locator('li').first();
   await expect(listItems).toBeVisible();
 });
 
 // Scénario: Affichage formaté d'une User Story
-Given('que je suis sur la page {string}', async ({ page }, pageName: string) => {
-  if (pageName === 'À propos du site') {
-    await page.goto('/a-propos-du-site');
-  }
-});
-
 Given('que la section {string} est déroulée', async ({ page }, sectionName: string) => {
   // Cliquer sur la section pour la dérouler
   const section = page.getByText(sectionName, { exact: false });
@@ -110,7 +108,7 @@ When('le test d\'intégration s\'exécute', async ({}) => {
 
 Then('le fichier est validé selon la syntaxe attendue', async ({ page }) => {
   // Vérifier que la page contient des User Stories valides
-  await page.goto('/a-propos-du-site');
+  await page.goto(urlVisualisationDossier('1. A propos du projet'));
   const us = page.getByText(/US-|User Story/i).first();
   await expect(us).toBeVisible();
 });
@@ -132,7 +130,7 @@ Given('le fichier {string} contient :', async ({}) => {
 
 Then('le test détecte que l\'US est incomplète \\(manque {string} et {string}\\)', async ({ page }, element1: string, element2: string) => {
   // Vérifier que les éléments manquants sont détectés
-  await page.goto('/a-propos-du-site');
+  await page.goto(urlVisualisationDossier('1. A propos du projet'));
   const us = page.getByText(/US-|User Story/i).first();
   await expect(us).toBeVisible();
 });
