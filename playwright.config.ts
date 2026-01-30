@@ -38,6 +38,7 @@ export default defineConfig({
   // Utiliser testMatch pour inclure les deux types de tests
   testMatch: [
     '.features-gen/**/*.spec.js',
+    'tests/bdd-generated/**/*.spec.js',
     'tests/end-to-end/**/*.spec.ts',
   ],
   /* Run tests in files in parallel */

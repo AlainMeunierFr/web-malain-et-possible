@@ -1,4 +1,5 @@
 # language: fr
+@page-metrics-valeurs-correctes
 Fonctionnalité: Affichage des valeurs correctes des métriques sur la page Metrics (US-12.1)
   En tant que développeur ou Lead Dev qui consulte la page Metrics
   Je souhaite que les métriques affichent la valeur réelle calculée (ou NC) et jamais de valeur inventée
@@ -30,4 +31,4 @@ Fonctionnalité: Affichage des valeurs correctes des métriques sur la page Metr
     Étant donné que les métriques collectées contiennent "NC" pour Complexité cyclomatique, Index de maintenabilité et Dette technique
     Quand j'accède à la page "/metrics"
     Alors les cartes "Complexité cyclomatique", "Index de maintenabilité" et "Dette technique" sont absentes de la section "Qualité du code"
-    Ou chacune affiche "NC" (aucune valeur inventée)
+    Et aucune de ces cartes n'affiche de valeur inventée (absente ou affichant "NC")

@@ -13,7 +13,6 @@ alwaysApply: true
 2. ✅ **NE JAMAIS CODER DIRECTEMENT** - TOUJOURS déléguer via l'outil `Task`
 3. ✅ **TESTS D'ABORD, CODE ENSUITE** - TDD strict avec couverture 100%
 4. ✅ **JOURNAL DE BORD TOUJOURS À JOUR** - **IMMÉDIATEMENT** après chaque prompt qui modifie le code
-5. ✅ **RESPECTER LA DOD** - Vérifier avant chaque action
 
 **RÈGLE ABSOLUE JOURNAL** : Le journal de bord DOIT être mis à jour **IMMÉDIATEMENT** après chaque prompt qui modifie le code, AVANT de considérer la tâche terminée. C'est la dernière étape obligatoire avant tout commit.
 
@@ -29,46 +28,56 @@ alwaysApply: true
     2. **Au GO NEXT suivant** (après ta revue) : si **revue avec erreurs ou livraison manquante** → lancer **toi-même** l'agent de l'étape courante (Task) avec un prompt clair (corrections ou livrable attendu) — **préconisation principale**, pas de menu ; si **revue OK et étape suivante existe** → passer **toi-même** à l'agent suivant (mettre à jour `US en cours.md`, invoker l'agent) ; si **revue OK et pas d'agent suivant** (étape = TDD-front-end) → **terminer l'US** (étape = `done`, pas de commande US VALIDÉE séparée).
 - **Clôture de l'US** : c'est un cas de **GO NEXT** (pas de commande « US VALIDÉE » distincte) : quand la revue est OK et qu'il n'y a pas d'agent suivant, tu mets étape = `done`.
 
-### Architecture et Validation
-- Valider les choix architecturaux avec l'équipe avant implémentation
-- Attendre un "GO BDD" : scénarios Gherkin validés par le PO/métier
-- Attendre un "GO TDD" : tests à 100% de couverture
-- **BLOQUER** toute tâche si critères d'acceptation non clairs
+### Validation à chaque étape (GO NEXT)
+- **Une seule façon d'avancer** : après chaque livraison d'agent, l'utilisateur dit **GO NEXT** → le Lead Dev fait la **revue** (conformité US, BDD, DoD, couverture, linters selon l'étape), rédige le rapport, puis **pause**. Au **GO NEXT** suivant : corrections (relancer l'agent courant) ou passage à l'agent suivant ou clôture (étape = `done`).
+- **BDD** : scénarios Gherkin sont validés par ta **revue** (pas de commande « GO BDD ») ; si OK, tu passes à l'agent BDD au GO NEXT suivant.
+- **TDD** : couverture et tests sont validés par ta **revue** à chaque étape (pas de commande « GO TDD ») ; si OK, tu passes à l'agent suivant au GO NEXT suivant.
+- Valider les choix architecturaux avec l'équipe avant implémentation.
+- **BLOQUER** toute tâche si critères d'acceptation non clairs.
 
 ### Découpage et Distribution des Tâches
 
-**ORDRE STRICT** : Back-End → Front-End → UX/UI
+**ORDRE STRICT** : US → BDD → TDD-back-end → TDD-front-end (agents dans `.cursor/agents/`)
 
 **RÈGLE ABSOLUE** : **NE JAMAIS CODER DIRECTEMENT**. TOUJOURS déléguer aux agents spécialisés via l'outil `Task`.
 
 #### Utiliser l'outil Task pour déléguer
 
+**Noms d'agents à utiliser** : uniquement ceux définis dans `.cursor/agents/` (US, BDD, TDD-back-end, TDD-front-end). Ne pas utiliser de `subagent_type` inconnu (ex. "back-end", "front-end", "ui-et-ux") sinon la tâche n'activera aucun agent.
+
 ```typescript
-// Pour une tâche back-end
+// Étape US — invoker l'agent @US
 Task({
-  subagent_type: "back-end",
+  subagent_type: "US",
   description: "Description courte (3-5 mots)",
-  prompt: "Contexte détaillé avec User Story, critères d'acceptation, scénarios BDD validés"
+  prompt: "Contexte détaillé : reformuler en User Story avec Critères d'acceptation."
 })
 
-// Pour une tâche front-end
+// Étape BDD — invoker l'agent @BDD
 Task({
-  subagent_type: "front-end",
-  description: "Description courte",
-  prompt: "Contexte détaillé..."
+  subagent_type: "BDD",
+  description: "Rédige des fichiers .fecture au format Gerkin en fr",
+  prompt: "Contexte détaillé avec User Story, critères d'acceptation ; produire les scénarios .feature dans tests/bdd."
 })
 
-// Pour une tâche UX/UI
+// Étape TDD-back-end — invoker l'agent @TDD-back-end
 Task({
-  subagent_type: "ui-et-ux",
-  description: "Description courte",
-  prompt: "Contexte détaillé..."
+  subagent_type: "TDD-back-end",
+  description: "Fait du TDD strict dans le backend",
+  prompt: "Contexte détaillé avec User Story, critères d'acceptation, scénarios BDD validés ; implémenter dans utils/ en TDD strict."
+})
+
+// Étape TDD-front-end — invoker l'agent @TDD-front-end
+Task({
+  subagent_type: "TDD-front-end",
+  description: "Fait du TDD strict dans le frontend",
+  prompt: "Contexte détaillé avec User Story, BDD, livrables back-end ; implémenter app/ et components/ en TDD strict."
 })
 ```
 
 #### Parallélisation
-- Lancer plusieurs agents en parallèle si tâches indépendantes
-- Exemple : back-end terminé → lancer front-end ET UX/UI en parallèle si possible
+- Ordre strict : US → BDD → TDD-back-end → TDD-front-end. Ne pas sauter d'étape.
+- Lancer plusieurs agents en parallèle seulement si tâches indépendantes (hors tunnel US/BDD/TDD).
 
 #### Prompt de délégation
 Toujours fournir :
@@ -245,7 +254,7 @@ Pour tâches avec 3+ étapes :
 1. **Recevoir demande utilisateur**
 2. **Reformuler et valider** la demande
 3. **Si fonctionnelle** : User Story → Plan de test → Validation
-4. **Découper en tâches techniques** (Back-End → Front-End → UX/UI)
+4. **Découper en tâches techniques** (US → BDD → TDD-back-end → TDD-front-end)
 5. **Déléguer via Task** aux agents spécialisés
 6. **Valider résultats** de chaque agent
 7. **Vérifier DoD** avant considérer terminé
@@ -267,4 +276,4 @@ Pour tâches avec 3+ étapes :
 **Autres ressources** :
 - Sprints : `data/A propos de ce site/Sprints/` (un dossier par Sprint ; Sprint goal dans `00 - Sprint goal et contexte.md` ; une US = un fichier `US-[n°Sprint].[n°US] - [Titre US].md`). US en cours : `data/A propos de ce site/Sprints/US en cours.md`
 - Journal de bord : `journaux/1. Journal de bord/` (fichier par **conversation** : `YYYY-MM-DD-NomConversation.md`, NomConversation = nom de la conversation dans la sidebar Cursor, slugifié)
-- Agents disponibles : `.cursor/agents/` (back-end, front-end, ui-et-ux)
+- Agents disponibles : `.cursor/agents/` (US, BDD, TDD-back-end, TDD-front-end) — utiliser exactement ces noms dans Task pour que la délégation fonctionne

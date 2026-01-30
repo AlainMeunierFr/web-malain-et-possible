@@ -47,6 +47,11 @@ next-env.d.ts
 # Configuration sécurité Cursor (menu.ps1)
 .cursor-security-config.json
 
+# Inclure .cursor/agents pour synchronisation GitHub et Vercel (ne pas exclure)
+!.cursor
+!.cursor/agents
+!.cursor/agents/**
+
 # Playwright
 node_modules/
 /test-results/
