@@ -1,8 +1,7 @@
 /* Page de métriques */
 .main {
   min-height: 100vh;
-  /* Padding pour éviter que le contenu soit caché par le header fixe */
-  padding-top: 105px !important;
+  padding-top: 105px !important; /* Au-dessus du header fixe (80px + marge), proportions d’origine */
   padding-left: 2rem;
   padding-right: 2rem;
   padding-bottom: 2rem;
@@ -10,18 +9,17 @@
 }
 
 .container {
-  max-width: 1400px;
+  max-width: 87.5rem;
   margin: 0 auto;
   width: 100%;
 }
 
-/* Header */
 .header {
   background: white;
-  border-radius: 16px;
+  border-radius: 1rem;
   padding: 2rem;
   margin-bottom: 2rem;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0.25rem 0.375rem rgba(0, 0, 0, 0.1);
 }
 
 .title {
@@ -81,7 +79,7 @@
 /* Metric Cards */
 .card {
   background: linear-gradient(135deg, var(--BleuFonce) 0%, #005a99 100%);
-  border-radius: 12px;
+  border-radius: 0.75rem;
   padding: 1.5rem;
   color: white;
   transition: box-shadow 0.2s;
@@ -202,9 +200,9 @@
 
 .testProgressBar {
   flex: 1;
-  height: 20px;
+  height: 1.25rem;
   background: rgba(255, 255, 255, 0.2);
-  border-radius: 10px;
+  border-radius: 0.625rem;
   overflow: hidden;
 }
 
@@ -286,9 +284,9 @@
 
 .progressBar {
   width: 100%;
-  height: 24px;
+  height: 1.5rem;
   background: #e2e8f0;
-  border-radius: 12px;
+  border-radius: 0.75rem;
   overflow: hidden;
 }
 
@@ -406,7 +404,7 @@
 
   .infoIcon {
     font-size: 0.9rem;
-    min-width: 18px;
-    min-height: 18px;
+    min-width: 1.125rem;
+    min-height: 1.125rem;
   }
 }

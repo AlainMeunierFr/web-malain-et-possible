@@ -4195,23 +4195,122 @@
         "buildTime": 2402,
         "lighthouseScore": "NC"
       }
+    },
+    {
+      "timestamp": "2026-01-30T02:14:58.544Z",
+      "branch": "main",
+      "commit": "76a5f3f",
+      "tests": {
+        "unitTests": 541,
+        "unitTestFiles": 65,
+        "unitTestPassed": 536,
+        "unitTestFailed": 5,
+        "unitTestDuration": 8512,
+        "integrationTests": 31,
+        "integrationTestFiles": 5,
+        "integrationTestPassed": 31,
+        "integrationTestFailed": 0,
+        "integrationTestDuration": 6250,
+        "bddFeatures": 18,
+        "bddScenarios": 146,
+        "bddScenariosPassed": 146,
+        "bddScenariosFailed": 0,
+        "bddSteps": 0,
+        "bddTestDuration": 0,
+        "e2eSteps": 10,
+        "e2eScenarioFiles": 1,
+        "e2eScenarios": 3,
+        "e2eStepsPassed": 10,
+        "e2eStepsFailed": 0,
+        "e2eTests": {
+          "total": 3,
+          "passed": 3,
+          "failed": 0,
+          "duration": 38149,
+          "lastRunDate": "2026-01-30T02:14:58.502Z"
+        },
+        "totalTests": 728,
+        "totalTestFiles": 89,
+        "passingTests": 723,
+        "failingTests": 5,
+        "testDuration": 52911
+      },
+      "coverage": {
+        "lines": {
+          "total": 2629,
+          "covered": 2108,
+          "percentage": 80.18
+        },
+        "statements": {
+          "total": 2759,
+          "covered": 2201,
+          "percentage": 79.77
+        },
+        "functions": {
+          "total": 345,
+          "covered": 285,
+          "percentage": 82.6
+        },
+        "branches": {
+          "total": 1773,
+          "covered": 1208,
+          "percentage": 68.13
+        }
+      },
+      "quality": {
+        "eslintErrors": 0,
+        "eslintWarnings": 0,
+        "typeCoverage": "NC",
+        "cyclomaticComplexity": "NC",
+        "maintainabilityIndex": "NC",
+        "technicalDebt": "NC"
+      },
+      "size": {
+        "totalFiles": 66,
+        "totalLines": 9204,
+        "sourceLines": 9204,
+        "commentLines": 0,
+        "blankLines": 0,
+        "components": 31,
+        "pages": 11,
+        "utils": 24,
+        "tests": 70
+      },
+      "dependencies": {
+        "total": 35,
+        "production": 6,
+        "development": 29,
+        "outdated": 0,
+        "vulnerabilities": {
+          "low": 0,
+          "moderate": 0,
+          "high": 0,
+          "critical": 0,
+          "total": 0
+        }
+      },
+      "performance": {
+        "bundleSize": 685128,
+        "buildTime": 19265,
+        "lighthouseScore": "NC"
+      }
     }
   ],
   "latest": {
-    "timestamp": "2026-01-30T01:01:30.584Z",
+    "timestamp": "2026-01-30T02:14:58.544Z",
     "branch": "main",
-    "commit": "ffa546a",
+    "commit": "76a5f3f",
     "tests": {
       "unitTests": 541,
       "unitTestFiles": 65,
       "unitTestPassed": 536,
       "unitTestFailed": 5,
-      "unitTestDuration": 9402,
+      "unitTestDuration": 8512,
       "integrationTests": 31,
       "integrationTestFiles": 5,
       "integrationTestPassed": 31,
       "integrationTestFailed": 0,
-      "integrationTestDuration": 5715,
+      "integrationTestDuration": 6250,
       "bddFeatures": 18,
       "bddScenarios": 146,
       "bddScenariosPassed": 146,
@@ -4227,14 +4326,14 @@
         "total": 3,
         "passed": 3,
         "failed": 0,
-        "duration": 46685,
-        "lastRunDate": "2026-01-30T01:01:30.541Z"
+        "duration": 38149,
+        "lastRunDate": "2026-01-30T02:14:58.502Z"
       },
       "totalTests": 728,
       "totalTestFiles": 89,
       "passingTests": 723,
       "failingTests": 5,
-      "testDuration": 61802
+      "testDuration": 52911
     },
     "coverage": {
       "lines": {
@@ -4291,14 +4390,14 @@
       }
     },
     "performance": {
-      "bundleSize": 577903,
-      "buildTime": 2402,
+      "bundleSize": 685128,
+      "buildTime": 19265,
       "lighthouseScore": "NC"
     }
   },
   "trends": {
-    "tests": "up",
-    "coverage": "up",
+    "tests": "stable",
+    "coverage": "stable",
     "quality": "stable"
   }
 }

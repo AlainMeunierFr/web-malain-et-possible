@@ -48,7 +48,7 @@ const ProfilContainer: React.FC<ProfilContainerProps> = ({
         title={`${labelCV} (PDF)`}
         e2eid={`profil-${profil.slug}-cv`}
       >
-        <FileDown size={14} aria-hidden />
+        <FileDown size={24} aria-hidden />
         <span>{labelCV}</span>
       </a>
     </div>

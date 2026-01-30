@@ -1,3 +1,4 @@
+/* Hauteurs et dimensions en px pour garder les proportions d’origine (pas de zoom avec le clamp html) */
 .footer {
   position: fixed;
   bottom: 0;
@@ -6,8 +7,6 @@
   width: 100%;
   background-color: var(--BleuFonce);
   z-index: 1000;
-  /* Footer commence à 864px pour 914px = 94.53%, donc hauteur = 914-864 = 50px = 5.47% */
-  /* Pour responsive: minimum 50px, proportionnel à la hauteur */
   height: max(50px, 5.47vh);
   min-height: 50px;
   display: flex;
@@ -21,7 +20,6 @@
   font-weight: 400;
   margin-left: 60px;
   opacity: 0.8;
-  /* Réserver la place dès le premier rendu pour éviter le décalage des boutons (space-between) */
   min-width: 4em;
 }
 
@@ -29,7 +27,6 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  /* 11px à droite pour 914px = 1.2% */
   margin-right: max(11px, 1.2vw);
 }
 
@@ -57,16 +54,12 @@
 .iconImage {
   display: block;
   width: auto;
-  /* 60% de la hauteur du footer : 50px * 0.6 = 30px (5.47vh * 0.6 = 3.28vh) */
   height: max(30px, 3.28vh);
   width: max(30px, 3.28vh);
-  /* SVG vectoriel : redimensionnement parfait */
   flex-shrink: 0;
-  /* Transparence et couleur gérées par lucide-react */
   color: white;
 }
 
-/* Responsive : sur très petits écrans, garder 60px mais réduire la taille de police */
 @media (max-width: 480px) {
   .version {
     margin-left: 60px;
@@ -74,53 +67,4 @@
   }
 }
 
-/* Très grands écrans (≥1920px) - Augmenter proportionnellement */
-@media (min-width: 1920px) {
-  .footer {
-    min-height: 60px;
-  }
-
-  .version {
-    font-size: 1rem;
-    margin-left: 80px;
-  }
-
-  .iconImage {
-    min-height: 40px;
-    min-width: 40px;
-  }
-}
-
-/* Écrans ultra-larges (≥2560px) - 2K et écrans ultra-larges */
-@media (min-width: 2560px) {
-  .footer {
-    min-height: 70px;
-  }
-
-  .version {
-    font-size: 1.125rem;
-    margin-left: 100px;
-  }
-
-  .iconImage {
-    min-height: 45px;
-    min-width: 45px;
-  }
-}
-
-/* Écrans ultra-ultra-larges (≥3840px) - 4K et écrans 32:9 */
-@media (min-width: 3840px) {
-  .footer {
-    min-height: 80px;
-  }
-
-  .version {
-    font-size: 1.25rem;
-    margin-left: 120px;
-  }
-
-  .iconImage {
-    min-height: 50px;
-    min-width: 50px;
-  }
-}
+/* Pas d’augmentation de hauteur footer/icônes sur grands écrans : proportions d’origine conservées */

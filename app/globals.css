@@ -47,12 +47,18 @@
   font-display: swap;
 }
 
+/* Base responsive site entier : forcer la taille racine pour que tout scale (rem/em).
+   clamp : min 1rem, croît avec vw, max 3rem. !important pour ne pas être écrasé par Tailwind. */
+html {
+  font-size: clamp(1rem, 0.25rem + 0.8vw, 3rem) !important;
+}
+
 :root {
   --background: #ffffff;
   --foreground: #171717;
   --BleuFonce: #0070C0;
   --BleuClair: #E7F6FF;
-  --largeurDeTexteMax: 1250px;
+  --largeurDeTexteMax: 78.125rem; /* 1250px en base 16, scale avec html */
   
   /* Force le mode clair pour éviter les transformations automatiques */
   color-scheme: light;
@@ -64,16 +70,16 @@
   --BoutonCouleurFondHover: #005A9E; /* Bleu plus foncé au hover */
   --BoutonCouleurTexteHover: var(--BoutonCouleur);
   --BoutonPolice: 'Outfit', sans-serif; /* Police moderne au lieu de cursive */
-  --BoutonTaillePolice: 16px; /* Taille plus standard et professionnelle */
+  --BoutonTaillePolice: 1rem; /* Scale avec html */
   --BoutonPoidsPolice: 600; /* SemiBold pour un look moderne */
   --BoutonContour: none; /* Pas de bordure pour un style plus moderne */
-  --BoutonContourRadius: 6px; /* Border radius légèrement réduit pour modernité */
+  --BoutonContourRadius: 0.375rem; /* Scale avec html */
   --BoutonTransition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); /* Transition plus fluide */
-  --BoutonOmbre: 0 2px 4px rgba(0, 112, 192, 0.15); /* Ombre subtile par défaut */
-  --BoutonOmbreHover: 0 4px 12px rgba(0, 112, 192, 0.25); /* Ombre plus prononcée au hover */
+  --BoutonOmbre: 0 0.125rem 0.25rem rgba(0, 112, 192, 0.15); /* Ombre subtile par défaut */
+  --BoutonOmbreHover: 0 0.25rem 0.75rem rgba(0, 112, 192, 0.25); /* Ombre plus prononcée au hover */
   --BoutonTransformHover: translateY(-1px); /* Déplacement plus subtil */
-  --BoutonPaddingVertical: 12px; /* Padding vertical généreux */
-  --BoutonPaddingHorizontal: 24px; /* Padding horizontal généreux */
+  --BoutonPaddingVertical: 0.75rem; /* Scale avec html */
+  --BoutonPaddingHorizontal: 1.5rem; /* Scale avec html */
 }
 
 @theme inline {
@@ -97,6 +103,7 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size: 1rem; /* Hérite de html, scale avec viewport */
 }
 
 * {

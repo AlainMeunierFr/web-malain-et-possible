@@ -7,44 +7,34 @@
    WRAPPER PAGE : .main (ex-shared.module.css)
    ============================================ */
 .main {
-  /* Padding pour éviter que le contenu soit caché par le header et footer fixes */
+  /* Padding en px/vh pour correspondre au header/footer (proportions d’origine, pas de zoom rem) */
   padding-top: max(80px, 8.75vh);
   padding-bottom: max(50px, 5.47vh);
   min-height: 100vh;
   width: 100%;
 }
 
+/* Quand largeur > hauteur (desktop, pas smartphone) : contenu dans un bloc de même hauteur que la page,
+   largeur = 100vh × (ratio de conception 16/9) → rendu identique quelle que soit la proportion de l'écran */
+@media (min-aspect-ratio: 1) {
+  .main {
+    max-width: min(100vw, calc(100vh * 16 / 9));
+    margin-left: auto;
+    margin-right: auto;
+    box-sizing: border-box;
+  }
+}
+
 /* Home : pas de marge sur le main (padding 4% appliqué au hero uniquement pour éviter que la vidéo sorte de l'écran) */
-
-@media (min-width: 1920px) {
-  .main {
-    padding-top: max(100px, 8.75vh);
-    padding-bottom: max(60px, 5.47vh);
-  }
-}
-
-@media (min-width: 2560px) {
-  .main {
-    padding-top: max(120px, 8.75vh);
-    padding-bottom: max(70px, 5.47vh);
-  }
-}
-
-@media (min-width: 3840px) {
-  .main {
-    padding-top: max(140px, 8.75vh);
-    padding-bottom: max(80px, 5.47vh);
-  }
-}
 
 /* ============================================
    STYLE DE BASE : .bouton (ex-button-styles.css)
    ============================================ */
 .bouton {
   font-family: 'Outfit', sans-serif;
-  font-size: 16px;
+  font-size: 1rem;
   font-weight: 600;
-  padding: 12px 24px;
+  padding: 0.75rem 1.5rem;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   letter-spacing: 0.01em;
   line-height: 1.4;
@@ -54,7 +44,7 @@
   text-align: center;
   background-color: var(--BleuFonce);
   color: #ffffff;
-  border: 2px solid var(--BleuFonce);
+  border: 0.125rem solid var(--BleuFonce);
   border-radius: 0;
   box-shadow: none;
 }
@@ -67,26 +57,16 @@
 
 .callToAction .bouton {
   width: 30%;
-  max-width: 700px;
-}
-
-@media (min-width: 1920px) {
-  .callToAction .bouton {
-    max-width: 30%;
-  }
-  .bouton {
-    font-size: 18px;
-    padding: 14px 28px;
-  }
+  max-width: 43.75rem;
 }
 
 .callToAction .bouton:hover { }
 
 .listeDesPages .bouton {
   width: 100%;
-  height: 80px;
-  min-height: 80px;
-  max-height: 80px;
+  height: 5rem;
+  min-height: 5rem;
+  max-height: 5rem;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -116,7 +96,7 @@
 }
 
 .groupeBoutons.tailleGrande .bouton {
-  width: 480px;
+  width: 30rem;
   margin: 0 auto;
   padding: 1rem 1.5rem;
   text-align: left;
@@ -151,7 +131,7 @@
 [data-button-theme="theme1"] .bouton {
   background-color: #ffffff !important;
   color: var(--BleuFonce) !important;
-  border: 2px solid var(--BleuFonce) !important;
+  border: 0.125rem solid var(--BleuFonce) !important;
   border-radius: 0 !important;
   box-shadow: none !important;
 }
@@ -169,7 +149,7 @@
 [data-button-theme="theme2"] .bouton {
   background-color: var(--BleuFonce) !important;
   color: #ffffff !important;
-  border: 2px solid var(--BleuFonce) !important;
+  border: 0.125rem solid var(--BleuFonce) !important;
   border-radius: 0 !important;
   box-shadow: none !important;
 }
@@ -187,7 +167,7 @@
 [data-button-theme="theme3"] .bouton {
   background-color: #ffffff !important;
   color: var(--BleuClair) !important;
-  border: 2px solid var(--BleuClair) !important;
+  border: 0.125rem solid var(--BleuClair) !important;
   border-radius: 0 !important;
   box-shadow: none !important;
 }
@@ -205,7 +185,7 @@
 [data-button-theme="theme4"] .bouton {
   background-color: var(--BleuClair) !important;
   color: #000000 !important;
-  border: 2px solid var(--BleuClair) !important;
+  border: 0.125rem solid var(--BleuClair) !important;
   border-radius: 0 !important;
   box-shadow: none !important;
 }
@@ -224,9 +204,9 @@
    ============================================ */
 .titre {
   width: 100%;
-  max-width: 947px;
+  max-width: 59.1875rem;
   margin: 0 auto;
-  margin-top: 30px;
+  margin-top: 1.875rem;
   background-color: var(--BleuClair);
   padding: 0.75rem 1rem;
   box-sizing: border-box;
@@ -234,7 +214,7 @@
 
 .titre h1 {
   font-family: var(--font-sans);
-  font-size: 16px; /* même taille que le bouton Discutons (.bouton) */
+  font-size: 1rem; /* même taille que le bouton Discutons (.bouton), scale avec html */
   font-weight: 700;
   color: var(--BleuFonce);
   text-align: center;
@@ -249,7 +229,7 @@
   }
 
   .titre h1 {
-    font-size: 16px; /* inchangé : même taille que Discutons */
+    font-size: 1rem; /* inchangé : même taille que Discutons, scale avec html */
   }
 }
 
@@ -270,12 +250,12 @@
 
 .video h2 {
   font-family: var(--font-sans);
-  font-size: 18px;
+  font-size: 1.125rem;
   font-weight: 700;
   text-align: center;
   margin: 0 auto 1rem;
   color: rgba(9, 23, 71, 1);
-  max-width: 947px;
+  max-width: 59.1875rem;
   width: 100%;
 }
 
@@ -300,12 +280,12 @@
 @media (min-width: 769px) {
   .video {
     width: 50%;
-    max-width: 760px;
+    max-width: 47.5rem;
     padding: 2rem 1rem;
   }
 
   .video h2 {
-    font-size: 24px;
+    font-size: 1.5rem;
   }
 }
 
@@ -313,7 +293,7 @@
    TYPEDECONTENU : texteLarge
    ============================================ */
 .texteLarge {
-  max-width: 1200px;
+  max-width: 75rem;
   margin: 0 auto;
   padding: 1.5rem 1rem;
   width: 100%;
@@ -346,7 +326,7 @@
    TYPEDECONTENU : domaineDeCompetence
    ============================================ */
 .domaineDeCompetence {
-  max-width: 1200px;
+  max-width: 75rem;
   margin: 0 auto;
   padding: 0 5%;
   width: 100%;
@@ -360,23 +340,24 @@
 
 .domaineDeCompetence .domaineHeader {
   width: 100%;
-  margin: 0 auto 10px auto;
+  margin: 0 auto 0.625rem auto;
   box-sizing: border-box;
+  font-size: 0.9375rem;
 }
 
 .domaineDeCompetence h2 {
   font-family: var(--font-sans);
-  font-size: 20px;
+  font-size: 1.25rem;
   font-weight: 700;
   line-height: 1.4;
   text-align: center;
-  margin: 10px 0 10px 0;
+  margin: 0.625rem 0 0.625rem 0;
   color: var(--color-text-default);
 }
 
 .domaineDeCompetence .domaineContenu {
   font-family: var(--font-serif);
-  font-size: 13px;
+  font-size: inherit;
   font-weight: 400;
   line-height: 1.4;
   color: var(--color-text-default);
@@ -385,9 +366,10 @@
   width: 100%;
 }
 
+/* Auteur de la citation : même taille que .domaineContenu (inherit), seule différence = italique */
 .domaineDeCompetence .domaineAuteur {
   font-family: var(--font-serif);
-  font-size: 13px;
+  font-size: inherit;
   font-weight: 400;
   font-style: italic;
   text-align: right;
@@ -400,9 +382,9 @@
 .domaineDeCompetence .competencesContainer {
   display: flex;
   flex-direction: column;
-  gap: 30px;
+  gap: 1.875rem;
   width: 100%;
-  margin-top: 20px;
+  margin-top: 1.25rem;
 }
 
 .domaineDeCompetence .competenceCard {
@@ -411,13 +393,13 @@
   align-items: center;
   justify-content: flex-start;
   width: 100%;
-  padding: 20px 20px 0 20px;
+  padding: 1.25rem 1.25rem 0 1.25rem;
   box-sizing: border-box;
 }
 
 .domaineDeCompetence .competenceTitre {
   font-family: var(--font-sans);
-  font-size: 16px;
+  font-size: 1rem;
   font-weight: 700;
   line-height: 1.4;
   text-align: center;
@@ -427,8 +409,8 @@
 
 .domaineDeCompetence .competenceImage {
   width: 100%;
-  max-width: 100px;
-  margin: 0 auto 10px;
+  max-width: 6.25rem;
+  margin: 0 auto 0.625rem;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -441,18 +423,20 @@
 
 .domaineDeCompetence .competenceDescription {
   font-family: var(--font-serif);
-  font-size: 13px;
+  font-size: 0.9375rem;
   font-weight: 400;
   line-height: 1.6;
   text-align: left;
   color: var(--color-text-default);
   flex-grow: 1;
   width: 100%;
+  min-height: 0;
+  overflow-y: auto;
 }
 
 .domaineDeCompetence .competenceBoutonContainer {
   margin-top: auto;
-  padding-top: 10px;
+  padding-top: 0.625rem;
   padding-bottom: 10px;
   width: 100%;
   display: flex;
@@ -467,7 +451,7 @@
 
 .domaineDeCompetence .competenceAuteur {
   font-family: var(--font-serif);
-  font-size: 12px;
+  font-size: 0.9375rem;
   font-weight: 400;
   font-style: italic;
   text-align: right;
@@ -481,7 +465,7 @@
 .domaineDeCompetence .experiencesContainer {
   width: 100%;
   margin-top: 0;
-  margin-bottom: 40px;
+  margin-bottom: 2.5rem;
   box-sizing: border-box;
 }
 
@@ -503,13 +487,13 @@
 }
 
 .domaineDeCompetence .experiencesToggle:focus {
-  outline: 2px solid var(--BleuFonce);
-  outline-offset: 2px;
+  outline: 0.125rem solid var(--BleuFonce);
+  outline-offset: 0.125rem;
 }
 
 .domaineDeCompetence .experiencesToggleIcon {
-  width: 20px;
-  height: 20px;
+  width: 1.25rem;
+  height: 1.25rem;
   color: var(--BleuFonce);
   flex-shrink: 0;
   margin-left: 0.5rem;
@@ -522,7 +506,7 @@
 
 .domaineDeCompetence .experiencesTitre {
   font-family: var(--font-sans);
-  font-size: 14px;
+  font-size: 1rem;
   font-weight: 700;
   line-height: 1.4;
   text-align: left;
@@ -543,11 +527,11 @@
 
 .domaineDeCompetence .experienceItem {
   font-family: var(--font-serif);
-  font-size: 12px; /* Police un peu plus petite que les autres textes (13px) */
+  font-size: 0.9375rem;
   font-weight: 400;
-  line-height: 1.4; /* Réduit de 1.6 à 1.4 pour réduire l'interligne */
+  line-height: 1.4;
   color: var(--color-text-default);
-  margin-bottom: 0.4rem; /* Réduit de 0.75rem à 0.4rem pour rapprocher les expériences */
+  margin-bottom: 0.4rem;
 }
 
 .domaineDeCompetence .experienceItem:last-child {
@@ -595,19 +579,21 @@
   }
 
   .domaineDeCompetence h2 {
-    font-size: 24px;
+    font-size: 1.5rem;
+  }
+
+  .domaineDeCompetence .domaineHeader {
+    font-size: 1rem;
   }
 
   .domaineDeCompetence .domaineContenu {
     width: 80%;
     margin: 0 auto;
-    font-size: 16px;
   }
 
   .domaineDeCompetence .domaineAuteur {
     width: 80%;
     margin: 0 auto;
-    font-size: 16px;
   }
 
   .domaineDeCompetence .competencesContainer {
@@ -615,23 +601,23 @@
     flex-wrap: wrap;
     justify-content: center;
     align-items: stretch;
-    gap: 30px;
+    gap: 1.875rem;
   }
 
   .domaineDeCompetence .competenceCard {
-    width: calc((100% - 60px) / 3);
-    flex: 0 0 calc((100% - 60px) / 3);
-    max-width: calc((100% - 60px) / 3);
+    width: calc((100% - 3.75rem) / 3);
+    flex: 0 0 calc((100% - 3.75rem) / 3);
+    max-width: calc((100% - 3.75rem) / 3);
   }
 
   .domaineDeCompetence .competenceTitre {
-    font-size: 18px;
+    font-size: 1.125rem;
     font-weight: 700;
     color: var(--BleuFonce);
   }
 
   .domaineDeCompetence .competenceDescription {
-    font-size: 16px;
+    font-size: 1rem;
   }
 }
 
@@ -639,7 +625,7 @@
    TYPEDECONTENU : callToAction
    ============================================ */
 .callToAction {
-  max-width: 1200px;
+  max-width: 75rem;
   margin: 0 auto;
   padding: 1.5rem 1rem;
   width: 100%;
@@ -660,7 +646,7 @@
    TYPEDECONTENU : groupeBoutons
    ============================================ */
 .groupeBoutons {
-  max-width: 1200px;
+  max-width: 75rem;
   margin: 0 auto;
   padding: 1.5rem 1rem;
   width: 100%;
@@ -691,7 +677,7 @@
 }
 
 .groupeBoutons.tailleGrande .texte {
-  font-size: 20px;
+  font-size: 1.25rem;
   white-space: nowrap;
 }
 
@@ -702,7 +688,7 @@
   }
 
   .groupeBoutons.tailleGrande .texte {
-    font-size: 22px;
+    font-size: 1.375rem;
     white-space: nowrap;
   }
 }
@@ -715,15 +701,15 @@
   flex-direction: column;
   gap: 2rem;
   width: 100%;
-  max-width: var(--largeurDeTexteMax, 1250px);
+  max-width: var(--largeurDeTexteMax, 78.125rem);
   padding: 2rem;
   margin: 0 auto;
 }
 
-/* Taille fixe pour tous les boutons du plan du site */
+/* Taille fixe pour tous les boutons du plan du site (rem pour scale avec html) */
 .listeDesPages .bouton {
-  width: 270px;
-  height: 60px;
+  width: 16.875rem;
+  height: 3.75rem;
   flex-shrink: 0;
 }
 
@@ -800,7 +786,7 @@
 
   .listeDesPages .bouton {
     width: 100%;
-    max-width: 270px;
+    max-width: 16.875rem;
   }
 
   .listeDesPages .ligne-1 {
@@ -836,7 +822,7 @@
 
 .videoDetournement h2 {
   font-family: var(--font-sans);
-  font-size: 20px;
+  font-size: 1.25rem;
   font-weight: 700;
   line-height: 1.4;
   text-align: center;
@@ -851,7 +837,7 @@
 .videoDetournement .videosContainer {
   display: flex;
   flex-wrap: wrap;
-  gap: 30px;
+  gap: 1.875rem;
   justify-content: center;
   width: 100%;
   margin-top: 0.25rem;
@@ -860,15 +846,15 @@
 .videoDetournement .videoSection {
   display: flex;
   flex-direction: column;
-  width: calc(50% - 15px);
-  min-width: 300px;
+  width: calc(50% - 0.9375rem);
+  min-width: 18.75rem;
   box-sizing: border-box;
   align-items: center;
 }
 
 .videoDetournement h3 {
   font-family: var(--font-sans);
-  font-size: 18px;
+  font-size: 1.125rem;
   font-weight: 700;
   line-height: 1.2;
   margin: 0 0 0.25rem 0;
@@ -879,7 +865,7 @@
 
 .videoDetournement .videoSubtitle {
   font-family: var(--font-serif);
-  font-size: 14px;
+  font-size: 0.875rem;
   font-style: italic;
   line-height: 1.4;
   margin: 0 0 0.5rem 0;
@@ -895,11 +881,11 @@
   }
 
   .videoDetournement h2 {
-    font-size: 24px;
+    font-size: 1.5rem;
   }
 
   .videoDetournement h3 {
-    font-size: 20px;
+    font-size: 1.25rem;
   }
 }
 
@@ -907,9 +893,9 @@
    TYPEDECONTENU : temoignages
    ============================================ */
 .temoignages {
-  max-width: 947px;
+  max-width: 59.1875rem;
   margin: 0 auto;
-  padding: 15px;
+  padding: 0.9375rem;
   width: 100%;
   box-sizing: border-box;
 }
@@ -917,7 +903,7 @@
 .temoignages .temoignagesGrid {
   display: flex;
   flex-wrap: wrap;
-  gap: 30px;
+  gap: 1.875rem;
   justify-content: center;
   width: 100%;
 }
@@ -925,9 +911,9 @@
 .temoignages .temoignage {
   display: flex;
   flex-direction: column;
-  width: calc(50% - 15px);
-  min-width: 300px;
-  padding: 20px;
+  width: calc(50% - 0.9375rem);
+  min-width: 18.75rem;
+  padding: 1.25rem;
   box-sizing: border-box;
 }
 
@@ -945,8 +931,8 @@
 
 .temoignages .temoignagePhoto {
   flex-shrink: 0;
-  width: 80px;
-  height: 80px;
+  width: 5rem;
+  height: 5rem;
   border-radius: 50%;
   overflow: hidden;
   background-color: #f0f0f0;
@@ -965,7 +951,7 @@
 
 .temoignages h2 {
   font-family: var(--font-sans);
-  font-size: 18px;
+  font-size: 1.125rem;
   font-weight: 700;
   line-height: 1.2;
   margin: 0 0 0.25rem 0;
@@ -974,7 +960,7 @@
 
 .temoignages .temoignageFonction {
   font-family: var(--font-serif);
-  font-size: 14px;
+  font-size: 0.875rem;
   font-style: italic;
   line-height: 1.4;
   margin: 0;
@@ -983,7 +969,7 @@
 
 .temoignages .temoignageTexte {
   font-family: var(--font-serif);
-  font-size: 14px;
+  font-size: 0.875rem;
   font-weight: 400;
   line-height: 1.6;
   color: var(--color-text-default);
@@ -1012,15 +998,15 @@
   }
 
   .temoignages h2 {
-    font-size: 20px;
+    font-size: 1.25rem;
   }
 
   .temoignages .temoignageFonction {
-    font-size: 16px;
+    font-size: 1rem;
   }
 
   .temoignages .temoignageTexte {
-    font-size: 16px;
+    font-size: 1rem;
   }
 }
 
@@ -1101,13 +1087,13 @@
 }
 
 .hero .content {
-  max-width: 1200px;
+  max-width: 75rem;
   margin: 0 auto;
 }
 
 .hero h1 {
   font-family: var(--font-sans);
-  font-size: 2rem;
+  font-size: 1.5rem;
   font-weight: 700;
   text-align: center;
   margin-bottom: 0.75rem;
@@ -1117,7 +1103,7 @@
 
 .hero h2 {
   font-family: var(--font-sans);
-  font-size: 1.25rem;
+  font-size: 0.875rem;
   font-weight: 500;
   text-align: center;
   margin-bottom: 1rem;
@@ -1127,15 +1113,15 @@
 
 .hero .description {
   font-family: var(--font-serif);
-  font-size: 13px;
+  font-size: 0.6875rem;
   line-height: 1.4;
   text-align: center;
-  margin-bottom: 3rem; /* double de 1.5rem : espace Description → Télécharger mon CV */
+  margin-bottom: 3rem;
   color: var(--color-text-default);
-  max-width: 800px;
+  max-width: 50rem;
   margin-left: auto;
   margin-right: auto;
-  white-space: pre-line; /* Afficher les \n de la description comme retours à la ligne */
+  white-space: pre-line;
 }
 
 /* Alignement centré en layout deux colonnes (US-7.11) */
@@ -1165,7 +1151,7 @@
 .hero .boutonPrincipalContainer .bouton,
 .hero .heroCtas .bouton {
   width: 100%;
-  max-width: 400px;
+  max-width: 25rem;
 }
 
 /* Lien hero (ex. Télécharger mon CV) : style lien interne, pas bouton ; le seul bouton du site est Discutons (CTA) */
@@ -1188,17 +1174,18 @@
   }
 
   .hero h1 {
-    font-size: 1.75rem;
+    font-size: 1.375rem;
     margin-bottom: 0.5rem;
   }
 
   .hero h2 {
-    font-size: 1.125rem;
+    font-size: 0.875rem;
     margin-bottom: 0.75rem;
   }
 
   .hero .description {
-    margin-bottom: 2rem; /* double de 1rem (mobile) */
+    font-size: 0.6875rem;
+    margin-bottom: 2rem;
   }
 
   .hero .boutonPrincipalContainer,
@@ -1295,7 +1282,7 @@
 
 .profilCtaLabel {
   margin-top: 0.75rem;
-  /* Style visuel : .lienInterne (lien interne = navigation vers page du site) */
+  font-size: 1rem;
 }
 
 /* Lien CV : même poids/taille que "En savoir plus…", bien séparé visuellement (US-7.12) */
@@ -1304,7 +1291,7 @@
   align-items: center;
   gap: 0.35rem;
   margin-top: 1.25rem;
-  font-size: 0.9375rem;
+  font-size: 1rem;
   font-weight: 600;
   color: var(--BleuFonce);
   text-decoration: underline;
@@ -1318,6 +1305,8 @@
 
 .profilLienCV svg {
   flex-shrink: 0;
+  width: 1.15em;
+  height: 1.15em;
 }
 
 /* Responsive : empilement vertical sur mobile */
@@ -1344,7 +1333,7 @@
 
   .profilLienCV {
     margin-top: 1rem;
-    font-size: 0.9375rem;
+    font-size: 1rem;
   }
 }
 
@@ -1380,90 +1369,89 @@
    TRÈS GRANDS ÉCRANS (≥1920px) - Optimisation pour 3840x1080
    ============================================ */
 @media (min-width: 1920px) {
-  /* Augmenter légèrement les max-width pour utiliser plus d'espace */
+  /* max-width en rem pour scale avec la base responsive (html) */
   .texteLarge,
   .domaineDeCompetence,
   .callToAction,
   .groupeBoutons {
-    max-width: 1400px;
+    max-width: 87.5rem;
   }
 
   .hero .content {
-    max-width: 1400px;
+    max-width: 87.5rem;
   }
 
   .video {
-    max-width: 900px;
+    max-width: 56.25rem;
   }
 
   .videoDetournement,
   .temoignages {
-    max-width: 1100px;
+    max-width: 68.75rem;
   }
 
   .listeDesPages {
-    max-width: 1400px;
+    max-width: 87.5rem;
   }
 
-  /* Augmenter légèrement les polices pour meilleure lisibilité */
   .titre h1 {
-    font-size: 16px; /* même taille que Discutons */
+    font-size: 1rem; /* même taille que Discutons */
   }
 
   .texteLarge p {
-    font-size: 15px;
+    font-size: 0.9375rem;
     line-height: 1.5;
   }
 
   .domaineDeCompetence h2 {
-    font-size: 28px;
+    font-size: 1.75rem;
   }
 
-  .domaineDeCompetence .domaineContenu,
-  .domaineDeCompetence .domaineAuteur {
-    font-size: 18px;
+  .domaineDeCompetence .domaineHeader {
+    font-size: 1.125rem;
   }
 
   .domaineDeCompetence .competenceTitre {
-    font-size: 20px;
+    font-size: 1.25rem;
   }
 
   .domaineDeCompetence .competenceDescription {
-    font-size: 18px;
+    font-size: 1.125rem;
   }
 
   .video h2 {
-    font-size: 28px;
+    font-size: 1.75rem;
   }
 
   .videoDetournement h2 {
-    font-size: 28px;
+    font-size: 1.75rem;
   }
 
   .videoDetournement h3 {
-    font-size: 22px;
+    font-size: 1.375rem;
   }
 
   .temoignages h2 {
-    font-size: 22px;
+    font-size: 1.375rem;
   }
 
   .temoignages .temoignageFonction,
   .temoignages .temoignageTexte {
-    font-size: 18px;
+    font-size: 1.125rem;
   }
 
   .hero h1 {
-    font-size: 2.5rem;
+    font-size: 2rem;
   }
 
+  /* Taille à 1920px : sous-titre et description plus petits pour tenir sur une ligne */
   .hero h2 {
-    font-size: 1.5rem;
+    font-size: 14px;
   }
 
   .hero .description {
-    font-size: 15px;
-    max-width: 900px;
+    font-size: 7px;
+    max-width: 56.25rem;
   }
 
   /* Augmenter les espacements */
@@ -1472,7 +1460,7 @@
   }
 
   .domaineDeCompetence {
-    padding: 30px;
+    padding: 1.875rem;
   }
 
   .callToAction,
@@ -1495,7 +1483,16 @@
 
   .titre {
     padding: 1.5rem 2rem;
-    margin-top: 40px;
+    margin-top: 2.5rem;
+  }
+
+  /* Page Mes profils – grande taille : noms et job titles un peu plus gros */
+  .blocsProfils .profil h3 {
+    font-size: 1.25rem;
+  }
+
+  .blocsProfils .profil .jobTitle {
+    font-size: 0.9375rem;
   }
 }
 
@@ -1503,48 +1500,47 @@
    ÉCRANS ULTRA-LARGES (≥2560px) - 2K et écrans ultra-larges
    ============================================ */
 @media (min-width: 2560px) {
-  /* Augmenter les max-width pour utiliser plus d'espace tout en restant lisible */
   .texteLarge,
   .domaineDeCompetence,
   .callToAction,
   .groupeBoutons {
-    max-width: 1600px;
+    max-width: 100rem;
     margin-left: auto;
     margin-right: auto;
   }
 
   .hero .content {
-    max-width: 1600px;
+    max-width: 100rem;
     margin-left: auto;
     margin-right: auto;
   }
 
   .video {
-    max-width: 1000px;
+    max-width: 62.5rem;
     margin-left: auto;
     margin-right: auto;
   }
 
   .videoDetournement,
   .temoignages {
-    max-width: 1200px;
+    max-width: 75rem;
     margin-left: auto;
     margin-right: auto;
   }
 
   .listeDesPages {
-    max-width: 1600px;
+    max-width: 100rem;
     margin-left: auto;
     margin-right: auto;
   }
 
   /* Augmenter légèrement les polices */
   .titre h1 {
-    font-size: 16px; /* même taille que Discutons */
+    font-size: 1rem; /* même taille que Discutons */
   }
 
   .texteLarge p {
-    font-size: 16px;
+    font-size: 1rem;
     line-height: 1.6;
   }
 
@@ -1552,8 +1548,7 @@
     font-size: 30px;
   }
 
-  .domaineDeCompetence .domaineContenu,
-  .domaineDeCompetence .domaineAuteur {
+  .domaineDeCompetence .domaineHeader {
     font-size: 19px;
   }
 
@@ -1574,29 +1569,29 @@
   }
 
   .videoDetournement h3 {
-    font-size: 24px;
+    font-size: 1.5rem;
   }
 
   .temoignages h2 {
-    font-size: 24px;
+    font-size: 1.5rem;
   }
 
   .temoignages .temoignageFonction,
   .temoignages .temoignageTexte {
-    font-size: 19px;
+    font-size: 1.1875rem;
   }
 
   .hero h1 {
-    font-size: 3rem;
+    font-size: 2.25rem;
   }
 
   .hero h2 {
-    font-size: 1.75rem;
+    font-size: 1.125rem;
   }
 
   .hero .description {
-    font-size: 16px;
-    max-width: 1000px;
+    font-size: 0.6875rem;
+    max-width: 62.5rem;
   }
 
   /* Augmenter les espacements */
@@ -1636,66 +1631,63 @@
    ÉCRANS ULTRA-ULTRA-LARGES (≥3840px) - 4K et écrans 32:9
    ============================================ */
 @media (min-width: 3840px) {
-  /* Largeurs max optimales pour lisibilité sur écrans très larges */
   .texteLarge,
   .domaineDeCompetence,
   .callToAction,
   .groupeBoutons {
-    max-width: 1800px;
+    max-width: 112.5rem;
     margin-left: auto;
     margin-right: auto;
   }
 
   .hero .content {
-    max-width: 1800px;
+    max-width: 112.5rem;
     margin-left: auto;
     margin-right: auto;
   }
 
   .video {
-    max-width: 1100px;
+    max-width: 68.75rem;
     margin-left: auto;
     margin-right: auto;
   }
 
   .videoDetournement,
   .temoignages {
-    max-width: 1300px;
+    max-width: 81.25rem;
     margin-left: auto;
     margin-right: auto;
   }
 
   .listeDesPages {
-    max-width: 1800px;
+    max-width: 112.5rem;
     margin-left: auto;
     margin-right: auto;
   }
 
-  /* Polices optimisées pour lisibilité */
   .titre h1 {
-    font-size: 16px; /* même taille que Discutons */
+    font-size: 1rem; /* même taille que Discutons */
   }
 
   .texteLarge p {
-    font-size: 17px;
+    font-size: 1.0625rem;
     line-height: 1.6;
   }
 
   .domaineDeCompetence h2 {
-    font-size: 32px;
+    font-size: 2rem;
   }
 
-  .domaineDeCompetence .domaineContenu,
-  .domaineDeCompetence .domaineAuteur {
-    font-size: 20px;
+  .domaineDeCompetence .domaineHeader {
+    font-size: 1.25rem;
   }
 
   .domaineDeCompetence .competenceTitre {
-    font-size: 22px;
+    font-size: 1.375rem;
   }
 
   .domaineDeCompetence .competenceDescription {
-    font-size: 20px;
+    font-size: 1.25rem;
   }
 
   .video h2 {
@@ -1716,20 +1708,20 @@
 
   .temoignages .temoignageFonction,
   .temoignages .temoignageTexte {
-    font-size: 20px;
+    font-size: 1.25rem;
   }
 
   .hero h1 {
-    font-size: 3.5rem;
+    font-size: 2.5rem;
   }
 
   .hero h2 {
-    font-size: 2rem;
+    font-size: 1.25rem;
   }
 
   .hero .description {
-    font-size: 17px;
-    max-width: 1100px;
+    font-size: 0.75rem;
+    max-width: 68.75rem;
   }
 
   /* Espacements généreux */

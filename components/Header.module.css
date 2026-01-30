@@ -1,3 +1,4 @@
+/* Hauteurs et dimensions en px pour garder les proportions d’origine (pas de zoom avec le clamp html) */
 .header {
   position: fixed;
   top: 0;
@@ -6,8 +7,6 @@
   width: 100%;
   background-color: var(--BleuFonce);
   z-index: 1000;
-  /* 80px pour 914px de page = 8.75% */
-  /* Pour responsive: minimum 80px, proportionnel à la hauteur */
   height: max(80px, 8.75vh);
   min-height: 80px;
   overflow: visible;
@@ -15,9 +14,7 @@
 
 .logoContainer {
   position: absolute;
-  /* Début à 11px pour 914px = 1.2% */
   top: max(11px, 1.2vh);
-  /* 11px à gauche pour 914px = 1.2% */
   left: max(11px, 1.2vw);
   z-index: 1001;
 }
@@ -31,7 +28,6 @@
 .logo {
   display: block;
   width: auto;
-  /* Logo/photo de 11px à 110px = 99px de haut (110-11) pour 914px = 10.83% */
   height: max(99px, 10.83vh);
   min-height: 99px;
   object-fit: contain;
@@ -39,9 +35,7 @@
 
 .photoContainer {
   position: absolute;
-  /* Début à 11px pour 914px = 1.2% */
   top: max(11px, 1.2vh);
-  /* 11px à droite pour 914px = 1.2% */
   right: max(11px, 1.2vw);
   z-index: 1001;
 }
@@ -55,7 +49,6 @@
 .photo {
   display: block;
   width: auto;
-  /* Logo/photo de 11px à 110px = 99px de haut (110-11) pour 914px = 10.83% */
   height: max(99px, 10.83vh);
   min-height: 99px;
   object-fit: contain;
@@ -67,7 +60,6 @@
   top: 50%;
   transform: translate(-50%, -50%);
   z-index: 1001;
-  /* Le titre est centré verticalement dans la bande bleue, contrairement au logo et à la photo qui dépassent */
 }
 
 .pageTitle {
@@ -78,67 +70,16 @@
   margin: 0;
   white-space: nowrap;
   text-align: center;
-  /* Padding pour éviter le chevauchement avec le logo et la photo */
   padding: 0 1rem;
-  max-width: calc(100% - 250px); /* Réserve de l'espace pour le logo et la photo */
+  max-width: calc(100% - 250px);
 }
 
-/* Responsive : réduire la taille de la police sur mobile */
 @media (max-width: 768px) {
   .pageTitle {
     font-size: 1.125rem;
-    max-width: calc(100% - 180px); /* Moins d'espace réservé sur mobile */
+    max-width: calc(100% - 180px);
     padding: 0 0.5rem;
   }
 }
 
-/* Très grands écrans (≥1920px) - Augmenter proportionnellement */
-@media (min-width: 1920px) {
-  .header {
-    /* Augmenter la hauteur minimale pour les très grands écrans */
-    min-height: 100px;
-  }
-
-  .logo,
-  .photo {
-    min-height: 120px;
-  }
-
-  .pageTitle {
-    font-size: 1.875rem;
-  }
-}
-
-/* Écrans ultra-larges (≥2560px) - 2K et écrans ultra-larges */
-@media (min-width: 2560px) {
-  .header {
-    min-height: 120px;
-  }
-
-  .logo,
-  .photo {
-    min-height: 140px;
-  }
-
-  .pageTitle {
-    font-size: 2.25rem;
-    max-width: calc(100% - 300px); /* Plus d'espace pour le logo et la photo */
-  }
-}
-
-/* Écrans ultra-ultra-larges (≥3840px) - 4K et écrans 32:9 */
-@media (min-width: 3840px) {
-  .header {
-    min-height: 140px;
-  }
-
-  .logo,
-  .photo {
-    min-height: 160px;
-  }
-
-  .pageTitle {
-    font-size: 2.5rem;
-    max-width: calc(100% - 350px); /* Encore plus d'espace pour le logo et la photo */
-  }
-}
+/* Pas d’augmentation de hauteur header/logo/photo sur grands écrans : proportions d’origine conservées */

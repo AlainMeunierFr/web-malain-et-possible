@@ -12,7 +12,7 @@
 }
 
 .content {
-  max-width: 1200px;
+  max-width: 75rem;
   margin: 0 auto;
   font-size: 0.9rem;
   line-height: 1.6;
@@ -26,7 +26,7 @@
   font-size: 1rem;
   font-weight: 600;
   margin: 0.75rem 0;
-  margin-left: 20px; /* +20px par rapport à h1 */
+  margin-left: 1.25rem;
   color: var(--BleuFonce);
 }
 
@@ -58,20 +58,19 @@
 /* Écrans ultra-larges (≥2560px) */
 @media (min-width: 2560px) {
   .content {
-    max-width: 1600px;
+    max-width: 100rem;
   }
 }
 
-/* Écrans ultra-ultra-larges (≥3840px) */
 @media (min-width: 3840px) {
   .content {
-    max-width: 1800px;
+    max-width: 112.5rem;
   }
 }
 
 @media (min-width: 1920px) {
   .content {
-    max-width: 1400px;
+    max-width: 87.5rem;
     font-size: 1rem;
   }
 

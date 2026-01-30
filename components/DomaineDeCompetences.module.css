@@ -48,7 +48,7 @@
 /* Auteur d'une compétence (optionnel) : aligné à droite en italique */
 .competenceAuteur {
   font-family: var(--font-serif);
-  font-size: 12px;
+  font-size: 0.75rem;
   font-weight: 400;
   font-style: italic;
   text-align: right;
