@@ -1,18 +1,18 @@
 {
-  "timestamp": "2026-01-30T21:39:12.847Z",
+  "timestamp": "2026-01-30T21:49:33.672Z",
   "branch": "main",
-  "commit": "6be6412",
+  "commit": "72de6bc",
   "tests": {
     "unitTests": 595,
     "unitTestFiles": 70,
-    "unitTestPassed": 582,
-    "unitTestFailed": 13,
-    "unitTestDuration": 9876,
+    "unitTestPassed": 590,
+    "unitTestFailed": 5,
+    "unitTestDuration": 9315,
     "integrationTests": 31,
     "integrationTestFiles": 5,
-    "integrationTestPassed": 30,
-    "integrationTestFailed": 1,
-    "integrationTestDuration": 5869,
+    "integrationTestPassed": 31,
+    "integrationTestFailed": 0,
+    "integrationTestDuration": 6620,
     "bddFeatures": 23,
     "bddScenarios": 182,
     "bddScenariosPassed": 182,
@@ -28,14 +28,14 @@
       "total": 3,
       "passed": 3,
       "failed": 0,
-      "duration": 35039,
-      "lastRunDate": "2026-01-30T21:39:12.805Z"
+      "duration": 35955,
+      "lastRunDate": "2026-01-30T21:49:33.631Z"
     },
     "totalTests": 828,
     "totalTestFiles": 99,
-    "passingTests": 814,
-    "failingTests": 14,
-    "testDuration": 50784
+    "passingTests": 823,
+    "failingTests": 5,
+    "testDuration": 51890
   },
   "coverage": {
     "lines": {
@@ -45,18 +45,18 @@
     },
     "statements": {
       "total": 3113,
-      "covered": 2498,
-      "percentage": 80.24
+      "covered": 2499,
+      "percentage": 80.27
     },
     "functions": {
       "total": 409,
-      "covered": 337,
-      "percentage": 82.39
+      "covered": 338,
+      "percentage": 82.64
     },
     "branches": {
       "total": 2057,
-      "covered": 1406,
-      "percentage": 68.35
+      "covered": 1407,
+      "percentage": 68.4
     }
   },
   "quality": {
@@ -92,7 +92,7 @@
     }
   },
   "performance": {
-    "bundleSize": 923631,
+    "bundleSize": 940270,
     "buildTime": 15971,
     "lighthouseScore": "NC"
   }

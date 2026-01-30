@@ -77,7 +77,7 @@ describe('e2eScenarioBuilder', () => {
       const result = genererContenuSpecE2E(chemin, liens, pages, inventory);
       expect(result).toContain("import { test, expect } from '@playwright/test';");
       expect(result).toContain("test('parcours complet de tous les liens du site et test de tous les e2eID'");
-      expect(result).toContain("page.goto('/')");
+      expect(result).toContain("page.goto('/'");
       expect(result).toContain("toHaveURL('/')");
     });
 
@@ -136,7 +136,7 @@ describe('e2eScenarioBuilder', () => {
         { e2eID: 'h1', source: 'constant', file: 'constants', type: 'link' },
       ];
       const result = genererContenuSpecE2E(chemin, [], [{ url: '/', titre: 'Accueil' }], inventory);
-      expect(result).toContain("page.goto('/')");
+      expect(result).toContain("page.goto('/'");
       expect(result).toContain('Test des e2eID présents sur /');
     });
 

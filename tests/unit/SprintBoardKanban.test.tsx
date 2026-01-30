@@ -4,7 +4,7 @@
  */
 
 import React from 'react';
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import SprintBoardKanban from '../../components/SprintBoardKanban';
 
@@ -117,6 +117,7 @@ describe('SprintBoardKanban', () => {
       (global.fetch as jest.Mock)
         .mockResolvedValueOnce({ json: () => Promise.resolve(mockBoardData) })
         .mockResolvedValueOnce({
+          ok: true,
           json: () =>
             Promise.resolve({
               id: 'US-11.5',
@@ -140,14 +141,16 @@ describe('SprintBoardKanban', () => {
 
       await waitFor(() => {
         expect(screen.getByRole('dialog')).toBeInTheDocument();
-        expect(screen.getByText(/Definition du board KanBan/)).toBeInTheDocument();
       });
+      const dialog = screen.getByRole('dialog');
+      expect(within(dialog).getByText(/Definition du board KanBan/)).toBeInTheDocument();
     });
 
     it('la modal affiche un bouton de fermeture et le clic ferme la modal', async () => {
       (global.fetch as jest.Mock)
         .mockResolvedValueOnce({ json: () => Promise.resolve(mockBoardData) })
         .mockResolvedValueOnce({
+          ok: true,
           json: () =>
             Promise.resolve({
               id: 'US-11.6',
