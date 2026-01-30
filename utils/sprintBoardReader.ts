@@ -1,6 +1,6 @@
 /**
- * Backend pur : Logique métier pour le board KanBan du sprint en cours (US-11.5).
- * Lit le Sprint Goal, les agents (.cursor/agents), l'US en cours, les cartes US du sprint.
+ * Backend pur : Logique métier pour le board KanBan du sprint en cours (US-11.5, US-12.2).
+ * Lit le Sprint Goal, les agents (agents.json), l'US en cours, les cartes US du sprint.
  */
 
 import fs from 'fs';
@@ -11,6 +11,7 @@ const SPRINTS_DIR = path.join(DATA_DIR, 'Sprints');
 const US_EN_COURS_FILENAME = 'US en cours.md';
 const SPRINT_GOAL_FILENAME = '00 - Sprint goal et contexte.md';
 const CURSOR_AGENTS_DIR = '.cursor/agents';
+const AGENTS_JSON_FILENAME = 'agents.json';
 
 /** État d'une carte US sur le board */
 export type UsCardState = 'a_faire' | 'en_cours' | 'fait';
@@ -103,6 +104,36 @@ export function readAgentsFromCursorAgents(): { id: string; label: string }[] {
   }
   agents.sort((a, b) => a.order - b.order);
   return agents.map(({ id, label }) => ({ id, label }));
+}
+
+/**
+ * Lit la liste des agents depuis data/A propos de ce site/agents.json (US-12.2).
+ * Retourne un tableau vide si le fichier est absent ou invalide (repli : board sans colonnes agent).
+ */
+export function readAgentsFromAgentsJson(): { id: string; label: string }[] {
+  const agentsPath = path.join(process.cwd(), DATA_DIR.split('/').join(path.sep), AGENTS_JSON_FILENAME);
+  let content: string;
+  try {
+    content = fs.readFileSync(agentsPath, 'utf8');
+  } catch {
+    return [];
+  }
+  let data: unknown;
+  try {
+    data = JSON.parse(content);
+  } catch {
+    return [];
+  }
+  if (!Array.isArray(data) || data.length === 0) return [];
+  const agents: { id: string; label: string }[] = [];
+  for (const item of data) {
+    if (item && typeof item === 'object' && 'id' in item && 'label' in item) {
+      const id = String((item as { id: unknown }).id);
+      const label = String((item as { label: unknown }).label);
+      if (id && label) agents.push({ id, label });
+    }
+  }
+  return agents;
 }
 
 /**
@@ -209,7 +240,7 @@ export function readSprintUsCards(sprintDirRelativePath: string): UsCard[] {
  */
 export function getSprintBoardData(sprintDirRelativePath: string): SprintBoardData {
   const goal = readSprintGoal(sprintDirRelativePath);
-  const agents = readAgentsFromCursorAgents();
+  const agents = readAgentsFromAgentsJson();
   const cards = readSprintUsCards(sprintDirRelativePath);
 
   const aFaireCount = cards.filter((c) => c.state === 'a_faire').length;

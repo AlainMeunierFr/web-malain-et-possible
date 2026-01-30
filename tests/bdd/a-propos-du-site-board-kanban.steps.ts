@@ -13,6 +13,11 @@ const { Given, When, Then } = createBdd();
 const aboutSiteDataPath = () => path.join(process.cwd(), 'data', 'A propos de ce site');
 const sprintsPath = () => path.join(process.cwd(), 'data', 'A propos de ce site', 'Sprints');
 const cursorAgentsPath = () => path.join(process.cwd(), '.cursor', 'agents');
+const agentsJsonPath = () => path.join(aboutSiteDataPath(), 'agents.json');
+const agentsJsonBackupPath = () => path.join(aboutSiteDataPath(), 'agents.json.bak');
+
+/** US-12.2 : sauvegarde/restauration agents.json pour le scénario "agents.json est absent" */
+let agentsJsonWasBackedUp = false;
 
 /** Zone du board : e2eid (convention projet) ou fallback */
 const zoneSprintLocator = (page: { locator: (s: string) => { first: () => { (): unknown; new (): unknown } } }) =>
@@ -242,5 +247,86 @@ Then('la WIP Limit est {string} lorsqu\'il y a la carte {string} dans cette colo
   const agentCols = page.locator('[data-column-type="agent"]').filter({ has: page.locator('.sprintBoardCard') });
   const countEl = agentCols.first().locator('.sprintBoardColumnCount');
   await expect(countEl).toHaveText(wip);
+});
+
+// ——— US-12.2 : Colonnes du board basées sur agents.json ———
+
+Given('le fichier agents.json existe et contient une liste d\'agents', async ({}) => {
+  const p = agentsJsonPath();
+  expect(fs.existsSync(p)).toBe(true);
+  const content = fs.readFileSync(p, 'utf8');
+  const data = JSON.parse(content);
+  expect(Array.isArray(data)).toBe(true);
+  expect(data.length).toBeGreaterThan(0);
+  expect(data[0]).toHaveProperty('id');
+  expect(data[0]).toHaveProperty('label');
+});
+
+Given('que le fichier agents.json existe et contient une liste d\'agents', async ({}) => {
+  const p = agentsJsonPath();
+  expect(fs.existsSync(p)).toBe(true);
+  const content = fs.readFileSync(p, 'utf8');
+  const data = JSON.parse(content);
+  expect(Array.isArray(data)).toBe(true);
+  expect(data.length).toBeGreaterThan(0);
+  expect(data[0]).toHaveProperty('id');
+  expect(data[0]).toHaveProperty('label');
+});
+
+Given('le fichier agents.json est absent', async ({}) => {
+  const p = agentsJsonPath();
+  const bak = agentsJsonBackupPath();
+  if (fs.existsSync(p)) {
+    fs.copyFileSync(p, bak);
+    fs.unlinkSync(p);
+    agentsJsonWasBackedUp = true;
+  } else {
+    agentsJsonWasBackedUp = false;
+  }
+});
+
+Given('que le fichier agents.json est absent', async ({}) => {
+  const p = agentsJsonPath();
+  const bak = agentsJsonBackupPath();
+  if (fs.existsSync(p)) {
+    fs.copyFileSync(p, bak);
+    fs.unlinkSync(p);
+    agentsJsonWasBackedUp = true;
+  } else {
+    agentsJsonWasBackedUp = false;
+  }
+});
+
+Then('je vois au moins une colonne agent', async ({ page }) => {
+  const zone = page.locator('.sprintBoard').first();
+  await expect(zone).toBeVisible();
+  const agentCols = zone.locator('[data-column-type="agent"]');
+  await expect(agentCols.count()).toBeGreaterThan(0);
+});
+
+Then('je vois exactement les colonnes {string} et {string}', async ({ page }, col1: string, col2: string) => {
+  const zone = page.locator('.sprintBoard').first();
+  await expect(zone).toBeVisible();
+  const columns = zone.locator('.sprintBoardColumn');
+  await expect(columns).toHaveCount(2);
+  await expect(zone).toContainText(col1);
+  await expect(zone).toContainText(col2);
+});
+
+Then('je ne vois aucune colonne agent', async ({ page }) => {
+  const zone = page.locator('.sprintBoard').first();
+  await expect(zone).toBeVisible();
+  const agentCols = zone.locator('[data-column-type="agent"]');
+  await expect(agentCols).toHaveCount(0);
+});
+
+Then('je restaure le fichier agents.json', async ({}) => {
+  const p = agentsJsonPath();
+  const bak = agentsJsonBackupPath();
+  if (agentsJsonWasBackedUp && fs.existsSync(bak)) {
+    fs.copyFileSync(bak, p);
+    fs.unlinkSync(bak);
+    agentsJsonWasBackedUp = false;
+  }
 });
 

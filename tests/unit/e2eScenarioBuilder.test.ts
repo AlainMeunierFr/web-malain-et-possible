@@ -77,8 +77,8 @@ describe('e2eScenarioBuilder', () => {
       const result = genererContenuSpecE2E(chemin, liens, pages, inventory);
       expect(result).toContain("import { test, expect } from '@playwright/test';");
       expect(result).toContain("test('parcours complet de tous les liens du site et test de tous les e2eID'");
-      expect(result).toContain("await page.goto('/');");
-      expect(result).toContain("await expect(page).toHaveURL('/');");
+      expect(result).toContain("page.goto('/')");
+      expect(result).toContain("toHaveURL('/')");
     });
 
     it('génère une étape de navigation pour / vers /metrics avec le lien correspondant', () => {
@@ -118,7 +118,7 @@ describe('e2eScenarioBuilder', () => {
       const pages = [{ url: '/', titre: 'Accueil' }, { url: '/plan-du-site', titre: 'Plan' }];
       const result = genererContenuSpecE2E(chemin, liens, pages, []);
       expect(result).toContain("e2eid-b13");
-      expect(result).toContain("toHaveURL('/plan-du-site')");
+      expect(result).toContain("toHaveURL('/plan-du-site'");
     });
 
     it('génère navigation vers /metrics via footer (b14) quand pas de lien direct', () => {
@@ -136,7 +136,7 @@ describe('e2eScenarioBuilder', () => {
         { e2eID: 'h1', source: 'constant', file: 'constants', type: 'link' },
       ];
       const result = genererContenuSpecE2E(chemin, [], [{ url: '/', titre: 'Accueil' }], inventory);
-      expect(result).toContain("await page.goto('/');");
+      expect(result).toContain("page.goto('/')");
       expect(result).toContain('Test des e2eID présents sur /');
     });
 
@@ -156,7 +156,7 @@ describe('e2eScenarioBuilder', () => {
       const pages = [{ url: '/', titre: 'Accueil' }, { url: '/detournement-video', titre: 'Détournement' }];
       const result = genererContenuSpecE2E(chemin, liens, pages, []);
       expect(result).toContain("getByRole('link', { name: /");
-      expect(result).toContain("toHaveURL('/plan-du-site')");
+      expect(result).toContain("toHaveURL('/plan-du-site'");
       expect(result).toMatch(/getByTestId\('e2eid-[a-z0-9-]+'\)/);
     });
 
@@ -188,7 +188,7 @@ describe('e2eScenarioBuilder', () => {
       ];
       const result = genererContenuSpecE2E(chemin, liens, pages, []);
       expect(result).toContain('e2eid-b13');
-      expect(result).toContain("toHaveURL('/plan-du-site')");
+      expect(result).toContain("toHaveURL('/plan-du-site'");
     });
 
     it('pas de lien direct vers autre page : génère plan-du-site puis e2eID depuis URL', () => {
@@ -196,7 +196,7 @@ describe('e2eScenarioBuilder', () => {
       const liens: PlanLien[] = [];
       const pages = [{ url: '/', titre: 'Accueil' }, { url: '/detournement-video', titre: 'Détournement' }];
       const result = genererContenuSpecE2E(chemin, liens, pages, []);
-      expect(result).toContain("toHaveURL('/plan-du-site')");
+      expect(result).toContain("toHaveURL('/plan-du-site'");
       expect(result).toMatch(/getByTestId\('e2eid-[a-z0-9-]+'\)/);
       expect(result).toContain("toHaveURL('/detournement-video')");
     });

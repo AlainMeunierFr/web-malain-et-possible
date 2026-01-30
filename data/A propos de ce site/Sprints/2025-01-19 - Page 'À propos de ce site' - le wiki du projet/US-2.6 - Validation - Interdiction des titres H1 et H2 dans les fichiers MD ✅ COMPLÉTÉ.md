@@ -1,4 +1,4 @@
-## US-2.6 : Validation - Interdiction des titres H1 et H2 dans les fichiers MD ✅ COMPLÉTÉ
+# US-2.6 : Validation - Interdiction des titres H1 et H2 dans les fichiers MD ✅ COMPLÉTÉ
 - **En tant que** Développeur
 - **Je souhaite** Détecter et rejeter les fichiers MD contenant des titres H1 (#) ou H2 (##)
 - **Afin de** Garantir une structure cohérente et éviter les erreurs de hiérarchie

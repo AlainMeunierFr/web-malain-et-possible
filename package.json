@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "ts-node --project tsconfig.node.json scripts/sync-agents-json.ts && next dev",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:bdd": "bddgen test && playwright test",
@@ -27,7 +27,8 @@
     "version:minor": "ts-node scripts/increment-site-version.ts minor",
     "version:sync": "ts-node scripts/increment-site-version.ts sync",
     "extract:pdf": "tsx scripts/extract-pdf-to-markdown.ts",
-    "analyse:bilan": "tsx scripts/analyse-bilan-competences.ts"
+    "analyse:bilan": "tsx scripts/analyse-bilan-competences.ts",
+    "sync:agents": "ts-node --project tsconfig.node.json scripts/sync-agents-json.ts"
   },
   "dependencies": {
     "@xyflow/react": "^12.10.0",

@@ -8,6 +8,7 @@ import path from 'path';
 import {
   readSprintGoal,
   readAgentsFromCursorAgents,
+  readAgentsFromAgentsJson,
   readUsEnCours,
   getSprintFolderContainingUs,
   readSprintUsCards,
@@ -112,6 +113,59 @@ Améliorer le back-office du projet.
 
       expect(result).toHaveLength(1);
       expect(result[0].label).toBe('Lead-dev');
+    });
+  });
+
+  describe('readAgentsFromAgentsJson (US-12.2)', () => {
+    it('retourne les agents dans l\'ordre du tableau JSON', () => {
+      readFileSyncSpy.mockReturnValue(
+        JSON.stringify([
+          { id: 'US', label: 'US' },
+          { id: 'BDD', label: 'BDD' },
+          { id: 'TDD-back-end', label: 'TDD-back-end' },
+        ])
+      );
+
+      const result = readAgentsFromAgentsJson();
+
+      expect(result).toHaveLength(3);
+      expect(result[0]).toEqual({ id: 'US', label: 'US' });
+      expect(result[2]).toEqual({ id: 'TDD-back-end', label: 'TDD-back-end' });
+    });
+
+    it('retourne un tableau vide si le fichier agents.json est absent', () => {
+      readFileSyncSpy.mockImplementation(() => {
+        throw new Error('ENOENT');
+      });
+
+      const result = readAgentsFromAgentsJson();
+
+      expect(result).toEqual([]);
+    });
+
+    it('retourne un tableau vide si le JSON est invalide ou non-tableau', () => {
+      readFileSyncSpy.mockReturnValue('{ "invalid": true }');
+
+      const result = readAgentsFromAgentsJson();
+
+      expect(result).toEqual([]);
+    });
+
+    it('ignore les entrées sans id ou label', () => {
+      readFileSyncSpy.mockReturnValue(
+        JSON.stringify([
+          { id: 'US', label: 'US' },
+          { id: '', label: 'Vide' },
+          { label: 'SansId' },
+          { id: 'BDD', label: 'BDD' },
+        ])
+      );
+
+      const result = readAgentsFromAgentsJson();
+
+      expect(result).toHaveLength(2);
+      expect(result[0].id).toBe('US');
+      expect(result[1].id).toBe('BDD');
     });
   });
 
@@ -253,19 +307,20 @@ TDD-back-end
   });
 
   describe('getSprintBoardData', () => {
-    it('retourne goal, colonnes (A faire + agents + Fait) et cartes', () => {
+    it('retourne goal, colonnes (A faire + agents depuis agents.json + Fait) et cartes', () => {
       readFileSyncSpy
         .mockReturnValueOnce('# Sprint Goal\n\nMon goal.\n---')
+        .mockReturnValueOnce(
+          JSON.stringify([
+            { id: 'US', label: 'US' },
+            { id: 'TDD-back-end', label: 'TDD-back-end' },
+          ])
+        )
         .mockReturnValueOnce('---\nUS-11.5\nDefinition\nTDD-back-end');
-      readdirSyncSpy
-        .mockReturnValueOnce([
-          { name: '2. US.md', isFile: () => true },
-          { name: '4. TDD-back-end.md', isFile: () => true },
-        ] as fs.Dirent[])
-        .mockReturnValueOnce([
-          { name: 'US-11.4 - Affichage Path ✅ COMPLÉTÉ.md', isFile: () => true },
-          { name: 'US-11.5 - Definition du board.md', isFile: () => true },
-        ] as fs.Dirent[]);
+      readdirSyncSpy.mockReturnValueOnce([
+        { name: 'US-11.4 - Affichage Path ✅ COMPLÉTÉ.md', isFile: () => true },
+        { name: 'US-11.5 - Definition du board.md', isFile: () => true },
+      ] as fs.Dirent[]);
 
       const result = getSprintBoardData('data/A propos de ce site/Sprints/UnSprint');
 
@@ -284,13 +339,12 @@ TDD-back-end
     it('décompte A faire et Fait et WIP 0/1 pour les colonnes agent sans carte', () => {
       readFileSyncSpy
         .mockReturnValueOnce('# Sprint Goal\n\nGoal.\n---')
+        .mockReturnValueOnce(JSON.stringify([{ id: 'BDD', label: 'BDD' }]))
         .mockReturnValueOnce('---\nUS-11.4\nTitre\ndone');
-      readdirSyncSpy
-        .mockReturnValueOnce([{ name: '3. BDD.md', isFile: () => true }] as fs.Dirent[])
-        .mockReturnValueOnce([
-          { name: 'US-11.1 - Un ✅ COMPLÉTÉ.md', isFile: () => true },
-          { name: 'US-11.2 - Deux.md', isFile: () => true },
-        ] as fs.Dirent[]);
+      readdirSyncSpy.mockReturnValueOnce([
+        { name: 'US-11.1 - Un ✅ COMPLÉTÉ.md', isFile: () => true },
+        { name: 'US-11.2 - Deux.md', isFile: () => true },
+      ] as fs.Dirent[]);
 
       const result = getSprintBoardData('data/A propos de ce site/Sprints/UnSprint');
 
@@ -299,15 +353,16 @@ TDD-back-end
       expect(result.columns[2].count).toBe(1); // Fait : 1
     });
 
-    it('retourne seulement A faire et Fait quand .cursor/agents est vide', () => {
+    it('retourne seulement A faire et Fait quand agents.json est absent ou invalide (US-12.2)', () => {
       readFileSyncSpy
         .mockReturnValueOnce('# Sprint Goal\n\nGoal.\n---')
+        .mockImplementationOnce(() => {
+          throw new Error('ENOENT');
+        })
         .mockReturnValueOnce('---\nUS-12.1\nTitre\ndone');
-      readdirSyncSpy
-        .mockReturnValueOnce([] as fs.Dirent[]) // .cursor/agents vide
-        .mockReturnValueOnce([
-          { name: 'US-12.1 - Métriques NC.md', isFile: () => true },
-        ] as fs.Dirent[]);
+      readdirSyncSpy.mockReturnValueOnce([
+        { name: 'US-12.1 - Métriques NC.md', isFile: () => true },
+      ] as fs.Dirent[]);
 
       const result = getSprintBoardData('data/A propos de ce site/Sprints/UnSprint');
 
