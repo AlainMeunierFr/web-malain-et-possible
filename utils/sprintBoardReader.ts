@@ -161,7 +161,7 @@ export function getSprintFolderContainingUs(usId: string): string | null {
 
 /**
  * Lit les cartes US du sprint : tous les fichiers "US-X.Y - ..." dans le dossier sprint.
- * État : fait si nom contient "✅ COMPLÉTÉ", en_cours si usId dans US en cours, sinon a_faire.
+ * État : fait si nom contient "✅ COMPLÉTÉ" ou si US en cours a étape "done" ; en_cours si usId dans US en cours (et étape ≠ done) ; sinon a_faire.
  */
 export function readSprintUsCards(sprintDirRelativePath: string): UsCard[] {
   const normalized = sprintDirRelativePath.replace(/^\.\//, '').split('/').join(path.sep);
@@ -183,10 +183,11 @@ export function readSprintUsCards(sprintDirRelativePath: string): UsCard[] {
     titreFromFilename = titreFromFilename.replace(/\s*✅\s*COMPLÉTÉ\s*$/i, '').trim();
     const idMatch = entry.name.match(/^(US-\d+\.\d+)\s+-/);
     const id = idMatch ? idMatch[1] : entry.name.replace(/\.md$/, '');
-    const isDone = entry.name.includes('✅ COMPLÉTÉ');
+    const isDoneInFilename = entry.name.includes('✅ COMPLÉTÉ');
     const isEnCours = usEnCours?.usId === id;
+    const etapeDone = usEnCours?.etape === 'done';
     let state: UsCardState = 'a_faire';
-    if (isDone) state = 'fait';
+    if (isDoneInFilename || (isEnCours && etapeDone)) state = 'fait';
     else if (isEnCours) state = 'en_cours';
     const hash = id.split('').reduce((acc, c) => acc + c.charCodeAt(0), 0);
     const rotation = (hash % 7) - 3;
@@ -195,7 +196,7 @@ export function readSprintUsCards(sprintDirRelativePath: string): UsCard[] {
       titre: titreFromFilename,
       filename: entry.name,
       state,
-      agentColumn: isEnCours ? usEnCours?.etape : undefined,
+      agentColumn: state === 'en_cours' ? usEnCours?.etape : undefined,
       rotation,
     });
   }

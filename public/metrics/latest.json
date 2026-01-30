@@ -1,18 +1,18 @@
 {
-  "timestamp": "2026-01-30T20:44:21.617Z",
+  "timestamp": "2026-01-30T21:08:59.548Z",
   "branch": "main",
-  "commit": "114630d",
+  "commit": "2a9bb33",
   "tests": {
-    "unitTests": 589,
+    "unitTests": 591,
     "unitTestFiles": 70,
-    "unitTestPassed": 576,
+    "unitTestPassed": 578,
     "unitTestFailed": 13,
-    "unitTestDuration": 11948,
+    "unitTestDuration": 10110,
     "integrationTests": 31,
     "integrationTestFiles": 5,
     "integrationTestPassed": 30,
     "integrationTestFailed": 1,
-    "integrationTestDuration": 7656,
+    "integrationTestDuration": 5975,
     "bddFeatures": 22,
     "bddScenarios": 180,
     "bddScenariosPassed": 180,
@@ -28,25 +28,25 @@
       "total": 3,
       "passed": 3,
       "failed": 0,
-      "duration": 45742,
-      "lastRunDate": "2026-01-30T20:44:21.553Z"
+      "duration": 35312,
+      "lastRunDate": "2026-01-30T21:08:59.504Z"
     },
-    "totalTests": 820,
+    "totalTests": 822,
     "totalTestFiles": 98,
-    "passingTests": 806,
+    "passingTests": 808,
     "failingTests": 14,
-    "testDuration": 65346
+    "testDuration": 51397
   },
   "coverage": {
     "lines": {
-      "total": 2922,
-      "covered": 2356,
-      "percentage": 80.62
+      "total": 2923,
+      "covered": 2357,
+      "percentage": 80.63
     },
     "statements": {
-      "total": 3093,
-      "covered": 2479,
-      "percentage": 80.14
+      "total": 3094,
+      "covered": 2480,
+      "percentage": 80.15
     },
     "functions": {
       "total": 408,
@@ -54,9 +54,9 @@
       "percentage": 82.35
     },
     "branches": {
-      "total": 2036,
-      "covered": 1386,
-      "percentage": 68.07
+      "total": 2043,
+      "covered": 1392,
+      "percentage": 68.13
     }
   },
   "quality": {
@@ -69,8 +69,8 @@
   },
   "size": {
     "totalFiles": 74,
-    "totalLines": 10243,
-    "sourceLines": 10243,
+    "totalLines": 10244,
+    "sourceLines": 10244,
     "commentLines": 0,
     "blankLines": 0,
     "components": 35,
@@ -92,8 +92,8 @@
     }
   },
   "performance": {
-    "bundleSize": 994364,
-    "buildTime": 16968,
+    "bundleSize": 934698,
+    "buildTime": 15971,
     "lighthouseScore": "NC"
   }
 }

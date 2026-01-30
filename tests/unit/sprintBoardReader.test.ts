@@ -225,6 +225,19 @@ TDD-back-end
       expect(result[0].state).toBe('a_faire');
     });
 
+    it('retourne la carte en état fait quand l\'US en cours a étape "done" (sans ✅ dans le nom)', () => {
+      readFileSyncSpy.mockReturnValue('---\nUS-12.1\nMétriques NC\ndone');
+      readdirSyncSpy.mockReturnValue([
+        { name: 'US-12.1 - Métriques NC calculées par outils gratuits.md', isFile: () => true },
+      ] as fs.Dirent[]);
+
+      const result = readSprintUsCards('data/A propos de ce site/Sprints/UnSprint');
+
+      expect(result).toHaveLength(1);
+      expect(result[0].state).toBe('fait');
+      expect(result[0].agentColumn).toBeUndefined();
+    });
+
     it('ignore les fichiers qui ne matchent pas US-X.Y - ...', () => {
       readFileSyncSpy.mockReturnValue('---\nUS-11.5\nTitre\nBDD');
       readdirSyncSpy.mockReturnValue([
@@ -284,6 +297,25 @@ TDD-back-end
       expect(result.columns[0].count).toBe(1); // A faire : 1
       expect(result.columns[1].wipLimit).toBe('0/1'); // agent sans carte en cours
       expect(result.columns[2].count).toBe(1); // Fait : 1
+    });
+
+    it('retourne seulement A faire et Fait quand .cursor/agents est vide', () => {
+      readFileSyncSpy
+        .mockReturnValueOnce('# Sprint Goal\n\nGoal.\n---')
+        .mockReturnValueOnce('---\nUS-12.1\nTitre\ndone');
+      readdirSyncSpy
+        .mockReturnValueOnce([] as fs.Dirent[]) // .cursor/agents vide
+        .mockReturnValueOnce([
+          { name: 'US-12.1 - Métriques NC.md', isFile: () => true },
+        ] as fs.Dirent[]);
+
+      const result = getSprintBoardData('data/A propos de ce site/Sprints/UnSprint');
+
+      expect(result.columns).toHaveLength(2); // A faire + Fait (pas de colonnes agents)
+      expect(result.columns[0]).toMatchObject({ id: 'a_faire', label: 'A faire' });
+      expect(result.columns[1]).toMatchObject({ id: 'fait', label: 'Fait', count: 1 });
+      expect(result.cards).toHaveLength(1);
+      expect(result.cards[0].state).toBe('fait');
     });
   });
 
