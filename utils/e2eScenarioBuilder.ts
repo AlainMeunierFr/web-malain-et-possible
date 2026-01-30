@@ -161,7 +161,7 @@ export function genererContenuSpecE2E(
         );
         lignes.push(`    await boutonPlanDuSite.first().waitFor({ state: 'visible', timeout: 15000 });`);
         lignes.push(`    if (await boutonPlanDuSite.count() > 0) {`);
-        lignes.push(`      await boutonPlanDuSite.first().scrollIntoViewIfNeeded();`);
+        lignes.push(`      await boutonPlanDuSite.first().evaluate((el) => el.scrollIntoView({ block: 'nearest', behavior: 'instant' }));`);
         lignes.push(`      await boutonPlanDuSite.first().click({ timeout: 15000 });`);
         lignes.push(`      await expect(page).toHaveURL('/plan-du-site', { timeout: 15000 });`);
         lignes.push(`    } else {`);
@@ -226,7 +226,7 @@ export function genererContenuSpecE2E(
             );
             lignes.push(`      await boutonPlanDuSite.first().waitFor({ state: 'visible', timeout: 15000 });`);
             lignes.push(`      if (await boutonPlanDuSite.count() > 0) {`);
-            lignes.push(`        await boutonPlanDuSite.first().scrollIntoViewIfNeeded();`);
+            lignes.push(`        await boutonPlanDuSite.first().evaluate((el) => el.scrollIntoView({ block: 'nearest', behavior: 'instant' }));`);
             lignes.push(`        await boutonPlanDuSite.first().click({ timeout: 15000 });`);
             lignes.push(`        await expect(page).toHaveURL('/plan-du-site', { timeout: 15000 });`);
             lignes.push(`        await page.waitForLoadState('domcontentloaded').catch(() => {});`);
@@ -271,7 +271,7 @@ export function genererContenuSpecE2E(
             );
             lignes.push(`    await boutonPlanDuSite.first().waitFor({ state: 'visible', timeout: 15000 });`);
             lignes.push(`    if (await boutonPlanDuSite.count() > 0) {`);
-            lignes.push(`      await boutonPlanDuSite.first().scrollIntoViewIfNeeded();`);
+            lignes.push(`      await boutonPlanDuSite.first().evaluate((el) => el.scrollIntoView({ block: 'nearest', behavior: 'instant' }));`);
             lignes.push(`      await boutonPlanDuSite.first().click({ timeout: 15000 });`);
             lignes.push(`      await expect(page).toHaveURL('/plan-du-site', { timeout: 15000 });`);
             lignes.push(`    } else {`);
@@ -285,7 +285,7 @@ export function genererContenuSpecE2E(
             );
             lignes.push(`    await boutonPlanDuSite.first().waitFor({ state: 'visible', timeout: 15000 });`);
             lignes.push(`    if (await boutonPlanDuSite.count() > 0) {`);
-            lignes.push(`      await boutonPlanDuSite.first().scrollIntoViewIfNeeded();`);
+            lignes.push(`      await boutonPlanDuSite.first().evaluate((el) => el.scrollIntoView({ block: 'nearest', behavior: 'instant' }));`);
             lignes.push(`      await boutonPlanDuSite.first().click({ timeout: 15000 });`);
             lignes.push(`      await expect(page).toHaveURL('/plan-du-site', { timeout: 15000 });`);
             lignes.push(`      await page.waitForLoadState('domcontentloaded').catch(() => {});`);

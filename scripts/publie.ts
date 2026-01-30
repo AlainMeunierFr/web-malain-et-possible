@@ -2,10 +2,12 @@
  * Script "Publie" : Automatise le processus de publication
  * 
  * Ce script :
- * 1. Lance tous les tests avec chronométrage (coverage + JSON)
- * 2. Si échec, analyse et liste les erreurs avec exigences et causes, puis s'arrête
- * 3. Si succès, collecte toutes les métriques (E2E, BDD, etc.)
- * 4. Publie sur Git
+ * 0. Vérification TypeScript (tsc --noEmit) pour détecter les mêmes erreurs que Vercel
+ * 1. Génération du scénario E2E
+ * 2. Lance tous les tests avec chronométrage (coverage + JSON)
+ * 3. Si échec, analyse et liste les erreurs avec exigences et causes, puis s'arrête
+ * 4. Si succès, collecte toutes les métriques (E2E, BDD, etc.)
+ * 5. Publie sur Git
  * 
  * Objectif : Avoir sur git et Vercel un site avec 100% de couverture de test avec leur chronométrage à jour
  */
@@ -255,6 +257,25 @@ function checkCoverage(): void {
 }
 
 /**
+ * Vérification TypeScript (même contrôle que Vercel au build)
+ * Détecte les erreurs de type (ex. variable non définie) avant de lancer les tests
+ */
+function runTypeCheck(): void {
+  console.log('🔍 Vérification TypeScript (tsc --noEmit)...\n');
+  try {
+    execSync('npx tsc --noEmit', {
+      encoding: 'utf-8',
+      stdio: 'inherit'
+    });
+    console.log('\n✅ Vérification TypeScript OK\n');
+  } catch (error) {
+    console.error('\n❌ Erreur TypeScript : le build échouerait sur Vercel');
+    console.error('   Corriger les erreurs ci-dessus avant de publier\n');
+    throw error;
+  }
+}
+
+/**
  * Génère le scénario E2E avant de lancer les tests
  * Le scénario doit être à jour pour que les tests d'intégration passent
  */
@@ -279,12 +300,17 @@ function generateE2EScenario(): void {
 function main() {
   console.log('🚀 Démarrage du processus "Publie"\n');
   console.log('='.repeat(60));
-  console.log('Étape 0/4 : Génération du scénario E2E\n');
+  console.log('Étape 0/5 : Vérification TypeScript\n');
+  
+  runTypeCheck();
+  
+  console.log('='.repeat(60));
+  console.log('Étape 1/5 : Génération du scénario E2E\n');
   
   generateE2EScenario();
   
   console.log('='.repeat(60));
-  console.log('Étape 1/4 : Lancement des tests avec chronométrage\n');
+  console.log('Étape 2/5 : Lancement des tests avec chronométrage\n');
   
   const testResult = runTestsWithTiming();
   
@@ -318,17 +344,17 @@ function main() {
   }
   
   console.log('='.repeat(60));
-  console.log('Étape 2/4 : Collecte de toutes les métriques (E2E, BDD, etc.)\n');
+  console.log('Étape 3/5 : Collecte de toutes les métriques (E2E, BDD, etc.)\n');
   
   collectAllMetrics();
   
   console.log('='.repeat(60));
-  console.log('Étape 3/4 : Vérification de la couverture de code\n');
+  console.log('Étape 4/5 : Vérification de la couverture de code\n');
   
   checkCoverage();
   
   console.log('='.repeat(60));
-  console.log('Étape 4/4 : Publication sur Git\n');
+  console.log('Étape 5/5 : Publication sur Git\n');
   
   const commitMessage = `Publication automatique - Tests OK, métriques à jour`;
   publishToGit(commitMessage);

@@ -10,7 +10,7 @@ export default function PourAllerPlusLoinPage() {
   const pageData = readPageData('pour-aller-plus-loin.json');
 
   return (
-    <main className={styles.main}>
+    <main className="main">
       {/* Affichage de tous les éléments de contenu */}
       <PageContentRenderer contenu={pageData.contenu} />
     </main>

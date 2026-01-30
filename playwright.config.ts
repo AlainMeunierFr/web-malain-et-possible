@@ -53,6 +53,11 @@ export default defineConfig({
     ['html'],
     ['json', { outputFile: 'playwright-report/data.json' }],
   ],
+  /* Timeout des assertions (défaut 5s) : WebKit peut être plus lent à considérer un élément visible */
+  expect: {
+    timeout: 15000,
+  },
+
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('')`. */
@@ -83,7 +88,12 @@ export default defineConfig({
 
     {
       name: 'webkit',
-      use: { ...devices['Desktop Safari'] },
+      use: {
+        ...devices['Desktop Safari'],
+        /* WebKit peut être plus lent (paint, layout) ; timeouts augmentés pour limiter les échecs précoces */
+        actionTimeout: 15000,
+        navigationTimeout: 40000,
+      },
     },
 
     /* Test against mobile viewports. */

@@ -23,6 +23,7 @@ export interface Competence {
   bouton: {
     texte: string;
     action: string;
+    e2eID?: string | null;
   } | null;
 }
 

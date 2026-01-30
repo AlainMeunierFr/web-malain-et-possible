@@ -8,7 +8,7 @@ import fs from 'fs';
 import path from 'path';
 import { getRouteForCommand } from './buttonHandlers';
 import { generateE2eIdInventory } from './e2eIdInventory';
-import { readPageData } from './indexReader';
+import { readPageData, type ElementContenu } from './indexReader';
 
 /**
  * Interface pour une Page dans le plan du site
@@ -260,7 +260,7 @@ function fichierJsonVersPageSource(fichierJSON: string): string {
  * Une seule traversée : domaines avec items[].bouton.action, profils[].route. Pas de logique par type "ref" vs "inline".
  */
 function extractLinksFromContenu(
-  contenu: { type?: string; items?: Array<{ bouton?: { action?: string; texte?: string; e2eID?: string } }>; profils?: Array<{ route?: string; titre?: string }> }[] | undefined,
+  contenu: ElementContenu[] | undefined,
   pageSource: string,
   estLienInterne: (url: string) => boolean
 ): PlanLien[] {
@@ -275,7 +275,7 @@ function extractLinksFromContenu(
             source: pageSource,
             destination: action,
             label: item.bouton?.texte,
-            e2eID: item.bouton?.e2eID,
+            e2eID: item.bouton?.e2eID ?? undefined,
           });
         }
       }

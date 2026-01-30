@@ -187,7 +187,7 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
     const boutonPlanDuSite = page.locator('footer').locator('[e2eid="e2eid-b13"]');
     await boutonPlanDuSite.first().waitFor({ state: 'visible', timeout: 15000 });
     if (await boutonPlanDuSite.count() > 0) {
-      await boutonPlanDuSite.first().scrollIntoViewIfNeeded();
+      await boutonPlanDuSite.first().evaluate((el) => el.scrollIntoView({ block: 'nearest', behavior: 'instant' }));
       await boutonPlanDuSite.first().click({ timeout: 15000 });
       await expect(page).toHaveURL('/plan-du-site', { timeout: 15000 });
       await page.waitForLoadState('domcontentloaded').catch(() => {});
@@ -227,7 +227,7 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
       const boutonPlanDuSite = page.locator('footer').locator('[e2eid="e2eid-b13"]');
       await boutonPlanDuSite.first().waitFor({ state: 'visible', timeout: 15000 });
       if (await boutonPlanDuSite.count() > 0) {
-        await boutonPlanDuSite.first().scrollIntoViewIfNeeded();
+        await boutonPlanDuSite.first().evaluate((el) => el.scrollIntoView({ block: 'nearest', behavior: 'instant' }));
         await boutonPlanDuSite.first().click({ timeout: 15000 });
         await expect(page).toHaveURL('/plan-du-site', { timeout: 15000 });
         await page.waitForLoadState('domcontentloaded').catch(() => {});
@@ -249,7 +249,7 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
     const boutonPlanDuSite = page.locator('footer').locator('[e2eid="e2eid-b13"]');
     await boutonPlanDuSite.first().waitFor({ state: 'visible', timeout: 15000 });
     if (await boutonPlanDuSite.count() > 0) {
-      await boutonPlanDuSite.first().scrollIntoViewIfNeeded();
+      await boutonPlanDuSite.first().evaluate((el) => el.scrollIntoView({ block: 'nearest', behavior: 'instant' }));
       await boutonPlanDuSite.first().click({ timeout: 15000 });
       await expect(page).toHaveURL('/plan-du-site', { timeout: 15000 });
       await page.waitForLoadState('domcontentloaded').catch(() => {});
@@ -289,7 +289,7 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
       const boutonPlanDuSite = page.locator('footer').locator('[e2eid="e2eid-b13"]');
       await boutonPlanDuSite.first().waitFor({ state: 'visible', timeout: 15000 });
       if (await boutonPlanDuSite.count() > 0) {
-        await boutonPlanDuSite.first().scrollIntoViewIfNeeded();
+        await boutonPlanDuSite.first().evaluate((el) => el.scrollIntoView({ block: 'nearest', behavior: 'instant' }));
         await boutonPlanDuSite.first().click({ timeout: 15000 });
         await expect(page).toHaveURL('/plan-du-site', { timeout: 15000 });
         await page.waitForLoadState('domcontentloaded').catch(() => {});
@@ -330,7 +330,7 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
       const boutonPlanDuSite = page.locator('footer').locator('[e2eid="e2eid-b13"]');
       await boutonPlanDuSite.first().waitFor({ state: 'visible', timeout: 15000 });
       if (await boutonPlanDuSite.count() > 0) {
-        await boutonPlanDuSite.first().scrollIntoViewIfNeeded();
+        await boutonPlanDuSite.first().evaluate((el) => el.scrollIntoView({ block: 'nearest', behavior: 'instant' }));
         await boutonPlanDuSite.first().click({ timeout: 15000 });
         await expect(page).toHaveURL('/plan-du-site', { timeout: 15000 });
         await page.waitForLoadState('domcontentloaded').catch(() => {});
@@ -352,7 +352,7 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
     const boutonPlanDuSite = page.locator('footer').locator('[e2eid="e2eid-b13"]');
     await boutonPlanDuSite.first().waitFor({ state: 'visible', timeout: 15000 });
     if (await boutonPlanDuSite.count() > 0) {
-      await boutonPlanDuSite.first().scrollIntoViewIfNeeded();
+      await boutonPlanDuSite.first().evaluate((el) => el.scrollIntoView({ block: 'nearest', behavior: 'instant' }));
       await boutonPlanDuSite.first().click({ timeout: 15000 });
       await expect(page).toHaveURL('/plan-du-site', { timeout: 15000 });
       await page.waitForLoadState('domcontentloaded').catch(() => {});
@@ -373,7 +373,7 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
     const boutonPlanDuSite = page.locator('footer').locator('[e2eid="e2eid-b13"]');
     await boutonPlanDuSite.first().waitFor({ state: 'visible', timeout: 15000 });
     if (await boutonPlanDuSite.count() > 0) {
-      await boutonPlanDuSite.first().scrollIntoViewIfNeeded();
+      await boutonPlanDuSite.first().evaluate((el) => el.scrollIntoView({ block: 'nearest', behavior: 'instant' }));
       await boutonPlanDuSite.first().click({ timeout: 15000 });
       await expect(page).toHaveURL('/plan-du-site', { timeout: 15000 });
       await page.waitForLoadState('domcontentloaded').catch(() => {});
@@ -426,7 +426,7 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
     const boutonPlanDuSite = page.locator('footer').locator('[e2eid="e2eid-b13"]');
     await boutonPlanDuSite.first().waitFor({ state: 'visible', timeout: 15000 });
     if (await boutonPlanDuSite.count() > 0) {
-      await boutonPlanDuSite.first().scrollIntoViewIfNeeded();
+      await boutonPlanDuSite.first().evaluate((el) => el.scrollIntoView({ block: 'nearest', behavior: 'instant' }));
       await boutonPlanDuSite.first().click({ timeout: 15000 });
       await expect(page).toHaveURL('/plan-du-site', { timeout: 15000 });
     } else {
@@ -437,7 +437,7 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
     const boutonPlanDuSite = page.locator('footer').locator('[e2eid="e2eid-b13"]');
     await boutonPlanDuSite.first().waitFor({ state: 'visible', timeout: 15000 });
     if (await boutonPlanDuSite.count() > 0) {
-      await boutonPlanDuSite.first().scrollIntoViewIfNeeded();
+      await boutonPlanDuSite.first().evaluate((el) => el.scrollIntoView({ block: 'nearest', behavior: 'instant' }));
       await boutonPlanDuSite.first().click({ timeout: 15000 });
       await expect(page).toHaveURL('/plan-du-site', { timeout: 15000 });
       await page.waitForLoadState('domcontentloaded').catch(() => {});
@@ -490,7 +490,7 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
     const boutonPlanDuSite = page.locator('footer').locator('[e2eid="e2eid-b13"]');
     await boutonPlanDuSite.first().waitFor({ state: 'visible', timeout: 15000 });
     if (await boutonPlanDuSite.count() > 0) {
-      await boutonPlanDuSite.first().scrollIntoViewIfNeeded();
+      await boutonPlanDuSite.first().evaluate((el) => el.scrollIntoView({ block: 'nearest', behavior: 'instant' }));
       await boutonPlanDuSite.first().click({ timeout: 15000 });
       await expect(page).toHaveURL('/plan-du-site', { timeout: 15000 });
       await page.waitForLoadState('domcontentloaded').catch(() => {});
