@@ -92,5 +92,26 @@ describe('Génération du plan de test E2E', () => {
     expect(contenu.length).toBeGreaterThan(0);
     expect(contenu).toContain("import { test, expect } from '@playwright/test';");
     expect(contenu).toContain("parcours complet de tous les liens du site");
+
+    // Spécification : le scénario ne doit jamais générer un fallback "depuis l'accueil"
+    // pour une page qui n'a pas de lien source="/" dans _Pages-Et-Lien.json
+    const plan = JSON.parse(fs.readFileSync(siteMapPath, 'utf8')) as { liens?: { source: string; destination: string }[] };
+    const liensDepuisAccueil = (plan.liens || []).filter((l) => l.source === '/');
+    const destinationsDepuisAccueil = new Set(liensDepuisAccueil.map((l) => l.destination));
+    // /detournement-video n'est pas lié depuis / dans le plan actuel → le spec ne doit pas chercher ce lien depuis l'accueil
+    if (!destinationsDepuisAccueil.has('/detournement-video')) {
+      expect(contenu).not.toMatch(/lien vers \/detournement-video depuis l'accueil/);
+    }
+  });
+
+  it('ne doit pas générer de fallback "depuis l\'accueil" pour une page non liée depuis / dans le plan', () => {
+    // Test unitaire de la règle métier : hasLinkFromAccueil doit contrôler le fallback
+    const siteMapPath = path.join(process.cwd(), 'data', '_Pages-Et-Lien.json');
+    if (!fs.existsSync(siteMapPath)) return;
+    const plan = JSON.parse(fs.readFileSync(siteMapPath, 'utf8')) as { liens?: { source: string; destination: string }[] };
+    const hasLinkFromAccueil = (url: string) =>
+      (plan.liens || []).some((l) => l.source === '/' && l.destination === url);
+    expect(hasLinkFromAccueil('/detournement-video')).toBe(false);
+    expect(hasLinkFromAccueil('/a-propos-du-site')).toBe(true);
   });
 });

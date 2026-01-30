@@ -1,7 +1,6 @@
 'use client';
 
 import React from 'react';
-import Link from 'next/link';
 import {
   Mail,
   Youtube,
@@ -28,7 +27,8 @@ const iconMap: Record<string, LucideIcon> = {
   Network, // Pour "Sitemap" (plan du site)
   'Plan du site': Network, // Alias français pour Network
   Info,
-  BarChart3, // Pour "Metrics"
+  BarChart3, // Icône du bouton Metrics
+  Metrics: BarChart3, // Alias : le JSON peut utiliser "Metrics"
   Calendar, // Pour "Faisons connaissance"
 };
 
@@ -57,23 +57,18 @@ const FooterButton: React.FC<FooterButtonProps> = ({
     return null;
   }
 
-  // Construire les data-e2eid : e2eID en priorité, sinon footer-button-{id}
-  const testIds: Record<string, string> = {
-    'data-e2eid': `footer-button-${id}`,
-  };
-  if (e2eID) {
-    testIds['data-e2eid'] = `e2eid-${e2eID}`;
-  }
+  // Attribut e2eid pour les tests E2E : e2eID du JSON (garanti par Footer) ou fallback footer-button-{id}
+  const e2eidAttr = e2eID ? `e2eid-${e2eID}` : `footer-button-${id}`;
 
   // Déterminer l'action pour savoir si c'est un lien interne ou externe
   const action = getButtonAction(command, url);
   
-  // Props communes pour les liens
+  // Props communes pour les liens ; e2eid en dernier pour qu'il ne soit jamais écrasé
   const linkProps = {
     className: styles.iconButton,
     'aria-label': alt || icone,
     title: tooltip || icone,
-    ...testIds,
+    e2eid: e2eidAttr,
   };
 
   // Contenu commun (icône)
@@ -87,12 +82,12 @@ const FooterButton: React.FC<FooterButtonProps> = ({
     />
   );
 
-  // Navigation interne : utiliser Link de Next.js
+  // Navigation interne : <a> avec e2eid directement sur l'élément (fiable pour E2E, pas de Link Next.js qui peut ne pas transmettre l'attribut ou le clic)
   if (action.type === 'internal') {
     return (
-      <Link href={action.route} {...linkProps}data-e2eid="l33">
+      <a href={action.route} {...linkProps}>
         {iconContent}
-      </Link>
+      </a>
     );
   }
 

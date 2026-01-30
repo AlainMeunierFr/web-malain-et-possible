@@ -65,8 +65,8 @@ export default defineConfig({
     actionTimeout: 10000,
     navigationTimeout: 30000,
     
-    /* Utiliser data-e2eid au lieu de data-testid pour les identifiants E2E */
-    testIdAttribute: 'data-e2eid',
+    /* Utiliser e2eid pour les identifiants E2E (attribut e2eid="...") */
+    testIdAttribute: 'e2eid',
   },
 
   /* Configure projects for major browsers */

@@ -2,22 +2,25 @@
  * Tests unitaires pour siteMapGenerator
  * TDD : RED → GREEN → REFACTOR
  * Approche progressive : du plus simple au plus complexe
+ * Utilise un chemin temporaire pour le plan (option siteMapPath) pour ne pas modifier
+ * data/_Pages-Et-Lien.json réel (évite les conflits avec les tests d'intégration).
  */
 
 import { detecterPages, detecterLiensInternes, mettreAJourPlanJSON, validerEmplacements } from '../../utils/siteMapGenerator';
 import type { PlanPage, PlanLien, PlanSite } from '../../utils/siteMapGenerator';
 import * as fs from 'fs';
 import * as path from 'path';
+import * as os from 'os';
 
-const getSiteMapPath = () => {
-  return path.join(process.cwd(), 'data', '_Pages-Et-Lien.json');
-};
+let testSiteMapPath: string;
 
-// Nettoyer le fichier de test après chaque test
+beforeEach(() => {
+  testSiteMapPath = path.join(fs.mkdtempSync(path.join(os.tmpdir(), 'sitemap-unit-')), '_Pages-Et-Lien.json');
+});
+
 afterEach(() => {
-  const siteMapPath = getSiteMapPath();
-  if (fs.existsSync(siteMapPath)) {
-    fs.unlinkSync(siteMapPath);
+  if (testSiteMapPath && fs.existsSync(path.dirname(testSiteMapPath))) {
+    fs.rmSync(path.dirname(testSiteMapPath), { recursive: true, force: true });
   }
 });
 
@@ -52,9 +55,9 @@ describe('siteMapGenerator - TDD Progressif', () => {
       const pagesFiltrees = homePage ? [homePage] : [];
       const liens = [];
       
-      mettreAJourPlanJSON(pagesFiltrees, liens);
+      mettreAJourPlanJSON(pagesFiltrees, liens, { siteMapPath: testSiteMapPath });
       
-      const siteMapPath = getSiteMapPath();
+      const siteMapPath = testSiteMapPath;
       expect(fs.existsSync(siteMapPath)).toBe(true);
       
       const contenu = fs.readFileSync(siteMapPath, 'utf8');
@@ -95,9 +98,9 @@ describe('siteMapGenerator - TDD Progressif', () => {
       // Filtrer pour n'avoir que 2 pages (simulation d'un site simple)
       const pagesFiltrees = pages.slice(0, 2);
       
-      mettreAJourPlanJSON(pagesFiltrees, []);
+      mettreAJourPlanJSON(pagesFiltrees, [], { siteMapPath: testSiteMapPath });
       
-      const siteMapPath = getSiteMapPath();
+      const siteMapPath = testSiteMapPath;
       const contenu = fs.readFileSync(siteMapPath, 'utf8');
       const plan: PlanSite = JSON.parse(contenu);
       
@@ -144,9 +147,9 @@ describe('siteMapGenerator - TDD Progressif', () => {
         label: 'Test' 
       }];
       
-      mettreAJourPlanJSON(pagesFiltrees, liensFiltres);
+      mettreAJourPlanJSON(pagesFiltrees, liensFiltres, { siteMapPath: testSiteMapPath });
       
-      const siteMapPath = getSiteMapPath();
+      const siteMapPath = testSiteMapPath;
       expect(fs.existsSync(siteMapPath)).toBe(true);
       const contenu = fs.readFileSync(siteMapPath, 'utf8');
       const plan: PlanSite = JSON.parse(contenu);
@@ -164,9 +167,9 @@ describe('siteMapGenerator - TDD Progressif', () => {
       const pagesFiltrees = pages.slice(0, 2);
       const liensFiltres: PlanLien[] = [{ source: pagesFiltrees[0].url, destination: pagesFiltrees[1].url, label: 'Test' }];
       
-      mettreAJourPlanJSON(pagesFiltrees, liensFiltres);
+      mettreAJourPlanJSON(pagesFiltrees, liensFiltres, { siteMapPath: testSiteMapPath });
       
-      const siteMapPath = getSiteMapPath();
+      const siteMapPath = testSiteMapPath;
       const contenu = fs.readFileSync(siteMapPath, 'utf8');
       const plan: PlanSite = JSON.parse(contenu);
       
@@ -191,9 +194,9 @@ describe('siteMapGenerator - TDD Progressif', () => {
         { source: pagesFiltrees[1].url, destination: pagesFiltrees[0].url, label: 'Vers page 1' },
       ];
       
-      mettreAJourPlanJSON(pagesFiltrees, liensBidirectionnels);
+      mettreAJourPlanJSON(pagesFiltrees, liensBidirectionnels, { siteMapPath: testSiteMapPath });
       
-      const siteMapPath = getSiteMapPath();
+      const siteMapPath = testSiteMapPath;
       const contenu = fs.readFileSync(siteMapPath, 'utf8');
       const plan: PlanSite = JSON.parse(contenu);
       
@@ -220,12 +223,12 @@ describe('siteMapGenerator - TDD Progressif', () => {
         liens: [],
       };
       
-      const siteMapPath = getSiteMapPath();
+      const siteMapPath = testSiteMapPath;
       fs.writeFileSync(siteMapPath, JSON.stringify(planInitial, null, 2));
       
       // Mettre à jour avec les mêmes pages
       const pages = [{ url: '/', titre: 'Home' }, { url: '/about', titre: 'About' }];
-      mettreAJourPlanJSON(pages, []);
+      mettreAJourPlanJSON(pages, [], { siteMapPath: testSiteMapPath });
       
       const contenu = fs.readFileSync(siteMapPath, 'utf8');
       const plan: PlanSite = JSON.parse(contenu);
@@ -247,7 +250,7 @@ describe('siteMapGenerator - TDD Progressif', () => {
         liens: [],
       };
       
-      const siteMapPath = getSiteMapPath();
+      const siteMapPath = testSiteMapPath;
       fs.writeFileSync(siteMapPath, JSON.stringify(planInitial, null, 2));
       
       // Ajouter une nouvelle page
@@ -255,7 +258,7 @@ describe('siteMapGenerator - TDD Progressif', () => {
         { url: '/', titre: 'Home' },
         { url: '/nouvelle-page', titre: 'Nouvelle Page' },
       ];
-      mettreAJourPlanJSON(pages, []);
+      mettreAJourPlanJSON(pages, [], { siteMapPath: testSiteMapPath });
       
       const contenu = fs.readFileSync(siteMapPath, 'utf8');
       const plan: PlanSite = JSON.parse(contenu);
@@ -279,12 +282,12 @@ describe('siteMapGenerator - TDD Progressif', () => {
         ],
       };
       
-      const siteMapPath = getSiteMapPath();
+      const siteMapPath = testSiteMapPath;
       fs.writeFileSync(siteMapPath, JSON.stringify(planInitial, null, 2));
       
       // Mettre à jour en supprimant la page obsolète
       const pages = [{ url: '/', titre: 'Home' }];
-      mettreAJourPlanJSON(pages, []);
+      mettreAJourPlanJSON(pages, [], { siteMapPath: testSiteMapPath });
       
       const contenu = fs.readFileSync(siteMapPath, 'utf8');
       const plan: PlanSite = JSON.parse(contenu);
@@ -351,9 +354,9 @@ describe('siteMapGenerator - TDD Progressif', () => {
         { url: '/page3', titre: 'Page 3', x: null, y: null },
       ];
       
-      mettreAJourPlanJSON(pages, []);
+      mettreAJourPlanJSON(pages, [], { siteMapPath: testSiteMapPath });
       
-      const siteMapPath = getSiteMapPath();
+      const siteMapPath = testSiteMapPath;
       const contenu = fs.readFileSync(siteMapPath, 'utf8');
       const plan: PlanSite = JSON.parse(contenu);
       
@@ -370,9 +373,9 @@ describe('siteMapGenerator - TDD Progressif', () => {
         { url: '/page4', titre: 'Page 4', x: null, y: null },
       ];
       
-      mettreAJourPlanJSON(pages, []);
+      mettreAJourPlanJSON(pages, [], { siteMapPath: testSiteMapPath });
       
-      const siteMapPath = getSiteMapPath();
+      const siteMapPath = testSiteMapPath;
       const contenu = fs.readFileSync(siteMapPath, 'utf8');
       const plan: PlanSite = JSON.parse(contenu);
       
@@ -396,9 +399,9 @@ describe('siteMapGenerator - TDD Progressif', () => {
         { source: '/page2', destination: '/page3', label: 'Vers page3' },
       ];
       
-      mettreAJourPlanJSON(pages, liens);
+      mettreAJourPlanJSON(pages, liens, { siteMapPath: testSiteMapPath });
       
-      const siteMapPath = getSiteMapPath();
+      const siteMapPath = testSiteMapPath;
       const contenu = fs.readFileSync(siteMapPath, 'utf8');
       const plan: PlanSite = JSON.parse(contenu);
       
@@ -426,9 +429,9 @@ describe('siteMapGenerator - TDD Progressif', () => {
         { source: '/page1', destination: '/', label: 'Retour home' },
       ];
       
-      mettreAJourPlanJSON(pages, liens);
+      mettreAJourPlanJSON(pages, liens, { siteMapPath: testSiteMapPath });
       
-      const siteMapPath = getSiteMapPath();
+      const siteMapPath = testSiteMapPath;
       const contenu = fs.readFileSync(siteMapPath, 'utf8');
       const plan: PlanSite = JSON.parse(contenu);
       
@@ -459,9 +462,9 @@ describe('siteMapGenerator - TDD Progressif', () => {
         { source: '/page4', destination: '/', label: 'Retour home' },
       ];
       
-      mettreAJourPlanJSON(pages, liens);
+      mettreAJourPlanJSON(pages, liens, { siteMapPath: testSiteMapPath });
       
-      const siteMapPath = getSiteMapPath();
+      const siteMapPath = testSiteMapPath;
       const contenu = fs.readFileSync(siteMapPath, 'utf8');
       const plan: PlanSite = JSON.parse(contenu);
       
@@ -491,7 +494,7 @@ describe('siteMapGenerator - TDD Progressif', () => {
         ],
       };
       
-      const siteMapPath = getSiteMapPath();
+      const siteMapPath = testSiteMapPath;
       fs.writeFileSync(siteMapPath, JSON.stringify(planExistant, null, 2));
       
       // Mock : pages détectées (sans la page obsolète)
@@ -499,7 +502,7 @@ describe('siteMapGenerator - TDD Progressif', () => {
         { url: '/', titre: 'Home', x: null, y: null },
       ];
       
-      mettreAJourPlanJSON(pagesDetectees, []);
+      mettreAJourPlanJSON(pagesDetectees, [], { siteMapPath: testSiteMapPath });
       
       const contenu = fs.readFileSync(siteMapPath, 'utf8');
       const plan: PlanSite = JSON.parse(contenu);
@@ -526,7 +529,7 @@ describe('siteMapGenerator - TDD Progressif', () => {
         ],
       };
       
-      const siteMapPath = getSiteMapPath();
+      const siteMapPath = testSiteMapPath;
       fs.writeFileSync(siteMapPath, JSON.stringify(planExistant, null, 2));
       
       // Mock : pages détectées (sans les pages obsolètes)
@@ -537,7 +540,7 @@ describe('siteMapGenerator - TDD Progressif', () => {
       
       mettreAJourPlanJSON(pagesDetectees, [
         { source: '/', destination: '/page-valide', label: 'Lien valide' },
-      ]);
+      ], { siteMapPath: testSiteMapPath });
       
       const contenu = fs.readFileSync(siteMapPath, 'utf8');
       const plan: PlanSite = JSON.parse(contenu);
@@ -567,7 +570,7 @@ describe('siteMapGenerator - TDD Progressif', () => {
         liens: [],
       };
       
-      const siteMapPath = getSiteMapPath();
+      const siteMapPath = testSiteMapPath;
       fs.writeFileSync(siteMapPath, JSON.stringify(planExistant, null, 2));
       
       // Mock : pages détectées
@@ -576,7 +579,7 @@ describe('siteMapGenerator - TDD Progressif', () => {
         { url: '/page-valide', titre: 'Page Valide', x: null, y: null },
       ];
       
-      mettreAJourPlanJSON(pagesDetectees, []);
+      mettreAJourPlanJSON(pagesDetectees, [], { siteMapPath: testSiteMapPath });
       
       const contenu = fs.readFileSync(siteMapPath, 'utf8');
       const plan: PlanSite = JSON.parse(contenu);
@@ -605,7 +608,7 @@ describe('siteMapGenerator - TDD Progressif', () => {
         ],
       };
       
-      const siteMapPath = getSiteMapPath();
+      const siteMapPath = testSiteMapPath;
       fs.writeFileSync(siteMapPath, JSON.stringify(planExistant, null, 2));
       
       // Mock : pages détectées (mêmes pages, mais lien supprimé)
@@ -615,7 +618,7 @@ describe('siteMapGenerator - TDD Progressif', () => {
       ];
       
       // Pas de liens détectés (le lien a été supprimé du code)
-      mettreAJourPlanJSON(pagesDetectees, []);
+      mettreAJourPlanJSON(pagesDetectees, [], { siteMapPath: testSiteMapPath });
       
       const contenu = fs.readFileSync(siteMapPath, 'utf8');
       const plan: PlanSite = JSON.parse(contenu);
@@ -640,7 +643,7 @@ describe('siteMapGenerator - TDD Progressif', () => {
         ],
       };
       
-      const siteMapPath = getSiteMapPath();
+      const siteMapPath = testSiteMapPath;
       fs.writeFileSync(siteMapPath, JSON.stringify(planExistant, null, 2));
       
       // Mock : pages détectées avec seulement le lien valide
@@ -653,7 +656,7 @@ describe('siteMapGenerator - TDD Progressif', () => {
       // Seulement le lien valide est détecté
       mettreAJourPlanJSON(pagesDetectees, [
         { source: '/', destination: '/page1', label: 'Lien valide' },
-      ]);
+      ], { siteMapPath: testSiteMapPath });
       
       const contenu = fs.readFileSync(siteMapPath, 'utf8');
       const plan: PlanSite = JSON.parse(contenu);
@@ -687,7 +690,7 @@ describe('siteMapGenerator - TDD Progressif', () => {
         ],
       };
       
-      const siteMapPath = getSiteMapPath();
+      const siteMapPath = testSiteMapPath;
       fs.writeFileSync(siteMapPath, JSON.stringify(planExistant, null, 2));
       
       // Mock : nouvelles pages détectées (page obsolète supprimée, nouvelles pages ajoutées)
@@ -708,7 +711,7 @@ describe('siteMapGenerator - TDD Progressif', () => {
         { source: '/page3', destination: '/page4', label: 'Nouveau lien 2' },
       ];
       
-      mettreAJourPlanJSON(pagesDetectees, liensDetectes);
+      mettreAJourPlanJSON(pagesDetectees, liensDetectes, { siteMapPath: testSiteMapPath });
       
       const contenu = fs.readFileSync(siteMapPath, 'utf8');
       const plan: PlanSite = JSON.parse(contenu);

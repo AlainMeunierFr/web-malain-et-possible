@@ -27,6 +27,12 @@ jest.mock('next/image', () => ({
   },
 }));
 
+// Mock utils/environment pour US-Assistant-Scenario (prod vs dev)
+const mockIsProduction = jest.fn();
+jest.mock('../../utils/environment', () => ({
+  isProduction: () => mockIsProduction(),
+}));
+
 // Helper pour wrapper les composants avec EditingProvider et PageTitleProvider
 const renderWithProvider = (ui: React.ReactElement) => {
   return render(
@@ -154,5 +160,22 @@ describe('Header', () => {
     
     // ASSERT - Vérifier la présence du tooltip
     expect(photo).toHaveAttribute('title', 'À propos de moi');
+  });
+
+  // US-Assistant-Scenario : Photo → Maintenance, prod = mot de passe / dev = direct
+  it('en développement, le lien Photo pointe vers /maintenance', () => {
+    mockIsProduction.mockReturnValue(false);
+    renderWithProvider(<Header />);
+    const photoLink = screen.getByAltText('Photo Alain Meunier').closest('a');
+    expect(photoLink).toHaveAttribute('href', '/maintenance');
+  });
+
+  it('en production, un clic sur Photo ouvre la modal mot de passe (pas de navigation directe)', () => {
+    mockIsProduction.mockReturnValue(true);
+    renderWithProvider(<Header />);
+    const photoLink = screen.getByAltText('Photo Alain Meunier').closest('a');
+    expect(photoLink).toBeInTheDocument();
+    fireEvent.click(photoLink!);
+    expect(screen.getByRole('heading', { name: /Accès au module d'édition/i })).toBeInTheDocument();
   });
 });

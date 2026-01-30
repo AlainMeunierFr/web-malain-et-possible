@@ -47,9 +47,8 @@ const GroupeBoutons: React.FC<GroupeBoutonsProps> = ({ element }) => {
         // Déterminer l'action pour savoir si c'est un lien interne ou externe
         const action = getButtonAction(bouton.command || '', bouton.url);
 
-        // Props communes pour les liens
+        // Props communes pour les liens (sans key : React exige key sur l'élément, pas dans le spread)
         const linkProps = {
-          key: bouton.id,
           className: 'bouton',
           'aria-label': bouton.texte || bouton.icone,
         };
@@ -68,7 +67,7 @@ const GroupeBoutons: React.FC<GroupeBoutonsProps> = ({ element }) => {
         // Navigation interne : utiliser Link de Next.js
         if (action.type === 'internal') {
           return (
-            <Link href={action.route} {...linkProps}data-e2eid="l34">
+            <Link key={bouton.id} href={action.route} {...linkProps} e2eid={bouton.e2eID ? `e2eid-${bouton.e2eID}` : undefined}>
               {linkContent}
             </Link>
           );
@@ -84,6 +83,7 @@ const GroupeBoutons: React.FC<GroupeBoutonsProps> = ({ element }) => {
 
           return (
             <a
+              key={bouton.id}
               href={action.url}
               target={isProtocolLink ? undefined : '_blank'}
               rel={isProtocolLink ? undefined : 'noopener noreferrer'}
@@ -102,6 +102,7 @@ const GroupeBoutons: React.FC<GroupeBoutonsProps> = ({ element }) => {
 
         return (
           <a
+            key={bouton.id}
             href="#"
             onClick={handleClick}
             {...linkProps}

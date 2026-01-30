@@ -18,7 +18,7 @@ jest.mock('next/navigation', () => ({
 jest.mock('../../components/FooterButton', () => ({
   __esModule: true,
   default: ({ id, onButtonClick }: any) => (
-    <button data-e2eid={`footer-button-${id}`} onClick={() => onButtonClick('cmd-test', null)}>
+    <button e2eid={`footer-button-${id}`} onClick={() => onButtonClick('cmd-test', null)}>
       {id}
     </button>
   ),

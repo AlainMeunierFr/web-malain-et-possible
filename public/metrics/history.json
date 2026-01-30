@@ -4096,67 +4096,166 @@
         "buildTime": 13399,
         "lighthouseScore": "NC"
       }
+    },
+    {
+      "timestamp": "2026-01-30T01:01:30.584Z",
+      "branch": "main",
+      "commit": "ffa546a",
+      "tests": {
+        "unitTests": 541,
+        "unitTestFiles": 65,
+        "unitTestPassed": 536,
+        "unitTestFailed": 5,
+        "unitTestDuration": 9402,
+        "integrationTests": 31,
+        "integrationTestFiles": 5,
+        "integrationTestPassed": 31,
+        "integrationTestFailed": 0,
+        "integrationTestDuration": 5715,
+        "bddFeatures": 18,
+        "bddScenarios": 146,
+        "bddScenariosPassed": 146,
+        "bddScenariosFailed": 0,
+        "bddSteps": 0,
+        "bddTestDuration": 0,
+        "e2eSteps": 10,
+        "e2eScenarioFiles": 1,
+        "e2eScenarios": 3,
+        "e2eStepsPassed": 10,
+        "e2eStepsFailed": 0,
+        "e2eTests": {
+          "total": 3,
+          "passed": 3,
+          "failed": 0,
+          "duration": 46685,
+          "lastRunDate": "2026-01-30T01:01:30.541Z"
+        },
+        "totalTests": 728,
+        "totalTestFiles": 89,
+        "passingTests": 723,
+        "failingTests": 5,
+        "testDuration": 61802
+      },
+      "coverage": {
+        "lines": {
+          "total": 2629,
+          "covered": 2108,
+          "percentage": 80.18
+        },
+        "statements": {
+          "total": 2759,
+          "covered": 2201,
+          "percentage": 79.77
+        },
+        "functions": {
+          "total": 345,
+          "covered": 285,
+          "percentage": 82.6
+        },
+        "branches": {
+          "total": 1773,
+          "covered": 1208,
+          "percentage": 68.13
+        }
+      },
+      "quality": {
+        "eslintErrors": 0,
+        "eslintWarnings": 0,
+        "typeCoverage": "NC",
+        "cyclomaticComplexity": "NC",
+        "maintainabilityIndex": "NC",
+        "technicalDebt": "NC"
+      },
+      "size": {
+        "totalFiles": 66,
+        "totalLines": 9204,
+        "sourceLines": 9204,
+        "commentLines": 0,
+        "blankLines": 0,
+        "components": 31,
+        "pages": 11,
+        "utils": 24,
+        "tests": 70
+      },
+      "dependencies": {
+        "total": 35,
+        "production": 6,
+        "development": 29,
+        "outdated": 0,
+        "vulnerabilities": {
+          "low": 0,
+          "moderate": 0,
+          "high": 0,
+          "critical": 0,
+          "total": 0
+        }
+      },
+      "performance": {
+        "bundleSize": 577903,
+        "buildTime": 2402,
+        "lighthouseScore": "NC"
+      }
     }
   ],
   "latest": {
-    "timestamp": "2026-01-28T19:51:34.268Z",
+    "timestamp": "2026-01-30T01:01:30.584Z",
     "branch": "main",
-    "commit": "2761a3e",
+    "commit": "ffa546a",
     "tests": {
-      "unitTests": 460,
-      "unitTestFiles": 56,
-      "unitTestPassed": 460,
-      "unitTestFailed": 0,
-      "unitTestDuration": 7421,
-      "integrationTests": 30,
+      "unitTests": 541,
+      "unitTestFiles": 65,
+      "unitTestPassed": 536,
+      "unitTestFailed": 5,
+      "unitTestDuration": 9402,
+      "integrationTests": 31,
       "integrationTestFiles": 5,
-      "integrationTestPassed": 30,
+      "integrationTestPassed": 31,
       "integrationTestFailed": 0,
-      "integrationTestDuration": 10654,
-      "bddFeatures": 15,
-      "bddScenarios": 111,
-      "bddScenariosPassed": 111,
+      "integrationTestDuration": 5715,
+      "bddFeatures": 18,
+      "bddScenarios": 146,
+      "bddScenariosPassed": 146,
       "bddScenariosFailed": 0,
       "bddSteps": 0,
       "bddTestDuration": 0,
-      "e2eSteps": 25,
+      "e2eSteps": 10,
       "e2eScenarioFiles": 1,
       "e2eScenarios": 3,
-      "e2eStepsPassed": 22,
-      "e2eStepsFailed": 3,
+      "e2eStepsPassed": 10,
+      "e2eStepsFailed": 0,
       "e2eTests": {
         "total": 3,
-        "passed": 0,
-        "failed": 3,
-        "duration": 11063,
-        "lastRunDate": "2026-01-28T19:51:34.229Z"
+        "passed": 3,
+        "failed": 0,
+        "duration": 46685,
+        "lastRunDate": "2026-01-30T01:01:30.541Z"
       },
-      "totalTests": 626,
-      "totalTestFiles": 77,
-      "passingTests": 623,
-      "failingTests": 3,
-      "testDuration": 29138
+      "totalTests": 728,
+      "totalTestFiles": 89,
+      "passingTests": 723,
+      "failingTests": 5,
+      "testDuration": 61802
     },
     "coverage": {
       "lines": {
-        "total": 2243,
-        "covered": 1716,
-        "percentage": 76.5
+        "total": 2629,
+        "covered": 2108,
+        "percentage": 80.18
       },
       "statements": {
-        "total": 2333,
-        "covered": 1781,
-        "percentage": 76.33
+        "total": 2759,
+        "covered": 2201,
+        "percentage": 79.77
       },
       "functions": {
-        "total": 273,
-        "covered": 213,
-        "percentage": 78.02
+        "total": 345,
+        "covered": 285,
+        "percentage": 82.6
       },
       "branches": {
-        "total": 1506,
-        "covered": 982,
-        "percentage": 65.2
+        "total": 1773,
+        "covered": 1208,
+        "percentage": 68.13
       }
     },
     "quality": {
@@ -4168,15 +4267,15 @@
       "technicalDebt": "NC"
     },
     "size": {
-      "totalFiles": 60,
-      "totalLines": 8188,
-      "sourceLines": 8188,
+      "totalFiles": 66,
+      "totalLines": 9204,
+      "sourceLines": 9204,
       "commentLines": 0,
       "blankLines": 0,
-      "components": 29,
-      "pages": 10,
-      "utils": 21,
-      "tests": 61
+      "components": 31,
+      "pages": 11,
+      "utils": 24,
+      "tests": 70
     },
     "dependencies": {
       "total": 35,
@@ -4192,14 +4291,14 @@
       }
     },
     "performance": {
-      "bundleSize": 643301,
-      "buildTime": 13399,
+      "bundleSize": 577903,
+      "buildTime": 2402,
       "lighthouseScore": "NC"
     }
   },
   "trends": {
-    "tests": "stable",
-    "coverage": "stable",
+    "tests": "up",
+    "coverage": "up",
     "quality": "stable"
   }
 }

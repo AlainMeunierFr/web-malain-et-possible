@@ -4,13 +4,13 @@ import FooterButton from '../../components/FooterButton';
 
 // Mock lucide-react
 jest.mock('lucide-react', () => ({
-  Mail: ({ 'aria-label': ariaLabel, 'data-e2eid': testId }: any) => (
-    <svg aria-label={ariaLabel} data-e2eid={testId}>
+  Mail: ({ 'aria-label': ariaLabel, 'e2eid': testId }: any) => (
+    <svg aria-label={ariaLabel} e2eid={testId}>
       <title>Mail Icon</title>
     </svg>
   ),
-  Calendar: ({ 'aria-label': ariaLabel, 'data-e2eid': testId }: any) => (
-    <svg aria-label={ariaLabel} data-e2eid={testId}>
+  Calendar: ({ 'aria-label': ariaLabel, 'e2eid': testId }: any) => (
+    <svg aria-label={ariaLabel} e2eid={testId}>
       <title>Calendar Icon</title>
     </svg>
   ),
@@ -89,7 +89,7 @@ describe('FooterButton', () => {
 
     render(<FooterButton {...calendarProps} onButtonClick={mockOnButtonClick} />);
 
-    // Le e2eID est utilisé pour data-e2eid, mais le testId par défaut est footer-button-{id}
+    // Le e2eID est utilisé pour e2eid, mais le testId par défaut est footer-button-{id}
     // Vérifier que le bouton existe avec l'aria-label
     const button = screen.getByLabelText('Faisons connaissance');
     expect(button).toBeInTheDocument();

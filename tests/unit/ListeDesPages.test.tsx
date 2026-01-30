@@ -476,10 +476,10 @@ describe('ListeDesPages', () => {
 
       await waitFor(() => {
         const homeLink = screen.getByText('Home').closest('a');
-        expect(homeLink).toHaveAttribute('data-e2eid', 'e2eid-l1');
+        expect(homeLink).toHaveAttribute('e2eid', 'e2eid-l1');
         
         const cpoLink = screen.getByText('CPO').closest('a');
-        expect(cpoLink).toHaveAttribute('data-e2eid', 'e2eid-l2');
+        expect(cpoLink).toHaveAttribute('e2eid', 'e2eid-l2');
       });
     });
   });

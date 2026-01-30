@@ -77,6 +77,7 @@ Toujours fournir :
 - Cycle RED → GREEN → REFACTOR respecté
 - Scénarios BDD validés respectés
 - Cohérence avec les BDD existants
+- **Nouvelle page / nouveau lien** : si l’US a introduit une **nouvelle page** (route) ou un **nouveau lien cliquable** → plan du site à jour (`scripts/update-site-map.ts` ou build exécuté), e2eID sur chaque élément cliquable (composants et/ou JSON), scénario E2E régénéré (`npm run test:e2e:generate` ou TI `generate-e2e-plan.integration.test.ts`)
 
 #### Actions
 - ✅ **Corriger** écarts mineurs (typographie, structure)
@@ -123,6 +124,9 @@ Pour toute demande fonctionnelle/métier :
 - **GREEN** : Code minimal pour faire passer le test
 - **REFACTOR** : Améliorer en gardant tests verts
 - Couverture **100%** obligatoire (statements, branches, functions, lines)
+
+### Nommage (types de contenu)
+Quand on crée un **nouveau type**, en particulier un **type de contenu** : **un seul nom**, identique sur **toutes les couches** — propriété dans les JSON, type/propriété en TypeScript, classe dans les feuilles CSS. Pas de variante (ex. `hero` en JSON et `homeHero` en CSS).
 
 ### Clean Code
 - Principes SOLID

@@ -9,7 +9,7 @@ import Prompt from '../../components/Prompt';
 // Mock SimpleMarkdownRenderer
 jest.mock('../../components/SimpleMarkdownRenderer', () => ({
   __esModule: true,
-  default: ({ content }: { content: string }) => <div data-e2eid="markdown-content">{content}</div>,
+  default: ({ content }: { content: string }) => <div e2eid="markdown-content">{content}</div>,
 }));
 
 describe('Prompt', () => {

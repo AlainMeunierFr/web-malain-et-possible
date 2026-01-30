@@ -253,7 +253,7 @@ Mettre en place une page Metrics pour suivre automatiquement la qualité du code
   - ✅ Un bouton "Metrics" est ajouté dans le footer du site (fichier `data/footerButtons.json`)
   - ✅ Le bouton est visible uniquement en environnement de développement (`process.env.NODE_ENV === 'development'`) - filtré dans `Footer.tsx`
   - ✅ Le bouton redirige vers `/metrics` via la commande `cmd-Metrics` gérée dans `FooterButton.tsx`
-  - ✅ Icône : BarChart3 de lucide-react
+  - ✅ Icône : Metrics de lucide-react
   - ✅ Tooltip : "Consulter les métriques de qualité du code"
 
 - **Conditions d'affichage** :

@@ -11,32 +11,32 @@ import { PageTitleProvider } from '../../contexts/PageTitleContext';
 // Mock all child components
 jest.mock('../../components/Titre', () => ({
   __esModule: true,
-  default: ({ element }: any) => <div data-e2eid="titre">{element.texte}</div>,
+  default: ({ element }: any) => <div e2eid="titre">{element.texte}</div>,
 }));
 
 jest.mock('../../components/Video', () => ({
   __esModule: true,
-  default: () => <div data-e2eid="video">Video</div>,
+  default: () => <div e2eid="video">Video</div>,
 }));
 
 jest.mock('../../components/TexteLarge', () => ({
   __esModule: true,
-  default: ({ element }: any) => <div data-e2eid="texte-large">{element.texte}</div>,
+  default: ({ element }: any) => <div e2eid="texte-large">{element.texte}</div>,
 }));
 
 jest.mock('../../components/DomaineDeCompetences', () => ({
   __esModule: true,
-  default: ({ domaine }: any) => <div data-e2eid="domaine">{domaine.titre}</div>,
+  default: ({ domaine }: any) => <div e2eid="domaine">{domaine.titre}</div>,
 }));
 
 jest.mock('../../components/CallToAction', () => ({
   __esModule: true,
-  default: () => <div data-e2eid="cta">CTA</div>,
+  default: () => <div e2eid="cta">CTA</div>,
 }));
 
 jest.mock('../../components/GroupeBoutons', () => ({
   __esModule: true,
-  default: () => <div data-e2eid="groupe-boutons">Boutons</div>,
+  default: () => <div e2eid="groupe-boutons">Boutons</div>,
 }));
 
 jest.mock('next/dynamic', () => ({
@@ -55,17 +55,26 @@ jest.mock('next/dynamic', () => ({
 
 jest.mock('../../components/Temoignages', () => ({
   __esModule: true,
-  default: () => <div data-e2eid="temoignages">Témoignages</div>,
+  default: () => <div e2eid="temoignages">Témoignages</div>,
 }));
 
 jest.mock('../../components/VideoDetournement', () => ({
   __esModule: true,
-  default: () => <div data-e2eid="video-detournement">Détournements</div>,
+  default: () => <div e2eid="video-detournement">Détournements</div>,
 }));
 
 jest.mock('../../components/HeroSection', () => ({
   __esModule: true,
-  default: ({ element }: any) => <div data-e2eid="hero">{element.titre}</div>,
+  default: ({ element }: any) => <div e2eid="hero">{element.titre}</div>,
+}));
+
+jest.mock('../../components/BlocsProfils', () => ({
+  __esModule: true,
+  default: ({ element }: any) => (
+    <div e2eid="blocs-profils">
+      {element.profils?.length ?? 0} profils
+    </div>
+  ),
 }));
 
 describe('PageContentRenderer', () => {
@@ -178,5 +187,28 @@ describe('PageContentRenderer', () => {
     
     expect(screen.getByTestId('hero')).toBeInTheDocument();
     expect(screen.getByText('Alain Meunier')).toBeInTheDocument();
+  });
+
+  it('devrait afficher un élément de type profils (page Mes Profils)', () => {
+    const contenu: ElementContenu[] = [
+      {
+        type: 'profils',
+        profils: [
+          {
+            type: 'profil',
+            titre: 'Produit logiciel',
+            jobTitles: ['CPO'],
+            slug: 'cpo',
+            route: '/profil/cpo',
+            cvPath: '/CV/cpo.pdf',
+          },
+        ],
+      },
+    ];
+
+    renderWithProvider(<PageContentRenderer contenu={contenu} />);
+
+    expect(screen.getByTestId('blocs-profils')).toBeInTheDocument();
+    expect(screen.getByText('1 profils')).toBeInTheDocument();
   });
 });

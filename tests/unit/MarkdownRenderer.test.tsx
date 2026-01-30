@@ -35,7 +35,7 @@ jest.mock('../../utils/journalMarkdownParser', () => ({
 jest.mock('../../components/AboutSiteContentRenderer', () => ({
   __esModule: true,
   default: ({ elements }: any) => (
-    <div data-e2eid="about-site-renderer">
+    <div e2eid="about-site-renderer">
       {elements.map((el: any, i: number) => (
         <div key={i}>{el.content}</div>
       ))}

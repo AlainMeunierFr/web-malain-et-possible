@@ -42,14 +42,6 @@
       "type": "callToAction",
       "action": "On discute ?",
       "e2eID": "a28"
-    },
-    {
-      "type": "titre",
-      "texte": "Témoignages"
-    },
-    {
-      "type": "temoignages",
-      "source": "_temoignages.json"
     }
   ]
 }

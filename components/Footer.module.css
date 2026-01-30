@@ -21,6 +21,8 @@
   font-weight: 400;
   margin-left: 60px;
   opacity: 0.8;
+  /* Réserver la place dès le premier rendu pour éviter le décalage des boutons (space-between) */
+  min-width: 4em;
 }
 
 .buttonsContainer {

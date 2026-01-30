@@ -1,4 +1,3 @@
-import styles from '../shared.module.css';
 import { readPageData } from '../../utils/indexReader';
 import PageContentRenderer from '../../components/PageContentRenderer';
 
@@ -11,7 +10,7 @@ export default function PlanDuSitePage() {
   const pageData = readPageData('plan-du-site.json');
 
   return (
-    <main className={styles.main}>
+    <main className="main">
       {/* Affichage de tous les éléments de contenu */}
       <PageContentRenderer contenu={pageData.contenu} />
     </main>

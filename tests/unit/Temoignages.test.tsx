@@ -18,7 +18,7 @@ jest.mock('next/image', () => ({
     height: number; 
     className?: string;
   }) => {
-    return React.createElement('img', { src, alt, width, height, className, 'data-e2eid': 'next-image' });
+    return React.createElement('img', { src, alt, width, height, className, 'e2eid': 'next-image' });
   },
 }));
 

@@ -6,21 +6,33 @@ import { useEditing } from '../../contexts/EditingContext';
 import CallToAction from '../../components/CallToAction';
 import type { ElementCallToAction } from '../../utils/indexReader';
 import { Egg } from 'lucide-react';
+import { isDevelopment } from '../../utils/environment';
+import AssistantScenario from '../../components/AssistantScenario';
 import styles from './maintenance.module.css';
 
 export default function MaintenancePage() {
   const router = useRouter();
   const { isAuthenticated } = useEditing();
 
-  // Rediriger si non authentifié
+  // US-Assistant-Scenario : en prod, rediriger si non authentifié ; en dev, afficher l'assistant sans mot de passe
   useEffect(() => {
-    if (!isAuthenticated) {
+    if (!isDevelopment() && !isAuthenticated) {
       router.push('/');
     }
   }, [isAuthenticated, router]);
 
-  if (!isAuthenticated) {
+  // En production sans authentification : ne rien afficher (redirection en cours)
+  if (!isDevelopment() && !isAuthenticated) {
     return null;
+  }
+
+  // En développement : afficher l'assistant de construction de scénario
+  if (isDevelopment()) {
+    return (
+      <div className={styles.maintenancePage}>
+        <AssistantScenario />
+      </div>
+    );
   }
 
   // Mock d'ElementCallToAction pour le bouton "Faisons connaissance..."

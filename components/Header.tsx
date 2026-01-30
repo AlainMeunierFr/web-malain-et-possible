@@ -8,6 +8,8 @@ import PasswordModal from './PasswordModal';
 import styles from './Header.module.css';
 import { ROUTES } from '../constants/routes';
 import { HEADER_IMAGES } from '../constants/headerImages';
+import { E2E_IDS } from '../constants/e2eIds';
+import { isProduction } from '../utils/environment';
 
 const Header: React.FC = () => {
   const { setIsAuthenticated } = useEditing();
@@ -15,19 +17,18 @@ const Header: React.FC = () => {
   const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
 
   const handlePhotoClick = (e: React.MouseEvent) => {
-    // Si Shift est maintenu, ouvrir la modal de mot de passe
-    if (e.shiftKey) {
+    // US-Assistant-Scenario : en production, clic sur Photo → mot de passe ; en dev → Maintenance (assistant)
+    if (isProduction()) {
       e.preventDefault();
       setIsPasswordModalOpen(true);
     }
-    // Sinon, le lien normal vers /a-propos-du-site fonctionnera
   };
 
   return (
     <>
       <header className={styles.header}>
         <div className={styles.logoContainer}>
-          <Link href={ROUTES.HOME} className={styles.logoLink}data-e2eid="l35">
+          <Link href={ROUTES.HOME} className={styles.logoLink} e2eid="e2eid-h1">
             <img
               src={HEADER_IMAGES.logo.src}
               alt={HEADER_IMAGES.logo.alt}
@@ -45,9 +46,10 @@ const Header: React.FC = () => {
         )}
         <div className={styles.photoContainer}>
           <Link 
-            href={ROUTES.ABOUT} 
+            href={ROUTES.MAINTENANCE} 
             className={styles.photoLink}
             onClick={handlePhotoClick}
+            e2eid={`e2eid-${E2E_IDS.header.photo}`}
           >
             <img
               src={HEADER_IMAGES.photo.src}

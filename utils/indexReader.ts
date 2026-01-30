@@ -40,7 +40,7 @@ export interface DomaineDeCompetences {
 /**
  * Types d'éléments de contenu de page
  */
-export type TypeElementContenu = 'titre' | 'titreDePage' | 'video' | 'texteLarge' | 'domaineDeCompetence' | 'callToAction' | 'groupeBoutons' | 'listeDesPages' | 'videoDetournement' | 'temoignages' | 'hero' | 'profil';
+export type TypeElementContenu = 'titre' | 'titreDePage' | 'video' | 'texteLarge' | 'domaineDeCompetence' | 'callToAction' | 'groupeBoutons' | 'listeDesPages' | 'videoDetournement' | 'temoignages' | 'hero' | 'profil' | 'profils';
 
 /**
  * Interface pour un élément de type "Titre"
@@ -105,6 +105,7 @@ export interface BoutonGroupe {
   texte: string | null; // Texte optionnel (null pour taille "petite")
   url: string | null;
   command: string | null; // Commande optionnelle pour navigation interne
+  e2eID?: string | null; // e2eID optionnel depuis le JSON (ex: "b4", "b5")
 }
 
 /**
@@ -177,6 +178,14 @@ export interface ElementHero {
 }
 
 /**
+ * Interface pour un bloc "Profils" (page Mes Profils US-7.12)
+ */
+export interface ElementProfils {
+  type: 'profils';
+  profils: Profil[];
+}
+
+/**
  * Union type pour tous les éléments de contenu
  */
 export type ElementContenu = 
@@ -191,6 +200,7 @@ export type ElementContenu =
   | ElementVideoDetournement
   | ElementTemoignages
   | ElementHero
+  | ElementProfils
   | Profil;
 
 /**
@@ -359,4 +369,13 @@ export const readDomaineData = (filename: string): IndexData => {
   const data: IndexData = JSON.parse(fileContent);
 
   return data;
+};
+
+/**
+ * Retourne les données de la page Mes Profils (US-7.12).
+ * Source unique : data/mes-profils.json (profils + CTA Discutons + texteLarge).
+ * Les profils et texteLarge ont été retirés de index.json (home allégée).
+ */
+export const buildMesProfilsPageData = (): PageData => {
+  return readPageData('mes-profils.json');
 };

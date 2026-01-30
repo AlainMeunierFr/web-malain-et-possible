@@ -6,7 +6,7 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import HeroSection from '../../components/HeroSection';
-import type { ElementHero } from '../../utils/indexReader';
+import type { ElementHero, ElementVideo } from '../../utils/indexReader';
 
 // Mock next/link
 jest.mock('next/link', () => {
@@ -19,6 +19,13 @@ jest.mock('next/link', () => {
 jest.mock('../../components/ProfilContainer', () => {
   return function ProfilContainer({ profil }: { profil: any }) {
     return <div data-testid={`profil-${profil.slug}`}>{profil.titre}</div>;
+  };
+});
+
+// Mock Video (e2eid = testIdAttribute du projet)
+jest.mock('../../components/Video', () => {
+  return function Video({ element }: { element: ElementVideo }) {
+    return <div e2eid="hero-video" data-url={element.urlYouTube}>Video</div>;
   };
 });
 
@@ -97,6 +104,26 @@ describe('Composant HeroSection', () => {
     expect(bouton.closest('a')).toHaveAttribute('href', '/faisons-connaissance');
   });
 
+  it('devrait afficher un lien "Télécharger mon CV" vers la page Mes Profils (US-7.11)', () => {
+    const hero: ElementHero = {
+      type: 'hero',
+      titre: 'Alain Meunier',
+      sousTitre: 'Sous-titre',
+      description: 'Description',
+      boutonPrincipal: {
+        texte: 'Discutons',
+        action: '/faisons-connaissance',
+      },
+      profils: [],
+    };
+
+    render(<HeroSection element={hero} />);
+
+    const linkCV = screen.getByText('Télécharger mon CV');
+    expect(linkCV).toBeInTheDocument();
+    expect(linkCV.closest('a')).toHaveAttribute('href', '/mes-profils');
+  });
+
   it('devrait afficher tous les profils depuis le JSON', () => {
     const hero: ElementHero = {
       type: 'hero',
@@ -131,6 +158,57 @@ describe('Composant HeroSection', () => {
 
     expect(screen.getByText('Produit logiciel')).toBeInTheDocument();
     expect(screen.getByText('Opérations')).toBeInTheDocument();
+  });
+
+  it('n\'affiche pas les profils quand showProfils est false (US-7.11 home)', () => {
+    const hero: ElementHero = {
+      type: 'hero',
+      titre: 'Alain Meunier',
+      sousTitre: 'Sous-titre',
+      description: 'Description',
+      boutonPrincipal: {
+        texte: 'Discutons',
+        action: '/faisons-connaissance',
+      },
+      profils: [
+        {
+          type: 'profil',
+          titre: 'Produit logiciel',
+          jobTitles: [],
+          slug: 'cpo',
+          route: '/profil/cpo',
+          cvPath: '/data/CV/cpo.pdf',
+        },
+      ],
+    };
+
+    render(<HeroSection element={hero} showProfils={false} />);
+
+    expect(screen.queryByText('Produit logiciel')).not.toBeInTheDocument();
+    expect(screen.getByText('Alain Meunier')).toBeInTheDocument();
+  });
+
+  it('affiche la vidéo dans la zone droite quand video est fourni (US-7.11)', () => {
+    const hero: ElementHero = {
+      type: 'hero',
+      titre: 'Alain Meunier',
+      sousTitre: 'Disponible pour…',
+      description: 'Résumé',
+      boutonPrincipal: { texte: 'Discutons', action: '/faisons-connaissance' },
+      profils: [],
+    };
+    const video: ElementVideo = {
+      type: 'video',
+      urlYouTube: 'https://youtu.be/wcvG-WfKckU',
+      lancementAuto: false,
+    };
+
+    render(<HeroSection element={hero} video={video} />);
+
+    expect(screen.getByTestId('hero-video')).toBeInTheDocument();
+    expect(screen.getByTestId('hero-video')).toHaveAttribute('data-url', video.urlYouTube);
+    expect(document.querySelector('.heroDroite')).toBeInTheDocument();
+    expect(document.querySelector('.heroGauche')).toBeInTheDocument();
   });
 
   it('devrait parser le markdown **gras** dans le titre', () => {

@@ -15,6 +15,8 @@ export interface E2eIdInventoryItem {
   line?: number; // Pour React
   type: string;
   description?: string;
+  /** URL de destination si l'élément est un lien interne (route, action, href) */
+  destination?: string;
 }
 
 /**
@@ -65,6 +67,10 @@ function extractE2eIdsFromJson(): E2eIdInventoryItem[] {
           else if (obj.type === 'bouton') type = 'bouton';
           else if (obj.type === 'competence' && obj.bouton) type = 'competenceBouton';
 
+          const estLienInterne = (url: string | null | undefined): boolean =>
+            typeof url === 'string' && url.startsWith('/') && !url.startsWith('//') && !/^https?:\/\//.test(url);
+          const dest = estLienInterne(obj.route) ? obj.route : estLienInterne(obj.action) ? obj.action : undefined;
+
           inventory.push({
             e2eID: obj.e2eID,
             source: 'json',
@@ -72,6 +78,7 @@ function extractE2eIdsFromJson(): E2eIdInventoryItem[] {
             path: currentPath,
             type,
             description: obj.texte || obj.action || obj.url || undefined,
+            destination: dest,
           });
         }
 
@@ -140,16 +147,16 @@ function extractE2eIdsFromReact(): E2eIdInventoryItem[] {
       const content = fs.readFileSync(filePath, 'utf8');
       const lines = content.split('\n');
 
-      // Rechercher data-e2eid="..." ou data-e2eid={...}
+      // Rechercher e2eid="..." ou e2eid={...}
       for (let i = 0; i < lines.length; i++) {
         const line = lines[i];
         const lineNumber = i + 1;
 
-        // Pattern: data-e2eid="v10" ou data-e2eid={E2E_IDS.header.logo}
-        const stringMatch = line.match(/data-e2eid=["']([^"']+)["']/i);
+        // Pattern: e2eid="v10" ou e2eid={E2E_IDS.header.logo}
+        const stringMatch = line.match(/e2eid=["']([^"']+)["']/i);
         if (stringMatch) {
           const e2eId = stringMatch[1];
-          // Exclure les e2eID "null" (non testés, modals internes, etc.)
+          // e2eid="null" (chaîne) = exclusion volontaire des tests E2E, ne pas inclure dans l'inventaire
           if (e2eId !== 'null') {
             inventory.push({
               e2eID: e2eId,
@@ -162,8 +169,8 @@ function extractE2eIdsFromReact(): E2eIdInventoryItem[] {
           }
         }
 
-        // Pattern: data-e2eid={E2E_IDS.header.logo}
-        const constantMatch = line.match(/data-e2eid=\{E2E_IDS\.(\w+)\.(\w+)\}/i);
+        // Pattern: e2eid={E2E_IDS.header.logo}
+        const constantMatch = line.match(/e2eid=\{E2E_IDS\.(\w+)\.(\w+)\}/i);
         if (constantMatch) {
           const [, section, key] = constantMatch;
           const e2eId = (E2E_IDS as any)[section]?.[key];
@@ -238,10 +245,10 @@ export function extractE2eIdsFromTestFile(testFilePath: string): string[] {
 
   // Rechercher les patterns suivants :
   // - page.getByTestId('e2eid-v10')
-  // - page.locator('[data-e2eid="v10"]')
+  // - page.locator('[e2eid="v10"]')
   // - getByTestId('e2eid-v10')
-  // - data-e2eid="v10"
-  // - data-e2eid={E2E_IDS.header.logo}
+  // - e2eid="v10"
+  // - e2eid={E2E_IDS.header.logo}
 
   // Pattern 1: getByTestId('e2eid-...')
   const testIdPattern = /getByTestId\(['"]e2eid-([^'"]+)['"]\)/gi;
@@ -250,14 +257,14 @@ export function extractE2eIdsFromTestFile(testFilePath: string): string[] {
     e2eIds.push(match[1]);
   }
 
-  // Pattern 2: [data-e2eid="..."]
-  const dataAttrPattern = /\[data-e2eid=["']([^"']+)["']\]/gi;
+  // Pattern 2: [e2eid="..."]
+  const dataAttrPattern = /\[e2eid=["']([^"']+)["']\]/gi;
   while ((match = dataAttrPattern.exec(content)) !== null) {
     e2eIds.push(match[1]);
   }
 
-  // Pattern 3: data-e2eid="..." dans le code
-  const inlinePattern = /data-e2eid=["']([^"']+)["']/gi;
+  // Pattern 3: e2eid="..." dans le code
+  const inlinePattern = /e2eid=["']([^"']+)["']/gi;
   while ((match = inlinePattern.exec(content)) !== null) {
     e2eIds.push(match[1]);
   }

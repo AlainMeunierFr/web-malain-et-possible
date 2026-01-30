@@ -42,11 +42,9 @@ const Footer: React.FC = () => {
 
   return (
     <footer className={styles.footer}>
-      {version && (
-        <div className={styles.version}>
-          v{version}
-        </div>
-      )}
+      <div className={styles.version}>
+        {version ? `v${version}` : '\u00A0'}
+      </div>
       <div className={styles.buttonsContainer}>
         {footerButtons.boutons.map((button) => {
           // Vérifier que chaque bouton a les propriétés requises
@@ -59,6 +57,7 @@ const Footer: React.FC = () => {
               key={button.id}
               {...button}
               url={button.url ?? null}
+              e2eID={button.e2eID ?? (button as { e2eid?: string }).e2eid}
             />
           );
         })}

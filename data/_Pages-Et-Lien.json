@@ -14,74 +14,18 @@
       "zone": "HomePage"
     },
     {
-      "url": "/a-propos-du-site",
-      "titre": "a-propos-du-site",
+      "url": "/mes-profils",
+      "titre": "Mes Profils",
       "x": 200,
       "y": 200,
       "dessiner": "Oui",
-      "zone": "Footer"
-    },
-    {
-      "url": "/detournement-video",
-      "titre": "Détournement de scènes cultes du cinéma",
-      "x": null,
-      "y": null,
-      "dessiner": "Oui",
-      "zone": "Autres"
-    },
-    {
-      "url": "/faisons-connaissance",
-      "titre": "Faisons connaissance",
-      "x": null,
-      "y": null,
-      "dessiner": "Oui",
-      "zone": "Footer"
-    },
-    {
-      "url": "/maintenance",
-      "titre": "maintenance",
-      "x": null,
-      "y": null,
-      "dessiner": "Non",
-      "zone": "Masqué"
-    },
-    {
-      "url": "/metrics",
-      "titre": "metrics",
-      "x": null,
-      "y": null,
-      "dessiner": "Oui",
-      "zone": "Footer"
-    },
-    {
-      "url": "/plan-du-site",
-      "titre": "Plan du site",
-      "x": null,
-      "y": null,
-      "dessiner": "Non",
-      "zone": "Masqué"
-    },
-    {
-      "url": "/portfolio-detournements",
-      "titre": "Portfolio de detournements vidéos",
-      "x": null,
-      "y": null,
-      "dessiner": "Oui",
-      "zone": "Autres"
-    },
-    {
-      "url": "/pour-aller-plus-loin",
-      "titre": "Pour aller plus loin, je vous propose une expérience...",
-      "x": null,
-      "y": null,
-      "dessiner": "Oui",
-      "zone": "Autres"
+      "zone": "HomePage"
     },
     {
       "url": "/profil/cpo",
       "titre": "Produit logiciel",
-      "x": null,
-      "y": null,
+      "x": 200,
+      "y": 200,
       "dessiner": "Oui",
       "zone": "Profils"
     },
@@ -108,10 +52,151 @@
       "y": null,
       "dessiner": "Oui",
       "zone": "Profils"
+    },
+    {
+      "url": "/detournement-video",
+      "titre": "Détournement de scènes cultes du cinéma",
+      "x": null,
+      "y": null,
+      "dessiner": "Oui",
+      "zone": "Autres"
+    },
+    {
+      "url": "/portfolio-detournements",
+      "titre": "Portfolio de detournements vidéos",
+      "x": null,
+      "y": null,
+      "dessiner": "Oui",
+      "zone": "Autres"
+    },
+    {
+      "url": "/pour-aller-plus-loin",
+      "titre": "Pour aller plus loin, je vous propose une expérience...",
+      "x": null,
+      "y": null,
+      "dessiner": "Oui",
+      "zone": "Autres"
+    },
+    {
+      "url": "/a-propos-du-site",
+      "titre": "a-propos-du-site",
+      "x": 200,
+      "y": 200,
+      "dessiner": "Oui",
+      "zone": "Footer"
+    },
+    {
+      "url": "/faisons-connaissance",
+      "titre": "Faisons connaissance",
+      "x": null,
+      "y": null,
+      "dessiner": "Oui",
+      "zone": "Footer"
+    },
+    {
+      "url": "/metrics",
+      "titre": "metrics",
+      "x": null,
+      "y": null,
+      "dessiner": "Oui",
+      "zone": "Footer"
+    },
+    {
+      "url": "/maintenance",
+      "titre": "maintenance",
+      "x": null,
+      "y": null,
+      "dessiner": "Non",
+      "zone": "Masqué"
+    },
+    {
+      "url": "/plan-du-site",
+      "titre": "Plan du site",
+      "x": null,
+      "y": null,
+      "dessiner": "Non",
+      "zone": "Masqué"
     }
   ],
   "liens": [
     {
+      "source": "/detournement-video",
+      "destination": "/portfolio-detournements",
+      "label": "Voir le portfolio"
+    },
+    {
+      "source": "/mes-profils",
+      "destination": "/profil/cpo",
+      "label": "Produit logiciel"
+    },
+    {
+      "source": "/mes-profils",
+      "destination": "/profil/coo",
+      "label": "Opérations"
+    },
+    {
+      "source": "/mes-profils",
+      "destination": "/profil/agile",
+      "label": "Transformation Agile"
+    },
+    {
+      "source": "/mes-profils",
+      "destination": "/profil/cto",
+      "label": "Technologie"
+    },
+    {
+      "source": "/profil/agile",
+      "destination": "/detournement-video",
+      "label": "En savoir plus...",
+      "e2eID": "c13"
+    },
+    {
+      "source": "/profil/coo",
+      "destination": "/detournement-video",
+      "label": "En savoir plus...",
+      "e2eID": "c13"
+    },
+    {
+      "source": "/profil/cpo",
+      "destination": "/profil/cto",
+      "label": "En savoir plus...",
+      "e2eID": "c15"
+    },
+    {
+      "source": "/profil/cpo",
+      "destination": "/profil/coo",
+      "label": "En savoir plus...",
+      "e2eID": "c12"
+    },
+    {
+      "source": "/profil/cpo",
+      "destination": "/detournement-video",
+      "label": "En savoir plus...",
+      "e2eID": "c13"
+    },
+    {
+      "source": "/profil/cto",
+      "destination": "/profil/cpo",
+      "label": "En savoir plus...",
+      "e2eID": "c14"
+    },
+    {
+      "source": "/profil/cto",
+      "destination": "/a-propos-du-site",
+      "label": "Info"
+    },
+    {
+      "source": "/profil/cto",
+      "destination": "/profil/coo",
+      "label": "En savoir plus...",
+      "e2eID": "c12"
+    },
+    {
+      "source": "/",
+      "destination": "/mes-profils",
+      "label": "Mes Profils"
+    },
+    {
       "source": "/",
       "destination": "/plan-du-site",
       "label": "Plan du site"
@@ -137,12 +222,12 @@
       "label": "Plan du site"
     },
     {
-      "source": "/metrics",
+      "source": "/mes-profils",
       "destination": "/plan-du-site",
       "label": "Plan du site"
     },
     {
-      "source": "/plan-du-site",
+      "source": "/metrics",
       "destination": "/plan-du-site",
       "label": "Plan du site"
     },
@@ -179,67 +264,67 @@
     {
       "source": "/",
       "destination": "/metrics",
-      "label": "BarChart3"
+      "label": "Metrics"
     },
     {
       "source": "/a-propos-du-site",
       "destination": "/metrics",
-      "label": "BarChart3"
+      "label": "Metrics"
     },
     {
       "source": "/detournement-video",
       "destination": "/metrics",
-      "label": "BarChart3"
+      "label": "Metrics"
     },
     {
       "source": "/faisons-connaissance",
       "destination": "/metrics",
-      "label": "BarChart3"
+      "label": "Metrics"
     },
     {
       "source": "/maintenance",
       "destination": "/metrics",
-      "label": "BarChart3"
+      "label": "Metrics"
     },
     {
-      "source": "/metrics",
+      "source": "/mes-profils",
       "destination": "/metrics",
-      "label": "BarChart3"
+      "label": "Metrics"
     },
     {
       "source": "/plan-du-site",
       "destination": "/metrics",
-      "label": "BarChart3"
+      "label": "Metrics"
     },
     {
       "source": "/portfolio-detournements",
       "destination": "/metrics",
-      "label": "BarChart3"
+      "label": "Metrics"
     },
     {
       "source": "/pour-aller-plus-loin",
       "destination": "/metrics",
-      "label": "BarChart3"
+      "label": "Metrics"
     },
     {
       "source": "/profil/cpo",
       "destination": "/metrics",
-      "label": "BarChart3"
+      "label": "Metrics"
     },
     {
       "source": "/profil/coo",
       "destination": "/metrics",
-      "label": "BarChart3"
+      "label": "Metrics"
     },
     {
       "source": "/profil/agile",
       "destination": "/metrics",
-      "label": "BarChart3"
+      "label": "Metrics"
     },
     {
       "source": "/profil/cto",
       "destination": "/metrics",
-      "label": "BarChart3"
+      "label": "Metrics"
     },
     {
       "source": "/",
@@ -247,11 +332,6 @@
       "label": "Info"
     },
     {
-      "source": "/a-propos-du-site",
-      "destination": "/a-propos-du-site",
-      "label": "Info"
-    },
-    {
       "source": "/detournement-video",
       "destination": "/a-propos-du-site",
       "label": "Info"
@@ -263,6 +343,11 @@
     },
     {
       "source": "/maintenance",
+      "destination": "/a-propos-du-site",
+      "label": "Info"
+    },
+    {
+      "source": "/mes-profils",
       "destination": "/a-propos-du-site",
       "label": "Info"
     },
@@ -302,9 +387,87 @@
       "label": "Info"
     },
     {
+      "source": "/a-propos-du-site",
+      "destination": "/",
+      "label": "Logo",
+      "e2eID": "h1"
+    },
+    {
+      "source": "/detournement-video",
+      "destination": "/",
+      "label": "Logo",
+      "e2eID": "h1"
+    },
+    {
+      "source": "/faisons-connaissance",
+      "destination": "/",
+      "label": "Logo",
+      "e2eID": "h1"
+    },
+    {
+      "source": "/maintenance",
+      "destination": "/",
+      "label": "Logo",
+      "e2eID": "h1"
+    },
+    {
+      "source": "/mes-profils",
+      "destination": "/",
+      "label": "Logo",
+      "e2eID": "h1"
+    },
+    {
+      "source": "/metrics",
+      "destination": "/",
+      "label": "Logo",
+      "e2eID": "h1"
+    },
+    {
+      "source": "/plan-du-site",
+      "destination": "/",
+      "label": "Logo",
+      "e2eID": "h1"
+    },
+    {
+      "source": "/portfolio-detournements",
+      "destination": "/",
+      "label": "Logo",
+      "e2eID": "h1"
+    },
+    {
+      "source": "/pour-aller-plus-loin",
+      "destination": "/",
+      "label": "Logo",
+      "e2eID": "h1"
+    },
+    {
+      "source": "/profil/cpo",
+      "destination": "/",
+      "label": "Logo",
+      "e2eID": "h1"
+    },
+    {
+      "source": "/profil/coo",
+      "destination": "/",
+      "label": "Logo",
+      "e2eID": "h1"
+    },
+    {
+      "source": "/profil/agile",
+      "destination": "/",
+      "label": "Logo",
+      "e2eID": "h1"
+    },
+    {
       "source": "/profil/cto",
-      "destination": "/a-propos-du-site",
-      "label": "Info"
+      "destination": "/",
+      "label": "Logo",
+      "e2eID": "h1"
+    },
+    {
+      "source": "/",
+      "destination": "/faisons-connaissance",
+      "label": "Discutons"
     }
   ]
 }

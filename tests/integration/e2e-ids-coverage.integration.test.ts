@@ -96,7 +96,7 @@ describe('Couverture des e2eID dans le scénario E2E', () => {
       errorMessage += `   1. Ouvrir ${e2eTestFile}\n`;
       errorMessage += `   2. Ajouter des tests pour chaque e2eID manquant\n`;
       if (actuallyMissing.length > 0) {
-        errorMessage += `   3. Utiliser: page.getByTestId('e2eid-${actuallyMissing[0].e2eID}') ou page.locator('[data-e2eid="${actuallyMissing[0].e2eID}"]')\n`;
+        errorMessage += `   3. Utiliser: page.getByTestId('e2eid-${actuallyMissing[0].e2eID}') ou page.locator('[e2eid="${actuallyMissing[0].e2eID}"]')\n`;
       }
 
       // Afficher aussi dans la console pour debug

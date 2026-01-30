@@ -1,6 +1,10 @@
 /**
  * Backend pur : Détection des éléments sans e2eID
  * Détecte les éléments interactifs dans les JSON et React qui n'ont pas d'e2eID
+ *
+ * Convention e2eid :
+ * - e2eid="null" (chaîne) = exclusion volontaire des tests E2E (éléments clicables à ne pas intégrer aux tests)
+ * - e2eid={null} ou absent = vraie valeur null, un ID doit être attribué automatiquement par l'utilitaire
  */
 
 import fs from 'fs';
@@ -243,7 +247,7 @@ function detectInJsonFiles(): DetectionItem[] {
 }
 
 /**
- * Détecte les éléments sans data-e2eid dans les composants React
+ * Détecte les éléments sans e2eid dans les composants React
  */
 function detectInReactFiles(): DetectionItem[] {
   const detections: DetectionItem[] = [];
@@ -266,7 +270,7 @@ function detectInReactFiles(): DetectionItem[] {
       const content = fs.readFileSync(filePath, 'utf8');
       const lines = content.split('\n');
 
-      // Détecter les éléments interactifs sans data-e2eid
+      // Détecter les éléments interactifs sans e2eid
       // Rechercher: <button, <Link, <Image avec onClick, role="button" avec onClick
       const patterns = [
         /<button[^>]*>/gi,
@@ -282,12 +286,23 @@ function detectInReactFiles(): DetectionItem[] {
         // Vérifier si la ligne contient un élément interactif
         for (const pattern of patterns) {
           if (pattern.test(line)) {
-            // Vérifier si data-e2eid est présent
-            if (!/data-e2eid/i.test(line)) {
+            // Vérifier si e2eid est présent
+            if (!/e2eid/i.test(line)) {
               // Vérifier aussi dans les lignes suivantes (attribut peut être sur plusieurs lignes)
               let foundE2eId = false;
               for (let j = i; j < Math.min(i + 5, lines.length); j++) {
-                if (/data-e2eid/i.test(lines[j])) {
+                if (/e2eid/i.test(lines[j])) {
+                  // e2eid="null" (chaîne) = exclusion volontaire des tests E2E, ne pas signaler
+                  if (/e2eid=["']null["']/i.test(lines[j])) {
+                    foundE2eId = true;
+                    break;
+                  }
+                  // e2eid={null} = vraie valeur null, l'utilitaire doit attribuer un ID automatiquement
+                  if (/e2eid=\{null\}/i.test(lines[j])) {
+                    foundE2eId = false;
+                    break;
+                  }
+                  // Autre valeur (e2eid="xxx" ou e2eid={E2E_IDS...}) = a déjà un ID
                   foundE2eId = true;
                   break;
                 }

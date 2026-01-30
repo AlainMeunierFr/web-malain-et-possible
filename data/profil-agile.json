@@ -40,10 +40,6 @@
     },
     {
       "type": "domaineDeCompetence",
-      "ref": "l-usage-des-visuels-au-service-des-interactions-pour-soutenir-un-processus-de-travail"
-    },
-    {
-      "type": "domaineDeCompetence",
       "ref": "activites-extra-professionnelles-au-service-de-ma-profession"
     },
     {
@@ -56,14 +52,6 @@
       "type": "callToAction",
       "action": "On discute ?",
       "e2eID": "a26"
-    },
-    {
-      "type": "titre",
-      "texte": "Témoignages"
-    },
-    {
-      "type": "temoignages",
-      "source": "_temoignages.json"
     }
   ]
 }

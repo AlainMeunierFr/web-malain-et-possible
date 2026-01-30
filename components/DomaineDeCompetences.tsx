@@ -369,13 +369,13 @@ const DomaineDeCompetences: React.FC<DomaineDeCompetencesProps> = ({ domaine, ba
                       href={competence.bouton.action}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="bouton"
-                      data-e2eid={null}
+                      className="lienInterne"
+                      e2eid={null}
                     >
                       {competence.bouton.texte}
                     </a>
                   ) : (
-                    <Link href={competence.bouton.action} className="bouton" data-e2eid={null}>
+                    <Link href={competence.bouton.action} className="lienInterne" e2eid={null}>
                       {competence.bouton.texte}
                     </Link>
                   )}

@@ -1,7 +1,7 @@
 /**
  * Tests pour la lecture du JSON avec type "temoignages"
  * Vérifie que readPageData peut lire et parser correctement les éléments de type "temoignages"
- * Les témoignages sont référencés dans les fichiers de profils avec source: "_temoignages.json"
+ * Les témoignages sont dans mes-profils.json (et _temoignages.json pour les items) ; plus dans les fichiers profil-*.json.
  */
 
 import { readPageData } from '../../utils/indexReader';
@@ -11,7 +11,6 @@ import * as path from 'path';
 
 describe('Lecture JSON avec type "temoignages"', () => {
   const temoignagesPath = path.join(process.cwd(), 'data', '_temoignages.json');
-  const profilCpoPath = path.join(process.cwd(), 'data', 'profil-cpo.json');
 
   it('devrait pouvoir lire le fichier _temoignages.json', () => {
     expect(fs.existsSync(temoignagesPath)).toBe(true);
@@ -22,8 +21,8 @@ describe('Lecture JSON avec type "temoignages"', () => {
     expect(Array.isArray(temoignagesData.contenu)).toBe(true);
   });
 
-  it('devrait détecter au moins un élément de type "temoignages" dans profil-cpo.json', () => {
-    const pageData = readPageData('profil-cpo.json');
+  it('devrait détecter au moins un élément de type "temoignages" dans mes-profils.json', () => {
+    const pageData = readPageData('mes-profils.json');
     const temoignagesElements = pageData.contenu.filter(
       (element) => element.type === 'temoignages'
     ) as ElementTemoignages[];
@@ -32,7 +31,7 @@ describe('Lecture JSON avec type "temoignages"', () => {
   });
 
   it('devrait avoir une structure valide pour les éléments "temoignages"', () => {
-    const pageData = readPageData('profil-cpo.json');
+    const pageData = readPageData('mes-profils.json');
     const temoignagesElement = pageData.contenu.find(
       (element) => element.type === 'temoignages'
     ) as ElementTemoignages;

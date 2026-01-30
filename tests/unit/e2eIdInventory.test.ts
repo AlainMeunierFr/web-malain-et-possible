@@ -5,7 +5,7 @@
  * ITÉRATION 1 : Le cas le plus simple - extractE2eIdsFromConstants
  * ITÉRATION 2 : extractE2eIdsFromJson avec un seul e2eID
  * ITÉRATION 3 : extractE2eIdsFromJson avec plusieurs e2eID
- * ITÉRATION 4 : extractE2eIdsFromReact avec data-e2eid string
+ * ITÉRATION 4 : extractE2eIdsFromReact avec e2eid string
  * ITÉRATION 5 : extractE2eIdsFromReact avec constante E2E_IDS
  * ITÉRATION 6 : generateE2eIdInventory combine toutes les sources
  * ITÉRATION 7 : extractE2eIdsFromTestFile avec différents patterns
@@ -118,13 +118,13 @@ describe('e2eIdInventory - Approche TDD (simple → complexe)', () => {
     });
   });
 
-  describe('ITÉRATION 4 : extractE2eIdsFromReact avec data-e2eid string', () => {
-    it('devrait extraire un e2eID depuis un composant React avec data-e2eid string', () => {
-      // ARRANGE : Composant React avec data-e2eid
+  describe('ITÉRATION 4 : extractE2eIdsFromReact avec e2eid string', () => {
+    it('devrait extraire un e2eID depuis un composant React avec e2eid string', () => {
+      // ARRANGE : Composant React avec e2eid
       mockFs.existsSync.mockReturnValue(true);
       mockFs.readdirSync.mockReturnValue(['TestComponent.tsx'] as any);
       mockFs.readFileSync.mockReturnValue(
-        '<button data-e2eid="b10">Click</button>'
+        '<button e2eid="b10">Click</button>'
       );
 
       // ACT
@@ -142,7 +142,7 @@ describe('e2eIdInventory - Approche TDD (simple → complexe)', () => {
       mockFs.existsSync.mockReturnValue(true);
       mockFs.readdirSync.mockReturnValue(['TestComponent.tsx'] as any);
       mockFs.readFileSync.mockReturnValue(
-        '<Image data-e2eid={E2E_IDS.header.logo} />'
+        '<Image e2eid={E2E_IDS.header.logo} />'
       );
 
       // ACT
@@ -174,7 +174,7 @@ describe('e2eIdInventory - Approche TDD (simple → complexe)', () => {
           });
         }
         if (filePath.includes('TestComponent.tsx')) {
-          return '<button data-e2eid="b5">Click</button>';
+          return '<button e2eid="b5">Click</button>';
         }
         return '';
       });
@@ -215,8 +215,8 @@ describe('e2eIdInventory - Approche TDD (simple → complexe)', () => {
     it('devrait extraire les e2eID depuis un fichier de test avec locator', () => {
       // ARRANGE : Fichier de test avec locator
       const testContent = `
-        await page.locator('[data-e2eid="v10"]').click();
-        await page.locator('[data-e2eid="b5"]').click();
+        await page.locator('[e2eid="v10"]').click();
+        await page.locator('[e2eid="b5"]').click();
       `;
 
       mockFs.existsSync.mockReturnValue(true);

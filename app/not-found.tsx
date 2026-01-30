@@ -3,14 +3,13 @@
  * Désactive le prerendering pour éviter les erreurs lors du build
  */
 import Link from 'next/link';
-import styles from './shared.module.css';
 import { ROUTES } from '../constants/routes';
 
 export const dynamic = 'force-dynamic';
 
 export default function NotFound() {
   return (
-    <main className={styles.main}>
+    <main className="main">
       <div className="texteLarge">
         <h1 style={{ 
           fontFamily: 'var(--font-sans)', 
@@ -40,10 +39,10 @@ export default function NotFound() {
         margin: '2rem auto',
         padding: '2rem 1rem'
       }}>
-        <Link href={ROUTES.HOME} className="bouton" data-e2eid="404-accueil" style={{ width: '100%', maxWidth: '400px', textAlign: 'center' }}>
+        <Link href={ROUTES.HOME} className="bouton" e2eid="404-accueil" style={{ width: '100%', maxWidth: '400px', textAlign: 'center' }}>
           Retour à l'accueil
         </Link>
-        <Link href={ROUTES.SITEMAP} className="bouton" data-e2eid="404-plan-du-site" style={{ width: '100%', maxWidth: '400px', textAlign: 'center' }}>
+        <Link href={ROUTES.SITEMAP} className="bouton" e2eid="404-plan-du-site" style={{ width: '100%', maxWidth: '400px', textAlign: 'center' }}>
           Voir le plan du site
         </Link>
       </div>

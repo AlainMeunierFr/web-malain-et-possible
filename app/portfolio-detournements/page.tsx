@@ -1,4 +1,3 @@
-import styles from '../shared.module.css';
 import { readPageData } from '../../utils/indexReader';
 import PageContentRenderer from '../../components/PageContentRenderer';
 
@@ -36,7 +35,7 @@ export default function PortfolioDetournementsPage() {
   ].filter(Boolean) as any;
 
   return (
-    <main className={styles.main}>
+    <main className="main">
       {/* Affichage de tous les éléments de contenu */}
       <PageContentRenderer contenu={contenu} />
     </main>

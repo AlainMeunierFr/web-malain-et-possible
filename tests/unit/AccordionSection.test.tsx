@@ -8,8 +8,8 @@ import AccordionSection from '../../components/AccordionSection';
 
 // Mock lucide-react
 jest.mock('lucide-react', () => ({
-  ChevronDown: () => <div data-e2eid="chevron-down">Down</div>,
-  ChevronUp: () => <div data-e2eid="chevron-up">Up</div>,
+  ChevronDown: () => <div e2eid="chevron-down">Down</div>,
+  ChevronUp: () => <div e2eid="chevron-up">Up</div>,
 }));
 
 describe('AccordionSection', () => {

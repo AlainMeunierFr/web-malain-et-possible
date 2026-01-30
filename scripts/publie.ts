@@ -303,7 +303,9 @@ function main() {
       console.log(`\n📊 Résumé : ${passed}/${total} test(s) passent, ${failed} test(s) échouent\n`);
     }
     
-    process.exit(1);
+    // Délai pour que la sortie s'affiche avant de quitter (notamment quand lancé depuis menu.ps1)
+    process.exitCode = 1;
+    setTimeout(() => process.exit(1), 300);
   }
   
   console.log('✅ Tous les tests passent\n');

@@ -59,7 +59,7 @@ Then('je vois le texte formaté correctement', async ({ page }) => {
 Then('le texte supporte le formatage markdown \\(gras avec **texte**)', async ({ page }) => {
   // Vérifier qu'il y a du texte en gras (formaté depuis markdown)
   const texteGras = page.locator('strong, b').first();
-  await texteGras.waitFor({ timeout: 5000 }).catch(() => {
+  await texteGras.waitFor({ timeout: 5000 }).catch(async () => {
     // Si pas de texte en gras visible, vérifier qu'il y a du texte formaté
     const texte = page.locator('p, div').filter({ hasText: /./ });
     await expect(texte.first()).toBeVisible();
@@ -76,7 +76,7 @@ Then('les citations avec auteur sont affichées avec l\'auteur en italique align
 
 Then('je vois les témoignages affichés avec leur auteur', async ({ page }) => {
   const temoignages = page.locator('[data-testid*="temoignage"], blockquote, .testimonial').first();
-  await temoignages.waitFor({ timeout: 5000 }).catch(() => {
+  await temoignages.waitFor({ timeout: 5000 }).catch(async () => {
     // Si pas de témoignages, vérifier qu'il y a du contenu
     const contenu = page.locator('main, article, section');
     await expect(contenu.first()).toBeVisible();

@@ -47,7 +47,13 @@ export default function ListeDesPages() {
   });
 
   const pagesParZone = {
-    HomePage: pagesAAfficher.filter((p) => (p as any).zone === 'HomePage'),
+    // Zone du haut : HomePage + Home (ex. Home, Mes Profils)
+    HomePage: pagesAAfficher
+      .filter((p) => {
+        const z = (p as any).zone;
+        return z === 'HomePage' || z === 'Home';
+      })
+      .sort((a, b) => ((a as any).ordre ?? 99) - ((b as any).ordre ?? 99)),
     Profils: pagesAAfficher.filter((p) => (p as any).zone === 'Profils'),
     Autres: pagesAAfficher.filter((p) => (p as any).zone === 'Autres'),
     Footer: pagesAAfficher.filter((p) => (p as any).zone === 'Footer'),
@@ -79,7 +85,7 @@ export default function ListeDesPages() {
         key={page.url}
         href={page.url}
         className="bouton"
-        data-e2eid={`e2eid-${e2eId}`}
+        e2eid={`e2eid-${e2eId}`}
       >
         {page.titre}
       </Link>

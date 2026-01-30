@@ -98,7 +98,9 @@ function updateJsonFile(
 }
 
 /**
- * Met à jour un fichier React avec un data-e2eid
+ * Met à jour un fichier React avec un e2eid.
+ * Convention : e2eid="null" (chaîne) = exclusion volontaire, jamais modifié.
+ * e2eid={null} = à remplacer par l'ID généré.
  */
 function updateReactFile(
   filePath: string,
@@ -119,7 +121,7 @@ function updateReactFile(
     throw new Error(`Ligne ${lineNumber} non trouvée dans ${filePath}`);
   }
 
-  // Chercher où insérer data-e2eid
+  // Chercher où insérer e2eid
   // L'élément peut être sur plusieurs lignes
   let insertLineIndex = targetLineIndex;
   let foundOpeningTag = false;
@@ -137,15 +139,23 @@ function updateReactFile(
     throw new Error(`Balise ouvrante non trouvée à la ligne ${lineNumber} dans ${filePath}`);
   }
 
-  // Vérifier si data-e2eid existe déjà
+  // Vérifier si e2eid existe déjà (ou e2eid={null} à remplacer par un ID)
   for (let i = insertLineIndex; i < Math.min(insertLineIndex + 5, lines.length); i++) {
-    if (/data-e2eid/i.test(lines[i])) {
-      // Remplacer l'existant
-      lines[i] = lines[i].replace(
-        /data-e2eid=["'][^"']*["']/i,
-        e2eId !== null ? `data-e2eid="${e2eId}"` : `data-e2eid={null}`
-      );
-      fs.writeFileSync(fullPath, lines.join('\n'), 'utf8');
+    if (/e2eid/i.test(lines[i])) {
+      // Ne jamais remplacer e2eid="null" (exclusion volontaire des tests)
+      if (/e2eid=["']null["']/i.test(lines[i])) {
+        return;
+      }
+      // Remplacer e2eid={null} ou e2eid="..." par le nouvel ID
+      if (e2eId !== null) {
+        const updated = lines[i]
+          .replace(/e2eid=\{null\}/i, `e2eid="${e2eId}"`)
+          .replace(/e2eid=["'][^"']*["']/i, `e2eid="${e2eId}"`);
+        if (updated !== lines[i]) {
+          lines[i] = updated;
+          fs.writeFileSync(fullPath, lines.join('\n'), 'utf8');
+        }
+      }
       return;
     }
     // Si on trouve la fermeture, arrêter
@@ -154,19 +164,19 @@ function updateReactFile(
     }
   }
 
-  // Insérer data-e2eid avant la fermeture de la balise
+  // Insérer e2eid avant la fermeture de la balise
   const targetLine = lines[insertLineIndex];
   if (targetLine.includes('>') || targetLine.includes('/>')) {
     // Balise sur une seule ligne
     if (e2eId !== null) {
       lines[insertLineIndex] = targetLine.replace(
         /(\s*)(\/?>)/,
-        `$1data-e2eid="${e2eId}"$2`
+        `$1e2eid="${e2eId}"$2`
       );
     } else {
       lines[insertLineIndex] = targetLine.replace(
         /(\s*)(\/?>)/,
-        `$1data-e2eid={null}$2`
+        `$1e2eid={null}$2`
       );
     }
   } else {
@@ -175,9 +185,9 @@ function updateReactFile(
       if (lines[i].includes('>') || lines[i].includes('/>')) {
         const indent = lines[i].match(/^(\s*)/)?.[1] || '';
         if (e2eId !== null) {
-          lines.splice(i, 0, `${indent}data-e2eid="${e2eId}"`);
+          lines.splice(i, 0, `${indent}e2eid="${e2eId}"`);
         } else {
-          lines.splice(i, 0, `${indent}data-e2eid={null}`);
+          lines.splice(i, 0, `${indent}e2eid={null}`);
         }
         break;
       }

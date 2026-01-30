@@ -1,11 +1,14 @@
 /**
  * Backend pur : Génération et validation du plan du site
  * Détecte automatiquement les pages et liens internes, met à jour le JSON
+ * Les liens peuvent être dérivés de l'inventaire e2eID (source de vérité) en complément du parsing par type.
  */
 
 import fs from 'fs';
 import path from 'path';
 import { getRouteForCommand } from './buttonHandlers';
+import { generateE2eIdInventory } from './e2eIdInventory';
+import { readPageData } from './indexReader';
 
 /**
  * Interface pour une Page dans le plan du site
@@ -19,6 +22,15 @@ export interface PlanPage {
   dessiner?: 'Oui' | 'Non'; // Indique si la page doit être dessinée sur le plan
   e2eIDs?: string[]; // Liste des e2eID présents sur la page (un e2eID par élément interactif)
   zone?: 'HomePage' | 'Profils' | 'Autres' | 'Footer' | 'Masqué'; // Zone d'affichage dans le plan du site
+  ordre?: number;
+}
+
+/** Ordre d'affichage des zones dans le plan du site (Home, Profils, Autres, Footer, Masqué) */
+const ORDRE_ZONES: (PlanPage['zone'])[] = ['HomePage', 'Profils', 'Autres', 'Footer', 'Masqué'];
+
+function indexZonePourTri(zone: PlanPage['zone']): number {
+  const index = ORDRE_ZONES.indexOf(zone);
+  return index >= 0 ? index : ORDRE_ZONES.length; // sans zone → après Masqué
 }
 
 /**
@@ -30,6 +42,8 @@ export interface PlanLien {
   sourceSide?: 'Haut' | 'Bas' | 'Droite' | 'Gauche'; // Côté du rectangle source où la flèche part
   destinationSide?: 'Haut' | 'Bas' | 'Droite' | 'Gauche'; // Côté du rectangle destination où la flèche arrive
   label?: string;
+  /** e2eID de l'élément cliquable (source unique de vérité pour dériver les liens) */
+  e2eID?: string;
 }
 
 /**
@@ -231,12 +245,87 @@ export const detecterPages = (): PlanPage[] => {
 };
 
 /**
+ * Fichier JSON → URL de la page (source unique pour tout le générateur de plan).
+ * Cohérent avec les routes de l'app : index → /, profil-* → /profil/slug, reste → /nomSansExt.
+ */
+function fichierJsonVersPageSource(fichierJSON: string): string {
+  if (fichierJSON === 'index.json') return '/';
+  const nomSansExt = fichierJSON.replace('.json', '');
+  if (nomSansExt.startsWith('profil-')) return '/profil/' + nomSansExt.slice(7);
+  return '/' + nomSansExt;
+}
+
+/**
+ * Extrait tous les liens internes depuis un contenu de page **résolu** (même structure que l'app après readPageData).
+ * Une seule traversée : domaines avec items[].bouton.action, profils[].route. Pas de logique par type "ref" vs "inline".
+ */
+function extractLinksFromContenu(
+  contenu: { type?: string; items?: Array<{ bouton?: { action?: string; texte?: string; e2eID?: string } }>; profils?: Array<{ route?: string; titre?: string }> }[] | undefined,
+  pageSource: string,
+  estLienInterne: (url: string) => boolean
+): PlanLien[] {
+  const liens: PlanLien[] = [];
+  if (!contenu || !Array.isArray(contenu)) return liens;
+  for (const element of contenu) {
+    if (element.type === 'domaineDeCompetence' && element.items) {
+      for (const item of element.items) {
+        const action = item.bouton?.action;
+        if (action && estLienInterne(action) && action !== '/faisons-connaissance' && action !== pageSource) {
+          liens.push({
+            source: pageSource,
+            destination: action,
+            label: item.bouton?.texte,
+            e2eID: item.bouton?.e2eID,
+          });
+        }
+      }
+    }
+    if (element.type === 'profils' && element.profils) {
+      for (const p of element.profils) {
+        if (p.route && estLienInterne(p.route) && p.route !== pageSource) {
+          liens.push({ source: pageSource, destination: p.route, label: p.titre || p.route });
+        }
+      }
+    }
+  }
+  return liens;
+}
+
+/**
+ * Dérive les liens du plan depuis l'inventaire e2eID (liste de tous les e2eID avec destination).
+ * Chaque élément de l'inventaire qui a une destination interne produit un PlanLien (source = page du fichier, destination, e2eID).
+ * Permet de ne pas dépendre uniquement du parsing par type (domaineDeCompetence, profils, etc.).
+ */
+export function getLiensFromE2eIdInventory(): PlanLien[] {
+  const inventory = generateE2eIdInventory();
+  const liens: PlanLien[] = [];
+  for (const item of inventory) {
+    if (!item.destination || item.source !== 'json') continue;
+    const source = fichierJsonVersPageSource(item.file);
+    liens.push({
+      source,
+      destination: item.destination,
+      label: item.description ?? undefined,
+      e2eID: item.e2eID,
+    });
+  }
+  return liens;
+}
+
+/**
  * Détecte automatiquement tous les liens internes entre pages
+ * Combine : inventaire e2eID (liens dérivés des e2eID avec destination) + parsing par type JSON + footer + liens manuels.
  * @returns Liste des liens détectés
  */
 export const detecterLiensInternes = (): PlanLien[] => {
   const liens: PlanLien[] = [];
   const dataDir = path.join(process.cwd(), 'data');
+
+  // 0. Liens dérivés de l'inventaire e2eID (source de vérité : liste de tous les e2eID)
+  const liensInventaire = getLiensFromE2eIdInventory();
+  for (const l of liensInventaire) {
+    liens.push(l);
+  }
   
   // Fonction pour vérifier si une URL est interne
   const estLienInterne = (url: string | null | undefined): boolean => {
@@ -245,64 +334,24 @@ export const detecterLiensInternes = (): PlanLien[] => {
     return url.startsWith('/') && !url.startsWith('//') && !url.match(/^https?:\/\//);
   };
 
-  // 1. Détecter les liens depuis les fichiers JSON de pages
-  const fichiersJSON = fs.readdirSync(dataDir).filter((f) => 
-    f.endsWith('.json') && 
-    !f.startsWith('_') && // Exclure les fichiers de configuration (préfixe _)
-    f !== 'detournement-video.json'
-  );
+  // 1. Liens depuis le contenu résolu de chaque page (même pipeline que l'app : readPageData → refs résolues → extraction)
+  // Tout JSON dans data/ (hors _*) ; pas d'exclusion. readPageData résout les refs comme l'app.
+  const fichiersJSON = fs.readdirSync(dataDir).filter((f) => f.endsWith('.json') && !f.startsWith('_'));
 
   for (const fichierJSON of fichiersJSON) {
     try {
-      const contenu = fs.readFileSync(path.join(dataDir, fichierJSON), 'utf8');
-      const data = JSON.parse(contenu);
-      
-      // Déterminer l'URL de la page source depuis le nom du fichier
-      // Les noms de fichiers JSON correspondent maintenant directement aux URLs (sans slash initial)
-      let pageSource = '/';
-      if (fichierJSON === 'index.json') {
-        pageSource = '/';
-      } else {
-        // Le nom du fichier (sans extension) correspond directement à l'URL (sans slash initial)
-        const nomSansExt = fichierJSON.replace('.json', '');
-        pageSource = '/' + nomSansExt;
+      const pageData = readPageData(fichierJSON);
+      const pageSource = fichierJsonVersPageSource(fichierJSON);
+      for (const l of extractLinksFromContenu(pageData.contenu, pageSource, estLienInterne)) {
+        liens.push(l);
       }
-
-      // Parcourir le contenu pour trouver les liens
-      if (data.contenu && Array.isArray(data.contenu)) {
-        for (const element of data.contenu) {
-          // CallToAction : toujours vers /faisons-connaissance
-          // Exclu du plan car toutes les pages y amènent et ça rend le plan illisible
-          // if (element.type === 'callToAction') {
-          //   liens.push({
-          //     source: pageSource,
-          //     destination: '/faisons-connaissance',
-          //     label: element.action,
-          //   });
-          // }
-
-          // Domaines de compétences : boutons dans les compétences
-          if (element.type === 'domaineDeCompetence' && element.competences) {
-            for (const competence of element.competences) {
-              if (competence.bouton && competence.bouton.action) {
-                const action = competence.bouton.action;
-                if (estLienInterne(action) && action !== '/faisons-connaissance') {
-                  liens.push({
-                    source: pageSource,
-                    destination: action,
-                    label: competence.bouton.texte,
-                  });
-                }
-              }
-            }
-          }
-        }
-      }
-    } catch (e) {
-      // Ignorer les erreurs de lecture/parsing
+    } catch {
       continue;
     }
   }
+
+  // Lien Home → Mes Profils (présent dans HeroSection, non déclaré dans index.json)
+  liens.push({ source: '/', destination: '/mes-profils', label: 'Mes Profils' });
 
   // 2. Détecter les liens depuis le footer
   try {
@@ -334,7 +383,7 @@ export const detecterLiensInternes = (): PlanLien[] => {
   // 3. Résoudre les liens "*" (footer) : créer un lien depuis chaque page
   const liensResolus: PlanLien[] = [];
   const pages = detecterPages();
-  
+
   for (const lien of liens) {
     if (lien.source === '*') {
       // Créer un lien depuis chaque page vers la destination
@@ -350,14 +399,26 @@ export const detecterLiensInternes = (): PlanLien[] => {
     }
   }
 
-  // 4. Filtrer les liens vers /faisons-connaissance (exclus du plan)
+  // Logo header (e2eid-h1) : depuis chaque page vers Home, présent sur toutes les pages
+  for (const page of pages) {
+    if (page.url !== '/') {
+      liensResolus.push({ source: page.url, destination: '/', label: 'Logo', e2eID: 'h1' });
+    }
+  }
+
+  // 4. Filtrer les liens vers /faisons-connaissance (exclus du plan, sauf depuis Home)
   const liensFiltres = liensResolus.filter((lien) => lien.destination !== '/faisons-connaissance');
+  // Lien Home → Faisons connaissance (bouton « Discutons » du hero) : conservé pour l’assistant (BleuClair depuis Home)
+  liensFiltres.push({ source: '/', destination: '/faisons-connaissance', label: 'Discutons' });
+
+  // 4b. Exclure les liens source === destination (comme le render : compétence vers la page courante = on ne l'affiche pas)
+  const liensSansAuto = liensFiltres.filter((lien) => lien.source !== lien.destination);
 
   // 5. Dédupliquer les liens (même source + destination)
   const liensUniques: PlanLien[] = [];
   const liensVus = new Set<string>();
   
-  for (const lien of liensFiltres) {
+  for (const lien of liensSansAuto) {
     const cle = `${lien.source}->${lien.destination}`;
     if (!liensVus.has(cle)) {
       liensVus.add(cle);
@@ -379,9 +440,14 @@ export const detecterLiensInternes = (): PlanLien[] => {
  * - Conserve les emplacements (x, y) existants
  * @param pages Pages détectées
  * @param liens Liens détectés
+ * @param options.siteMapPath Chemin optionnel du fichier (pour les tests unitaires, évite d'écrire dans le fichier réel)
  */
-export const mettreAJourPlanJSON = (pages: PlanPage[], liens: PlanLien[]): void => {
-  const siteMapPath = path.join(process.cwd(), 'data', '_Pages-Et-Lien.json');
+export const mettreAJourPlanJSON = (
+  pages: PlanPage[],
+  liens: PlanLien[],
+  options?: { siteMapPath?: string }
+): void => {
+  const siteMapPath = options?.siteMapPath ?? path.join(process.cwd(), 'data', '_Pages-Et-Lien.json');
   
   let planExistant: PlanSite = { pages: [], liens: [] };
   
@@ -465,6 +531,15 @@ export const mettreAJourPlanJSON = (pages: PlanPage[], liens: PlanLien[]): void 
   // Note: Les liens du plan existant qui ne sont plus détectés sont automatiquement supprimés
   // car on ne les ajoute pas à liensMisesAJour
   // Seuls les liens détectés (passés en paramètre) sont conservés
+
+  // Trier les pages par zone, puis par Ordre dans chaque zone
+  pagesMisesAJour.sort((a, b) => {
+    const zoneDiff = indexZonePourTri(a.zone) - indexZonePourTri(b.zone);
+    if (zoneDiff !== 0) return zoneDiff;
+    const ordreA = a.ordre ?? Infinity;
+    const ordreB = b.ordre ?? Infinity;
+    return ordreA - ordreB;
+  });
 
   // Créer le nouveau plan
   const nouveauPlan: PlanSite = {

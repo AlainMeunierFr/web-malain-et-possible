@@ -1,5 +1,4 @@
 import { notFound } from 'next/navigation';
-import styles from '../../shared.module.css';
 import { readPageData } from '../../../utils/indexReader';
 import PageContentRenderer from '../../../components/PageContentRenderer';
 
@@ -38,7 +37,7 @@ export default async function ProfilPage({ params }: { params: Promise<{ slug: s
 
 
     return (
-      <main className={styles.main}>
+      <main className="main">
         {/* Affichage de tous les éléments de contenu */}
         <PageContentRenderer contenu={pageData.contenu} />
       </main>

@@ -51,7 +51,7 @@
     {
       "type": "bouton",
       "id": "metrics",
-      "icone": "BarChart3",
+      "icone": "Metrics",
       "texte": null,
       "url": null,
       "command": "cmd-Metrics",

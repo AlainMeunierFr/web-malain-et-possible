@@ -2,6 +2,7 @@ export const ROUTES = {
   HOME: '/',
   ABOUT: '/a-propos-du-site',
   SITEMAP: '/plan-du-site',
+  MES_PROFILS: '/mes-profils',
   TRANSFORMATION: '/transformation',
   DETOURNEMENT_VIDEO: '/detournement-video',
   ROBUSTESSE: '/robustesse',
