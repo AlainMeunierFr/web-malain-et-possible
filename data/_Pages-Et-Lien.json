@@ -90,8 +90,8 @@
       "titre": "Raw (DOM sans CSS)",
       "x": null,
       "y": null,
-      "zone": "Autres",
-      "dessiner": "Oui"
+      "dessiner": "Oui",
+      "zone": "Autres"
     },
     {
       "url": "/a-propos-du-site",

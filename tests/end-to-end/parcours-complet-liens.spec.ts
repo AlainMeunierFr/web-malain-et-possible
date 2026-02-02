@@ -67,7 +67,7 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
     await expect(element9).toBeVisible();
     // Élément externe, vérification de présence uniquement
   }
-  // Test e2eID: v10 (video - index.json)
+  // Test e2eID: v10 (unknown - index.json)
   const element10 = page.getByTestId('e2eid-v10');
   if (await element10.count() > 0) {
     await expect(element10).toBeVisible();
@@ -552,6 +552,27 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
   });
 
   // Test des e2eID présents sur /pour-aller-plus-loin
+  await test.step("Étape 15: Navigation de /pour-aller-plus-loin vers /raw (lien)", async () => {
+    const boutonPlanDuSite = page.locator('footer').locator('[e2eid="e2eid-b13"]');
+    await boutonPlanDuSite.first().waitFor({ state: 'visible', timeout: 15000 });
+    if (await boutonPlanDuSite.count() > 0) {
+      await boutonPlanDuSite.first().evaluate((el) => el.scrollIntoView({ block: 'nearest', behavior: 'instant' }));
+      await boutonPlanDuSite.first().click({ timeout: 15000 });
+      await expect(page).toHaveURL('/plan-du-site', { timeout: 15000 });
+      await page.waitForLoadState('domcontentloaded').catch(() => {});
+      await page.waitForSelector('[e2eid^="e2eid-l"]', { timeout: 10000 }).catch(() => {});
+      const lienDepuisPlan14 = page.getByTestId('e2eid-l830');
+      if (await lienDepuisPlan14.count() === 0) {
+        throw new Error('Impossible de trouver un lien vers /raw (e2eID: e2eid-l830) depuis le plan du site.');
+      }
+      await lienDepuisPlan14.first().click();
+    } else {
+      throw new Error('Impossible de trouver le bouton Plan du site (e2eid-b13) dans le footer.');
+    }
+    await expect(page).toHaveURL('/raw');
+  });
+
+  // Test des e2eID présents sur /raw
 
   // Tous les liens ont été parcourus
   // 36 e2eID ont été testés

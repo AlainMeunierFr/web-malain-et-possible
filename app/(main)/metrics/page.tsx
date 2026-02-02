@@ -8,6 +8,7 @@ import fs from 'fs';
 import path from 'path';
 import type { MetricsHistory, MetricsSnapshot } from '../../../types/metrics';
 import Tooltip from '../../../components/Tooltip';
+import { parseInlineMarkdown } from '../../../utils/markdownInlineParser';
 
 /** Styles dédiés : app/metrics/metrics.css (chargés via layout) */
 import { getTooltipConfig } from '../../../utils/tooltipsConfig';
@@ -82,11 +83,7 @@ function MetricCard({
           <Tooltip content={
             <div>
               {getTooltipConfig(metricKey) ? (
-                <div dangerouslySetInnerHTML={{ 
-                  __html: getTooltipConfig(metricKey)?.description
-                    ?.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-                    ?.replace(/\*(.*?)\*/g, '<em>$1</em>') || ''
-                }} />
+                <div>{parseInlineMarkdown(getTooltipConfig(metricKey)?.description || '')}</div>
               ) : (
                 <p>Information à venir pour cette métrique</p>
               )}
@@ -143,11 +140,7 @@ function TestMetricCard({
         <h3 className="testCardTitle">{title}</h3>
         {metricKey && (
           <Tooltip content={
-            <div dangerouslySetInnerHTML={{ 
-              __html: getTooltipConfig(metricKey)?.description
-                ?.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-                ?.replace(/\*(.*?)\*/g, '<em>$1</em>') || ''
-            }}></div>
+            <div>{parseInlineMarkdown(getTooltipConfig(metricKey)?.description || '')}</div>
           }>
             <div className="infoIcon" aria-label="Plus d'informations">
               ℹ️
@@ -221,11 +214,7 @@ function ProgressBar({
             <Tooltip content={
               <div>
                 {getTooltipConfig(metricKey) ? (
-                  <div dangerouslySetInnerHTML={{ 
-                    __html: getTooltipConfig(metricKey)?.description
-                      ?.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-                      ?.replace(/\*(.*?)\*/g, '<em>$1</em>') || ''
-                  }} />
+                  <div>{parseInlineMarkdown(getTooltipConfig(metricKey)?.description || '')}</div>
                 ) : (
                   <p>Information à venir pour cette métrique</p>
                 )}

@@ -13,7 +13,7 @@
 
 import fs from 'fs';
 import path from 'path';
-import { hashMD5, getStoredPasswordHash, verifyPassword } from '../../utils/passwordUtils';
+import { hashMD5, hashPassword, getStoredPasswordHash, verifyPassword } from '../../utils/passwordUtils';
 
 // Mock fs
 jest.mock('fs');
@@ -125,11 +125,11 @@ describe('passwordUtils - Approche TDD (simple → complexe)', () => {
 
   describe('ITÉRATION 5 : verifyPassword avec mot de passe correct', () => {
     it('devrait retourner true si le mot de passe correspond', () => {
-      // ARRANGE : Fichier avec hash connu
+      // ARRANGE : Fichier avec hash SHA-256 connu
       const password = 'test';
-      const expectedHash = hashMD5(password);
+      const expectedHash = hashPassword(password);
       const mockData = {
-        hash: expectedHash,
+        sha256: expectedHash,
       };
 
       mockFs.existsSync.mockReturnValue(true);
@@ -145,12 +145,12 @@ describe('passwordUtils - Approche TDD (simple → complexe)', () => {
 
   describe('ITÉRATION 6 : verifyPassword avec mot de passe incorrect', () => {
     it('devrait retourner false si le mot de passe ne correspond pas', () => {
-      // ARRANGE : Fichier avec hash différent
+      // ARRANGE : Fichier avec hash SHA-256 différent
       const enteredPassword = 'wrong';
-      const storedHash = hashMD5('correct');
+      const storedHash = hashPassword('correct');
 
       const mockData = {
-        hash: storedHash,
+        sha256: storedHash,
       };
 
       mockFs.existsSync.mockReturnValue(true);

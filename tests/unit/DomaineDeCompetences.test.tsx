@@ -68,20 +68,17 @@ describe('DomaineDeCompetences', () => {
       const experienceItem = screen.getByText(/Expérience avec période/).closest('li');
       expect(experienceItem).toBeInTheDocument();
       
-      // Vérifier que la période est en italique et entre crochets
-      const periodeElement = screen.getByText(/\[2020-2023\]/);
+      // Vérifier que la période est affichée dans un span dédié
+      const periodeElement = screen.getByText('2020-2023');
       expect(periodeElement).toBeInTheDocument();
-      expect(periodeElement.tagName).toBe('EM'); // <em> pour italique
-      
-      // Vérifier qu'il y a un "-" entre la période et la description
-      const textContent = experienceItem?.textContent || '';
-      expect(textContent).toMatch(/\[2020-2023\]\s*-\s*/);
+      expect(periodeElement.tagName).toBe('SPAN');
+      expect(periodeElement).toHaveClass('experienceEtApprentissage', 'periode');
       
       // Vérifier que le texte en gras est affiché
       const titreElement = screen.getByText('Expérience avec période');
       expect(titreElement.tagName).toBe('STRONG'); // <strong> pour gras
       
-      // Vérifier que la description est affichée (peut être dans le même paragraphe)
+      // Vérifier que la description est affichée
       expect(screen.getByText(/Description de l'expérience/)).toBeInTheDocument();
     });
 

@@ -17,6 +17,7 @@ import {
   getValueForNomCanonique,
   isMarkdownContent,
 } from '../constants/canonicalSpec';
+import Image from 'next/image';
 import SimpleMarkdownRenderer from './SimpleMarkdownRenderer';
 import { getJsonImagePath } from '../utils/imagePath';
 
@@ -361,15 +362,25 @@ function Block({
       const contentNode =
         entry.nomCanonique === 'temoignage.photo' ? (
           <div className="mode-lecture-text">
-            <img
+            <Image
               src={getJsonImagePath(value)}
               alt={getValueForNomCanonique(anyEl, 'temoignage.nom') ?? ''}
+              width={40}
+              height={40}
               className="mode-lecture-photo-40"
+              style={{ objectFit: 'cover', borderRadius: '50%' }}
             />
           </div>
         ) : entry.nomCanonique === 'competence.image.src' ? (
           <div className="mode-lecture-text">
-            <img src={getJsonImagePath(value)} alt="" className="mode-lecture-plan-image" />
+            <Image 
+              src={getJsonImagePath(value)} 
+              alt="" 
+              width={72}
+              height={72}
+              className="mode-lecture-plan-image"
+              style={{ objectFit: 'contain' }}
+            />
           </div>
         ) : isButtonOrLink ? (
           <div className="mode-lecture-text">{value}</div>

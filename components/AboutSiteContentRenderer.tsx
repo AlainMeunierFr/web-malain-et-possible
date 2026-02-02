@@ -7,72 +7,7 @@
 import React from 'react';
 import type { ContenuElement } from '../utils/aboutSiteReader';
 import { getMdImagePath } from '../utils/imagePath';
-import Prompt from './Prompt';
-
-/**
- * Parse inline markdown (bold, italic, images) pour convertir :
- * - **texte** en <strong>texte</strong>
- * - [image:filename] en <img src="/api/images/md/filename" />
- */
-function parseInlineMarkdown(text: string): React.ReactNode[] {
-  const parts: React.ReactNode[] = [];
-  let currentIndex = 0;
-
-  const boldPattern = /\*\*(.+?)\*\*/g;
-  const imagePattern = /\[image:([^\]]+)\]/g;
-  
-  const boldMatches: Array<{ start: number; end: number; text: string }> = [];
-  const imageMatches: Array<{ start: number; end: number; filename: string }> = [];
-
-  let match;
-  while ((match = boldPattern.exec(text)) !== null) {
-    boldMatches.push({ start: match.index, end: match.index + match[0].length, text: match[1] });
-  }
-
-  while ((match = imagePattern.exec(text)) !== null) {
-    imageMatches.push({ 
-      start: match.index, 
-      end: match.index + match[0].length, 
-      filename: match[1] 
-    });
-  }
-
-  // Combiner et trier tous les matches
-  const allMatches = [
-    ...boldMatches.map(m => ({ ...m, type: 'bold' as const })),
-    ...imageMatches.map(m => ({ ...m, type: 'image' as const })),
-  ].sort((a, b) => a.start - b.start);
-
-  allMatches.forEach((match, index) => {
-    // Ajouter le texte avant le match
-    if (match.start > currentIndex) {
-      parts.push(text.substring(currentIndex, match.start));
-    }
-
-    // Ajouter le contenu formaté
-    if (match.type === 'bold') {
-      parts.push(<strong key={`bold-${index}`}>{match.text}</strong>);
-    } else if (match.type === 'image') {
-      parts.push(
-        <img 
-          key={`image-${index}`}
-          src={getMdImagePath(match.filename)}
-          alt={match.filename}
-          className="inline-image"
-        />
-      );
-    }
-
-    currentIndex = match.end;
-  });
-
-  // Ajouter le texte restant
-  if (currentIndex < text.length) {
-    parts.push(text.substring(currentIndex));
-  }
-
-  return parts.length > 0 ? parts : [text];
-}
+import { parseInlineMarkdown } from '../utils/markdownInlineParser';
 
 export interface AboutSiteContentRendererProps {
   elements: ContenuElement[];
@@ -83,8 +18,6 @@ const AboutSiteContentRenderer: React.FC<AboutSiteContentRendererProps> = ({
   elements, 
   typeDeContenu 
 }) => {
-  const containerDataAttr = typeDeContenu === 'Prompt' ? { 'data-type-contenu': 'prompt' } : {};
-
   // Regrouper les éléments par zones (Alain, IA, normal)
   const groupedElements: Array<{
     type: 'alain' | 'ia' | 'normal';
