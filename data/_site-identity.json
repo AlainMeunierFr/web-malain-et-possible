@@ -1,0 +1,24 @@
+{
+  "person": {
+    "name": "Alain Meunier",
+    "jobTitle": "Chief Product Officer / Chief Operating Officer",
+    "description": "Conduite du changement - Transformation - Inspirateur - Explorateur des possibles - Coach agile",
+    "knowsAbout": [
+      "Product Management",
+      "Transformation Agile",
+      "Conduite du changement",
+      "Leadership",
+      "Coaching"
+    ],
+    "sameAs": [
+      "https://www.linkedin.com/in/alain-meunier-fr/",
+      "https://www.youtube.com/@AlainMeunierFr"
+    ]
+  },
+  "website": {
+    "name": "Malain et possible",
+    "url": "https://malainetpossible.fr",
+    "description": "Site personnel d'Alain Meunier - Conduite du changement, Transformation, Coach agile",
+    "language": "fr-FR"
+  }
+}

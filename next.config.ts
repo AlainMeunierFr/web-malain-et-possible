@@ -43,6 +43,23 @@ const nextConfig: NextConfig = {
   
   // Headers de sécurité et cache
   async headers() {
+    // CSP : autoriser YouTube (embeds), Matomo (analytics), et les ressources locales
+    const cspDirectives = [
+      "default-src 'self'",
+      "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.youtube.com https://*.matomo.cloud",
+      "style-src 'self' 'unsafe-inline'",
+      "img-src 'self' data: https: blob:",
+      "font-src 'self'",
+      "frame-src 'self' https://www.youtube.com https://www.youtube-nocookie.com",
+      "connect-src 'self' https://*.matomo.cloud",
+      "media-src 'self' https://www.youtube.com",
+      "object-src 'none'",
+      "base-uri 'self'",
+      "form-action 'self'",
+      "frame-ancestors 'self'",
+      "upgrade-insecure-requests",
+    ].join('; ');
+
     return [
       {
         source: '/:path*',
@@ -54,6 +71,27 @@ const nextConfig: NextConfig = {
           {
             key: 'X-Frame-Options',
             value: 'SAMEORIGIN'
+          },
+          {
+            key: 'X-Content-Type-Options',
+            value: 'nosniff'
+          },
+          {
+            key: 'Referrer-Policy',
+            value: 'strict-origin-when-cross-origin'
+          },
+          {
+            key: 'Permissions-Policy',
+            value: 'camera=(), microphone=(), geolocation=()'
+          },
+          {
+            key: 'Content-Security-Policy',
+            value: cspDirectives
+          },
+          // HSTS : forcer HTTPS (1 an, includeSubDomains, preload)
+          {
+            key: 'Strict-Transport-Security',
+            value: 'max-age=31536000; includeSubDomains; preload'
           },
         ],
       },

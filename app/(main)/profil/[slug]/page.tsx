@@ -2,7 +2,9 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { readPageData } from '../../../../utils/indexReader';
 import { buildProfilMetadata } from '../../../../utils/metadataBuilder';
+import { buildProfilPageJsonLd } from '../../../../utils/jsonLdBuilder';
 import PageContentRenderer from '../../../../components/PageContentRenderer';
+import JsonLd from '../../../../components/JsonLd';
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
@@ -35,21 +37,34 @@ export default async function ProfilPage({ params }: { params: Promise<{ slug: s
 
   const filename = `profil-${slug}.json`;
 
+  // Lecture des données en dehors du JSX
+  let pageData;
   try {
-    const pageData = readPageData(filename);
-
-    if (!pageData || !pageData.contenu || pageData.contenu.length === 0) {
-      console.error(`Page data vide pour ${filename}:`, pageData);
-      notFound();
-    }
-
-    return (
-      <main className="main">
-        <PageContentRenderer contenu={pageData.contenu} />
-      </main>
-    );
+    pageData = readPageData(filename);
   } catch (error) {
     console.error(`Erreur lors de la lecture de ${filename}:`, error);
     notFound();
   }
+
+  if (!pageData || !pageData.contenu || pageData.contenu.length === 0) {
+    console.error(`Page data vide pour ${filename}:`, pageData);
+    notFound();
+  }
+
+  // Mapping slug → titre pour le fil d'Ariane
+  const titresParSlug: Record<string, string> = {
+    cpo: 'Produit logiciel',
+    coo: 'Opérations',
+    agile: 'Transformation Agile',
+    cto: 'Technologie',
+  };
+
+  return (
+    <>
+      <JsonLd data={buildProfilPageJsonLd(titresParSlug[slug] || slug, slug)} />
+      <main className="main">
+        <PageContentRenderer contenu={pageData.contenu} />
+      </main>
+    </>
+  );
 }

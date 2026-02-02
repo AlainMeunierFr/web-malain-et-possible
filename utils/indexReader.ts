@@ -256,6 +256,75 @@ export interface PageData {
 }
 
 /**
+ * Types pour les données JSON brutes (avant normalisation).
+ * Utilisés pour typer les données lues depuis les fichiers JSON qui peuvent
+ * avoir des structures variées (anciennes vs nouvelles).
+ */
+
+/** Élément JSON brut avec propriétés optionnelles pour normalisation */
+interface RawJsonElement {
+  type?: string;
+  // Propriétés pour domaineDeCompetence
+  competences?: RawJsonCompetence[];
+  items?: RawJsonCompetence[];
+  experiences?: RawJsonExperience[];
+  ref?: string;
+  // Propriétés pour détournements
+  detournementVideo?: RawJsonDetournement[];
+  // Propriétés pour source externe
+  source?: string;
+  // Autres propriétés passées telles quelles
+  [key: string]: unknown;
+}
+
+/** Compétence JSON brute (peut ne pas avoir de type) */
+interface RawJsonCompetence {
+  type?: string;
+  titre?: string;
+  description?: string;
+  [key: string]: unknown;
+}
+
+/** Expérience JSON brute */
+interface RawJsonExperience {
+  type?: string;
+  id?: string;
+  categorie?: string;
+  description?: string;
+  periode?: string | null;
+  [key: string]: unknown;
+}
+
+/** Détournement vidéo JSON brut */
+interface RawJsonDetournement {
+  type?: string;
+  titre?: string;
+  [key: string]: unknown;
+}
+
+/** Témoignage JSON brut */
+interface RawJsonTemoignage {
+  type?: string;
+  nom?: string;
+  [key: string]: unknown;
+}
+
+/** Données de page JSON brutes */
+interface RawPageData {
+  metadata?: PageMetadata;
+  contenu?: RawJsonElement[];
+  domainesDeCompetences?: unknown[];
+}
+
+/** Données source JSON brutes */
+interface RawSourceData {
+  contenu?: Array<{
+    type?: string;
+    items?: RawJsonTemoignage[] | RawJsonDetournement[];
+  }>;
+}
+
+/**
  * Convertit l'ancienne structure (IndexData) en nouvelle structure (PageData) pour compatibilité ascendante
  */
 export const convertirIndexDataEnPageData = (indexData: IndexData): PageData => {
@@ -299,31 +368,35 @@ export const readPageData = (filename: string = 'index.json'): PageData => {
   }
 
   const fileContent = fs.readFileSync(filePath, 'utf8');
-  const data = JSON.parse(fileContent);
+  const data: RawPageData = JSON.parse(fileContent);
 
   // Si c'est l'ancienne structure (domainesDeCompetences), on la convertit
   if ('domainesDeCompetences' in data && !('contenu' in data)) {
-    return convertirIndexDataEnPageData(data as IndexData);
+    return convertirIndexDataEnPageData(data as unknown as IndexData);
   }
 
   // Normaliser la nouvelle structure : convertir "competences" en "items" pour les domaines de compétences
-  const pageData = data as PageData;
+  const pageData: PageData = {
+    metadata: data.metadata,
+    contenu: (data.contenu || []) as ElementContenu[],
+  };
+  
   if (pageData.contenu && Array.isArray(pageData.contenu)) {
     pageData.contenu = pageData.contenu.map((element) => {
-      const elementAny = element as any;
+      const rawElement = element as unknown as RawJsonElement;
       
       // Portfolio détournements : élément avec clé "detournementVideo" (tableau) sans type → listeDeDetournementsVideo
-      if ('detournementVideo' in elementAny && Array.isArray(elementAny.detournementVideo) && elementAny.type !== 'listeDeDetournementsVideo') {
-        const items = (elementAny.detournementVideo as any[]).map((d: any) =>
+      if (rawElement.detournementVideo && Array.isArray(rawElement.detournementVideo) && rawElement.type !== 'listeDeDetournementsVideo') {
+        const items = rawElement.detournementVideo.map((d: RawJsonDetournement) =>
           d.type != null ? d : { type: 'detournementVideo' as const, ...d }
         );
-        return { type: 'listeDeDetournementsVideo' as const, items };
+        return { type: 'listeDeDetournementsVideo' as const, items } as ElementListeDeDetournementsVideo;
       }
       
       if (element.type === 'domaineDeCompetence') {
         // Si l'élément a "competences" au lieu de "items", le mapper
-        if ('competences' in elementAny && !('items' in elementAny) && !('ref' in elementAny)) {
-          const items = (elementAny.competences as any[]).map((c: any) =>
+        if (rawElement.competences && !rawElement.items && !rawElement.ref) {
+          const items = rawElement.competences.map((c: RawJsonCompetence) =>
             c.type != null ? c : { type: 'competence', ...c }
           );
           return {
@@ -332,15 +405,15 @@ export const readPageData = (filename: string = 'index.json'): PageData => {
           } as ElementDomaineDeCompetence;
         }
         // Si items existe sans type sur les compétences, normaliser
-        if ('items' in elementAny && Array.isArray(elementAny.items)) {
-          const items = elementAny.items.map((c: any) =>
+        if (rawElement.items && Array.isArray(rawElement.items)) {
+          const items = rawElement.items.map((c: RawJsonCompetence) =>
             c.type != null ? c : { type: 'competence', ...c }
           );
-          let out: any = { ...element, items };
+          const out: Partial<ElementDomaineDeCompetence> = { ...element, items: items as ElementCompetence[] };
           // Normaliser experiences (discriminant experienceEtApprentissage) si présentes
-          if ('experiences' in elementAny && Array.isArray(elementAny.experiences)) {
-            out.experiences = elementAny.experiences.map((e: any) =>
-              e.type === 'experienceEtApprentissage' ? e : { type: 'experienceEtApprentissage', id: e.id ?? '', categorie: e.type ?? e.categorie, description: e.description, periode: e.periode ?? null }
+          if (rawElement.experiences && Array.isArray(rawElement.experiences)) {
+            out.experiences = rawElement.experiences.map((e: RawJsonExperience) =>
+              e.type === 'experienceEtApprentissage' ? e as ExperienceEtApprentissage : { type: 'experienceEtApprentissage', id: e.id ?? '', categorie: e.categorie ?? e.type, description: e.description ?? '', periode: e.periode ?? null }
             );
           }
           return out as ElementDomaineDeCompetence;
@@ -348,24 +421,24 @@ export const readPageData = (filename: string = 'index.json'): PageData => {
       }
       
       // Si l'élément a une propriété "source" (ex: temoignages), charger le fichier externe
-      if ('source' in elementAny && typeof elementAny.source === 'string') {
-        const sourceFile = elementAny.source;
+      if (rawElement.source && typeof rawElement.source === 'string') {
+        const sourceFile = rawElement.source;
         const sourcePath = path.join(process.cwd(), 'data', sourceFile);
         
         if (fs.existsSync(sourcePath)) {
           const sourceContent = fs.readFileSync(sourcePath, 'utf8');
-          const sourceData = JSON.parse(sourceContent);
+          const sourceData: RawSourceData = JSON.parse(sourceContent);
           
           // Si le fichier source contient un élément du même type, utiliser ses items
           if (sourceData.contenu && Array.isArray(sourceData.contenu)) {
-            const sourceElement = sourceData.contenu.find((el: any) => el.type === element.type);
+            const sourceElement = sourceData.contenu.find((el) => el.type === element.type);
             if (sourceElement && sourceElement.items) {
               // Pour listeDeTemoignages / listeDeDetournementsVideo, ajouter le discriminant type si absent (JSON source sans type)
               const items =
                 element.type === 'listeDeTemoignages'
-                  ? sourceElement.items.map((item: any) => (item.type != null ? item : { type: 'temoignage', ...item }))
+                  ? sourceElement.items.map((item: RawJsonTemoignage) => (item.type != null ? item : { type: 'temoignage', ...item }))
                   : element.type === 'listeDeDetournementsVideo'
-                    ? sourceElement.items.map((item: any) => (item.type != null ? item : { type: 'detournementVideo', ...item }))
+                    ? sourceElement.items.map((item: RawJsonDetournement) => (item.type != null ? item : { type: 'detournementVideo', ...item }))
                     : sourceElement.items;
               return {
                 ...element,
@@ -383,8 +456,8 @@ export const readPageData = (filename: string = 'index.json'): PageData => {
   // Détecter si la page contient des références vers la bibliothèque
   const hasReferences = pageData.contenu && pageData.contenu.some((element) => {
     if (element.type === 'domaineDeCompetence') {
-      const elementAny = element as any;
-      return 'ref' in elementAny && typeof elementAny.ref === 'string';
+      const rawElement = element as unknown as RawJsonElement;
+      return 'ref' in rawElement && typeof rawElement.ref === 'string';
     }
     return false;
   });
@@ -399,8 +472,8 @@ export const readPageData = (filename: string = 'index.json'): PageData => {
       // Vérifier que les références ont bien été résolues
       const stillHasRefs = resolved.contenu.some((element) => {
         if (element.type === 'domaineDeCompetence') {
-          const elementAny = element as any;
-          return 'ref' in elementAny && typeof elementAny.ref === 'string';
+          const rawElement = element as unknown as RawJsonElement;
+          return 'ref' in rawElement && typeof rawElement.ref === 'string';
         }
         return false;
       });

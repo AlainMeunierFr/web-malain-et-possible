@@ -4,6 +4,8 @@ import { PageTitleProvider } from "../contexts/PageTitleContext";
 import Matomo from "../components/Matomo";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
+import JsonLd from "../components/JsonLd";
+import { buildHomePageJsonLd } from "../utils/jsonLdBuilder";
 
 export const metadata: Metadata = {
   title: "Malain et possible",
@@ -41,6 +43,8 @@ export default function RootLayout({
           type="font/woff2"
           crossOrigin="anonymous"
         />
+        {/* JSON-LD pour SEO : Person + WebSite */}
+        <JsonLd data={buildHomePageJsonLd()} />
       </head>
       <body className="antialiased">
         <EditingProvider>
