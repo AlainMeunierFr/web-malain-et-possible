@@ -1,9 +1,14 @@
 {
+  "metadata": {
+    "title": "Profil Coach Agile — Transformation Agile",
+    "description": "Coach Agile : agilité pour délivrer de la valeur, passage de l'idée à l'action, management, animation d'atelier, transmission, engagement des équipes.",
+    "ogType": "profile"
+  },
   "contenu": [
     {
       "type": "video",
       "urlYouTube": "https://youtu.be/XoruJezxpsI",
-      "lancementAuto": true,
+      "lancementAuto": false,
       "e2eID": "v11"
     },
     {

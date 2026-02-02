@@ -11,7 +11,7 @@ const CallToAction: React.FC<CallToActionProps> = ({ element }) => {
     <div className="callToAction">
       <Link 
         href="/faisons-connaissance" 
-        className="bouton"
+        className="bouton callToAction action"
         e2eid={element.e2eID ? `e2eid-${element.e2eID}` : undefined}
       >
         {element.action}

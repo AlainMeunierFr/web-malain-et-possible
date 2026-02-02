@@ -1,21 +1,25 @@
 {
+  "metadata": {
+    "title": "Alain Meunier — Coach Agile & Transformation",
+    "description": "25 ans d'expérience à transformer des idées en produits logiciels. Rigueur technique et leadership humain pour vos projets de transformation.",
+    "ogType": "website"
+  },
   "contenu": [
     {
       "type": "hero",
       "titre": "Alain Meunier",
       "sousTitre": "Disponible et enthousiaste pour un projet stimulant (CDI ou freelance)",
       "description": "25 ans d'expérience à **transformer des idées** en produits logiciels qui **génèrent de la valeur**.\nJ'ai équipé 15% des radiologues libéraux français avec mon premier produit.\nPassionné par la **résolution de problèmes complexes**, je combine **rigueur technique et leadership humain**.\nMon parcours d'entrepreneur m'a appris que les meilleures solutions naissent de l'**engagement des équipes**.\nJe recherche un projet long terme où je pourrai contribuer à la **stratégie et à la transformation des organisations**.",
-      "boutonPrincipal": {
+      "callToAction": {
         "texte": "Discutons",
         "action": "/faisons-connaissance"
       },
-      "profils": []
-    },
-    {
-      "type": "video",
-      "urlYouTube": "https://youtu.be/wcvG-WfKckU",
-      "lancementAuto": false,
-      "e2eID": "v10"
+      "video": {
+        "urlYouTube": "https://youtu.be/wcvG-WfKckU",
+        "lancementAuto": false,
+        "e2eID": "v10"
+      },
+      "ensavoirplus": "/mes-profils"
     }
   ]
 }

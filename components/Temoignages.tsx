@@ -5,22 +5,11 @@
 
 import React from 'react';
 import Image from 'next/image';
+import type { ElementListeDeTemoignages, ElementTemoignage } from '../utils/indexReader';
 import { getJsonImagePath } from '../utils/imagePath';
 
-interface Temoignage {
-  nom: string;
-  fonction: string;
-  photo: string;
-  temoignage: string;
-}
-
-interface ElementTemoignages {
-  type: 'temoignages';
-  items: Temoignage[];
-}
-
 export interface TemoignagesProps {
-  element: ElementTemoignages;
+  element: ElementListeDeTemoignages;
 }
 
 const Temoignages: React.FC<TemoignagesProps> = ({ element }) => {
@@ -30,29 +19,29 @@ const Temoignages: React.FC<TemoignagesProps> = ({ element }) => {
   }
 
   return (
-    <div className="temoignages">
-      <div className="temoignagesGrid">
-        {element.items.map((temoignage, index) => (
-          <div key={index} className="temoignage">
-            <div className="temoignageHeader">
-              <div className="temoignagePhoto">
+    <div className="temoignages" data-layout="2 columns x N rows">
+      <div className="ui-grid">
+        {element.items.map((temoignage: ElementTemoignage, index) => (
+          <div key={index} className="temoignage ui-card">
+            <div className="ui-header">
+              <div className="temoignage photo ui-photo">
                 <Image
                   src={getJsonImagePath(temoignage.photo)}
                   alt={temoignage.nom}
                   width={80}
                   height={80}
-                  className="photoImage"
+                  className="ui-photoImage"
                   loading="lazy"
                 />
               </div>
-              <div className="temoignageInfo">
-                <h2>{temoignage.nom}</h2>
-                <p className="temoignageFonction">{temoignage.fonction}</p>
+              <div className="ui-info">
+                <h3 className="temoignage nom">{temoignage.nom}</h3>
+                <p className="temoignage fonction">{temoignage.fonction}</p>
               </div>
             </div>
-            <div className="temoignageTexte">
+            <div className="temoignage temoignage">
               {temoignage.temoignage.split('\n\n').map((paragraph, pIndex) => (
-                <p key={pIndex} className="paragraph">
+                <p key={pIndex} className="ui-paragraph">
                   {paragraph.trim()}
                 </p>
               ))}

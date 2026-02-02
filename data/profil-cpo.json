@@ -1,9 +1,14 @@
 {
+  "metadata": {
+    "title": "Profil CPO — Produit logiciel",
+    "description": "Chief Product Officer : agilité, développement informatique, stratégie et transformations, management, engagement des équipes. 25 ans d'expérience produit.",
+    "ogType": "profile"
+  },
   "contenu": [
     {
       "type": "video",
       "urlYouTube": "https://youtu.be/iUv6e256AVk",
-      "lancementAuto": true,
+      "lancementAuto": false,
       "e2eID": "v29"
     },
     {

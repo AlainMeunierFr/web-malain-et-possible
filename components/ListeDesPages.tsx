@@ -6,12 +6,23 @@ import { useEffect, useState } from 'react';
 import type { PlanSite, PlanPage } from '../utils/siteMapGenerator';
 import { generateE2eIdFromUrl } from '../utils/e2eIdFromUrl';
 
-export default function ListeDesPages() {
+/** Données initiales issues de plan-du-site.json (rendu pur JSON, pas de fetch). */
+export interface ListeDesPagesInitial {
+  url: string;
+  titre: string;
+  zone?: string;
+  dessiner?: string;
+}
+
+export default function ListeDesPages({ initialPages }: { initialPages?: ListeDesPagesInitial[] }) {
   const [planSite, setPlanSite] = useState<PlanSite>({ pages: [], liens: [] });
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Charger le JSON depuis l'API
+    if (initialPages && initialPages.length > 0) {
+      setLoading(false);
+      return;
+    }
     fetch('/api/site-map')
       .then((res) => {
         if (!res.ok) {
@@ -20,11 +31,6 @@ export default function ListeDesPages() {
         return res.json();
       })
       .then((data: PlanSite) => {
-        console.log('ListeDesPages - Données reçues de l\'API:', {
-          pagesCount: data.pages?.length || 0,
-          liensCount: data.liens?.length || 0,
-          firstPage: data.pages?.[0],
-        });
         setPlanSite(data);
         setLoading(false);
       })
@@ -32,15 +38,16 @@ export default function ListeDesPages() {
         console.error('Erreur lors du chargement du plan du site:', error);
         setLoading(false);
       });
-  }, []);
+  }, [initialPages]);
 
-  if (loading) {
+  // Données : plan-du-site.json (initialPages) ou API
+  const pagesSource = initialPages?.length ? (initialPages as PlanPage[]) : planSite.pages;
+  if (loading && !initialPages?.length) {
     return <div>Chargement...</div>;
   }
 
-  // Organiser les pages par zone
-  // Filtrer les pages : exclure celles avec zone "Masqué" ou dessiner "Non"
-  const pagesAAfficher = planSite.pages.filter((p) => {
+  // Organiser les pages par zone ; filtrer : exclure zone "Masqué" et dessiner "Non"
+  const pagesAAfficher = pagesSource.filter((p) => {
     const zone = (p as any).zone;
     const dessiner = p.dessiner;
     return zone !== 'Masqué' && dessiner !== 'Non';
@@ -93,7 +100,7 @@ export default function ListeDesPages() {
   };
 
   return (
-    <div className="listeDesPages">
+    <div className="listeDesPages" data-layout="draw with page properties">
       {/* Ligne 1 : HomePage (horizontal) */}
       {pagesParZone.HomePage.length > 0 && (
         <div className="ligne-1 zone-homepage">

@@ -15,7 +15,7 @@ import { calculateMaxCounter } from './e2eIdCounter';
 const TYPES_INTERACTIFS_CONNUS = new Set([
   'video',
   'callToAction',
-  'groupeBoutons',
+  'groupeDeBoutons',
   'domaineDeCompetence',
 ]);
 
@@ -129,7 +129,7 @@ function detectInJsonFiles(): DetectionItem[] {
                     action: '',
                   });
               }
-            } else if (elementType === 'groupeBoutons') {
+            } else if (elementType === 'groupeDeBoutons') {
               // Les boutons dans groupeBoutons doivent avoir un e2eID
               if (Array.isArray(obj.boutons)) {
                 obj.boutons.forEach((bouton: any, index: number) => {
@@ -223,8 +223,8 @@ function detectInJsonFiles(): DetectionItem[] {
             }
           });
         }
-        // Nouvelle structure groupeBoutons
-        if (data.type === 'groupeBoutons' && data.boutons) {
+        // Nouvelle structure groupeDeBoutons
+        if (data.type === 'groupeDeBoutons' && data.boutons) {
           data.boutons.forEach((bouton: any, index: number) => {
             if (!bouton.e2eID) {
               detections.push({

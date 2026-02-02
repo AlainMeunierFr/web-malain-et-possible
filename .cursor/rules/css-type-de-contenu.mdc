@@ -1,0 +1,13 @@
+# CSS et TypeDeContenus
+
+## Règle
+
+**Les TypeDeContenus sont stylés uniquement dans le CSS global.** Aucun fichier `.module.css` ni CSS composant pour l’affichage des types de contenu (hero, profil, detournementVideo, titre, temoignage, domaineDeCompetence, competence, experienceEtApprentissage, etc.).
+
+- **Source unique** : `app/content-styles.css` (sélecteurs par type/convention, ex. `.hero.titre`, `.detournementVideo.pitch`).
+- **Tokens** : variables définies dans `app/globals.css` (couleurs, tailles, polices).
+- **Pas de** : `*.module.css` ou styles scoped par composant pour les TypeDeContenus.
+
+## Exceptions (pages / routes)
+
+Les pages ou zones **Maintenance**, **Metrics** et **A propos du site** peuvent avoir leur propre CSS dédié (ex. `maintenance.module.css`). Ce CSS ne concerne pas les TypeDeContenus.

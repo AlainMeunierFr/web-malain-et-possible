@@ -1,11 +1,16 @@
 {
+  "metadata": {
+    "title": "Faisons connaissance — Contact",
+    "description": "Prenons rendez-vous : déjeuner à Lyon, visio 30mn, téléphone. LinkedIn, YouTube, email. Discutons de vos projets de transformation.",
+    "ogType": "website"
+  },
   "contenu": [
     {
       "type": "titreDePage",
       "texte": "Faisons connaissance"
     },
     {
-      "type": "groupeBoutons",
+      "type": "groupeDeBoutons",
       "taille": "grande",
       "boutons": [
         {
@@ -38,7 +43,7 @@
       ]
     },
     {
-      "type": "groupeBoutons",
+      "type": "groupeDeBoutons",
       "taille": "petite",
       "boutons": [
         {

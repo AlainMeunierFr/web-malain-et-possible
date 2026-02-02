@@ -103,7 +103,7 @@ Given('un JSON contenant {int} callToAction', async ({}, testInfo, count: number
 Given('un JSON contenant {int} boutons', async ({}, testInfo, count: number) => {
   const data = getContextData(testInfo);
   data.testJson.contenu.push({
-    type: 'groupeBoutons',
+    type: 'groupeDeBoutons',
     taille: 'grande',
     boutons: Array.from({ length: count }, (_, i) => ({
       type: 'bouton',
@@ -140,7 +140,7 @@ Given('un JSON avec des éléments de différents types', async ({}, testInfo) =
     { type: 'video', urlYouTube: 'https://youtube.com/test', lancementAuto: false },
     { type: 'callToAction', action: 'Test' },
     {
-      type: 'groupeBoutons',
+      type: 'groupeDeBoutons',
       taille: 'grande',
       boutons: [{ type: 'bouton', id: 'test', icone: 'Mail', texte: 'Test', url: null, command: null }],
     },
@@ -214,7 +214,7 @@ When('je génère les e2eID automatiquement', async ({}, testInfo) => {
     }
     
     // Gérer les sous-éléments
-    if (element.type === 'groupeBoutons' && 'boutons' in element) {
+    if (element.type === 'groupeDeBoutons' && 'boutons' in element) {
       const boutons = element.boutons as E2eElement[];
       boutons.forEach((bouton) => {
         if (!bouton.e2eID) {
@@ -352,7 +352,7 @@ Then('les callToAction doivent avoir le préfixe {string}', async ({}, testInfo,
 });
 
 Then('les boutons doivent avoir le préfixe {string}', async ({}, testInfo, prefix: string) => {
-  // À implémenter pour groupeBoutons
+  // À implémenter pour groupeDeBoutons
   expect(true).toBe(true);
 });
 
@@ -442,7 +442,7 @@ Then('chaque callToAction doit avoir un e2eID', async ({}, testInfo) => {
 });
 
 Then('chaque bouton doit avoir un e2eID', async ({}, testInfo) => {
-  // À implémenter pour groupeBoutons
+  // À implémenter pour groupeDeBoutons
   expect(true).toBe(true);
 });
 

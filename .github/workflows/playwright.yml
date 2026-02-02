@@ -12,10 +12,10 @@ name: Playwright Tests
 #
 on:
   workflow_dispatch:  # Permet de lancer manuellement depuis l'interface GitHub
-  # push:
-  #   branches: [ main, master ]
-  # pull_request:
-  #   branches: [ main, master ]
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
 jobs:
   test:
     timeout-minutes: 60

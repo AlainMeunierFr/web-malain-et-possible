@@ -510,7 +510,7 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
   });
 
   // Test des e2eID présents sur /metrics
-  await test.step("Étape 13: Navigation de /metrics vers /pour-aller-plus-loin (lien)", async () => {
+  await test.step("Étape 13: Navigation de /metrics vers /mode-lecture (lien)", async () => {
     const boutonPlanDuSite = page.locator('footer').locator('[e2eid="e2eid-b13"]');
     await boutonPlanDuSite.first().waitFor({ state: 'visible', timeout: 15000 });
     if (await boutonPlanDuSite.count() > 0) {
@@ -519,11 +519,32 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
       await expect(page).toHaveURL('/plan-du-site', { timeout: 15000 });
       await page.waitForLoadState('domcontentloaded').catch(() => {});
       await page.waitForSelector('[e2eid^="e2eid-l"]', { timeout: 10000 }).catch(() => {});
-      const lienDepuisPlan12 = page.getByTestId('e2eid-l707');
+      const lienDepuisPlan12 = page.getByTestId('e2eid-l802');
       if (await lienDepuisPlan12.count() === 0) {
-        throw new Error('Impossible de trouver un lien vers /pour-aller-plus-loin (e2eID: e2eid-l707) depuis le plan du site.');
+        throw new Error('Impossible de trouver un lien vers /mode-lecture (e2eID: e2eid-l802) depuis le plan du site.');
       }
       await lienDepuisPlan12.first().click();
+    } else {
+      throw new Error('Impossible de trouver le bouton Plan du site (e2eid-b13) dans le footer.');
+    }
+    await expect(page).toHaveURL('/mode-lecture');
+  });
+
+  // Test des e2eID présents sur /mode-lecture
+  await test.step("Étape 14: Navigation de /mode-lecture vers /pour-aller-plus-loin (lien)", async () => {
+    const boutonPlanDuSite = page.locator('footer').locator('[e2eid="e2eid-b13"]');
+    await boutonPlanDuSite.first().waitFor({ state: 'visible', timeout: 15000 });
+    if (await boutonPlanDuSite.count() > 0) {
+      await boutonPlanDuSite.first().evaluate((el) => el.scrollIntoView({ block: 'nearest', behavior: 'instant' }));
+      await boutonPlanDuSite.first().click({ timeout: 15000 });
+      await expect(page).toHaveURL('/plan-du-site', { timeout: 15000 });
+      await page.waitForLoadState('domcontentloaded').catch(() => {});
+      await page.waitForSelector('[e2eid^="e2eid-l"]', { timeout: 10000 }).catch(() => {});
+      const lienDepuisPlan13 = page.getByTestId('e2eid-l707');
+      if (await lienDepuisPlan13.count() === 0) {
+        throw new Error('Impossible de trouver un lien vers /pour-aller-plus-loin (e2eID: e2eid-l707) depuis le plan du site.');
+      }
+      await lienDepuisPlan13.first().click();
     } else {
       throw new Error('Impossible de trouver le bouton Plan du site (e2eid-b13) dans le footer.');
     }

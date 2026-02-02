@@ -10,10 +10,10 @@ import { expect } from '@playwright/test';
 const { Given, When, Then } = createBdd();
 
 const modalLocator = (page: { locator: (s: string) => { first: () => Promise<unknown> } }) =>
-  page.locator('[e2eid="us-detail-modal"], [role="dialog"].usDetailModalOverlay, .usDetailModalOverlay').first();
+  page.locator('[e2eid="us-detail-modal"], [role="dialog"].modalDetailUS, .modalDetailUS').first();
 
 When('je clique sur une carte du board KanBan', async ({ page }) => {
-  const card = page.locator('.sprintBoardCard').first();
+  const card = page.locator('.carteUS').first();
   await expect(card).toBeVisible({ timeout: 10000 });
   await card.click();
   await page.locator('[e2eid="us-detail-modal"], [role="dialog"]').first().waitFor({ state: 'visible', timeout: 15000 });
@@ -27,8 +27,8 @@ Then('une modal \\(ou overlay) s\'affiche', async ({ page }) => {
 Then('la modal affiche l\'US correspondant à la carte cliquée', async ({ page }) => {
   const modal = modalLocator(page);
   await expect(modal).toBeVisible();
-  await expect(modal.locator('.usDetailModalTitle, [id="us-detail-title"]')).toBeVisible();
-  await expect(modal.locator('.usDetailModalScroll, .usDetailModalFixed')).toBeVisible();
+  await expect(modal.locator('.modalDetailUS .titre, [id="us-detail-title"]')).toBeVisible();
+  await expect(modal.locator('.zoneScroll, .zoneFixe')).toBeVisible();
 });
 
 Then('une modal s\'affiche', async ({ page }) => {
@@ -44,7 +44,7 @@ Then('en haut de la modal je vois l\'ID de l\'US en gras', async ({ page }) => {
 
 Then('en haut de la modal je vois le titre de l\'US correspondant à la carte cliquée', async ({ page }) => {
   const modal = modalLocator(page);
-  const title = modal.locator('.usDetailModalTitle, [id="us-detail-title"]');
+  const title = modal.locator('.modalDetailUS .titre, [id="us-detail-title"]');
   await expect(title).toBeVisible();
   await expect(title).not.toHaveText(/^\s*$/);
 });
@@ -62,35 +62,35 @@ Then('dans la modal je vois "Je souhaite" et "Afin de" avec le bénéfice', asyn
 
 Then('la modal affiche le contenu de l\'US \\(critères d\'acceptation, etc.) au format Markdown', async ({ page }) => {
   const modal = modalLocator(page);
-  const content = modal.locator('.usDetailModalScroll, .usDetailModalFixed');
+  const content = modal.locator('.zoneScroll, .zoneFixe');
   await expect(content).toBeVisible();
   await expect(content).not.toHaveText(/^\s*$/);
 });
 
 Then('une zone défilable \\(ascenseur) permet de scroller ce contenu', async ({ page }) => {
   const modal = modalLocator(page);
-  const scrollZone = modal.locator('.usDetailModalScroll');
+  const scrollZone = modal.locator('.zoneScroll');
   await expect(scrollZone).toBeVisible();
-  await expect(scrollZone).toHaveAttribute('class', /usDetailModalScroll/);
+  await expect(scrollZone).toHaveAttribute('class', /zoneScroll/);
 });
 
 Then('le titre de l\'US \\(ID et titre) reste visible en haut de la modal', async ({ page }) => {
   const modal = modalLocator(page);
-  const header = modal.locator('.usDetailModalHeader, header');
+  const header = modal.locator('.modalDetailUS .enTete, header');
   await expect(header).toBeVisible();
-  await expect(header.locator('.usDetailModalTitle, h2')).toBeVisible();
+  await expect(header.locator('.modalDetailUS .titre, h2')).toBeVisible();
 });
 
 Then('le bloc "En tant que … Je souhaite … Afin de …" reste visible en haut de la modal', async ({ page }) => {
   const modal = modalLocator(page);
-  const fixed = modal.locator('.usDetailModalFixed');
+  const fixed = modal.locator('.zoneFixe');
   await expect(fixed).toBeVisible();
   await expect(fixed.getByText(/En tant que/i)).toBeVisible();
 });
 
 Then('seul le contenu des critères d\'acceptation \\(et le reste du Markdown) défile', async ({ page }) => {
   const modal = modalLocator(page);
-  const scrollZone = modal.locator('.usDetailModalScroll');
+  const scrollZone = modal.locator('.zoneScroll');
   await expect(scrollZone).toBeVisible();
 });
 
@@ -110,13 +110,13 @@ Then('la modal se ferme', async ({ page }) => {
 });
 
 Then('je revois le board KanBan', async ({ page }) => {
-  const board = page.locator('.sprintBoard');
+  const board = page.locator('.tableauSprint');
   await expect(board).toBeVisible({ timeout: 5000 });
-  await expect(page.locator('.sprintBoardCard').first()).toBeVisible();
+  await expect(page.locator('.carteUS').first()).toBeVisible();
 });
 
 Then('la modal occupe une grande surface de l\'écran \\(quasi plein écran ou largeur et hauteur majoritaires)', async ({ page }) => {
-  const modal = page.locator('.usDetailModalOverlay [class*="usDetailModal"]');
+  const modal = page.locator('.modalDetailUS .fenetre').first();
   await expect(modal).toBeVisible();
   const box = await modal.boundingBox();
   expect(box).toBeTruthy();
@@ -126,7 +126,7 @@ Then('la modal occupe une grande surface de l\'écran \\(quasi plein écran ou l
 
 Then('le contenu affiché dans la modal utilise la police Clint Marker', async ({ page }) => {
   const modal = modalLocator(page);
-  const content = modal.locator('.usDetailModalScroll, .usDetailModalFixed');
+  const content = modal.locator('.zoneScroll, .zoneFixe');
   await expect(content).toBeVisible();
   const fontFamily = await content.evaluate((el) => window.getComputedStyle(el).fontFamily);
   expect(fontFamily).toMatch(/Clint Marker|Marker/i);

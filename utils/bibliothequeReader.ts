@@ -5,7 +5,7 @@
 
 import fs from 'fs';
 import path from 'path';
-import type { Competence } from './indexReader';
+import type { ElementCompetence, ExperienceEtApprentissage } from './indexReader';
 
 /**
  * Interface pour un domaine dans la bibliothèque
@@ -22,19 +22,12 @@ export interface DomaineBibliotheque {
 /**
  * Interface pour une compétence dans la bibliothèque
  */
-export interface CompetenceBibliotheque extends Competence {
+export interface CompetenceBibliotheque extends ElementCompetence {
   id: string;
 }
 
-/**
- * Interface pour un élément "Autres" (expériences, formations, etc.)
- */
-export interface AutreElement {
-  id: string;
-  type: string;
-  description: string; // Contient le texte avec syntaxe MD (gras avec **)
-  periode: string | null;
-}
+/** Ré-export du type centralisé dans indexReader (ex‑« Autres » : expériences, formations, etc.) */
+export type { ExperienceEtApprentissage };
 
 /**
  * Lit le fichier competences.json et retourne une Map des compétences
@@ -97,29 +90,33 @@ export function readDomaines(): Map<string, DomaineBibliotheque> {
 }
 
 /**
- * Lit le fichier experience-et-autres-informations.json et retourne une Map des éléments
+ * Lit le fichier experienceEtApprentissage.json et retourne une Map des éléments
  */
-export function readAutres(): Map<string, AutreElement> {
-  const autresPath = path.join(process.cwd(), 'data', 'bibliotheque', 'experience-et-autres-informations.json');
+export function readAutres(): Map<string, ExperienceEtApprentissage> {
+  const autresPath = path.join(process.cwd(), 'data', 'bibliotheque', 'experienceEtApprentissage.json');
   
   if (!fs.existsSync(autresPath)) {
-    throw new Error(`Le fichier experience-et-autres-informations.json n'existe pas dans data/bibliotheque/`);
+    throw new Error(`Le fichier experienceEtApprentissage.json n'existe pas dans data/bibliotheque/`);
   }
 
   const fileContent = fs.readFileSync(autresPath, 'utf-8');
   const data = JSON.parse(fileContent);
 
-  if (!data.autres || typeof data.autres !== 'object') {
-    throw new Error('Le fichier experience-et-autres-informations.json doit contenir un objet "autres"');
+  if (!data.experienceEtApprentissage || typeof data.experienceEtApprentissage !== 'object') {
+    throw new Error('Le fichier experienceEtApprentissage.json doit contenir un objet "experienceEtApprentissage"');
   }
 
-  const autresMap = new Map<string, AutreElement>();
+  const autresMap = new Map<string, ExperienceEtApprentissage>();
 
-  for (const [id, autre] of Object.entries(data.autres)) {
-    const elem = autre as AutreElement;
-    if (!elem.id) {
-      elem.id = id; // S'assurer que l'ID est présent
-    }
+  for (const [id, autre] of Object.entries(data.experienceEtApprentissage)) {
+    const raw = autre as { id?: string; type?: string; description: string; periode: string | null };
+    const elem: ExperienceEtApprentissage = {
+      type: 'experienceEtApprentissage',
+      id: raw.id ?? id,
+      categorie: raw.type,
+      description: raw.description,
+      periode: raw.periode ?? null,
+    };
     autresMap.set(id, elem);
   }
 

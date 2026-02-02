@@ -5,7 +5,7 @@
 import {
   buildMesProfilsPageData,
   type PageData,
-  type ElementProfils,
+  type ElementListeDeProfils,
   type ElementCallToAction,
   type ElementTexteLarge,
 } from '../../utils/indexReader';
@@ -28,9 +28,9 @@ describe('buildMesProfilsPageData (US-7.12)', () => {
     expect(premier.type).toBe('titreDePage');
   });
 
-  it('deuxième élément est de type profils avec les 4 profils', () => {
-    const profilsEl = pageData.contenu[1] as ElementProfils;
-    expect(profilsEl.type).toBe('profils');
+  it('deuxième élément est de type listeDeProfils avec les 4 profils', () => {
+    const profilsEl = pageData.contenu[1] as ElementListeDeProfils;
+    expect(profilsEl.type).toBe('listeDeProfils');
     expect(profilsEl.profils).toBeDefined();
     expect(profilsEl.profils).toHaveLength(4);
   });

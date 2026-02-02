@@ -1,0 +1,226 @@
+/**
+ * Mode lecture : 4 colonnes (type, nom canonique, parent, contenu).
+ * Option : masquer les colonnes 1 à 3 (audit) pour ne garder que la colonne contenu visible.
+ * Marges à gauche (colonne contenu) par type sémantique : h1=0, h2=20, h3=40, h4=60, p=80, n=80, img=80, li=100.
+ */
+
+.mode-lecture {
+  max-width: 72rem;
+  margin-left: 0;
+  margin-right: auto;
+  padding: 1rem 1rem 3rem;
+}
+
+/* Barre d'outils : bascule colonnes d'audit */
+.mode-lecture .mode-lecture-toolbar {
+  margin-bottom: 1rem;
+}
+
+.mode-lecture .mode-lecture-toggle-audit {
+  font-size: 0.875rem;
+  padding: 0.375rem 0.75rem;
+  border-radius: 0.25rem;
+  border: 1px solid #0066cc;
+  background: #fff;
+  color: #0066cc;
+  cursor: pointer;
+}
+
+.mode-lecture .mode-lecture-toggle-audit:hover {
+  background: #f0f7ff;
+}
+
+.mode-lecture .mode-lecture-toggle-audit[aria-pressed="true"] {
+  background: #0066cc;
+  color: #fff;
+}
+
+/* Séparateur entre pages (trait horizontal) */
+.mode-lecture .mode-lecture-page-separator {
+  border: 0;
+  border-top: 2px solid #0066cc;
+  margin: 1.5rem 0 1rem;
+}
+
+.mode-lecture section:first-child .mode-lecture-page-separator:first-child {
+  margin-top: 0;
+}
+
+/* Grille 4 colonnes : type, nom canonique, parent, contenu */
+.mode-lecture-row {
+  display: grid;
+  grid-template-columns: 4rem 14rem 10rem 1fr;
+  gap: 0.75rem;
+  align-items: start;
+  margin-bottom: 0.5rem;
+  text-align: left;
+}
+
+/* Vue client : seule la colonne contenu reste visible (colonnes 1 à 3 masquées) */
+.mode-lecture.hide-audit .mode-lecture-row {
+  grid-template-columns: 1fr;
+}
+
+.mode-lecture.hide-audit .mode-lecture-col-type,
+.mode-lecture.hide-audit .mode-lecture-col-canonical,
+.mode-lecture.hide-audit .mode-lecture-col-container-pere {
+  display: none;
+}
+
+/* Colonne 1 : type hiérarchique (petit, bleu) */
+.mode-lecture-col-type {
+  font-size: 0.75rem;
+  font-weight: 700;
+  font-family: ui-monospace, monospace;
+  color: #0066cc;
+  flex-shrink: 0;
+}
+
+/* Colonne 2 : nom canonique (petit, rouge) */
+.mode-lecture-col-canonical {
+  font-size: 0.75rem;
+  color: #b91c1c;
+  word-break: break-word;
+}
+
+/* Colonne 3 : parent (petit, vert) */
+.mode-lecture-col-container-pere {
+  font-size: 0.75rem;
+  color: #15803d;
+  word-break: break-word;
+}
+
+/* Colonne 4 : contenu (mode lecture avec décalages par type sémantique) */
+.mode-lecture-col-content {
+  min-width: 0;
+}
+
+.mode-lecture-col-content[data-semantic="h1"] { padding-left: 0; }
+.mode-lecture-col-content[data-semantic="h2"] { padding-left: 20px; }
+.mode-lecture-col-content[data-semantic="h3"] { padding-left: 40px; }
+.mode-lecture-col-content[data-semantic="h4"] { padding-left: 60px; }
+.mode-lecture-col-content[data-semantic="p"]  { padding-left: 80px; }
+.mode-lecture-col-content[data-semantic="n"]  { padding-left: 80px; }
+.mode-lecture-col-content[data-semantic="li"] {
+  padding-left: 100px;
+  display: flex;
+  align-items: flex-start;
+  flex-wrap: nowrap;
+  gap: 0.35em;
+}
+.mode-lecture-col-content[data-semantic="li"]::before {
+  content: '•';
+  flex-shrink: 0;
+}
+.mode-lecture-col-content[data-semantic="v"]  { padding-left: 80px; }
+.mode-lecture-col-content[data-semantic="img"] { padding-left: 80px; }
+.mode-lecture-col-content[data-semantic="photo"] { padding-left: 80px; }
+.mode-lecture-photo-40 {
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+  display: block;
+}
+/* --c : container (.cont) ; affiché comme libellé nom canonique */
+.mode-lecture-col-content[data-semantic="c"] { padding-left: 0; }
+.mode-lecture-cont {
+  font-weight: 600;
+  color: #0d5c2e;
+  font-size: 0.9em;
+}
+/* --m : masqué en rendu final ; en mode lecture affiché en gris */
+.mode-lecture-col-content[data-semantic="m"]  { padding-left: 80px; opacity: 0.65; }
+.mode-lecture-row[data-semantic="m"] .mode-lecture-col-type,
+.mode-lecture-row[data-semantic="m"] .mode-lecture-col-canonical,
+.mode-lecture-row[data-semantic="m"] .mode-lecture-col-container-pere,
+.mode-lecture-row[data-semantic="m"] .mode-lecture-col-content { color: #6b7280; }
+
+/* Colonne 4 : taille et graisse du rendu final (tokens globaux) par type sémantique */
+.mode-lecture-col-content[data-semantic="h1"],
+.mode-lecture-col-content[data-semantic="h1"] .mode-lecture-text {
+  font-size: var(--h1-font-size);
+  font-weight: var(--h1-font-weight);
+  color: var(--h1-color);
+  line-height: var(--h1-line-height);
+}
+
+.mode-lecture-col-content[data-semantic="h2"],
+.mode-lecture-col-content[data-semantic="h2"] .mode-lecture-text {
+  font-size: var(--h2-font-size);
+  font-weight: var(--h2-font-weight);
+  color: var(--h2-color);
+  line-height: var(--h2-line-height);
+}
+
+.mode-lecture-col-content[data-semantic="h3"],
+.mode-lecture-col-content[data-semantic="h3"] .mode-lecture-text {
+  font-size: var(--h3-font-size);
+  font-weight: var(--h3-font-weight);
+  color: var(--h3-color);
+  line-height: var(--h3-line-height);
+}
+
+.mode-lecture-col-content[data-semantic="h4"],
+.mode-lecture-col-content[data-semantic="h4"] .mode-lecture-text {
+  font-size: var(--h4-font-size);
+  font-weight: var(--h4-font-weight);
+  color: var(--h4-color);
+  line-height: var(--h4-line-height);
+}
+
+.mode-lecture-col-content[data-semantic="p"],
+.mode-lecture-col-content[data-semantic="p"] .mode-lecture-text,
+.mode-lecture-col-content[data-semantic="v"] .mode-lecture-text {
+  font-size: var(--p-font-size);
+  font-weight: var(--p-font-weight);
+  color: var(--p-color);
+  line-height: var(--p-line-height);
+}
+
+/* --n : même taille que h4 (plus petit que p), graisse normale */
+.mode-lecture-col-content[data-semantic="n"],
+.mode-lecture-col-content[data-semantic="n"] .mode-lecture-text,
+.mode-lecture-col-content[data-semantic="n"] .simpleMarkdownContent {
+  font-size: var(--h4-font-size);
+  font-weight: normal;
+  color: var(--h4-color);
+  line-height: var(--h4-line-height);
+}
+
+.mode-lecture-col-content[data-semantic="li"] .mode-lecture-text {
+  font-size: var(--l1-font-size);
+  color: var(--l1-color);
+  line-height: var(--l1-line-height);
+}
+
+.mode-lecture-col-content[data-semantic="m"],
+.mode-lecture-col-content[data-semantic="m"] .mode-lecture-text {
+  font-size: var(--n-font-size);
+  font-weight: var(--n-font-weight);
+  color: #6b7280; /* gris pour --m (masqué en rendu final) */
+  line-height: var(--n-line-height);
+}
+
+/* Image compétence en mode plan : 40×40 px, même marge à gauche que le texte (80px sur la colonne) */
+.mode-lecture-plan-image {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+  display: block;
+  margin: 0;
+}
+
+.mode-lecture .mode-lecture-text {
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.mode-lecture .mode-lecture-text:empty {
+  display: none;
+}
+
+.mode-lecture .container-flag {
+  font-size: 0.75rem;
+  color: #6b7280;
+  margin-right: 0.5rem;
+}

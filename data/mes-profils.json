@@ -1,11 +1,16 @@
 {
+  "metadata": {
+    "title": "Mes Profils — CPO, COO, Coach Agile, CTO",
+    "description": "Profil polyvalent : Chief Product Officer, Chief Operating Officer, Coach Agile, Chief Technology Officer. Solutions créatives pour vos défis complexes.",
+    "ogType": "website"
+  },
   "contenu": [
     {
       "type": "titreDePage",
       "texte": "Mes Profils"
     },
     {
-      "type": "profils",
+      "type": "listeDeProfils",
       "profils": [
         {
           "type": "profil",
@@ -70,11 +75,7 @@
       "texte": "Je suis un **passionné de la résolution de problèmes complexes** avec une expérience riche et variée en tant qu'entrepreneur.\n\nMon **profil polyvalent** m'a permis d'acquérir des compétences dans divers domaines, de la gestion de projet à l'optimisation des processus, en passant par l'**innovation stratégique**. Cette diversité me permet de voir les choses sous différents angles et d'apporter des **solutions créatives** pour faire face à vos défis, tout en vous accompagnant dans la mise en place des outils et méthodes nécessaires pour **engager vos équipes** et soutenir ce changement.\n\nAvec une **vision globale, pragmatique et transverse**, je prends en compte dans le traitement d'un sujet toutes les dimensions, depuis la conception jusqu'à la **mise en œuvre sur le terrain** et la perception des utilisateurs.\n\nJe nourris ma **curiosité** vers de nombreux sujets aussi bien dans l'entreprenariat, que les **sciences dures** ou les **sciences humaines**...\n\nCela me permet de **créer des ponts et tisser des liens** entre ces sujets pour faire émerger de **nouvelles solutions**."
     },
     {
-      "type": "titre",
-      "texte": "Témoignages"
-    },
-    {
-      "type": "temoignages",
+      "type": "listeDeTemoignages",
       "source": "_temoignages.json"
     }
   ]

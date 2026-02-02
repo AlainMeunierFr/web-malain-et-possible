@@ -11,7 +11,6 @@ import {
   Calendar,
   type LucideIcon,
 } from 'lucide-react';
-import styles from './Footer.module.css';
 import type { FooterButton } from '../types/footer';
 import { getButtonAction } from '../utils/buttonHandlers';
 
@@ -65,21 +64,15 @@ const FooterButton: React.FC<FooterButtonProps> = ({
   
   // Props communes pour les liens ; e2eid en dernier pour qu'il ne soit jamais écrasé
   const linkProps = {
-    className: styles.iconButton,
+    className: 'bouton',
     'aria-label': alt || icone,
     title: tooltip || icone,
     e2eid: e2eidAttr,
   };
 
-  // Contenu commun (icône)
+  // Contenu commun (icône) : aucun style imposé (raw) — taille, couleur, stroke = responsabilité du Designer via .footer .icone
   const iconContent = (
-    <IconComponent
-      size={30}
-      color="white"
-      strokeWidth={2}
-      className={styles.iconImage}
-      aria-hidden="true"
-    />
+    <IconComponent className="icone" aria-hidden="true" />
   );
 
   // Navigation interne : <a> avec e2eid directement sur l'élément (fiable pour E2E, pas de Link Next.js qui peut ne pas transmettre l'attribut ou le clic)

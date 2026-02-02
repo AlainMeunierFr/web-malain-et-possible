@@ -94,7 +94,7 @@ describe('e2eIdInventory - Approche TDD (simple → complexe)', () => {
               e2eID: 'a5',
             },
             {
-              type: 'groupeBoutons',
+              type: 'groupeDeBoutons',
               boutons: [
                 {
                   id: 'email',

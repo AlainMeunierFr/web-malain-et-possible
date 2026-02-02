@@ -5,7 +5,6 @@ import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import type { LigneDeMenu } from '../utils/menuReader';
 import SprintBoardKanban, { type SprintBoardData } from './SprintBoardKanban';
-import styles from '../app/a-propos-du-site/about.module.css';
 
 export default function SprintDashboardLayout({ lignes }: { lignes: LigneDeMenu[] }) {
   const pathname = usePathname();
@@ -29,17 +28,17 @@ export default function SprintDashboardLayout({ lignes }: { lignes: LigneDeMenu[
     <>
       <div className="dashboardHeader">
         <nav
-          className={styles.bandeDossiers}
+          className="bandeDossiers"
           data-testid="bande-dossiers"
           aria-label="Lignes de menu"
         >
-          <ul className={styles.bandeDossiersList}>
+          <ul className="liste">
             {lignes.map((ligne) => (
-              <li key={`${ligne.Numéro}-${ligne.Titre}`} className={styles.bandeDossiersItem}>
+              <li key={`${ligne.Numéro}-${ligne.Titre}`} className="item">
                 {ligne.Type === 'Path' ? (
                   <Link
                     href={`/a-propos-du-site/${encodeURIComponent(ligne.Parametre)}`}
-                    className={styles.bandeDossiersLink}
+                    className="lien"
                     e2eid={ligne.e2eID ? `e2eid-${ligne.e2eID}` : `e2eid-menu-${ligne.Titre.replace(/\s/g, '-')}`}
                   >
                     {ligne.Titre}
@@ -47,7 +46,7 @@ export default function SprintDashboardLayout({ lignes }: { lignes: LigneDeMenu[
                 ) : (
                   <Link
                     href="/a-propos-du-site"
-                    className={estSurBoard ? styles.bandeDossiersLinkActive : styles.bandeDossiersLink}
+                    className={estSurBoard ? 'lienActif' : 'lien'}
                     e2eid={ligne.e2eID ? `e2eid-${ligne.e2eID}` : `e2eid-menu-${ligne.Titre.replace(/\s/g, '-')}`}
                   >
                     {ligne.Titre}
@@ -67,7 +66,7 @@ export default function SprintDashboardLayout({ lignes }: { lignes: LigneDeMenu[
           )}
         </div>
       </div>
-      <section className={styles.zoneSprint} e2eid="zone-sprint" aria-label="Sprint en cours">
+      <section className="zoneSprint" e2eid="zone-sprint" aria-label="Sprint en cours">
         <SprintBoardKanban initialData={data} hideGoal />
       </section>
     </>

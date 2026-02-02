@@ -12,7 +12,7 @@ Fonctionnalité: Section HERO orientée recherche d'emploi
       | titre            | "Alain Meunier"                          |
       | sousTitre        | "Je recherche un projet stimulant..."     |
       | description      | "Description de la valeur..."            |
-      | boutonPrincipal  | { "texte": "On discute ?", "action": "/faisons-connaissance" } |
+      | callToAction      | { "texte": "On discute ?", "action": "/faisons-connaissance" } |
     Quand je charge la page d'accueil
     Alors je vois la section HERO en haut de la page
     Et je vois le titre "Alain Meunier"
@@ -22,7 +22,7 @@ Fonctionnalité: Section HERO orientée recherche d'emploi
 
   Scénario: Navigation depuis le bouton principal de la HERO
     Étant donné que le fichier "data/index.json" contient un élément de type "hero"
-    Et que cet élément a un boutonPrincipal avec action "/faisons-connaissance"
+    Et que cet élément a un callToAction avec action "/faisons-connaissance"
     Quand je suis sur la page d'accueil
     Et que je clique sur le bouton principal de la HERO
     Alors je suis redirigé vers la page "/faisons-connaissance"
@@ -103,7 +103,7 @@ Fonctionnalité: Section HERO orientée recherche d'emploi
       | titre           | string | Oui          |
       | sousTitre       | string | Oui          |
       | description     | string | Oui          |
-      | boutonPrincipal | object | Oui          |
+      | callToAction     | object | Oui          |
       | profils         | array  | Oui          |
     Et la propriété "profils" contient uniquement des éléments de type "profil"
 

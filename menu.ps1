@@ -62,6 +62,9 @@ function Show-Menu {
     Write-Host "16. Accepter tout - Désactiver les contrôles (mode silencieux)" -ForegroundColor $(if ($securityStatus) { "Yellow" } else { "Gray" })
     Write-Host "17. Supprimer les permissions - Réactiver les contrôles" -ForegroundColor $(if ($securityStatus) { "Gray" } else { "Yellow" })
     Write-Host ""
+    Write-Host "NAVIGATEUR / MCP:" -ForegroundColor Magenta
+    Write-Host "20. Lancer Chrome avec débogage distant (port 9222) pour MCP Chrome DevTools" -ForegroundColor Yellow
+    Write-Host ""
     Write-Host "18. Quitter" -ForegroundColor Gray
     Write-Host ""
 }
@@ -164,6 +167,24 @@ do {
         }
         "18" { Write-Host "Au revoir." -ForegroundColor Cyan; exit 0 }
         "19" { Execute-Command -command "npm run test:all" -description "TOUS les tests (BDD + E2E) avec rapport HTML" }
+        "20" {
+            $chromePath = "C:\Program Files\Google\Chrome\Application\chrome.exe"
+            Write-Host ""
+            Write-Host "========================================" -ForegroundColor Green
+            Write-Host "Lancement de Chrome avec débogage distant (port 9222)" -ForegroundColor Green
+            Write-Host "Pour MCP Chrome DevTools dans Cursor" -ForegroundColor Gray
+            Write-Host "========================================" -ForegroundColor Green
+            Write-Host ""
+            if (Test-Path $chromePath) {
+                Start-Process $chromePath -ArgumentList "--remote-debugging-port=9222"
+                Write-Host "[*] Chrome lancé. Ouvrez l'onglet voulu (ex. http://localhost:3000)." -ForegroundColor Cyan
+            } else {
+                Write-Host "[X] Chrome non trouvé: $chromePath" -ForegroundColor Red
+            }
+            Write-Host ""
+            Write-Host "Appuyez sur une touche pour continuer..." -ForegroundColor Gray
+            $null = $Host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown")
+        }
         default { Write-Host "Option non reconnue." -ForegroundColor Red; $null = $Host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown") }
     }
 } while ($true)

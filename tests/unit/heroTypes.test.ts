@@ -3,13 +3,13 @@
  * TDD: Tests d'abord pour valider la structure
  */
 
-import type { ElementHero, Profil } from '../../utils/indexReader';
+import type { ElementHero, ElementProfil } from '../../utils/indexReader';
 
 describe('Types hero et profil - TDD', () => {
-  describe('Type Profil', () => {
+  describe('Type ElementProfil', () => {
     it('devrait avoir la structure correcte', () => {
       // ARRANGE & ACT
-      const profil: Profil = {
+      const profil: ElementProfil = {
         type: 'profil',
         titre: 'Produit logiciel',
         jobTitles: ['CPO - Chief Product Officer', 'HOP - Head of Product'],
@@ -30,7 +30,7 @@ describe('Types hero et profil - TDD', () => {
 
     it('devrait accepter plusieurs job titles', () => {
       // ARRANGE & ACT
-      const profil: Profil = {
+      const profil: ElementProfil = {
         type: 'profil',
         titre: 'Produit logiciel',
         jobTitles: [
@@ -57,7 +57,7 @@ describe('Types hero et profil - TDD', () => {
         titre: 'Alain Meunier',
         sousTitre: 'Je recherche un projet stimulant (CDI ou freelance)',
         description: 'Description de la valeur...',
-        boutonPrincipal: {
+        callToAction: {
           texte: 'On discute ?',
           action: '/faisons-connaissance',
         },
@@ -78,8 +78,8 @@ describe('Types hero et profil - TDD', () => {
       expect(hero.titre).toBe('Alain Meunier');
       expect(hero.sousTitre).toBe('Je recherche un projet stimulant (CDI ou freelance)');
       expect(hero.description).toBeDefined();
-      expect(hero.boutonPrincipal.texte).toBe('On discute ?');
-      expect(hero.boutonPrincipal.action).toBe('/faisons-connaissance');
+      expect(hero.callToAction.texte).toBe('On discute ?');
+      expect(hero.callToAction.action).toBe('/faisons-connaissance');
       expect(Array.isArray(hero.profils)).toBe(true);
       expect(hero.profils.length).toBeGreaterThan(0);
     });
@@ -91,7 +91,7 @@ describe('Types hero et profil - TDD', () => {
         titre: 'Alain Meunier',
         sousTitre: 'Je recherche un projet stimulant (CDI ou freelance)',
         description: 'Description...',
-        boutonPrincipal: {
+        callToAction: {
           texte: 'On discute ?',
           action: '/faisons-connaissance',
         },

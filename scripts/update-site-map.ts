@@ -1,8 +1,9 @@
 /**
- * Script pour mettre à jour le fichier _Pages-Et-Lien.json
+ * Script pour mettre à jour _Pages-Et-Lien.json et plan-du-site.json.
+ * Les pages affichées dans "Plan du site" viennent de plan-du-site.json (rendu pur JSON).
  */
 
-import { detecterPages, detecterLiensInternes, mettreAJourPlanJSON } from '../utils/siteMapGenerator';
+import { detecterPages, detecterLiensInternes, mettreAJourPlanJSON, injecterPagesDansPlanDuSiteJson } from '../utils/siteMapGenerator';
 
 const pages = detecterPages();
 const liens = detecterLiensInternes();
@@ -11,7 +12,9 @@ console.log(`Pages détectées: ${pages.length}`);
 console.log(`Liens détectés: ${liens.length}`);
 
 mettreAJourPlanJSON(pages, liens);
+injecterPagesDansPlanDuSiteJson(pages);
 
-console.log('✅ Fichier _Pages-Et-Lien.json mis à jour avec succès');
-console.log(`   - ${pages.length} pages`);
-console.log(`   - ${liens.length} liens`);
+console.log('✅ Fichiers mis à jour :');
+console.log('   - _Pages-Et-Lien.json');
+console.log('   - plan-du-site.json (liste des pages pour le rendu)');
+console.log(`   - ${pages.length} pages, ${liens.length} liens`);

@@ -269,18 +269,18 @@ L'application supporte 8 types de contenu distincts pour composer les pages. Cha
 }
 ```
 
-### 6. Groupe de boutons (`groupeBoutons`)
+### 6. Groupe de boutons (`groupeDeBoutons`)
 
 **Description** : Affiche un groupe de boutons de contact ou navigation
 
-**Interface** : `ElementGroupeBoutons`
+**Interface** : `ElementGroupeDeBoutons`
 
 **Champs obligatoires** :
-- `type`: `"groupeBoutons"` (string)
+- `type`: `"groupeDeBoutons"` (string)
 - `taille`: Taille des boutons (`"petite"` ou `"grande"`)
-- `boutons`: Liste de boutons (array de `BoutonGroupe`)
+- `boutons`: Liste de boutons (array de `ElementBoutonDeGroupe`)
 
-**Structure d'un bouton (`BoutonGroupe`)** :
+**Structure d'un bouton (`ElementBoutonDeGroupe`)** :
 - `id`: Identifiant unique (string, obligatoire)
 - `icone`: Nom de l'icône lucide-react (string, obligatoire, ex: `"Mail"`, `"Youtube"`)
 - `texte`: Texte du bouton (string ou `null`, `null` pour taille `"petite"`)
@@ -290,7 +290,7 @@ L'application supporte 8 types de contenu distincts pour composer les pages. Cha
 **Exemple JSON** :
 ```json
 {
-  "type": "groupeBoutons",
+  "type": "groupeDeBoutons",
   "taille": "grande",
   "boutons": [
     {
@@ -311,20 +311,20 @@ L'application supporte 8 types de contenu distincts pour composer les pages. Cha
 }
 ```
 
-### 7. Témoignages (`temoignages`)
+### 7. Liste de témoignages (`listeDeTemoignages`)
 
 **Description** : Affiche une liste de témoignages clients
 
-**Interface** : `ElementTemoignages`
+**Interface** : `ElementListeDeTemoignages`
 
 **Champs obligatoires** :
-- `type`: `"temoignages"` (string)
+- `type`: `"listeDeTemoignages"` (string)
 
 **Champs optionnels** (au moins l'un des deux requis) :
-- `items`: Liste de témoignages inline (array de `Temoignage`)
+- `items`: Liste de témoignages inline (array de `ElementTemoignage`)
 - `source`: Nom du fichier JSON source contenant les témoignages (string, ex: `"_temoignages.json"`)
 
-**Structure d'un témoignage (`Temoignage`)** :
+**Structure d'un témoignage (`ElementTemoignage`)** :
 - `nom`: Nom de la personne (string, obligatoire)
 - `fonction`: Fonction de la personne (string, obligatoire)
 - `photo`: Chemin vers la photo (string, obligatoire, ex: `"/images/photo.jpeg"`)
@@ -333,7 +333,7 @@ L'application supporte 8 types de contenu distincts pour composer les pages. Cha
 **Exemple JSON (inline)** :
 ```json
 {
-  "type": "temoignages",
+  "type": "listeDeTemoignages",
   "items": [
     {
       "nom": "Jean Dupont",
@@ -348,31 +348,31 @@ L'application supporte 8 types de contenu distincts pour composer les pages. Cha
 **Exemple JSON (source externe)** :
 ```json
 {
-  "type": "temoignages",
+  "type": "listeDeTemoignages",
   "source": "_temoignages.json"
 }
 ```
 
-### 8. Vidéo détournement (`videoDetournement`)
+### 8. Liste de détournements vidéo (`listeDeDetournementsVideo`)
 
 **Description** : Affiche une liste de détournements vidéo (portfolio)
 
-**Interface** : `ElementVideoDetournement`
+**Interface** : `ElementListeDeDetournementsVideo`
 
 **Champs obligatoires** :
-- `type`: `"videoDetournement"` (string)
+- `type`: `"listeDeDetournementsVideo"` (string)
 
 **Champs optionnels** (au moins l'un des deux requis) :
-- `items`: Liste de détournements inline (array de `DetournementVideo`)
+- `items`: Liste de détournements inline (array de `ElementDetournementVideo`)
 - `source`: Nom du fichier JSON source contenant les détournements (string, ex: `"Détournement vidéo.json"`)
 
-**Structure d'un détournement (`DetournementVideo`)** :
+**Structure d'un détournement (`ElementDetournementVideo`)** :
 - `id`: Identifiant unique (number, obligatoire)
 - `titreVideoDetournee`: Titre de la vidéo détournée (string, obligatoire)
 - `videoDetournee`: ID YouTube de la vidéo détournée (string, obligatoire)
 - `titreVideoOriginale`: Titre de la vidéo originale (string, obligatoire)
 - `videoOriginale`: ID YouTube de la vidéo originale (string, obligatoire)
-- `pourLeCompteDe`: Nom du client (string, obligatoire)
+- `titre`: Titre du client / pour le compte de (string, obligatoire)
 - `date`: Date du détournement (string, obligatoire)
 - `pitch`: Contexte/pitch du détournement (string, obligatoire)
 - `droitsAuteur`: Texte long pour les alertes de droits d'auteur (string, optionnel)
@@ -381,7 +381,7 @@ L'application supporte 8 types de contenu distincts pour composer les pages. Cha
 **Exemple JSON (source externe)** :
 ```json
 {
-  "type": "videoDetournement",
+  "type": "listeDeDetournementsVideo",
   "source": "Détournement vidéo.json"
 }
 ```

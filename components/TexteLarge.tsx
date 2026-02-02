@@ -28,7 +28,9 @@ function renderTextWithLineBreaks(text: string): React.ReactNode[] {
 const TexteLarge: React.FC<TexteLargeProps> = ({ element }) => {
   return (
     <div className="texteLarge">
-      {renderTextWithLineBreaks(element.texte)}
+      <div className="texteLarge texte">
+        {renderTextWithLineBreaks(element.texte)}
+      </div>
     </div>
   );
 };

@@ -69,8 +69,8 @@ function refactorJson(jsonData: any): any {
       if (key === 'items' && jsonData.type === 'domaineDeCompetence') {
         result.competences = (value as OldCompetence[]).map(refactorCompetence);
       }
-      // Ajouter type aux boutons dans groupeBoutons
-      else if (key === 'boutons' && jsonData.type === 'groupeBoutons') {
+      // Ajouter type aux boutons dans groupeDeBoutons
+      else if (key === 'boutons' && jsonData.type === 'groupeDeBoutons') {
         result.boutons = (value as OldBoutonGroupe[]).map(refactorBouton);
       }
       // Récursion pour les autres valeurs

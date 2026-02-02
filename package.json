@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "ts-node --project tsconfig.node.json scripts/sync-agents-json.ts && next dev",
     "test": "jest",
+    "test:coverage": "jest --coverage",
     "test:watch": "jest --watch",
     "test:bdd": "bddgen test && playwright test",
     "test:bdd:generate": "bddgen test",
@@ -28,10 +29,16 @@
     "version:sync": "ts-node scripts/increment-site-version.ts sync",
     "extract:pdf": "tsx scripts/extract-pdf-to-markdown.ts",
     "analyse:bilan": "tsx scripts/analyse-bilan-competences.ts",
-    "sync:agents": "ts-node --project tsconfig.node.json scripts/sync-agents-json.ts"
+    "sync:agents": "ts-node --project tsconfig.node.json scripts/sync-agents-json.ts",
+    "snapshot:local": "tsx scripts/snapshot-page.ts http://localhost:3000 .cursor/snapshot-local.txt",
+    "snapshot:prod": "tsx scripts/snapshot-page.ts https://web-malain-et-possible.vercel.app/ .cursor/snapshot-production.txt",
+    "screenshot:local": "tsx scripts/screenshot-page.ts http://localhost:3000 .cursor",
+    "screenshot:prod": "tsx scripts/screenshot-page.ts https://web-malain-et-possible.vercel.app/ .cursor",
+    "screenshot:compare": "tsx scripts/screenshot-compare.ts",
+    "hierarchie:generate": "ts-node --project tsconfig.node.json scripts/generate-hierarchie-site.ts",
+    "prepare": "husky"
   },
   "dependencies": {
-    "@xyflow/react": "^12.10.0",
     "lucide-react": "^0.562.0",
     "next": "16.1.3",
     "playwright-bdd": "^8.4.2",
@@ -40,6 +47,7 @@
   },
   "devDependencies": {
     "@next/bundle-analyzer": "^16.1.4",
+    "@playwright/mcp": "^0.0.62",
     "@playwright/test": "^1.57.0",
     "@tailwindcss/postcss": "^4",
     "@testing-library/jest-dom": "^6.9.1",
@@ -49,25 +57,30 @@
     "@types/pdf-parse": "^1.1.5",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "chart.js": "^4.5.1",
     "cloc": "^2.6.0-cloc",
     "complexity-report": "^2.0.0-alpha",
     "eslint": "^9",
     "eslint-config-next": "16.1.3",
     "eslint-plugin-complexity": "^1.0.2",
+    "husky": "^9.1.7",
     "identity-obj-proxy": "^3.0.0",
     "jest": "^30.2.0",
     "jest-coverage-badges": "^1.1.2",
     "jest-environment-jsdom": "^30.2.0",
     "jest-html-reporter": "^4.3.0",
     "lighthouse": "^13.0.1",
+    "lint-staged": "^16.2.7",
     "pdf-parse": "^1.1.4",
-    "react-chartjs-2": "^5.3.1",
     "tailwindcss": "^4",
     "ts-jest": "^29.4.6",
     "ts-node": "^10.9.2",
     "tsx": "^4.19.2",
     "type-coverage": "^2.29.7",
     "typescript": "^5"
+  },
+  "lint-staged": {
+    "*.{ts,tsx}": [
+      "eslint --fix"
+    ]
   }
 }

@@ -70,47 +70,26 @@ const Tooltip: React.FC<TooltipProps> = ({
     }
   );
 
-  // Portal pour rendre la tooltip directement dans le body
+  const positionClass = position === 'top' ? 'infobulleHaut' : position === 'bottom' ? 'infobulleBas' : position === 'left' ? 'infobulleGauche' : 'infobulleDroite';
+
+  // Portal pour rendre la tooltip directement dans le body (styles depuis metrics.css)
   const tooltipElement = isVisible ? (
     <div
       data-testid="tooltip"
       id="tooltip-active"
       role="tooltip"
-      className={className}
+      className={`infobulle ${positionClass} ${className}`.trim()}
       style={{
         position: 'absolute',
         top: tooltipPosition.top,
         left: tooltipPosition.left,
         transform: 'translateX(-50%)',
-        zIndex: 2147483647,
-        background: 'white',
-        border: '2px solid #3b82f6',
-        padding: '1rem',
-        borderRadius: '8px',
-        maxWidth: '350px',
-        minWidth: '280px',
-        boxShadow: '0 10px 40px rgba(0, 0, 0, 0.15)',
-        fontSize: '14px',
-        color: '#1f2937',
-        whiteSpace: 'normal',
-        pointerEvents: 'none' // Évite les interactions qui fermeraient la tooltip
+        pointerEvents: 'none'
       }}
     >
-      <div data-testid="tooltip-content">
+      <div className="contenu" data-testid="tooltip-content">
         {content}
       </div>
-      {/* Flèche pointant vers l'icône */}
-      <div style={{
-        position: 'absolute',
-        top: '-8px',
-        left: '50%',
-        transform: 'translateX(-50%)',
-        width: '0',
-        height: '0',
-        borderLeft: '8px solid transparent',
-        borderRight: '8px solid transparent',
-        borderBottom: '8px solid #3b82f6'
-      }} />
     </div>
   ) : null;
 

@@ -6,7 +6,7 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import GroupeBoutons from '../../components/GroupeBoutons';
-import type { ElementGroupeBoutons } from '../../utils/indexReader';
+import type { ElementGroupeDeBoutons } from '../../utils/indexReader';
 
 // Mock next/navigation
 jest.mock('next/navigation', () => ({
@@ -30,8 +30,8 @@ jest.mock('../../utils/buttonHandlers', () => ({
 
 describe('Composant GroupeBoutons', () => {
   it('devrait afficher les boutons dans un conteneur', () => {
-    const element: ElementGroupeBoutons = {
-      type: 'groupeBoutons',
+    const element: ElementGroupeDeBoutons = {
+      type: 'groupeDeBoutons',
       taille: 'petite',
       boutons: [
         {
@@ -51,8 +51,8 @@ describe('Composant GroupeBoutons', () => {
   });
 
   it('devrait afficher les boutons horizontalement pour taille "petite"', () => {
-    const element: ElementGroupeBoutons = {
-      type: 'groupeBoutons',
+    const element: ElementGroupeDeBoutons = {
+      type: 'groupeDeBoutons',
       taille: 'petite',
       boutons: [
         {
@@ -73,8 +73,8 @@ describe('Composant GroupeBoutons', () => {
   });
 
   it('devrait afficher les boutons verticalement pour taille "grande"', () => {
-    const element: ElementGroupeBoutons = {
-      type: 'groupeBoutons',
+    const element: ElementGroupeDeBoutons = {
+      type: 'groupeDeBoutons',
       taille: 'grande',
       boutons: [
         {
@@ -95,8 +95,8 @@ describe('Composant GroupeBoutons', () => {
   });
 
   it('devrait afficher uniquement les icônes pour taille "petite" (sans texte)', () => {
-    const element: ElementGroupeBoutons = {
-      type: 'groupeBoutons',
+    const element: ElementGroupeDeBoutons = {
+      type: 'groupeDeBoutons',
       taille: 'petite',
       boutons: [
         {
@@ -119,8 +119,8 @@ describe('Composant GroupeBoutons', () => {
   });
 
   it('devrait afficher icône et texte pour taille "grande"', () => {
-    const element: ElementGroupeBoutons = {
-      type: 'groupeBoutons',
+    const element: ElementGroupeDeBoutons = {
+      type: 'groupeDeBoutons',
       taille: 'grande',
       boutons: [
         {
@@ -142,8 +142,8 @@ describe('Composant GroupeBoutons', () => {
   });
 
   it('devrait avoir un style transparent pour taille petite', () => {
-    const element: ElementGroupeBoutons = {
-      type: 'groupeBoutons',
+    const element: ElementGroupeDeBoutons = {
+      type: 'groupeDeBoutons',
       taille: 'petite',
       boutons: [
         {
@@ -170,8 +170,8 @@ describe('Composant GroupeBoutons', () => {
   it('ne devrait rien afficher si icône inconnue', () => {
     const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
     
-    const element: ElementGroupeBoutons = {
-      type: 'groupeBoutons',
+    const element: ElementGroupeDeBoutons = {
+      type: 'groupeDeBoutons',
       taille: 'petite',
       boutons: [
         {
@@ -198,8 +198,8 @@ describe('Composant GroupeBoutons', () => {
     const useRouter = require('next/navigation').useRouter;
     useRouter.mockReturnValue({ push: mockPush });
 
-    const element: ElementGroupeBoutons = {
-      type: 'groupeBoutons',
+    const element: ElementGroupeDeBoutons = {
+      type: 'groupeDeBoutons',
       taille: 'petite',
       boutons: [
         {
@@ -223,8 +223,8 @@ describe('Composant GroupeBoutons', () => {
     const mockOpen = jest.fn();
     window.open = mockOpen;
 
-    const element: ElementGroupeBoutons = {
-      type: 'groupeBoutons',
+    const element: ElementGroupeDeBoutons = {
+      type: 'groupeDeBoutons',
       taille: 'petite',
       boutons: [
         {
@@ -256,8 +256,8 @@ describe('Composant GroupeBoutons', () => {
     // Pour les URLs commençant par /, le composant n'utilise pas window.location.hostname
     // donc pas besoin de le mocker
 
-    const element: ElementGroupeBoutons = {
-      type: 'groupeBoutons',
+    const element: ElementGroupeDeBoutons = {
+      type: 'groupeDeBoutons',
       taille: 'petite',
       boutons: [
         {
@@ -285,8 +285,8 @@ describe('Composant GroupeBoutons', () => {
     // Pour les URLs commençant par http://localhost, le composant vérifie d'abord
     // bouton.url.startsWith('http://localhost'), donc pas besoin de mocker window.location.hostname
 
-    const element: ElementGroupeBoutons = {
-      type: 'groupeBoutons',
+    const element: ElementGroupeDeBoutons = {
+      type: 'groupeDeBoutons',
       taille: 'petite',
       boutons: [
         {

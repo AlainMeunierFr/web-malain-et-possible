@@ -21,7 +21,7 @@ let agentsJsonWasBackedUp = false;
 
 /** Zone du board : e2eid (convention projet) ou fallback */
 const zoneSprintLocator = (page: { locator: (s: string) => { first: () => { (): unknown; new (): unknown } } }) =>
-  page.locator('[e2eid="e2eid-zone-sprint"], [e2eid="zone-sprint"], .sprintBoard, main').first();
+  page.locator('[e2eid="e2eid-zone-sprint"], [e2eid="zone-sprint"], .tableauSprint, main').first();
 
 // Alias sans "que" pour matcher "Et que menu.json contient..." (step text = "menu.json contient...")
 Given('menu.json contient une ligne avec Titre {string}, Type {string}, Parametre {string}', async ({}, titre: string, type: string, parametre: string) => {
@@ -140,45 +140,45 @@ Given('le dossier .cursor/agents contient une liste de <fichiers>', async ({}) =
 });
 
 Given('le board affiche au moins une carte US', async ({ page }) => {
-  const cards = page.locator('.sprintBoardCard');
+  const cards = page.locator('.carteUS');
   await expect(cards.first()).toBeVisible({ timeout: 10000 });
   expect(await cards.count()).toBeGreaterThan(0);
 });
 
 When('le contenu du container sprintEnCours s\'affiche', async ({ page }) => {
-  const zone = page.locator('[e2eid="e2eid-zone-sprint"], [e2eid="zone-sprint"], .sprintBoard').first();
+  const zone = page.locator('[e2eid="e2eid-zone-sprint"], [e2eid="zone-sprint"], .tableauSprint').first();
   await expect(zone).toBeVisible({ timeout: 10000 });
   await page.waitForLoadState('networkidle');
 });
 
 Then('je vois le Sprint Goal lu depuis {string} en haut de la zone', async ({ page }, _filename: string) => {
-  const goalEl = page.locator('[e2eid="e2eid-sprint-goal"], [e2eid="sprint-goal"], .sprintBoardGoal, .texteLarge').first();
+  const goalEl = page.locator('[e2eid="e2eid-sprint-goal"], [e2eid="sprint-goal"], .tableauSprint .objectif, .texteLarge').first();
   await expect(goalEl).toBeVisible();
   await expect(goalEl).not.toHaveText(/Chargement|Impossible/);
 });
 
 Then('le Sprint Goal est affiché en style TexteLarge', async ({ page }) => {
-  const goalEl = page.locator('[e2eid="e2eid-sprint-goal"], [e2eid="sprint-goal"], .sprintBoardGoal').first();
+  const goalEl = page.locator('[e2eid="e2eid-sprint-goal"], [e2eid="sprint-goal"], .tableauSprint .objectif').first();
   await expect(goalEl).toBeVisible();
-  await expect(goalEl).toHaveClass(/texteLarge|sprintGoal/);
+  await expect(goalEl).toHaveClass(/texteLarge|objectif|sprintGoal/);
 });
 
 Then('je vois un tableau avec une colonne {string} en première position', async ({ page }, label: string) => {
-  const zone = page.locator('.sprintBoard').first();
+  const zone = page.locator('.tableauSprint').first();
   await expect(zone).toBeVisible();
-  const firstCol = zone.locator('[data-column-type="a_faire"], .sprintBoardColumn').first();
+  const firstCol = zone.locator('[data-column-type="a_faire"], .colonneTableauSprint').first();
   await expect(firstCol).toContainText(label);
 });
 
 Then('je vois les colonnes des agents, pour chaque <fichier> dans l\'ordre du workflow', async ({ page }) => {
-  const zone = page.locator('.sprintBoard').first();
+  const zone = page.locator('.tableauSprint').first();
   await expect(zone).toBeVisible();
   const agentCols = zone.locator('[data-column-type="agent"]');
   await expect(agentCols.count()).toBeGreaterThan(0);
 });
 
 Then('je vois une colonne {string} en dernière position', async ({ page }, label: string) => {
-  const zone = page.locator('.sprintBoard').first();
+  const zone = page.locator('.tableauSprint').first();
   await expect(zone).toBeVisible();
   await expect(zone).toContainText(label);
   const colFait = zone.locator('[data-column-type="fait"]').last();
@@ -186,26 +186,26 @@ Then('je vois une colonne {string} en dernière position', async ({ page }, labe
 });
 
 Then('sous chaque titre de colonne un décompte est affiché', async ({ page }) => {
-  const zone = page.locator('.sprintBoard').first();
-  const counts = zone.locator('.sprintBoardColumnCount');
+  const zone = page.locator('.tableauSprint').first();
+  const counts = zone.locator('.colonneTableauSprintCount');
   await expect(counts.first()).toBeVisible();
   await expect(counts.count()).toBeGreaterThan(0);
 });
 
 Then('chaque US du sprint est représentée par une carte', async ({ page }) => {
-  const cards = page.locator('.sprintBoardCard');
+  const cards = page.locator('.carteUS');
   await expect(cards.count()).toBeGreaterThan(0);
 });
 
 Then('une carte dont le nom de fichier contient {string} est dans la colonne {string}', async ({ page }, _marker: string, colLabel: string) => {
   const colFait = page.locator('[data-column-type="fait"]').first();
   await expect(colFait).toContainText(colLabel);
-  const cardsInFait = colFait.locator('.sprintBoardCard');
+  const cardsInFait = colFait.locator('.carteUS');
   await expect(cardsInFait.count()).toBeGreaterThanOrEqual(0);
 });
 
 Then('la carte dont l\'ID est dans {string} est dans la colonne de l\'agent actif \\(état {string}\\)', async ({ page }, _file: string, _state: string) => {
-  const agentColWithCard = page.locator('[data-column-type="agent"]').filter({ has: page.locator('.sprintBoardCard') });
+  const agentColWithCard = page.locator('[data-column-type="agent"]').filter({ has: page.locator('.carteUS') });
   await expect(agentColWithCard.first()).toBeVisible({ timeout: 5000 });
 });
 
@@ -215,9 +215,9 @@ Then('les autres cartes sont dans la colonne {string}', async ({ page }, label: 
 });
 
 Then('le décompte de la colonne {string} affiche le nombre de cartes {string} dans cette colonne', async ({ page }, colLabel: string, _state: string) => {
-  const col = page.locator('.sprintBoardColumn').filter({ hasText: colLabel }).first();
+  const col = page.locator('.colonneTableauSprint').filter({ hasText: colLabel }).first();
   await expect(col).toBeVisible();
-  const countEl = col.locator('.sprintBoardColumnCount');
+  const countEl = col.locator('.colonneTableauSprintCount');
   await expect(countEl).toBeVisible();
 });
 
@@ -225,7 +225,7 @@ Then('le décompte de chaque colonne agent affiche la WIP Limit', async ({ page 
   const agentCols = page.locator('[data-column-type="agent"]');
   const n = await agentCols.count();
   for (let i = 0; i < n; i++) {
-    const countEl = agentCols.nth(i).locator('.sprintBoardColumnCount');
+    const countEl = agentCols.nth(i).locator('.colonneTableauSprintCount');
     await expect(countEl).toHaveText(/0\/1|1\/1/);
   }
 });
@@ -236,16 +236,16 @@ Then('la WIP Limit est {string} lorsqu\'il n\'y a pas de carte {string} dans cet
   let found = false;
   for (let i = 0; i < n; i++) {
     const col = agentCols.nth(i);
-    const hasCard = (await col.locator('.sprintBoardCard').count()) === 0;
-    const text = await col.locator('.sprintBoardColumnCount').textContent();
+    const hasCard = (await col.locator('.carteUS').count()) === 0;
+    const text = await col.locator('.colonneTableauSprintCount').textContent();
     if (hasCard && text?.trim() === wip) found = true;
   }
   expect(found || n === 0).toBe(true);
 });
 
 Then('la WIP Limit est {string} lorsqu\'il y a la carte {string} dans cette colonne', async ({ page }, wip: string, _state: string) => {
-  const agentCols = page.locator('[data-column-type="agent"]').filter({ has: page.locator('.sprintBoardCard') });
-  const countEl = agentCols.first().locator('.sprintBoardColumnCount');
+  const agentCols = page.locator('[data-column-type="agent"]').filter({ has: page.locator('.carteUS') });
+  const countEl = agentCols.first().locator('.colonneTableauSprintCount');
   await expect(countEl).toHaveText(wip);
 });
 
@@ -298,23 +298,23 @@ Given('que le fichier agents.json est absent', async ({}) => {
 });
 
 Then('je vois au moins une colonne agent', async ({ page }) => {
-  const zone = page.locator('.sprintBoard').first();
+  const zone = page.locator('.tableauSprint').first();
   await expect(zone).toBeVisible();
   const agentCols = zone.locator('[data-column-type="agent"]');
   await expect(agentCols.count()).toBeGreaterThan(0);
 });
 
 Then('je vois exactement les colonnes {string} et {string}', async ({ page }, col1: string, col2: string) => {
-  const zone = page.locator('.sprintBoard').first();
+  const zone = page.locator('.tableauSprint').first();
   await expect(zone).toBeVisible();
-  const columns = zone.locator('.sprintBoardColumn');
+  const columns = zone.locator('.colonneTableauSprint');
   await expect(columns).toHaveCount(2);
   await expect(zone).toContainText(col1);
   await expect(zone).toContainText(col2);
 });
 
 Then('je ne vois aucune colonne agent', async ({ page }) => {
-  const zone = page.locator('.sprintBoard').first();
+  const zone = page.locator('.tableauSprint').first();
   await expect(zone).toBeVisible();
   const agentCols = zone.locator('[data-column-type="agent"]');
   await expect(agentCols).toHaveCount(0);

@@ -19,9 +19,8 @@ import {
   ChevronUp,
   type LucideIcon,
 } from 'lucide-react';
-import type { DomaineDeCompetences } from '../utils/indexReader';
+import type { ElementDomaineDeCompetence } from '../utils/indexReader';
 import { getJsonImagePath } from '../utils/imagePath';
-import styles from './DomaineDeCompetences.module.css';
 
 /**
  * Vérifie si une URL est externe (commence par http:// ou https://)
@@ -173,7 +172,7 @@ function parseInlineMarkdown(text: string): React.ReactNode[] {
           href={match.url} 
           target="_blank" 
           rel="noopener noreferrer"
-          className={styles.markdownLink}
+          className="markdownLink"
         >
           {linkContent}
         </a>
@@ -204,7 +203,7 @@ function parseMarkdownContent(text: string): React.ReactNode {
   const flushList = () => {
     if (currentListItems.length > 0) {
       blocks.push(
-        <ul key={`list-${blocks.length}`} className={styles.markdownList}>
+        <ul key={`list-${blocks.length}`} className="markdownList">
           {currentListItems.map((item, idx) => (
             <li key={`li-${idx}`}>
               {parseInlineMarkdown(item)}
@@ -221,7 +220,7 @@ function parseMarkdownContent(text: string): React.ReactNode {
       const paragraphText = currentParagraph.join(' ').trim();
       if (paragraphText) {
         blocks.push(
-          <p key={`p-${blocks.length}`} className={styles.markdownParagraph}>
+          <p key={`p-${blocks.length}`} className="markdownParagraph">
             {parseInlineMarkdown(paragraphText)}
           </p>
         );
@@ -274,7 +273,7 @@ const iconMap: Record<string, LucideIcon> = {
 };
 
 export interface DomaineDeCompetencesProps {
-  domaine: DomaineDeCompetences;
+  domaine: ElementDomaineDeCompetence;
   backgroundColor?: 'white' | 'light';
 }
 
@@ -323,62 +322,65 @@ const DomaineDeCompetences: React.FC<DomaineDeCompetencesProps> = ({ domaine, ba
   return (
     <div className={containerClass}>
       {/* Premier sous-bloc : Domaine de compétences */}
-      <div className="domaineHeader">
-        <h2>{domaine.titre}</h2>
+      <div className="header">
+        <h2 className="domaineDeCompetence titre">{domaine.titre}</h2>
         {domaine.contenu && domaine.contenu.trim() && (
-          <p className="domaineContenu">
+          <p className="domaineDeCompetence contenu">
             {parseInlineMarkdown(domaine.contenu)}
           </p>
         )}
         {domaine.auteur && (
-          <p className="domaineAuteur">{domaine.auteur}</p>
+          <p className="domaineDeCompetence auteur">{domaine.auteur}</p>
         )}
       </div>
 
       {/* Second bloc : compétences organisées verticalement par compétence */}
-      <div className="competencesContainer">
+      <div className="competencesContainer" data-layout="3 columns x 1 row">
         {domaine.items.map((competence, index) => {
           const IconComponent = competence.icon ? iconMap[competence.icon] : null;
           return (
-            <div key={`competence-${index}`} className="competenceCard">
-              <h3 className="competenceTitre">{competence.titre}</h3>
-              <div className="competenceImage">
-                {IconComponent ? (
-                  <IconComponent
-                    size={72}
-                    color="rgba(9, 23, 71, 1)"
-                    strokeWidth={1.5}
-                  />
-                ) : competence.image ? (
-                  <img 
-                    src={getJsonImagePath(competence.image.src)} 
-                    alt={competence.image.alt}
-                  />
-                ) : null}
-              </div>
-              <div className="competenceDescription">
+            <div key={`competence-${index}`} className="competenceCard competence">
+              {/* Ordre spec : titre (h3) → description (p) → auteur (a) → bouton (lk) → image.alt (n) */}
+              <h3 className="competence titre">{competence.titre}</h3>
+              <div className="competence description">
                 {parseMarkdownContent(competence.description)}
               </div>
               {competence.auteur && (
-                <p className="competenceAuteur">{competence.auteur}</p>
+                <p className="competence auteur">{competence.auteur}</p>
               )}
               {competence.bouton && shouldDisplayButton(competence.bouton) && (
-                <div className="competenceBoutonContainer">
+                <div className="boutonContainer">
                   {isExternalUrl(competence.bouton.action) ? (
                     <a
                       href={competence.bouton.action}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="lienInterne"
+                      className="lienInterne bouton competence bouton"
                       e2eid={null}
                     >
                       {competence.bouton.texte}
                     </a>
                   ) : (
-                    <Link href={competence.bouton.action} className="lienInterne" e2eid={null}>
+                    <Link href={competence.bouton.action} className="lienInterne bouton competence bouton" e2eid={null}>
                       {competence.bouton.texte}
                     </Link>
                   )}
+                </div>
+              )}
+              {(IconComponent || competence.image) && (
+                <div className={IconComponent ? 'competence icon' : 'competence image'}>
+                  {IconComponent ? (
+                    <IconComponent
+                      size={72}
+                      color="rgba(9, 23, 71, 1)"
+                      strokeWidth={1.5}
+                    />
+                  ) : competence.image ? (
+                    <img 
+                      src={getJsonImagePath(competence.image.src)} 
+                      alt={competence.image.alt}
+                    />
+                  ) : null}
                 </div>
               )}
             </div>
@@ -388,7 +390,7 @@ const DomaineDeCompetences: React.FC<DomaineDeCompetencesProps> = ({ domaine, ba
 
       {/* Troisième bloc : Expériences et apprentissages (à la demande) */}
       {domaine.experiences && domaine.experiences.length > 0 && (
-        <div className="experiencesContainer">
+        <div className="experiencesContainer" data-layout="accordeon, X rows">
           <button
             type="button"
             className="experiencesToggle"
@@ -396,7 +398,7 @@ const DomaineDeCompetences: React.FC<DomaineDeCompetencesProps> = ({ domaine, ba
             aria-expanded={experiencesOuvert}
             aria-controls={`experiences-list-${domaine.titre.replace(/\s+/g, '-')}`}
           >
-            <h3 className="experiencesTitre">
+            <h3 className="experienceEtApprentissage titre">
               Expériences et apprentissages ({domaine.experiences.length})
             </h3>
             {experiencesOuvert ? (
@@ -433,16 +435,17 @@ const DomaineDeCompetences: React.FC<DomaineDeCompetencesProps> = ({ domaine, ba
                     return getLatestYear(b.periode) - getLatestYear(a.periode);
                   })
                   .map((experience, index) => (
-                    <li key={`experience-${experience.id || index}`} className="experienceItem">
-                      {experience.periode && (
-                        <>
-                          <em className="experiencePeriode">[{experience.periode}]</em>
-                          {' - '}
-                        </>
+                    <li key={`experience-${experience.id || index}`} className="experienceEtApprentissage">
+                      {/* Ordre spec : categorie (h4) → description (p) → periode (n) */}
+                      {experience.categorie && (
+                        <h4 className="experienceEtApprentissage categorie">{experience.categorie}</h4>
                       )}
-                      <span className="experienceDescription">
+                      <span className="experienceEtApprentissage description">
                         {parseMarkdownContent(experience.description)}
                       </span>
+                      {experience.periode && (
+                        <span className="experienceEtApprentissage periode">{experience.periode}</span>
+                      )}
                     </li>
                   ))}
               </ul>

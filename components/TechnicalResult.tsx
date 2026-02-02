@@ -1,6 +1,5 @@
 import React from 'react';
 import SimpleMarkdownRenderer from './SimpleMarkdownRenderer';
-import styles from './TechnicalResult.module.css';
 
 export interface TechnicalResultProps {
   content: string;
@@ -8,7 +7,7 @@ export interface TechnicalResultProps {
 
 const TechnicalResult: React.FC<TechnicalResultProps> = ({ content }) => {
   return (
-    <div className={styles.technicalResult}>
+    <div className="technicalResult">
       <SimpleMarkdownRenderer content={content} />
     </div>
   );

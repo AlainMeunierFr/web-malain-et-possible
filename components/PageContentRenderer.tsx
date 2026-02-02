@@ -21,9 +21,11 @@ import BlocsProfils from './BlocsProfils';
 
 export interface PageContentRendererProps {
   contenu: ElementContenu[];
+  /** Liste des pages du plan du site (ex. depuis plan-du-site.json). Optionnel : ListeDesPages fera un fetch si absent. */
+  listeDesPagesInitial?: { url: string; titre: string }[];
 }
 
-const PageContentRenderer: React.FC<PageContentRendererProps> = ({ contenu }) => {
+const PageContentRenderer: React.FC<PageContentRendererProps> = ({ contenu, listeDesPagesInitial }) => {
   const { setPageTitle } = usePageTitle();
   
   // Extraire le TitreDePage et le mettre dans le contexte
@@ -98,29 +100,26 @@ const PageContentRenderer: React.FC<PageContentRendererProps> = ({ contenu }) =>
             return (
               <DomaineDeCompetences
                 key={index}
-                domaine={{
-                  titre: domaineElement.titre || '',
-                  contenu: domaineElement.contenu || '',
-                  auteur: domaineElement.auteur,
-                  items: domaineElement.items,
-                  experiences: domaineElement.experiences,
-                }}
+                domaine={domaineElement}
                 backgroundColor={backgroundColor}
               />
             );
           }
           case 'callToAction':
             return <CallToAction key={index} element={element} />;
-          case 'groupeBoutons':
+          case 'groupeDeBoutons':
             return <GroupeBoutons key={index} element={element} />;
           case 'listeDesPages':
-            return <ListeDesPages key={index} />;
-          case 'videoDetournement':
+            return <ListeDesPages key={index} initialPages={listeDesPagesInitial} />;
+          case 'listeDeDetournementsVideo':
             return <VideoDetournement key={index} element={elementAny} />;
-          case 'temoignages':
+          case 'listeDeTemoignages':
             return <Temoignages key={index} element={elementAny} />;
-          case 'profils':
+          case 'listeDeProfils':
             return <BlocsProfils key={index} element={element} />;
+          case 'listeDesExperiencesEtApprentissage':
+            /* Conteneur logique utilisé uniquement en mode lecture (domaineDeCompetence.experiences) */
+            return null;
           default:
             // TypeScript devrait empêcher ce cas, mais on le gère pour la sécurité
             return null;

@@ -4,7 +4,6 @@ import React, { useState } from 'react';
 import { ChevronDown, ChevronUp } from 'lucide-react';
 import MarkdownRenderer from './MarkdownRenderer';
 import type { JournalFile } from '../utils/journalReader';
-import styles from './JournalList.module.css';
 
 export interface JournalListProps {
   journals: JournalFile[];
@@ -28,33 +27,33 @@ const JournalList: React.FC<JournalListProps> = ({ journals }) => {
   }
 
   return (
-    <div className={styles.journalList}>
+    <div className="journalList">
       {journals.map((journal) => {
         const isExpanded = expandedJournals.has(journal.filename);
         const displayName = journal.filename.replace('.md', '');
         
         return (
-          <div key={journal.filename} className={styles.journalItem}>
+          <div key={journal.filename} className="journalItem">
             <button
-              className={styles.journalHeader}
+              className="journalHeader"
               onClick={() => toggleJournal(journal.filename)}
               aria-expanded={isExpanded}
               aria-controls={`journal-content-${journal.filename}`}
               type="button"
             >
-              <h2 className={styles.journalDate}>{displayName}</h2>
+              <h2 className="journalDate">{displayName}</h2>
               {isExpanded ? (
-                <ChevronUp className={styles.journalIcon} aria-hidden="true" />
+                <ChevronUp className="journalIcon" aria-hidden="true" />
               ) : (
-                <ChevronDown className={styles.journalIcon} aria-hidden="true" />
+                <ChevronDown className="journalIcon" aria-hidden="true" />
               )}
             </button>
             <div
               id={`journal-content-${journal.filename}`}
-              className={`${styles.journalContent} ${isExpanded ? styles.open : styles.closed}`}
+              className={`journalContent ${isExpanded ? 'open' : 'closed'}`}
               aria-hidden={!isExpanded}
             >
-              <div className={styles.journalContentInner}>
+              <div className="journalContentInner">
                 <MarkdownRenderer content={journal.content} />
               </div>
             </div>

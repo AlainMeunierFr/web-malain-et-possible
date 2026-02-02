@@ -1,0 +1,122 @@
+Chemin vers le fichier CSS	Nom du style	TypeDeContenu	Composant	Niveau de titre	Type standard HTML	Nom de la police de caractère	Taille de la police de caractère	Gras : oui / non	Italique : oui / non	Couleur
+app/content-styles.css	.groupeBoutons.taillePetite .bouton	groupeDeBoutons	GroupeBoutons	-	Bouton			non	non	transparent
+app/content-styles.css	.groupeBoutons.taillePetite .bouton:hover	groupeDeBoutons	GroupeBoutons	-	Bouton			non	non	transparent
+app/content-styles.css	.bouton:hover	bouton (partagé)	plusieurs	-	Bouton			non	non	var(--BleuClair)
+app/content-styles.css	.bouton:active	bouton (partagé)	plusieurs	-	Bouton			non	non	var(--BleuFonce)
+app/content-styles.css	.titre		-	-	Titre			non	non	var(--BleuClair)
+app/content-styles.css	.titre.texte	titre	Titre	-	Normal (paragraphe)	var(--font-sans)	1rem	oui	non	var(--BleuFonce)
+app/content-styles.css	.titre.texte	titre	Titre	-	Normal (paragraphe)		1rem	non	non	
+app/content-styles.css	.video.light		-	-	-			non	non	var(--BleuClair)
+app/content-styles.css	.video h2	video	Video	H2	Titre	var(--font-sans)	1.125rem	oui	non	rgba(9, 23, 71, 1)
+app/content-styles.css	.video h2	video	Video	H2	Titre		1.5rem	non	non	
+app/content-styles.css	.texteLarge.texte p	texteLarge	TexteLarge	-	Normal (paragraphe)	var(--font-serif)	1.05625rem	non	non	rgba(9, 23, 71, 1)
+app/content-styles.css	.domaineDeCompetence.light	domaineDeCompetence	DomaineDeCompetences	-	-			non	non	var(--BleuClair)
+app/content-styles.css	.domaineDeCompetence .header	domaineDeCompetence	DomaineDeCompetences	-	-		0.9375rem	non	non	
+app/content-styles.css	.domaineDeCompetence.titre	domaineDeCompetence	DomaineDeCompetences	-	Titre	var(--font-sans)	1.25rem	oui	non	var(--color-text-default)
+app/content-styles.css	.domaineDeCompetence.light .domaineDeCompetence.titre	domaineDeCompetence	DomaineDeCompetences	-	Titre			non	non	var(--BleuClair)
+app/content-styles.css	.domaineDeCompetence.contenu	domaineDeCompetence	DomaineDeCompetences	-	Normal (paragraphe)	var(--font-serif)	inherit	non	non	var(--color-text-default)
+app/content-styles.css	.domaineDeCompetence.auteur	domaineDeCompetence	DomaineDeCompetences	-	Normal (paragraphe)	var(--font-serif)	inherit	non	oui	var(--color-text-default)
+app/content-styles.css	.competence.titre	domaineDeCompetence	DomaineDeCompetences	-	Titre	var(--font-sans)	1rem	oui	non	var(--BleuFonce)
+app/content-styles.css	.competence.auteur	domaineDeCompetence	DomaineDeCompetences	-	Normal (paragraphe)	var(--font-serif)	0.65625rem	non	oui	var(--color-text-default)
+app/content-styles.css	.domaineDeCompetence .experiencesToggle:hover	domaineDeCompetence	DomaineDeCompetences	-	-			non	non	rgba(0, 0, 0, 0.04)
+app/content-styles.css	.domaineDeCompetence .experiencesToggleIcon	domaineDeCompetence	DomaineDeCompetences	-	-			non	non	var(--BleuFonce)
+app/content-styles.css	.experienceEtApprentissage.titre		-	-	Titre	var(--font-sans)	0.5rem	oui	non	var(--color-text-default)
+app/content-styles.css	.experienceEtApprentissage		-	-	-	var(--font-serif)	0.46875rem	non	non	var(--color-text-default)
+app/content-styles.css	.experienceEtApprentissage.periode		-	-	-			non	oui	
+app/content-styles.css	.experienceEtApprentissage.description		-	-	Normal (paragraphe)			non	non	
+app/content-styles.css	.domaineDeCompetence.titre	domaineDeCompetence	DomaineDeCompetences	-	Titre		1.5rem	non	non	
+app/content-styles.css	.domaineDeCompetence .header	domaineDeCompetence	DomaineDeCompetences	-	-		1rem	non	non	
+app/content-styles.css	.competence.titre	domaineDeCompetence	DomaineDeCompetences	-	Titre		1.125rem	oui	non	var(--BleuFonce)
+app/content-styles.css	.competence.description	domaineDeCompetence	DomaineDeCompetences	-	Normal (paragraphe)		0.7rem	non	non	
+app/content-styles.css	.groupeBoutons.tailleGrande .groupeDeBoutons.texte	groupeDeBoutons	GroupeBoutons	-	Normal (paragraphe)		1.25rem	non	non	
+app/content-styles.css	.groupeBoutons.tailleGrande .groupeDeBoutons.texte	groupeDeBoutons	GroupeBoutons	-	Normal (paragraphe)		1.375rem	non	non	
+app/content-styles.css	.videoDetournement .detournementVideo.titreVideoDetournee	listeDeDetournementsVideo	VideoDetournement	-	Normal (paragraphe)	var(--font-sans)	1.25rem	oui	non	var(--BleuClair)
+app/content-styles.css	.videoDetournement .ui-sectionTitle	listeDeDetournementsVideo	VideoDetournement	-	-	var(--font-sans)	1.125rem	oui	non	var(--BleuFonce)
+app/content-styles.css	.videoDetournement .detournementVideo.titreVideoOriginale, .videoDetournement .detournementVideo.pourLeCompteDe	listeDeDetournementsVideo	VideoDetournement	-	Normal (paragraphe)	var(--font-serif)	0.875rem	non	oui	rgba(9, 23, 71, 1)
+app/content-styles.css	.videoDetournement .detournementVideo.titreVideoDetournee	listeDeDetournementsVideo	VideoDetournement	-	Normal (paragraphe)		1.5rem	non	non	
+app/content-styles.css	.videoDetournement .ui-sectionTitle	listeDeDetournementsVideo	VideoDetournement	-	-		1.25rem	non	non	
+app/content-styles.css	.videoDetournement .ui-linkedinButton	listeDeDetournementsVideo	VideoDetournement	-	-	var(--BoutonPolice)	18px	non	non	var(--BoutonCouleurFondHover)
+app/content-styles.css	.videoDetournement .ui-linkedinButton:hover	listeDeDetournementsVideo	VideoDetournement	-	-			non	non	var(--BoutonCouleurFond)
+app/content-styles.css	.videoDetournement .ui-linkedinButton:active	listeDeDetournementsVideo	VideoDetournement	-	-			non	non	var(--BoutonCouleurFond)
+app/content-styles.css	.videoDetournement .ui-alertIcon	listeDeDetournementsVideo	VideoDetournement	-	-			non	non	#dc2626
+app/content-styles.css	.videoDetournement .ui-popup	listeDeDetournementsVideo	VideoDetournement	-	-			non	non	#ffffff
+app/content-styles.css	.videoDetournement .ui-closeButton	listeDeDetournementsVideo	VideoDetournement	-	-		24px	non	non	#666
+app/content-styles.css	.videoDetournement .ui-closeButton:hover	listeDeDetournementsVideo	VideoDetournement	-	-			non	non	#000
+app/content-styles.css	.videoDetournement .ui-popupContent	listeDeDetournementsVideo	VideoDetournement	-	-	var(--font-serif)	13px	non	non	rgba(9, 23, 71, 1)
+app/content-styles.css	.temoignage.photo	listeDeTemoignages	Temoignages	-	-			non	non	#f0f0f0
+app/content-styles.css	.temoignage.nom	listeDeTemoignages	Temoignages	-	Titre	var(--font-sans)	0.7875rem	oui	non	var(--BleuFonce)
+app/content-styles.css	.temoignage.fonction	listeDeTemoignages	Temoignages	-	Normal (paragraphe)	var(--font-serif)	0.875rem	non	oui	var(--color-text-default)
+app/content-styles.css	.temoignage.temoignage	listeDeTemoignages	Temoignages	-	-	var(--font-serif)	0.875rem	non	non	var(--color-text-default)
+app/content-styles.css	.temoignage.nom	listeDeTemoignages	Temoignages	-	Titre		0.875rem	non	non	
+app/content-styles.css	.temoignage.fonction	listeDeTemoignages	Temoignages	-	Normal (paragraphe)		1rem	non	non	
+app/content-styles.css	.temoignage.temoignage	listeDeTemoignages	Temoignages	-	-		1rem	non	non	
+app/content-styles.css	.hero.titre	hero	HeroSection	-	Titre	var(--font-sans)	1.5rem	oui	non	var(--color-text-default)
+app/content-styles.css	.hero.sousTitre	hero	HeroSection	-	-	var(--font-sans)	0.875rem	non	non	var(--color-text-default)
+app/content-styles.css	.hero.description	hero	HeroSection	-	Normal (paragraphe)	var(--font-serif)	0.6875rem	non	non	var(--color-text-default)
+app/content-styles.css	.hero.titre	hero	HeroSection	-	Titre		1.375rem	non	non	
+app/content-styles.css	.hero.sousTitre	hero	HeroSection	-	-		0.875rem	non	non	
+app/content-styles.css	.hero.description	hero	HeroSection	-	Normal (paragraphe)		0.6875rem	non	non	
+app/content-styles.css	.profil.titre	listeDeProfils	BlocsProfils / ProfilContainer	-	Titre		1.125rem	oui	non	var(--color-text-default)
+app/content-styles.css	.profil.jobTitle	listeDeProfils	BlocsProfils / ProfilContainer	-	-		0.8125rem	non	non	#666
+app/content-styles.css	.lienInterne	lien	liens internes	-	Lien	var(--font-sans)	0.9375rem	oui	non	var(--BleuFonce)
+app/content-styles.css	.lienInterne:hover	lien	liens internes	-	Lien			non	non	var(--BleuFonce)
+app/content-styles.css	.profil.ui-card	listeDeProfils	BlocsProfils / ProfilContainer	-	-			non	non	inherit
+app/content-styles.css	.profil.ui-card:hover	listeDeProfils	BlocsProfils / ProfilContainer	-	-			non	non	inherit
+app/content-styles.css	.profil.route	listeDeProfils	BlocsProfils / ProfilContainer	-	-		1rem	non	non	
+app/content-styles.css	.profil.cvPath	listeDeProfils	BlocsProfils / ProfilContainer	-	-		1rem	oui	non	var(--BleuFonce)
+app/content-styles.css	.profil.cvPath:hover	listeDeProfils	BlocsProfils / ProfilContainer	-	-			non	non	var(--BleuFonce)
+app/content-styles.css	.profil.titre	listeDeProfils	BlocsProfils / ProfilContainer	-	Titre		1rem	non	non	
+app/content-styles.css	.profil.jobTitle	listeDeProfils	BlocsProfils / ProfilContainer	-	-		0.75rem	non	non	
+app/content-styles.css	.profil.cvPath	listeDeProfils	BlocsProfils / ProfilContainer	-	-		1rem	non	non	
+app/content-styles.css	.titre.texte	titre	Titre	-	Normal (paragraphe)		1rem	non	non	
+app/content-styles.css	.texteLarge.texte p	texteLarge	TexteLarge	-	Normal (paragraphe)		1.21875rem	non	non	
+app/content-styles.css	.domaineDeCompetence.titre	domaineDeCompetence	DomaineDeCompetences	-	Titre		1.75rem	non	non	
+app/content-styles.css	.domaineDeCompetence .header	domaineDeCompetence	DomaineDeCompetences	-	-		1.125rem	non	non	
+app/content-styles.css	.competence.titre	domaineDeCompetence	DomaineDeCompetences	-	Titre		1.25rem	non	non	
+app/content-styles.css	.competence.description	domaineDeCompetence	DomaineDeCompetences	-	Normal (paragraphe)		0.7875rem	non	non	
+app/content-styles.css	.video h2	video	Video	H2	Titre		1.75rem	non	non	
+app/content-styles.css	.videoDetournement h2	listeDeDetournementsVideo	VideoDetournement	H2	Titre		1.75rem	non	non	
+app/content-styles.css	.videoDetournement h3	listeDeDetournementsVideo	VideoDetournement	H3	Titre		1.375rem	non	non	
+app/content-styles.css	.temoignage.nom	listeDeTemoignages	Temoignages	-	Titre		0.9625rem	non	non	
+app/content-styles.css	.temoignage.fonction, .temoignage.temoignage	listeDeTemoignages	Temoignages	-	Normal (paragraphe)		1.125rem	non	non	
+app/content-styles.css	.hero.titre	hero	HeroSection	-	Titre		2rem	non	non	
+app/content-styles.css	.hero.sousTitre	hero	HeroSection	-	-		14px	non	non	
+app/content-styles.css	.hero.description	hero	HeroSection	-	Normal (paragraphe)		7px	non	non	
+app/content-styles.css	.blocsProfils .profil.titre	listeDeProfils	BlocsProfils / ProfilContainer	-	Titre		1.25rem	non	non	
+app/content-styles.css	.blocsProfils .profil.jobTitle	listeDeProfils	BlocsProfils / ProfilContainer	-	-		0.9375rem	non	non	
+app/content-styles.css	.titre h1	titre	Titre	H1	Titre		1rem	non	non	
+app/content-styles.css	.texteLarge.texte p	texteLarge	TexteLarge	-	Normal (paragraphe)		1.3rem	non	non	
+app/content-styles.css	.domaineDeCompetence h2, .domaineDeCompetence .header .titre	domaineDeCompetence	DomaineDeCompetences	H2	Titre		30px	non	non	
+app/content-styles.css	.domaineDeCompetence .header	domaineDeCompetence	DomaineDeCompetences	-	-		19px	non	non	
+app/content-styles.css	.competence.titre	domaineDeCompetence	DomaineDeCompetences	-	Titre		21px	non	non	
+app/content-styles.css	.competence.description	domaineDeCompetence	DomaineDeCompetences	-	Normal (paragraphe)		13.3px	non	non	
+app/content-styles.css	.video h2	video	Video	H2	Titre		30px	non	non	
+app/content-styles.css	.videoDetournement h2	listeDeDetournementsVideo	VideoDetournement	H2	Titre		30px	non	non	
+app/content-styles.css	.videoDetournement h3	listeDeDetournementsVideo	VideoDetournement	H3	Titre		1.5rem	non	non	
+app/content-styles.css	.temoignage.nom	listeDeTemoignages	Temoignages	-	Titre		1.05rem	non	non	
+app/content-styles.css	.temoignage.fonction, .temoignage.temoignage	listeDeTemoignages	Temoignages	-	Normal (paragraphe)		1.1875rem	non	non	
+app/content-styles.css	.hero.titre	hero	HeroSection	-	Titre		2.25rem	non	non	
+app/content-styles.css	.hero.sousTitre	hero	HeroSection	-	-		1.125rem	non	non	
+app/content-styles.css	.hero.description	hero	HeroSection	-	Normal (paragraphe)		0.6875rem	non	non	
+app/content-styles.css	.titre.texte	titre	Titre	-	Normal (paragraphe)		1rem	non	non	
+app/content-styles.css	.texteLarge.texte p	texteLarge	TexteLarge	-	Normal (paragraphe)		1.38125rem	non	non	
+app/content-styles.css	.domaineDeCompetence.titre	domaineDeCompetence	DomaineDeCompetences	-	Titre		2rem	non	non	
+app/content-styles.css	.domaineDeCompetence .header	domaineDeCompetence	DomaineDeCompetences	-	-		1.25rem	non	non	
+app/content-styles.css	.competence.titre	domaineDeCompetence	DomaineDeCompetences	-	Titre		1.375rem	non	non	
+app/content-styles.css	.competence.description	domaineDeCompetence	DomaineDeCompetences	-	Normal (paragraphe)		0.875rem	non	non	
+app/content-styles.css	.video h2	video	Video	H2	Titre		32px	non	non	
+app/content-styles.css	.videoDetournement h2	listeDeDetournementsVideo	VideoDetournement	H2	Titre		32px	non	non	
+app/content-styles.css	.videoDetournement h3	listeDeDetournementsVideo	VideoDetournement	H3	Titre		26px	non	non	
+app/content-styles.css	.temoignage.nom	listeDeTemoignages	Temoignages	-	Titre		18.2px	non	non	
+app/content-styles.css	.temoignage.fonction, .temoignage.temoignage	listeDeTemoignages	Temoignages	-	Normal (paragraphe)		1.25rem	non	non	
+app/content-styles.css	.hero.titre	hero	HeroSection	-	Titre		2.5rem	non	non	
+app/content-styles.css	.hero.sousTitre	hero	HeroSection	-	-		1.25rem	non	non	
+app/content-styles.css	.hero.description	hero	HeroSection	-	Normal (paragraphe)		0.75rem	non	non	
+app/content-styles.css	.titreDePage.texte	titreDePage	Header	-	Normal (paragraphe)	var(--font-serif)	1.5rem	oui	non	white
+app/content-styles.css	.footer .version		-	-	-		0.875rem	non	non	white
+app/content-styles.css	.footer .bouton	bouton (partagé)	plusieurs	-	Bouton			non	non	inherit
+app/content-styles.css	.footer .icone		-	-	-			non	non	white
+app/content-styles.css	.competence.description em	domaineDeCompetence	DomaineDeCompetences	-	Normal (paragraphe)			non	oui	
+app/content-styles.css	.competence.description .markdownLink	domaineDeCompetence	DomaineDeCompetences	-	Normal (paragraphe)			non	non	var(--BleuFonce)
+app/content-styles.css	.competence.description .markdownLink:hover	domaineDeCompetence	DomaineDeCompetences	-	Normal (paragraphe)			non	non	#005A9E
+app/content-styles.css	.competence.auteur	domaineDeCompetence	DomaineDeCompetences	-	Normal (paragraphe)	var(--font-serif)	0.525rem	non	oui	var(--color-text-default)

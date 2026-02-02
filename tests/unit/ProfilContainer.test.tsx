@@ -6,7 +6,7 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import ProfilContainer from '../../components/ProfilContainer';
-import type { Profil } from '../../utils/indexReader';
+import type { ElementProfil } from '../../utils/indexReader';
 
 // Mock next/link
 jest.mock('next/link', () => {
@@ -22,7 +22,7 @@ jest.mock('lucide-react', () => ({
 
 describe('Composant ProfilContainer', () => {
   it('devrait afficher le titre du profil', () => {
-    const profil: Profil = {
+    const profil: ElementProfil = {
       type: 'profil',
       titre: 'Produit logiciel',
       jobTitles: ['CPO - Chief Product Officer'],
@@ -37,7 +37,7 @@ describe('Composant ProfilContainer', () => {
   });
 
   it('devrait afficher tous les job titles', () => {
-    const profil: Profil = {
+    const profil: ElementProfil = {
       type: 'profil',
       titre: 'Produit logiciel',
       jobTitles: [
@@ -58,7 +58,7 @@ describe('Composant ProfilContainer', () => {
   });
 
   it('devrait avoir un bouton d\'accès vers la route du profil', () => {
-    const profil: Profil = {
+    const profil: ElementProfil = {
       type: 'profil',
       titre: 'Produit logiciel',
       jobTitles: [],
@@ -74,7 +74,7 @@ describe('Composant ProfilContainer', () => {
   });
 
   it('devrait avoir un lien CV discret pointant vers le PDF (libellé par défaut "Voir le CV")', () => {
-    const profil: Profil = {
+    const profil: ElementProfil = {
       type: 'profil',
       titre: 'Produit logiciel',
       jobTitles: [],
@@ -94,7 +94,7 @@ describe('Composant ProfilContainer', () => {
   });
 
   it('devrait utiliser les libellés personnalisés quand fournis (page Mes Profils)', () => {
-    const profil: Profil = {
+    const profil: ElementProfil = {
       type: 'profil',
       titre: 'Produit logiciel',
       jobTitles: [],

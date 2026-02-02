@@ -7,7 +7,7 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import BlocsProfils from '../../components/BlocsProfils';
-import type { ElementProfils, Profil } from '../../utils/indexReader';
+import type { ElementListeDeProfils, ElementProfil } from '../../utils/indexReader';
 
 jest.mock('next/link', () => {
   return function MockLink({
@@ -27,7 +27,7 @@ jest.mock('lucide-react', () => ({
   FileDown: () => React.createElement('svg', { 'e2eid': 'file-down' }),
 }));
 
-const profilsFixture: Profil[] = [
+const profilsFixture: ElementProfil[] = [
   {
     type: 'profil',
     titre: 'Produit logiciel',
@@ -62,8 +62,8 @@ const profilsFixture: Profil[] = [
   },
 ];
 
-const elementProfilsFixture: ElementProfils = {
-  type: 'profils',
+const elementProfilsFixture: ElementListeDeProfils = {
+  type: 'listeDeProfils',
   profils: profilsFixture,
 };
 
@@ -118,7 +118,7 @@ describe('BlocsProfils', () => {
 
   it('rend null si profils est absent', () => {
     const { container } = render(
-      <BlocsProfils element={{ type: 'profils', profils: undefined as unknown as Profil[] }} />
+      <BlocsProfils element={{ type: 'listeDeProfils', profils: undefined as unknown as ElementProfil[] }} />
     );
 
     expect(container.querySelector('.blocsProfils')).toBeNull();

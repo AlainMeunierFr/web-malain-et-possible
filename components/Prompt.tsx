@@ -1,6 +1,5 @@
 import React from 'react';
 import SimpleMarkdownRenderer from './SimpleMarkdownRenderer';
-import styles from './Prompt.module.css';
 
 export interface PromptProps {
   content: string;
@@ -8,7 +7,7 @@ export interface PromptProps {
 
 const Prompt: React.FC<PromptProps> = ({ content }) => {
   return (
-    <div className={styles.prompt}>
+    <div className="prompt">
       <SimpleMarkdownRenderer content={content} />
     </div>
   );

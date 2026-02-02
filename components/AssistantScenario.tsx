@@ -8,7 +8,7 @@ import {
   retirerLienUtilise,
   pageAccueil,
 } from '../utils/assistantScenario';
-import styles from './AssistantScenario.module.css';
+import styles from '../app/maintenance/maintenance.module.css';
 
 export default function AssistantScenario() {
   const [plan, setPlan] = useState<PlanSite | null>(null);

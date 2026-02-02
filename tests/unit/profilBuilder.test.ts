@@ -5,7 +5,7 @@
 
 import { resolvePageReferences } from '../../utils/profilBuilder';
 import type { PageData } from '../../utils/indexReader';
-import type { CompetenceBibliotheque, DomaineBibliotheque, AutreElement } from '../../utils/bibliothequeReader';
+import type { CompetenceBibliotheque, DomaineBibliotheque, ExperienceEtApprentissage } from '../../utils/bibliothequeReader';
 
 describe('profilBuilder - Approche TDD', () => {
   describe('resolvePageReferences', () => {
@@ -143,7 +143,7 @@ describe('profilBuilder - Approche TDD', () => {
         experiences: ['1', '2'],
       });
 
-      const autres = new Map<string, AutreElement>();
+      const autres = new Map<string, ExperienceEtApprentissage>();
       autres.set('1', {
         id: '1',
         type: 'Expériences et apprentissages',

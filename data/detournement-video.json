@@ -1,9 +1,14 @@
 {
+  "metadata": {
+    "title": "Détournement de scènes cultes du cinéma",
+    "description": "L'usage des visuels au service des interactions : créativité, viralité, engagement. Détournements vidéo pour soutenir des causes et projets.",
+    "ogType": "website"
+  },
   "contenu": [
     {
       "type": "video",
       "urlYouTube": "https://youtu.be/nVM9ep-seJE",
-      "lancementAuto": true,
+      "lancementAuto": false,
       "e2eID": "v20"
     },
     {

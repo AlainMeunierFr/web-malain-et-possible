@@ -4,7 +4,6 @@ import React, { useState } from 'react';
 import { ChevronDown, ChevronUp } from 'lucide-react';
 import CourseMarkdownRenderer from './CourseMarkdownRenderer';
 import type { CourseFile } from '../utils/journalReader';
-import styles from './CourseList.module.css';
 
 export interface CourseListProps {
   courses: CourseFile[];
@@ -28,33 +27,33 @@ const CourseList: React.FC<CourseListProps> = ({ courses }) => {
   }
 
   return (
-    <div className={styles.courseList}>
+    <div className="courseList">
       {courses.map((course) => {
         const isExpanded = expandedCourses.has(course.filename);
         const displayName = course.filename.replace('.md', '');
         
         return (
-          <div key={course.filename} className={styles.courseItem}>
+          <div key={course.filename} className="courseItem">
             <button
-              className={styles.courseHeader}
+              className="courseHeader"
               onClick={() => toggleCourse(course.filename)}
               aria-expanded={isExpanded}
               aria-controls={`course-content-${course.filename}`}
               type="button"
             >
-              <h2 className={styles.courseTitle}>{displayName}</h2>
+              <h2 className="courseTitle">{displayName}</h2>
               {isExpanded ? (
-                <ChevronUp className={styles.courseIcon} aria-hidden="true" />
+                <ChevronUp className="courseIcon" aria-hidden="true" />
               ) : (
-                <ChevronDown className={styles.courseIcon} aria-hidden="true" />
+                <ChevronDown className="courseIcon" aria-hidden="true" />
               )}
             </button>
             <div
               id={`course-content-${course.filename}`}
-              className={`${styles.courseContent} ${isExpanded ? styles.open : styles.closed}`}
+              className={`courseContent ${isExpanded ? 'open' : 'closed'}`}
               aria-hidden={!isExpanded}
             >
-              <div className={styles.courseContentInner}>
+              <div className="courseContentInner">
                 <CourseMarkdownRenderer content={course.content} />
               </div>
             </div>

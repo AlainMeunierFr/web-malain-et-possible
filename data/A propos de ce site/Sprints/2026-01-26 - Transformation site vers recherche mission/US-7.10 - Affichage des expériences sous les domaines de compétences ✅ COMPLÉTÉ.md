@@ -7,7 +7,7 @@
 - **Critères d'acceptation** :
 
 - **CA1 - Fichier de données expériences** :
-  - Le fichier `data/bibliotheque/experience-et-autres-informations.json` existe déjà
+  - Le fichier `data/bibliotheque/experienceEtApprentissage.json` existe déjà
   - Structure avec IDs numériques uniques pour chaque élément
   - Chaque élément contient : `id`, `type`, `titre`, `description`, `periode`
   - Types supportés : "Expériences et apprentissages", "Formations et certifications", "Engagements et Pro Bono", "Réalisations notables"

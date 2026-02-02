@@ -1,0 +1,44 @@
+- banner:
+  - link "Logo Malain et possible":
+    - /url: /
+    - img "Logo Malain et possible"
+  - link "Photo Alain Meunier":
+    - /url: /maintenance
+    - img "Photo Alain Meunier"
+- main:
+  - heading "Alain Meunier" [level=1]
+  - heading "Disponible et enthousiaste pour un projet stimulant (CDI ou freelance)" [level=2]
+  - paragraph:
+    - text: 25 ans d'expérience à
+    - strong: transformer des idées
+    - text: en produits logiciels qui
+    - strong: génèrent de la valeur
+    - text: . J'ai équipé 15% des radiologues libéraux français avec mon premier produit. Passionné par la
+    - strong: résolution de problèmes complexes
+    - text: ", je combine"
+    - strong: rigueur technique et leadership humain
+    - text: . Mon parcours d'entrepreneur m'a appris que les meilleures solutions naissent de l'
+    - strong: engagement des équipes
+    - text: . Je recherche un projet long terme où je pourrai contribuer à la
+    - strong: stratégie et à la transformation des organisations
+    - text: .
+  - link "Télécharger mon CV":
+    - /url: /mes-profils
+  - link "Discutons":
+    - /url: /faisons-connaissance
+  - iframe
+- contentinfo:
+  - link "Calendar":
+    - /url: /faisons-connaissance
+  - link "Mail":
+    - /url: mailto:alain@maep.fr
+  - link "Youtube":
+    - /url: https://www.youtube.com/@m-alain-et-possible
+  - link "Linkedin":
+    - /url: https://www.linkedin.com/in/alain-meunier-maep/
+  - link "Plan du site":
+    - /url: /plan-du-site
+  - link "Metrics":
+    - /url: /metrics
+  - link "Info":
+    - /url: /a-propos-du-site

@@ -6,7 +6,7 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import Temoignages from '../../components/Temoignages';
-import type { ElementTemoignages } from '../../utils/indexReader';
+import type { ElementListeDeTemoignages } from '../../utils/indexReader';
 
 // Mock next/image
 jest.mock('next/image', () => ({
@@ -23,16 +23,18 @@ jest.mock('next/image', () => ({
 }));
 
 describe('Composant Temoignages', () => {
-  const mockElement: ElementTemoignages = {
-    type: 'temoignages',
+  const mockElement: ElementListeDeTemoignages = {
+    type: 'listeDeTemoignages',
     items: [
       {
+        type: 'temoignage',
         nom: 'Test Nom',
         fonction: 'Test Fonction',
         photo: 'test.jpg',
         temoignage: 'Premier paragraphe.\n\nDeuxième paragraphe.',
       },
       {
+        type: 'temoignage',
         nom: 'Test Nom 2',
         fonction: 'Test Fonction 2',
         photo: 'test2.jpg',
@@ -87,8 +89,8 @@ describe('Composant Temoignages', () => {
   });
 
   it('devrait gérer un témoignage vide', () => {
-    const emptyElement: ElementTemoignages = {
-      type: 'temoignages',
+    const emptyElement: ElementListeDeTemoignages = {
+      type: 'listeDeTemoignages',
       items: [],
     };
 

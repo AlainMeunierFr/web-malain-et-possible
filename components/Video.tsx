@@ -42,7 +42,8 @@ const Video: React.FC<VideoProps> = ({ element, backgroundColor = 'white' }) => 
 
   if (!videoId) {
     return (
-      <div className={containerClass}>
+      <div className={containerClass} data-url={element.urlYouTube}>
+        <span className="video urlYouTube">{element.urlYouTube}</span>
         <p>URL YouTube invalide : {element.urlYouTube}</p>
       </div>
     );
@@ -54,10 +55,9 @@ const Video: React.FC<VideoProps> = ({ element, backgroundColor = 'white' }) => 
   }rel=0&modestbranding=1`;
 
   return (
-    <div className={containerClass}>
-      {(element as any).titre && (
-        <h2>{(element as any).titre}</h2>
-      )}
+    <div className={containerClass} data-url={element.urlYouTube}>
+      {/* --v : URL comme "texte" pour placement explicite dans le DOM */}
+      <span className="video urlYouTube">{element.urlYouTube}</span>
       <div className="videoWrapper">
         <iframe
           src={embedUrl}

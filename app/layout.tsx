@@ -1,14 +1,9 @@
 import type { Metadata } from "next";
-import "./globals.css";
-import "./content-styles.css";
-import Header from "../components/Header";
-import Footer from "../components/Footer";
 import { EditingProvider } from "../contexts/EditingContext";
 import { PageTitleProvider } from "../contexts/PageTitleContext";
 import Matomo from "../components/Matomo";
-
-/* Les polices sont maintenant chargées localement via @font-face dans globals.css
-   Plus besoin de next/font/google - toutes les polices sont servies depuis /fonts/ */
+import Header from "../components/Header";
+import Footer from "../components/Footer";
 
 export const metadata: Metadata = {
   title: "Malain et possible",
@@ -31,12 +26,28 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="fr" suppressHydrationWarning>
+      <head>
+        <link
+          rel="preload"
+          href="/fonts/Outfit-Regular.woff2"
+          as="font"
+          type="font/woff2"
+          crossOrigin="anonymous"
+        />
+        <link
+          rel="preload"
+          href="/fonts/Outfit-Bold.woff2"
+          as="font"
+          type="font/woff2"
+          crossOrigin="anonymous"
+        />
+      </head>
       <body className="antialiased">
         <EditingProvider>
           <PageTitleProvider>
             <Matomo />
             <Header />
-            {children}
+            <main id="main-content">{children}</main>
             <Footer />
           </PageTitleProvider>
         </EditingProvider>

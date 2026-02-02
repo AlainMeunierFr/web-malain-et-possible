@@ -1,14 +1,14 @@
 /**
- * Tests pour la lecture du JSON avec type "videoDetournement"
+ * Tests pour la lecture du JSON avec type "listeDeDetournementsVideo"
  * Vérifie que readPageData peut lire et parser correctement les détournements vidéo
  */
 
 import { readPageData } from '../../utils/indexReader';
-import type { DetournementVideo, ElementVideoDetournement } from '../../utils/indexReader';
+import type { ElementDetournementVideo, ElementListeDeDetournementsVideo } from '../../utils/indexReader';
 import * as fs from 'fs';
 import * as path from 'path';
 
-describe('Lecture JSON avec type "videoDetournement"', () => {
+describe('Lecture JSON avec type "listeDeDetournementsVideo"', () => {
   const portfolioPath = path.join(process.cwd(), 'data', 'portfolio-detournements.json');
 
   it('devrait pouvoir lire le fichier portfolio-detournements.json', () => {
@@ -18,12 +18,12 @@ describe('Lecture JSON avec type "videoDetournement"', () => {
     expect(pageData.contenu.length).toBeGreaterThan(0);
   });
 
-  it('devrait détecter un élément de type "videoDetournement" dans portfolio-detournements.json', () => {
+  it('devrait détecter un élément de type "listeDeDetournementsVideo" dans portfolio-detournements.json', () => {
     if (fs.existsSync(portfolioPath)) {
       const pageData = readPageData('portfolio-detournements.json');
       const videoDetournementElements = pageData.contenu.filter(
         (element) => element.type === 'videoDetournement'
-      ) as ElementVideoDetournement[];
+      ) as ElementListeDeDetournementsVideo[];
 
       // Vérifier qu'au moins un élément de ce type existe ou que la page peut en contenir
       expect(pageData.contenu.length).toBeGreaterThan(0);
@@ -35,18 +35,18 @@ describe('Lecture JSON avec type "videoDetournement"', () => {
       const pageData = readPageData('portfolio-detournements.json');
       const videoDetournementElements = pageData.contenu.filter(
         (element) => element.type === 'videoDetournement'
-      ) as ElementVideoDetournement[];
+      ) as ElementListeDeDetournementsVideo[];
 
       if (videoDetournementElements.length > 0) {
         const element = videoDetournementElements[0];
         if (element.items && Array.isArray(element.items)) {
-          element.items.forEach((detournement: DetournementVideo) => {
+          element.items.forEach((detournement: ElementDetournementVideo) => {
             expect(detournement).toHaveProperty('id');
             expect(detournement).toHaveProperty('titreVideoDetournee');
             expect(detournement).toHaveProperty('videoDetournee');
             expect(detournement).toHaveProperty('titreVideoOriginale');
             expect(detournement).toHaveProperty('videoOriginale');
-            expect(detournement).toHaveProperty('pourLeCompteDe');
+            expect(detournement).toHaveProperty('titre');
             expect(detournement).toHaveProperty('date');
             expect(detournement).toHaveProperty('pitch');
 
@@ -55,7 +55,7 @@ describe('Lecture JSON avec type "videoDetournement"', () => {
             expect(typeof detournement.videoDetournee).toBe('string');
             expect(typeof detournement.titreVideoOriginale).toBe('string');
             expect(typeof detournement.videoOriginale).toBe('string');
-            expect(typeof detournement.pourLeCompteDe).toBe('string');
+            expect(typeof detournement.titre).toBe('string');
             expect(typeof detournement.date).toBe('string');
             expect(typeof detournement.pitch).toBe('string');
           });
@@ -69,12 +69,12 @@ describe('Lecture JSON avec type "videoDetournement"', () => {
       const pageData = readPageData('portfolio-detournements.json');
       const videoDetournementElements = pageData.contenu.filter(
         (element) => element.type === 'videoDetournement'
-      ) as ElementVideoDetournement[];
+      ) as ElementListeDeDetournementsVideo[];
 
       if (videoDetournementElements.length > 0) {
         const element = videoDetournementElements[0];
         if (element.items && Array.isArray(element.items)) {
-          element.items.forEach((detournement: DetournementVideo) => {
+          element.items.forEach((detournement: ElementDetournementVideo) => {
             // droitsAuteur et linkedin sont optionnels
             if ('droitsAuteur' in detournement) {
               expect(typeof detournement.droitsAuteur).toBe('string');
@@ -93,7 +93,7 @@ describe('Lecture JSON avec type "videoDetournement"', () => {
       const pageData = readPageData('portfolio-detournements.json');
       const videoDetournementElements = pageData.contenu.filter(
         (element) => element.type === 'videoDetournement'
-      ) as ElementVideoDetournement[];
+      ) as ElementListeDeDetournementsVideo[];
 
       if (videoDetournementElements.length > 0) {
         const element = videoDetournementElements[0];

@@ -5,7 +5,7 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import DomaineDeCompetences from '../../components/DomaineDeCompetences';
-import type { DomaineDeCompetences as DomaineDeCompetencesType } from '../../utils/indexReader';
+import type { ElementDomaineDeCompetence } from '../../utils/indexReader';
 
 /** Ouvre le bloc "Expériences et apprentissages" en cliquant sur le bouton. */
 function ouvrirExperiences() {
@@ -16,7 +16,8 @@ function ouvrirExperiences() {
 describe('DomaineDeCompetences', () => {
   describe('Affichage des expériences', () => {
     it('devrait afficher le bouton Expériences et apprentissages (N) et masquer la liste par défaut', () => {
-      const domaine: DomaineDeCompetencesType = {
+      const domaine: ElementDomaineDeCompetence = {
+        type: 'domaineDeCompetence',
         titre: 'Test Domaine',
         contenu: 'Contenu du domaine',
         items: [],
@@ -37,11 +38,13 @@ describe('DomaineDeCompetences', () => {
 
     it('devrait afficher les expériences avec le format correct : [periode] - description', () => {
       // ARRANGE
-      const domaine: DomaineDeCompetencesType = {
+      const domaine: ElementDomaineDeCompetence = {
+        type: 'domaineDeCompetence',
         titre: 'Test Domaine',
         contenu: 'Contenu du domaine',
         items: [
           {
+            type: 'competence',
             titre: 'Compétence 1',
             description: 'Description compétence 1',
             bouton: null,
@@ -84,7 +87,8 @@ describe('DomaineDeCompetences', () => {
 
     it('devrait afficher les expériences sans période (pas de crochets vides)', () => {
       // ARRANGE
-      const domaine: DomaineDeCompetencesType = {
+      const domaine: ElementDomaineDeCompetence = {
+        type: 'domaineDeCompetence',
         titre: 'Test Domaine',
         contenu: 'Contenu du domaine',
         items: [],
@@ -117,11 +121,13 @@ describe('DomaineDeCompetences', () => {
 
     it('devrait afficher les expériences sous le bloc des compétences', () => {
       // ARRANGE
-      const domaine: DomaineDeCompetencesType = {
+      const domaine: ElementDomaineDeCompetence = {
+        type: 'domaineDeCompetence',
         titre: 'Test Domaine',
         contenu: 'Contenu du domaine',
         items: [
           {
+            type: 'competence',
             titre: 'Compétence 1',
             description: 'Description compétence 1',
             bouton: null,
@@ -157,7 +163,8 @@ describe('DomaineDeCompetences', () => {
 
     it('devrait afficher les expériences dans toute la largeur du container', () => {
       // ARRANGE
-      const domaine: DomaineDeCompetencesType = {
+      const domaine: ElementDomaineDeCompetence = {
+        type: 'domaineDeCompetence',
         titre: 'Test Domaine',
         contenu: 'Contenu du domaine',
         items: [],
@@ -188,11 +195,13 @@ describe('DomaineDeCompetences', () => {
 
     it('ne devrait pas afficher de section expériences si le domaine n\'a pas d\'expériences', () => {
       // ARRANGE
-      const domaine: DomaineDeCompetencesType = {
+      const domaine: ElementDomaineDeCompetence = {
+        type: 'domaineDeCompetence',
         titre: 'Test Domaine',
         contenu: 'Contenu du domaine',
         items: [
           {
+            type: 'competence',
             titre: 'Compétence 1',
             description: 'Description compétence 1',
             bouton: null,
@@ -210,7 +219,8 @@ describe('DomaineDeCompetences', () => {
 
     it('ne devrait pas afficher de section expériences si le tableau experiences est vide', () => {
       // ARRANGE
-      const domaine: DomaineDeCompetencesType = {
+      const domaine: ElementDomaineDeCompetence = {
+        type: 'domaineDeCompetence',
         titre: 'Test Domaine',
         contenu: 'Contenu du domaine',
         items: [],
@@ -227,7 +237,8 @@ describe('DomaineDeCompetences', () => {
 
     it('devrait afficher la description avec syntaxe MD', () => {
       // ARRANGE
-      const domaine: DomaineDeCompetencesType = {
+      const domaine: ElementDomaineDeCompetence = {
+        type: 'domaineDeCompetence',
         titre: 'Test Domaine',
         contenu: 'Contenu du domaine',
         items: [],

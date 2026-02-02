@@ -7,16 +7,11 @@
 
 import React, { useState } from 'react';
 import { AlertTriangle } from 'lucide-react';
-// Type défini localement car non exporté depuis indexReader
-interface ElementVideoDetournement {
-  type: 'videoDetournement';
-  items: any[];
-}
+import type { ElementListeDeDetournementsVideo } from '../utils/indexReader';
 import TexteLarge from './TexteLarge';
-import styles from './VideoDetournement.module.css';
 
 export interface VideoDetournementProps {
-  element: ElementVideoDetournement;
+  element: ElementListeDeDetournementsVideo;
 }
 
 /**
@@ -67,96 +62,99 @@ const VideoDetournement: React.FC<VideoDetournementProps> = ({ element }) => {
   });
 
   return (
-    <div className="videoDetournement">
+    <div className="videoDetournement" data-layout="X rows">
       {sortedItems.map((detournement, index) => {
         const videoDetourneeId = extraireIdYouTube(detournement.videoDetournee);
         const videoOriginaleId = extraireIdYouTube(detournement.videoOriginale);
         
         return (
-          <div key={detournement.id || index} className="detournement">
-            {/* Titre du détournement (H2) */}
-            <h2>{detournement.titreVideoDetournee}</h2>
-            
-            {/* Pitch/Contexte */}
-            <TexteLarge element={{ type: 'texteLarge', texte: detournement.pitch }} />
-            
-            {/* Container pour les deux vidéos côte à côte */}
-            <div className="videosContainer">
-              {/* Vidéo détournée (gauche) */}
-              <div className="videoSection">
-                <h3>Vidéo détournée</h3>
-                <p className="videoSubtitle">{detournement.pourLeCompteDe}</p>
-                {videoDetourneeId && (
-                  <div className="videoWrapper">
-                    <iframe
-                      src={`https://www.youtube.com/embed/${videoDetourneeId}?rel=0&modestbranding=1`}
-                      title="Vidéo détournée"
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                      allowFullScreen
-                    />
-                  </div>
-                )}
-                {/* Container pour bouton LinkedIn et icône d'alerte (centrés ensemble) */}
-                {(detournement.linkedin || detournement.droitsAuteur) && (
-                  <div className={styles.videoActions}>
-                    {/* Icône d'alerte pour droits d'auteur si présent - à gauche */}
-                    {detournement.droitsAuteur && (
-                      <div className={styles.droitsAuteurContainer}>
-                        <button
-                          className={styles.alertButton}
-                          onClick={() => setShowDroitsAuteur(showDroitsAuteur === index ? null : index)}
-                          aria-label="Information sur les droits d'auteur"
-                        >
-                          <AlertTriangle className={styles.alertIcon} />
-                        </button>
-                        {showDroitsAuteur === index && (
-                          <div className={styles.droitsAuteurPopup}>
-                            <button
-                              className={styles.closeButton}
-                              onClick={() => setShowDroitsAuteur(null)}
-                              aria-label="Fermer"
-                            >
-                              ×
-                            </button>
-                            <div className={styles.droitsAuteurContent}>
-                              {detournement.droitsAuteur.split('\n').map((line: string, lineIndex: number) => (
-                                <p key={lineIndex}>{line}</p>
-                              ))}
-                            </div>
-                          </div>
-                        )}
-                      </div>
-                    )}
-                    {/* Bouton LinkedIn si présent - à droite */}
-                    {detournement.linkedin && (
-                      <a 
-                        href={detournement.linkedin} 
-                        target="_blank" 
-                        rel="noopener noreferrer"
-                        className={styles.linkedinButton}
+          <div key={detournement.id || index} className="ui-card">
+            {/* Ordre DOM = CANONICAL_SPEC_ORDER : titre → pitch → date → titreVideoDetournee → videoDetournee → droitsAuteur → linkedin → titreVideoOriginale → videoOriginale */}
+            <h2 className="detournementVideo titre">{detournement.titre}</h2>
+
+            {detournement.pitch && (
+              <div className="detournementVideo pitch">
+                <TexteLarge element={{ type: 'texteLarge', texte: detournement.pitch }} />
+              </div>
+            )}
+
+            {detournement.date && (
+              <p className="detournementVideo date">{detournement.date}</p>
+            )}
+
+            <h3 className="detournementVideo titreVideoDetournee">{detournement.titreVideoDetournee}</h3>
+
+            {/* --v : videoDetournee */}
+            <div className="detournementVideo videoDetournee" data-url={detournement.videoDetournee}>
+              <span className="detournementVideo-url">{detournement.videoDetournee}</span>
+              {videoDetourneeId && (
+                <div className="ui-videoWrapper">
+                  <iframe
+                    src={`https://www.youtube.com/embed/${videoDetourneeId}?rel=0&modestbranding=1`}
+                    title="Vidéo détournée"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowFullScreen
+                  />
+                </div>
+              )}
+            </div>
+
+            {/* droitsAuteur (--n) puis linkedin (--n) */}
+            <div className="ui-videoActions">
+              {detournement.droitsAuteur && (
+                <div className="ui-droitsAuteurContainer" data-layout="tooltip, droits d'auteur">
+                  <button
+                    className="ui-alertButton"
+                    onClick={() => setShowDroitsAuteur(showDroitsAuteur === index ? null : index)}
+                    aria-label="Information sur les droits d'auteur"
+                  >
+                    <AlertTriangle className="ui-alertIcon" />
+                  </button>
+                  {showDroitsAuteur === index && (
+                    <div className="ui-popup">
+                      <button
+                        className="ui-closeButton"
+                        onClick={() => setShowDroitsAuteur(null)}
+                        aria-label="Fermer"
                       >
-                        VOIR L&apos;ENGAGEMENT SUR LINKEDIN
-                      </a>
-                    )}
-                  </div>
-                )}
-              </div>
-              
-              {/* Vidéo originale (droite) */}
-              <div className="videoSection">
-                <h3>Vidéo originale</h3>
-                <p className="videoSubtitle">{detournement.titreVideoOriginale}</p>
-                {videoOriginaleId && (
-                  <div className="videoWrapper">
-                    <iframe
-                      src={`https://www.youtube.com/embed/${videoOriginaleId}?rel=0&modestbranding=1`}
-                      title="Vidéo originale"
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                      allowFullScreen
-                    />
-                  </div>
-                )}
-              </div>
+                        ×
+                      </button>
+                      <div className="ui-popupContent">
+                        {detournement.droitsAuteur.split('\n').map((line: string, lineIndex: number) => (
+                          <p key={lineIndex}>{line}</p>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )}
+              {detournement.linkedin && (
+                <a 
+                  href={detournement.linkedin} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="ui-linkedinButton"
+                >
+                  VOIR L&apos;ENGAGEMENT SUR LINKEDIN
+                </a>
+              )}
+            </div>
+
+            <h3 className="detournementVideo titreVideoOriginale">{detournement.titreVideoOriginale}</h3>
+
+            {/* --v : videoOriginale */}
+            <div className="detournementVideo videoOriginale" data-url={detournement.videoOriginale}>
+              <span className="detournementVideo-url">{detournement.videoOriginale}</span>
+              {videoOriginaleId && (
+                <div className="ui-videoWrapper">
+                  <iframe
+                    src={`https://www.youtube.com/embed/${videoOriginaleId}?rel=0&modestbranding=1`}
+                    title="Vidéo originale"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowFullScreen
+                  />
+                </div>
+              )}
             </div>
           </div>
         );

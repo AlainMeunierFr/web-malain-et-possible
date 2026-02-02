@@ -13,7 +13,7 @@ export interface TitreProps {
 const Titre: React.FC<TitreProps> = ({ element }) => {
   return (
     <div className="titre">
-      <h1>{element.texte}</h1>
+      <h2 className="titre texte">{element.texte}</h2>
     </div>
   );
 };

@@ -1,9 +1,14 @@
 {
+  "metadata": {
+    "title": "Profil CTO — Technologie",
+    "description": "Chief Technology Officer : développement informatique, expérience en équipe, pratiques techniques, agilité, management, stratégie et transformations.",
+    "ogType": "profile"
+  },
   "contenu": [
     {
       "type": "video",
       "urlYouTube": "https://youtu.be/iUv6e256AVk",
-      "lancementAuto": true,
+      "lancementAuto": false,
       "e2eID": "v31"
     },
     {

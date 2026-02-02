@@ -1,5 +1,4 @@
 import React from 'react';
-import styles from './MarkdownRenderer.module.css';
 
 export interface CourseMarkdownRendererProps {
   content: string;
@@ -57,7 +56,7 @@ const CourseMarkdownRenderer: React.FC<CourseMarkdownRendererProps> = ({ content
       const text = currentQuote.join(' ').trim();
       if (text) {
         elements.push(
-          <blockquote key={`quote-${elements.length}`} className={styles.blockquote}>
+          <blockquote key={`quote-${elements.length}`} className="blockquote">
             {parseInlineMarkdown(text)}
           </blockquote>
         );
@@ -70,7 +69,7 @@ const CourseMarkdownRenderer: React.FC<CourseMarkdownRendererProps> = ({ content
     if (codeBlockLines.length > 0) {
       const codeContent = codeBlockLines.join('\n');
       elements.push(
-        <pre key={`pre-${elements.length}`} className={styles.pre}>
+        <pre key={`pre-${elements.length}`} className="pre">
           <code>{codeContent}</code>
         </pre>
       );
@@ -106,7 +105,7 @@ const CourseMarkdownRenderer: React.FC<CourseMarkdownRendererProps> = ({ content
       flushParagraph();
       flushList();
       flushQuote();
-      elements.push(<hr key={`hr-${elements.length}`} className={styles.hr} />);
+      elements.push(<hr key={`hr-${elements.length}`} className="hr" />);
       return;
     }
 
@@ -121,10 +120,9 @@ const CourseMarkdownRenderer: React.FC<CourseMarkdownRendererProps> = ({ content
       const htmlLevel = Math.min(markdownLevel + 2, 6); // Limité à h6 maximum
       const text = headingMatch[2];
       // Utiliser le style CSS correspondant au niveau HTML (h3, h4, h5, h6)
-      const headingClass = styles[`h${htmlLevel}` as keyof typeof styles] || '';
       const headingContent = parseInlineMarkdown(text);
       const headingKey = `h${htmlLevel}-${elements.length}`;
-      const headingProps = { className: headingClass };
+      const headingProps = {};
       
       // Créer le composant heading dynamiquement avec le niveau HTML
       if (htmlLevel === 3) {
@@ -184,7 +182,7 @@ const CourseMarkdownRenderer: React.FC<CourseMarkdownRendererProps> = ({ content
   flushCodeBlock();
 
   return (
-    <div className={styles.markdownContent}>
+    <div className="markdownContent">
       {elements}
     </div>
   );

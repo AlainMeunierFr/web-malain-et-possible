@@ -4,18 +4,17 @@
  */
 
 import { 
-  Competence, 
-  DomaineDeCompetences, 
+  ElementCompetence, 
   ElementDomaineDeCompetence,
-  BoutonGroupe,
-  ElementGroupeBoutons
+  ElementBoutonDeGroupe,
+  ElementGroupeDeBoutons
 } from '../../utils/indexReader';
 
 describe('Refactorisation DDD - Domaine de Compétences', () => {
   
-  describe('Interface Competence', () => {
+  describe('Interface ElementCompetence', () => {
     it('devrait avoir un champ type égal à "competence"', () => {
-      const competence: Competence = {
+      const competence: ElementCompetence = {
         type: 'competence', // ❌ RED : Ce champ n'existe pas encore
         titre: 'Test',
         description: 'Description test',
@@ -26,7 +25,7 @@ describe('Refactorisation DDD - Domaine de Compétences', () => {
     });
     
     it('devrait avoir un bouton avec un champ type', () => {
-      const competence: Competence = {
+      const competence: ElementCompetence = {
         type: 'competence',
         titre: 'Test',
         description: 'Description test',
@@ -41,43 +40,13 @@ describe('Refactorisation DDD - Domaine de Compétences', () => {
     });
   });
   
-  describe('Interface DomaineDeCompetences', () => {
-    it('devrait utiliser le champ "competences" au lieu de "items"', () => {
-      // Test que l'interface n'accepte PAS "items"
-      // @ts-expect-error - items ne devrait plus exister
-      const domaineWithItems: DomaineDeCompetences = {
-        titre: 'Test',
-        contenu: 'Contenu test',
-        competences: [{ titre: 'Test', description: 'Test', bouton: null }],
-      };
-      
-      // Test que l'interface accepte "competences"
-      const domaine: DomaineDeCompetences = {
-        titre: 'Test',
-        contenu: 'Contenu test',
-        competences: [
-          {
-            type: 'competence',
-            titre: 'Compétence 1',
-            description: 'Description',
-            bouton: null,
-          },
-        ],
-      };
-      
-      expect(domaine.competences).toBeDefined();
-      expect(domaine.competences.length).toBe(1);
-      expect(domaine.competences[0].type).toBe('competence');
-    });
-  });
-  
   describe('Interface ElementDomaineDeCompetence', () => {
-    it('devrait utiliser le champ "competences" au lieu de "items"', () => {
+    it('devrait avoir un champ type et un tableau items', () => {
       const element: ElementDomaineDeCompetence = {
         type: 'domaineDeCompetence',
         titre: 'Test',
         contenu: 'Contenu test',
-        competences: [ // ❌ RED : Le champ s'appelle encore "items"
+        items: [
           {
             type: 'competence',
             titre: 'Compétence 1',
@@ -86,15 +55,16 @@ describe('Refactorisation DDD - Domaine de Compétences', () => {
           },
         ],
       };
-      
-      expect(element.competences).toBeDefined();
-      expect(element.competences.length).toBe(1);
+
+      expect(element.type).toBe('domaineDeCompetence');
+      expect(element.items).toBeDefined();
+      expect(element.items.length).toBe(1);
     });
   });
   
-  describe('Interface BoutonGroupe', () => {
+  describe('Interface ElementBoutonDeGroupe', () => {
     it('devrait avoir un champ type égal à "bouton"', () => {
-      const bouton: BoutonGroupe = {
+      const bouton: ElementBoutonDeGroupe = {
         type: 'bouton', // ❌ RED : Ce champ n'existe pas encore
         id: 'test-btn',
         icone: 'Mail',
@@ -107,10 +77,10 @@ describe('Refactorisation DDD - Domaine de Compétences', () => {
     });
   });
   
-  describe('Interface ElementGroupeBoutons', () => {
+  describe('Interface ElementGroupeDeBoutons', () => {
     it('devrait contenir des boutons avec le champ type', () => {
-      const element: ElementGroupeBoutons = {
-        type: 'groupeBoutons',
+      const element: ElementGroupeDeBoutons = {
+        type: 'groupeDeBoutons',
         taille: 'grande',
         boutons: [
           {
@@ -134,7 +104,7 @@ describe('Refactorisation DDD - Domaine de Compétences', () => {
         type: 'domaineDeCompetence',
         titre: 'Développement',
         contenu: 'Expertise en développement',
-        competences: [
+        items: [
           {
             type: 'competence',
             titre: 'React',
@@ -153,13 +123,13 @@ describe('Refactorisation DDD - Domaine de Compétences', () => {
           },
         ],
       };
-      
-      expect(element.competences).toBeDefined();
-      expect(element.competences.length).toBe(2);
-      
-      element.competences.forEach((competence) => {
+
+      expect(element.items).toBeDefined();
+      expect(element.items.length).toBe(2);
+
+      element.items.forEach((competence) => {
         expect(competence.type).toBe('competence');
-        
+
         if (competence.bouton) {
           expect(competence.bouton.type).toBe('bouton');
         }

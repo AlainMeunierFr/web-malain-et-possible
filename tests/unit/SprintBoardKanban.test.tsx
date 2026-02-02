@@ -86,7 +86,7 @@ describe('SprintBoardKanban', () => {
     render(<SprintBoardKanban />);
 
     await waitFor(() => {
-      expect(document.querySelector('.sprintBoard')).toBeInTheDocument();
+      expect(document.querySelector('.tableauSprint')).toBeInTheDocument();
     });
   });
 

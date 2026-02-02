@@ -4,7 +4,7 @@
  */
 
 import type { PageData, ElementContenu, ElementDomaineDeCompetence } from './indexReader';
-import type { CompetenceBibliotheque, DomaineBibliotheque, AutreElement } from './bibliothequeReader';
+import type { CompetenceBibliotheque, DomaineBibliotheque, ExperienceEtApprentissage } from './bibliothequeReader';
 
 /**
  * Résout les références dans une page en chargeant les domaines et compétences depuis la bibliothèque
@@ -13,7 +13,7 @@ export function resolvePageReferences(
   pageData: PageData,
   competences: Map<string, CompetenceBibliotheque>,
   domaines: Map<string, DomaineBibliotheque>,
-  autres?: Map<string, AutreElement>
+  autres?: Map<string, ExperienceEtApprentissage>
 ): PageData {
   const resolvedContenu: ElementContenu[] = [];
 
@@ -40,8 +40,8 @@ export function resolvePageReferences(
         if (!competence) {
           throw new Error(`Compétence référencée introuvable: "${competenceId}" dans le domaine "${domaineId}"`);
         }
-        // Extraire uniquement les propriétés de Competence (sans l'id et type)
-        // Le composant DomaineDeCompetences attend un tableau de Competence
+        // Extraire uniquement les propriétés de ElementCompetence (sans l'id et type)
+        // Le composant DomaineDeCompetences attend un tableau de ElementCompetence
         // Normaliser le bouton : extraire seulement texte et action
         let boutonNormalise = null;
         if (competence.bouton) {
@@ -63,6 +63,7 @@ export function resolvePageReferences(
         }
         
         const competenceResolue: any = {
+          type: 'competence',
           titre: competence.titre,
           description: competence.description || '',
           image: competence.image,
@@ -74,7 +75,7 @@ export function resolvePageReferences(
       }
 
       // Charger les expériences référencées si disponibles
-      const experiencesResolues: AutreElement[] = [];
+      const experiencesResolues: ExperienceEtApprentissage[] = [];
       if (domaine.experiences && autres) {
         for (const experienceId of domaine.experiences) {
           const experience = autres.get(experienceId);
@@ -102,6 +103,7 @@ export function resolvePageReferences(
   }
 
   return {
+    metadata: pageData.metadata,
     contenu: resolvedContenu,
   };
 }

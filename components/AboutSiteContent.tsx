@@ -1,8 +1,9 @@
 'use client';
 
 import React from 'react';
-import styles from '../app/a-propos-du-site/about.module.css';
 import AboutSiteContentRenderer from './AboutSiteContentRenderer';
+
+/** Styles A propos : app/a-propos-du-site/a-propos-du-site.css (chargés via layout) */
 import AccordionTitle from './AccordionTitle';
 import AccordionDossier from './AccordionDossier';
 import type { AboutSiteStructure, PathContentAtRoot, Section } from '../utils/aboutSiteReader';
@@ -20,8 +21,8 @@ interface AboutSiteContentProps {
 /** Rendu du contenu d'une section (parties H3, sous-parties H4, blocs H5) */
 function renderSectionContent(section: Section) {
   return section.parties.map((partie, partieIndex) => (
-    <div key={`${section.nom}-${partieIndex}-${partie.titre}`} className={styles.partie}>
-      <h3 className={styles.partieTitle}>{partie.titre}</h3>
+    <div key={`${section.nom}-${partieIndex}-${partie.titre}`} className="partie">
+      <h3 className="partieTitle">{partie.titre}</h3>
       {partie.contenuParse && partie.contenuParse.length > 0 && (
         <AboutSiteContentRenderer elements={partie.contenuParse} />
       )}
@@ -29,9 +30,9 @@ function renderSectionContent(section: Section) {
         const uniqueKey = `${section.nom}-${partieIndex}-${sousPartieIndex}-${sousPartie.titre}`;
         const doitMasquerTitre = sousPartie.typeDeContenu === 'Prompt' || sousPartie.typeDeContenu === 'Résultat technique';
         return (
-          <div key={uniqueKey} className={styles.sousPartie}>
+          <div key={uniqueKey} className="sousPartie">
             {!doitMasquerTitre && (
-              <h4 className={styles.sousPartieTitle}>{sousPartie.titre}</h4>
+              <h4 className="sousPartieTitle">{sousPartie.titre}</h4>
             )}
             {sousPartie.contenuParse && sousPartie.contenuParse.length > 0 && (
               <AboutSiteContentRenderer elements={sousPartie.contenuParse} />
@@ -39,9 +40,9 @@ function renderSectionContent(section: Section) {
             {sousPartie.blocs && sousPartie.blocs.map((bloc, blocIndex) => {
               const blocKey = `${uniqueKey}-bloc-${blocIndex}`;
               return (
-                <div key={blocKey} className={styles.bloc}>
+                <div key={blocKey} className="bloc">
                   {bloc.typeDeContenu !== 'Prompt' && bloc.typeDeContenu !== 'Résultat technique' && (
-                    <h5 className={styles.blocTitle}>{bloc.titre}</h5>
+                    <h5 className="blocTitle">{bloc.titre}</h5>
                   )}
                   {bloc.contenuParse && bloc.contenuParse.length > 0 && (
                     <AboutSiteContentRenderer
@@ -87,8 +88,8 @@ export default function AboutSiteContent({ structure, pathContent, startAtSectio
     );
     if (embedded) return <>{content}</>;
     return (
-      <main className={styles.main}>
-        <div className={styles.content}>
+      <main className="main">
+        <div className="content">
           {content}
         </div>
       </main>
@@ -129,8 +130,8 @@ export default function AboutSiteContent({ structure, pathContent, startAtSectio
   }
 
   return (
-    <main className={styles.main}>
-      <div className={styles.content}>
+    <main className="main">
+      <div className="content">
         {content}
       </div>
     </main>

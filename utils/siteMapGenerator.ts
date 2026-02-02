@@ -100,86 +100,87 @@ export const detecterPages = (): PlanPage[] => {
   const appDir = path.join(process.cwd(), 'app');
   const pages: PlanPage[] = [];
 
+  // Titres affichés pour les pages sans JSON dédié
+  const titreParUrl: Record<string, string> = {
+    '/mode-lecture': 'Mode lecture',
+    '/raw': 'Raw (DOM sans CSS)',
+  };
+
+  // Ajoute une page au plan (titre, zone, dessiner déduits de l'URL)
+  const ajouterPage = (url: string, titreDefaut: string): void => {
+    let titre = titreParUrl[url] ?? titreDefaut;
+    if (!titreParUrl[url]) {
+      try {
+        const nomFichierJSON = urlVersNomFichierJSON(url);
+        if (nomFichierJSON) {
+          const cheminJSON = path.join(process.cwd(), 'data', nomFichierJSON);
+          if (fs.existsSync(cheminJSON)) {
+            const contenuJSON = JSON.parse(fs.readFileSync(cheminJSON, 'utf8'));
+            const titreElement = contenuJSON.contenu?.find((el: any) => el.type === 'titreDePage')
+              || contenuJSON.contenu?.find((el: any) => el.type === 'titre');
+            if (titreElement) {
+              titre = titreElement.texte;
+            }
+          }
+        }
+      } catch (e) {
+        // Garder le titre par défaut
+      }
+    }
+    const pagesNonDessinees = ['/maintenance', '/plan-du-site'];
+    const dessiner = pagesNonDessinees.includes(url) ? 'Non' : 'Oui';
+    let zone: 'HomePage' | 'Profils' | 'Autres' | 'Footer' | 'Masqué' | undefined;
+    if (url === '/') {
+      zone = 'HomePage';
+    } else if (url.startsWith('/profil/')) {
+      zone = 'Profils';
+    } else if (url === '/metrics' || url === '/a-propos-du-site' || url === '/faisons-connaissance') {
+      zone = 'Footer';
+    } else if (url === '/maintenance' || url === '/plan-du-site') {
+      zone = 'Masqué';
+    } else {
+      zone = 'Autres';
+    }
+    pages.push({ url, titre, x: null, y: null, dessiner, zone });
+  };
+
   // Fonction récursive pour scanner les dossiers
   const scannerDossier = (dir: string, urlPrefix: string = ''): void => {
     if (!fs.existsSync(dir)) {
       return;
     }
 
+    // Si le répertoire courant a un page.tsx (ex. (main)/page.tsx → /)
+    const pagePathCourant = path.join(dir, 'page.tsx');
+    if (fs.existsSync(pagePathCourant)) {
+      const url = urlPrefix === '' ? '/' : urlPrefix;
+      if (!pages.find((p) => p.url === url)) {
+        const titreDefaut = url === '/' ? 'Home' : path.basename(dir);
+        ajouterPage(url, titreDefaut);
+      }
+    }
+
     const fichiers = fs.readdirSync(dir, { withFileTypes: true });
 
     for (const fichier of fichiers) {
       if (fichier.isDirectory()) {
-        // Ignorer certains dossiers
         if (fichier.name === 'api' || fichier.name.startsWith('.') || fichier.name.startsWith('[')) {
           continue;
         }
 
         const cheminComplet = path.join(dir, fichier.name);
         const pagePath = path.join(cheminComplet, 'page.tsx');
+        const isRouteGroup = fichier.name.startsWith('(');
 
-        // Si on trouve un page.tsx, c'est une route Next.js
-        if (fs.existsSync(pagePath)) {
-          // Construire l'URL
-          const url = urlPrefix === '' && fichier.name === 'page.tsx' 
-            ? '/' 
-            : urlPrefix === '' 
-            ? `/${fichier.name}` 
-            : `${urlPrefix}/${fichier.name}`;
-
-          // La page "Faisons connaissance" est maintenant incluse dans le plan du site
-          // avec la zone "Footer"
-
-          // Essayer de déduire le titre depuis le JSON associé
-          let titre = fichier.name;
-          
-          try {
-            const nomFichierJSON = urlVersNomFichierJSON(url);
-            if (nomFichierJSON) {
-              const cheminJSON = path.join(process.cwd(), 'data', nomFichierJSON);
-              if (fs.existsSync(cheminJSON)) {
-                const contenuJSON = JSON.parse(fs.readFileSync(cheminJSON, 'utf8'));
-                // Chercher d'abord titreDePage, puis titre en fallback
-                const titreElement = contenuJSON.contenu?.find((el: any) => el.type === 'titreDePage') 
-                  || contenuJSON.contenu?.find((el: any) => el.type === 'titre');
-                if (titreElement) {
-                  titre = titreElement.texte;
-                }
-              }
-            }
-          } catch (e) {
-            // Si erreur, garder le titre par défaut
+        if (isRouteGroup) {
+          // Groupe de routes Next.js : ne pas ajouter au segment d'URL, récursion avec le même préfixe
+          scannerDossier(cheminComplet, urlPrefix);
+        } else if (fs.existsSync(pagePath)) {
+          const url = urlPrefix === '' ? `/${fichier.name}` : `${urlPrefix}/${fichier.name}`;
+          if (!pages.find((p) => p.url === url)) {
+            ajouterPage(url, fichier.name);
           }
-
-          // Déterminer si la page doit être dessinée
-          // Par défaut "Oui", sauf pour "Maintenance" et "Liste des pages du site" (plan-du-site)
-          const pagesNonDessinees = ['/maintenance', '/plan-du-site'];
-          const dessiner = pagesNonDessinees.includes(url) ? 'Non' : 'Oui';
-
-          // Assigner automatiquement une zone selon l'URL
-          let zone: 'HomePage' | 'Profils' | 'Autres' | 'Footer' | 'Masqué' | undefined;
-          if (url === '/') {
-            zone = 'HomePage';
-          } else if (url.startsWith('/profil/')) {
-            zone = 'Profils';
-          } else if (url === '/metrics' || url === '/a-propos-du-site' || url === '/faisons-connaissance') {
-            zone = 'Footer';
-          } else if (url === '/maintenance' || url === '/plan-du-site') {
-            zone = 'Masqué';
-          } else {
-            zone = 'Autres';
-          }
-
-          pages.push({
-            url,
-            titre,
-            x: null,
-            y: null,
-            dessiner,
-            zone,
-          });
         } else {
-          // Continuer à scanner récursivement
           const nouvelleUrlPrefix = urlPrefix === '' ? `/${fichier.name}` : `${urlPrefix}/${fichier.name}`;
           scannerDossier(cheminComplet, nouvelleUrlPrefix);
         }
@@ -280,7 +281,7 @@ function extractLinksFromContenu(
         }
       }
     }
-    if (element.type === 'profils' && element.profils) {
+    if (element.type === 'listeDeProfils' && element.profils) {
       for (const p of element.profils) {
         if (p.route && estLienInterne(p.route) && p.route !== pageSource) {
           liens.push({ source: pageSource, destination: p.route, label: p.titre || p.route });
@@ -359,8 +360,8 @@ export const detecterLiensInternes = (): PlanLien[] => {
     if (fs.existsSync(footerButtonsPath)) {
       const footerButtons = JSON.parse(fs.readFileSync(footerButtonsPath, 'utf8'));
       
-      // Vérifier si c'est la nouvelle structure (groupeBoutons)
-      if (footerButtons.type === 'groupeBoutons' && footerButtons.boutons) {
+      // Vérifier si c'est la nouvelle structure (groupeDeBoutons)
+      if (footerButtons.type === 'groupeDeBoutons' && footerButtons.boutons) {
         for (const button of footerButtons.boutons) {
           if (button.command) {
             const route = getRouteForCommand(button.command);
@@ -555,6 +556,44 @@ export const mettreAJourPlanJSON = (
 
   // Écrire le plan mis à jour
   fs.writeFileSync(siteMapPath, JSON.stringify(nouveauPlan, null, 2));
+};
+
+/**
+ * Injecte la liste des pages (url, titre) dans plan-du-site.json pour que le rendu soit uniquement depuis le JSON.
+ * À appeler après mettreAJourPlanJSON (même liste de pages). Filtre : zone !== 'Masqué', dessiner !== 'Non'.
+ * @param pages Liste des pages (ex. celle passée à mettreAJourPlanJSON)
+ * @param options.planDuSitePath Chemin optionnel de plan-du-site.json (pour tests)
+ */
+export const injecterPagesDansPlanDuSiteJson = (
+  pages: PlanPage[],
+  options?: { planDuSitePath?: string }
+): void => {
+  const planDuSitePath =
+    options?.planDuSitePath ?? path.join(process.cwd(), 'data', 'plan-du-site.json');
+  const pagesFiltrees = pages.filter(
+    (p) => (p as PlanPage & { zone?: string }).zone !== 'Masqué' && p.dessiner !== 'Non'
+  );
+  const pagesPourJson = pagesFiltrees.map((p) => ({
+    url: p.url,
+    titre: p.titre,
+    zone: (p as PlanPage & { zone?: string }).zone,
+    dessiner: p.dessiner,
+  }));
+
+  let contenu: unknown;
+  if (fs.existsSync(planDuSitePath)) {
+    const raw = fs.readFileSync(planDuSitePath, 'utf8');
+    contenu = JSON.parse(raw);
+  } else {
+    return;
+  }
+
+  const root = contenu as { contenu?: Array<{ type?: string; pages?: unknown }> };
+  if (!Array.isArray(root.contenu)) return;
+  const listeDesPagesEl = root.contenu.find((el) => el.type === 'listeDesPages');
+  if (!listeDesPagesEl) return;
+  (listeDesPagesEl as { type: string; pages: typeof pagesPourJson }).pages = pagesPourJson;
+  fs.writeFileSync(planDuSitePath, JSON.stringify(contenu, null, 2));
 };
 
 /**

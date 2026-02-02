@@ -140,7 +140,7 @@ describe('PageContentRenderer', () => {
 
   it('devrait afficher un groupe de boutons', () => {
     const contenu: ElementContenu[] = [
-      { type: 'groupeBoutons', groupes: [] },
+      { type: 'groupeDeBoutons', taille: 'petite', boutons: [] },
     ];
 
     renderWithProvider(<PageContentRenderer contenu={contenu} />);
@@ -175,7 +175,7 @@ describe('PageContentRenderer', () => {
         titre: 'Alain Meunier',
         sousTitre: 'Je recherche un projet stimulant',
         description: 'Description...',
-        boutonPrincipal: {
+        callToAction: {
           texte: 'On discute ?',
           action: '/faisons-connaissance',
         },
@@ -192,7 +192,7 @@ describe('PageContentRenderer', () => {
   it('devrait afficher un élément de type profils (page Mes Profils)', () => {
     const contenu: ElementContenu[] = [
       {
-        type: 'profils',
+        type: 'listeDeProfils',
         profils: [
           {
             type: 'profil',

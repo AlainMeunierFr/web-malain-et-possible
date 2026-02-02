@@ -2,7 +2,7 @@
 
 import React from 'react';
 import Link from 'next/link';
-import type { ElementGroupeBoutons, BoutonGroupe } from '../utils/indexReader';
+import type { ElementGroupeDeBoutons, ElementBoutonDeGroupe } from '../utils/indexReader';
 import { getButtonAction } from '../utils/buttonHandlers';
 import {
   Mail,
@@ -15,7 +15,7 @@ import {
 } from 'lucide-react';
 
 export interface GroupeBoutonsProps {
-  element: ElementGroupeBoutons;
+  element: ElementGroupeDeBoutons;
 }
 
 // Mapping des noms d'icônes vers les composants lucide-react
@@ -60,7 +60,7 @@ const GroupeBoutons: React.FC<GroupeBoutonsProps> = ({ element }) => {
               size={element.taille === 'petite' ? 30 : 24}
               className="icon"
             />
-            {afficherTexte && <span className="texte">{bouton.texte}</span>}
+            {afficherTexte && <span className="groupeDeBoutons texte">{bouton.texte}</span>}
           </>
         );
 

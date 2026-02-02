@@ -2,7 +2,7 @@
   "titre": "Témoignages",
   "contenu": [
     {
-      "type": "temoignages",
+      "type": "listeDeTemoignages",
       "items": [
         {
           "nom": "Florent Grosmaitre",

@@ -32,18 +32,19 @@ alwaysApply: true
 - **Une seule façon d'avancer** : après chaque livraison d'agent, l'utilisateur dit **GO NEXT** → le Lead Dev fait la **revue** (conformité US, BDD, DoD, couverture, linters selon l'étape), rédige le rapport, puis **pause**. Au **GO NEXT** suivant : corrections (relancer l'agent courant) ou passage à l'agent suivant ou clôture (étape = `done`).
 - **BDD** : scénarios Gherkin sont validés par ta **revue** (pas de commande « GO BDD ») ; si OK, tu passes à l'agent BDD au GO NEXT suivant.
 - **TDD** : couverture et tests sont validés par ta **revue** à chaque étape (pas de commande « GO TDD ») ; si OK, tu passes à l'agent suivant au GO NEXT suivant.
+- **Designer** (hors tunnel) : invoqué **uniquement à la demande** — ex. nouveau type de contenu à styler, refonte visuelle, tokens, responsive. L'utilisateur ou le Lead Dev invoque l'agent **Designer** via Task quand une tâche CSS est nécessaire ; le Designer ne fait pas partie du tunnel US → BDD → TDD-back-end → TDD-front-end.
 - Valider les choix architecturaux avec l'équipe avant implémentation.
 - **BLOQUER** toute tâche si critères d'acceptation non clairs.
 
 ### Découpage et Distribution des Tâches
 
-**ORDRE STRICT** : US → BDD → TDD-back-end → TDD-front-end (agents dans `.cursor/agents/`)
+**ORDRE STRICT** : US → BDD → TDD-back-end → TDD-front-end → done (agents dans `.cursor/agents/`). **Designer** : hors tunnel, invoqué **uniquement à la demande** (ex. nouveau type de contenu à styler, refonte visuelle, tokens).
 
 **RÈGLE ABSOLUE** : **NE JAMAIS CODER DIRECTEMENT**. TOUJOURS déléguer aux agents spécialisés via l'outil `Task`.
 
 #### Utiliser l'outil Task pour déléguer
 
-**Noms d'agents à utiliser** : uniquement ceux définis dans `.cursor/agents/` (US, BDD, TDD-back-end, TDD-front-end). Ne pas utiliser de `subagent_type` inconnu (ex. "back-end", "front-end", "ui-et-ux") sinon la tâche n'activera aucun agent.
+**Noms d'agents à utiliser** : ceux définis dans `.cursor/agents/` — **tunnel US** : US, BDD, TDD-back-end, TDD-front-end (utiliser exactement ces noms dans Task). **Hors tunnel** : **Designer** (invoqué uniquement à la demande pour tâches CSS). Ne pas utiliser de `subagent_type` inconnu sinon la tâche n'activera aucun agent.
 
 ```typescript
 // Étape US — invoker l'agent @US
@@ -276,4 +277,4 @@ Pour tâches avec 3+ étapes :
 **Autres ressources** :
 - Sprints : `data/A propos de ce site/Sprints/` (un dossier par Sprint ; Sprint goal dans `00 - Sprint goal et contexte.md` ; une US = un fichier `US-[n°Sprint].[n°US] - [Titre US].md`). US en cours : `data/A propos de ce site/Sprints/US en cours.md`
 - Journal de bord : `journaux/1. Journal de bord/` (fichier par **conversation** : `YYYY-MM-DD-NomConversation.md`, NomConversation = nom de la conversation dans la sidebar Cursor, slugifié)
-- Agents disponibles : `.cursor/agents/` (US, BDD, TDD-back-end, TDD-front-end) — utiliser exactement ces noms dans Task pour que la délégation fonctionne
+- Agents disponibles : `.cursor/agents/` — **tunnel US** : US, BDD, TDD-back-end, TDD-front-end (utiliser exactement ces noms dans Task). **Hors tunnel** : **Designer** (tâches CSS à la demande).

@@ -2,7 +2,6 @@
 
 import React, { useState } from 'react';
 import { ChevronDown, ChevronUp } from 'lucide-react';
-import styles from './AccordionTitle.module.css';
 
 export interface AccordionTitleProps {
   title: string;
@@ -29,12 +28,12 @@ const AccordionTitle: React.FC<AccordionTitleProps> = ({
   };
 
   const TitleTag = level === 1 ? 'h1' : 'h2';
-  const headerClass = level === 1 ? styles.headerH1 : styles.headerH2;
-  const titleClass = level === 1 ? styles.titleH1 : styles.titleH2;
-  const contentClass = level === 1 ? styles.contentH1 : styles.contentH2;
+  const headerClass = level === 1 ? 'headerH1' : 'headerH2';
+  const titleClass = level === 1 ? 'titleH1' : 'titleH2';
+  const contentClass = level === 1 ? 'contentH1' : 'contentH2';
 
   return (
-    <div className={styles.accordionTitle}>
+    <div className="accordionTitle">
       <button
         className={headerClass}
         onClick={toggle}
@@ -44,17 +43,17 @@ const AccordionTitle: React.FC<AccordionTitleProps> = ({
       >
         <TitleTag className={titleClass}>{title}</TitleTag>
         {isOpen ? (
-          <ChevronUp className={styles.icon} aria-hidden="true" />
+          <ChevronUp className="icon" aria-hidden="true" />
         ) : (
-          <ChevronDown className={styles.icon} aria-hidden="true" />
+          <ChevronDown className="icon" aria-hidden="true" />
         )}
       </button>
       <div
         id={`accordion-${level}-${title.replace(/\s+/g, '-')}`}
-        className={`${contentClass} ${isOpen ? styles.open : styles.closed}`}
+        className={`${contentClass} ${isOpen ? 'open' : 'closed'}`}
         aria-hidden={!isOpen}
       >
-        <div className={styles.contentInner}>{children}</div>
+        <div className="contentInner">{children}</div>
       </div>
     </div>
   );

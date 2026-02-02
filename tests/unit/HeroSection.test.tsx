@@ -36,11 +36,11 @@ describe('Composant HeroSection', () => {
       titre: 'Alain Meunier',
       sousTitre: 'Je recherche un projet stimulant (CDI ou freelance)',
       description: 'Description de la valeur...',
-      boutonPrincipal: {
+      callToAction: {
         texte: 'On discute ?',
         action: '/faisons-connaissance',
       },
-      profils: [],
+      ensavoirplus: '/mes-profils',
     };
 
     render(<HeroSection element={hero} />);
@@ -54,7 +54,7 @@ describe('Composant HeroSection', () => {
       titre: 'Alain Meunier',
       sousTitre: 'Je recherche un projet stimulant (CDI ou freelance)',
       description: 'Description...',
-      boutonPrincipal: {
+      callToAction: {
         texte: 'On discute ?',
         action: '/faisons-connaissance',
       },
@@ -72,11 +72,11 @@ describe('Composant HeroSection', () => {
       titre: 'Alain Meunier',
       sousTitre: 'Sous-titre',
       description: 'Description de la valeur apportée',
-      boutonPrincipal: {
+      callToAction: {
         texte: 'On discute ?',
         action: '/faisons-connaissance',
       },
-      profils: [],
+      ensavoirplus: '/mes-profils',
     };
 
     render(<HeroSection element={hero} />);
@@ -90,11 +90,11 @@ describe('Composant HeroSection', () => {
       titre: 'Alain Meunier',
       sousTitre: 'Sous-titre',
       description: 'Description',
-      boutonPrincipal: {
+      callToAction: {
         texte: 'On discute ?',
         action: '/faisons-connaissance',
       },
-      profils: [],
+      ensavoirplus: '/mes-profils',
     };
 
     render(<HeroSection element={hero} />);
@@ -104,17 +104,17 @@ describe('Composant HeroSection', () => {
     expect(bouton.closest('a')).toHaveAttribute('href', '/faisons-connaissance');
   });
 
-  it('devrait afficher un lien "Télécharger mon CV" vers la page Mes Profils (US-7.11)', () => {
+  it('devrait afficher un lien "Télécharger mon CV" vers la page Mes Profils (href depuis JSON ensavoirplus)', () => {
     const hero: ElementHero = {
       type: 'hero',
       titre: 'Alain Meunier',
       sousTitre: 'Sous-titre',
       description: 'Description',
-      boutonPrincipal: {
+      callToAction: {
         texte: 'Discutons',
         action: '/faisons-connaissance',
       },
-      profils: [],
+      ensavoirplus: '/mes-profils',
     };
 
     render(<HeroSection element={hero} />);
@@ -124,91 +124,42 @@ describe('Composant HeroSection', () => {
     expect(linkCV.closest('a')).toHaveAttribute('href', '/mes-profils');
   });
 
-  it('devrait afficher tous les profils depuis le JSON', () => {
+  it('devrait utiliser ensavoirplus du JSON pour le lien Télécharger mon CV', () => {
     const hero: ElementHero = {
       type: 'hero',
       titre: 'Alain Meunier',
       sousTitre: 'Sous-titre',
       description: 'Description',
-      boutonPrincipal: {
-        texte: 'On discute ?',
-        action: '/faisons-connaissance',
-      },
-      profils: [
-        {
-          type: 'profil',
-          titre: 'Produit logiciel',
-          jobTitles: [],
-          slug: 'cpo',
-          route: '/profil/cpo',
-          cvPath: '/data/CV/cpo.pdf',
-        },
-        {
-          type: 'profil',
-          titre: 'Opérations',
-          jobTitles: [],
-          slug: 'coo',
-          route: '/profil/coo',
-          cvPath: '/data/CV/coo.pdf',
-        },
-      ],
-    };
-
-    render(<HeroSection element={hero} />);
-
-    expect(screen.getByText('Produit logiciel')).toBeInTheDocument();
-    expect(screen.getByText('Opérations')).toBeInTheDocument();
-  });
-
-  it('n\'affiche pas les profils quand showProfils est false (US-7.11 home)', () => {
-    const hero: ElementHero = {
-      type: 'hero',
-      titre: 'Alain Meunier',
-      sousTitre: 'Sous-titre',
-      description: 'Description',
-      boutonPrincipal: {
+      callToAction: {
         texte: 'Discutons',
         action: '/faisons-connaissance',
       },
-      profils: [
-        {
-          type: 'profil',
-          titre: 'Produit logiciel',
-          jobTitles: [],
-          slug: 'cpo',
-          route: '/profil/cpo',
-          cvPath: '/data/CV/cpo.pdf',
-        },
-      ],
+      ensavoirplus: '/custom-mes-profils',
     };
 
-    render(<HeroSection element={hero} showProfils={false} />);
+    render(<HeroSection element={hero} />);
 
     expect(screen.queryByText('Produit logiciel')).not.toBeInTheDocument();
     expect(screen.getByText('Alain Meunier')).toBeInTheDocument();
   });
 
-  it('affiche la vidéo dans la zone droite quand video est fourni (US-7.11)', () => {
+  it('affiche la vidéo dans la zone droite quand hero.video est fourni (US-7.11)', () => {
     const hero: ElementHero = {
       type: 'hero',
       titre: 'Alain Meunier',
       sousTitre: 'Disponible pour…',
       description: 'Résumé',
-      boutonPrincipal: { texte: 'Discutons', action: '/faisons-connaissance' },
+      callToAction: { texte: 'Discutons', action: '/faisons-connaissance' },
+      video: { urlYouTube: 'https://youtu.be/wcvG-WfKckU', lancementAuto: false },
       profils: [],
     };
-    const video: ElementVideo = {
-      type: 'video',
-      urlYouTube: 'https://youtu.be/wcvG-WfKckU',
-      lancementAuto: false,
-    };
 
-    render(<HeroSection element={hero} video={video} />);
+    render(<HeroSection element={hero} />);
 
     expect(screen.getByTestId('hero-video')).toBeInTheDocument();
-    expect(screen.getByTestId('hero-video')).toHaveAttribute('data-url', video.urlYouTube);
-    expect(document.querySelector('.heroDroite')).toBeInTheDocument();
-    expect(document.querySelector('.heroGauche')).toBeInTheDocument();
+    expect(screen.getByTestId('hero-video')).toHaveAttribute('data-url', hero.video!.urlYouTube);
+    expect(document.querySelector('.ui-heroDroite')).toBeInTheDocument();
+    expect(document.querySelector('.ui-heroGauche')).toBeInTheDocument();
   });
 
   it('devrait parser le markdown **gras** dans le titre', () => {
@@ -217,7 +168,7 @@ describe('Composant HeroSection', () => {
       titre: 'Alain **Meunier**',
       sousTitre: 'Sous-titre',
       description: 'Description',
-      boutonPrincipal: {
+      callToAction: {
         texte: 'On discute ?',
         action: '/faisons-connaissance',
       },
@@ -237,7 +188,7 @@ describe('Composant HeroSection', () => {
       titre: 'Titre',
       sousTitre: 'Je recherche un projet **stimulant**',
       description: 'Description',
-      boutonPrincipal: {
+      callToAction: {
         texte: 'On discute ?',
         action: '/faisons-connaissance',
       },
@@ -257,7 +208,7 @@ describe('Composant HeroSection', () => {
       titre: 'Titre',
       sousTitre: 'Sous-titre',
       description: '25 ans d\'expérience à **transformer des idées** en produits logiciels',
-      boutonPrincipal: {
+      callToAction: {
         texte: 'On discute ?',
         action: '/faisons-connaissance',
       },
@@ -277,7 +228,7 @@ describe('Composant HeroSection', () => {
       titre: 'Titre',
       sousTitre: 'Sous-titre',
       description: 'Passionné par la **résolution de problèmes complexes**, je combine **rigueur technique et leadership humain**.',
-      boutonPrincipal: {
+      callToAction: {
         texte: 'On discute ?',
         action: '/faisons-connaissance',
       },

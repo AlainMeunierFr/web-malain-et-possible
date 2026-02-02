@@ -6,63 +6,60 @@
 
 import React from 'react';
 import Link from 'next/link';
-import type { ElementHero, ElementVideo } from '../utils/indexReader';
-import { ROUTES } from '../constants/routes';
-import ProfilContainer from './ProfilContainer';
+import type { ElementHero } from '../utils/indexReader';
 import Video from './Video';
 import { parseInlineMarkdown } from '../utils/markdownInlineParser';
 
 export interface HeroSectionProps {
   element: ElementHero;
-  /** Masquer les profils (ex. home US-7.11). Par défaut true. */
-  showProfils?: boolean;
-  /** Vidéo à afficher à droite (layout deux colonnes). */
-  video?: ElementVideo;
 }
 
-const HeroSection: React.FC<HeroSectionProps> = ({
-  element,
-  showProfils = true,
-  video,
-}) => {
+const HeroSection: React.FC<HeroSectionProps> = ({ element }) => {
+  /** Vidéo à afficher à droite (hero.video) ; compatible ElementVideo pour le composant Video. */
+  const video = element.video
+    ? { type: 'video' as const, urlYouTube: element.video.urlYouTube, lancementAuto: element.video.lancementAuto ?? false, ...(element.video.e2eID && { e2eID: element.video.e2eID }) }
+    : undefined;
+  /* Retours à la ligne uniquement sur \n dans la source ; gras/italique restent inline */
   const descriptionAvecRetoursLigne = element.description.replace(/\\n/g, '\n');
+  const paragraphes = descriptionAvecRetoursLigne.split('\n').filter(Boolean);
+  const descriptionNodes =
+    paragraphes.length <= 1
+      ? parseInlineMarkdown(descriptionAvecRetoursLigne)
+      : paragraphes.flatMap((para, i) =>
+          i === 0
+            ? [<React.Fragment key={`desc-${i}`}>{parseInlineMarkdown(para)}</React.Fragment>]
+            : [<br key={`br-${i}`} />, <React.Fragment key={`desc-${i}`}>{parseInlineMarkdown(para)}</React.Fragment>]
+        );
 
   const contenuGauche = (
     <>
-      <h1>{parseInlineMarkdown(element.titre)}</h1>
-      <h2>{parseInlineMarkdown(element.sousTitre)}</h2>
-      <p className="description">{parseInlineMarkdown(descriptionAvecRetoursLigne)}</p>
-      <div className="heroCtas">
+      <h1 className="hero titre">{parseInlineMarkdown(element.titre)}</h1>
+      <h2 className="hero sousTitre">{parseInlineMarkdown(element.sousTitre)}</h2>
+      <p className="hero description">{descriptionNodes}</p>
+      <div className="ui-heroCtas">
         <Link
-          href={ROUTES.MES_PROFILS}
+          href={element.ensavoirplus}
           className="lienInterne"
           e2eid="hero-telecharger-cv"
         >
           Télécharger mon CV
         </Link>
         <Link
-          href={element.boutonPrincipal.action}
-          className="bouton"
+          href={element.callToAction.action}
+          className="bouton hero callToAction"
           e2eid="hero-bouton-principal"
         >
-          {element.boutonPrincipal.texte}
+          {element.callToAction.texte}
         </Link>
       </div>
-      {showProfils && element.profils.length > 0 && (
-        <div className="profilsContainer">
-          {element.profils.map((profil) => (
-            <ProfilContainer key={profil.slug} profil={profil} />
-          ))}
-        </div>
-      )}
     </>
   );
 
   if (video) {
     return (
       <section className="hero">
-        <div className="heroGauche">{contenuGauche}</div>
-        <div className="heroDroite">
+        <div className="ui-heroGauche">{contenuGauche}</div>
+        <div className="ui-heroDroite">
           <Video element={video} backgroundColor="white" />
         </div>
       </section>
@@ -71,7 +68,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({
 
   return (
     <section className="hero">
-      <div className="content">
+      <div className="ui-content">
         {contenuGauche}
       </div>
     </section>

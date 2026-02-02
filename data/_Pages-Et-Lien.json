@@ -62,6 +62,14 @@
       "zone": "Autres"
     },
     {
+      "url": "/mode-lecture",
+      "titre": "Mode lecture",
+      "x": null,
+      "y": null,
+      "dessiner": "Oui",
+      "zone": "Autres"
+    },
+    {
       "url": "/portfolio-detournements",
       "titre": "Portfolio de detournements vidéos",
       "x": null,
@@ -76,6 +84,14 @@
       "y": null,
       "dessiner": "Oui",
       "zone": "Autres"
+    },
+    {
+      "url": "/raw",
+      "titre": "Raw (DOM sans CSS)",
+      "x": null,
+      "y": null,
+      "zone": "Autres",
+      "dessiner": "Oui"
     },
     {
       "url": "/a-propos-du-site",
@@ -232,12 +248,22 @@
       "label": "Plan du site"
     },
     {
+      "source": "/mode-lecture",
+      "destination": "/plan-du-site",
+      "label": "Plan du site"
+    },
+    {
       "source": "/portfolio-detournements",
       "destination": "/plan-du-site",
       "label": "Plan du site"
     },
     {
       "source": "/pour-aller-plus-loin",
+      "destination": "/plan-du-site",
+      "label": "Plan du site"
+    },
+    {
+      "source": "/raw",
       "destination": "/plan-du-site",
       "label": "Plan du site"
     },
@@ -292,6 +318,11 @@
       "label": "Metrics"
     },
     {
+      "source": "/mode-lecture",
+      "destination": "/metrics",
+      "label": "Metrics"
+    },
+    {
       "source": "/plan-du-site",
       "destination": "/metrics",
       "label": "Metrics"
@@ -303,6 +334,11 @@
     },
     {
       "source": "/pour-aller-plus-loin",
+      "destination": "/metrics",
+      "label": "Metrics"
+    },
+    {
+      "source": "/raw",
       "destination": "/metrics",
       "label": "Metrics"
     },
@@ -357,6 +393,11 @@
       "label": "Info"
     },
     {
+      "source": "/mode-lecture",
+      "destination": "/a-propos-du-site",
+      "label": "Info"
+    },
+    {
       "source": "/plan-du-site",
       "destination": "/a-propos-du-site",
       "label": "Info"
@@ -368,6 +409,11 @@
     },
     {
       "source": "/pour-aller-plus-loin",
+      "destination": "/a-propos-du-site",
+      "label": "Info"
+    },
+    {
+      "source": "/raw",
       "destination": "/a-propos-du-site",
       "label": "Info"
     },
@@ -423,6 +469,12 @@
       "e2eID": "h1"
     },
     {
+      "source": "/mode-lecture",
+      "destination": "/",
+      "label": "Logo",
+      "e2eID": "h1"
+    },
+    {
       "source": "/plan-du-site",
       "destination": "/",
       "label": "Logo",
@@ -436,6 +488,12 @@
     },
     {
       "source": "/pour-aller-plus-loin",
+      "destination": "/",
+      "label": "Logo",
+      "e2eID": "h1"
+    },
+    {
+      "source": "/raw",
       "destination": "/",
       "label": "Logo",
       "e2eID": "h1"

@@ -7,7 +7,6 @@
 import React from 'react';
 import type { ContenuElement } from '../utils/aboutSiteReader';
 import { getMdImagePath } from '../utils/imagePath';
-import styles from './AboutSiteContentRenderer.module.css';
 import Prompt from './Prompt';
 
 /**
@@ -59,7 +58,7 @@ function parseInlineMarkdown(text: string): React.ReactNode[] {
           key={`image-${index}`}
           src={getMdImagePath(match.filename)}
           alt={match.filename}
-          className={styles.inlineImage}
+          className="inline-image"
         />
       );
     }
@@ -155,11 +154,11 @@ const AboutSiteContentRenderer: React.FC<AboutSiteContentRendererProps> = ({
       // Si imageUrl est déjà défini (URL complète), l'utiliser, sinon construire le chemin MD
       const imageSrc = element.imageUrl || getMdImagePath(element.imageFilename);
       return (
-        <div key={elementIndex} className={styles.imageBlock}>
+        <div key={elementIndex} className="imageBlock">
           <img 
             src={imageSrc}
             alt={element.imageFilename}
-            className={styles.blockImage}
+            className="blockImage"
           />
         </div>
       );
@@ -168,7 +167,7 @@ const AboutSiteContentRenderer: React.FC<AboutSiteContentRendererProps> = ({
     // Paragraphe
     if (element.type === 'paragraph') {
       return (
-        <p key={elementIndex} className={styles.paragraph}>
+        <p key={elementIndex} className="paragraph">
           {parseInlineMarkdown(element.content || '')}
         </p>
       );
@@ -179,7 +178,7 @@ const AboutSiteContentRenderer: React.FC<AboutSiteContentRendererProps> = ({
       if (element.typeDeContenu) {
         const text = element.items?.[0] || '';
         return (
-          <ul key={elementIndex} className={styles[element.typeDeContenu] || styles.userStoryElement} data-type-contenu={element.typeDeContenu}>
+          <ul key={elementIndex} className={element.typeDeContenu === 'themeCritere' || element.typeDeContenu === 'critere' ? element.typeDeContenu : 'userStoryElement'} data-type-contenu={element.typeDeContenu}>
             <li>
               {parseInlineMarkdown(text)}
             </li>
@@ -188,9 +187,9 @@ const AboutSiteContentRenderer: React.FC<AboutSiteContentRendererProps> = ({
       }
       const Tag = element.type === 'ul' ? 'ul' : 'ol';
       return (
-        <Tag key={elementIndex} className={styles.list}>
-          {element.items?.map((item, itemIndex) => (
-            <li key={itemIndex} className={styles.listItem}>
+        <Tag key={elementIndex} className="list">
+            {element.items?.map((item, itemIndex) => (
+            <li key={itemIndex} className="listItem">
               {parseInlineMarkdown(item)}
             </li>
           ))}
@@ -202,14 +201,13 @@ const AboutSiteContentRenderer: React.FC<AboutSiteContentRendererProps> = ({
   };
 
   return (
-    <div className={typeDeContenu === 'Prompt' ? styles.promptContainer : styles.normalContainer}>
+    <div className={typeDeContenu === 'Prompt' ? 'promptContainer' : 'normalContainer'}>
       {groupedElements.map((group, groupIndex) => {
-        // Déterminer le conteneur selon le type de groupe
-        let containerClass = styles.normalContainer;
+        let containerClass = 'normalContainer';
         if (group.type === 'alain') {
-          containerClass = styles.promptContainer; // Même style que "Prompt" (BleuClair)
+          containerClass = 'promptContainer';
         } else if (group.type === 'ia') {
-          containerClass = styles.technicalResultContainer; // Même style que "Résultat technique" (Blanc)
+          containerClass = 'technicalResultContainer';
         }
 
         return (

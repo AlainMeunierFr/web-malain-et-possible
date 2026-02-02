@@ -1,5 +1,4 @@
 import React from 'react';
-import styles from './MarkdownRenderer.module.css';
 import CourseMarkdownRenderer from './CourseMarkdownRenderer';
 import AboutSiteContentRenderer from './AboutSiteContentRenderer';
 import { parseJournalMarkdown, type ParsedJournal } from '../utils/journalMarkdownParser';
@@ -21,7 +20,7 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content }) => {
   parsed.parties.forEach((partie, partieIndex) => {
     // Titre de partie H3
     elements.push(
-      <h3 key={`partie-${partieIndex}`} className={styles.h3}>
+      <h3 key={`partie-${partieIndex}`}>
         {partie.titre}
       </h3>
     );
@@ -40,7 +39,7 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content }) => {
     partie.sousParties.forEach((sousPartie, sousPartieIndex) => {
       // Titre de sous-partie H4 (toujours affiché, même si typeDeContenu existe)
       elements.push(
-        <h4 key={`sous-partie-${partieIndex}-${sousPartieIndex}`} className={styles.h4}>
+        <h4 key={`sous-partie-${partieIndex}-${sousPartieIndex}`}>
           {sousPartie.titre}
         </h4>
       );
@@ -62,7 +61,7 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content }) => {
         
         if (!doitMasquerTitre) {
           elements.push(
-            <h5 key={`bloc-title-${partieIndex}-${sousPartieIndex}-${blocIndex}`} className={styles.h5}>
+            <h5 key={`bloc-title-${partieIndex}-${sousPartieIndex}-${blocIndex}`}>
               {bloc.titre}
             </h5>
           );
@@ -83,7 +82,7 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content }) => {
   });
 
   return (
-    <div className={styles.markdownContent}>
+    <div className="markdownContent">
       {elements}
     </div>
   );

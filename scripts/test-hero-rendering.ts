@@ -20,7 +20,7 @@ function testHeroRendering() {
       console.log(`  - Titre: ${hero.titre}`);
       console.log(`  - Sous-titre: ${hero.sousTitre}`);
       console.log(`  - Description: ${hero.description.substring(0, 50)}...`);
-      console.log(`  - Bouton principal: ${hero.boutonPrincipal.texte} → ${hero.boutonPrincipal.action}`);
+      console.log(`  - Call to action: ${hero.callToAction.texte} → ${hero.callToAction.action}`);
       console.log(`  - Nombre de profils: ${hero.profils.length}\n`);
 
       // Vérifier chaque profil

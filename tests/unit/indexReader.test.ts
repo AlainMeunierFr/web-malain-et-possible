@@ -154,17 +154,17 @@ describe('indexReader', () => {
       const mockPageData = {
         contenu: [
           {
-            type: 'temoignages',
+            type: 'listeDeTemoignages',
             source: '_temoignages.json',
           },
         ],
       };
 
-      // Structure réelle : le fichier source a contenu[] avec un élément temoignages qui a items[]
+      // Structure réelle : le fichier source a contenu[] avec un élément listeDeTemoignages qui a items[]
       const mockTemoignagesData = {
         contenu: [
           {
-            type: 'temoignages',
+            type: 'listeDeTemoignages',
             items: [
               {
                 nom: 'Test',
@@ -193,24 +193,29 @@ describe('indexReader', () => {
 
       const result = readPageData('test.json');
 
-      expect(result.contenu[0].items).toEqual(mockTemoignagesData.contenu[0].items);
+      // readPageData normalise les items témoignages avec type: 'temoignage'
+      const expectedItems = mockTemoignagesData.contenu[0].items.map((item: { nom: string; fonction: string; photo: string; temoignage: string }) => ({
+        type: 'temoignage',
+        ...item,
+      }));
+      expect(result.contenu[0].items).toEqual(expectedItems);
     });
 
     it('devrait résoudre les références externes pour détournements', () => {
       const mockPageData = {
         contenu: [
           {
-            type: 'videoDetournement',
+            type: 'listeDeDetournementsVideo',
             source: 'detournements.json',
           },
         ],
       };
 
-      // Structure réelle : le fichier source a contenu[] avec un élément videoDetournement qui a items[]
+      // Structure réelle : le fichier source a contenu[] avec un élément listeDeDetournementsVideo qui a items[]
       const mockDetournementsData = {
         contenu: [
           {
-            type: 'videoDetournement',
+            type: 'listeDeDetournementsVideo',
             items: [
               {
                 id: 1,
@@ -218,7 +223,7 @@ describe('indexReader', () => {
                 videoDetournee: 'abc123',
                 titreVideoOriginale: 'Original',
                 videoOriginale: 'xyz789',
-                pourLeCompteDe: 'Client',
+                titre: 'Client',
                 date: '2023-01-01',
                 pitch: 'Description',
               },
@@ -243,7 +248,11 @@ describe('indexReader', () => {
 
       const result = readPageData('test.json');
 
-      expect(result.contenu[0].items).toEqual(mockDetournementsData.contenu[0].items);
+      // readPageData normalise les items avec type: 'detournementVideo'
+      const expectedItems = mockDetournementsData.contenu[0].items.map((item: any) =>
+        item.type != null ? item : { type: 'detournementVideo', ...item }
+      );
+      expect(result.contenu[0].items).toEqual(expectedItems);
     });
   });
 
@@ -289,20 +298,11 @@ describe('indexReader', () => {
             titre: 'Alain Meunier',
             sousTitre: 'Je recherche un projet stimulant (CDI ou freelance)',
             description: 'Description de la valeur...',
-            boutonPrincipal: {
+            callToAction: {
               texte: 'On discute ?',
               action: '/faisons-connaissance',
             },
-            profils: [
-              {
-                type: 'profil',
-                titre: 'Produit logiciel',
-                jobTitles: ['CPO - Chief Product Officer'],
-                slug: 'cpo',
-                route: '/profil/cpo',
-                cvPath: '/data/CV/cpo.pdf',
-              },
-            ],
+            ensavoirplus: '/mes-profils',
           },
         ],
       };
@@ -316,50 +316,7 @@ describe('indexReader', () => {
       expect(result.contenu[0].type).toBe('hero');
       const hero = result.contenu[0] as any;
       expect(hero.titre).toBe('Alain Meunier');
-      expect(hero.profils).toHaveLength(1);
-    });
-
-    it('devrait lire un élément hero avec plusieurs profils', () => {
-      const mockData: PageData = {
-        contenu: [
-          {
-            type: 'hero',
-            titre: 'Alain Meunier',
-            sousTitre: 'Je recherche un projet stimulant (CDI ou freelance)',
-            description: 'Description...',
-            boutonPrincipal: {
-              texte: 'On discute ?',
-              action: '/faisons-connaissance',
-            },
-            profils: [
-              {
-                type: 'profil',
-                titre: 'Produit logiciel',
-                jobTitles: [],
-                slug: 'cpo',
-                route: '/profil/cpo',
-                cvPath: '/data/CV/cpo.pdf',
-              },
-              {
-                type: 'profil',
-                titre: 'Opérations',
-                jobTitles: [],
-                slug: 'coo',
-                route: '/profil/coo',
-                cvPath: '/data/CV/coo.pdf',
-              },
-            ],
-          },
-        ],
-      };
-
-      mockFs.existsSync.mockReturnValue(true);
-      mockFs.readFileSync.mockReturnValue(JSON.stringify(mockData));
-
-      const result = readPageData('test.json');
-
-      const hero = result.contenu[0] as any;
-      expect(hero.profils).toHaveLength(2);
+      expect(hero.ensavoirplus).toBe('/mes-profils');
     });
   });
 });

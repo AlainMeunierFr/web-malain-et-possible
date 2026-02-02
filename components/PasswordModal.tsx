@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useEditing } from '../contexts/EditingContext';
-import styles from './PasswordModal.module.css';
+import styles from '../app/maintenance/maintenance.module.css';
 
 interface PasswordModalProps {
   isOpen: boolean;
@@ -72,11 +72,11 @@ const PasswordModal: React.FC<PasswordModalProps> = ({ isOpen, onClose }) => {
   };
 
   return (
-    <div className={styles.overlay} onClick={onClose}>
-      <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
-        <h2 className={styles.title}>Accès au module d'édition</h2>
+    <div className={styles.passwordModalOverlay} onClick={onClose}>
+      <div className={styles.passwordModalModal} onClick={(e) => e.stopPropagation()}>
+        <h2 className={styles.passwordModalTitle}>Accès au module d'édition</h2>
         <form onSubmit={handleSubmit}>
-          <label htmlFor="password" className={styles.label}>
+          <label htmlFor="password" className={styles.passwordModalLabel}>
             Mot de passe :
           </label>
           <input
@@ -84,16 +84,16 @@ const PasswordModal: React.FC<PasswordModalProps> = ({ isOpen, onClose }) => {
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className={styles.input}
+            className={styles.passwordModalInput}
             autoFocus
             disabled={isLoading}
           />
-          {error && <p className={styles.error}>{error}</p>}
-          <div className={styles.buttons}>
-            <button type="submit" className={styles.submitButton} disabled={isLoading} e2eid="null">
+          {error && <p className={styles.passwordModalError}>{error}</p>}
+          <div className={styles.passwordModalButtons}>
+            <button type="submit" className={styles.passwordModalSubmitButton} disabled={isLoading} e2eid="null">
               {isLoading ? 'Vérification...' : 'Valider'}
             </button>
-            <button type="button" onClick={onClose} className={styles.cancelButton} disabled={isLoading} e2eid="null">
+            <button type="button" onClick={onClose} className={styles.passwordModalCancelButton} disabled={isLoading} e2eid="null">
               Annuler
             </button>
           </div>

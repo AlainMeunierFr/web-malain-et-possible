@@ -1,0 +1,142 @@
+# Hiérarchie du site (ASCII Art)
+
+Un **dossier** par container, une **ligne** par propriété.  
+Chaque propriété a un container implicite `[nomCanonique].cont` (spec canonique).  
+Source : spec canonique (`constants/canonicalSpec.ts`).  
+Généré par `utils/siteHierarchyGenerator.ts` (sans IA).
+
+```
+body/
+└── boby.count/ (page)
+    ├── header/
+    │   └── titreDePage.texte/
+    │       └── titreDePage.texte
+    ├── listeDesPages/
+    │   └── listeDesPages.page/
+    │       └── listeDesPages.page
+    ├── hero/
+    │   ├── hero.gauche/
+    │   │   ├── hero.titre/
+    │   │   │   └── hero.titre
+    │   │   ├── hero.sousTitre/
+    │   │   │   └── hero.sousTitre
+    │   │   ├── hero.description/
+    │   │   │   └── hero.description
+    │   │   ├── hero.callToAction/
+    │   │   │   └── hero.callToAction
+    │   │   └── hero.ensavoirplus/
+    │   │       └── hero.ensavoirplus
+    │   └── hero.droite/
+    │       └── hero.video/
+    │           └── hero.video
+    ├── listeDeProfils/
+    │   └── profil/
+    │       ├── profil.titre/
+    │       │   └── profil.titre
+    │       ├── profil.jobTitles/
+    │       │   └── profil.jobTitles
+    │       ├── profil.jobTitle/
+    │       │   └── profil.jobTitle
+    │       ├── profil.slug/
+    │       │   └── profil.slug
+    │       ├── profil.route/
+    │       │   └── profil.route
+    │       └── profil.cvPath/
+    │           └── profil.cvPath
+    ├── titre.texte/
+    │   └── titre.texte
+    ├── video.urlYouTube/
+    │   └── video.urlYouTube
+    ├── listeDeTemoignages/
+    │   └── temoignage/
+    │       ├── temoignage.temoin/
+    │       │   ├── temoignage.temoin.photo/
+    │       │   │   └── temoignage.photo/
+    │       │   │       └── temoignage.photo
+    │       │   └── temoignage.temoin.texte/
+    │       │       ├── temoignage.nom/
+    │       │       │   └── temoignage.nom
+    │       │       └── temoignage.fonction/
+    │       │           └── temoignage.fonction
+    │       └── temoignage.temoignage/
+    │           └── temoignage.temoignage
+    ├── domaineDeCompetence/
+    │   ├── domaineDeCompetence.header/
+    │   │   ├── domaineDeCompetence.titre/
+    │   │   │   └── domaineDeCompetence.titre
+    │   │   ├── domaineDeCompetence.contenu/
+    │   │   │   └── domaineDeCompetence.contenu
+    │   │   └── domaineDeCompetence.auteur/
+    │   │       └── domaineDeCompetence.auteur
+    │   └── domaineDeCompetence.competences/
+    │       └── competence/
+    │           ├── competence.titre/
+    │           │   └── competence.titre
+    │           ├── competence.description/
+    │           │   └── competence.description
+    │           ├── competence.auteur/
+    │           │   └── competence.auteur
+    │           ├── competence.image.src/
+    │           │   └── competence.image.src
+    │           ├── competence.image.alt/
+    │           │   └── competence.image.alt
+    │           └── competence.bouton.action/
+    │               └── competence.bouton.action
+    ├── listeDesExperiencesEtApprentissages/
+    │   ├── listeDesExperiencesEtApprentissages.titre/
+    │   │   └── listeDesExperiencesEtApprentissages.titre
+    │   └── experienceEtApprentissage/
+    │       ├── experienceEtApprentissage.categorie/
+    │       │   └── experienceEtApprentissage.categorie
+    │       ├── experienceEtApprentissage.description/
+    │       │   └── experienceEtApprentissage.description
+    │       └── experienceEtApprentissage.periode/
+    │           └── experienceEtApprentissage.periode
+    ├── texteLarge.texte/
+    │   └── texteLarge.texte
+    ├── callToAction.action/
+    │   └── callToAction.action
+    ├── groupeDeBoutons/
+    │   └── bouton/
+    │       └── bouton.command/
+    │           └── bouton.command
+    └── listeDeDetournementsVideo/
+        └── detournementVideo/
+            ├── detournementVideo.header/
+            │   ├── detournementVideo.titre/
+            │   │   └── detournementVideo.titre
+            │   ├── detournementVideo.pitch/
+            │   │   └── detournementVideo.pitch
+            │   └── detournementVideo.date/
+            │       └── detournementVideo.date
+            └── detournementVideo.videos/
+                ├── detournementVideo.videoDetournee/
+                │   ├── detournementVideo.titreVideoDetournee/
+                │   │   └── detournementVideo.titreVideoDetournee
+                │   ├── detournementVideo.videoDetournee/
+                │   ├── detournementVideo.videoDetournee
+                │   ├── detournementVideo.droitsAuteur/
+                │   │   └── detournementVideo.droitsAuteur
+                │   └── detournementVideo.linkedin/
+                │       └── detournementVideo.linkedin
+                └── detournementVideo.videoOriginale/
+                    ├── detournementVideo.titreVideoOriginale/
+                    │   └── detournementVideo.titreVideoOriginale
+                    ├── detournementVideo.videoOriginale/
+                    └── detournementVideo.videoOriginale
+```
+
+## Légende
+
+| Symbole | Signification |
+|--------|----------------|
+| `xxx/` | **Container** (dossier) — élément de type `--c` avec enfants ; inclut les containers implicites `[nom].cont` |
+| `xxx.yyy` | **Propriété** (ligne) — champ affiché (h1, h2, p, lien, etc.), enfant de son container `xxx.yyy.cont` |
+| `└──` | Dernier enfant du parent |
+| `├──` | Enfant suivi d'autres frères |
+| `│`   | Suite du parent (enfants imbriqués) |
+
+## Racine
+
+- **body** : racine de la page (layout).
+- **boby.count** : conteneur principal du contenu (équivalent ancien `page.cont`).

@@ -1,13 +1,13 @@
 import React from 'react';
-import styles from './SimpleMarkdownRenderer.module.css';
+import { parseInlineMarkdown } from '../utils/markdownInlineParser';
 
 export interface SimpleMarkdownRendererProps {
   content: string;
 }
 
 /**
- * Renderer markdown simple qui ne gère que les paragraphes et listes
- * Utilisé dans Prompt et TechnicalResult pour éviter la récursion infinie
+ * Renderer markdown simple : paragraphes, listes, **gras**, *italique*, [texte](url).
+ * Utilisé dans Prompt, TechnicalResult et mode lecture.
  */
 const SimpleMarkdownRenderer: React.FC<SimpleMarkdownRendererProps> = ({ content }) => {
   const lines = content.split('\n');
@@ -20,7 +20,7 @@ const SimpleMarkdownRenderer: React.FC<SimpleMarkdownRendererProps> = ({ content
       elements.push(
         <ul key={`list-${elements.length}`}>
           {currentList.map((item, idx) => (
-            <li key={idx}>{item}</li>
+            <li key={idx}>{parseInlineMarkdown(item)}</li>
           ))}
         </ul>
       );
@@ -33,7 +33,7 @@ const SimpleMarkdownRenderer: React.FC<SimpleMarkdownRendererProps> = ({ content
       const text = currentParagraph.join(' ');
       if (text.trim()) {
         elements.push(
-          <p key={`p-${elements.length}`}>{text}</p>
+          <p key={`p-${elements.length}`}>{parseInlineMarkdown(text)}</p>
         );
       }
       currentParagraph = [];
@@ -70,7 +70,7 @@ const SimpleMarkdownRenderer: React.FC<SimpleMarkdownRendererProps> = ({ content
   flushList();
   
   return (
-    <div className={styles.simpleMarkdownContent}>
+    <div className="simpleMarkdownContent">
       {elements}
     </div>
   );

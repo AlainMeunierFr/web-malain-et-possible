@@ -6,7 +6,7 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import VideoDetournement from '../../components/VideoDetournement';
-import type { ElementVideoDetournement } from '../../utils/indexReader';
+import type { ElementListeDeDetournementsVideo } from '../../utils/indexReader';
 
 // Mock TexteLarge
 jest.mock('../../components/TexteLarge', () => {
@@ -21,10 +21,11 @@ jest.mock('lucide-react', () => ({
 }));
 
 describe('Composant VideoDetournement', () => {
-  const mockElement: ElementVideoDetournement = {
-    type: 'videoDetournement',
+  const mockElement: ElementListeDeDetournementsVideo = {
+    type: 'listeDeDetournementsVideo',
     items: [
       {
+        type: 'detournementVideo',
         id: 1,
         titreVideoDetournee: 'Test Détournement 1',
         videoDetournee: 'abc123def45',
@@ -32,11 +33,12 @@ describe('Composant VideoDetournement', () => {
         videoOriginale: 'xyz789uvw01',
         droitsAuteur: '',
         linkedin: 'https://linkedin.com/test1',
-        pourLeCompteDe: 'Client Test 1',
+        titre: 'Client Test 1',
         date: '15/6/2024',
         pitch: 'Pitch test 1',
       },
       {
+        type: 'detournementVideo',
         id: 2,
         titreVideoDetournee: 'Test Détournement 2',
         videoDetournee: 'def456ghi78',
@@ -44,7 +46,7 @@ describe('Composant VideoDetournement', () => {
         videoOriginale: 'uvw012xyz34',
         droitsAuteur: 'Droits d\'auteur pour le test 2',
         linkedin: '',
-        pourLeCompteDe: 'Client Test 2',
+        titre: 'Client Test 2',
         date: '20/6/2024',
         pitch: 'Pitch test 2',
       },
@@ -54,37 +56,36 @@ describe('Composant VideoDetournement', () => {
   it('devrait afficher tous les détournements triés par date décroissante', () => {
     render(<VideoDetournement element={mockElement} />);
 
-    // Vérifier que les titres sont présents
-    expect(screen.getByText('Test Détournement 1')).toBeInTheDocument();
-    expect(screen.getByText('Test Détournement 2')).toBeInTheDocument();
+    // Vérifier que les titres clients (H2) sont présents
+    expect(screen.getByText('Client Test 1')).toBeInTheDocument();
+    expect(screen.getByText('Client Test 2')).toBeInTheDocument();
 
     // Le deuxième devrait être affiché en premier (date plus récente)
     const titres = screen.getAllByRole('heading', { level: 2 });
-    expect(titres[0].textContent).toBe('Test Détournement 2');
-    expect(titres[1].textContent).toBe('Test Détournement 1');
+    expect(titres[0].textContent).toBe('Client Test 2');
+    expect(titres[1].textContent).toBe('Client Test 1');
   });
 
-  it('devrait afficher les titres des détournements en H2', () => {
+  it('devrait afficher les titres clients des détournements en H2', () => {
     render(<VideoDetournement element={mockElement} />);
 
     const titres = screen.getAllByRole('heading', { level: 2 });
     expect(titres.length).toBe(2);
-    expect(titres[0].textContent).toBe('Test Détournement 2');
-    expect(titres[1].textContent).toBe('Test Détournement 1');
+    expect(titres[0].textContent).toBe('Client Test 2');
+    expect(titres[1].textContent).toBe('Client Test 1');
   });
 
-  it('devrait afficher les titres des vidéos en H3', () => {
+  it('devrait afficher les titres des vidéos (détournée et originale) en H3', () => {
     render(<VideoDetournement element={mockElement} />);
 
-    const titresVideo = screen.getAllByText('Vidéo détournée');
-    const titresOriginale = screen.getAllByText('Vidéo originale');
+    // H3 = titreVideoDetournee et titreVideoOriginale (contenu des données)
+    expect(screen.getByText('Test Détournement 1')).toBeInTheDocument();
+    expect(screen.getByText('Test Détournement 2')).toBeInTheDocument();
+    expect(screen.getByText('Original 1')).toBeInTheDocument();
+    expect(screen.getByText('Original 2')).toBeInTheDocument();
 
-    expect(titresVideo.length).toBe(2);
-    expect(titresOriginale.length).toBe(2);
-
-    // Vérifier qu'ils sont bien en h3
     const allH3 = screen.getAllByRole('heading', { level: 3 });
-    expect(allH3.length).toBeGreaterThanOrEqual(4); // 2x "Vidéo détournée" + 2x "Vidéo originale"
+    expect(allH3.length).toBe(4); // 2x titreVideoDetournee + 2x titreVideoOriginale
   });
 
   it('devrait afficher les iframes YouTube avec les bons IDs', () => {
@@ -148,7 +149,7 @@ describe('Composant VideoDetournement', () => {
     expect(texteLarge[1].textContent).toContain('Pitch test 1');
   });
 
-  it('devrait afficher pourLeCompteDe et titreVideoOriginale', () => {
+  it('devrait afficher titre et titreVideoOriginale', () => {
     render(<VideoDetournement element={mockElement} />);
 
     expect(screen.getByText('Client Test 1')).toBeInTheDocument();
@@ -165,8 +166,8 @@ describe('Composant VideoDetournement', () => {
   });
 
   it('devrait retourner null pour un élément vide', () => {
-    const emptyElement: ElementVideoDetournement = {
-      type: 'videoDetournement',
+    const emptyElement: ElementListeDeDetournementsVideo = {
+      type: 'listeDeDetournementsVideo',
       items: [],
     };
 
@@ -177,10 +178,11 @@ describe('Composant VideoDetournement', () => {
   });
 
   it('devrait extraire l\'ID YouTube depuis une URL complète', () => {
-    const elementWithUrl: ElementVideoDetournement = {
-      type: 'videoDetournement',
+    const elementWithUrl: ElementListeDeDetournementsVideo = {
+      type: 'listeDeDetournementsVideo',
       items: [
         {
+          type: 'detournementVideo',
           id: 3,
           titreVideoDetournee: 'Test avec URL',
           videoDetournee: 'https://www.youtube.com/watch?v=abc123def45',
@@ -188,7 +190,7 @@ describe('Composant VideoDetournement', () => {
           videoOriginale: 'https://youtu.be/xyz789uvw01',
           droitsAuteur: '',
           linkedin: '',
-          pourLeCompteDe: 'Client URL',
+          titre: 'Client URL',
           date: '1/1/2024',
           pitch: 'Pitch URL',
         },
@@ -208,10 +210,11 @@ describe('Composant VideoDetournement', () => {
   });
 
   it('ne devrait pas afficher d\'iframe pour URL YouTube invalide', () => {
-    const elementWithInvalidUrl: ElementVideoDetournement = {
-      type: 'videoDetournement',
+    const elementWithInvalidUrl: ElementListeDeDetournementsVideo = {
+      type: 'listeDeDetournementsVideo',
       items: [
         {
+          type: 'detournementVideo',
           id: 4,
           titreVideoDetournee: 'Test URL invalide',
           videoDetournee: 'https://invalid-url.com/video',
@@ -219,7 +222,7 @@ describe('Composant VideoDetournement', () => {
           videoOriginale: 'not-a-youtube-url',
           droitsAuteur: '',
           linkedin: '',
-          pourLeCompteDe: 'Client Invalide',
+          titre: 'Client Invalide',
           date: '1/1/2024',
           pitch: 'Pitch invalide',
         },

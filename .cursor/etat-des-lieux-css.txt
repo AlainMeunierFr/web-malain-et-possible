@@ -1,0 +1,2279 @@
+catégorie	propriété CSS	valeur
+Typographie	font-family	'Clint Marker'
+Divers	src	url('/fonts/ClintMarker.woff2') format('woff2'), url('/fonts/ClintMarker.woff') format('woff'), url('/fonts/ClintMarker.ttf') format('truetype')
+Typographie	font-weight	normal
+Typographie	font-style	normal
+Typographie	font-display	swap
+Typographie	font-family	'Outfit'
+Divers	src	url('/fonts/Outfit-Regular.woff2') format('woff2'), url('/fonts/Outfit-Regular.woff') format('woff'), url('/fonts/Outfit-Regular.ttf') format('truetype')
+Typographie	font-weight	400
+Typographie	font-style	normal
+Typographie	font-display	swap
+Typographie	font-family	'Outfit'
+Divers	src	url('/fonts/Outfit-SemiBold.woff2') format('woff2'), url('/fonts/Outfit-SemiBold.woff') format('woff'), url('/fonts/Outfit-SemiBold.ttf') format('truetype')
+Typographie	font-weight	600
+Typographie	font-style	normal
+Typographie	font-display	swap
+Typographie	font-family	'Outfit'
+Divers	src	url('/fonts/Outfit-Bold.woff2') format('woff2'), url('/fonts/Outfit-Bold.woff') format('woff'), url('/fonts/Outfit-Bold.ttf') format('truetype')
+Typographie	font-weight	700
+Typographie	font-style	normal
+Typographie	font-display	swap
+Typographie	font-size	clamp(1rem, 0.25rem + 0.8vw, 3rem) !important
+Variables CSS	--CouleurClaire	#E7F6FF
+Variables CSS	--Noir	#171717
+Variables CSS	--Blanc	#ffffff
+Variables CSS	--Transparent	transparent
+Variables CSS	--background	var(--Blanc)
+Variables CSS	--foreground	var(--Noir)
+Variables CSS	--BleuFonce	var(--CouleurFoncé)
+Variables CSS	--BleuClair	var(--CouleurClaire)
+Variables CSS	--largeurDeTexteMax	78.125rem
+Autre	color-scheme	light
+Variables CSS	--enorme	2rem
+Variables CSS	--grande	1.5rem
+Variables CSS	--moyenne	1.25rem
+Variables CSS	--normale	1rem
+Variables CSS	--petite	0.875rem
+Autre	-font-size	var(--grande)
+Autre	-font-weight	700
+Autre	-color	var(--Noir)
+Autre	-line-height	1.2
+Autre	-font-size	var(--moyenne)
+Autre	-font-weight	700
+Autre	-color	var(--Noir)
+Autre	-line-height	1.3
+Autre	-font-size	var(--normale)
+Autre	-font-weight	700
+Autre	-color	var(--Noir)
+Autre	-line-height	1.4
+Autre	-font-size	var(--petite)
+Autre	-font-weight	700
+Autre	-color	var(--Noir)
+Autre	-line-height	1.4
+Variables CSS	--p-font-size	var(--normale)
+Variables CSS	--p-font-weight	400
+Variables CSS	--p-color	var(--Noir)
+Variables CSS	--p-line-height	1.4
+Variables CSS	--a-font-size	var(--normale)
+Variables CSS	--a-font-weight	400
+Variables CSS	--a-font-style	italic
+Variables CSS	--a-color	var(--Noir)
+Variables CSS	--n-font-size	var(--petite)
+Variables CSS	--n-font-weight	400
+Variables CSS	--n-color	var(--Noir)
+Variables CSS	--n-line-height	1.3
+Autre	-font-size	var(--normale)
+Autre	-color	var(--Noir)
+Autre	-line-height	1.3
+Autre	-font-size	var(--petite)
+Autre	-color	var(--Noir)
+Variables CSS	--lk-font-size	var(--normale)
+Variables CSS	--lk-font-weight	600
+Variables CSS	--lk-color	var(--CouleurFoncé)
+Variables CSS	--lk-text-decoration	underline
+Variables CSS	--b-font-size	var(--normale)
+Variables CSS	--b-font-weight	600
+Variables CSS	--b-background	var(--CouleurFoncé)
+Variables CSS	--b-color	var(--Blanc)
+Variables CSS	--BoutonCouleur	var(--Blanc)
+Variables CSS	--BoutonCouleurFond	var(--CouleurFoncé)
+Variables CSS	--BoutonCouleurFondHover	#005A9E
+Variables CSS	--BoutonCouleurTexteHover	var(--BoutonCouleur)
+Variables CSS	--BoutonPolice	'Outfit', sans-serif
+Variables CSS	--BoutonTaillePolice	var(--normale)
+Variables CSS	--BoutonPoidsPolice	600
+Variables CSS	--BoutonContour	none
+Variables CSS	--BoutonContourRadius	0.375rem
+Variables CSS	--BoutonTransition	all 0.3s cubic-bezier(0.4, 0, 0.2, 1)
+Variables CSS	--BoutonOmbre	0 0.125rem 0.25rem rgba(0, 112, 192, 0.15)
+Variables CSS	--BoutonOmbreHover	0 0.25rem 0.75rem rgba(0, 112, 192, 0.25)
+Variables CSS	--BoutonTransformHover	translateY(-1px)
+Variables CSS	--BoutonPaddingVertical	0.75rem
+Variables CSS	--BoutonPaddingHorizontal	1.5rem
+Variables CSS	--color-text-default	var(--Noir)
+Variables CSS	--couleur-alerte	#dc2626
+Variables CSS	--couleur-alerte-fond	#ffffff
+Variables CSS	--color-background	var(--background)
+Variables CSS	--color-foreground	var(--foreground)
+Variables CSS	--font-sans	'Outfit', sans-serif
+Variables CSS	--font-serif	'Outfit', sans-serif
+Variables CSS	--font-mono	'Courier New', monospace
+Couleur et fond	background	var(--background)
+Couleur et fond	color	var(--foreground)
+Typographie	font-family	'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif
+Typographie	font-size	1rem
+Boîte	box-sizing	border-box
+Boîte	padding	0
+Boîte	margin	0
+Disposition	max-width	100vw
+Disposition	overflow-x	hidden
+Boîte	padding-top	max(80px, 8.75vh)
+Boîte	padding-bottom	max(60px, 6.5vh)
+Disposition	min-height	100vh
+Disposition	width	100%
+Disposition	min-aspect-ratio	1) { .main { max-width: min(100vw, calc(100vh * 16 / 9))
+Boîte	margin-left	auto
+Boîte	margin-right	auto
+Boîte	box-sizing	border-box
+Typographie	font-family	var(--font-sans)
+Typographie	font-size	var(--b-font-size)
+Typographie	font-weight	var(--b-font-weight)
+Boîte	padding	0.75rem 1.5rem
+Animation et transition	transition	all 0.3s cubic-bezier(0.4, 0, 0.2, 1)
+Typographie	letter-spacing	0.01em
+Typographie	line-height	1.4
+Divers	cursor	pointer
+Typographie	text-decoration	none
+Disposition	display	inline-block
+Typographie	text-align	center
+Couleur et fond	background-color	var(--BleuFonce)
+Couleur et fond	color	var(--Blanc)
+Boîte	border	0.125rem solid var(--BleuFonce)
+Boîte	border-radius	0
+Effets visuels	box-shadow	none
+Autre	bouton	hover { } .domaineDeCompetence .bouton { } .domaineDeCompetence .bouton:hover { } .callToAction.action { width: 30%
+Disposition	max-width	43.75rem
+Autre	action	hover { } .listeDesPages .bouton { width: 100%
+Disposition	height	5rem
+Disposition	min-height	5rem
+Disposition	max-height	5rem
+Disposition	display	flex
+Disposition	align-items	center
+Disposition	justify-content	center
+Autre	bouton	hover { } .groupeBoutons .bouton { display: flex
+Disposition	align-items	center
+Disposition	justify-content	center
+Disposition	gap	0.75rem
+Autre	bouton	hover { } .groupeBoutons.taillePetite .bouton { padding: 0
+Boîte	border	none
+Couleur et fond	background-color	transparent
+Effets visuels	box-shadow	none
+Autre	bouton	hover { background-color: transparent
+Effets visuels	opacity	0.8
+Disposition	width	30rem
+Boîte	margin	0 auto
+Boîte	padding	1rem 1.5rem
+Typographie	text-align	left
+Disposition	width	100%
+Disposition	min-height	2.5rem
+Autre	bouton	hover { background-color: var(--BleuClair)
+Couleur et fond	color	var(--BleuFonce)
+Boîte	border-color	var(--BleuFonce)
+Animation et transition	transform	none
+Effets visuels	box-shadow	none
+Autre	bouton	active { background-color: var(--BleuFonce)
+Couleur et fond	color	var(--Blanc)
+Boîte	border-color	var(--BleuFonce)
+Animation et transition	transform	none
+Effets visuels	box-shadow	none
+Disposition	width	100%
+Disposition	max-width	59.1875rem
+Boîte	margin	0 auto
+Boîte	margin-top	1.875rem
+Couleur et fond	background-color	var(--CouleurClaire)
+Boîte	padding	0.75rem 1rem
+Boîte	box-sizing	border-box
+Typographie	font-family	var(--font-sans)
+Typographie	font-size	var(--h1-font-size)
+Typographie	font-weight	var(--h1-font-weight)
+Couleur et fond	color	var(--CouleurFoncé)
+Typographie	text-align	center
+Boîte	margin	0
+Typographie	line-height	var(--h1-line-height)
+Disposition	min-width	769px) { .titre { padding: 0.875rem 1.5rem
+Typographie	font-size	var(--normale)
+Disposition	width	100%
+Boîte	margin	0 auto
+Boîte	padding	1rem
+Boîte	box-sizing	border-box
+Couleur et fond	background-color	var(--background)
+Couleur et fond	background-color	var(--BleuClair)
+Typographie	font-family	var(--font-sans)
+Typographie	font-size	var(--h2-font-size)
+Typographie	font-weight	var(--h2-font-weight)
+Typographie	text-align	center
+Boîte	margin	0 auto 1rem
+Couleur et fond	color	var(--h2-color)
+Disposition	max-width	59.1875rem
+Disposition	width	100%
+Disposition	position	relative
+Disposition	width	100%
+Boîte	padding-bottom	56.25%
+Disposition	height	0
+Disposition	overflow	hidden
+Disposition	position	absolute
+Disposition	top	0
+Disposition	left	0
+Disposition	width	100%
+Disposition	height	100%
+Boîte	border	none
+Disposition	min-width	769px) { .video { width: 50%
+Disposition	max-width	47.5rem
+Boîte	padding	2rem 1rem
+Typographie	font-size	var(--moyenne)
+Disposition	max-width	75rem
+Boîte	margin	0 auto
+Boîte	padding	1.5rem 1rem
+Disposition	width	100%
+Boîte	box-sizing	border-box
+Typographie	font-family	var(--font-serif)
+Typographie	font-size	var(--p-font-size)
+Typographie	font-weight	var(--p-font-weight)
+Typographie	line-height	var(--p-line-height)
+Typographie	text-align	left
+Boîte	margin	0
+Boîte	margin-bottom	0.7em
+Couleur et fond	color	var(--p-color)
+Autre	p	last-child { margin-bottom: 0
+Disposition	min-width	769px) { .texteLarge { padding: 2rem 1rem
+Disposition	max-width	75rem
+Boîte	margin	10px auto
+Boîte	padding	0
+Disposition	width	100%
+Boîte	box-sizing	border-box
+Couleur et fond	background-color	var(--background)
+Couleur et fond	background-color	var(--BleuClair)
+Disposition	width	100%
+Boîte	margin	0 auto 0.625rem auto
+Boîte	box-sizing	border-box
+Typographie	font-size	var(--petite)
+Disposition	position	sticky
+Disposition	top	max(80px, 8.75vh)
+Autre	z-index	100
+Typographie	font-family	var(--font-sans)
+Typographie	font-size	var(--h2-font-size)
+Typographie	font-weight	var(--h2-font-weight)
+Typographie	line-height	var(--h2-line-height)
+Typographie	text-align	center
+Boîte	margin	0.625rem 0
+Couleur et fond	color	var(--h2-color)
+Couleur et fond	background-color	var(--background)
+Disposition	width	100%
+Disposition	max-width	100%
+Boîte	box-sizing	border-box
+Couleur et fond	background-color	var(--CouleurClaire)
+Typographie	font-family	var(--font-serif)
+Typographie	font-size	var(--p-font-size)
+Typographie	font-weight	var(--p-font-weight)
+Typographie	line-height	var(--p-line-height)
+Couleur et fond	color	var(--p-color)
+Typographie	white-space	pre-line
+Boîte	margin	0
+Disposition	width	100%
+Typographie	font-family	var(--font-serif)
+Typographie	font-size	var(--a-font-size)
+Typographie	font-weight	var(--a-font-weight)
+Typographie	font-style	var(--a-font-style)
+Typographie	text-align	right
+Couleur et fond	color	var(--a-color)
+Boîte	margin-top	0
+Boîte	margin-bottom	0
+Disposition	width	100%
+Disposition	display	flex
+Disposition	flex-direction	column
+Disposition	gap	1.875rem
+Disposition	width	100%
+Boîte	margin-top	1.25rem
+Disposition	display	flex
+Disposition	flex-direction	column
+Disposition	align-items	center
+Disposition	justify-content	flex-start
+Disposition	width	100%
+Boîte	padding	1.25rem 1.25rem 0 1.25rem
+Boîte	box-sizing	border-box
+Typographie	font-family	var(--font-sans)
+Typographie	font-size	var(--h3-font-size)
+Typographie	font-weight	var(--h3-font-weight)
+Typographie	line-height	var(--h3-line-height)
+Typographie	text-align	center
+Boîte	margin	0 0 10px 0
+Couleur et fond	color	var(--CouleurFoncé)
+Disposition	width	100%
+Disposition	max-width	6.25rem
+Boîte	margin	0 auto 0.625rem
+Disposition	display	flex
+Disposition	justify-content	center
+Disposition	align-items	center
+Disposition	max-width	100%
+Disposition	height	auto
+Boîte	margin-top	auto
+Boîte	padding-top	0.625rem
+Boîte	padding-bottom	10px
+Disposition	width	100%
+Disposition	display	flex
+Disposition	justify-content	center
+Disposition	align-items	center
+Typographie	font-family	var(--font-serif)
+Typographie	font-size	var(--a-font-size)
+Typographie	font-weight	var(--a-font-weight)
+Typographie	font-style	var(--a-font-style)
+Typographie	text-align	right
+Couleur et fond	color	var(--a-color)
+Boîte	margin-top	0.5rem
+Boîte	margin-bottom	0
+Disposition	width	100%
+Disposition	width	100%
+Boîte	margin-top	0
+Boîte	margin-bottom	2.5rem
+Boîte	box-sizing	border-box
+Disposition	width	100%
+Disposition	display	flex
+Disposition	align-items	center
+Disposition	justify-content	space-between
+Boîte	padding	0.4rem 0
+Couleur et fond	background	none
+Boîte	border	none
+Divers	cursor	pointer
+Typographie	text-align	left
+Animation et transition	transition	background-color 0.2s ease
+Autre	experiencesToggle	hover { background-color: var(--CouleurClaire)
+Autre	experiencesToggle	focus { outline: 0.125rem solid var(--BleuFonce)
+Boîte	outline-offset	0.125rem
+Disposition	width	1.25rem
+Disposition	height	1.25rem
+Couleur et fond	color	var(--BleuFonce)
+Disposition	flex-shrink	0
+Boîte	margin-left	0.5rem
+Boîte	margin	0
+Autre	flex	1
+Typographie	font-family	var(--font-sans)
+Typographie	font-size	var(--n-font-size)
+Typographie	font-weight	var(--n-font-weight)
+Typographie	line-height	var(--n-line-height)
+Typographie	text-align	left
+Boîte	margin	0 0 0.4rem 0
+Couleur et fond	color	var(--n-color)
+Boîte	margin-top	0.4rem
+Divers	list-style-type	disc
+Boîte	padding-left	1.5rem
+Boîte	margin	0
+Disposition	width	100%
+Typographie	font-family	var(--font-serif)
+Typographie	font-size	var(--n-font-size)
+Typographie	font-weight	var(--n-font-weight)
+Typographie	line-height	var(--n-line-height)
+Couleur et fond	color	var(--n-color)
+Boîte	margin-bottom	0.4rem
+Autre	experienceEtApprentissage	last-child { margin-bottom: 0
+Typographie	font-size	var(--n-font-size)
+Typographie	font-weight	700
+Couleur et fond	color	var(--n-color)
+Typographie	font-style	italic
+Typographie	font-size	var(--n-font-size)
+Typographie	font-weight	var(--n-font-weight)
+Couleur et fond	color	var(--n-color)
+Disposition	display	inline
+Disposition	display	inline
+Boîte	margin	0
+Disposition	max-width	768px) { .domaineDeCompetence { padding: 0
+Disposition	width	100%
+Disposition	min-width	769px) { .domaineDeCompetence { padding: 20px
+Disposition	width	100%
+Disposition	max-width	100%
+Typographie	font-size	var(--grande)
+Typographie	font-size	var(--normale)
+Disposition	width	80%
+Boîte	margin	0 auto
+Disposition	width	80%
+Boîte	margin	0 auto
+Disposition	flex-direction	row
+Disposition	flex-wrap	wrap
+Disposition	justify-content	center
+Disposition	align-items	stretch
+Disposition	gap	1.875rem
+Disposition	width	calc((100% - 3.75rem) / 3)
+Autre	flex	0 0 calc((100% - 3.75rem) / 3)
+Disposition	max-width	calc((100% - 3.75rem) / 3)
+Typographie	font-size	var(--h3-font-size)
+Typographie	font-weight	var(--h3-font-weight)
+Couleur et fond	color	var(--h3-color)
+Typographie	font-size	var(--n-font-size)
+Disposition	max-width	75rem
+Boîte	margin	0 auto
+Boîte	padding	1.5rem 1rem
+Disposition	width	100%
+Boîte	box-sizing	border-box
+Disposition	display	flex
+Disposition	justify-content	center
+Disposition	align-items	center
+Disposition	min-width	769px) { .callToAction { padding: 2rem 1rem
+Disposition	max-width	75rem
+Boîte	margin	0 auto
+Boîte	padding	1.5rem 1rem
+Disposition	width	100%
+Boîte	box-sizing	border-box
+Disposition	display	flex
+Disposition	gap	1rem
+Disposition	flex-direction	row
+Disposition	justify-content	center
+Disposition	align-items	center
+Disposition	flex-direction	column
+Disposition	align-items	stretch
+Disposition	gap	1.5rem
+Disposition	flex-shrink	0
+Autre	flex	1
+Typographie	text-align	left
+Typographie	font-size	var(--l1-font-size)
+Couleur et fond	color	var(--l1-color)
+Typographie	font-size	var(--moyenne)
+Typographie	white-space	nowrap
+Disposition	min-width	769px) { .groupeBoutons { padding: 2rem 1rem
+Typographie	font-size	var(--grande)
+Typographie	white-space	nowrap
+Disposition	display	flex
+Disposition	flex-direction	column
+Disposition	gap	2rem
+Disposition	width	100%
+Disposition	max-width	var(--largeurDeTexteMax, 78.125rem)
+Boîte	padding	2rem
+Boîte	margin	0 auto
+Disposition	width	16.875rem
+Disposition	height	3.75rem
+Disposition	flex-shrink	0
+Disposition	display	flex
+Disposition	flex-direction	column
+Disposition	gap	1.5rem
+Disposition	justify-content	center
+Disposition	align-items	center
+Disposition	display	flex
+Disposition	flex-direction	row
+Disposition	flex-wrap	nowrap
+Disposition	gap	1.5rem
+Disposition	justify-content	center
+Disposition	align-items	center
+Disposition	display	grid
+Disposition	grid-template-columns	1fr 1fr
+Disposition	gap	2rem
+Disposition	justify-items	center
+Disposition	display	flex
+Disposition	flex-direction	column
+Disposition	gap	1.5rem
+Disposition	align-items	center
+Disposition	width	100%
+Disposition	display	flex
+Disposition	gap	1.5rem
+Disposition	flex-direction	column
+Disposition	justify-content	center
+Disposition	align-items	center
+Disposition	flex-direction	row
+Disposition	flex-wrap	nowrap
+Disposition	justify-content	center
+Disposition	align-items	center
+Disposition	flex-direction	column
+Disposition	align-items	center
+Disposition	max-width	768px) { .listeDesPages { padding: 1rem
+Disposition	gap	1.5rem
+Disposition	width	100%
+Disposition	max-width	16.875rem
+Disposition	gap	1rem
+Disposition	flex-direction	column
+Disposition	gap	1rem
+Disposition	grid-template-columns	1fr
+Disposition	gap	1.5rem
+Disposition	max-width	947px
+Boîte	margin	0 auto
+Boîte	padding	15px
+Disposition	width	100%
+Boîte	box-sizing	border-box
+Boîte	margin-bottom	3rem
+Disposition	width	100%
+Disposition	width	100%
+Typographie	font-family	var(--font-sans)
+Typographie	font-size	var(--h3-font-size)
+Typographie	font-weight	var(--h3-font-weight)
+Typographie	line-height	var(--h3-line-height)
+Typographie	text-align	center
+Boîte	margin-bottom	0.25rem
+Couleur et fond	background-color	var(--CouleurClaire)
+Couleur et fond	color	var(--h3-color)
+Boîte	padding	0.75rem 1rem
+Disposition	width	100%
+Boîte	box-sizing	border-box
+Disposition	display	flex
+Disposition	flex-wrap	wrap
+Disposition	gap	1.875rem
+Disposition	justify-content	center
+Disposition	width	100%
+Boîte	margin-top	0.25rem
+Disposition	display	flex
+Disposition	flex-direction	column
+Disposition	width	calc(50% - 0.9375rem)
+Disposition	min-width	18.75rem
+Boîte	box-sizing	border-box
+Disposition	align-items	center
+Typographie	font-family	var(--font-sans)
+Typographie	font-size	var(--h3-font-size)
+Typographie	font-weight	var(--h3-font-weight)
+Typographie	line-height	var(--h3-line-height)
+Boîte	margin	0 0 0.25rem 0
+Typographie	text-align	center
+Couleur et fond	color	var(--CouleurFoncé)
+Disposition	width	100%
+Typographie	font-family	var(--font-serif)
+Typographie	font-size	var(--a-font-size)
+Typographie	font-style	var(--a-font-style)
+Typographie	line-height	var(--p-line-height)
+Boîte	margin	0 0 0.5rem 0
+Typographie	text-align	center
+Couleur et fond	color	var(--a-color)
+Disposition	width	100%
+Disposition	min-width	769px) { .videoDetournement { padding: 20px
+Typographie	font-size	var(--moyenne)
+Typographie	font-size	var(--moyenne)
+Disposition	display	flex
+Disposition	flex-direction	row
+Disposition	align-items	center
+Disposition	justify-content	center
+Disposition	gap	0.5rem
+Boîte	margin-top	0.5rem
+Disposition	width	100%
+Boîte	padding	0 1.5%
+Boîte	box-sizing	border-box
+Boîte	padding	8px 16px
+Couleur et fond	background-color	var(--BoutonCouleurFondHover)
+Couleur et fond	color	var(--BoutonCouleurTexteHover)
+Boîte	border	var(--BoutonContour)
+Boîte	border-radius	var(--BoutonContourRadius)
+Typographie	font-family	var(--BoutonPolice)
+Typographie	font-size	var(--b-font-size)
+Typographie	font-weight	var(--BoutonPoidsPolice)
+Typographie	line-height	1
+Typographie	text-align	center
+Divers	cursor	pointer
+Animation et transition	transition	var(--BoutonTransition)
+Typographie	text-decoration	none
+Disposition	display	inline-block
+Autre	order	2
+Animation et transition	transform	var(--BoutonTransformHover)
+Effets visuels	box-shadow	var(--BoutonOmbreHover)
+Autre	ui-linkedinButton	hover { background-color: var(--BoutonCouleurFond)
+Couleur et fond	color	var(--BoutonCouleur)
+Animation et transition	transform	translateY(0)
+Effets visuels	box-shadow	none
+Autre	ui-linkedinButton	active { background-color: var(--BoutonCouleurFond)
+Couleur et fond	color	var(--BoutonCouleur)
+Animation et transition	transform	translateY(0)
+Effets visuels	box-shadow	none
+Disposition	position	relative
+Disposition	display	inline-block
+Autre	order	1
+Couleur et fond	background	none
+Boîte	border	none
+Divers	cursor	pointer
+Boîte	padding	0
+Disposition	display	flex
+Disposition	align-items	center
+Disposition	justify-content	center
+Disposition	width	24px
+Disposition	height	24px
+Couleur et fond	color	var(--couleur-alerte)
+Animation et transition	transition	transform 0.2s
+Autre	ui-alertButton	hover .ui-alertIcon { transform: scale(1.1)
+Disposition	position	absolute
+Disposition	bottom	100%
+Disposition	left	0
+Boîte	margin-bottom	10px
+Disposition	width	400px
+Disposition	max-width	90vw
+Couleur et fond	background-color	var(--couleur-alerte-fond)
+Boîte	border	2px solid var(--couleur-alerte)
+Boîte	border-radius	8px
+Effets visuels	box-shadow	0 4px 6px rgba(0, 0, 0, 0.1)
+Boîte	padding	1rem
+Autre	z-index	1000
+Disposition	position	absolute
+Disposition	top	0.5rem
+Disposition	right	0.5rem
+Couleur et fond	background	none
+Boîte	border	none
+Typographie	font-size	var(--moyenne)
+Typographie	line-height	1
+Divers	cursor	pointer
+Couleur et fond	color	var(--Noir)
+Boîte	padding	0
+Disposition	width	24px
+Disposition	height	24px
+Disposition	display	flex
+Disposition	align-items	center
+Disposition	justify-content	center
+Autre	ui-closeButton	hover { color: var(--Noir)
+Typographie	font-family	var(--font-serif)
+Typographie	font-size	var(--p-font-size)
+Typographie	line-height	var(--p-line-height)
+Couleur et fond	color	var(--p-color)
+Disposition	max-height	400px
+Disposition	overflow-y	auto
+Boîte	margin	0 0 0.75rem 0
+Autre	p	last-child { margin-bottom: 0
+Disposition	max-width	768px) { .videoDetournement .ui-popup { width: calc(100vw - 40px)
+Disposition	max-width	400px
+Disposition	max-width	59.1875rem
+Boîte	margin	0 auto
+Boîte	padding	0.9375rem
+Disposition	width	100%
+Boîte	box-sizing	border-box
+Disposition	display	flex
+Disposition	flex-wrap	wrap
+Disposition	gap	1.875rem
+Disposition	justify-content	center
+Disposition	width	100%
+Disposition	display	flex
+Disposition	flex-direction	column
+Disposition	width	calc(50% - 0.9375rem)
+Disposition	min-width	18.75rem
+Boîte	padding	1.25rem
+Boîte	box-sizing	border-box
+Autre	ui-card	last-child:nth-child(odd) { margin-right: auto
+Boîte	margin-left	0
+Disposition	display	flex
+Disposition	align-items	center
+Boîte	margin-bottom	1rem
+Disposition	gap	1rem
+Disposition	flex-shrink	0
+Disposition	width	5rem
+Disposition	height	5rem
+Boîte	border-radius	50%
+Disposition	overflow	hidden
+Couleur et fond	background-color	var(--CouleurClaire)
+Disposition	width	100%
+Disposition	height	100%
+Autre	object-fit	cover
+Boîte	border-radius	50%
+Autre	flex	1
+Typographie	font-family	var(--font-sans)
+Typographie	font-size	var(--h3-font-size)
+Typographie	font-weight	var(--h3-font-weight)
+Typographie	line-height	var(--h3-line-height)
+Boîte	margin	0 0 0.25rem 0
+Couleur et fond	color	var(--CouleurFoncé)
+Typographie	font-family	var(--font-serif)
+Typographie	font-size	var(--a-font-size)
+Typographie	font-style	var(--a-font-style)
+Typographie	line-height	1.4
+Boîte	margin	0
+Couleur et fond	color	var(--a-color)
+Typographie	font-family	var(--font-serif)
+Typographie	font-size	var(--p-font-size)
+Typographie	font-weight	var(--p-font-weight)
+Typographie	line-height	1.6
+Couleur et fond	color	var(--p-color)
+Boîte	margin	0 0 0.75rem 0
+Autre	ui-paragraph	last-child { margin-bottom: 0
+Disposition	max-width	768px) { .temoignages .temoignage.ui-card { width: 100%
+Disposition	min-width	unset
+Disposition	min-width	769px) { .temoignages { padding: 20px
+Typographie	font-size	var(--petite)
+Typographie	font-size	var(--normale)
+Typographie	font-size	var(--normale)
+Disposition	width	100%
+Boîte	box-sizing	border-box
+Couleur et fond	background-color	var(--background)
+Boîte	padding	2rem 1rem
+Autre	hero	has(.ui-heroGauche) { padding-left: 4%
+Boîte	padding-right	4%
+Disposition	display	flex
+Disposition	flex-direction	column
+Disposition	justify-content	center
+Boîte	padding	0
+Disposition	display	flex
+Disposition	align-items	center
+Disposition	justify-content	center
+Disposition	min-height	0
+Disposition	width	100%
+Disposition	max-width	none
+Boîte	padding	0
+Disposition	display	flex
+Disposition	flex-direction	column
+Disposition	align-items	center
+Disposition	justify-content	center
+Disposition	position	relative
+Disposition	width	100%
+Disposition	height	0
+Boîte	padding-bottom	56.25%
+Disposition	overflow	hidden
+Disposition	position	absolute
+Disposition	top	0
+Disposition	left	0
+Disposition	width	100%
+Disposition	height	100%
+Disposition	min-width	769px) { .hero:has(.ui-heroGauche), .main.home .hero:has(.ui-heroGauche) { display: grid
+Disposition	grid-template-columns	1fr 1fr
+Disposition	gap	2rem
+Disposition	width	100%
+Disposition	align-items	stretch
+Boîte	padding	58px 63.5px
+Disposition	width	100%
+Disposition	max-width	768px) { .hero:has(.ui-heroGauche) { display: flex
+Disposition	flex-direction	column
+Disposition	max-width	75rem
+Boîte	margin	0 auto
+Typographie	font-family	var(--font-sans)
+Typographie	font-size	var(--enorme)
+Typographie	font-weight	700
+Typographie	text-align	center
+Boîte	margin-top	0
+Boîte	margin-bottom	0.75rem
+Boîte	padding	0
+Couleur et fond	background	none
+Couleur et fond	color	var(--h2-color)
+Typographie	line-height	1.2
+Typographie	font-family	var(--font-sans)
+Typographie	font-size	14px
+Typographie	font-weight	500
+Typographie	text-align	center
+Boîte	margin-bottom	1rem
+Boîte	padding	0
+Couleur et fond	color	var(--h3-color)
+Typographie	line-height	1.3
+Typographie	font-family	var(--font-serif)
+Typographie	font-size	var(--p-font-size)
+Typographie	font-weight	var(--p-font-weight)
+Typographie	line-height	var(--p-line-height)
+Typographie	text-align	center
+Boîte	margin-bottom	3rem
+Boîte	padding	0
+Couleur et fond	color	var(--p-color)
+Disposition	max-width	50rem
+Boîte	margin-left	auto
+Boîte	margin-right	auto
+Typographie	white-space	pre-line
+Autre	hero	has(.ui-heroGauche) .ui-heroGauche .hero.titre, .hero:has(.ui-heroGauche) .ui-heroGauche .hero.sousTitre, .hero:has(.ui-heroGauche) .ui-heroGauche .hero.description { text-align: center
+Boîte	margin-left	auto
+Boîte	margin-right	auto
+Disposition	display	flex
+Disposition	flex-direction	column
+Disposition	flex-wrap	wrap
+Disposition	justify-content	center
+Disposition	align-items	center
+Disposition	gap	2rem
+Boîte	margin-bottom	2rem
+Autre	hero	has(.ui-heroGauche) .ui-heroCtas { justify-content: center
+Disposition	width	100%
+Disposition	max-width	25rem
+Disposition	display	block
+Disposition	display	grid
+Disposition	grid-template-columns	repeat(4, 1fr)
+Disposition	gap	1rem
+Boîte	margin-top	2rem
+Disposition	align-items	stretch
+Disposition	max-width	768px) { .hero { padding: 1.5rem 1rem
+Typographie	font-size	var(--h2-font-size)
+Boîte	margin-bottom	0.5rem
+Typographie	font-size	var(--petite)
+Boîte	margin-bottom	0.5rem
+Typographie	font-size	var(--p-font-size)
+Boîte	margin-bottom	1.5rem
+Boîte	margin-bottom	1.5rem
+Disposition	grid-template-columns	1fr
+Disposition	gap	1rem
+Boîte	margin-top	1.5rem
+Autre	profil	not(.ui-card) { display: flex
+Disposition	flex-direction	column
+Disposition	align-items	center
+Boîte	padding	1rem
+Boîte	border	1px solid var(--Noir-10)
+Boîte	border-radius	var(--BoutonContourRadius)
+Couleur et fond	background-color	var(--Blanc)
+Effets visuels	box-shadow	0 0.0625rem 0.25rem rgba(0, 0, 0, 0.08)
+Disposition	height	100%
+Typographie	font-size	var(--h2-font-size)
+Typographie	font-weight	var(--h2-font-weight)
+Boîte	margin-bottom	0.5rem
+Typographie	text-align	center
+Couleur et fond	color	var(--h2-color)
+Typographie	line-height	var(--h2-line-height)
+Couleur et fond	background	none
+Boîte	border	none
+Boîte	border-radius	0
+Effets visuels	box-shadow	none
+Boîte	padding	0
+Divers	list-style	none
+Boîte	padding	0
+Boîte	margin	0 0 auto 0
+Typographie	text-align	center
+Disposition	flex-grow	1
+Disposition	display	flex
+Disposition	flex-direction	column
+Disposition	justify-content	flex-start
+Couleur et fond	background	none
+Boîte	border	none
+Boîte	border-radius	0
+Effets visuels	box-shadow	none
+Typographie	font-size	var(--l1-font-size)
+Couleur et fond	color	var(--l1-color)
+Boîte	margin-bottom	0.25rem
+Typographie	line-height	var(--l1-line-height)
+Couleur et fond	background	none
+Boîte	border	none
+Boîte	border-radius	0
+Effets visuels	box-shadow	none
+Boîte	padding	0
+Autre	jobTitle	last-child { margin-bottom: 0
+Typographie	font-family	var(--font-sans)
+Typographie	font-size	var(--lk-font-size)
+Typographie	font-weight	var(--lk-font-weight)
+Couleur et fond	color	var(--lk-color)
+Typographie	text-decoration	var(--lk-text-decoration)
+Couleur et fond	background	none
+Boîte	border	none
+Boîte	padding	0
+Divers	cursor	pointer
+Animation et transition	transition	opacity 0.2s ease
+Autre	lienInterne	hover { color: var(--lk-color)
+Effets visuels	opacity	0.85
+Disposition	display	flex
+Disposition	flex-direction	column
+Disposition	align-items	center
+Autre	flex	1
+Disposition	width	100%
+Typographie	text-decoration	none
+Couleur et fond	color	inherit
+Divers	cursor	pointer
+Couleur et fond	background	transparent
+Boîte	border	none
+Boîte	border-radius	0
+Effets visuels	box-shadow	none
+Boîte	padding	0
+Autre	ui-card	hover { color: inherit
+Boîte	margin-top	0.75rem
+Typographie	font-size	var(--lk-font-size)
+Typographie	font-weight	var(--lk-font-weight)
+Couleur et fond	color	var(--lk-color)
+Typographie	text-decoration	var(--lk-text-decoration)
+Couleur et fond	background	none
+Boîte	border	none
+Boîte	border-radius	0
+Effets visuels	box-shadow	none
+Boîte	padding	0
+Disposition	display	inline-flex
+Disposition	align-items	center
+Disposition	gap	0.35rem
+Boîte	margin-top	1.25rem
+Typographie	font-size	var(--lk-font-size)
+Typographie	font-weight	var(--lk-font-weight)
+Couleur et fond	color	var(--lk-color)
+Typographie	text-decoration	var(--lk-text-decoration)
+Animation et transition	transition	opacity 0.2s ease
+Couleur et fond	background	none
+Boîte	border	none
+Boîte	border-radius	0
+Effets visuels	box-shadow	none
+Boîte	padding	0
+Autre	cvPath	hover { color: var(--lk-color)
+Effets visuels	opacity	0.85
+Disposition	flex-shrink	0
+Disposition	width	1.15em
+Disposition	height	1.15em
+Disposition	max-width	768px) { .profil:not(.ui-card) { width: 100%
+Boîte	margin-bottom	0.75rem
+Boîte	padding	0.875rem
+Typographie	font-size	var(--normale)
+Boîte	margin-bottom	0.375rem
+Typographie	font-size	var(--petite)
+Boîte	margin-bottom	0.125rem
+Boîte	margin-top	0.5rem
+Boîte	margin-top	1rem
+Typographie	font-size	var(--normale)
+Disposition	display	grid
+Disposition	grid-template-columns	1fr
+Disposition	gap	1rem
+Disposition	width	100%
+Boîte	margin-top	1rem
+Boîte	padding-left	4%
+Boîte	padding-right	4%
+Boîte	box-sizing	border-box
+Disposition	min-width	769px) { .blocsProfils { grid-template-columns: repeat(2, 1fr)
+Disposition	gap	1.25rem
+Boîte	margin-top	1.5rem
+Disposition	min-width	1200px) { .blocsProfils { grid-template-columns: repeat(4, 1fr)
+Disposition	min-width	1920px) { .texteLarge, .domaineDeCompetence, .callToAction, .groupeBoutons { max-width: 87.5rem
+Disposition	max-width	87.5rem
+Disposition	max-width	56.25rem
+Disposition	max-width	68.75rem
+Disposition	max-width	87.5rem
+Typographie	font-size	var(--normale)
+Typographie	font-size	var(--moyenne)
+Typographie	line-height	1.5
+Typographie	font-size	var(--grande)
+Typographie	font-size	var(--petite)
+Typographie	font-size	var(--moyenne)
+Typographie	font-size	var(--n-font-size)
+Typographie	font-size	var(--grande)
+Typographie	font-size	var(--grande)
+Typographie	font-size	var(--moyenne)
+Typographie	font-size	var(--petite)
+Typographie	font-size	var(--petite)
+Typographie	font-size	var(--enorme)
+Boîte	padding	0
+Typographie	font-size	14px
+Typographie	font-size	var(--normale)
+Disposition	max-width	56.25rem
+Boîte	padding	0
+Boîte	padding	3rem 2rem
+Boîte	padding	0
+Boîte	padding	3rem 2rem
+Boîte	padding	3rem 2rem
+Boîte	padding	30px
+Boîte	padding	3rem 2rem
+Boîte	padding	1.5rem 2rem
+Boîte	margin-top	2.5rem
+Typographie	font-size	var(--moyenne)
+Typographie	font-size	var(--petite)
+Disposition	min-width	2560px) { .texteLarge, .domaineDeCompetence, .callToAction, .groupeBoutons { max-width: 100rem
+Boîte	margin-left	auto
+Boîte	margin-right	auto
+Disposition	max-width	100rem
+Boîte	margin-left	auto
+Boîte	margin-right	auto
+Disposition	max-width	62.5rem
+Boîte	margin-left	auto
+Boîte	margin-right	auto
+Disposition	max-width	75rem
+Boîte	margin-left	auto
+Boîte	margin-right	auto
+Disposition	max-width	100rem
+Boîte	margin-left	auto
+Boîte	margin-right	auto
+Typographie	font-size	var(--normale)
+Typographie	font-size	var(--moyenne)
+Typographie	line-height	1.6
+Typographie	font-size	var(--enorme)
+Typographie	font-size	var(--moyenne)
+Typographie	font-size	var(--grande)
+Typographie	font-size	var(--n-font-size)
+Typographie	font-size	var(--enorme)
+Typographie	font-size	var(--grande)
+Typographie	font-size	var(--normale)
+Typographie	font-size	var(--petite)
+Typographie	font-size	var(--enorme)
+Boîte	padding	0
+Typographie	font-size	14px
+Typographie	font-size	var(--normale)
+Disposition	max-width	62.5rem
+Boîte	padding	0
+Boîte	padding	4rem 3rem
+Boîte	padding	0
+Boîte	padding	4rem 3rem
+Boîte	padding	4rem 3rem
+Boîte	padding	40px
+Boîte	padding	4rem 3rem
+Boîte	padding	2rem 3rem
+Boîte	margin-top	50px
+Disposition	min-width	3840px) { .texteLarge, .domaineDeCompetence, .callToAction, .groupeBoutons { max-width: 112.5rem
+Boîte	margin-left	auto
+Boîte	margin-right	auto
+Disposition	max-width	112.5rem
+Boîte	margin-left	auto
+Boîte	margin-right	auto
+Disposition	max-width	68.75rem
+Boîte	margin-left	auto
+Boîte	margin-right	auto
+Disposition	max-width	81.25rem
+Boîte	margin-left	auto
+Boîte	margin-right	auto
+Disposition	max-width	112.5rem
+Boîte	margin-left	auto
+Boîte	margin-right	auto
+Typographie	font-size	var(--normale)
+Typographie	font-size	var(--moyenne)
+Typographie	line-height	1.6
+Typographie	font-size	var(--enorme)
+Typographie	font-size	var(--moyenne)
+Typographie	font-size	var(--moyenne)
+Typographie	font-size	var(--petite)
+Typographie	font-size	var(--enorme)
+Typographie	font-size	var(--grande)
+Typographie	font-size	var(--petite)
+Typographie	font-size	var(--moyenne)
+Typographie	font-size	var(--enorme)
+Boîte	padding	0
+Typographie	font-size	14px
+Typographie	font-size	var(--normale)
+Disposition	max-width	68.75rem
+Boîte	padding	0
+Boîte	padding	5rem 4rem
+Boîte	padding	50px
+Boîte	padding	5rem 4rem
+Boîte	padding	5rem 4rem
+Boîte	padding	50px
+Boîte	padding	5rem 4rem
+Boîte	padding	2.5rem 4rem
+Boîte	margin-top	60px
+Disposition	position	fixed
+Disposition	top	0
+Disposition	left	0
+Disposition	right	0
+Disposition	width	100%
+Couleur et fond	background-color	var(--BleuFonce)
+Autre	z-index	1000
+Disposition	height	max(80px, 8.75vh)
+Disposition	min-height	80px
+Disposition	overflow	visible
+Disposition	position	absolute
+Disposition	top	max(11px, 1.2vh)
+Disposition	left	max(11px, 1.2vw)
+Autre	z-index	1001
+Disposition	display	block
+Typographie	text-decoration	none
+Divers	cursor	pointer
+Disposition	display	block
+Disposition	width	auto
+Disposition	height	max(99px, 10.83vh)
+Disposition	min-height	99px
+Autre	object-fit	contain
+Disposition	position	absolute
+Disposition	top	max(11px, 1.2vh)
+Disposition	right	max(11px, 1.2vw)
+Autre	z-index	1001
+Disposition	display	block
+Typographie	text-decoration	none
+Divers	cursor	pointer
+Disposition	display	block
+Disposition	width	auto
+Disposition	height	max(99px, 10.83vh)
+Disposition	min-height	99px
+Autre	object-fit	contain
+Disposition	position	absolute
+Disposition	left	50%
+Disposition	top	50%
+Animation et transition	transform	translate(-50%, -50%)
+Autre	z-index	1001
+Typographie	font-size	var(--h1-font-size)
+Typographie	font-weight	var(--h1-font-weight)
+Typographie	font-family	var(--font-sans)
+Couleur et fond	color	var(--Blanc)
+Typographie	line-height	var(--h1-line-height)
+Boîte	margin	0
+Typographie	white-space	nowrap
+Typographie	text-align	center
+Boîte	padding	0 1rem
+Disposition	max-width	calc(100% - 250px)
+Disposition	max-width	768px) { .titreDePage.texte { font-size: var(--moyenne)
+Disposition	max-width	calc(100% - 180px)
+Boîte	padding	0 0.5rem
+Disposition	position	fixed
+Disposition	bottom	0
+Disposition	left	0
+Disposition	right	0
+Disposition	width	100%
+Couleur et fond	background-color	var(--BleuFonce)
+Autre	z-index	1000
+Disposition	height	max(50px, 5.47vh)
+Disposition	min-height	50px
+Disposition	display	flex
+Disposition	align-items	center
+Disposition	justify-content	space-between
+Couleur et fond	color	white
+Typographie	font-size	0.875rem
+Typographie	font-weight	400
+Boîte	margin-left	60px
+Effets visuels	opacity	0.8
+Disposition	min-width	4em
+Disposition	display	flex
+Disposition	align-items	center
+Disposition	gap	0.5rem
+Boîte	margin-right	max(11px, 1.2vw)
+Couleur et fond	background	transparent
+Boîte	border	none
+Boîte	padding	0
+Divers	cursor	pointer
+Disposition	display	flex
+Disposition	align-items	center
+Disposition	justify-content	center
+Animation et transition	transition	opacity 0.2s ease
+Typographie	text-decoration	none
+Couleur et fond	color	inherit
+Autre	bouton	hover { opacity: 0.8
+Autre	bouton	active { opacity: 0.6
+Disposition	display	block
+Disposition	width	auto
+Disposition	height	max(30px, 3.28vh)
+Disposition	width	max(30px, 3.28vh)
+Disposition	flex-shrink	0
+Couleur et fond	color	var(--Blanc)
+Disposition	max-width	480px) { .footer .version { margin-left: 60px
+Typographie	font-size	var(--n-font-size)
+Typographie	font-weight	700
+Typographie	font-style	italic
+Boîte	margin	0 0 0.75rem 0
+Autre	markdownParagraph	last-child { margin-bottom: 0
+Boîte	margin	0.5rem 0
+Boîte	padding-left	1.5rem
+Boîte	margin-bottom	0.25rem
+Autre	markdownList	last-child { margin-bottom: 0
+Couleur et fond	color	var(--BleuFonce)
+Typographie	text-decoration	underline
+Animation et transition	transition	color 0.2s ease
+Autre	markdownLink	hover { color: var(--lk-color)
+Typographie	font-family	var(--font-serif)
+Typographie	font-size	var(--a-font-size)
+Typographie	font-weight	var(--a-font-weight)
+Typographie	font-style	var(--a-font-style)
+Typographie	text-align	right
+Couleur et fond	color	var(--a-color)
+Boîte	margin-top	0.5rem
+Boîte	margin-bottom	0
+Boîte	padding	2rem
+Boîte	padding-top	calc(max(80px, 8.75vh) + 2rem)
+Boîte	padding-bottom	calc(max(50px, 5.47vh) + 2rem)
+Boîte	margin-bottom	1.5rem
+Boîte	padding	0.75rem 0
+Boîte	border-bottom	0.125rem solid var(--BleuClair)
+Disposition	display	flex
+Disposition	flex-wrap	wrap
+Disposition	gap	0.5rem 1rem
+Divers	list-style	none
+Boîte	margin	0
+Boîte	padding	0
+Disposition	justify-content	flex-start
+Disposition	align-items	center
+Boîte	margin	0
+Boîte	padding	0
+Disposition	display	inline-block
+Boîte	padding	0.375rem 0.75rem
+Boîte	border-radius	0.25rem
+Couleur et fond	background-color	var(--BleuClair)
+Couleur et fond	color	var(--BleuFonce)
+Typographie	font-weight	500
+Typographie	text-decoration	none
+Typographie	font-size	0.9rem
+Boîte	border	0.0625rem solid var(--BleuFonce)
+Animation et transition	transition	background-color 0.2s, color 0.2s
+Autre	lien	hover { background-color: var(--BleuFonce)
+Couleur et fond	color	white
+Disposition	display	inline-block
+Boîte	padding	0.375rem 0.75rem
+Boîte	border-radius	0.25rem
+Couleur et fond	background-color	var(--BleuFonce)
+Couleur et fond	color	white
+Typographie	font-weight	600
+Typographie	text-decoration	none
+Typographie	font-size	0.9rem
+Boîte	border	0.0625rem solid var(--BleuFonce)
+Disposition	min-height	6rem
+Boîte	padding	0.5rem 1rem 1rem 1rem
+Couleur et fond	background-color	var(--background)
+Boîte	border	0.0625rem dashed var(--BleuClair)
+Boîte	border-radius	0.5rem
+Boîte	margin	0
+Couleur et fond	color	var(--foreground)
+Typographie	font-size	0.9rem
+Effets visuels	opacity	0.8
+Disposition	max-width	75rem
+Boîte	margin	0 auto
+Typographie	font-size	0.9rem
+Typographie	line-height	1.6
+Boîte	margin-bottom	1.5rem
+Typographie	font-size	1rem
+Typographie	font-weight	600
+Boîte	margin	0.75rem 0
+Boîte	margin-left	1.25rem
+Couleur et fond	color	var(--BleuFonce)
+Boîte	margin-bottom	1rem
+Typographie	font-size	0.95rem
+Typographie	font-weight	bold
+Boîte	margin	0.5rem 0
+Boîte	margin-left	30px
+Couleur et fond	color	var(--BleuFonce)
+Boîte	margin	0.5rem 0
+Typographie	font-size	0.9rem
+Typographie	font-weight	500
+Boîte	margin	0.5rem 0
+Boîte	margin-left	30px
+Couleur et fond	color	var(--foreground)
+Disposition	display	flex
+Disposition	flex-wrap	wrap
+Disposition	align-items	flex-start
+Disposition	justify-content	space-between
+Disposition	gap	1rem
+Boîte	margin-bottom	0.5rem
+Boîte	padding-bottom	0.5rem
+Boîte	border-bottom	0.125rem solid var(--BleuClair)
+Autre	flex	0 1 auto
+Boîte	margin-bottom	0
+Autre	flex	1 1 auto
+Disposition	min-width	12rem
+Disposition	max-width	50%
+Disposition	display	flex
+Disposition	justify-content	flex-end
+Disposition	align-items	flex-start
+Typographie	font-family	'Clint Marker', cursive
+Typographie	font-size	0.9rem
+Typographie	line-height	1.4
+Couleur et fond	color	var(--BleuFonce)
+Boîte	margin	0
+Typographie	text-align	right
+Boîte	margin	0 0 0.35em 0
+Typographie	font-family	'Clint Marker', cursive
+Autre	p	last-child { margin-bottom: 0
+Disposition	min-height	6rem
+Boîte	padding	1rem
+Couleur et fond	background-color	var(--background)
+Boîte	border	0.0625rem solid var(--BleuClair)
+Boîte	border-radius	0.5rem
+Boîte	margin-bottom	1rem
+Disposition	display	flex
+Disposition	flex-wrap	wrap
+Disposition	gap	1rem
+Boîte	margin-top	0.5rem
+Disposition	display	flex
+Autre	flex	1 1 100%
+Disposition	gap	1rem
+Disposition	min-width	0
+Disposition	position	sticky
+Disposition	top	0
+Autre	z-index	1
+Couleur et fond	background	var(--background)
+Autre	flex	1 1 0
+Disposition	min-width	8rem
+Boîte	border	0.125rem solid var(--BleuFonce)
+Boîte	border-radius	0
+Boîte	padding	0.75rem
+Couleur et fond	background-color	var(--background)
+Disposition	display	flex
+Disposition	flex-direction	column
+Disposition	min-height	0
+Disposition	display	flex
+Disposition	justify-content	space-between
+Disposition	align-items	center
+Boîte	margin-bottom	0.5rem
+Boîte	padding-bottom	0.5rem
+Boîte	border-bottom	0.0625rem solid var(--BleuClair)
+Typographie	font-family	'Clint Marker', cursive
+Typographie	font-weight	600
+Typographie	font-size	0.9rem
+Couleur et fond	color	var(--BleuFonce)
+Disposition	flex-shrink	0
+Disposition	flex-shrink	0
+Typographie	font-family	'Clint Marker', cursive
+Typographie	font-family	'Clint Marker', cursive
+Typographie	font-weight	500
+Effets visuels	opacity	0.9
+Boîte	border-color	#b91c1c
+Couleur et fond	color	#b91c1c
+Boîte	border-bottom-color	#b91c1c
+Boîte	border-color	#15803d
+Couleur et fond	color	#15803d
+Boîte	border-bottom-color	#15803d
+Disposition	display	flex
+Disposition	flex-direction	column
+Disposition	gap	0.5rem
+Disposition	overflow-y	auto
+Disposition	overflow-x	hidden
+Disposition	max-height	50vh
+Disposition	min-height	4rem
+Boîte	padding	0.25rem 0.75rem
+Boîte	box-sizing	border-box
+Disposition	width	100%
+Autre	aspect-ratio	1
+Boîte	padding	0.35rem 0.5rem
+Boîte	border-radius	0
+Couleur et fond	background-color	#f7f7b2
+Boîte	border	0.125rem solid #000
+Disposition	flex-shrink	0
+Effets visuels	box-shadow	0 0.125rem 0.25rem rgba(0, 0, 0, 0.1)
+Disposition	overflow	hidden
+Disposition	min-width	0
+Disposition	max-width	100%
+Boîte	box-sizing	border-box
+Disposition	display	flex
+Disposition	align-items	flex-start
+Disposition	justify-content	flex-start
+Divers	cursor	pointer
+Disposition	display	block
+Autre	flex	1 1 0
+Disposition	min-width	0
+Disposition	min-height	0
+Typographie	font-family	'Clint Marker', cursive
+Couleur et fond	color	#1a1a1a
+Typographie	font-size	0.76rem
+Typographie	line-height	1.25
+Disposition	overflow	hidden
+Typographie	text-overflow	ellipsis
+Autre	word-wrap	break-word
+Typographie	font-weight	700
+Disposition	position	fixed
+Disposition	top	max(80px, 8.75vh)
+Disposition	bottom	max(50px, 5.47vh)
+Disposition	left	0
+Disposition	right	0
+Autre	z-index	100
+Couleur et fond	background	rgba(0, 0, 0, 0.5)
+Disposition	display	flex
+Disposition	align-items	center
+Disposition	justify-content	center
+Boîte	padding	1rem
+Boîte	box-sizing	border-box
+Couleur et fond	background	#f7f7b2
+Boîte	border	0.125rem solid #000
+Boîte	border-radius	0
+Disposition	width	100%
+Disposition	max-width	56rem
+Disposition	max-height	100%
+Disposition	display	flex
+Disposition	flex-direction	column
+Disposition	min-height	0
+Typographie	font-family	'Clint Marker', cursive
+Effets visuels	box-shadow	0 0.5rem 2rem rgba(0, 0, 0, 0.2)
+Disposition	display	flex
+Disposition	align-items	flex-start
+Disposition	justify-content	space-between
+Disposition	gap	1rem
+Boîte	padding	1rem 1.25rem
+Boîte	border-bottom	0.0625rem solid #000
+Disposition	flex-shrink	0
+Typographie	font-family	'Clint Marker', cursive
+Boîte	margin	0
+Typographie	font-size	1.125rem
+Typographie	font-family	'Clint Marker', cursive
+Couleur et fond	color	#1a1a1a
+Autre	flex	1 1 auto
+Disposition	min-width	0
+Disposition	flex-shrink	0
+Couleur et fond	background	none
+Boîte	border	none
+Divers	cursor	pointer
+Boîte	padding	0.25rem
+Couleur et fond	color	#1a1a1a
+Disposition	display	flex
+Disposition	align-items	center
+Disposition	justify-content	center
+Boîte	border-radius	0
+Autre	fermer	hover { opacity: 0.8
+Disposition	flex-shrink	0
+Boîte	padding	0.75rem 1.25rem
+Boîte	border-bottom	0.0625rem solid #000
+Typographie	font-family	'Clint Marker', cursive
+Disposition	overflow	hidden
+Typographie	font-family	'Clint Marker', cursive
+Autre	flex	1 1 auto
+Disposition	min-height	0
+Disposition	overflow-y	auto
+Boîte	padding	1rem 1.25rem
+Typographie	font-family	'Clint Marker', cursive
+Typographie	font-family	'Clint Marker', cursive
+Disposition	position	absolute
+Disposition	bottom	1rem
+Disposition	left	50%
+Animation et transition	transform	translateX(-50%)
+Boîte	margin	0
+Typographie	font-size	0.9rem
+Couleur et fond	color	var(--BleuFonce)
+Disposition	min-width	2560px) { .content { max-width: 100rem
+Disposition	min-width	3840px) { .content { max-width: 112.5rem
+Disposition	min-width	1920px) { .content { max-width: 87.5rem
+Typographie	font-size	1rem
+Typographie	font-size	1.125rem
+Typographie	font-size	1.05rem
+Typographie	font-size	1rem
+Boîte	margin	1rem 0
+Couleur et fond	background-color	white
+Boîte	padding	1rem
+Boîte	border-radius	4px
+Boîte	margin	1rem 0
+Boîte	margin-bottom	1rem
+Boîte	border	1px solid #e0e0e0
+Boîte	border-radius	8px
+Disposition	overflow	visible
+Couleur et fond	background-color	#ffffff
+Effets visuels	box-shadow	0 2px 4px rgba(0, 0, 0, 0.05)
+Disposition	width	100%
+Disposition	display	flex
+Disposition	align-items	center
+Disposition	justify-content	space-between
+Boîte	padding	1rem 1.5rem
+Couleur et fond	background-color	#ffffff
+Boîte	border	none
+Divers	cursor	pointer
+Animation et transition	transition	background-color 0.2s ease
+Typographie	text-align	left
+Autre	journalHeader	hover { background-color: #f5f5f5
+Autre	journalHeader	focus { outline: 2px solid var(--BleuFonce)
+Boîte	outline-offset	'-2px
+Typographie	font-size	1.25rem
+Boîte	margin	0
+Couleur et fond	color	var(--BleuFonce)
+Typographie	font-family	var(--font-sans)
+Typographie	font-weight	600
+Autre	flex	1
+Boîte	border-bottom	none
+Boîte	padding-bottom	0
+Disposition	width	20px
+Disposition	height	20px
+Couleur et fond	color	var(--BleuFonce)
+Disposition	flex-shrink	0
+Animation et transition	transition	transform 0.2s ease
+Disposition	overflow	visible
+Animation et transition	transition	opacity 0.2s ease-out
+Disposition	max-height	0
+Effets visuels	opacity	0
+Disposition	overflow	hidden
+Disposition	max-height	none
+Effets visuels	opacity	1
+Disposition	overflow	visible
+Boîte	padding	0 1.5rem 1.5rem 1.5rem
+Boîte	margin-bottom	1.5rem
+Boîte	border	1px solid #e0e0e0
+Boîte	border-radius	8px
+Disposition	overflow	hidden
+Couleur et fond	background-color	#ffffff
+Effets visuels	box-shadow	0 2px 4px rgba(0, 0, 0, 0.05)
+Disposition	width	100%
+Disposition	display	flex
+Disposition	align-items	center
+Disposition	justify-content	space-between
+Boîte	padding	1.5rem
+Couleur et fond	background-color	#ffffff
+Boîte	border	none
+Divers	cursor	pointer
+Animation et transition	transition	background-color 0.2s ease
+Typographie	text-align	left
+Autre	accordionHeader	hover { background-color: #f5f5f5
+Autre	accordionHeader	focus { outline: 2px solid var(--BleuFonce)
+Boîte	outline-offset	'-2px
+Typographie	font-size	1.75rem
+Boîte	margin	0
+Couleur et fond	color	var(--BleuFonce)
+Typographie	font-family	var(--font-sans)
+Typographie	font-weight	600
+Autre	flex	1
+Disposition	width	24px
+Disposition	height	24px
+Couleur et fond	color	var(--BleuFonce)
+Disposition	flex-shrink	0
+Animation et transition	transition	transform 0.2s ease
+Disposition	overflow	hidden
+Animation et transition	transition	max-height 0.3s ease-out, opacity 0.2s ease-out
+Disposition	max-height	0
+Effets visuels	opacity	0
+Disposition	max-height	10000px
+Effets visuels	opacity	1
+Boîte	padding	0 1.5rem 1.5rem 1.5rem
+Boîte	margin	0.5rem 0 !important
+Boîte	margin-left	35px !important
+Couleur et fond	background-color	var(--BleuClair)
+Boîte	padding	1rem
+Boîte	border-radius	4px
+Boîte	margin	0.5rem 0 !important
+Boîte	margin-left	35px !important
+Couleur et fond	background-color	white
+Boîte	padding	1rem
+Boîte	border-radius	4px
+Boîte	margin	0.5rem 0 !important
+Boîte	margin-left	35px !important
+Boîte	margin	0.5rem 0 !important
+Typographie	line-height	1.6
+Typographie	font-size	0.9rem
+Boîte	margin	0.5rem 0 !important
+Boîte	margin-left	40px !important
+Boîte	padding-left	1.5rem !important
+Divers	list-style-type	disc !important
+Divers	list-style-position	outside !important
+Typographie	font-size	0.9rem
+Divers	list-style-type	decimal !important
+Boîte	margin	0.25rem 0 !important
+Typographie	line-height	1.5
+Disposition	display	list-item !important
+Boîte	margin	0.25rem 0 !important
+Boîte	margin-left	35px !important
+Boîte	padding-left	1.5rem !important
+Divers	list-style-type	disc !important
+Divers	list-style-position	outside !important
+Typographie	font-size	0.9rem
+Typographie	line-height	1.5
+Boîte	margin-top	0.5rem !important
+Disposition	display	list-item !important
+Boîte	margin	0.5rem 0 !important
+Boîte	margin	0.75rem 0 0.5rem 0 !important
+Boîte	margin-left	35px !important
+Boîte	padding-left	1.5rem !important
+Divers	list-style-type	disc !important
+Divers	list-style-position	outside !important
+Typographie	font-size	0.9rem
+Typographie	line-height	1.5
+Disposition	display	list-item !important
+Typographie	font-weight	700
+Boîte	margin	0.25rem 0 !important
+Boîte	margin-left	55px !important
+Boîte	padding-left	1.5rem !important
+Divers	list-style-type	circle !important
+Divers	list-style-position	outside !important
+Typographie	font-size	0.9rem
+Typographie	line-height	1.5
+Disposition	display	list-item !important
+Typographie	font-weight	400
+Couleur et fond	color	inherit
+Disposition	display	inline-block
+Typographie	vertical-align	middle
+Disposition	max-width	100%
+Disposition	height	auto
+Boîte	margin	0 0.25rem
+Boîte	margin	1rem 0
+Typographie	text-align	center
+Disposition	max-width	100%
+Disposition	height	auto
+Boîte	border-radius	4px
+Effets visuels	box-shadow	0 2px 4px rgba(0, 0, 0, 0.1)
+Boîte	margin	1rem 0
+Boîte	margin-bottom	1rem
+Boîte	border	1px solid #e0e0e0
+Boîte	border-radius	8px
+Disposition	overflow	hidden
+Couleur et fond	background-color	#ffffff
+Effets visuels	box-shadow	0 2px 4px rgba(0, 0, 0, 0.05)
+Disposition	width	100%
+Disposition	display	flex
+Disposition	align-items	center
+Disposition	justify-content	space-between
+Boîte	padding	1rem 1.5rem
+Couleur et fond	background-color	#ffffff
+Boîte	border	none
+Divers	cursor	pointer
+Animation et transition	transition	background-color 0.2s ease
+Typographie	text-align	left
+Autre	courseHeader	hover { background-color: #f5f5f5
+Autre	courseHeader	focus { outline: 2px solid var(--BleuFonce)
+Boîte	outline-offset	'-2px
+Typographie	font-size	1.25rem
+Boîte	margin	0
+Couleur et fond	color	var(--BleuFonce)
+Typographie	font-family	var(--font-sans)
+Typographie	font-weight	600
+Autre	flex	1
+Boîte	border-bottom	none
+Boîte	padding-bottom	0
+Disposition	width	20px
+Disposition	height	20px
+Couleur et fond	color	var(--BleuFonce)
+Disposition	flex-shrink	0
+Animation et transition	transition	transform 0.2s ease
+Disposition	overflow	hidden
+Animation et transition	transition	max-height 0.3s ease-out, opacity 0.2s ease-out
+Disposition	max-height	0
+Effets visuels	opacity	0
+Disposition	max-height	10000px
+Effets visuels	opacity	1
+Boîte	padding	0 1.5rem 1.5rem 1.5rem
+Typographie	line-height	1.6
+Couleur et fond	color	#444
+Typographie	font-size	1rem
+Typographie	font-size	2rem
+Boîte	margin	1.5rem 0 1rem 0
+Couleur et fond	color	var(--BleuFonce)
+Typographie	font-family	'Outfit', sans-serif
+Boîte	border-bottom	3px solid var(--BleuFonce)
+Boîte	padding-bottom	0.5rem
+Typographie	font-weight	700
+Typographie	letter-spacing	'-0.02em
+Typographie	font-size	1.5rem
+Boîte	margin	2rem 0 1rem 0
+Couleur et fond	color	var(--BleuFonce)
+Typographie	font-family	'Outfit', sans-serif
+Boîte	border-bottom	2px solid var(--BleuFonce)
+Boîte	padding-bottom	0.5rem
+Typographie	font-weight	700
+Typographie	letter-spacing	'-0.02em
+Boîte	margin-top	0
+Typographie	font-size	1.25rem
+Boîte	margin	1.5rem 0 0.75rem 0
+Couleur et fond	color	#1a1a1a
+Typographie	font-family	'Outfit', sans-serif
+Typographie	font-weight	600
+Typographie	letter-spacing	'-0.01em
+Typographie	font-size	1.1rem
+Boîte	margin	1rem 0 0.5rem 0
+Couleur et fond	color	var(--BleuFonce)
+Typographie	font-family	'Outfit', sans-serif
+Typographie	font-weight	600
+Typographie	letter-spacing	'-0.01em
+Typographie	font-size	1rem
+Boîte	margin	0.8rem 0 0.4rem 0
+Couleur et fond	color	#666
+Typographie	font-family	'Outfit', sans-serif
+Typographie	font-weight	600
+Boîte	margin	0
+Boîte	margin-top	0.4em
+Boîte	padding	0
+Typographie	line-height	1.4
+Couleur et fond	color	#444
+Typographie	font-size	1rem
+Boîte	margin-top	0.4em
+Divers	list-style	disc
+Boîte	margin-left	1.5rem
+Boîte	margin-top	0.4em
+Boîte	margin-bottom	0.8rem
+Boîte	padding-left	0
+Boîte	margin-bottom	0.4rem
+Typographie	line-height	1.4
+Boîte	padding-left	0.3em
+Divers	list-style-position	outside
+Disposition	position	relative
+Autre	li	:before { display: none !important
+Divers	content	none !important
+Divers	list-style	disc
+Boîte	margin-left	1.5rem
+Boîte	margin-top	0.4em
+Boîte	margin-bottom	0.8rem
+Boîte	padding-left	0
+Boîte	margin-bottom	0.4rem
+Typographie	line-height	1.4
+Boîte	padding-left	0.3em
+Divers	list-style-position	outside
+Disposition	position	relative
+Autre	li	:before { display: none !important
+Divers	content	none !important
+Typographie	font-size	0.9rem
+Boîte	margin	0.7rem 0 0.3rem 0
+Couleur et fond	color	#666
+Typographie	font-family	'Outfit', sans-serif
+Typographie	font-weight	600
+Boîte	margin	1rem 0
+Boîte	padding	0.5rem 1rem
+Boîte	border-left	3px solid var(--BleuFonce)
+Couleur et fond	background-color	#f5f5f5
+Typographie	font-style	italic
+Couleur et fond	color	#555
+Couleur et fond	background-color	#f5f5f5
+Boîte	border	1px solid #ddd
+Boîte	border-radius	4px
+Boîte	padding	1rem
+Disposition	overflow-x	auto
+Boîte	margin	1rem 0
+Typographie	font-family	'Courier New', monospace
+Typographie	font-size	0.9rem
+Couleur et fond	color	#333
+Boîte	border	none
+Boîte	border-top	2px solid #e0e0e0
+Boîte	margin	2rem 0
+Couleur et fond	color	var(--BleuFonce)
+Typographie	font-weight	600
+Typographie	font-style	italic
+Boîte	margin	0.5rem 0 !important
+Boîte	margin-left	35px !important
+Couleur et fond	background-color	var(--BleuClair)
+Boîte	padding	1rem
+Boîte	border-radius	4px
+Typographie	line-height	1.5
+Couleur et fond	color	#333
+Typographie	font-size	0.95rem
+Boîte	margin	0
+Boîte	margin-top	0.4em
+Boîte	padding	0
+Typographie	line-height	1.4
+Divers	list-style	disc !important
+Divers	list-style-position	outside !important
+Boîte	margin-left	1rem !important
+Boîte	margin-top	0.4em !important
+Boîte	padding-left	0 !important
+Boîte	margin-bottom	0.2em !important
+Typographie	line-height	1.3 !important
+Divers	list-style-position	outside !important
+Disposition	display	list-item !important
+Boîte	padding-left	0.5em !important
+Boîte	margin-left	0 !important
+Disposition	position	relative !important
+Autre	li	:before, .simpleMarkdownContent li::after { display: none !important
+Divers	content	none !important
+Effets visuels	visibility	hidden !important
+Boîte	margin-bottom	1rem
+Disposition	display	flex
+Disposition	align-items	center
+Disposition	justify-content	space-between
+Disposition	width	100%
+Couleur et fond	background	none
+Boîte	border	none
+Divers	cursor	pointer
+Boîte	padding	0
+Typographie	text-align	left
+Couleur et fond	color	var(--foreground)
+Animation et transition	transition	opacity 0.2s
+Effets visuels	opacity	0.8
+Boîte	outline	2px solid var(--BleuFonce)
+Boîte	outline-offset	2px
+Boîte	border-radius	4px
+Typographie	font-size	1.2rem
+Typographie	font-weight	700
+Boîte	margin	0
+Couleur et fond	color	var(--foreground)
+Typographie	font-size	1.05rem
+Typographie	font-weight	600
+Boîte	margin	0
+Boîte	margin-left	10px
+Couleur et fond	color	var(--foreground)
+Disposition	width	1.25rem
+Disposition	height	1.25rem
+Disposition	flex-shrink	0
+Boîte	margin-left	0.5rem
+Animation et transition	transition	transform 0.2s
+Couleur et fond	color	var(--foreground)
+Disposition	overflow	visible
+Animation et transition	transition	opacity 0.2s ease-out
+Disposition	max-height	0
+Effets visuels	opacity	0
+Disposition	overflow	hidden
+Disposition	max-height	none
+Effets visuels	opacity	1
+Disposition	overflow	visible
+Boîte	padding-top	0.75rem
+Boîte	padding-left	0
+Boîte	padding-left	10px
+Disposition	min-height	calc(100vh - max(80px, 8.75vh) - 60px)
+Boîte	margin-top	max(80px, 8.75vh)
+Boîte	padding	1.25rem
+Couleur et fond	background-color	var(--background)
+Couleur et fond	color	var(--foreground)
+Disposition	width	100%
+Disposition	max-width	var(--largeurDeTexteMax, 78.125rem)
+Boîte	margin-left	auto
+Boîte	margin-right	auto
+Boîte	margin-top	1.25rem
+Disposition	display	flex
+Disposition	flex-direction	column
+Disposition	align-items	center
+Disposition	justify-content	center
+Typographie	text-align	center
+Boîte	padding	3.75rem 1.25rem
+Disposition	min-height	25rem
+Disposition	gap	1.875rem
+Couleur et fond	color	var(--BleuFonce)
+Animation et transition	animation	bounce 2s infinite
+Animation et transition	transform	translateY(0)
+Animation et transition	transform	translateY(-10px)
+Typographie	font-size	2.5rem
+Couleur et fond	color	var(--BleuFonce)
+Boîte	margin	0
+Typographie	font-weight	bold
+Typographie	font-size	1.2rem
+Typographie	line-height	1.8
+Couleur et fond	color	var(--foreground)
+Disposition	max-width	600px
+Boîte	margin	0
+Disposition	min-width	1920px) { .maintenancePage { max-width: 87.5rem
+Boîte	padding	1.875rem
+Typographie	font-size	3rem
+Typographie	font-size	1.4rem
+Disposition	max-width	43.75rem
+Variables CSS	--assistant-base	clamp(1rem, 0.5rem + 0.5vw, 2.5rem)
+Typographie	font-size	var(--assistant-base)
+Disposition	display	flex
+Disposition	flex-direction	column
+Disposition	gap	1.5em
+Boîte	padding	1.25em
+Disposition	max-width	var(--largeurDeTexteMax, 78.125em)
+Boîte	margin	0 auto
+Boîte	margin-bottom	1em
+Boîte	padding-bottom	1em
+Boîte	border-bottom	0.125em solid var(--BleuClair)
+Boîte	margin	0
+Typographie	font-size	1.75em
+Couleur et fond	color	var(--foreground)
+Disposition	display	grid
+Disposition	grid-template-columns	1fr 17.5em
+Disposition	gap	1.5em
+Disposition	max-width	900px) { .layout { grid-template-columns: 1fr
+Disposition	display	flex
+Disposition	flex-direction	column
+Disposition	gap	0.75em
+Typographie	font-size	1.1em
+Typographie	font-weight	600
+Couleur et fond	color	var(--foreground)
+Boîte	margin	0
+Disposition	display	flex
+Disposition	flex-direction	column
+Disposition	gap	0.75em
+Disposition	justify-content	center
+Disposition	align-items	center
+Disposition	display	flex
+Disposition	flex-direction	row
+Disposition	flex-wrap	nowrap
+Disposition	gap	0.75em
+Disposition	justify-content	center
+Disposition	align-items	center
+Disposition	display	grid
+Disposition	grid-template-columns	1fr 1fr
+Disposition	gap	1em
+Disposition	justify-items	center
+Disposition	display	flex
+Disposition	flex-direction	column
+Disposition	gap	0.75em
+Disposition	align-items	center
+Disposition	width	100%
+Disposition	flex-direction	column
+Disposition	align-items	center
+Disposition	max-width	768px) { .planSection .ligne2.zoneProfils { flex-direction: column
+Disposition	grid-template-columns	1fr
+Disposition	display	flex
+Disposition	flex-wrap	wrap
+Disposition	gap	0.375em
+Divers	list-style	none
+Boîte	margin	0
+Boîte	padding	0
+Boîte	margin	0
+Boîte	padding	0
+Disposition	display	inline-block
+Disposition	min-width	8.75em
+Disposition	max-width	8.75em
+Disposition	min-height	2.6em
+Boîte	padding	0.25em 0.5em
+Boîte	border-radius	0.25em
+Typographie	font-size	0.8em
+Typographie	line-height	1.25
+Typographie	text-align	center
+Typographie	white-space	normal
+Autre	word-break	break-word
+Couleur et fond	background-color	var(--BleuFonce)
+Couleur et fond	color	white
+Typographie	font-weight	600
+Divers	cursor	default
+Boîte	border	0.125em solid var(--BleuFonce)
+Couleur et fond	background-color	var(--BleuClair)
+Couleur et fond	color	var(--BleuFonce)
+Typographie	font-weight	500
+Divers	cursor	pointer
+Boîte	border	0.125em solid var(--BleuFonce)
+Animation et transition	transition	transform 0.15s, box-shadow 0.15s
+Autre	pageAccessible	hover { transform: scale(1.02)
+Effets visuels	box-shadow	0 0.125em 0.5em rgba(0, 0, 0, 0.15)
+Couleur et fond	background-color	var(--background)
+Couleur et fond	color	var(--foreground)
+Effets visuels	opacity	0.6
+Divers	cursor	not-allowed
+Boîte	border	0.0625em solid var(--foreground)
+Disposition	display	flex
+Disposition	flex-direction	column
+Disposition	gap	1em
+Disposition	display	flex
+Disposition	flex-wrap	wrap
+Disposition	gap	0.5em
+Boîte	margin	0 0 0.5em 0
+Boîte	padding	0.375em 0.75em
+Boîte	border-radius	0.25em
+Typographie	font-size	0.85em
+Typographie	font-weight	500
+Divers	cursor	pointer
+Boîte	border	0.125em solid var(--BleuFonce)
+Animation et transition	transition	background-color 0.2s, color 0.2s
+Boîte	border	0.125em solid var(--BleuClair)
+Boîte	border-radius	0.5em
+Boîte	padding	0.625em
+Couleur et fond	background-color	var(--background)
+Disposition	display	flex
+Disposition	flex-direction	column
+Disposition	min-height	0
+Typographie	font-size	0.9em
+Typographie	font-weight	600
+Couleur et fond	color	var(--BleuFonce)
+Boîte	margin	0 0 0.375em 0
+Disposition	flex-shrink	0
+Disposition	overflow-y	auto
+Disposition	max-height	12.5em
+Autre	flex	1 1 auto
+Disposition	min-height	0
+Divers	list-style	none
+Boîte	margin	0
+Boîte	padding	0
+Typographie	font-size	0.8em
+Couleur et fond	color	var(--foreground)
+Boîte	padding	0.1875em 0
+Boîte	border-bottom	0.0625em solid rgba(255, 255, 255, 0.1)
+Autre	li	last-child { border-bottom: none
+Couleur et fond	background-color	var(--BleuFonce)
+Couleur et fond	color	white
+Autre	buttonPrimary	hover:not(:disabled) { background-color: var(--BleuClair)
+Couleur et fond	color	var(--BleuFonce)
+Autre	buttonPrimary	disabled { opacity: 0.5
+Divers	cursor	not-allowed
+Couleur et fond	background-color	transparent
+Couleur et fond	color	var(--BleuFonce)
+Autre	buttonSecondary	hover { background-color: var(--BleuClair)
+Couleur et fond	color	var(--BleuFonce)
+Boîte	padding	2.5em
+Typographie	text-align	center
+Couleur et fond	color	var(--foreground)
+Boîte	padding	1.25em
+Couleur et fond	color	#c00
+Boîte	border	0.0625em solid #c00
+Boîte	border-radius	0.5em
+Disposition	position	fixed
+Disposition	top	0
+Disposition	left	0
+Disposition	right	0
+Disposition	bottom	0
+Couleur et fond	background-color	rgba(0, 0, 0, 0.5)
+Disposition	display	flex
+Disposition	align-items	center
+Disposition	justify-content	center
+Autre	z-index	10000
+Couleur et fond	background-color	white
+Boîte	padding	2rem
+Boîte	border-radius	8px
+Effets visuels	box-shadow	0 4px 6px rgba(0, 0, 0, 0.1)
+Disposition	min-width	300px
+Disposition	max-width	400px
+Boîte	margin	0 0 1.5rem 0
+Typographie	font-size	1.5rem
+Couleur et fond	color	var(--BleuFonce)
+Disposition	display	block
+Boîte	margin-bottom	0.5rem
+Typographie	font-weight	600
+Couleur et fond	color	var(--foreground)
+Disposition	width	100%
+Boîte	padding	0.75rem
+Boîte	border	2px solid #000000
+Boîte	border-radius	4px
+Typographie	font-size	1rem
+Boîte	margin-bottom	1rem
+Boîte	box-sizing	border-box
+Autre	passwordModalInput	focus { outline: none
+Boîte	border-color	var(--BleuFonce)
+Couleur et fond	color	red
+Boîte	margin	0 0 1rem 0
+Typographie	font-size	0.9rem
+Disposition	display	flex
+Disposition	gap	1rem
+Disposition	justify-content	flex-end
+Boîte	padding	0.75rem 1.5rem
+Couleur et fond	background-color	var(--BleuFonce)
+Couleur et fond	color	white
+Boîte	border	none
+Boîte	border-radius	4px
+Typographie	font-weight	600
+Divers	cursor	pointer
+Animation et transition	transition	opacity 0.2s
+Autre	passwordModalSubmitButton	hover:not(:disabled) { opacity: 0.9
+Autre	passwordModalSubmitButton	disabled { opacity: 0.5
+Divers	cursor	not-allowed
+Boîte	padding	0.75rem 1.5rem
+Couleur et fond	background-color	#ccc
+Couleur et fond	color	var(--foreground)
+Boîte	border	none
+Boîte	border-radius	4px
+Typographie	font-weight	600
+Divers	cursor	pointer
+Animation et transition	transition	opacity 0.2s
+Autre	passwordModalCancelButton	hover:not(:disabled) { opacity: 0.8
+Autre	passwordModalCancelButton	disabled { opacity: 0.5
+Divers	cursor	not-allowed
+Disposition	min-height	100vh
+Boîte	padding-top	105px !important
+Boîte	padding-left	2rem
+Boîte	padding-right	2rem
+Boîte	padding-bottom	2rem
+Couleur et fond	background	linear-gradient(135deg, var(--BleuClair) 0%, var(--BleuFonce) 100%)
+Disposition	max-width	87.5rem
+Boîte	margin	0 auto
+Disposition	width	100%
+Couleur et fond	background	white
+Boîte	border-radius	1rem
+Boîte	padding	2rem
+Boîte	margin-bottom	2rem
+Effets visuels	box-shadow	0 0.25rem 0.375rem rgba(0, 0, 0, 0.1)
+Typographie	font-size	2.5rem
+Typographie	font-weight	700
+Boîte	margin	0 0 1rem 0
+Couleur et fond	color	#2d3748
+Disposition	display	flex
+Disposition	gap	2rem
+Disposition	flex-wrap	wrap
+Typographie	font-size	0.9rem
+Couleur et fond	color	#718096
+Couleur et fond	background	#edf2f7
+Boîte	padding	0.5rem 1rem
+Boîte	border-radius	8px
+Couleur et fond	background	white
+Boîte	border-radius	16px
+Boîte	padding	2rem
+Boîte	margin-bottom	2rem
+Effets visuels	box-shadow	0 4px 6px rgba(0, 0, 0, 0.1)
+Disposition	position	relative
+Autre	z-index	0
+Typographie	font-size	1.5rem
+Typographie	font-weight	600
+Boîte	margin	0 0 1.5rem 0
+Couleur et fond	color	#2d3748
+Disposition	display	grid
+Disposition	grid-template-columns	repeat(auto-fit, minmax(250px, 1fr))
+Disposition	gap	1.5rem
+Disposition	display	grid
+Disposition	grid-template-columns	repeat(5, minmax(0, 1fr))
+Disposition	gap	1.5rem
+Disposition	width	100%
+Couleur et fond	background	linear-gradient(135deg, var(--BleuFonce) 0%, #005a99 100%)
+Boîte	border-radius	0.75rem
+Boîte	padding	1.5rem
+Couleur et fond	color	white
+Animation et transition	transition	box-shadow 0.2s
+Disposition	min-width	0
+Autre	z-index	0
+Autre	card	hover { box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2)
+Autre	z-index	0
+Disposition	display	flex
+Disposition	align-items	center
+Disposition	justify-content	space-between
+Disposition	gap	0.5rem
+Boîte	margin-bottom	0.5rem
+Typographie	font-size	0.8rem
+Typographie	font-weight	500
+Boîte	margin	0
+Effets visuels	opacity	0.9
+Typographie	text-transform	uppercase
+Typographie	letter-spacing	0.5px
+Autre	flex	1
+Typographie	line-height	1.3
+Typographie	font-size	1rem
+Effets visuels	opacity	0.8
+Animation et transition	transition	opacity 0.2s ease, transform 0.2s ease
+Divers	cursor	help
+Boîte	padding	2px
+Boîte	border-radius	50%
+Disposition	display	flex
+Disposition	align-items	center
+Disposition	justify-content	center
+Disposition	min-width	20px
+Disposition	min-height	20px
+Autre	infoIcon	hover { opacity: 1
+Animation et transition	transform	scale(1.1)
+Couleur et fond	background	rgba(255, 255, 255, 0.2)
+Autre	infoIcon	focus { opacity: 1
+Animation et transition	transform	scale(1.1)
+Couleur et fond	background	rgba(255, 255, 255, 0.2)
+Boîte	outline	2px solid rgba(255, 255, 255, 0.6)
+Boîte	outline-offset	2px
+Typographie	font-size	2.5rem
+Typographie	font-weight	700
+Boîte	margin	0 0 0.5rem 0
+Disposition	display	flex
+Disposition	align-items	center
+Disposition	gap	0.5rem
+Typographie	font-size	0.85rem
+Boîte	margin	0
+Effets visuels	opacity	0.8
+Couleur et fond	background	linear-gradient(135deg, var(--BleuFonce) 0%, #005a99 100%)
+Boîte	border-radius	12px
+Boîte	padding	1.5rem
+Couleur et fond	color	white
+Animation et transition	transition	box-shadow 0.2s
+Disposition	min-width	0
+Disposition	display	flex
+Disposition	flex-direction	column
+Disposition	gap	1rem
+Autre	z-index	0
+Autre	testCard	hover { box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2)
+Autre	z-index	0
+Typographie	font-size	0.8rem
+Typographie	font-weight	500
+Boîte	margin	0
+Effets visuels	opacity	0.9
+Typographie	text-transform	uppercase
+Typographie	letter-spacing	0.5px
+Typographie	line-height	1.3
+Typographie	font-size	2.5rem
+Typographie	font-weight	700
+Boîte	margin	0
+Disposition	display	flex
+Disposition	align-items	center
+Disposition	gap	0.5rem
+Disposition	display	flex
+Disposition	align-items	center
+Disposition	gap	0.75rem
+Autre	flex	1
+Disposition	height	1.25rem
+Couleur et fond	background	rgba(255, 255, 255, 0.2)
+Boîte	border-radius	0.625rem
+Disposition	overflow	hidden
+Disposition	height	100%
+Animation et transition	transition	width 0.3s ease
+Boîte	border-radius	10px
+Typographie	font-size	0.85rem
+Typographie	font-weight	600
+Disposition	min-width	45px
+Typographie	text-align	right
+Disposition	display	flex
+Disposition	flex-direction	column
+Disposition	gap	0.5rem
+Boîte	margin-top	0.5rem
+Boîte	padding-top	0.75rem
+Boîte	border-top	1px solid rgba(255, 255, 255, 0.2)
+Disposition	display	flex
+Disposition	justify-content	space-between
+Disposition	align-items	center
+Typographie	font-size	0.85rem
+Effets visuels	opacity	0.85
+Typographie	font-weight	600
+Effets visuels	opacity	1
+Typographie	font-size	1.5rem
+Boîte	margin-left	0.5rem
+Couleur et fond	color	#48bb78
+Couleur et fond	color	#f56565
+Couleur et fond	color	#a0aec0
+Disposition	display	flex
+Disposition	flex-direction	column
+Disposition	gap	1.5rem
+Boîte	margin-bottom	1rem
+Disposition	width	100%
+Disposition	display	flex
+Disposition	justify-content	space-between
+Boîte	margin-bottom	0.5rem
+Typographie	font-size	0.9rem
+Typographie	font-weight	500
+Couleur et fond	color	#4a5568
+Disposition	width	100%
+Disposition	height	1.5rem
+Couleur et fond	background	#e2e8f0
+Boîte	border-radius	0.75rem
+Disposition	overflow	hidden
+Disposition	height	100%
+Animation et transition	transition	width 0.3s ease
+Disposition	display	flex
+Disposition	align-items	center
+Disposition	justify-content	flex-end
+Boîte	padding-right	0.5rem
+Typographie	font-size	0.75rem
+Typographie	font-weight	600
+Couleur et fond	color	white
+Couleur et fond	background	linear-gradient(90deg, #48bb78, #38a169)
+Couleur et fond	background	linear-gradient(90deg, #ed8936, #dd6b20)
+Couleur et fond	background	linear-gradient(90deg, #f56565, #e53e3e)
+Disposition	display	flex
+Disposition	gap	2rem
+Typographie	font-size	0.9rem
+Couleur et fond	color	#718096
+Boîte	margin-top	1rem
+Typographie	text-align	center
+Boîte	padding	4rem 2rem
+Couleur et fond	background	white
+Boîte	border-radius	16px
+Effets visuels	box-shadow	0 4px 6px rgba(0, 0, 0, 0.1)
+Typographie	font-size	1.1rem
+Couleur et fond	color	#4a5568
+Boîte	margin-bottom	1rem
+Couleur et fond	background	#edf2f7
+Boîte	padding	0.25rem 0.5rem
+Boîte	border-radius	4px
+Typographie	font-family	'Courier New', monospace
+Couleur et fond	color	#2d3748
+Typographie	font-size	1rem
+Couleur et fond	color	#4a5568
+Boîte	margin	0
+Disposition	min-width	2560px) { .container { max-width: 1600px
+Disposition	min-width	3840px) { .container { max-width: 1800px
+Disposition	max-width	768px) { .main { padding: 1rem
+Typographie	font-size	1.8rem
+Disposition	grid-template-columns	1fr
+Disposition	grid-template-columns	1fr
+Disposition	gap	1rem
+Disposition	gap	0.5rem
+Typographie	font-size	0.8rem
+Boîte	padding	0.4rem 0.8rem
+Disposition	gap	0.375rem
+Typographie	font-size	0.75rem
+Typographie	font-size	0.9rem
+Disposition	min-width	1.125rem
+Disposition	min-height	1.125rem
+Disposition	position	fixed !important
+Autre	z-index	2147483647 !important
+Couleur et fond	background	white
+Boîte	border	1px solid #e2e8f0
+Boîte	border-radius	8px
+Effets visuels	box-shadow	0 10px 40px rgba(0, 0, 0, 0.15), 0 4px 6px rgba(0, 0, 0, 0.1)
+Typographie	font-size	14px
+Typographie	line-height	1.5
+Disposition	max-width	600px
+Disposition	min-width	280px
+Autre	pointer-events	auto
+Effets visuels	opacity	1
+Animation et transition	transform	scale(1)
+Animation et transition	transition	opacity 0.2s ease, transform 0.2s ease
+Autre	will-change	opacity, transform
+Boîte	padding	1rem
+Boîte	box-sizing	border-box
+Couleur et fond	color	#374151
+Animation et transition	transform-origin	bottom center
+Animation et transition	transform-origin	top center
+Animation et transition	transform-origin	right center
+Animation et transition	transform-origin	left center
+Autre	infobulle	:before { content: ''
+Disposition	position	absolute
+Disposition	width	0
+Disposition	height	0
+Boîte	border	6px solid transparent
+Autre	infobulleHaut	:before { bottom: -12px
+Disposition	left	50%
+Animation et transition	transform	translateX(-50%)
+Boîte	border-top-color	white
+Autre	infobulleBas	:before { top: -12px
+Disposition	left	50%
+Animation et transition	transform	translateX(-50%)
+Boîte	border-bottom-color	white
+Autre	infobulleGauche	:before { right: -12px
+Disposition	top	50%
+Animation et transition	transform	translateY(-50%)
+Boîte	border-left-color	white
+Autre	infobulleDroite	:before { left: -12px
+Disposition	top	50%
+Animation et transition	transform	translateY(-50%)
+Boîte	border-right-color	white
+Boîte	margin	0 0 0.5rem 0
+Typographie	font-size	1rem
+Typographie	font-weight	600
+Couleur et fond	color	#1f2937
+Boîte	margin	0 0 0.75rem 0
+Typographie	line-height	1.6
+Autre	p	last-child { margin-bottom: 0
+Typographie	font-weight	600
+Couleur et fond	color	#111827
+Typographie	font-style	italic
+Couleur et fond	color	#6b7280
+Disposition	width	100%
+Boîte	border-collapse	collapse
+Boîte	margin	0.5rem 0
+Typographie	font-size	0.9em
+Boîte	padding	0.5rem
+Typographie	text-align	left
+Boîte	border-bottom	1px solid #f3f4f6
+Typographie	font-weight	600
+Couleur et fond	background	#f9fafb
+Couleur et fond	color	#374151
+Typographie	font-size	0.85rem
+Typographie	text-transform	uppercase
+Typographie	letter-spacing	0.025em
+Autre	tr	last-child td { border-bottom: none
+Disposition	display	inline-block
+Boîte	padding	0.125rem 0.5rem
+Boîte	border-radius	9999px
+Typographie	font-size	0.75rem
+Typographie	font-weight	500
+Typographie	text-transform	uppercase
+Typographie	letter-spacing	0.025em
+Couleur et fond	background	#d1fae5
+Couleur et fond	color	#065f46
+Couleur et fond	background	#fef3c7
+Couleur et fond	color	#92400e
+Couleur et fond	background	#fed7aa
+Couleur et fond	color	#c2410c
+Couleur et fond	background	#fecaca
+Couleur et fond	color	#dc2626
+Disposition	max-width	768px) { .infobulle { max-width: calc(100vw - 32px)
+Disposition	min-width	280px
+Boîte	margin	16px
+Boîte	padding	0.875rem
+Typographie	font-size	14px
+Typographie	font-size	0.95rem
+Typographie	font-size	0.85rem
+Boîte	padding	0.375rem 0.25rem
+Disposition	max-width	480px) { .infobulle { max-width: calc(100vw - 16px)
+Disposition	min-width	260px
+Boîte	padding	0.75rem
+Typographie	font-size	13px
+Animation et transition	animation	infobulleFadeIn 0.2s ease-out
+Effets visuels	opacity	0
+Animation et transition	transform	scale(0.95)
+Effets visuels	opacity	1
+Animation et transition	transform	scale(1)
+Autre	infobulle	focus-within { outline: 2px solid #3b82f6
+Boîte	outline-offset	2px
+Autre	z-index	inherit
+Animation et transition	transform	translateZ(0)
+Autre	backface-visibility	hidden
+Disposition	display	none

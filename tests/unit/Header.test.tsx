@@ -95,12 +95,12 @@ describe('Header', () => {
   });
 
   it('devrait avoir un z-index minimum de 1000 pour rester au-dessus du contenu (US-1.2)', () => {
-    // ARRANGE - Lire le fichier CSS du Header
-    const cssPath = path.join(__dirname, '../../components/Header.module.css');
+    // ARRANGE - Lire le fichier CSS global (header scoped avec header.header)
+    const cssPath = path.join(__dirname, '../../app/content-styles.css');
     const cssContent = fs.readFileSync(cssPath, 'utf-8');
     
-    // ACT - Extraire la valeur du z-index du CSS
-    const zIndexMatch = cssContent.match(/\.header\s*\{[^}]*z-index:\s*(\d+);/s);
+    // ACT - Extraire la valeur du z-index du CSS (sélecteur header.header)
+    const zIndexMatch = cssContent.match(/header\.header\s*\{[^}]*z-index:\s*(\d+);/s);
     
     // ASSERT - Vérifier que le z-index est défini et >= 1000
     expect(zIndexMatch).not.toBeNull();
@@ -109,12 +109,12 @@ describe('Header', () => {
   });
 
   it('devrait avoir un arrière-plan opaque pour masquer le contenu qui scroll (US-1.2)', () => {
-    // ARRANGE - Lire le fichier CSS du Header
-    const cssPath = path.join(__dirname, '../../components/Header.module.css');
+    // ARRANGE - Lire le fichier CSS global (header scoped avec header.header)
+    const cssPath = path.join(__dirname, '../../app/content-styles.css');
     const cssContent = fs.readFileSync(cssPath, 'utf-8');
     
-    // ACT - Extraire la valeur du background-color du CSS
-    const backgroundColorMatch = cssContent.match(/\.header\s*\{[^}]*background-color:\s*([^;]+);/s);
+    // ACT - Extraire la valeur du background-color du CSS (sélecteur header.header)
+    const backgroundColorMatch = cssContent.match(/header\.header\s*\{[^}]*background-color:\s*([^;]+);/s);
     
     // ASSERT - Vérifier qu'il y a une background-color définie et qu'elle n'est pas transparent
     expect(backgroundColorMatch).not.toBeNull();
@@ -124,12 +124,12 @@ describe('Header', () => {
   });
 
   it('devrait rester fixe au-dessus du contenu qui scroll (US-1.2)', () => {
-    // ARRANGE - Lire le fichier CSS du Header
-    const cssPath = path.join(__dirname, '../../components/Header.module.css');
+    // ARRANGE - Lire le fichier CSS global (header scoped avec header.header)
+    const cssPath = path.join(__dirname, '../../app/content-styles.css');
     const cssContent = fs.readFileSync(cssPath, 'utf-8');
     
-    // ACT - Extraire la valeur de position du CSS
-    const positionMatch = cssContent.match(/\.header\s*\{[^}]*position:\s*([^;]+);/s);
+    // ACT - Extraire la valeur de position du CSS (sélecteur header.header)
+    const positionMatch = cssContent.match(/header\.header\s*\{[^}]*position:\s*([^;]+);/s);
     
     // ASSERT - Vérifier que position est fixed
     expect(positionMatch).not.toBeNull();

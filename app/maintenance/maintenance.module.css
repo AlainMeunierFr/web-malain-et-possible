@@ -10,67 +10,8 @@
   margin-right: auto;
 }
 
-.header {
-  display: flex;
-  flex-direction: column;
-  gap: 1.25rem;
-  margin-bottom: 1.875rem;
-  padding-bottom: 1.25rem;
-  border-bottom: 0.125rem solid var(--BleuClair);
-  padding-top: min(0.625rem, 1vh);
-}
-
-.title {
-  margin: 0;
-  font-size: 2rem;
-  color: var(--foreground);
-}
-
-.modeSelector {
-  display: flex;
-  gap: 1.25rem;
-  align-items: center;
-}
-
-.radioLabel {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  cursor: pointer;
-  padding: 0.5rem 1rem;
-  border-radius: 0.25rem;
-  transition: background-color 0.2s;
-}
-
-.radioLabel:hover {
-  background-color: rgba(255, 255, 255, 0.1);
-}
-
-.radioInput {
-  width: 1.125rem;
-  height: 1.125rem;
-  cursor: pointer;
-  accent-color: var(--BleuClair);
-}
-
-.radioText {
-  font-size: 1.1rem;
-  font-weight: 500;
-  color: var(--foreground);
-}
-
 .content {
   margin-top: 1.25rem;
-}
-
-.modeContent {
-  padding: 0;
-  background-color: transparent;
-  border-radius: 0.5rem;
-  min-height: calc(100vh - max(5rem, 8.75vh) - 18.75rem);
-  width: 100%;
-  display: flex;
-  flex-direction: column;
 }
 
 .easterEggContainer {
@@ -113,38 +54,10 @@
   margin: 0;
 }
 
-.easterEggButton {
-  display: inline-block;
-  padding: 15px 40px;
-  background-color: var(--BoutonCouleurFond, var(--BleuFonce));
-  color: var(--BoutonCouleurTexte, white);
-  text-decoration: none;
-  border-radius: 8px;
-  font-size: 1.1rem;
-  font-weight: 600;
-  transition: all 0.3s ease;
-  margin-top: 20px;
-}
-
-.easterEggButton:hover {
-  background-color: var(--BoutonCouleurFondHover, var(--BleuClair));
-  color: var(--BoutonCouleurTexteHover, var(--BleuFonce));
-  transform: scale(1.05);
-}
-
-.easterEggButton:active {
-  background-color: var(--BoutonCouleurFondActive, var(--BleuFonce));
-  color: var(--BoutonCouleurTexteActive, white);
-}
-
 @media (min-width: 1920px) {
   .maintenancePage {
     max-width: 87.5rem;
     padding: 1.875rem;
-  }
-
-  .title {
-    font-size: 2.5rem;
   }
 
   .easterEggTitle {
@@ -155,9 +68,368 @@
     font-size: 1.4rem;
     max-width: 43.75rem;
   }
+}
 
-  .easterEggButton {
-    font-size: 1.2rem;
-    padding: 1.125rem 2.8125rem;
+/* ========== Assistant scénario E2E (ex-AssistantScenario.module.css) ========== */
+.assistantScenario {
+  --assistant-base: clamp(1rem, 0.5rem + 0.5vw, 2.5rem);
+  font-size: var(--assistant-base);
+  display: flex;
+  flex-direction: column;
+  gap: 1.5em;
+  padding: 1.25em;
+  max-width: var(--largeurDeTexteMax, 78.125em);
+  margin: 0 auto;
+}
+
+.assistantScenario .header {
+  margin-bottom: 1em;
+  padding-bottom: 1em;
+  border-bottom: 0.125em solid var(--BleuClair);
+}
+
+.assistantScenario .title {
+  margin: 0;
+  font-size: 1.75em;
+  color: var(--foreground);
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: 1fr 17.5em;
+  gap: 1.5em;
+}
+
+@media (max-width: 900px) {
+  .layout {
+    grid-template-columns: 1fr;
   }
+}
+
+.planSection {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75em;
+}
+
+.planTitle {
+  font-size: 1.1em;
+  font-weight: 600;
+  color: var(--foreground);
+  margin: 0;
+}
+
+.planSection .ligne1.zoneHomepage,
+.planSection .ligne1.zonePlanDuSite {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75em;
+  justify-content: center;
+  align-items: center;
+}
+
+.planSection .ligne2.zoneProfils {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  gap: 0.75em;
+  justify-content: center;
+  align-items: center;
+}
+
+.planSection .ligne3 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1em;
+  justify-items: center;
+}
+
+.planSection .ligne3 .colonneGauche,
+.planSection .ligne3 .colonneDroite {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75em;
+  align-items: center;
+  width: 100%;
+}
+
+.planSection .zoneAutres,
+.planSection .zoneFooter {
+  flex-direction: column;
+  align-items: center;
+}
+
+@media (max-width: 768px) {
+  .planSection .ligne2.zoneProfils {
+    flex-direction: column;
+  }
+  .planSection .ligne3 {
+    grid-template-columns: 1fr;
+  }
+}
+
+.pagesList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.375em;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.pageItem {
+  margin: 0;
+  padding: 0;
+}
+
+.pageCurrent,
+.pageAccessible,
+.pageOther {
+  display: inline-block;
+  min-width: 8.75em;
+  max-width: 8.75em;
+  min-height: 2.6em;
+  padding: 0.25em 0.5em;
+  border-radius: 0.25em;
+  font-size: 0.8em;
+  line-height: 1.25;
+  text-align: center;
+  white-space: normal;
+  word-break: break-word;
+}
+
+.pageCurrent {
+  background-color: var(--BleuFonce);
+  color: white;
+  font-weight: 600;
+  cursor: default;
+  border: 0.125em solid var(--BleuFonce);
+}
+
+.pageAccessible {
+  background-color: var(--BleuClair);
+  color: var(--BleuFonce);
+  font-weight: 500;
+  cursor: pointer;
+  border: 0.125em solid var(--BleuFonce);
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+
+.pageAccessible:hover {
+  transform: scale(1.02);
+  box-shadow: 0 0.125em 0.5em rgba(0, 0, 0, 0.15);
+}
+
+.pageOther {
+  background-color: var(--background);
+  color: var(--foreground);
+  opacity: 0.6;
+  cursor: not-allowed;
+  border: 0.0625em solid var(--foreground);
+}
+
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+}
+
+.buttonsRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5em;
+  margin: 0 0 0.5em 0;
+}
+
+.button {
+  padding: 0.375em 0.75em;
+  border-radius: 0.25em;
+  font-size: 0.85em;
+  font-weight: 500;
+  cursor: pointer;
+  border: 0.125em solid var(--BleuFonce);
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.listBox {
+  border: 0.125em solid var(--BleuClair);
+  border-radius: 0.5em;
+  padding: 0.625em;
+  background-color: var(--background);
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.listBoxTitle {
+  font-size: 0.9em;
+  font-weight: 600;
+  color: var(--BleuFonce);
+  margin: 0 0 0.375em 0;
+  flex-shrink: 0;
+}
+
+.listItemsWrapper {
+  overflow-y: auto;
+  max-height: 12.5em;
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+.listItems {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-size: 0.8em;
+  color: var(--foreground);
+}
+
+.listItems li {
+  padding: 0.1875em 0;
+  border-bottom: 0.0625em solid rgba(255, 255, 255, 0.1);
+}
+
+.listItems li:last-child {
+  border-bottom: none;
+}
+
+.buttonPrimary {
+  background-color: var(--BleuFonce);
+  color: white;
+}
+
+.buttonPrimary:hover:not(:disabled) {
+  background-color: var(--BleuClair);
+  color: var(--BleuFonce);
+}
+
+.buttonPrimary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.buttonSecondary {
+  background-color: transparent;
+  color: var(--BleuFonce);
+}
+
+.buttonSecondary:hover {
+  background-color: var(--BleuClair);
+  color: var(--BleuFonce);
+}
+
+.loading {
+  padding: 2.5em;
+  text-align: center;
+  color: var(--foreground);
+}
+
+.error {
+  padding: 1.25em;
+  color: #c00;
+  border: 0.0625em solid #c00;
+  border-radius: 0.5em;
+}
+
+/* ========== Modal mot de passe (ex-PasswordModal.module.css) ========== */
+.passwordModalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+}
+
+.passwordModalModal {
+  background-color: white;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  min-width: 300px;
+  max-width: 400px;
+}
+
+.passwordModalTitle {
+  margin: 0 0 1.5rem 0;
+  font-size: 1.5rem;
+  color: var(--BleuFonce);
+}
+
+.passwordModalLabel {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  color: var(--foreground);
+}
+
+.passwordModalInput {
+  width: 100%;
+  padding: 0.75rem;
+  border: 2px solid #000000;
+  border-radius: 4px;
+  font-size: 1rem;
+  margin-bottom: 1rem;
+  box-sizing: border-box;
+}
+
+.passwordModalInput:focus {
+  outline: none;
+  border-color: var(--BleuFonce);
+}
+
+.passwordModalError {
+  color: red;
+  margin: 0 0 1rem 0;
+  font-size: 0.9rem;
+}
+
+.passwordModalButtons {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+}
+
+.passwordModalSubmitButton {
+  padding: 0.75rem 1.5rem;
+  background-color: var(--BleuFonce);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.passwordModalSubmitButton:hover:not(:disabled) {
+  opacity: 0.9;
+}
+
+.passwordModalSubmitButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.passwordModalCancelButton {
+  padding: 0.75rem 1.5rem;
+  background-color: #ccc;
+  color: var(--foreground);
+  border: none;
+  border-radius: 4px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.passwordModalCancelButton:hover:not(:disabled) {
+  opacity: 0.8;
+}
+
+.passwordModalCancelButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }

@@ -2,7 +2,6 @@
 
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import styles from './Footer.module.css';
 import footerButtonsData from '../data/_footerButtons.json';
 import FooterButton from './FooterButton';
 import type { FooterButton as FooterButtonType } from '../types/footer';
@@ -41,11 +40,11 @@ const Footer: React.FC = () => {
   }
 
   return (
-    <footer className={styles.footer}>
-      <div className={styles.version}>
+    <footer className="footer">
+      <div className="version">
         {version ? `v${version}` : '\u00A0'}
       </div>
-      <div className={styles.buttonsContainer}>
+      <div className="boutonsContainer">
         {footerButtons.boutons.map((button) => {
           // Vérifier que chaque bouton a les propriétés requises
           if (!button || !button.id || !button.icone || !button.command) {

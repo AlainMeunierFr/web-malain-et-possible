@@ -7,7 +7,8 @@
 import fs from 'fs';
 import path from 'path';
 
-interface AutreElement {
+/** Ancien format (avec titre) avant refactor → ExperienceEtApprentissage */
+interface ExperienceEtApprentissageAncien {
   id: string;
   type: string;
   titre: string;
@@ -15,8 +16,9 @@ interface AutreElement {
   periode: string | null;
 }
 
-interface AutresData {
-  autres: Record<string, AutreElement>;
+/** Format du JSON : clé racine "experienceEtApprentissage" */
+interface ExperienceEtApprentissageData {
+  experienceEtApprentissage: Record<string, ExperienceEtApprentissageAncien>;
 }
 
 /**
@@ -127,18 +129,18 @@ function mergeTitreDescription(titre: string, description: string): string {
 }
 
 function refactorExperiences() {
-  const filePath = path.join(process.cwd(), 'data', 'bibliotheque', 'experience-et-autres-informations.json');
+  const filePath = path.join(process.cwd(), 'data', 'bibliotheque', 'experienceEtApprentissage.json');
   
   if (!fs.existsSync(filePath)) {
     throw new Error(`Le fichier n'existe pas : ${filePath}`);
   }
 
   const fileContent = fs.readFileSync(filePath, 'utf-8');
-  const data: AutresData = JSON.parse(fileContent);
+  const data: ExperienceEtApprentissageData = JSON.parse(fileContent);
 
-  const refactored: Record<string, Omit<AutreElement, 'titre'>> = {};
+  const refactored: Record<string, Omit<ExperienceEtApprentissageAncien, 'titre'>> = {};
 
-  for (const [id, element] of Object.entries(data.autres)) {
+  for (const [id, element] of Object.entries(data.experienceEtApprentissage)) {
     // Si l'élément a encore un champ "titre", le fusionner avec description
     const elementAny = element as any;
     let description = element.description;
@@ -164,9 +166,9 @@ function refactorExperiences() {
   }
 
   // Sauvegarder le fichier refactorisé
-  const outputPath = path.join(process.cwd(), 'data', 'bibliotheque', 'experience-et-autres-informations.json');
+  const outputPath = path.join(process.cwd(), 'data', 'bibliotheque', 'experienceEtApprentissage.json');
   const output = {
-    autres: refactored,
+    experienceEtApprentissage: refactored,
   };
   
   fs.writeFileSync(outputPath, JSON.stringify(output, null, 2), 'utf-8');

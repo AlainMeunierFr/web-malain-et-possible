@@ -5,7 +5,7 @@
  * ITÉRATION 1 : Le cas le plus simple - detectMissingE2eIds avec aucun élément
  * ITÉRATION 2 : Détection d'un élément video sans e2eID dans JSON
  * ITÉRATION 3 : Détection d'un élément callToAction sans e2eID
- * ITÉRATION 4 : Détection d'un bouton dans groupeBoutons sans e2eID
+ * ITÉRATION 4 : Détection d'un bouton dans groupeDeBoutons sans e2eID
  * ITÉRATION 5 : Détection d'un bouton dans compétence sans e2eID
  * ITÉRATION 6 : generateAuditFile avec éléments détectés
  * ITÉRATION 7 : generateAuditFile sans éléments (suppression fichier)
@@ -111,8 +111,8 @@ describe('e2eIdDetector - Approche TDD (simple → complexe)', () => {
     });
   });
 
-  describe('ITÉRATION 4 : Détection d\'un bouton dans groupeBoutons sans e2eID', () => {
-    it('devrait détecter un bouton dans groupeBoutons sans e2eID', () => {
+  describe('ITÉRATION 4 : Détection d\'un bouton dans groupeDeBoutons sans e2eID', () => {
+    it('devrait détecter un bouton dans groupeDeBoutons sans e2eID', () => {
       // ARRANGE : GroupeBoutons avec bouton sans e2eID
       mockFs.existsSync.mockReturnValue(true);
       mockFs.readdirSync.mockReturnValue(['test.json'] as any);
@@ -120,7 +120,7 @@ describe('e2eIdDetector - Approche TDD (simple → complexe)', () => {
         JSON.stringify({
           contenu: [
             {
-              type: 'groupeBoutons',
+              type: 'groupeDeBoutons',
               boutons: [
                 {
                   id: 'email',
@@ -285,7 +285,7 @@ describe('e2eIdDetector - Approche TDD (simple → complexe)', () => {
       mockFs.readdirSync.mockReturnValue(['_footerButtons.json'] as any);
       mockFs.readFileSync.mockReturnValue(
         JSON.stringify({
-          type: 'groupeBoutons',
+          type: 'groupeDeBoutons',
           boutons: [
             {
               id: 'email',

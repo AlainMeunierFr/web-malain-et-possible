@@ -146,10 +146,10 @@ describe('bibliothequeReader - Approche TDD', () => {
   });
 
   describe('readAutres', () => {
-    it('devrait lire les expériences depuis experience-et-autres-informations.json', () => {
+    it('devrait lire les expériences depuis experienceEtApprentissage.json', () => {
       // ARRANGE
       const mockAutres = {
-        autres: {
+        experienceEtApprentissage: {
           '1': {
             id: '1',
             type: 'Expériences et apprentissages',
@@ -159,7 +159,7 @@ describe('bibliothequeReader - Approche TDD', () => {
         },
       };
 
-      mockPath.join.mockReturnValueOnce('/project/data/bibliotheque/experience-et-autres-informations.json');
+      mockPath.join.mockReturnValueOnce('/project/data/bibliotheque/experienceEtApprentissage.json');
       mockFs.existsSync.mockReturnValueOnce(true);
       mockFs.readFileSync.mockReturnValueOnce(JSON.stringify(mockAutres));
 
@@ -170,7 +170,8 @@ describe('bibliothequeReader - Approche TDD', () => {
       expect(result.size).toBe(1);
       expect(result.get('1')).toBeDefined();
       expect(result.get('1')?.description).toContain('Gestion de plateaux d\'assistance technique');
-      expect(result.get('1')?.type).toBe('Expériences et apprentissages');
+      expect(result.get('1')?.type).toBe('experienceEtApprentissage');
+      expect(result.get('1')?.categorie).toBe('Expériences et apprentissages');
     });
   });
 });

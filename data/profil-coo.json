@@ -1,9 +1,14 @@
 {
+  "metadata": {
+    "title": "Profil COO — Opérations",
+    "description": "Chief Operating Officer : stabilité malgré les fluctuations, robustesse opérationnelle, stratégie et transformations, management, diagnostic civilisationnel.",
+    "ogType": "profile"
+  },
   "contenu": [
     {
       "type": "video",
       "urlYouTube": "https://youtu.be/9rwtuxXiKC0",
-      "lancementAuto": true,
+      "lancementAuto": false,
       "e2eID": "v27"
     },
     {

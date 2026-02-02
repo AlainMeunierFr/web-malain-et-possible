@@ -1,8 +1,10 @@
 'use client';
 
 import React, { useCallback, useEffect, useState } from 'react';
+import dynamic from 'next/dynamic';
 import { parseInlineMarkdown } from '../utils/markdownInlineParser';
-import UsDetailModal from './UsDetailModal';
+
+const UsDetailModal = dynamic(() => import('./UsDetailModal'), { ssr: false });
 
 /** Carte US (sans contenu, chargé à la demande) */
 interface UsCard {
@@ -96,7 +98,7 @@ export default function SprintBoardKanban({ initialData: initialDataProp, hideGo
 
   if (error && !data?.columns?.length) {
     return (
-      <div className="sprintBoard">
+      <div className="tableauSprint">
         <p className="texteLarge">{error}</p>
       </div>
     );
@@ -104,7 +106,7 @@ export default function SprintBoardKanban({ initialData: initialDataProp, hideGo
 
   if (!data) {
     return (
-      <div className="sprintBoard">
+      <div className="tableauSprint">
         <p>Chargement du sprint en cours…</p>
       </div>
     );
@@ -113,35 +115,35 @@ export default function SprintBoardKanban({ initialData: initialDataProp, hideGo
   const showGoal = !hideGoal && data.goal;
 
   return (
-    <div className="sprintBoard">
+    <div className="tableauSprint">
       {showGoal && (
-        <div className="texteLarge sprintBoardGoal" e2eid="sprint-goal">
+        <div className="texteLarge objectif" e2eid="sprint-goal">
           {data.goal.split(/\r?\n/).map((line, i) => (
             <p key={i}>{line}</p>
           ))}
         </div>
       )}
-      <div className="sprintBoardTable" role="table" aria-label="Board KanBan du sprint">
-        <div className="sprintBoardRow sprintBoardRowStatic" role="row">
+      <div className="grille" role="table" aria-label="Board KanBan du sprint">
+        <div className="ligne ligneStatique" role="row">
           {data.columns.map((col) => (
             <div
               key={col.id}
-              className="sprintBoardColumn"
+              className="colonneTableauSprint"
               role="columnheader"
               data-column-id={col.id}
               data-column-type={col.type}
             >
-              <div className="sprintBoardColumnHeader">
-                <span className="sprintBoardColumnTitle">{col.label}</span>
-                <span className="sprintBoardColumnCount" aria-label={`Décompte ${col.label}`}>
+              <div className="enTete">
+                <span className="titre">{col.label}</span>
+                <span className="compte" aria-label={`Décompte ${col.label}`}>
                   {getColumnCountLabel(col)}
                 </span>
               </div>
-              <div className="sprintBoardColumnCards" role="rowgroup">
+              <div className="cartes" role="rowgroup">
                 {getCardsForColumn(col, data.cards).map((card) => (
                   <div
                     key={card.id}
-                    className="sprintBoardCard"
+                    className="carteUS"
                     data-us-id={card.id}
                     data-state={card.state}
                     style={{ transform: `rotate(${card.rotation ?? 0}deg)` }}
@@ -151,7 +153,7 @@ export default function SprintBoardKanban({ initialData: initialDataProp, hideGo
                     onClick={() => openUsDetail(card.id)}
                     onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && openUsDetail(card.id)}
                   >
-                    <span className="sprintBoardCardContent titreUS">
+                    <span className="contenu titre">
                       {parseInlineMarkdown(`**${card.id}** - ${card.titre}`)}
                     </span>
                   </div>
@@ -162,7 +164,7 @@ export default function SprintBoardKanban({ initialData: initialDataProp, hideGo
         </div>
       </div>
       {loadingUs && (
-        <p className="usDetailLoading" aria-live="polite">
+        <p className="chargementUS" aria-live="polite">
           Chargement de l&apos;US…
         </p>
       )}

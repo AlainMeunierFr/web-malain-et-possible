@@ -44,20 +44,20 @@ export default function UsDetailModal({ data, onClose }: UsDetailModalProps) {
 
   return (
     <div
-      className="usDetailModalOverlay"
+      className="modalDetailUS"
       role="dialog"
       aria-modal="true"
       aria-labelledby="us-detail-title"
       e2eid="us-detail-modal"
     >
-      <div className="usDetailModal">
-        <header className="usDetailModalHeader">
-          <h2 id="us-detail-title" className="usDetailModalTitle">
+      <div className="fenetre">
+        <header className="enTete">
+          <h2 id="us-detail-title" className="titre">
             <strong>{data.id}</strong> – {data.titre}
           </h2>
           <button
             type="button"
-            className="usDetailModalClose"
+            className="fermer"
             onClick={onClose}
             aria-label="Fermer la modal"
             e2eid="us-detail-modal-close"
@@ -66,12 +66,16 @@ export default function UsDetailModal({ data, onClose }: UsDetailModalProps) {
           </button>
         </header>
         {fixed && (
-          <div className="usDetailModalFixed">
-            <CourseMarkdownRenderer content={fixed} />
+          <div className="zoneFixe">
+            <div className="contenu">
+              <CourseMarkdownRenderer content={fixed} />
+            </div>
           </div>
         )}
-        <div className="usDetailModalScroll">
-          <CourseMarkdownRenderer content={scroll} />
+        <div className="zoneScroll">
+          <div className="contenu">
+            <CourseMarkdownRenderer content={scroll} />
+          </div>
         </div>
       </div>
     </div>
