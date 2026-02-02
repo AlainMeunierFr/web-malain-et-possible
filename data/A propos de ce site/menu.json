@@ -21,11 +21,18 @@
     "e2eID": "menu-tous-sprints"
   },
   {
-    "Titre": "Consignes aux agents",
+    "Titre": "Configuration IA",
     "Numéro": 4,
     "Type": "Path",
-    "Parametre": "./.cursor/agents",
-    "e2eID": "menu-consignes-agents"
+    "Parametre": "./data/A propos de ce site/Configuration IA",
+    "e2eID": "menu-configuration-ia"
+  },
+  {
+    "Titre": "Documentation technique",
+    "Numéro": 5,
+    "Type": "Path",
+    "Parametre": "./data/A propos de ce site/Documentation technique",
+    "e2eID": "menu-documentation-technique"
   }
 ]
 

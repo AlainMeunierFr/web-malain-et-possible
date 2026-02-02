@@ -278,4 +278,3 @@ Pour tâches avec 3+ étapes :
 - Sprints : `data/A propos de ce site/Sprints/` (un dossier par Sprint ; Sprint goal dans `00 - Sprint goal et contexte.md` ; une US = un fichier `US-[n°Sprint].[n°US] - [Titre US].md`). US en cours : `data/A propos de ce site/Sprints/US en cours.md`
 - Journal de bord : `journaux/1. Journal de bord/` (fichier par **conversation** : `YYYY-MM-DD-NomConversation.md`, NomConversation = nom de la conversation dans la sidebar Cursor, slugifié)
 - Agents disponibles : `.cursor/agents/` — **tunnel US** : US, BDD, TDD-back-end, TDD-front-end (utiliser exactement ces noms dans Task). **Hors tunnel** : **Designer** (tâches CSS à la demande).
-- Documentation technique : `data/A propos de ce site/Documentation technique/` — **Base de connaissance.md** (architecture, méthodologie), **Problemes resolus.md** (catalogue de solutions), **Guide prompts efficaces.md** (patterns de prompts), **Vocabulaire CSS.md** (lexique ancrage/alignement).
