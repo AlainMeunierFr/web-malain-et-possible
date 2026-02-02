@@ -9,7 +9,7 @@ import Titre from '../../components/Titre';
 import type { ElementTitre } from '../../utils/indexReader';
 
 describe('Composant Titre', () => {
-  it('devrait afficher le texte dans un h1', () => {
+  it('devrait afficher le texte dans un h2', () => {
     const element: ElementTitre = {
       type: 'titre',
       texte: 'Mon titre de page',
@@ -17,7 +17,7 @@ describe('Composant Titre', () => {
 
     render(<Titre element={element} />);
 
-    const titre = screen.getByRole('heading', { level: 1 });
+    const titre = screen.getByRole('heading', { level: 2 });
     expect(titre).toBeInTheDocument();
     expect(titre).toHaveTextContent('Mon titre de page');
   });

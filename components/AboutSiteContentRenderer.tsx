@@ -5,6 +5,7 @@
  */
 
 import React from 'react';
+import Image from 'next/image';
 import type { ContenuElement } from '../utils/aboutSiteReader';
 import { getMdImagePath } from '../utils/imagePath';
 import { parseInlineMarkdown } from '../utils/markdownInlineParser';
@@ -82,15 +83,19 @@ const AboutSiteContentRenderer: React.FC<AboutSiteContentRendererProps> = ({
 
   // Fonction pour rendre un élément individuel
   const renderElement = (element: ContenuElement, elementIndex: number) => {
-    // Image en bloc
+    // Image en bloc (fluide, s'adapte à la largeur du container)
     if (element.type === 'image' && element.imageFilename) {
       // Si imageUrl est déjà défini (URL complète), l'utiliser, sinon construire le chemin MD
       const imageSrc = element.imageUrl || getMdImagePath(element.imageFilename);
       return (
         <div key={elementIndex} className="imageBlock">
-          <img 
+          <Image 
             src={imageSrc}
             alt={element.imageFilename}
+            width={0}
+            height={0}
+            sizes="100vw"
+            style={{ width: '100%', height: 'auto' }}
             className="blockImage"
           />
         </div>

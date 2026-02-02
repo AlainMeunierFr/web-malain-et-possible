@@ -4,12 +4,13 @@
  * - **texte** en <strong>texte</strong> (gras)
  * - *texte* en <em>texte</em> (italique)
  * - [texte](url) en <a href="url" class="markdownLink">texte</a> (liens externes)
- * - [image:filename] en <img src="/api/images/md/filename" /> (images inline)
+ * - [image:filename] en <Image> optimisé next/image (images fluides)
  *
  * Gère les chevauchements (ignore italic si déjà dans bold)
  */
 
 import React from 'react';
+import Image from 'next/image';
 import { getMdImagePath } from './imagePath';
 
 /** Parse uniquement gras et italique (utilisé pour les segments texte et le texte des liens). */
@@ -138,10 +139,14 @@ export function parseInlineMarkdown(text: string): React.ReactNode[] {
       if (segmentText) parts.push(...parseBoldItalic(segmentText, prefix));
     } else if (seg.type === 'image') {
       parts.push(
-        <img
+        <Image
           key={`image-${index}`}
           src={getMdImagePath(seg.filename)}
           alt={seg.filename}
+          width={0}
+          height={0}
+          sizes="100vw"
+          style={{ width: '100%', height: 'auto' }}
           className="inline-image"
         />
       );

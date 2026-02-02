@@ -6,7 +6,7 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import MesProfilsPage from '../../app/mes-profils/page';
+import MesProfilsPage from '../../app/(main)/mes-profils/page';
 import { PageTitleProvider } from '../../contexts/PageTitleContext';
 
 jest.mock('next/link', () => {

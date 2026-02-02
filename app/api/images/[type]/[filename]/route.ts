@@ -28,13 +28,16 @@ export async function GET(
     const decodedFilename = decodeURIComponent(filename);
     
     // Chemin vers l'image dans data/images/{type}/
-    const imagePath = path.join(
-      process.cwd(),
-      'data',
-      'images',
-      type,
-      decodedFilename
-    );
+    const baseDir = path.resolve(process.cwd(), 'data', 'images', type);
+    const imagePath = path.resolve(baseDir, decodedFilename);
+    
+    // Validation anti path-traversal : vérifier que le chemin reste dans le répertoire autorisé
+    if (!imagePath.startsWith(baseDir + path.sep) && imagePath !== baseDir) {
+      return NextResponse.json(
+        { error: 'Invalid filename' },
+        { status: 400 }
+      );
+    }
 
     // Vérifier que le fichier existe
     if (!fs.existsSync(imagePath)) {

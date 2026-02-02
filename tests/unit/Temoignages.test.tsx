@@ -52,14 +52,14 @@ describe('Composant Temoignages', () => {
     expect(screen.getByText('Test Fonction 2')).toBeInTheDocument();
   });
 
-  it('devrait afficher les noms en tant que h2', () => {
+  it('devrait afficher les noms en tant que h3', () => {
     render(<Temoignages element={mockElement} />);
 
     const nom1 = screen.getByText('Test Nom');
-    expect(nom1.tagName).toBe('H2');
+    expect(nom1.tagName).toBe('H3');
 
     const nom2 = screen.getByText('Test Nom 2');
-    expect(nom2.tagName).toBe('H2');
+    expect(nom2.tagName).toBe('H3');
   });
 
   it('devrait afficher les photos avec les bons attributs', () => {

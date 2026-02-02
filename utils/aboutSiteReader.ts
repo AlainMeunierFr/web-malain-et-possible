@@ -25,6 +25,26 @@ import fs from 'fs';
 import path from 'path';
 
 /**
+ * Valide qu'un chemin relatif ne sort pas du répertoire autorisé (prévention path traversal).
+ * @param relativePath Chemin relatif à valider
+ * @param allowedBase Répertoire de base autorisé (par défaut: 'data')
+ * @returns Le chemin absolu résolu si valide
+ * @throws Error si le chemin tente de sortir du répertoire autorisé
+ */
+function validateAndResolvePath(relativePath: string, allowedBase: string = 'data'): string {
+  const normalizedPath = relativePath.replace(/^\.\//, '').split('/').join(path.sep);
+  const resolvedPath = path.resolve(process.cwd(), normalizedPath);
+  const allowedDir = path.resolve(process.cwd(), allowedBase);
+  
+  // Vérifier que le chemin résolu reste dans le répertoire autorisé
+  if (!resolvedPath.startsWith(allowedDir + path.sep) && resolvedPath !== allowedDir) {
+    throw new Error(`Accès interdit: le chemin "${relativePath}" sort du répertoire autorisé "${allowedBase}"`);
+  }
+  
+  return resolvedPath;
+}
+
+/**
  * Erreurs de validation métier
  * APPROCHE TDD : Classe créée progressivement pour répondre aux tests
  */
@@ -214,7 +234,7 @@ export const validerContenuMarkdown = (contenu: string, filePath: string): void 
  * @param contenuBrut Contenu brut de la sous-partie (pour détecter les fins de section)
  * @returns Éléments avec typeDeContenu attribué si c'est une User Story
  */
-const detecterUserStory = (elements: ContenuElement[], contenuBrut?: string): ContenuElement[] => {
+const detecterUserStory = (elements: ContenuElement[], _contenuBrut?: string): ContenuElement[] => {
   // Chercher les 4 patterns dans les listes à puce
   const patterns = {
     'En tant que': /^\*\*En tant que\*\*\s*(.+)$/i,
@@ -622,15 +642,21 @@ export const parseSectionContent = (contenu: string): SectionContent => {
  * @returns Chapitre avec sections (fichiers MD) ou null si le dossier n'existe pas ou ne contient pas de MD valides
  */
 export const readChapitreByPath = (relativePath: string): Chapitre | null => {
-  const normalizedPath = relativePath.replace(/^\.\//, '').split('/').join(path.sep);
-  const chapitreDir = path.join(process.cwd(), normalizedPath);
+  // Validation anti path-traversal
+  let chapitreDir: string;
+  try {
+    chapitreDir = validateAndResolvePath(relativePath);
+  } catch {
+    return null; // Chemin invalide ou tentative de path traversal
+  }
+  
   let entries: fs.Dirent[];
   try {
     entries = fs.readdirSync(chapitreDir, { withFileTypes: true });
   } catch {
     return null;
   }
-  const chapitreNom = path.basename(normalizedPath);
+  const chapitreNom = path.basename(chapitreDir);
   const sections: Section[] = [];
   for (const entry of entries) {
     if (!entry.isFile() || !entry.name.endsWith('.md')) continue;
@@ -663,8 +689,14 @@ export const readChapitreByPath = (relativePath: string): Chapitre | null => {
  * @returns PathContentAtRoot avec fichiers et dossiers, ou null si le chemin n'existe pas ou n'est pas un dossier
  */
 export const readPathContentAtRoot = (relativePath: string): PathContentAtRoot | null => {
-  const normalizedPath = relativePath.replace(/^\.\//, '').split('/').join(path.sep);
-  const dirAbsolu = path.join(process.cwd(), normalizedPath);
+  // Validation anti path-traversal
+  let dirAbsolu: string;
+  try {
+    dirAbsolu = validateAndResolvePath(relativePath);
+  } catch {
+    return null; // Chemin invalide ou tentative de path traversal
+  }
+  
   let entries: fs.Dirent[];
   try {
     entries = fs.readdirSync(dirAbsolu, { withFileTypes: true });
@@ -673,7 +705,8 @@ export const readPathContentAtRoot = (relativePath: string): PathContentAtRoot |
   }
   const fichiers: Section[] = [];
   const dossiers: DossierRacine[] = [];
-  const normalizedPathSlash = normalizedPath.split(path.sep).join('/');
+  // Normaliser le chemin relatif pour construire les paths des sous-dossiers
+  const normalizedPathSlash = relativePath.replace(/^\.\//, '').split(path.sep).join('/').split('\\').join('/');
 
   for (const entry of entries) {
     if (entry.isDirectory()) {

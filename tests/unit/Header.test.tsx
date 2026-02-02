@@ -16,15 +16,14 @@ jest.mock('next/navigation', () => ({
   useRouter: () => ({
     push: mockPush,
   }),
+  usePathname: () => '/',
 }));
 
 // Mock next/image
 jest.mock('next/image', () => ({
   __esModule: true,
-  default: (props: any) => {
-    // eslint-disable-next-line jsx-a11y/alt-text
-    return <img {...props} />;
-  },
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any, @next/next/no-img-element
+  default: (props: any) => <img {...props} />,
 }));
 
 // Mock utils/environment pour US-Assistant-Scenario (prod vs dev)

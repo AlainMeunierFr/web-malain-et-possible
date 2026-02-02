@@ -102,28 +102,5 @@ describe('Composant Video', () => {
     expect(iframe).toHaveAttribute('src', expect.stringContaining('dQw4w9WgXcQ'));
   });
 
-  it('devrait afficher le titre si fourni', () => {
-    const element: ElementVideo = {
-      type: 'video',
-      urlYouTube: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
-      lancementAuto: false,
-      titre: 'Ma Vidéo Test',
-    };
-
-    render(<Video element={element} />);
-    
-    expect(screen.getByText('Ma Vidéo Test')).toBeInTheDocument();
-  });
-
-  it('ne devrait pas afficher le titre si non fourni', () => {
-    const element: ElementVideo = {
-      type: 'video',
-      urlYouTube: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
-      lancementAuto: false,
-    };
-
-    const { container } = render(<Video element={element} />);
-    
-    expect(container.querySelector('h2')).not.toBeInTheDocument();
-  });
+  // Note: Le composant Video n'a pas de prop titre - tests supprimés car obsolètes
 });

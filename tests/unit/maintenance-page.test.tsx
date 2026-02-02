@@ -5,7 +5,7 @@
 
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import MaintenancePage from '../../app/maintenance/page';
+import MaintenancePage from '../../app/(main)/maintenance/page';
 
 const mockPush = jest.fn();
 jest.mock('next/navigation', () => ({
