@@ -15,6 +15,8 @@ interface UsCard {
   agentColumn?: string;
   /** Rotation en degrés (-3 à +3), déterministe (backend) */
   rotation?: number;
+  /** True si l'US est en phase de revue (étape avec suffixe -review) */
+  enRevue?: boolean;
 }
 
 /** Colonne du board (exporté pour usage dans le layout) */
@@ -78,9 +80,12 @@ export default function SprintBoardKanban({ initialData: initialDataProp, hideGo
 
   const closeUsDetail = useCallback(() => setUsDetail(null), []);
 
+  // Synchroniser data avec initialDataProp quand contrôlé (sans effet)
+  const effectiveData = isControlled ? initialDataProp : data;
+
   useEffect(() => {
     if (isControlled) {
-      setData(initialDataProp);
+      // Données fournies par le parent, pas de fetch
       return;
     }
     fetch('/api/sprint-board')
@@ -96,7 +101,7 @@ export default function SprintBoardKanban({ initialData: initialDataProp, hideGo
       .catch(() => setError('Impossible de charger le board'));
   }, [isControlled, initialDataProp]);
 
-  if (error && !data?.columns?.length) {
+  if (error && !effectiveData?.columns?.length) {
     return (
       <div className="tableauSprint">
         <p className="texteLarge">{error}</p>
@@ -104,7 +109,7 @@ export default function SprintBoardKanban({ initialData: initialDataProp, hideGo
     );
   }
 
-  if (!data) {
+  if (!effectiveData) {
     return (
       <div className="tableauSprint">
         <p>Chargement du sprint en cours…</p>
@@ -112,20 +117,20 @@ export default function SprintBoardKanban({ initialData: initialDataProp, hideGo
     );
   }
 
-  const showGoal = !hideGoal && data.goal;
+  const showGoal = !hideGoal && effectiveData.goal;
 
   return (
     <div className="tableauSprint">
       {showGoal && (
         <div className="texteLarge objectif" e2eid="sprint-goal">
-          {data.goal.split(/\r?\n/).map((line, i) => (
+          {effectiveData.goal.split(/\r?\n/).map((line, i) => (
             <p key={i}>{line}</p>
           ))}
         </div>
       )}
       <div className="grille" role="table" aria-label="Board KanBan du sprint">
         <div className="ligne ligneStatique" role="row">
-          {data.columns.map((col) => (
+          {effectiveData.columns.map((col) => (
             <div
               key={col.id}
               className="colonneTableauSprint"
@@ -140,24 +145,27 @@ export default function SprintBoardKanban({ initialData: initialDataProp, hideGo
                 </span>
               </div>
               <div className="cartes" role="rowgroup">
-                {getCardsForColumn(col, data.cards).map((card) => (
-                  <div
-                    key={card.id}
-                    className="carteUS"
-                    data-us-id={card.id}
-                    data-state={card.state}
-                    style={{ transform: `rotate(${card.rotation ?? 0}deg)` }}
-                    role="button"
-                    tabIndex={0}
-                    aria-label={`Voir le détail de ${card.id} - ${card.titre}`}
-                    onClick={() => openUsDetail(card.id)}
-                    onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && openUsDetail(card.id)}
-                  >
-                    <span className="contenu titre">
-                      {parseInlineMarkdown(`**${card.id}** - ${card.titre}`)}
-                    </span>
-                  </div>
-                ))}
+                                {getCardsForColumn(col, effectiveData.cards).map((card) => (
+                                  <div
+                                    key={card.id}
+                                    className="carteUS"
+                                    data-us-id={card.id}
+                                    data-state={card.state}
+                                    style={{ transform: `rotate(${card.rotation ?? 0}deg)` }}
+                                    role="button"
+                                    tabIndex={0}
+                                    aria-label={`Voir le détail de ${card.id} - ${card.titre}`}
+                                    onClick={() => openUsDetail(card.id)}
+                                    onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && openUsDetail(card.id)}
+                                  >
+                                    {card.enRevue && (
+                                      <span className="badgeEnRevue" aria-label="En revue">🔍</span>
+                                    )}
+                                    <span className="contenu titre">
+                                      {parseInlineMarkdown(`**${card.id}** - ${card.titre}`)}
+                                    </span>
+                                  </div>
+                                ))}
               </div>
             </div>
           ))}

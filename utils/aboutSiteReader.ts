@@ -659,7 +659,7 @@ export const readChapitreByPath = (relativePath: string): Chapitre | null => {
   const chapitreNom = path.basename(chapitreDir);
   const sections: Section[] = [];
   for (const entry of entries) {
-    if (!entry.isFile() || !entry.name.endsWith('.md')) continue;
+    if (!entry.isFile() || (!entry.name.endsWith('.md') && !entry.name.endsWith('.mdc'))) continue;
     const sectionPath = path.join(chapitreDir, entry.name);
     let contenu: string;
     try {
@@ -673,7 +673,7 @@ export const readChapitreByPath = (relativePath: string): Chapitre | null => {
     } catch {
       continue;
     }
-    const nom = entry.name.replace(/\.md$/, '');
+    const nom = entry.name.replace(/\.mdc?$/, '');
     const contenuParse = parseSectionContent(contenu);
     sections.push({ nom, contenu, parties: contenuParse.parties });
   }
@@ -712,7 +712,7 @@ export const readPathContentAtRoot = (relativePath: string): PathContentAtRoot |
     if (entry.isDirectory()) {
       const dossierPath = normalizedPathSlash + (normalizedPathSlash ? '/' : '') + entry.name;
       dossiers.push({ nom: entry.name, path: dossierPath });
-    } else if (entry.isFile() && entry.name.endsWith('.md')) {
+    } else if (entry.isFile() && (entry.name.endsWith('.md') || entry.name.endsWith('.mdc'))) {
       const sectionPath = path.join(dirAbsolu, entry.name);
       let contenu: string;
       try {
@@ -726,7 +726,7 @@ export const readPathContentAtRoot = (relativePath: string): PathContentAtRoot |
       } catch {
         continue;
       }
-      const nom = entry.name.replace(/\.md$/, '');
+      const nom = entry.name.replace(/\.mdc?$/, '');
       const contenuParse = parseSectionContent(contenu);
       fichiers.push({ nom, contenu, parties: contenuParse.parties });
     }

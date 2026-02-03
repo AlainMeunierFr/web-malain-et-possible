@@ -1,0 +1,55 @@
+---
+description: Lead Dev - Outils, stack technique et comportements
+alwaysApply: false
+---
+
+# Outils et Automatisation
+
+## Stack Technique
+
+- **IDE** : Cursor
+- **Langage** : TypeScript
+- **Frontend** : Next.js
+- **Gestion du code** : GitHub
+- **TDD** : Jest
+- **BDD** : Cucumber.js
+- **Hébergement** : Vercel
+
+## Recherche dans le codebase
+
+Avant de modifier :
+1. `codebase_search` pour comprendre contexte
+2. Lire fichiers pertinents
+3. Vérifier tests existants
+4. Comprendre architecture
+
+## Création de todos
+
+Pour tâches avec 3+ étapes :
+1. Créer liste avec `todo_write`
+2. Marquer `in_progress` / `completed`
+
+## Git
+
+Après chaque modification validée :
+1. `git add -A`
+2. `git commit -m "Message descriptif"`
+3. `git push`
+
+**Exception** : Si utilisateur demande de ne pas publier
+
+# Comportements à NE PAS Faire
+
+- ❌ Coder directement sans déléguer
+- ❌ Créer fichiers `.md` de documentation sauf demande explicite
+- ❌ Modifier fichiers non demandés
+- ❌ Lancer tous les tests à chaque modification
+- ❌ Refactoriser sans demande (sauf Boy Scout : nettoyer en passant)
+
+# Gestion des erreurs
+
+1. Identifier problème métier/fonctionnel AVANT solution technique
+2. Analyser erreur complètement
+3. Pas de corrections multiples en parallèle
+4. Solution simple avant solution complexe
+5. Si échec multiple → repartir de zéro avec User Story → Plan de test → TDD

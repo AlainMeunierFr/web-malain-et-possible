@@ -112,6 +112,67 @@ describe('SprintBoardKanban', () => {
     });
   });
 
+  describe('indicateur en revue (US-12.3)', () => {
+    it('affiche un badge 🔍 sur la carte quand enRevue est true', async () => {
+      const dataWithReview = {
+        ...mockBoardData,
+        cards: [
+          { id: 'US-12.3', titre: 'US en revue', filename: 'US-12.3.md', state: 'en_cours', agentColumn: 'TDD-back-end', enRevue: true },
+        ],
+      };
+      (global.fetch as jest.Mock).mockResolvedValue({ json: () => Promise.resolve(dataWithReview) });
+
+      render(<SprintBoardKanban />);
+
+      await waitFor(() => {
+        expect(screen.getByText('US-12.3')).toBeInTheDocument();
+      });
+
+      const card = screen.getByRole('button', { name: /Voir le détail de US-12.3/ });
+      const badge = within(card).getByText('🔍');
+      expect(badge).toBeInTheDocument();
+      expect(badge).toHaveClass('badgeEnRevue');
+    });
+
+    it('n\'affiche pas de badge quand enRevue est false', async () => {
+      const dataWithoutReview = {
+        ...mockBoardData,
+        cards: [
+          { id: 'US-12.4', titre: 'US normale', filename: 'US-12.4.md', state: 'en_cours', agentColumn: 'TDD-back-end', enRevue: false },
+        ],
+      };
+      (global.fetch as jest.Mock).mockResolvedValue({ json: () => Promise.resolve(dataWithoutReview) });
+
+      render(<SprintBoardKanban />);
+
+      await waitFor(() => {
+        expect(screen.getByText('US-12.4')).toBeInTheDocument();
+      });
+
+      const card = screen.getByRole('button', { name: /Voir le détail de US-12.4/ });
+      expect(within(card).queryByText('🔍')).not.toBeInTheDocument();
+    });
+
+    it('n\'affiche pas de badge quand enRevue n\'est pas défini', async () => {
+      const dataNoReviewProp = {
+        ...mockBoardData,
+        cards: [
+          { id: 'US-12.5', titre: 'US sans enRevue', filename: 'US-12.5.md', state: 'en_cours', agentColumn: 'TDD-back-end' },
+        ],
+      };
+      (global.fetch as jest.Mock).mockResolvedValue({ json: () => Promise.resolve(dataNoReviewProp) });
+
+      render(<SprintBoardKanban />);
+
+      await waitFor(() => {
+        expect(screen.getByText('US-12.5')).toBeInTheDocument();
+      });
+
+      const card = screen.getByRole('button', { name: /Voir le détail de US-12.5/ });
+      expect(within(card).queryByText('🔍')).not.toBeInTheDocument();
+    });
+  });
+
   describe('modal détail US (US-11.6)', () => {
     it('au clic sur une carte, appelle l\'API /api/sprint-board/us/[usId] et affiche la modal', async () => {
       (global.fetch as jest.Mock)

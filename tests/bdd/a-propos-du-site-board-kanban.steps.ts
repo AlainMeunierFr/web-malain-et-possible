@@ -330,3 +330,110 @@ Then('je restaure le fichier agents.json', async ({}) => {
   }
 });
 
+// ——— US-12.3 : Indicateur visuel "en revue" ———
+
+/** Sauvegarde et contenu original de US en cours.md pour restauration */
+let usEnCoursOriginal: string | null = null;
+const usEnCoursPath = () => path.join(sprintsPath(), 'US en cours.md');
+
+Given('le fichier "US en cours.md" contient l\'étape {string}', async ({}, etape: string) => {
+  const p = usEnCoursPath();
+  if (usEnCoursOriginal === null && fs.existsSync(p)) {
+    usEnCoursOriginal = fs.readFileSync(p, 'utf8');
+  }
+  // Écrire un contenu minimal pour le test
+  const content = `### US en cours
+
+Une seule US à la fois.
+
+---
+
+US-12.3
+Indicateur visuel en revue sur board Kanban
+${etape}
+`;
+  fs.writeFileSync(p, content, 'utf8');
+});
+
+Given('que le fichier "US en cours.md" contient l\'étape {string}', async ({}, etape: string) => {
+  const p = usEnCoursPath();
+  if (usEnCoursOriginal === null && fs.existsSync(p)) {
+    usEnCoursOriginal = fs.readFileSync(p, 'utf8');
+  }
+  const content = `### US en cours
+
+Une seule US à la fois.
+
+---
+
+US-12.3
+Indicateur visuel en revue sur board Kanban
+${etape}
+`;
+  fs.writeFileSync(p, content, 'utf8');
+});
+
+Then('la carte de l\'US en cours affiche un indicateur "en revue" \\(icône 🔍\\)', async ({ page }) => {
+  const card = page.locator('.carteUS').filter({ hasText: 'US-12.3' }).first();
+  await expect(card).toBeVisible({ timeout: 10000 });
+  const badge = card.locator('.badgeEnRevue');
+  await expect(badge).toBeVisible();
+  await expect(badge).toHaveText('🔍');
+});
+
+Then('l\'indicateur est visible mais discret', async ({ page }) => {
+  const badge = page.locator('.carteUS .badgeEnRevue').first();
+  await expect(badge).toBeVisible();
+  // Vérifie que le badge est petit (font-size faible)
+  const fontSize = await badge.evaluate((el) => window.getComputedStyle(el).fontSize);
+  const sizeValue = parseFloat(fontSize);
+  expect(sizeValue).toBeLessThanOrEqual(12); // 0.65rem ≈ 10.4px
+});
+
+Then('la carte de l\'US en cours n\'affiche pas d\'indicateur "en revue"', async ({ page }) => {
+  await page.waitForLoadState('networkidle');
+  const card = page.locator('.carteUS').filter({ hasText: 'US-12.3' }).first();
+  await expect(card).toBeVisible({ timeout: 10000 });
+  const badge = card.locator('.badgeEnRevue');
+  await expect(badge).toHaveCount(0);
+});
+
+Then('la carte de l\'US dans la colonne "Fait" n\'affiche pas d\'indicateur "en revue"', async ({ page }) => {
+  const colFait = page.locator('[data-column-type="fait"]').first();
+  await expect(colFait).toBeVisible();
+  const cardsInFait = colFait.locator('.carteUS');
+  const count = await cardsInFait.count();
+  for (let i = 0; i < count; i++) {
+    const badge = cardsInFait.nth(i).locator('.badgeEnRevue');
+    await expect(badge).toHaveCount(0);
+  }
+});
+
+Then('la carte de l\'US en cours est positionnée dans la colonne {string}', async ({ page }, colLabel: string) => {
+  const col = page.locator('.colonneTableauSprint').filter({ hasText: colLabel }).first();
+  await expect(col).toBeVisible();
+  const card = col.locator('.carteUS').filter({ hasText: 'US-12.3' });
+  await expect(card).toBeVisible();
+});
+
+Then('la carte affiche l\'indicateur "en revue"', async ({ page }) => {
+  const card = page.locator('.carteUS').filter({ hasText: 'US-12.3' }).first();
+  const badge = card.locator('.badgeEnRevue');
+  await expect(badge).toBeVisible();
+  await expect(badge).toHaveText('🔍');
+});
+
+Then('aucune carte n\'affiche l\'indicateur "en revue"', async ({ page }) => {
+  const badges = page.locator('.carteUS .badgeEnRevue');
+  await expect(badges).toHaveCount(0);
+});
+
+// Restauration après test
+Then('je restaure le fichier "US en cours.md"', async ({}) => {
+  const p = usEnCoursPath();
+  if (usEnCoursOriginal !== null) {
+    fs.writeFileSync(p, usEnCoursOriginal, 'utf8');
+    usEnCoursOriginal = null;
+  }
+});
+

@@ -26,13 +26,20 @@ export interface UsCard {
   agentColumn?: string;
   /** Rotation en degrés (-3 à +3), déterministe à partir de l'id (aspect post-it) */
   rotation: number;
+  /** true si l'US en cours est en revue (suffixe -review sur l'étape) (US-12.3) */
+  enRevue: boolean;
 }
 
 /** Ligne "US en cours" parsée */
 export interface UsEnCours {
   usId: string;
   titre: string;
+  /** Étape brute telle que lue dans le fichier (peut contenir -review) */
   etape: string;
+  /** Étape de base sans le suffixe -review (pour le positionnement) */
+  etapeBase: string;
+  /** true si l'étape contient le suffixe -review (US-12.3) */
+  enRevue: boolean;
 }
 
 /** Colonne du board (A faire, agent, Fait) */
@@ -161,10 +168,18 @@ export function readUsEnCours(): UsEnCours | null {
   }
   const usId = lines[0] ?? '';
   if (!usId || !/^US-\d+\.\d+$/i.test(usId)) return null;
+
+  const etape = lines[2] ?? '';
+  const REVIEW_SUFFIX = '-review';
+  const enRevue = etape.endsWith(REVIEW_SUFFIX);
+  const etapeBase = enRevue ? etape.slice(0, -REVIEW_SUFFIX.length) : etape;
+
   return {
     usId,
     titre: lines[1] ?? '',
-    etape: lines[2] ?? '',
+    etape,
+    etapeBase,
+    enRevue,
   };
 }
 
@@ -222,13 +237,15 @@ export function readSprintUsCards(sprintDirRelativePath: string): UsCard[] {
     else if (isEnCours) state = 'en_cours';
     const hash = id.split('').reduce((acc, c) => acc + c.charCodeAt(0), 0);
     const rotation = (hash % 7) - 3;
+    const enRevue = state === 'en_cours' && (usEnCours?.enRevue ?? false);
     cards.push({
       id,
       titre: titreFromFilename,
       filename: entry.name,
       state,
-      agentColumn: state === 'en_cours' ? usEnCours?.etape : undefined,
+      agentColumn: state === 'en_cours' ? usEnCours?.etapeBase : undefined,
       rotation,
+      enRevue,
     });
   }
   cards.sort((a, b) => a.id.localeCompare(b.id));

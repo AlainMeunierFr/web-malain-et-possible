@@ -1,5 +1,9 @@
 [
   {
+    "id": "Lead-dev",
+    "label": "Lead-dev"
+  },
+  {
     "id": "US",
     "label": "US"
   },
@@ -18,9 +22,5 @@
   {
     "id": "Designer",
     "label": "Designer"
-  },
-  {
-    "id": "5 . Review",
-    "label": "5 . Review"
   }
 ]

@@ -189,6 +189,8 @@ TDD-back-end
         usId: 'US-11.5',
         titre: 'Définition du board KanBan',
         etape: 'TDD-back-end',
+        etapeBase: 'TDD-back-end',
+        enRevue: false,
       });
     });
 
@@ -208,6 +210,66 @@ TDD-back-end
       const result = readUsEnCours();
 
       expect(result).toBeNull();
+    });
+
+    // US-12.3 : Indicateur visuel "en revue" sur le board Kanban
+    describe('détection du suffixe -review (US-12.3)', () => {
+      it('expose enRevue: true et etapeBase sans suffixe quand l\'étape contient -review', () => {
+        const content = `---
+
+US-12.3
+Indicateur en revue
+TDD-back-end-review
+`;
+        readFileSyncSpy.mockReturnValue(content);
+
+        const result = readUsEnCours();
+
+        expect(result).not.toBeNull();
+        expect(result?.enRevue).toBe(true);
+        expect(result?.etapeBase).toBe('TDD-back-end');
+        expect(result?.etape).toBe('TDD-back-end-review');
+      });
+
+      it('expose enRevue: false et etapeBase identique à etape quand pas de suffixe -review', () => {
+        const content = `---
+
+US-12.3
+Indicateur en revue
+BDD
+`;
+        readFileSyncSpy.mockReturnValue(content);
+
+        const result = readUsEnCours();
+
+        expect(result).not.toBeNull();
+        expect(result?.enRevue).toBe(false);
+        expect(result?.etapeBase).toBe('BDD');
+        expect(result?.etape).toBe('BDD');
+      });
+
+      it('détecte le suffixe -review pour chaque étape valide (US, BDD, TDD-back-end, TDD-front-end)', () => {
+        const etapes = ['US', 'BDD', 'TDD-back-end', 'TDD-front-end'];
+
+        for (const etape of etapes) {
+          readFileSyncSpy.mockReturnValue(`---\nUS-12.3\nTitre\n${etape}-review`);
+
+          const result = readUsEnCours();
+
+          expect(result?.enRevue).toBe(true);
+          expect(result?.etapeBase).toBe(etape);
+          expect(result?.etape).toBe(`${etape}-review`);
+        }
+      });
+
+      it('ne considère pas -review au milieu du nom comme un suffixe', () => {
+        readFileSyncSpy.mockReturnValue('---\nUS-12.3\nTitre\nreview-something');
+
+        const result = readUsEnCours();
+
+        expect(result?.enRevue).toBe(false);
+        expect(result?.etapeBase).toBe('review-something');
+      });
     });
   });
 
@@ -265,6 +327,45 @@ TDD-back-end
       expect(result).toHaveLength(1);
       expect(result[0].state).toBe('en_cours');
       expect(result[0].agentColumn).toBe('TDD-back-end');
+    });
+
+    it('utilise etapeBase (sans -review) pour agentColumn quand l\'étape est en revue (US-12.3)', () => {
+      readFileSyncSpy.mockReturnValue('---\nUS-12.3\nIndicateur revue\nTDD-back-end-review');
+      readdirSyncSpy.mockReturnValue([
+        { name: 'US-12.3 - Indicateur revue.md', isFile: () => true },
+      ] as fs.Dirent[]);
+
+      const result = readSprintUsCards('data/A propos de ce site/Sprints/UnSprint');
+
+      expect(result).toHaveLength(1);
+      expect(result[0].state).toBe('en_cours');
+      expect(result[0].agentColumn).toBe('TDD-back-end');
+      expect(result[0].enRevue).toBe(true);
+    });
+
+    it('expose enRevue: false sur la carte quand l\'étape n\'a pas le suffixe -review (US-12.3)', () => {
+      readFileSyncSpy.mockReturnValue('---\nUS-12.3\nIndicateur revue\nBDD');
+      readdirSyncSpy.mockReturnValue([
+        { name: 'US-12.3 - Indicateur revue.md', isFile: () => true },
+      ] as fs.Dirent[]);
+
+      const result = readSprintUsCards('data/A propos de ce site/Sprints/UnSprint');
+
+      expect(result).toHaveLength(1);
+      expect(result[0].enRevue).toBe(false);
+    });
+
+    it('expose enRevue: false sur les cartes qui ne sont pas en cours (US-12.3)', () => {
+      readFileSyncSpy.mockReturnValue('---\nUS-12.3\nIndicateur revue\nBDD-review');
+      readdirSyncSpy.mockReturnValue([
+        { name: 'US-12.4 - Autre US.md', isFile: () => true },
+      ] as fs.Dirent[]);
+
+      const result = readSprintUsCards('data/A propos de ce site/Sprints/UnSprint');
+
+      expect(result).toHaveLength(1);
+      expect(result[0].state).toBe('a_faire');
+      expect(result[0].enRevue).toBe(false);
     });
 
     it('retourne les cartes a_faire pour les US ni fait ni en cours', () => {
@@ -371,6 +472,28 @@ TDD-back-end
       expect(result.columns[1]).toMatchObject({ id: 'fait', label: 'Fait', count: 1 });
       expect(result.cards).toHaveLength(1);
       expect(result.cards[0].state).toBe('fait');
+    });
+
+    it('positionne la carte dans la colonne agent correcte même avec étape en -review (US-12.3)', () => {
+      readFileSyncSpy
+        .mockReturnValueOnce('# Sprint Goal\n\nGoal.\n---')
+        .mockReturnValueOnce(
+          JSON.stringify([
+            { id: 'US', label: 'US' },
+            { id: 'TDD-back-end', label: 'TDD-back-end' },
+          ])
+        )
+        .mockReturnValueOnce('---\nUS-12.3\nIndicateur revue\nTDD-back-end-review');
+      readdirSyncSpy.mockReturnValueOnce([
+        { name: 'US-12.3 - Indicateur revue.md', isFile: () => true },
+      ] as fs.Dirent[]);
+
+      const result = getSprintBoardData('data/A propos de ce site/Sprints/UnSprint');
+
+      const tddCol = result.columns.find((c) => c.id === 'TDD-back-end');
+      expect(tddCol?.wipLimit).toBe('1/1');
+      expect(tddCol?.count).toBe(1);
+      expect(result.cards[0].agentColumn).toBe('TDD-back-end');
     });
   });
 
