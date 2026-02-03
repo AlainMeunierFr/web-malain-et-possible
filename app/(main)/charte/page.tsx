@@ -115,9 +115,13 @@ export default function ChartePage() {
           </div>
 
           <div className="charte-exemple">
-            <code>note (n) — --petite</code>
+            <code>note (n) — --petite — reçoit le Markdown parsé</code>
             <p className="note">
-              Ceci est une note ou une légende. Texte plus petit pour les informations secondaires.
+              <strong>25 ans d&apos;expérience</strong> à transformer des <strong>idées</strong> en produits logiciels 
+              qui génèrent de la <strong>valeur</strong>.
+            </p>
+            <p className="charte-note">
+              Utilisé par: experienceEtApprentissage.description
             </p>
           </div>
 
