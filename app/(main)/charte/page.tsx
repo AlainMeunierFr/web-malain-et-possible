@@ -31,9 +31,11 @@ export default function ChartePage() {
         <p>Tailles, couleurs et graisses des éléments texte de base.</p>
 
         <div className="charte-exemples">
+          {/* === TAILLE --enorme (2rem) === */}
+          
           {/* h1 dans contexte TitreDePage (header bleu) */}
           <div className="charte-exemple">
-            <code>h1 (dans .header .titreDePage)</code>
+            <code>h1 (dans .header .titreDePage) — --enorme</code>
             <div className="header-preview">
               <span className="titreDePage texte">Titre de Page (h1 dans header)</span>
             </div>
@@ -44,41 +46,32 @@ export default function ChartePage() {
 
           {/* h1 standard (hors header, ex: Hero.Titre) */}
           <div className="charte-exemple">
-            <code>h1 (standard, ex: Hero.Titre)</code>
+            <code>h1 (standard, ex: Hero.Titre) — --enorme</code>
             <h1>Titre de niveau 1 (h1)</h1>
             <p className="charte-note">
-              Contexte : fond clair, texte noir, taille --enorme. 
-              À adapter selon le contexte (Hero peut nécessiter une taille différente).
+              Contexte : fond clair, texte noir, taille --enorme
             </p>
           </div>
 
+          {/* === TAILLE --grande (1.5rem) === */}
+          
           <div className="charte-exemple">
-            <code>h2</code>
+            <code>h2 — --grande</code>
             <h2>Titre de niveau 2 (h2)</h2>
           </div>
 
+          {/* === TAILLE --normale (1rem) === */}
+          
           <div className="charte-exemple">
-            <code>h3</code>
+            <code>h3 — --normale, bleu, gras</code>
             <h3>Titre de niveau 3 (h3)</h3>
           </div>
 
           <div className="charte-exemple">
-            <code>h4</code>
-            <h4>Titre de niveau 4 (h4)</h4>
-          </div>
-
-          <div className="charte-exemple">
-            <code>p</code>
+            <code>p — --normale</code>
             <p>
               Paragraphe standard (p). Lorem ipsum dolor sit amet, consectetur adipiscing elit.
               Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-            </p>
-          </div>
-
-          <div className="charte-exemple">
-            <code>a (lien)</code>
-            <p>
-              Texte avec un <a href="#">lien cliquable</a> à l&apos;intérieur.
             </p>
           </div>
 
@@ -90,51 +83,57 @@ export default function ChartePage() {
           </div>
 
           <div className="charte-exemple">
-            <code>ul / li (liste l1)</code>
-            <ul>
-              <li>Élément de liste niveau 1</li>
-              <li>Élément de liste niveau 1</li>
-              <li>Élément de liste niveau 1</li>
-            </ul>
-          </div>
-
-          <div className="charte-exemple">
-            <code>ul / li imbriqué (liste l2)</code>
-            <ul>
-              <li>Élément de liste niveau 1
-                <ul>
-                  <li>Sous-élément niveau 2</li>
-                  <li>Sous-élément niveau 2</li>
-                </ul>
-              </li>
-              <li>Élément de liste niveau 1</li>
-            </ul>
-          </div>
-
-          <div className="charte-exemple">
-            <code>note (n) — petite taille</code>
-            <p className="note">
-              Ceci est une note ou une légende. Texte plus petit pour les informations secondaires.
-            </p>
-          </div>
-
-          <div className="charte-exemple">
-            <code>lien cliquable (lk)</code>
-            <p>
-              Voici un <a href="#" className="lien">lien cliquable</a> avec style distinct (bleu, souligné, semi-gras).
-            </p>
-          </div>
-
-          <div className="charte-exemple">
-            <code>auteur (a) — italique</code>
+            <code>auteur (a) — --normale, italique</code>
             <p className="auteur">
               — Prénom Nom, fonction de l&apos;auteur
             </p>
           </div>
 
           <div className="charte-exemple">
-            <code>bouton (b)</code>
+            <code>liste l1 — --normale</code>
+            <ul>
+              <li>Élément de liste niveau 1</li>
+              <li>Élément de liste niveau 1</li>
+              <li>Élément de liste niveau 1</li>
+            </ul>
+          </div>
+
+          <div className="charte-exemple">
+            <code>lien (lk) — --normale, bleu, souligné</code>
+            <p>
+              Voici un <a href="#" className="lien">lien cliquable</a> avec style distinct.
+            </p>
+          </div>
+
+          <div className="charte-exemple">
+            <code>bouton (b) — --normale, blanc sur bleu</code>
             <button type="button" className="bouton">Bouton standard</button>
+          </div>
+
+          {/* === TAILLE --petite (0.8rem) === */}
+          
+          <div className="charte-exemple">
+            <code>h4 — --petite</code>
+            <h4>Titre de niveau 4 (h4)</h4>
+          </div>
+
+          <div className="charte-exemple">
+            <code>note (n) — --petite</code>
+            <p className="note">
+              Ceci est une note ou une légende. Texte plus petit pour les informations secondaires.
+            </p>
+          </div>
+
+          <div className="charte-exemple">
+            <code>sous-liste l2 — --petite</code>
+            <ul>
+              <li>Élément de liste niveau 1
+                <ul>
+                  <li>Sous-élément niveau 2 (plus petit)</li>
+                  <li>Sous-élément niveau 2 (plus petit)</li>
+                </ul>
+              </li>
+            </ul>
           </div>
         </div>
       </section>
