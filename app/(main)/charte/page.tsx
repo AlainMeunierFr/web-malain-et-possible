@@ -68,17 +68,14 @@ export default function ChartePage() {
           </div>
 
           <div className="charte-exemple">
-            <code>p — --normale</code>
+            <code>p — --normale — reçoit le Markdown parsé</code>
             <p>
-              Paragraphe standard (p). Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-              Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+              Paragraphe avec <strong>texte en gras</strong> (Markdown: **gras**) et <em>italique</em> (*italique*).<br />
+              Saut de ligne simple (Markdown: \n).<br />
+              Contient aussi des <a href="#">liens cliquables</a> (Markdown: [texte](url)).
             </p>
-          </div>
-
-          <div className="charte-exemple">
-            <code>strong / em</code>
-            <p>
-              Texte avec <strong>mise en gras</strong> et <em>mise en italique</em>.
+            <p className="charte-note">
+              Utilisé par: hero.description, texteLarge.texte, competence.description, temoignage.temoignage
             </p>
           </div>
 
