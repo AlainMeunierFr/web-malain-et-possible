@@ -48,9 +48,10 @@
 }
 
 /* Base responsive site entier : forcer la taille racine pour que tout scale (rem/em).
-   clamp : min 1rem, croît avec vw, max 3rem. !important pour ne pas être écrasé par Tailwind. */
+   clamp : min 14px (mobile), croît doucement, max 18px (grands écrans).
+   Cible : 16px sur écran standard (1200-1400px). */
 html {
-  font-size: clamp(1rem, 0.25rem + 0.8vw, 3rem) !important;
+  font-size: clamp(0.875rem, 0.8rem + 0.2vw, 1.125rem) !important;
 }
 
 :root {
@@ -79,7 +80,11 @@ html {
   --normale: 1rem;
   --petite: 0.8rem;
 
-  /* Types sémantiques : tailles = --enorme (h1), --grande (h2), --moyenne (h3), --normale (p). Graisse : h1–h4 = 700, p/n = 400. */
+  /* Types sémantiques pour les titres
+     h1 : contexte TitreDePage (header bleu) = --enorme, blanc — contexte Hero = à définir
+     h2 : --grande, noir
+     h3 : --normale (même taille que texte), gras, bleu
+     h4 : --petite (comme notes), gras, noir */
   --h1-font-size: var(--enorme);
   --h1-font-weight: 700;
   --h1-color: var(--Noir);
@@ -88,7 +93,7 @@ html {
   --h2-font-weight: 700;
   --h2-color: var(--Noir);
   --h2-line-height: 1.3;
-  --h3-font-size: var(--moyenne);
+  --h3-font-size: var(--normale);
   --h3-font-weight: 700;
   --h3-color: var(--CouleurFoncé);
   --h3-line-height: 1.4;
@@ -181,9 +186,101 @@ body {
   font-size: 1rem; /* Hérite de html, scale avec viewport */
 }
 
-/* Tous les niveaux de titre en gras (--h1 à --h4) */
-h1, h2, h3, h4 {
-  font-weight: 700;
+/* Application des tokens aux titres */
+h1, h2, h3 {
+  text-align: center;
+}
+
+h1 {
+  font-size: var(--h1-font-size);
+  font-weight: var(--h1-font-weight);
+  color: var(--h1-color);
+  line-height: var(--h1-line-height);
+}
+
+h2 {
+  font-size: var(--h2-font-size);
+  font-weight: var(--h2-font-weight);
+  color: var(--h2-color);
+  line-height: var(--h2-line-height);
+}
+
+h3 {
+  font-size: var(--h3-font-size);
+  font-weight: var(--h3-font-weight);
+  color: var(--h3-color);
+  line-height: var(--h3-line-height);
+}
+
+h4 {
+  font-size: var(--h4-font-size);
+  font-weight: var(--h4-font-weight);
+  color: var(--h4-color);
+  line-height: var(--h4-line-height);
+}
+
+/* Paragraphes */
+p {
+  font-size: var(--p-font-size);
+  font-weight: var(--p-font-weight);
+  color: var(--p-color);
+  line-height: var(--p-line-height);
+}
+
+/* Liens cliquables */
+a, .lien {
+  font-size: var(--lk-font-size);
+  font-weight: var(--lk-font-weight);
+  color: var(--lk-color);
+  text-decoration: var(--lk-text-decoration);
+}
+
+/* Notes (petite taille) */
+.note {
+  font-size: var(--n-font-size);
+  font-weight: var(--n-font-weight);
+  color: var(--n-color);
+  line-height: var(--n-line-height);
+}
+
+/* Auteur (italique) */
+.auteur {
+  font-size: var(--a-font-size);
+  font-weight: var(--a-font-weight);
+  font-style: var(--a-font-style);
+  color: var(--a-color);
+}
+
+/* Listes niveau 1 */
+ul, ol {
+  font-size: var(--l1-font-size);
+  color: var(--l1-color);
+  line-height: var(--l1-line-height);
+}
+
+/* Listes niveau 2 (imbriquées) */
+ul ul, ol ol, ul ol, ol ul {
+  font-size: var(--l2-font-size);
+  color: var(--l2-color);
+}
+
+/* Bouton standard */
+.bouton, button {
+  font-size: var(--b-font-size);
+  font-weight: var(--b-font-weight);
+  background: var(--b-background);
+  color: var(--b-color);
+  border: none;
+  padding: var(--BoutonPaddingVertical) var(--BoutonPaddingHorizontal);
+  border-radius: var(--BoutonContourRadius);
+  cursor: pointer;
+  transition: var(--BoutonTransition);
+}
+
+.bouton:hover, button:hover {
+  background: var(--BoutonCouleurFondHover);
+  box-shadow: var(--BoutonOmbreHover);
+  transform: var(--BoutonTransformHover);
 }
 
 * {
