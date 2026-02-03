@@ -271,6 +271,31 @@
   gap: 1.5rem;
 }
 
+/* --- Profil : layout pour aligner les boutons --- */
+.profil {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.profil .jobtitles {
+  list-style: none;
+  padding: 0;
+  margin: 0.5rem 0;
+}
+
+.profil .jobtitles li {
+  margin-bottom: 0.25rem;
+}
+
+.profil .actions {
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
 @media (max-width: 1024px) {
   [data-layout="4 columns x 1 row"] {
     grid-template-columns: repeat(2, 1fr);

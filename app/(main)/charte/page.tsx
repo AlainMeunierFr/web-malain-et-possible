@@ -173,23 +173,54 @@ export default function ChartePage() {
           <div className="listeDeProfils" data-layout="4 columns x 1 row">
             <div className="profil">
               <h2 className="contenu titre">Produit logiciel</h2>
-              <p className="contenu jobtitles note">CPO - Chief Product Officer • HOP - Head of Product • Product Manager • Product Owner</p>
-              <a href="#" className="bouton route">Voir le profil</a>
+              <ul className="contenu jobtitles note">
+                <li>CPO - Chief Product Officer</li>
+                <li>HOP - Head of Product</li>
+                <li>Product Manager</li>
+                <li>Product Owner</li>
+              </ul>
+              <div className="contenu actions">
+                <a href="#" className="bouton route">Voir le profil</a>
+                <a href="/CV/cpo.pdf" className="lien cvPath">Télécharger le CV</a>
+              </div>
             </div>
             <div className="profil">
               <h2 className="contenu titre">Opérations</h2>
-              <p className="contenu jobtitles note">Manager de transition • COO - Chief Operation Officer • HOO - Head of Operation • Directeur opérationnel</p>
-              <a href="#" className="bouton route">Voir le profil</a>
+              <ul className="contenu jobtitles note">
+                <li>Manager de transition</li>
+                <li>COO - Chief Operation Officer</li>
+                <li>HOO - Head of Operation</li>
+                <li>Directeur opérationnel</li>
+              </ul>
+              <div className="contenu actions">
+                <a href="#" className="bouton route">Voir le profil</a>
+                <a href="/CV/coo.pdf" className="lien cvPath">Télécharger le CV</a>
+              </div>
             </div>
             <div className="profil">
               <h2 className="contenu titre">Transformation Agile</h2>
-              <p className="contenu jobtitles note">Transformation Agile • Coach Agile • Scrum Master • Product Owner</p>
-              <a href="#" className="bouton route">Voir le profil</a>
+              <ul className="contenu jobtitles note">
+                <li>Transformation Agile</li>
+                <li>Coach Agile</li>
+                <li>Scrum Master</li>
+                <li>Product Owner</li>
+              </ul>
+              <div className="contenu actions">
+                <a href="#" className="bouton route">Voir le profil</a>
+                <a href="/CV/agile.pdf" className="lien cvPath">Télécharger le CV</a>
+              </div>
             </div>
             <div className="profil">
               <h2 className="contenu titre">Technologie</h2>
-              <p className="contenu jobtitles note">CTO - Chief Technology Officer • HTO - Head of Technology • Directeur Technique</p>
-              <a href="#" className="bouton route">Voir le profil</a>
+              <ul className="contenu jobtitles note">
+                <li>CTO - Chief Technology Officer</li>
+                <li>HTO - Head of Technology</li>
+                <li>Directeur Technique</li>
+              </ul>
+              <div className="contenu actions">
+                <a href="#" className="bouton route">Voir le profil</a>
+                <a href="/CV/cto.pdf" className="lien cvPath">Télécharger le CV</a>
+              </div>
             </div>
           </div>
           <p className="charte-note">
