@@ -235,3 +235,145 @@
     min-width: 0;
   }
 }
+
+/* ============================================
+   DATA-LAYOUT — Grilles et comportements des containers
+   Source de vérité : 4. Organisation du DOM.md
+   ============================================ */
+
+/* --- Grille 4 colonnes (blocsProfils) --- */
+[data-layout="4 columns x 1 row"] {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+}
+
+@media (max-width: 1024px) {
+  [data-layout="4 columns x 1 row"] {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  [data-layout="4 columns x 1 row"] {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* --- Grille 2 colonnes (temoignages) --- */
+[data-layout="2 columns x N rows"] {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+}
+
+@media (max-width: 768px) {
+  [data-layout="2 columns x N rows"] {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* --- Grille 3 colonnes (competences dans domaineDeCompetence) --- */
+[data-layout="3 columns x 1 row"] {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+
+@media (max-width: 900px) {
+  [data-layout="3 columns x 1 row"] {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  [data-layout="3 columns x 1 row"] {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* --- Accordéon (experiencesEtApprentissages) --- */
+[data-layout^="accordeon"] {
+  /* Fermé par défaut */
+}
+
+[data-layout^="accordeon"] > summary,
+[data-layout^="accordeon"] > .accordeon-header {
+  cursor: pointer;
+  padding: 0.5rem 0;
+  font-weight: 600;
+  color: var(--CouleurFoncé);
+  list-style: none;
+}
+
+[data-layout^="accordeon"] > summary::-webkit-details-marker {
+  display: none;
+}
+
+[data-layout^="accordeon"] > summary::before,
+[data-layout^="accordeon"] > .accordeon-header::before {
+  content: "▶ ";
+  display: inline-block;
+  transition: transform 0.2s ease;
+}
+
+[data-layout^="accordeon"][open] > summary::before,
+[data-layout^="accordeon"].open > .accordeon-header::before {
+  transform: rotate(90deg);
+}
+
+/* --- Liste verticale (detournements) --- */
+[data-layout$="rows"] {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+/* --- Plan du site (listeDesPages) --- */
+[data-layout="draw with page properties"] {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* --- Tooltip droits d'auteur --- */
+[data-layout="tooltip, droits d'auteur"] {
+  position: relative;
+  display: inline-block;
+}
+
+[data-layout="tooltip, droits d'auteur"] .tooltip-trigger {
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 50%;
+  background: var(--CouleurFoncé);
+  color: var(--Blanc);
+  font-size: var(--petite);
+  font-weight: 600;
+}
+
+[data-layout="tooltip, droits d'auteur"] .tooltip-content {
+  display: none;
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--Blanc);
+  border: 1px solid var(--Noir-10);
+  border-radius: 0.25rem;
+  padding: 0.75rem;
+  min-width: 200px;
+  max-width: 300px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  z-index: 100;
+  font-size: var(--petite);
+}
+
+[data-layout="tooltip, droits d'auteur"]:hover .tooltip-content,
+[data-layout="tooltip, droits d'auteur"]:focus-within .tooltip-content {
+  display: block;
+}
