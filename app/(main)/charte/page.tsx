@@ -205,26 +205,29 @@ export default function ChartePage() {
               Deuxième ligne après \n.
             </p>
             <p className="contenu auteur">— Auteur de la citation (--a, italique)</p>
+            {/* Ordre spec: titre → description → auteur → image.src → image.alt → bouton.action */}
             <div className="competences" data-layout="3 columns x 1 row">
               <div className="competence">
-                <h3 className="contenu titre">Compétence 1 (--h3)</h3>
-                <p className="contenu description">
-                  Un <strong>client satisfait</strong> est notre meilleur commercial (--p).
-                </p>
+                <h3 className="contenu titre">1. titre (--h3)</h3>
+                <p className="contenu description">2. description (--p) avec <strong>gras</strong></p>
+                <p className="contenu auteur">3. auteur (--a)</p>
+                <div className="contenu image">4. image.src (--img)</div>
+                <p className="contenu imageAlt note">5. image.alt (--n)</p>
+                <a href="#" className="bouton lien">6. bouton.action (--lk)</a>
               </div>
               <div className="competence">
-                <h3 className="contenu titre">Compétence 2 (--h3)</h3>
+                <h3 className="contenu titre">Compétence sans image</h3>
                 <p className="contenu description">
-                  <a href="#">Lien cliquable</a> dans la description (--p).
+                  Description avec <a href="#">lien</a> (--p).
                 </p>
-                <p className="contenu auteur">— Auteur (--a)</p>
+                <p className="contenu auteur">— Auteur citation (--a)</p>
               </div>
               <div className="competence">
-                <h3 className="contenu titre">Compétence 3 (--h3)</h3>
+                <h3 className="contenu titre">Compétence avec bouton</h3>
                 <p className="contenu description">
                   Citation avec <strong>mise en gras</strong> (--p).
                 </p>
-                <a href="#" className="bouton lien">Bouton optionnel (--lk)</a>
+                <a href="#" className="bouton lien">En savoir plus (--lk)</a>
               </div>
             </div>
           </div>
@@ -243,35 +246,51 @@ export default function ChartePage() {
           </div>
         </div>
 
-        {/* Témoignage — spec: nom=--h3, fonction=--n, temoignage=--p */}
+        {/* Témoignage — ordre spec: photo → nom → fonction → temoignage */}
         <div className="charte-exemple">
-          <code>.temoignage — spec: nom=--h3, fonction=--n, temoignage=--p</code>
+          <code>.temoignage — ordre: photo → nom → fonction → temoignage</code>
           <div className="temoignage">
-            <h3 className="contenu nom">Nom du témoin (--h3)</h3>
-            <p className="contenu fonction note">Fonction du témoin (--n)</p>
+            <div className="contenu temoin">
+              <div className="contenu photo">1. photo (--photo)</div>
+              <div className="contenu temoinTexte">
+                <h3 className="contenu nom">2. nom (--h3)</h3>
+                <p className="contenu fonction note">3. fonction (--n)</p>
+              </div>
+            </div>
             <div className="contenu temoignage">
-              <p>« Premier paragraphe du témoignage (--p).</p>
-              <p>Deuxième paragraphe après \n\n. Qualités exceptionnelles.</p>
-              <p>Je le recommande chaudement. »</p>
+              <p>4. temoignage (--p) : « Premier paragraphe.</p>
+              <p>Deuxième paragraphe après \n\n. »</p>
             </div>
           </div>
           <p className="charte-note">
-            Spec: temoignage.nom=--h3, .fonction=--n, .temoignage=--p (Markdown \n\n)
+            Hiérarchie: temoin.photo → temoin.texte(nom, fonction) → temoignage
           </p>
         </div>
 
-        {/* Détournement vidéo — spec: titre=--h2, pitch=--p, date=--n */}
+        {/* Détournement vidéo — ordre: header(titre→pitch→date) → videos */}
         <div className="charte-exemple">
-          <code>.detournementVideo — spec: titre=--h2, pitch=--p, date=--n</code>
+          <code>.detournementVideo — header → videos</code>
           <div className="detournementVideo">
-            <h2 className="contenu titre">Titre du détournement (--h2)</h2>
-            <p className="contenu pitch">
-              Pitch du détournement avec <strong>texte en gras</strong> (--p).
-            </p>
-            <p className="contenu date note">Janvier 2024 (--n)</p>
+            <div className="contenu header">
+              <h2 className="contenu titre">1. titre (--h2)</h2>
+              <p className="contenu pitch">2. pitch (--p) avec <strong>gras</strong></p>
+              <p className="contenu date note">3. date (--n)</p>
+            </div>
+            <div className="contenu videos">
+              <div className="contenu videoDetournee">
+                <h3 className="contenu titreVideoDetournee">4. titreVideoDetournee (--h3)</h3>
+                <div className="contenu video">5. videoDetournee (--v)</div>
+                <p className="contenu droitsAuteur note">6. droitsAuteur (--n, tooltip)</p>
+                <p className="contenu linkedin note">7. linkedin (--n)</p>
+              </div>
+              <div className="contenu videoOriginale">
+                <h3 className="contenu titreVideoOriginale">8. titreVideoOriginale (--h3)</h3>
+                <div className="contenu video">9. videoOriginale (--v)</div>
+              </div>
+            </div>
           </div>
           <p className="charte-note">
-            Spec: detournementVideo.titre=--h2, .pitch=--p (Markdown), .date=--n
+            Hiérarchie: header(titre, pitch, date) → videos(videoDetournee, videoOriginale)
           </p>
         </div>
 
