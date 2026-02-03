@@ -167,64 +167,56 @@ export default function ChartePage() {
           </p>
         </div>
 
-        {/* Liste de Profils — 4 colonnes */}
+        {/* Liste de Profils — 4 colonnes (classes identiques à ProfilContainer.tsx) */}
         <div className="charte-exemple">
           <code>.listeDeProfils — data-layout=&quot;4 columns x 1 row&quot;</code>
           <div className="listeDeProfils" data-layout="4 columns x 1 row">
             <div className="profil">
-              <h2 className="contenu titre">Produit logiciel</h2>
-              <ul className="contenu jobtitles note">
-                <li>CPO - Chief Product Officer</li>
-                <li>HOP - Head of Product</li>
-                <li>Product Manager</li>
-                <li>Product Owner</li>
+              <h2 className="profil titre">Produit logiciel</h2>
+              <ul className="profil jobTitles">
+                <li className="profil jobTitle">CPO - Chief Product Officer</li>
+                <li className="profil jobTitle">HOP - Head of Product</li>
+                <li className="profil jobTitle">Product Manager</li>
+                <li className="profil jobTitle">Product Owner</li>
               </ul>
-              <div className="contenu actions">
-                <a href="#" className="bouton route">Voir le profil</a>
-                <a href="/CV/cpo.pdf" className="lien cvPath">Télécharger le CV</a>
-              </div>
+              <a href="#" className="profil route bouton">Voir le profil</a>
+              <a href="/CV/cpo.pdf" className="profil cvPath lien">Télécharger le CV</a>
             </div>
             <div className="profil">
-              <h2 className="contenu titre">Opérations</h2>
-              <ul className="contenu jobtitles note">
-                <li>Manager de transition</li>
-                <li>COO - Chief Operation Officer</li>
-                <li>HOO - Head of Operation</li>
-                <li>Directeur opérationnel</li>
+              <h2 className="profil titre">Opérations</h2>
+              <ul className="profil jobTitles">
+                <li className="profil jobTitle">Manager de transition</li>
+                <li className="profil jobTitle">COO - Chief Operation Officer</li>
+                <li className="profil jobTitle">HOO - Head of Operation</li>
+                <li className="profil jobTitle">Directeur opérationnel</li>
               </ul>
-              <div className="contenu actions">
-                <a href="#" className="bouton route">Voir le profil</a>
-                <a href="/CV/coo.pdf" className="lien cvPath">Télécharger le CV</a>
-              </div>
+              <a href="#" className="profil route bouton">Voir le profil</a>
+              <a href="/CV/coo.pdf" className="profil cvPath lien">Télécharger le CV</a>
             </div>
             <div className="profil">
-              <h2 className="contenu titre">Transformation Agile</h2>
-              <ul className="contenu jobtitles note">
-                <li>Transformation Agile</li>
-                <li>Coach Agile</li>
-                <li>Scrum Master</li>
-                <li>Product Owner</li>
+              <h2 className="profil titre">Transformation Agile</h2>
+              <ul className="profil jobTitles">
+                <li className="profil jobTitle">Transformation Agile</li>
+                <li className="profil jobTitle">Coach Agile</li>
+                <li className="profil jobTitle">Scrum Master</li>
+                <li className="profil jobTitle">Product Owner</li>
               </ul>
-              <div className="contenu actions">
-                <a href="#" className="bouton route">Voir le profil</a>
-                <a href="/CV/agile.pdf" className="lien cvPath">Télécharger le CV</a>
-              </div>
+              <a href="#" className="profil route bouton">Voir le profil</a>
+              <a href="/CV/agile.pdf" className="profil cvPath lien">Télécharger le CV</a>
             </div>
             <div className="profil">
-              <h2 className="contenu titre">Technologie</h2>
-              <ul className="contenu jobtitles note">
-                <li>CTO - Chief Technology Officer</li>
-                <li>HTO - Head of Technology</li>
-                <li>Directeur Technique</li>
+              <h2 className="profil titre">Technologie</h2>
+              <ul className="profil jobTitles">
+                <li className="profil jobTitle">CTO - Chief Technology Officer</li>
+                <li className="profil jobTitle">HTO - Head of Technology</li>
+                <li className="profil jobTitle">Directeur Technique</li>
               </ul>
-              <div className="contenu actions">
-                <a href="#" className="bouton route">Voir le profil</a>
-                <a href="/CV/cto.pdf" className="lien cvPath">Télécharger le CV</a>
-              </div>
+              <a href="#" className="profil route bouton">Voir le profil</a>
+              <a href="/CV/cto.pdf" className="profil cvPath lien">Télécharger le CV</a>
             </div>
           </div>
           <p className="charte-note">
-            Données réelles : mes-profils.json → 4 profils (cpo, coo, agile, cto)
+            Classes identiques à ProfilContainer.tsx : .profil.titre, .profil.jobTitles, .profil.jobTitle, .profil.route, .profil.cvPath
           </p>
         </div>
 

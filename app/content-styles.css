@@ -278,14 +278,24 @@
   height: 100%;
 }
 
-.profil .jobtitles {
+.profil.jobTitles,
+.profil .jobTitles {
   list-style: none;
   padding: 0;
   margin: 0.5rem 0;
 }
 
-.profil .jobtitles li {
+.profil.jobTitle,
+.profil .jobTitle {
   margin-bottom: 0.25rem;
+}
+
+.profil.cvPath,
+.profil .cvPath {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  margin-top: 0.5rem;
 }
 
 .profil .actions {
