@@ -157,7 +157,7 @@ export default function ChartePage() {
               J&apos;ai équipé 15% des radiologues libéraux français avec mon premier produit.<br />
               Passionné par la <strong>résolution de problèmes complexes</strong>, je combine <strong>rigueur technique et leadership humain</strong>.
             </p>
-            <div className="groupeBoutons">
+            <div className="groupeBoutons" data-layout="1 column, centered">
               <a href="#" className="bouton callToAction">Discutons</a>
               <a href="#" className="lien ensavoirplus">Mes profils</a>
             </div>
@@ -301,11 +301,14 @@ export default function ChartePage() {
 
         {/* Groupe de boutons */}
         <div className="charte-exemple">
-          <code>.groupeBoutons</code>
-          <div className="groupeBoutons">
+          <code>.groupeBoutons — data-layout=&quot;1 column, centered&quot;</code>
+          <div className="groupeBoutons" data-layout="1 column, centered">
             <a href="#" className="callToAction">Discutons</a>
             <a href="#" className="callToAction">Mes profils</a>
           </div>
+          <p className="charte-note">
+            Boutons empilés verticalement et centrés
+          </p>
         </div>
 
         {/* Call to Action seul — spec: action=--lk (lien avec aspect bouton) */}
