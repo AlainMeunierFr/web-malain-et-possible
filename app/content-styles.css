@@ -296,10 +296,10 @@
   }
 }
 
-/* --- Domaine de compétence : contenu avec marges latérales (~8%) --- */
+/* --- Domaine de compétence : contenu avec marges latérales (~16%) --- */
 .domaineDeCompetence > .contenu {
-  padding-left: 8%;
-  padding-right: 8%;
+  padding-left: 16%;
+  padding-right: 16%;
 }
 
 /* --- Compétence : layout et espacement --- */
