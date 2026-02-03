@@ -296,6 +296,12 @@
   }
 }
 
+/* --- Domaine de compétence : contenu avec marges latérales (~8%) --- */
+.domaineDeCompetence > .contenu {
+  padding-left: 8%;
+  padding-right: 8%;
+}
+
 /* --- Grille 3 colonnes (competences dans domaineDeCompetence) --- */
 [data-layout="3 columns x 1 row"] {
   display: grid;
