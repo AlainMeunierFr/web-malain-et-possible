@@ -209,7 +209,10 @@ export default function ChartePage() {
             <div className="competences" data-layout="3 columns x 1 row">
               <div className="competence">
                 <h3 className="contenu titre">Créativité</h3>
-                <div className="contenu image placeholder-image">Créativité.png</div>
+                <div className="contenu image">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src="/api/images/json/Cr%C3%A9ativit%C3%A9.png" alt="Créativité" />
+                </div>
                 <p className="contenu description">
                   « L&apos;imagination est plus importante que le savoir. Car le savoir est limité, tandis que l&apos;imagination embrasse le monde entier. »
                 </p>
@@ -218,14 +221,20 @@ export default function ChartePage() {
               </div>
               <div className="competence">
                 <h3 className="contenu titre">Service client</h3>
-                <div className="contenu image placeholder-image">Service client.png</div>
+                <div className="contenu image">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src="/api/images/json/Service%20client.png" alt="Service client" />
+                </div>
                 <p className="contenu description">
                   Un <strong>client satisfait</strong> est notre meilleur commercial. Il est très compliqué de construire une image de marque, mais facile de la détruire.
                 </p>
               </div>
               <div className="competence">
                 <h3 className="contenu titre">Gestion des talents</h3>
-                <div className="contenu image placeholder-image">Talents.png</div>
+                <div className="contenu image">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src="/api/images/json/Talents.png" alt="Gestion des talents" />
+                </div>
                 <p className="contenu description">
                   Le succès d&apos;une entreprise repose sur <strong>la reconnaissance</strong> et <strong>le développement</strong> des talents individuels.
                 </p>
