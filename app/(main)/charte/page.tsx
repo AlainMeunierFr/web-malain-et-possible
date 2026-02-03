@@ -167,16 +167,33 @@ export default function ChartePage() {
           </p>
         </div>
 
-        {/* Profil — spec: titre=--h2, jobTitles=--n, route=--b */}
+        {/* Liste de Profils — 4 colonnes */}
         <div className="charte-exemple">
-          <code>.profil — spec: titre=--h2, jobTitles=--n, route=--b</code>
-          <div className="profil">
-            <h2 className="contenu titre">Produit logiciel</h2>
-            <p className="contenu jobtitles note">CPO - Chief Product Officer • HOP - Head of Product • Product Manager • Product Owner</p>
-            <a href="#" className="bouton route">Voir le profil</a>
+          <code>.listeDeProfils — data-layout=&quot;4 columns x 1 row&quot;</code>
+          <div className="listeDeProfils" data-layout="4 columns x 1 row">
+            <div className="profil">
+              <h2 className="contenu titre">Produit logiciel</h2>
+              <p className="contenu jobtitles note">CPO - Chief Product Officer • HOP - Head of Product • Product Manager • Product Owner</p>
+              <a href="#" className="bouton route">Voir le profil</a>
+            </div>
+            <div className="profil">
+              <h2 className="contenu titre">Opérations</h2>
+              <p className="contenu jobtitles note">Manager de transition • COO - Chief Operation Officer • HOO - Head of Operation • Directeur opérationnel</p>
+              <a href="#" className="bouton route">Voir le profil</a>
+            </div>
+            <div className="profil">
+              <h2 className="contenu titre">Transformation Agile</h2>
+              <p className="contenu jobtitles note">Transformation Agile • Coach Agile • Scrum Master • Product Owner</p>
+              <a href="#" className="bouton route">Voir le profil</a>
+            </div>
+            <div className="profil">
+              <h2 className="contenu titre">Technologie</h2>
+              <p className="contenu jobtitles note">CTO - Chief Technology Officer • HTO - Head of Technology • Directeur Technique</p>
+              <a href="#" className="bouton route">Voir le profil</a>
+            </div>
           </div>
           <p className="charte-note">
-            Données réelles : mes-profils.json → profil cpo
+            Données réelles : mes-profils.json → 4 profils (cpo, coo, agile, cto)
           </p>
         </div>
 
