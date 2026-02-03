@@ -37,7 +37,7 @@ export default function ChartePage() {
           <div className="charte-exemple">
             <code>h1 (dans .header .titreDePage) — --enorme</code>
             <div className="header-preview">
-              <span className="titreDePage texte">Titre de Page (h1 dans header)</span>
+              <span className="titreDePage texte">Mes Profils</span>
             </div>
             <p className="charte-note">
               Contexte : header bleu, texte blanc, taille --enorme
@@ -47,7 +47,7 @@ export default function ChartePage() {
           {/* h1 standard (hors header, ex: Hero.Titre) */}
           <div className="charte-exemple">
             <code>h1 (standard, ex: Hero.Titre) — --enorme</code>
-            <h1>Titre de niveau 1 (h1)</h1>
+            <h1>Alain Meunier</h1>
             <p className="charte-note">
               Contexte : fond clair, texte noir, taille --enorme
             </p>
@@ -150,19 +150,20 @@ export default function ChartePage() {
         <div className="charte-exemple">
           <code>.hero — spec: titre=--h1, sousTitre=--h2, description=--p, CTA=--lk</code>
           <div className="hero">
-            <h1 className="contenu titre">Titre du hero (--h1)</h1>
-            <h2 className="contenu sousTitre">Sous-titre du hero (--h2)</h2>
+            <h1 className="contenu titre">Alain Meunier</h1>
+            <h2 className="contenu sousTitre">Disponible et enthousiaste pour un projet stimulant (CDI ou freelance)</h2>
             <p className="contenu description">
-              Description avec <strong>texte en gras</strong> pour les points clés (--p).<br />
-              Deuxième ligne après \n. Troisième avec <strong>autre gras</strong>.
+              25 ans d&apos;expérience à <strong>transformer des idées</strong> en produits logiciels qui <strong>génèrent de la valeur</strong>.<br />
+              J&apos;ai équipé 15% des radiologues libéraux français avec mon premier produit.<br />
+              Passionné par la <strong>résolution de problèmes complexes</strong>, je combine <strong>rigueur technique et leadership humain</strong>.
             </p>
             <div className="groupeBoutons">
-              <a href="#" className="bouton callToAction">Discutons (CTA --lk)</a>
-              <a href="#" className="lien ensavoirplus">Mes profils (--lk)</a>
+              <a href="#" className="bouton callToAction">Discutons</a>
+              <a href="#" className="lien ensavoirplus">Mes profils</a>
             </div>
           </div>
           <p className="charte-note">
-            Spec: hero.titre=--h1, hero.sousTitre=--h2, hero.description=--p, hero.callToAction=--lk, hero.ensavoirplus=--lk
+            Données réelles : index.json → hero
           </p>
         </div>
 
@@ -199,40 +200,39 @@ export default function ChartePage() {
         <div className="charte-exemple">
           <code>.domaineDeCompetence — spec: titre=--h2, contenu=--p, auteur=--a</code>
           <div className="domaineDeCompetence">
-            <h2 className="contenu titre">Titre du domaine (--h2)</h2>
+            <h2 className="contenu titre">Interactions humaines</h2>
             <p className="contenu contenu">
-              Contenu du domaine avec <strong>texte en gras</strong> (--p).<br />
-              Deuxième ligne après \n.
+              « Lorsque les gens sont financièrement investis, ils veulent un retour. Lorsque les gens sont émotionnellement investis, ils veulent contribuer. »
             </p>
-            <p className="contenu auteur">— Auteur de la citation (--a, italique)</p>
+            <p className="contenu auteur">— Simon Sinek</p>
             {/* Ordre spec: titre → description → auteur → image.src → image.alt → bouton.action */}
             <div className="competences" data-layout="3 columns x 1 row">
               <div className="competence">
-                <h3 className="contenu titre">1. titre (--h3)</h3>
-                <p className="contenu description">2. description (--p) avec <strong>gras</strong></p>
-                <p className="contenu auteur">3. auteur (--a)</p>
-                <div className="contenu image">4. image.src (--img)</div>
-                <p className="contenu imageAlt note">5. image.alt (--n)</p>
-                <a href="#" className="bouton lien">6. bouton.action (--lk)</a>
+                <h3 className="contenu titre">Créativité</h3>
+                <p className="contenu description">
+                  « L&apos;imagination est plus importante que le savoir. Car le savoir est limité, tandis que l&apos;imagination embrasse le monde entier, stimulant le progrès, donnant naissance à l&apos;évolution. »
+                </p>
+                <p className="contenu auteur">— Albert Einstein</p>
+                <div className="contenu image">[Image: Créativité.png]</div>
+                <p className="contenu imageAlt note">Créativité</p>
+                <a href="#" className="bouton lien">Voir le portfolio</a>
               </div>
               <div className="competence">
-                <h3 className="contenu titre">Compétence sans image</h3>
+                <h3 className="contenu titre">Service client</h3>
                 <p className="contenu description">
-                  Description avec <a href="#">lien</a> (--p).
+                  Un <strong>client satisfait</strong> est notre meilleur commercial. Il est très compliqué et long de construire une image de marque, mais très facile et rapide de la détruire.
                 </p>
-                <p className="contenu auteur">— Auteur citation (--a)</p>
               </div>
               <div className="competence">
-                <h3 className="contenu titre">Compétence avec bouton</h3>
+                <h3 className="contenu titre">Gestion des talents</h3>
                 <p className="contenu description">
-                  Citation avec <strong>mise en gras</strong> (--p).
+                  Je suis convaincu que le succès d&apos;une entreprise repose sur <strong>la reconnaissance</strong> et <strong>le développement</strong> des talents individuels.
                 </p>
-                <a href="#" className="bouton lien">En savoir plus (--lk)</a>
               </div>
             </div>
           </div>
           <p className="charte-note">
-            Spec: domaineDeCompetence.titre=--h2, .contenu=--p, .auteur=--a ; competence.titre=--h3, .description=--p
+            Données réelles : domaines.json → interactions-humaines, competences.json → creativite, service-client, gestion-des-talents
           </p>
         </div>
 
@@ -240,10 +240,13 @@ export default function ChartePage() {
         <div className="charte-exemple">
           <code>.profil — spec: titre=--h2, jobTitles=--n, route=--b</code>
           <div className="profil">
-            <h2 className="contenu titre">Titre du profil (--h2)</h2>
-            <p className="contenu jobtitles note">Job title 1 • Job title 2 (--n)</p>
-            <a href="#" className="bouton route">Voir le profil (--b)</a>
+            <h2 className="contenu titre">Produit logiciel</h2>
+            <p className="contenu jobtitles note">CPO - Chief Product Officer • HOP - Head of Product • Product Manager • Product Owner</p>
+            <a href="#" className="bouton route">Voir le profil</a>
           </div>
+          <p className="charte-note">
+            Données réelles : mes-profils.json → profil cpo
+          </p>
         </div>
 
         {/* Témoignage — ordre spec: photo → nom → fonction → temoignage */}
@@ -251,19 +254,20 @@ export default function ChartePage() {
           <code>.temoignage — ordre: photo → nom → fonction → temoignage</code>
           <div className="temoignage">
             <div className="contenu temoin">
-              <div className="contenu photo">1. photo (--photo)</div>
+              <div className="contenu photo">[Photo: Florent Grosmaitre.jpeg]</div>
               <div className="contenu temoinTexte">
-                <h3 className="contenu nom">2. nom (--h3)</h3>
-                <p className="contenu fonction note">3. fonction (--n)</p>
+                <h3 className="contenu nom">Florent Grosmaitre</h3>
+                <p className="contenu fonction note">CEO chez CryptoNext Security</p>
               </div>
             </div>
             <div className="contenu temoignage">
-              <p>4. temoignage (--p) : « Premier paragraphe.</p>
-              <p>Deuxième paragraphe après \n\n. »</p>
+              <p>« J&apos;ai eu la chance de travailler avec Alain pour l&apos;entreprise Actibase qu&apos;il avait fondé.</p>
+              <p>Alain a un profil transverse capable d&apos;appréhender les problématiques variées de toute entreprise IT depuis les enjeux de R&amp;D jusqu&apos;aux éléments financiers en passant par les aspects produits, marketing et commerciaux.</p>
+              <p>Alain a des qualités exceptionnelles d&apos;analyse approfondie, de compréhension des aspects technologiques, de pro-activité pour trouver des solutions, d&apos;implication dans ses missions, de qualité des livrables… Et en plus, c&apos;est sympa de travailler avec lui ! »</p>
             </div>
           </div>
           <p className="charte-note">
-            Hiérarchie: temoin.photo → temoin.texte(nom, fonction) → temoignage
+            Données réelles : _temoignages.json → Florent Grosmaitre
           </p>
         </div>
 
@@ -272,25 +276,26 @@ export default function ChartePage() {
           <code>.detournementVideo — header → videos</code>
           <div className="detournementVideo">
             <div className="contenu header">
-              <h2 className="contenu titre">1. titre (--h2)</h2>
-              <p className="contenu pitch">2. pitch (--p) avec <strong>gras</strong></p>
-              <p className="contenu date note">3. date (--n)</p>
+              <h2 className="contenu titre">Team for the Planet</h2>
+              <p className="contenu pitch">
+                Contexte : la société et la marque «&nbsp;Time for the Planet&nbsp;» ont été poursuivies en justice par la société «&nbsp;Time to Planet&nbsp;» pour concurrence déloyale. L&apos;affaire a été longue et compliquée. Au final TFTP a modifié son nom en «&nbsp;Team for the Planet&nbsp;».
+              </p>
+              <p className="contenu date note">30/3/2023</p>
             </div>
             <div className="contenu videos">
               <div className="contenu videoDetournee">
-                <h3 className="contenu titreVideoDetournee">4. titreVideoDetournee (--h3)</h3>
-                <div className="contenu video">5. videoDetournee (--v)</div>
-                <p className="contenu droitsAuteur note">6. droitsAuteur (--n, tooltip)</p>
-                <p className="contenu linkedin note">7. linkedin (--n)</p>
+                <h3 className="contenu titreVideoDetournee">Debriefing de l&apos;action contre le nom de TFTP</h3>
+                <div className="contenu video">[Vidéo: kVR1a7EHn9E]</div>
+                <p className="contenu linkedin note">[Lien LinkedIn]</p>
               </div>
               <div className="contenu videoOriginale">
-                <h3 className="contenu titreVideoOriginale">8. titreVideoOriginale (--h3)</h3>
-                <div className="contenu video">9. videoOriginale (--v)</div>
+                <h3 className="contenu titreVideoOriginale">Les visiteurs</h3>
+                <div className="contenu video">[Vidéo: D66x25E_Zpc]</div>
               </div>
             </div>
           </div>
           <p className="charte-note">
-            Hiérarchie: header(titre, pitch, date) → videos(videoDetournee, videoOriginale)
+            Données réelles : portfolio-detournements.json → Team for the Planet (id 4)
           </p>
         </div>
 
@@ -298,18 +303,17 @@ export default function ChartePage() {
         <div className="charte-exemple">
           <code>.groupeBoutons</code>
           <div className="groupeBoutons">
-            <a href="#" className="callToAction">Bouton 1</a>
-            <a href="#" className="callToAction">Bouton 2</a>
-            <a href="#" className="callToAction">Bouton 3</a>
+            <a href="#" className="callToAction">Discutons</a>
+            <a href="#" className="callToAction">Mes profils</a>
           </div>
         </div>
 
         {/* Call to Action seul — spec: action=--lk (lien avec aspect bouton) */}
         <div className="charte-exemple">
           <code>.callToAction — spec: action=--lk (aspect bouton)</code>
-          <a href="#" className="bouton callToAction">Discutons (--lk aspect bouton)</a>
+          <a href="#" className="bouton callToAction">Faisons connaissance...</a>
           <p className="charte-note">
-            C&apos;est un lien interne (route), pas un vrai bouton. Bords carrés, pas de mouvement au hover, effet enfoncé au clic.
+            Données réelles : detournement-video.json → callToAction.action
           </p>
         </div>
 
@@ -317,14 +321,14 @@ export default function ChartePage() {
         <div className="charte-exemple">
           <code>.experienceEtApprentissage — spec: description=--n (Markdown)</code>
           <div className="experienceEtApprentissage">
-            <p className="contenu categorie">Catégorie (--m, métadonnée)</p>
+            <p className="contenu categorie">Expériences et apprentissages</p>
             <p className="contenu description note">
-              <strong>25 ans d&apos;expérience</strong> à transformer des <strong>idées</strong> en produits (--n, Markdown).
+              Recrutement et formation de plus de <strong>100 collaborateurs</strong> (techniciens, formateurs, commerciaux) avec alignement via «&nbsp;moving motivators&nbsp;» du Management 3.0
             </p>
-            <p className="contenu periode">2020 - 2024 (--m)</p>
+            <p className="contenu periode">Depuis 1995</p>
           </div>
           <p className="charte-note">
-            Spec: experienceEtApprentissage.description=--n (petite taille, supporte Markdown **gras**)
+            Données réelles : experienceEtApprentissage.json → id 2 et 5
           </p>
         </div>
       </section>
