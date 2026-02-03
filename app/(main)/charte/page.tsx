@@ -145,19 +145,24 @@ export default function ChartePage() {
         <h2>2. Types de contenu</h2>
         <p>Aperçu de chaque type de contenu avec sa classe racine.</p>
 
-        {/* Hero */}
+        {/* Hero — Markdown: **gras**, \n */}
         <div className="charte-exemple">
-          <code>.hero</code>
+          <code>.hero — Markdown: **gras**, \n</code>
           <div className="hero">
             <div className="contenu titre">Titre du hero</div>
             <div className="contenu sousTitre">Sous-titre du hero</div>
             <div className="contenu description">
-              Description du hero. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+              Description avec <strong>texte en gras</strong> pour mettre en avant les points clés.<br />
+              Deuxième ligne après un saut de ligne (\n).<br />
+              Troisième ligne avec <strong>autre mise en gras</strong>.
             </div>
             <div className="groupeBoutons">
               <a href="#" className="callToAction">Bouton CTA</a>
             </div>
           </div>
+          <p className="charte-note">
+            JSON: &quot;description&quot;: &quot;Texte avec **gras**.\nDeuxième ligne.&quot;
+          </p>
         </div>
 
         {/* Titre (bande bleue) */}
@@ -168,41 +173,64 @@ export default function ChartePage() {
           </div>
         </div>
 
-        {/* TexteLarge */}
+        {/* TexteLarge — Markdown: **gras**, \n\n (paragraphes) */}
         <div className="charte-exemple">
-          <code>.texteLarge</code>
+          <code>.texteLarge — Markdown: **gras**, \n\n</code>
           <div className="texteLarge">
             <p>
-              Bloc de texte large. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-              Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-              Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.
+              Premier paragraphe avec <strong>texte en gras</strong> pour les points importants.
+              Suite du premier paragraphe sur la même ligne.
+            </p>
+            <p>
+              Deuxième paragraphe après \n\n. Mon <strong>profil polyvalent</strong> me permet
+              d&apos;apporter des <strong>solutions créatives</strong> à vos défis.
+            </p>
+            <p>
+              Troisième paragraphe. Conclusion du texte large.
             </p>
           </div>
+          <p className="charte-note">
+            JSON: &quot;texte&quot;: &quot;Premier **paragraphe**.\n\nDeuxième **paragraphe**.&quot;
+          </p>
         </div>
 
-        {/* Domaine de compétence */}
+        {/* Domaine de compétence — Markdown: **gras**, \n */}
         <div className="charte-exemple">
-          <code>.domaineDeCompetence</code>
+          <code>.domaineDeCompetence — Markdown: **gras**, \n</code>
           <div className="domaineDeCompetence">
             <div className="contenu titre">Titre du domaine</div>
             <div className="contenu description">
-              Description du domaine de compétence.
+              Contenu du domaine avec <strong>texte en gras</strong>.<br />
+              Deuxième ligne après \n.
             </div>
             <div className="competences" data-layout="3 columns x 1 row">
               <div className="competence">
                 <div className="contenu titre">Compétence 1</div>
-                <div className="contenu description">Description de la compétence.</div>
+                <div className="contenu description">
+                  Un <strong>client satisfait</strong> est notre meilleur commercial.
+                  J&apos;ai 20 ans d&apos;expérience à mettre à votre <strong>service</strong>.
+                </div>
               </div>
               <div className="competence">
                 <div className="contenu titre">Compétence 2</div>
-                <div className="contenu description">Description de la compétence.</div>
+                <div className="contenu description">
+                  <a href="#">Lien cliquable</a> dans la description.
+                  Approche <strong>empirique</strong> adaptée aux projets.
+                </div>
+                <div className="contenu auteur">— Auteur de la citation</div>
               </div>
               <div className="competence">
                 <div className="contenu titre">Compétence 3</div>
-                <div className="contenu description">Description de la compétence.</div>
+                <div className="contenu description">
+                  Citation avec <strong>mise en gras</strong> et réflexion.
+                </div>
+                <a href="#" className="bouton">Bouton optionnel</a>
               </div>
             </div>
           </div>
+          <p className="charte-note">
+            JSON competence.description: &quot;Un **client satisfait**...\n[Lien](url)&quot;
+          </p>
         </div>
 
         {/* Profil */}
@@ -215,16 +243,21 @@ export default function ChartePage() {
           </div>
         </div>
 
-        {/* Témoignage */}
+        {/* Témoignage — Markdown: \n\n (paragraphes) */}
         <div className="charte-exemple">
-          <code>.temoignage</code>
+          <code>.temoignage — Markdown: \n\n</code>
           <div className="temoignage">
             <div className="contenu auteur">Nom de l&apos;auteur</div>
             <div className="contenu fonction">Fonction de l&apos;auteur</div>
             <div className="contenu texte">
-              &quot;Citation du témoignage. Lorem ipsum dolor sit amet, consectetur adipiscing elit.&quot;
+              <p>« Premier paragraphe du témoignage. Alain a des qualités exceptionnelles.</p>
+              <p>Deuxième paragraphe après \n\n. Cette expérience reste la meilleure de ma vie.</p>
+              <p>Troisième paragraphe. Je le recommande chaudement. »</p>
             </div>
           </div>
+          <p className="charte-note">
+            JSON: &quot;temoignage&quot;: &quot;Premier paragraphe.\n\nDeuxième paragraphe.&quot;
+          </p>
         </div>
 
         {/* Détournement vidéo */}
