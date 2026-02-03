@@ -167,6 +167,19 @@ export default function ChartePage() {
           </p>
         </div>
 
+        {/* Profil — spec: titre=--h2, jobTitles=--n, route=--b */}
+        <div className="charte-exemple">
+          <code>.profil — spec: titre=--h2, jobTitles=--n, route=--b</code>
+          <div className="profil">
+            <h2 className="contenu titre">Produit logiciel</h2>
+            <p className="contenu jobtitles note">CPO - Chief Product Officer • HOP - Head of Product • Product Manager • Product Owner</p>
+            <a href="#" className="bouton route">Voir le profil</a>
+          </div>
+          <p className="charte-note">
+            Données réelles : mes-profils.json → profil cpo
+          </p>
+        </div>
+
         {/* Titre (bande bleue) — spec: texte=--h2 */}
         <div className="charte-exemple">
           <code>.titre — spec: texte=--h2</code>
@@ -175,24 +188,25 @@ export default function ChartePage() {
           </div>
         </div>
 
-        {/* TexteLarge — Markdown: **gras**, \n\n (paragraphes) */}
+        {/* Témoignage — ordre spec: photo → nom → fonction → temoignage */}
         <div className="charte-exemple">
-          <code>.texteLarge — Markdown: **gras**, \n\n</code>
-          <div className="texteLarge">
-            <p>
-              Premier paragraphe avec <strong>texte en gras</strong> pour les points importants.
-              Suite du premier paragraphe sur la même ligne.
-            </p>
-            <p>
-              Deuxième paragraphe après \n\n. Mon <strong>profil polyvalent</strong> me permet
-              d&apos;apporter des <strong>solutions créatives</strong> à vos défis.
-            </p>
-            <p>
-              Troisième paragraphe. Conclusion du texte large.
-            </p>
+          <code>.temoignage — ordre: photo → nom → fonction → temoignage</code>
+          <div className="temoignage">
+            <div className="contenu temoin">
+              <div className="contenu photo">[Photo: Florent Grosmaitre.jpeg]</div>
+              <div className="contenu temoinTexte">
+                <h3 className="contenu nom">Florent Grosmaitre</h3>
+                <p className="contenu fonction note">CEO chez CryptoNext Security</p>
+              </div>
+            </div>
+            <div className="contenu temoignage">
+              <p>« J&apos;ai eu la chance de travailler avec Alain pour l&apos;entreprise Actibase qu&apos;il avait fondé.</p>
+              <p>Alain a un profil transverse capable d&apos;appréhender les problématiques variées de toute entreprise IT depuis les enjeux de R&amp;D jusqu&apos;aux éléments financiers en passant par les aspects produits, marketing et commerciaux.</p>
+              <p>Alain a des qualités exceptionnelles d&apos;analyse approfondie, de compréhension des aspects technologiques, de pro-activité pour trouver des solutions, d&apos;implication dans ses missions, de qualité des livrables… Et en plus, c&apos;est sympa de travailler avec lui ! »</p>
+            </div>
           </div>
           <p className="charte-note">
-            JSON: &quot;texte&quot;: &quot;Premier **paragraphe**.\n\nDeuxième **paragraphe**.&quot;
+            Données réelles : _temoignages.json → Florent Grosmaitre
           </p>
         </div>
 
@@ -246,38 +260,24 @@ export default function ChartePage() {
           </p>
         </div>
 
-        {/* Profil — spec: titre=--h2, jobTitles=--n, route=--b */}
+        {/* TexteLarge — Markdown: **gras**, \n\n (paragraphes) */}
         <div className="charte-exemple">
-          <code>.profil — spec: titre=--h2, jobTitles=--n, route=--b</code>
-          <div className="profil">
-            <h2 className="contenu titre">Produit logiciel</h2>
-            <p className="contenu jobtitles note">CPO - Chief Product Officer • HOP - Head of Product • Product Manager • Product Owner</p>
-            <a href="#" className="bouton route">Voir le profil</a>
+          <code>.texteLarge — Markdown: **gras**, \n\n</code>
+          <div className="texteLarge">
+            <p>
+              Premier paragraphe avec <strong>texte en gras</strong> pour les points importants.
+              Suite du premier paragraphe sur la même ligne.
+            </p>
+            <p>
+              Deuxième paragraphe après \n\n. Mon <strong>profil polyvalent</strong> me permet
+              d&apos;apporter des <strong>solutions créatives</strong> à vos défis.
+            </p>
+            <p>
+              Troisième paragraphe. Conclusion du texte large.
+            </p>
           </div>
           <p className="charte-note">
-            Données réelles : mes-profils.json → profil cpo
-          </p>
-        </div>
-
-        {/* Témoignage — ordre spec: photo → nom → fonction → temoignage */}
-        <div className="charte-exemple">
-          <code>.temoignage — ordre: photo → nom → fonction → temoignage</code>
-          <div className="temoignage">
-            <div className="contenu temoin">
-              <div className="contenu photo">[Photo: Florent Grosmaitre.jpeg]</div>
-              <div className="contenu temoinTexte">
-                <h3 className="contenu nom">Florent Grosmaitre</h3>
-                <p className="contenu fonction note">CEO chez CryptoNext Security</p>
-              </div>
-            </div>
-            <div className="contenu temoignage">
-              <p>« J&apos;ai eu la chance de travailler avec Alain pour l&apos;entreprise Actibase qu&apos;il avait fondé.</p>
-              <p>Alain a un profil transverse capable d&apos;appréhender les problématiques variées de toute entreprise IT depuis les enjeux de R&amp;D jusqu&apos;aux éléments financiers en passant par les aspects produits, marketing et commerciaux.</p>
-              <p>Alain a des qualités exceptionnelles d&apos;analyse approfondie, de compréhension des aspects technologiques, de pro-activité pour trouver des solutions, d&apos;implication dans ses missions, de qualité des livrables… Et en plus, c&apos;est sympa de travailler avec lui ! »</p>
-            </div>
-          </div>
-          <p className="charte-note">
-            Données réelles : _temoignages.json → Florent Grosmaitre
+            JSON: &quot;texte&quot;: &quot;Premier **paragraphe**.\n\nDeuxième **paragraphe**.&quot;
           </p>
         </div>
 
