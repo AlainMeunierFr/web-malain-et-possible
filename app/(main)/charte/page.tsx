@@ -3,16 +3,156 @@
  * 
  * Affiche tous les éléments typographiques et types de contenu en un seul endroit
  * pour valider la "grammaire visuelle" avant de l'appliquer sur tout le site.
+ * 
+ * Cette page utilise les VRAIS composants avec les VRAIES données JSON
+ * pour que le CSS soit testé sur le vrai DOM.
  */
 
 import './charte.css';
+import fs from 'fs';
+import path from 'path';
+import { readPageData } from '../../../utils/indexReader';
+import { readDomaines, readCompetences, readAutres } from '../../../utils/bibliothequeReader';
+import type { 
+  ElementHero, 
+  ElementListeDeProfils, 
+  ElementListeDeTemoignages,
+  ElementDomaineDeCompetence,
+  ElementListeDeDetournementsVideo,
+  ElementTexteLarge,
+  ElementTitre,
+  ElementCallToAction,
+  ElementGroupeDeBoutons,
+  ElementTemoignage,
+  ExperienceEtApprentissage
+} from '../../../utils/indexReader';
+
+// Composants réels
+import HeroSection from '../../../components/HeroSection';
+import BlocsProfils from '../../../components/BlocsProfils';
+import Titre from '../../../components/Titre';
+import Temoignages from '../../../components/Temoignages';
+import DomaineDeCompetences from '../../../components/DomaineDeCompetences';
+import TexteLarge from '../../../components/TexteLarge';
+import VideoDetournement from '../../../components/VideoDetournement';
+import GroupeBoutons from '../../../components/GroupeBoutons';
+import CallToAction from '../../../components/CallToAction';
 
 export const metadata = {
   title: 'Charte graphique — Types hiérarchiques et de contenu',
   robots: 'noindex, nofollow',
 };
 
+/**
+ * Charge les données pour la charte graphique
+ */
+function loadCharteData() {
+  // Hero depuis index.json
+  const indexData = readPageData('index.json');
+  const hero = indexData.contenu.find((el) => el.type === 'hero') as ElementHero | undefined;
+
+  // Profils depuis mes-profils.json
+  const mesProfilsData = readPageData('mes-profils.json');
+  const listeDeProfils = mesProfilsData.contenu.find((el) => el.type === 'listeDeProfils') as ElementListeDeProfils | undefined;
+
+  // Témoignages depuis _temoignages.json (limité à 2 pour la preview)
+  const temoignagesPath = path.join(process.cwd(), 'data', '_temoignages.json');
+  const temoignagesRaw = JSON.parse(fs.readFileSync(temoignagesPath, 'utf-8'));
+  const temoignagesItems: ElementTemoignage[] = temoignagesRaw.contenu?.[0]?.items?.map(
+    (item: Omit<ElementTemoignage, 'type'>) => ({ type: 'temoignage' as const, ...item })
+  ) || [];
+  const temoignagesLimites: ElementListeDeTemoignages = {
+    type: 'listeDeTemoignages',
+    items: temoignagesItems.slice(0, 2),
+  };
+
+  // Domaine de compétences (premier domaine avec compétences résolues)
+  const domaines = readDomaines();
+  const competences = readCompetences();
+  const autres = readAutres();
+  
+  // Prendre le premier domaine qui a des compétences
+  let domaineDeCompetence: ElementDomaineDeCompetence | undefined;
+  for (const [, domaine] of domaines) {
+    if (domaine.competences && domaine.competences.length > 0) {
+      const items = domaine.competences
+        .map((compId) => competences.get(compId))
+        .filter((c): c is NonNullable<typeof c> => c !== undefined);
+      
+      const experiences: ExperienceEtApprentissage[] = (domaine.experiences || [])
+        .map((expId) => autres.get(expId))
+        .filter((e): e is NonNullable<typeof e> => e !== undefined);
+      
+      if (items.length > 0) {
+        domaineDeCompetence = {
+          type: 'domaineDeCompetence',
+          titre: domaine.titre,
+          contenu: domaine.contenu,
+          auteur: domaine.auteur,
+          items,
+          experiences: experiences.length > 0 ? experiences : undefined,
+        };
+        break;
+      }
+    }
+  }
+
+  // Détournements vidéo depuis portfolio-detournements.json (limité à 1)
+  const portfolioData = readPageData('portfolio-detournements.json');
+  const listeDetournements = portfolioData.contenu.find(
+    (el) => el.type === 'listeDeDetournementsVideo'
+  ) as ElementListeDeDetournementsVideo | undefined;
+  
+  const detournementLimite: ElementListeDeDetournementsVideo | undefined = listeDetournements
+    ? { type: 'listeDeDetournementsVideo', items: listeDetournements.items.slice(0, 1) }
+    : undefined;
+
+  // TexteLarge depuis mes-profils.json
+  const texteLarge = mesProfilsData.contenu.find((el) => el.type === 'texteLarge') as ElementTexteLarge | undefined;
+
+  return {
+    hero,
+    listeDeProfils,
+    temoignages: temoignagesLimites,
+    domaineDeCompetence,
+    detournement: detournementLimite,
+    texteLarge,
+  };
+}
+
 export default function ChartePage() {
+  const data = loadCharteData();
+
+  // Données fictives pour les exemples qui n'ont pas de vraies données
+  const titreFictif: ElementTitre = {
+    type: 'titre',
+    texte: 'Titre de section (bande bleue)',
+  };
+
+  const callToActionFictif: ElementCallToAction = {
+    type: 'callToAction',
+    action: 'Faisons connaissance...',
+    e2eID: 'charte-cta',
+  };
+
+  const groupeBoutonsFictif: ElementGroupeDeBoutons = {
+    type: 'groupeDeBoutons',
+    taille: 'grande',
+    boutons: [
+      { type: 'bouton', id: 'mail', icone: 'Mail', texte: 'Me contacter', url: 'mailto:contact@example.com', command: null },
+      { type: 'bouton', id: 'linkedin', icone: 'Linkedin', texte: 'LinkedIn', url: 'https://linkedin.com', command: null },
+      { type: 'bouton', id: 'youtube', icone: 'Youtube', texte: 'YouTube', url: 'https://youtube.com', command: null },
+    ],
+  };
+
+  const experienceEtApprentissageFictif = {
+    type: 'experienceEtApprentissage' as const,
+    id: 'charte-exp',
+    categorie: 'Expériences et apprentissages',
+    description: 'Recrutement et formation de plus de **100 collaborateurs** (techniciens, formateurs, commerciaux) avec alignement via « moving motivators » du Management 3.0',
+    periode: 'Depuis 1995',
+  };
+
   return (
     <main className="charte">
       <section className="charte-section">
@@ -141,247 +281,117 @@ export default function ChartePage() {
 
       {/* ============================================
           SECTION 2 : TYPES DE CONTENU (classes racine)
+          Utilise les VRAIS composants avec les VRAIES données
           ============================================ */}
       <section className="charte-section">
         <h2>2. Types de contenu</h2>
-        <p>Aperçu de chaque type de contenu avec sa classe racine.</p>
+        <p>Aperçu de chaque type de contenu avec sa classe racine, rendu via les vrais composants.</p>
 
-        {/* Hero — Types hiérarchiques selon spec canonique */}
-        <div className="charte-exemple">
-          <code>.hero — spec: titre=--h1, sousTitre=--h2, description=--p, CTA=--lk</code>
-          <div className="hero">
-            <h1 className="contenu titre">Alain Meunier</h1>
-            <h2 className="contenu sousTitre">Disponible et enthousiaste pour un projet stimulant (CDI ou freelance)</h2>
-            <p className="contenu description">
-              25 ans d&apos;expérience à <strong>transformer des idées</strong> en produits logiciels qui <strong>génèrent de la valeur</strong>.<br />
-              J&apos;ai équipé 15% des radiologues libéraux français avec mon premier produit.<br />
-              Passionné par la <strong>résolution de problèmes complexes</strong>, je combine <strong>rigueur technique et leadership humain</strong>.
-            </p>
-            <div className="groupeBoutons" data-layout="1 column, centered">
-              <a href="#" className="bouton callToAction">Discutons</a>
-              <a href="#" className="lien ensavoirplus">Mes profils</a>
-            </div>
-          </div>
-          <p className="charte-note">
-            Données réelles : index.json → hero
-          </p>
-        </div>
-
-        {/* Liste de Profils — 4 colonnes (classes identiques à ProfilContainer.tsx) */}
-        <div className="charte-exemple">
-          <code>.listeDeProfils — data-layout=&quot;4 columns x 1 row&quot;</code>
-          <div className="listeDeProfils" data-layout="4 columns x 1 row">
-            <div className="profil">
-              <h2 className="profil titre">Produit logiciel</h2>
-              <ul className="profil jobTitles">
-                <li className="profil jobTitle">CPO - Chief Product Officer</li>
-                <li className="profil jobTitle">HOP - Head of Product</li>
-                <li className="profil jobTitle">Product Manager</li>
-                <li className="profil jobTitle">Product Owner</li>
-              </ul>
-              <a href="#" className="profil route bouton">Voir le profil</a>
-              <a href="/CV/cpo.pdf" className="profil cvPath lien">Télécharger le CV</a>
-            </div>
-            <div className="profil">
-              <h2 className="profil titre">Opérations</h2>
-              <ul className="profil jobTitles">
-                <li className="profil jobTitle">Manager de transition</li>
-                <li className="profil jobTitle">COO - Chief Operation Officer</li>
-                <li className="profil jobTitle">HOO - Head of Operation</li>
-                <li className="profil jobTitle">Directeur opérationnel</li>
-              </ul>
-              <a href="#" className="profil route bouton">Voir le profil</a>
-              <a href="/CV/coo.pdf" className="profil cvPath lien">Télécharger le CV</a>
-            </div>
-            <div className="profil">
-              <h2 className="profil titre">Transformation Agile</h2>
-              <ul className="profil jobTitles">
-                <li className="profil jobTitle">Transformation Agile</li>
-                <li className="profil jobTitle">Coach Agile</li>
-                <li className="profil jobTitle">Scrum Master</li>
-                <li className="profil jobTitle">Product Owner</li>
-              </ul>
-              <a href="#" className="profil route bouton">Voir le profil</a>
-              <a href="/CV/agile.pdf" className="profil cvPath lien">Télécharger le CV</a>
-            </div>
-            <div className="profil">
-              <h2 className="profil titre">Technologie</h2>
-              <ul className="profil jobTitles">
-                <li className="profil jobTitle">CTO - Chief Technology Officer</li>
-                <li className="profil jobTitle">HTO - Head of Technology</li>
-                <li className="profil jobTitle">Directeur Technique</li>
-              </ul>
-              <a href="#" className="profil route bouton">Voir le profil</a>
-              <a href="/CV/cto.pdf" className="profil cvPath lien">Télécharger le CV</a>
-            </div>
-          </div>
-          <p className="charte-note">
-            Classes identiques à ProfilContainer.tsx : .profil.titre, .profil.jobTitles, .profil.jobTitle, .profil.route, .profil.cvPath
-          </p>
-        </div>
-
-        {/* Titre (bande bleue) — spec: texte=--h2 */}
-        <div className="charte-exemple">
-          <code>.titre — spec: texte=--h2</code>
-          <div className="titre">
-            <h2 className="contenu texte">Titre de section (--h2)</h2>
-          </div>
-        </div>
-
-        {/* Témoignage — ordre spec: photo → nom → fonction → temoignage */}
-        <div className="charte-exemple">
-          <code>.temoignage — ordre: photo → nom → fonction → temoignage</code>
-          <div className="temoignage">
-            <div className="contenu temoin">
-              <div className="contenu photo">[Photo: Florent Grosmaitre.jpeg]</div>
-              <div className="contenu temoinTexte">
-                <h3 className="contenu nom">Florent Grosmaitre</h3>
-                <p className="contenu fonction note">CEO chez CryptoNext Security</p>
-              </div>
-            </div>
-            <div className="contenu temoignage">
-              <p>« J&apos;ai eu la chance de travailler avec Alain pour l&apos;entreprise Actibase qu&apos;il avait fondé.</p>
-              <p>Alain a un profil transverse capable d&apos;appréhender les problématiques variées de toute entreprise IT depuis les enjeux de R&amp;D jusqu&apos;aux éléments financiers en passant par les aspects produits, marketing et commerciaux.</p>
-              <p>Alain a des qualités exceptionnelles d&apos;analyse approfondie, de compréhension des aspects technologiques, de pro-activité pour trouver des solutions, d&apos;implication dans ses missions, de qualité des livrables… Et en plus, c&apos;est sympa de travailler avec lui ! »</p>
-            </div>
-          </div>
-          <p className="charte-note">
-            Données réelles : _temoignages.json → Florent Grosmaitre
-          </p>
-        </div>
-
-        {/* Domaine de compétence — spec: titre=--h2, contenu=--p, auteur=--a */}
-        <div className="charte-exemple">
-          <code>.domaineDeCompetence — spec: titre=--h2, contenu=--p, auteur=--a</code>
-          <div className="domaineDeCompetence">
-            <h2 className="contenu titre">Interactions humaines</h2>
-            <p className="contenu contenu">
-              « Lorsque les gens sont financièrement investis, ils veulent un retour. Lorsque les gens sont émotionnellement investis, ils veulent contribuer. »
-            </p>
-            <p className="contenu auteur">— Simon Sinek</p>
-            {/* Ordre visuel: titre → image → description → auteur → bouton */}
-            <div className="competences" data-layout="3 columns x 1 row">
-              <div className="competence">
-                <h3 className="contenu titre">Créativité</h3>
-                <div className="contenu image">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src="/api/images/json/Cr%C3%A9ativit%C3%A9.png" alt="Créativité" />
-                </div>
-                <p className="contenu description">
-                  « L&apos;imagination est plus importante que le savoir. Car le savoir est limité, tandis que l&apos;imagination embrasse le monde entier. »
-                </p>
-                <p className="contenu auteur">— Albert Einstein</p>
-                <a href="#" className="bouton lien">Voir le portfolio</a>
-              </div>
-              <div className="competence">
-                <h3 className="contenu titre">Service client</h3>
-                <div className="contenu image">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src="/api/images/json/Service%20client.png" alt="Service client" />
-                </div>
-                <p className="contenu description">
-                  Un <strong>client satisfait</strong> est notre meilleur commercial. Il est très compliqué de construire une image de marque, mais facile de la détruire.
-                </p>
-              </div>
-              <div className="competence">
-                <h3 className="contenu titre">Gestion des talents</h3>
-                <div className="contenu image">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src="/api/images/json/Talents.png" alt="Gestion des talents" />
-                </div>
-                <p className="contenu description">
-                  Le succès d&apos;une entreprise repose sur <strong>la reconnaissance</strong> et <strong>le développement</strong> des talents individuels.
-                </p>
-              </div>
-            </div>
-          </div>
-          <p className="charte-note">
-            Données réelles : domaines.json → interactions-humaines, competences.json → creativite, service-client, gestion-des-talents
-          </p>
-        </div>
-
-        {/* TexteLarge — Markdown: **gras**, \n\n (paragraphes) */}
-        <div className="charte-exemple">
-          <code>.texteLarge — Markdown: **gras**, \n\n</code>
-          <div className="texteLarge">
-            <p>
-              Premier paragraphe avec <strong>texte en gras</strong> pour les points importants.
-              Suite du premier paragraphe sur la même ligne.
-            </p>
-            <p>
-              Deuxième paragraphe après \n\n. Mon <strong>profil polyvalent</strong> me permet
-              d&apos;apporter des <strong>solutions créatives</strong> à vos défis.
-            </p>
-            <p>
-              Troisième paragraphe. Conclusion du texte large.
+        {/* Hero */}
+        {data.hero && (
+          <div className="charte-exemple">
+            <code>.hero — HeroSection avec index.json</code>
+            <HeroSection element={data.hero} />
+            <p className="charte-note">
+              Composant: HeroSection | Données: index.json → hero
             </p>
           </div>
+        )}
+
+        {/* Liste de Profils */}
+        {data.listeDeProfils && (
+          <div className="charte-exemple">
+            <code>.listeDeProfils — BlocsProfils avec mes-profils.json</code>
+            <BlocsProfils element={data.listeDeProfils} />
+            <p className="charte-note">
+              Composant: BlocsProfils | Données: mes-profils.json → listeDeProfils
+            </p>
+          </div>
+        )}
+
+        {/* Titre (bande bleue) */}
+        <div className="charte-exemple">
+          <code>.titre — Titre</code>
+          <Titre element={titreFictif} />
           <p className="charte-note">
-            JSON: &quot;texte&quot;: &quot;Premier **paragraphe**.\n\nDeuxième **paragraphe**.&quot;
+            Composant: Titre | Données: élément fictif
           </p>
         </div>
 
-        {/* Détournement vidéo — ordre: header(titre→pitch→date) → videos */}
-        <div className="charte-exemple">
-          <code>.detournementVideo — header → videos</code>
-          <div className="detournementVideo">
-            <div className="contenu header">
-              <h2 className="contenu titre">Team for the Planet</h2>
-              <p className="contenu pitch">
-                Contexte : la société et la marque «&nbsp;Time for the Planet&nbsp;» ont été poursuivies en justice par la société «&nbsp;Time to Planet&nbsp;» pour concurrence déloyale. L&apos;affaire a été longue et compliquée. Au final TFTP a modifié son nom en «&nbsp;Team for the Planet&nbsp;».
-              </p>
-              <p className="contenu date note">30/3/2023</p>
-            </div>
-            <div className="contenu videos">
-              <div className="contenu videoDetournee">
-                <h3 className="contenu titreVideoDetournee">Debriefing de l&apos;action contre le nom de TFTP</h3>
-                <div className="contenu video">[Vidéo: kVR1a7EHn9E]</div>
-                <p className="contenu linkedin note">[Lien LinkedIn]</p>
-              </div>
-              <div className="contenu videoOriginale">
-                <h3 className="contenu titreVideoOriginale">Les visiteurs</h3>
-                <div className="contenu video">[Vidéo: D66x25E_Zpc]</div>
-              </div>
-            </div>
+        {/* Témoignages */}
+        {data.temoignages && data.temoignages.items.length > 0 && (
+          <div className="charte-exemple">
+            <code>.temoignages — Temoignages avec _temoignages.json (2 premiers)</code>
+            <Temoignages element={data.temoignages} />
+            <p className="charte-note">
+              Composant: Temoignages | Données: _temoignages.json → items[0:2]
+            </p>
           </div>
-          <p className="charte-note">
-            Données réelles : portfolio-detournements.json → Team for the Planet (id 4)
-          </p>
-        </div>
+        )}
+
+        {/* Domaine de compétence */}
+        {data.domaineDeCompetence && (
+          <div className="charte-exemple">
+            <code>.domaineDeCompetence — DomaineDeCompetences avec domaines.json + competences.json</code>
+            <DomaineDeCompetences domaine={data.domaineDeCompetence} backgroundColor="white" />
+            <p className="charte-note">
+              Composant: DomaineDeCompetences | Données: domaines.json + competences.json (premier domaine)
+            </p>
+          </div>
+        )}
+
+        {/* TexteLarge */}
+        {data.texteLarge && (
+          <div className="charte-exemple">
+            <code>.texteLarge — TexteLarge avec mes-profils.json</code>
+            <TexteLarge element={data.texteLarge} />
+            <p className="charte-note">
+              Composant: TexteLarge | Données: mes-profils.json → texteLarge
+            </p>
+          </div>
+        )}
+
+        {/* Détournement vidéo */}
+        {data.detournement && (
+          <div className="charte-exemple">
+            <code>.videoDetournement — VideoDetournement avec portfolio-detournements.json (1 premier)</code>
+            <VideoDetournement element={data.detournement} />
+            <p className="charte-note">
+              Composant: VideoDetournement | Données: portfolio-detournements.json → items[0]
+            </p>
+          </div>
+        )}
 
         {/* Groupe de boutons */}
         <div className="charte-exemple">
-          <code>.groupeBoutons — data-layout=&quot;1 column, centered&quot;</code>
-          <div className="groupeBoutons" data-layout="1 column, centered">
-            <a href="#" className="callToAction">Discutons</a>
-            <a href="#" className="callToAction">Mes profils</a>
-          </div>
+          <code>.groupeBoutons — GroupeBoutons</code>
+          <GroupeBoutons element={groupeBoutonsFictif} />
           <p className="charte-note">
-            Boutons empilés verticalement et centrés
+            Composant: GroupeBoutons | Données: élément fictif (taille grande)
           </p>
         </div>
 
-        {/* Call to Action seul — spec: action=--lk (lien avec aspect bouton) */}
+        {/* Call to Action seul */}
         <div className="charte-exemple">
-          <code>.callToAction — spec: action=--lk (aspect bouton)</code>
-          <a href="#" className="bouton callToAction">Faisons connaissance...</a>
+          <code>.callToAction — CallToAction</code>
+          <CallToAction element={callToActionFictif} />
           <p className="charte-note">
-            Données réelles : detournement-video.json → callToAction.action
+            Composant: CallToAction | Données: élément fictif
           </p>
         </div>
 
-        {/* Expérience et apprentissage — spec: categorie=--m, description=--n, periode=--m */}
+        {/* Expérience et apprentissage (exemple en HTML car pas de composant standalone) */}
         <div className="charte-exemple">
-          <code>.experienceEtApprentissage — spec: description=--n (Markdown)</code>
+          <code>.experienceEtApprentissage — (dans DomaineDeCompetences.experiences)</code>
           <div className="experienceEtApprentissage">
-            <p className="contenu categorie">Expériences et apprentissages</p>
+            <p className="contenu categorie">{experienceEtApprentissageFictif.categorie}</p>
             <p className="contenu description note">
-              Recrutement et formation de plus de <strong>100 collaborateurs</strong> (techniciens, formateurs, commerciaux) avec alignement via «&nbsp;moving motivators&nbsp;» du Management 3.0
+              Recrutement et formation de plus de <strong>100 collaborateurs</strong> (techniciens, formateurs, commerciaux) avec alignement via « moving motivators » du Management 3.0
             </p>
-            <p className="contenu periode">Depuis 1995</p>
+            <p className="contenu periode">{experienceEtApprentissageFictif.periode}</p>
           </div>
           <p className="charte-note">
-            Données réelles : experienceEtApprentissage.json → id 2 et 5
+            Note: ExperienceEtApprentissage est affiché dans DomaineDeCompetences.experiences (accordéon)
           </p>
         </div>
       </section>
