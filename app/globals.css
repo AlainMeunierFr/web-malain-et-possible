@@ -142,11 +142,13 @@ html {
   --BoutonTaillePolice: var(--normale);
   --BoutonPoidsPolice: 600;
   --BoutonContour: none;
-  --BoutonContourRadius: 0.375rem;
-  --BoutonTransition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --BoutonContourRadius: 0;  /* Bords carrés */
+  --BoutonTransition: all 0.15s ease;
   --BoutonOmbre: 0 0.125rem 0.25rem rgba(0, 112, 192, 0.15);
-  --BoutonOmbreHover: 0 0.25rem 0.75rem rgba(0, 112, 192, 0.25);
-  --BoutonTransformHover: translateY(-1px);
+  --BoutonOmbreHover: 0 0.125rem 0.25rem rgba(0, 112, 192, 0.15);  /* Pas de changement d'ombre au hover */
+  --BoutonTransformHover: none;  /* Pas de mouvement au hover */
+  --BoutonTransformActive: translateY(2px);  /* Effet enfoncé au clic */
+  --BoutonOmbreActive: inset 0 2px 4px rgba(0, 0, 0, 0.2);  /* Ombre intérieure au clic */
   --BoutonPaddingVertical: 0.75rem;
   --BoutonPaddingHorizontal: 1.5rem;
 
@@ -281,6 +283,11 @@ ul ul, ol ol, ul ol, ol ul {
   background: var(--BoutonCouleurFondHover);
   box-shadow: var(--BoutonOmbreHover);
   transform: var(--BoutonTransformHover);
+}
+
+.bouton:active, button:active {
+  transform: var(--BoutonTransformActive);
+  box-shadow: var(--BoutonOmbreActive);
 }
 
 * {

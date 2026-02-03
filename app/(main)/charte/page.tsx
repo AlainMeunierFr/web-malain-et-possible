@@ -146,31 +146,31 @@ export default function ChartePage() {
         <h2>2. Types de contenu</h2>
         <p>Aperçu de chaque type de contenu avec sa classe racine.</p>
 
-        {/* Hero — Markdown: **gras**, \n */}
+        {/* Hero — Types hiérarchiques selon spec canonique */}
         <div className="charte-exemple">
-          <code>.hero — Markdown: **gras**, \n</code>
+          <code>.hero — spec: titre=--h1, sousTitre=--h2, description=--p, CTA=--lk</code>
           <div className="hero">
-            <div className="contenu titre">Titre du hero</div>
-            <div className="contenu sousTitre">Sous-titre du hero</div>
-            <div className="contenu description">
-              Description avec <strong>texte en gras</strong> pour mettre en avant les points clés.<br />
-              Deuxième ligne après un saut de ligne (\n).<br />
-              Troisième ligne avec <strong>autre mise en gras</strong>.
-            </div>
+            <h1 className="contenu titre">Titre du hero (--h1)</h1>
+            <h2 className="contenu sousTitre">Sous-titre du hero (--h2)</h2>
+            <p className="contenu description">
+              Description avec <strong>texte en gras</strong> pour les points clés (--p).<br />
+              Deuxième ligne après \n. Troisième avec <strong>autre gras</strong>.
+            </p>
             <div className="groupeBoutons">
-              <a href="#" className="callToAction">Bouton CTA</a>
+              <a href="#" className="bouton callToAction">Discutons (CTA --lk)</a>
+              <a href="#" className="lien ensavoirplus">Mes profils (--lk)</a>
             </div>
           </div>
           <p className="charte-note">
-            JSON: &quot;description&quot;: &quot;Texte avec **gras**.\nDeuxième ligne.&quot;
+            Spec: hero.titre=--h1, hero.sousTitre=--h2, hero.description=--p, hero.callToAction=--lk, hero.ensavoirplus=--lk
           </p>
         </div>
 
-        {/* Titre (bande bleue) */}
+        {/* Titre (bande bleue) — spec: texte=--h2 */}
         <div className="charte-exemple">
-          <code>.titre</code>
+          <code>.titre — spec: texte=--h2</code>
           <div className="titre">
-            <div className="contenu titre">Titre de section (bande bleue)</div>
+            <h2 className="contenu texte">Titre de section (--h2)</h2>
           </div>
         </div>
 
@@ -195,82 +195,84 @@ export default function ChartePage() {
           </p>
         </div>
 
-        {/* Domaine de compétence — Markdown: **gras**, \n */}
+        {/* Domaine de compétence — spec: titre=--h2, contenu=--p, auteur=--a */}
         <div className="charte-exemple">
-          <code>.domaineDeCompetence — Markdown: **gras**, \n</code>
+          <code>.domaineDeCompetence — spec: titre=--h2, contenu=--p, auteur=--a</code>
           <div className="domaineDeCompetence">
-            <div className="contenu titre">Titre du domaine</div>
-            <div className="contenu description">
-              Contenu du domaine avec <strong>texte en gras</strong>.<br />
+            <h2 className="contenu titre">Titre du domaine (--h2)</h2>
+            <p className="contenu contenu">
+              Contenu du domaine avec <strong>texte en gras</strong> (--p).<br />
               Deuxième ligne après \n.
-            </div>
+            </p>
+            <p className="contenu auteur">— Auteur de la citation (--a, italique)</p>
             <div className="competences" data-layout="3 columns x 1 row">
               <div className="competence">
-                <div className="contenu titre">Compétence 1</div>
-                <div className="contenu description">
-                  Un <strong>client satisfait</strong> est notre meilleur commercial.
-                  J&apos;ai 20 ans d&apos;expérience à mettre à votre <strong>service</strong>.
-                </div>
+                <h3 className="contenu titre">Compétence 1 (--h3)</h3>
+                <p className="contenu description">
+                  Un <strong>client satisfait</strong> est notre meilleur commercial (--p).
+                </p>
               </div>
               <div className="competence">
-                <div className="contenu titre">Compétence 2</div>
-                <div className="contenu description">
-                  <a href="#">Lien cliquable</a> dans la description.
-                  Approche <strong>empirique</strong> adaptée aux projets.
-                </div>
-                <div className="contenu auteur">— Auteur de la citation</div>
+                <h3 className="contenu titre">Compétence 2 (--h3)</h3>
+                <p className="contenu description">
+                  <a href="#">Lien cliquable</a> dans la description (--p).
+                </p>
+                <p className="contenu auteur">— Auteur (--a)</p>
               </div>
               <div className="competence">
-                <div className="contenu titre">Compétence 3</div>
-                <div className="contenu description">
-                  Citation avec <strong>mise en gras</strong> et réflexion.
-                </div>
-                <a href="#" className="bouton">Bouton optionnel</a>
+                <h3 className="contenu titre">Compétence 3 (--h3)</h3>
+                <p className="contenu description">
+                  Citation avec <strong>mise en gras</strong> (--p).
+                </p>
+                <a href="#" className="bouton lien">Bouton optionnel (--lk)</a>
               </div>
             </div>
           </div>
           <p className="charte-note">
-            JSON competence.description: &quot;Un **client satisfait**...\n[Lien](url)&quot;
+            Spec: domaineDeCompetence.titre=--h2, .contenu=--p, .auteur=--a ; competence.titre=--h3, .description=--p
           </p>
         </div>
 
-        {/* Profil */}
+        {/* Profil — spec: titre=--h2, jobTitles=--n, route=--b */}
         <div className="charte-exemple">
-          <code>.profil</code>
+          <code>.profil — spec: titre=--h2, jobTitles=--n, route=--b</code>
           <div className="profil">
-            <div className="contenu titre">Titre du profil</div>
-            <div className="contenu jobtitles">Job title 1 • Job title 2</div>
-            <a href="#" className="callToAction">Voir le profil</a>
+            <h2 className="contenu titre">Titre du profil (--h2)</h2>
+            <p className="contenu jobtitles note">Job title 1 • Job title 2 (--n)</p>
+            <a href="#" className="bouton route">Voir le profil (--b)</a>
           </div>
         </div>
 
-        {/* Témoignage — Markdown: \n\n (paragraphes) */}
+        {/* Témoignage — spec: nom=--h3, fonction=--n, temoignage=--p */}
         <div className="charte-exemple">
-          <code>.temoignage — Markdown: \n\n</code>
+          <code>.temoignage — spec: nom=--h3, fonction=--n, temoignage=--p</code>
           <div className="temoignage">
-            <div className="contenu auteur">Nom de l&apos;auteur</div>
-            <div className="contenu fonction">Fonction de l&apos;auteur</div>
-            <div className="contenu texte">
-              <p>« Premier paragraphe du témoignage. Alain a des qualités exceptionnelles.</p>
-              <p>Deuxième paragraphe après \n\n. Cette expérience reste la meilleure de ma vie.</p>
-              <p>Troisième paragraphe. Je le recommande chaudement. »</p>
+            <h3 className="contenu nom">Nom du témoin (--h3)</h3>
+            <p className="contenu fonction note">Fonction du témoin (--n)</p>
+            <div className="contenu temoignage">
+              <p>« Premier paragraphe du témoignage (--p).</p>
+              <p>Deuxième paragraphe après \n\n. Qualités exceptionnelles.</p>
+              <p>Je le recommande chaudement. »</p>
             </div>
           </div>
           <p className="charte-note">
-            JSON: &quot;temoignage&quot;: &quot;Premier paragraphe.\n\nDeuxième paragraphe.&quot;
+            Spec: temoignage.nom=--h3, .fonction=--n, .temoignage=--p (Markdown \n\n)
           </p>
         </div>
 
-        {/* Détournement vidéo */}
+        {/* Détournement vidéo — spec: titre=--h2, pitch=--p, date=--n */}
         <div className="charte-exemple">
-          <code>.detournementVideo</code>
+          <code>.detournementVideo — spec: titre=--h2, pitch=--p, date=--n</code>
           <div className="detournementVideo">
-            <div className="contenu titre">Titre du détournement</div>
-            <div className="contenu pitch">
-              Pitch du détournement vidéo. Description courte du contenu.
-            </div>
-            <div className="contenu date">Janvier 2024</div>
+            <h2 className="contenu titre">Titre du détournement (--h2)</h2>
+            <p className="contenu pitch">
+              Pitch du détournement avec <strong>texte en gras</strong> (--p).
+            </p>
+            <p className="contenu date note">Janvier 2024 (--n)</p>
           </div>
+          <p className="charte-note">
+            Spec: detournementVideo.titre=--h2, .pitch=--p (Markdown), .date=--n
+          </p>
         </div>
 
         {/* Groupe de boutons */}
@@ -283,20 +285,28 @@ export default function ChartePage() {
           </div>
         </div>
 
-        {/* Call to Action seul */}
+        {/* Call to Action seul — spec: action=--lk (lien avec aspect bouton) */}
         <div className="charte-exemple">
-          <code>.callToAction</code>
-          <a href="#" className="callToAction">Bouton Call to Action</a>
+          <code>.callToAction — spec: action=--lk (aspect bouton)</code>
+          <a href="#" className="bouton callToAction">Discutons (--lk aspect bouton)</a>
+          <p className="charte-note">
+            C&apos;est un lien interne (route), pas un vrai bouton. Bords carrés, pas de mouvement au hover, effet enfoncé au clic.
+          </p>
         </div>
 
-        {/* Expérience et apprentissage */}
+        {/* Expérience et apprentissage — spec: categorie=--m, description=--n, periode=--m */}
         <div className="charte-exemple">
-          <code>.experienceEtApprentissage</code>
+          <code>.experienceEtApprentissage — spec: description=--n (Markdown)</code>
           <div className="experienceEtApprentissage">
-            <div className="contenu categorie">Catégorie</div>
-            <div className="contenu description">Description de l&apos;expérience ou apprentissage.</div>
-            <div className="contenu periode">2020 - 2024</div>
+            <p className="contenu categorie">Catégorie (--m, métadonnée)</p>
+            <p className="contenu description note">
+              <strong>25 ans d&apos;expérience</strong> à transformer des <strong>idées</strong> en produits (--n, Markdown).
+            </p>
+            <p className="contenu periode">2020 - 2024 (--m)</p>
           </div>
+          <p className="charte-note">
+            Spec: experienceEtApprentissage.description=--n (petite taille, supporte Markdown **gras**)
+          </p>
         </div>
       </section>
 
