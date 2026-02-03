@@ -302,6 +302,11 @@
   padding-right: 16%;
 }
 
+.domaineDeCompetence > .auteur {
+  text-align: right;
+  padding-right: 16%;
+}
+
 /* --- Compétence : layout et espacement --- */
 .competence {
   display: flex;
