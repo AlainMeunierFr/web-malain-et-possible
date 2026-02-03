@@ -209,7 +209,7 @@ export default function ChartePage() {
             <div className="competences" data-layout="3 columns x 1 row">
               <div className="competence">
                 <h3 className="contenu titre">Créativité</h3>
-                <div className="contenu image">[Image: Créativité.png]</div>
+                <div className="contenu image placeholder-image">Créativité.png</div>
                 <p className="contenu description">
                   « L&apos;imagination est plus importante que le savoir. Car le savoir est limité, tandis que l&apos;imagination embrasse le monde entier. »
                 </p>
@@ -218,14 +218,14 @@ export default function ChartePage() {
               </div>
               <div className="competence">
                 <h3 className="contenu titre">Service client</h3>
-                <div className="contenu image">[Image: Service client.png]</div>
+                <div className="contenu image placeholder-image">Service client.png</div>
                 <p className="contenu description">
                   Un <strong>client satisfait</strong> est notre meilleur commercial. Il est très compliqué de construire une image de marque, mais facile de la détruire.
                 </p>
               </div>
               <div className="competence">
                 <h3 className="contenu titre">Gestion des talents</h3>
-                <div className="contenu image">[Image: Talents.png]</div>
+                <div className="contenu image placeholder-image">Talents.png</div>
                 <p className="contenu description">
                   Le succès d&apos;une entreprise repose sur <strong>la reconnaissance</strong> et <strong>le développement</strong> des talents individuels.
                 </p>

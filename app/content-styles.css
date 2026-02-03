@@ -312,6 +312,30 @@
 
 .competence .image {
   order: 1;
+  align-self: center;
+  max-width: 80%;
+}
+
+.competence .image img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+/* Placeholder pour images manquantes (page /charte) */
+.placeholder-image {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 120px;
+  height: 120px;
+  background: var(--CouleurClaire, #e0e7ef);
+  border: 2px dashed var(--CouleurFoncé, #0070c0);
+  border-radius: 8px;
+  font-size: var(--petite);
+  color: var(--CouleurFoncé, #0070c0);
+  text-align: center;
+  padding: 0.5rem;
 }
 
 .competence .titre {
