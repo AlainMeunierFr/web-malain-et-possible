@@ -318,7 +318,7 @@
 .competence .image {
   order: 1;
   align-self: center;
-  max-width: 80%;
+  max-width: 50%;
 }
 
 .competence .image img {
