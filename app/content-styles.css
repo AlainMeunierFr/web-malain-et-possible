@@ -302,6 +302,36 @@
   padding-right: 8%;
 }
 
+/* --- Compétence : layout et espacement --- */
+.competence {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0.75rem;
+}
+
+.competence .image {
+  order: 1;
+}
+
+.competence .titre {
+  order: 0;
+}
+
+.competence .description {
+  order: 2;
+}
+
+.competence .auteur {
+  order: 3;
+  text-align: right;
+}
+
+.competence .bouton {
+  order: 4;
+  align-self: center;
+}
+
 /* --- Grille 3 colonnes (competences dans domaineDeCompetence) --- */
 [data-layout="3 columns x 1 row"] {
   display: grid;

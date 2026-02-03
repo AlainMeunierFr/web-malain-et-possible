@@ -205,28 +205,29 @@ export default function ChartePage() {
               « Lorsque les gens sont financièrement investis, ils veulent un retour. Lorsque les gens sont émotionnellement investis, ils veulent contribuer. »
             </p>
             <p className="contenu auteur">— Simon Sinek</p>
-            {/* Ordre spec: titre → description → auteur → image.src → image.alt → bouton.action */}
+            {/* Ordre visuel: titre → image → description → auteur → bouton */}
             <div className="competences" data-layout="3 columns x 1 row">
               <div className="competence">
                 <h3 className="contenu titre">Créativité</h3>
+                <div className="contenu image">[Image: Créativité.png]</div>
                 <p className="contenu description">
-                  « L&apos;imagination est plus importante que le savoir. Car le savoir est limité, tandis que l&apos;imagination embrasse le monde entier, stimulant le progrès, donnant naissance à l&apos;évolution. »
+                  « L&apos;imagination est plus importante que le savoir. Car le savoir est limité, tandis que l&apos;imagination embrasse le monde entier. »
                 </p>
                 <p className="contenu auteur">— Albert Einstein</p>
-                <div className="contenu image">[Image: Créativité.png]</div>
-                <p className="contenu imageAlt note">Créativité</p>
                 <a href="#" className="bouton lien">Voir le portfolio</a>
               </div>
               <div className="competence">
                 <h3 className="contenu titre">Service client</h3>
+                <div className="contenu image">[Image: Service client.png]</div>
                 <p className="contenu description">
-                  Un <strong>client satisfait</strong> est notre meilleur commercial. Il est très compliqué et long de construire une image de marque, mais très facile et rapide de la détruire.
+                  Un <strong>client satisfait</strong> est notre meilleur commercial. Il est très compliqué de construire une image de marque, mais facile de la détruire.
                 </p>
               </div>
               <div className="competence">
                 <h3 className="contenu titre">Gestion des talents</h3>
+                <div className="contenu image">[Image: Talents.png]</div>
                 <p className="contenu description">
-                  Je suis convaincu que le succès d&apos;une entreprise repose sur <strong>la reconnaissance</strong> et <strong>le développement</strong> des talents individuels.
+                  Le succès d&apos;une entreprise repose sur <strong>la reconnaissance</strong> et <strong>le développement</strong> des talents individuels.
                 </p>
               </div>
             </div>
