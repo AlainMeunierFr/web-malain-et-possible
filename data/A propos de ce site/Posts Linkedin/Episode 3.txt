@@ -1,0 +1,21 @@
+𝐂𝐨𝐝𝐞𝐫 𝐚𝐯𝐞𝐜 𝐈𝐀 – 𝐄𝐩𝐢𝐬𝐨𝐝𝐞 𝟑 : l’expérience fait toute la différence
+J’ai entièrement refactorisé l’organisation de mes données en seulement 𝐝𝐞𝐮𝐱 𝐩𝐫𝐨𝐦𝐩𝐭𝐬. En revanche, j’ai passé 𝐝𝐞𝐬 𝐝𝐢𝐳𝐚𝐢𝐧𝐞𝐬 𝐝𝐞 𝐦𝐢𝐧𝐮𝐭𝐞𝐬 𝐩𝐨𝐮𝐫 𝐮𝐧𝐞 𝐬𝐢𝐦𝐩𝐥𝐞 𝐢𝐧𝐟𝐨-𝐛𝐮𝐥𝐥𝐞.
+
+Cette expérience illustre parfaitement que l’IA est un outil pour professionnels.
+
+Si vous avez déjà utilisé ces outils, vous avez probablement vécu cette séquence :
+- Vous interrogez l’IA sur un sujet que vous ne maîtrisez pas. La réponse, détaillée et apparemment pertinente, vous impressionne.
+- Vous lui posez ensuite une question sur un domaine que vous connaissez parfaitement. Là, les approximations, les contres-vérités ou les hallucinations vous mettent en panique... Un doute s’installe : "𝘌𝘵 𝘴𝘪 𝘭𝘢 𝘱𝘳𝘦𝘮𝘪𝘦̀𝘳𝘦 𝘳𝘦́𝘱𝘰𝘯𝘴𝘦, 𝘴𝘪 𝘤𝘰𝘯𝘷𝘢𝘪𝘯𝘤𝘢𝘯𝘵𝘦, 𝘦́𝘵𝘢𝘪𝘵 𝘵𝘰𝘶𝘵 𝘢𝘶𝘴𝘴𝘪 𝘦𝘳𝘳𝘰𝘯𝘦́𝘦 ?"
+- Enfin, vous formulez un prompt précis, enrichi du jargon technique de votre métier. L’IA devient alors un accélérateur de productivité, capable de répondre exactement à vos attentes.
+
+L’IA a révélé mes forces et mes faiblesses :
+- 𝐒𝐮𝐫 𝐥𝐚 𝐦𝐨𝐝𝐞́𝐥𝐢𝐬𝐚𝐭𝐢𝐨𝐧 𝐝𝐞𝐬 𝐝𝐨𝐧𝐧𝐞́𝐞𝐬, 𝐚𝐯𝐞𝐜 𝟐𝟓 𝐚𝐧𝐬 𝐝’𝐞𝐱𝐩𝐞́𝐫𝐢𝐞𝐧𝐜𝐞, j’ai pu formuler des consignes claires et techniques. Résultat : l’IA a restructuré mes fichiers JSON sans erreur, dès le premier essai.
+- 𝐒𝐮𝐫 𝐥𝐚 𝐦𝐢𝐬𝐞 𝐞𝐧 𝐩𝐚𝐠𝐞 𝐇𝐓𝐌𝐋/𝐂𝐒𝐒, 𝐞𝐧 𝐫𝐞𝐯𝐚𝐧𝐜𝐡𝐞... ma parfaite méconnaissance des fondamentaux s’est immédiatement fait sentir. Mes prompts, trop vagues, ont généré des résultats à rendre fou. L’IA n’a fait qu’amplifier mes lacunes.
+
+Cette expérience confirme une réalité : 𝐥’𝐈𝐀 𝐭𝐫𝐚𝐧𝐬𝐟𝐨𝐫𝐦𝐞 𝐥𝐞𝐬 𝐝𝐞́𝐯𝐞𝐥𝐨𝐩𝐩𝐞𝐮𝐫𝐬 𝐬𝐞𝐧𝐢𝐨𝐫𝐬 𝐞𝐧 𝐬𝐮𝐩𝐞𝐫-𝐡𝐞́𝐫𝐨𝐬, tout en produisant du code spaghetti pour ceux qui pratiquent le "vibe coding" sans aucune base technique. (À ce sujet, je vous invite à regarder la dernière vidéo de micode, devenue virale, dont je partage le lien en commentaire.)
+
+Illustration : "𝘗𝘭𝘢𝘤𝘦 𝘤𝘦𝘵𝘵𝘦 𝘪𝘯𝘧𝘰-𝘣𝘶𝘭𝘭𝘦 𝘢𝘶-𝘥𝘦𝘴𝘴𝘶𝘴 𝘥𝘶 𝘣𝘭𝘰𝘤." (Les UX designers ont le droit de se moquer…)
+
+Pour découvrir le rendu du projet : m-alain-et-possible.fr
+Je suis Alain Meunier, Product Manager – Profil hybride Tech/Business
+hashtag#IA hashtag#SouverainetéNumérique hashtag#PairProgramming hashtag#Craftsmanship

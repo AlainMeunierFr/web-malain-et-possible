@@ -10,7 +10,7 @@
  * - Test 5 : Cas limites (lignes vides, plusieurs lignes)
  */
 
-import { formatJournalMarkdown, formatAllJournalFiles } from '../../utils/markdownFormatter';
+import { formatJournalMarkdown, formatAllJournalFiles } from '../../utils/server';
 import fs from 'fs';
 import path from 'path';
 

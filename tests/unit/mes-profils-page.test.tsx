@@ -39,7 +39,8 @@ describe('Page Mes Profils', () => {
   it('affiche les 4 blocs profil (titres CPO, COO, Agile, CTO)', () => {
     renderPage();
 
-    const titres = screen.getAllByRole('heading', { level: 3 });
+    // ProfilContainer utilise h2 pour les titres de profil
+    const titres = screen.getAllByRole('heading', { level: 2 });
     const titresTexte = titres.map((h) => h.textContent);
     expect(titresTexte).toContain('Produit logiciel');
     expect(titresTexte).toContain('Opérations');

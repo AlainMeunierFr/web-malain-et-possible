@@ -21,19 +21,19 @@ Ce document liste les différences entre le DOM défini dans `/charte` (référe
 </div>
 ```
 
-### Renderer historique (HeroSection.tsx)
+### Renderer actuel (HeroSection.tsx)
 ```html
-<section class="hero">
-  <div class="ui-heroGauche">
+<section class="hero" data-layout="2 columns">
+  <div class="heroGauche">
     <h1 class="hero titre">...</h1>
-    <h2 class="hero sousTitre">...</h2>
+    <p class="hero sousTitre">...</p>  <!-- --st (sous-titre) au lieu de h2 -->
     <p class="hero description">...</p>
     <div class="ui-heroCtas">
       <Link class="lienInterne">Télécharger mon CV</Link>
       <Link class="bouton hero callToAction">...</Link>
     </div>
   </div>
-  <div class="ui-heroDroite">...</div>
+  <div class="heroDroite">...</div>
 </section>
 ```
 
@@ -136,7 +136,7 @@ Ce document liste les différences entre le DOM défini dans `/charte` (référe
 ### Différences à corriger
 | Élément | Cible | Historique | Action |
 |---------|-------|------------|--------|
-| Header wrapper | Pas de wrapper `header` | `<div class="header">` | Retirer wrapper |
+| Header wrapper | Pas de wrapper (ou `detournementVideo-header`) | `<div class="header">` | Renommer pour éviter conflit avec .header du site |
 | Compétences container | `competences` | `competencesContainer` | Renommer |
 | Classes | `contenu titre` | `domaineDeCompetence titre` | Harmoniser |
 | Ordre image | Après titre, avant description | Après bouton | Réordonner |

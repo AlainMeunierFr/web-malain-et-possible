@@ -10,7 +10,7 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import AboutSiteContent from '../../components/AboutSiteContent';
-import type { AboutSiteStructure, PathContentAtRoot } from '../../utils/aboutSiteReader';
+import type { AboutSiteStructure, PathContentAtRoot } from '../../utils';
 
 describe('AboutSiteContent', () => {
   // MOCK : Structure minimale valide

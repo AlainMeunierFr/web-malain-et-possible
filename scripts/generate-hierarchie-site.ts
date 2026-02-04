@@ -5,7 +5,7 @@
 
 import * as fs from 'fs';
 import * as path from 'path';
-import { generateHierarchyMarkdown } from '../utils/siteHierarchyGenerator';
+import { generateHierarchyMarkdown } from '../utils/backoffice';
 
 const ROOT = path.resolve(__dirname, '..');
 const OUTPUT_DIR = path.join(ROOT, 'data', 'A propos de ce site', 'Documentation technique');

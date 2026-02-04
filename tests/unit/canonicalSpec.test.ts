@@ -21,14 +21,14 @@ describe('canonicalSpec', () => {
     it('devrait contenir tous les répétiteurs avec libelle et typeHierarchique', () => {
       expect(REPEATER_SPEC.listeDeDetournementsVideo).toEqual({
         libelle: 'Détournements vidéo',
-        typeHierarchique: '--m',
+        typeHierarchique: '--h2',
       });
       expect(REPEATER_SPEC.listeDeTemoignages).toEqual({
         libelle: 'Témoignages',
         typeHierarchique: '--h2',
       });
       expect(REPEATER_SPEC.listeDeProfils).toEqual({
-        libelle: 'liste de profils',
+        libelle: 'Mes profils professionnels',
         typeHierarchique: '--m',
       });
       expect(REPEATER_SPEC.listeDesExperiencesEtApprentissage).toEqual({
@@ -36,7 +36,7 @@ describe('canonicalSpec', () => {
         typeHierarchique: '--h4',
       });
       expect(REPEATER_SPEC.groupeDeBoutons).toEqual({
-        libelle: 'Groupe de bouton',
+        libelle: 'Actions',
         typeHierarchique: '--m',
       });
       expect(REPEATER_SPEC.listeDesPages).toEqual({

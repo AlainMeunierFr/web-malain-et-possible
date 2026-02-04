@@ -6,7 +6,7 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import AboutSiteContentRenderer from '../../components/AboutSiteContentRenderer';
-import type { ContenuElement } from '../../utils/aboutSiteReader';
+import type { ContenuElement } from '../../utils';
 
 describe('AboutSiteContentRenderer', () => {
   it('devrait rendre un paragraphe simple', () => {

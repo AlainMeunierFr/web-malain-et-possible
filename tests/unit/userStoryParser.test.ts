@@ -8,7 +8,7 @@
  * ITÉRATION 4 : Gérer plusieurs User Stories dans un même fichier
  */
 
-import { parseSectionContent } from '../../utils/aboutSiteReader';
+import { parseSectionContent } from '../../utils/server';
 
 describe('parseSectionContent - Détection User Stories', () => {
   describe('ITÉRATION 1 : Détecter une User Story complète avec les 4 éléments', () => {

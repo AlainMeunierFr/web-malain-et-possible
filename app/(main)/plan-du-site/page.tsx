@@ -1,6 +1,5 @@
-import { readPageData } from '../../../utils/indexReader';
-import type { ElementListeDesPages } from '../../../utils/indexReader';
-import { buildPageMetadata } from '../../../utils/metadataBuilder';
+import { readPageData, buildPageMetadata } from '../../../utils/server';
+import type { ElementListeDesPages } from '../../../utils/client';
 import PageContentRenderer from '../../../components/PageContentRenderer';
 
 export const metadata = buildPageMetadata('plan-du-site.json', '/plan-du-site');

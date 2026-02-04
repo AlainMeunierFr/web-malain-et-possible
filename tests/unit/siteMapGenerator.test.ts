@@ -6,8 +6,8 @@
  * data/_Pages-Et-Lien.json réel (évite les conflits avec les tests d'intégration).
  */
 
-import { detecterPages, detecterLiensInternes, mettreAJourPlanJSON, validerEmplacements } from '../../utils/siteMapGenerator';
-import type { PlanPage, PlanLien, PlanSite } from '../../utils/siteMapGenerator';
+import { detecterPages, detecterLiensInternes, mettreAJourPlanJSON, validerEmplacements } from '../../utils/backoffice';
+import type { PlanPage, PlanLien, PlanSite } from '../../utils/backoffice';
 import * as fs from 'fs';
 import * as path from 'path';
 import * as os from 'os';

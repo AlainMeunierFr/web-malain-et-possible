@@ -6,7 +6,7 @@
 import {
   buildMetricsSnapshot,
   buildMetricsHistory,
-} from '../../utils/metricsSnapshotBuilder';
+} from '../../utils/server';
 import type { MetricsSnapshot } from '../../types/metrics';
 
 describe('buildMetricsSnapshot', () => {

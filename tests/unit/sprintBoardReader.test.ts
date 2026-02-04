@@ -14,7 +14,7 @@ import {
   readSprintUsCards,
   getSprintBoardData,
   readUsContent,
-} from '../../utils/sprintBoardReader';
+} from '../../utils/server';
 
 describe('sprintBoardReader', () => {
   let readFileSyncSpy: jest.SpyInstance;

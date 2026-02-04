@@ -5,7 +5,7 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import DomaineDeCompetences from '../../components/DomaineDeCompetences';
-import type { ElementDomaineDeCompetence } from '../../utils/indexReader';
+import type { ElementDomaineDeCompetence } from '../../utils';
 
 /** Ouvre le bloc "Expériences et apprentissages" en cliquant sur le bouton. */
 function ouvrirExperiences() {
@@ -68,11 +68,10 @@ describe('DomaineDeCompetences', () => {
       const experienceItem = screen.getByText(/Expérience avec période/).closest('li');
       expect(experienceItem).toBeInTheDocument();
       
-      // Vérifier que la période est affichée dans un span dédié
-      const periodeElement = screen.getByText('2020-2023');
+      // Vérifier que la période est affichée dans un em (italique) avec crochets
+      const periodeElement = screen.getByText(/\[2020-2023\]/);
       expect(periodeElement).toBeInTheDocument();
-      expect(periodeElement.tagName).toBe('SPAN');
-      expect(periodeElement).toHaveClass('experienceEtApprentissage', 'periode');
+      expect(periodeElement.tagName).toBe('EM');
       
       // Vérifier que le texte en gras est affiché
       const titreElement = screen.getByText('Expérience avec période');

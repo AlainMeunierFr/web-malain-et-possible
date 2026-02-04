@@ -3,11 +3,8 @@
  * index.json : hero avec hero.video (vidéo à droite) ; pas de bloc video standalone. Profils et texteLarge dans mes-profils.json (US-7.12).
  */
 
-import {
-  readPageData,
-  type PageData,
-  type ElementHero,
-} from '../../utils/indexReader';
+import { readPageData } from '../../utils/server';
+import type { PageData, ElementHero } from '../../utils';
 
 describe('indexReader – structure index.json (US-7.11)', () => {
   let pageData: PageData;

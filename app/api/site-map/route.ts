@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import fs from 'fs';
 import path from 'path';
-import type { PlanSite } from '../../../utils/siteMapGenerator';
+import type { PlanSite } from '../../../utils/client';
 
 const getSiteMapPath = () => {
   return path.join(process.cwd(), 'data', '_Pages-Et-Lien.json');

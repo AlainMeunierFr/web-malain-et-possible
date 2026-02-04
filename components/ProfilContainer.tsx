@@ -8,7 +8,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { FileDown } from 'lucide-react';
-import type { ElementProfil } from '../utils/indexReader';
+import type { ElementProfil } from '../utils/client';
 
 export interface ProfilContainerProps {
   profil: ElementProfil;
@@ -25,30 +25,32 @@ const ProfilContainer: React.FC<ProfilContainerProps> = ({
 }) => {
   return (
     <div className="profil">
-      <Link
-        href={profil.route}
-        className="profil route ui-card"
-        e2eid={`profil-${profil.slug}-acces`}
-      >
-        <h2 className="profil titre">{profil.titre}</h2>
-        <ul className="profil jobTitles">
-          {profil.jobTitles.map((jobTitle, index) => (
-            <li key={index} className="profil jobTitle">
-              {jobTitle}
-            </li>
-          ))}
-        </ul>
-        <span className="profil route lienInterne">{labelAcces}</span>
-      </Link>
+      <h2 className="profil titre">{profil.titre}</h2>
+      <ul className="profil jobTitles">
+        {profil.jobTitles.map((jobTitle, index) => (
+          <li key={index} className="profil jobTitle">
+            {jobTitle}
+          </li>
+        ))}
+      </ul>
+      <div className="profil actions">
+        <Link
+          href={profil.route}
+          className="profil route lienInterne"
+          e2eid={`profil-${profil.slug}-acces`}
+        >
+          {labelAcces}
+        </Link>
+      </div>
       <a
         href={profil.cvPath}
         target="_blank"
         rel="noopener noreferrer"
-        className="profil cvPath"
+        className="cvPath"
         title={`${labelCV} (PDF)`}
         e2eid={`profil-${profil.slug}-cv`}
       >
-        <FileDown size={24} aria-hidden />
+        <FileDown size={20} aria-hidden />
         <span>{labelCV}</span>
       </a>
     </div>

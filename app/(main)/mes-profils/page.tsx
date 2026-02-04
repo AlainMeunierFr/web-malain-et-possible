@@ -1,5 +1,5 @@
-import { readPageData } from '../../../utils/indexReader';
-import { buildPageMetadata } from '../../../utils/metadataBuilder';
+import React from 'react';
+import { readPageData, buildPageMetadata } from '../../../utils/server';
 import PageContentRenderer from '../../../components/PageContentRenderer';
 
 export const metadata = buildPageMetadata('mes-profils.json', '/mes-profils');

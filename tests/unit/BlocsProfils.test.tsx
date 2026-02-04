@@ -7,7 +7,7 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import BlocsProfils from '../../components/BlocsProfils';
-import type { ElementListeDeProfils, ElementProfil } from '../../utils/indexReader';
+import type { ElementListeDeProfils, ElementProfil } from '../../utils';
 
 jest.mock('next/link', () => {
   return function MockLink({

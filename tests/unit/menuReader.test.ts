@@ -5,7 +5,8 @@
 
 import fs from 'fs';
 import path from 'path';
-import { readMenu, type LigneDeMenu } from '../../utils/menuReader';
+import { readMenu } from '../../utils/server';
+import type { LigneDeMenu } from '../../utils';
 
 describe('menuReader', () => {
   let readFileSyncSpy: jest.SpyInstance;

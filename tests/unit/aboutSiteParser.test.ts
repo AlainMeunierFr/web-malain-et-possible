@@ -10,7 +10,7 @@
  * Test 6 : Parser du contenu entre les parties
  */
 
-import { parseSectionContent } from '../../utils/aboutSiteReader';
+import { parseSectionContent } from '../../utils/server';
 
 describe('parseSectionContent', () => {
   describe('Test 1 : Cas simple - une seule partie', () => {

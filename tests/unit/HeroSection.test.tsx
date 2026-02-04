@@ -6,7 +6,7 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import HeroSection from '../../components/HeroSection';
-import type { ElementHero, ElementVideo } from '../../utils/indexReader';
+import type { ElementHero, ElementVideo } from '../../utils';
 
 // Mock next/link
 jest.mock('next/link', () => {
@@ -158,8 +158,8 @@ describe('Composant HeroSection', () => {
 
     expect(screen.getByTestId('hero-video')).toBeInTheDocument();
     expect(screen.getByTestId('hero-video')).toHaveAttribute('data-url', hero.video!.urlYouTube);
-    expect(document.querySelector('.ui-heroDroite')).toBeInTheDocument();
-    expect(document.querySelector('.ui-heroGauche')).toBeInTheDocument();
+    expect(document.querySelector('.heroDroite')).toBeInTheDocument();
+    expect(document.querySelector('.heroGauche')).toBeInTheDocument();
   });
 
   it('devrait parser le markdown **gras** dans le titre', () => {
@@ -197,7 +197,7 @@ describe('Composant HeroSection', () => {
 
     const { container } = render(<HeroSection element={hero} />);
 
-    const strong = container.querySelector('h2 strong');
+    const strong = container.querySelector('.sousTitre strong');
     expect(strong).toBeInTheDocument();
     expect(strong?.textContent).toBe('stimulant');
   });

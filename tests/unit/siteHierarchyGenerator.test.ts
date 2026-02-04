@@ -8,7 +8,7 @@ import {
   renderHierarchyToAscii,
   generateHierarchyMarkdown,
   type TreeContainer,
-} from '../../utils/siteHierarchyGenerator';
+} from '../../utils/backoffice';
 import { CANONICAL_SPEC_ORDER } from '../../constants/canonicalSpec';
 
 describe('siteHierarchyGenerator', () => {

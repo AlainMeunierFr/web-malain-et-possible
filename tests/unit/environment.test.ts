@@ -4,7 +4,7 @@
  * TDD : RED → GREEN → REFACTOR
  */
 
-import { isProduction, isDevelopment } from '../../utils/environment';
+import { isProduction, isDevelopment } from '../../utils';
 
 describe('environment', () => {
   const originalNodeEnv = process.env.NODE_ENV;

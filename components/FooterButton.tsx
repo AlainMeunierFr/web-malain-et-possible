@@ -12,7 +12,7 @@ import {
   type LucideIcon,
 } from 'lucide-react';
 import type { FooterButton } from '../types/footer';
-import { getButtonAction } from '../utils/buttonHandlers';
+import { getButtonAction } from '../utils/client';
 
 export interface FooterButtonProps extends FooterButton {
   onButtonClick?: (command: string, url: string | null) => void;

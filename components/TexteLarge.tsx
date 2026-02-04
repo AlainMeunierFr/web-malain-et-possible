@@ -5,8 +5,8 @@
  */
 
 import React from 'react';
-import type { ElementTexteLarge } from '../utils/indexReader';
-import { parseInlineMarkdown } from '../utils/markdownInlineParser';
+import type { ElementTexteLarge } from '../utils';
+import { parseInlineMarkdown } from '../utils';
 
 export interface TexteLargeProps {
   element: ElementTexteLarge;

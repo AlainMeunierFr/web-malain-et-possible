@@ -7,7 +7,7 @@ import { render, screen } from '@testing-library/react';
 import MarkdownRenderer from '../../components/MarkdownRenderer';
 
 // Mock parseJournalMarkdown
-jest.mock('../../utils/journalMarkdownParser', () => ({
+jest.mock('../../utils/projet/journalMarkdownParser', () => ({
   parseJournalMarkdown: jest.fn((content: string) => ({
     parties: [
       {

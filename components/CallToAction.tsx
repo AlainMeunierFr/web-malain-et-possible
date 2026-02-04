@@ -1,6 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
-import type { ElementCallToAction } from '../utils/indexReader';
+import type { ElementCallToAction } from '../utils';
 
 export interface CallToActionProps {
   element: ElementCallToAction;

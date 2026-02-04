@@ -6,7 +6,7 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import CallToAction from '../../components/CallToAction';
-import type { ElementCallToAction } from '../../utils/indexReader';
+import type { ElementCallToAction } from '../../utils';
 
 // Mock next/link
 jest.mock('next/link', () => {

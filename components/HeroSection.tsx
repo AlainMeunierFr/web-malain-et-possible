@@ -6,9 +6,9 @@
 
 import React from 'react';
 import Link from 'next/link';
-import type { ElementHero } from '../utils/indexReader';
+import type { ElementHero } from '../utils/client';
 import Video from './Video';
-import { parseInlineMarkdown } from '../utils/markdownInlineParser';
+import { parseInlineMarkdown } from '../utils/client';
 
 export interface HeroSectionProps {
   element: ElementHero;
@@ -34,7 +34,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ element }) => {
   const contenuGauche = (
     <>
       <h1 className="hero titre">{parseInlineMarkdown(element.titre)}</h1>
-      <h2 className="hero sousTitre">{parseInlineMarkdown(element.sousTitre)}</h2>
+      <p className="hero sousTitre">{parseInlineMarkdown(element.sousTitre)}</p>
       <p className="hero description">{descriptionNodes}</p>
       <div className="ui-heroCtas">
         <Link
@@ -57,9 +57,9 @@ const HeroSection: React.FC<HeroSectionProps> = ({ element }) => {
 
   if (video) {
     return (
-      <section className="hero">
-        <div className="ui-heroGauche">{contenuGauche}</div>
-        <div className="ui-heroDroite">
+      <section className="hero" data-layout="2 columns">
+        <div className="heroGauche">{contenuGauche}</div>
+        <div className="heroDroite">
           <Video element={video} backgroundColor="white" />
         </div>
       </section>

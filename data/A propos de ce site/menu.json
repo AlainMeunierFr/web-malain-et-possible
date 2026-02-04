@@ -21,18 +21,32 @@
     "e2eID": "menu-tous-sprints"
   },
   {
+    "Titre": "Documentation technique",
+    "Numéro": 5,
+    "Type": "Path",
+    "Parametre": "./data/A propos de ce site/Documentation technique",
+    "e2eID": "menu-documentation-technique"
+  },
+  {
     "Titre": "Configuration IA",
     "Numéro": 4,
     "Type": "Path",
     "Parametre": "./data/A propos de ce site/Configuration IA",
     "e2eID": "menu-configuration-ia"
   },
+   {
+    "Titre": "Métriques",
+    "Numéro": 6,
+    "Type": "container",
+    "Parametre": "metrics",
+    "e2eID": "menu-metrics"
+  },
   {
-    "Titre": "Documentation technique",
-    "Numéro": 5,
-    "Type": "Path",
-    "Parametre": "./data/A propos de ce site/Documentation technique",
-    "e2eID": "menu-documentation-technique"
+    "Titre": "API Swagger",
+    "Numéro": 7,
+    "Type": "container",
+    "Parametre": "swagger",
+    "e2eID": "menu-api-swagger"
   }
 ]
 

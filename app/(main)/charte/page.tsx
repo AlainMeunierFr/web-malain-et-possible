@@ -6,6 +6,64 @@
  */
 
 import './charte.css';
+import { buildHierarchyTree, renderHierarchyToAscii } from '../../../utils/backoffice';
+import { CANONICAL_SPEC_ORDER } from '../../../constants/canonicalSpec';
+import VideoDetournement from '../../../components/VideoDetournement';
+import type { ElementListeDeDetournementsVideo } from '../../../utils';
+
+// Génère la hiérarchie ASCII au moment du build (Server Component)
+const hierarchyAscii = renderHierarchyToAscii(buildHierarchyTree(CANONICAL_SPEC_ORDER));
+
+/**
+ * Transforme le texte ASCII en JSX avec :
+ * - data-layout colorés en jaune
+ * - types hiérarchiques (--h1, --p, etc.) colorés en vert
+ */
+function renderAsciiWithColors(ascii: string): React.ReactNode[] {
+  const lines = ascii.split('\n');
+  return lines.map((line, i) => {
+    // Regex combinée pour trouver data-layout="..." et (--xxx)
+    const regex = /(data-layout="[^"]*")|(\(--[a-z0-9]+\))/g;
+    const parts: React.ReactNode[] = [];
+    let lastIndex = 0;
+    let match;
+    
+    while ((match = regex.exec(line)) !== null) {
+      // Texte avant le match
+      if (match.index > lastIndex) {
+        parts.push(line.slice(lastIndex, match.index));
+      }
+      // Déterminer le type de match et la classe CSS
+      if (match[1]) {
+        // data-layout en jaune
+        parts.push(
+          <span key={`${i}-${match.index}`} className="data-layout-highlight">
+            {match[1]}
+          </span>
+        );
+      } else if (match[2]) {
+        // Type hiérarchique en vert
+        parts.push(
+          <span key={`${i}-${match.index}`} className="type-hierarchique-highlight">
+            {match[2]}
+          </span>
+        );
+      }
+      lastIndex = regex.lastIndex;
+    }
+    // Texte restant après le dernier match
+    if (lastIndex < line.length) {
+      parts.push(line.slice(lastIndex));
+    }
+    
+    return (
+      <span key={i}>
+        {parts.length > 0 ? parts : line}
+        {'\n'}
+      </span>
+    );
+  });
+}
 
 export const metadata = {
   title: 'Charte graphique — Types hiérarchiques et de contenu',
@@ -24,7 +82,7 @@ export default function ChartePage() {
       </section>
 
       {/* ============================================
-          SECTION 1 : TYPES HIÉRARCHIQUES (h1, h2, h3, h4, p, a, etc.)
+          SECTION 1 : TYPES HIÉRARCHIQUES (h1, --st, h2, h3, h4, p, a, etc.)
           ============================================ */}
       <section className="charte-section">
         <h2>1. Types hiérarchiques</h2>
@@ -50,6 +108,17 @@ export default function ChartePage() {
             <h1>Alain Meunier</h1>
             <p className="charte-note">
               Contexte : fond clair, texte noir, taille --enorme
+            </p>
+          </div>
+
+          {/* === TAILLE --moyenne (1.25rem) === */}
+
+          {/* Sous-titre (--st) : complément du titre principal */}
+          <div className="charte-exemple">
+            <code>--st (sous-titre, ex: Hero.sousTitre) — --moyenne, gras</code>
+            <p className="sousTitre">Disponible et enthousiaste pour un projet stimulant</p>
+            <p className="charte-note">
+              Sémantique : complément du titre (pas un h2). Rendu en &lt;p class=&quot;sousTitre&quot;&gt;
             </p>
           </div>
 
@@ -140,30 +209,55 @@ export default function ChartePage() {
       </section>
 
       {/* ============================================
-          SECTION 2 : TYPES DE CONTENU (classes racine)
+          SECTION 2 : HIÉRARCHIE DU SITE (ASCII)
           ============================================ */}
       <section className="charte-section">
-        <h2>2. Types de contenu</h2>
+        <h2>2. Hiérarchie du site</h2>
+        <p>Structure des containers et propriétés générée depuis <code>canonicalSpec.ts</code>.</p>
+        <div className="charte-exemple">
+          <code>Générée par utils/siteHierarchyGenerator.ts (sans IA)</code>
+          <pre className="hierarchy-ascii">{renderAsciiWithColors(hierarchyAscii)}</pre>
+          <p className="charte-note">
+            Légende : dossier/ = container, ligne = propriété. 
+            Source : constants/canonicalSpec.ts
+          </p>
+        </div>
+      </section>
+
+      {/* ============================================
+          SECTION 3 : TYPES DE CONTENU (classes racine)
+          ============================================ */}
+      <section className="charte-section">
+        <h2>3. Types de contenu</h2>
         <p>Aperçu de chaque type de contenu avec sa classe racine.</p>
 
-        {/* Hero — Types hiérarchiques selon spec canonique */}
+        {/* Hero — Layout 2 colonnes avec vidéo */}
         <div className="charte-exemple">
-          <code>.hero — spec: titre=--h1, sousTitre=--h2, description=--p, CTA=--lk</code>
-          <div className="hero">
-            <h1 className="contenu titre">Alain Meunier</h1>
-            <h2 className="contenu sousTitre">Disponible et enthousiaste pour un projet stimulant (CDI ou freelance)</h2>
-            <p className="contenu description">
-              25 ans d&apos;expérience à <strong>transformer des idées</strong> en produits logiciels qui <strong>génèrent de la valeur</strong>.<br />
-              J&apos;ai équipé 15% des radiologues libéraux français avec mon premier produit.<br />
-              Passionné par la <strong>résolution de problèmes complexes</strong>, je combine <strong>rigueur technique et leadership humain</strong>.
-            </p>
-            <div className="groupeBoutons" data-layout="1 column, centered">
-              <a href="#" className="bouton callToAction">Discutons</a>
-              <a href="#" className="lien ensavoirplus">Mes profils</a>
+          <code>.hero[data-layout=&quot;2 columns&quot;] — .heroGauche | .heroDroite</code>
+          <div className="hero" data-layout="2 columns">
+            <div className="heroGauche">
+              <h1 className="hero titre">Alain Meunier</h1>
+              <p className="hero sousTitre">Disponible et enthousiaste pour un projet stimulant (CDI ou freelance)</p>
+              <p className="hero description">
+                25 ans d&apos;expérience à <strong>transformer des idées</strong> en produits logiciels qui <strong>génèrent de la valeur</strong>.<br />
+                J&apos;ai équipé 15% des radiologues libéraux français avec mon premier produit.<br />
+                Passionné par la <strong>résolution de problèmes complexes</strong>, je combine <strong>rigueur technique et leadership humain</strong>.
+              </p>
+              <div className="ui-heroCtas">
+                <a href="#" className="lienInterne">Télécharger mon CV</a>
+                <a href="#" className="bouton hero callToAction">Discutons</a>
+              </div>
+            </div>
+            <div className="heroDroite">
+              <div className="video">
+                <div className="videoWrapper" style={{ backgroundColor: '#e0e0e0', position: 'relative', width: '100%', height: 0, paddingBottom: '56.25%' }}>
+                  <span style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', color: '#666' }}>[Vidéo YouTube]</span>
+                </div>
+              </div>
             </div>
           </div>
           <p className="charte-note">
-            Données réelles : index.json → hero
+            Données réelles : index.json → hero (avec video)
           </p>
         </div>
 
@@ -179,8 +273,13 @@ export default function ChartePage() {
                 <li className="profil jobTitle">Product Manager</li>
                 <li className="profil jobTitle">Product Owner</li>
               </ul>
-              <a href="#" className="profil route bouton">Voir le profil</a>
-              <a href="/CV/cpo.pdf" className="profil cvPath lien">Télécharger le CV</a>
+              <div className="profil actions">
+                <a href="#" className="profil route lienInterne">En savoir plus...</a>
+              </div>
+              <a href="/CV/cpo.pdf" className="cvPath" target="_blank" rel="noopener noreferrer">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                <span>Télécharger le CV</span>
+              </a>
             </div>
             <div className="profil">
               <h2 className="profil titre">Opérations</h2>
@@ -190,8 +289,13 @@ export default function ChartePage() {
                 <li className="profil jobTitle">HOO - Head of Operation</li>
                 <li className="profil jobTitle">Directeur opérationnel</li>
               </ul>
-              <a href="#" className="profil route bouton">Voir le profil</a>
-              <a href="/CV/coo.pdf" className="profil cvPath lien">Télécharger le CV</a>
+              <div className="profil actions">
+                <a href="#" className="profil route lienInterne">En savoir plus...</a>
+              </div>
+              <a href="/CV/coo.pdf" className="cvPath" target="_blank" rel="noopener noreferrer">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                <span>Télécharger le CV</span>
+              </a>
             </div>
             <div className="profil">
               <h2 className="profil titre">Transformation Agile</h2>
@@ -201,8 +305,13 @@ export default function ChartePage() {
                 <li className="profil jobTitle">Scrum Master</li>
                 <li className="profil jobTitle">Product Owner</li>
               </ul>
-              <a href="#" className="profil route bouton">Voir le profil</a>
-              <a href="/CV/agile.pdf" className="profil cvPath lien">Télécharger le CV</a>
+              <div className="profil actions">
+                <a href="#" className="profil route lienInterne">En savoir plus...</a>
+              </div>
+              <a href="/CV/agile.pdf" className="profil cvPath" target="_blank" rel="noopener noreferrer">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                <span>Télécharger le CV</span>
+              </a>
             </div>
             <div className="profil">
               <h2 className="profil titre">Technologie</h2>
@@ -211,12 +320,17 @@ export default function ChartePage() {
                 <li className="profil jobTitle">HTO - Head of Technology</li>
                 <li className="profil jobTitle">Directeur Technique</li>
               </ul>
-              <a href="#" className="profil route bouton">Voir le profil</a>
-              <a href="/CV/cto.pdf" className="profil cvPath lien">Télécharger le CV</a>
+              <div className="profil actions">
+                <a href="#" className="profil route lienInterne">En savoir plus...</a>
+              </div>
+              <a href="/CV/cto.pdf" className="cvPath" target="_blank" rel="noopener noreferrer">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                <span>Télécharger le CV</span>
+              </a>
             </div>
           </div>
           <p className="charte-note">
-            Classes identiques à ProfilContainer.tsx : .profil.titre, .profil.jobTitles, .profil.jobTitle, .profil.route, .profil.cvPath
+            Structure : .profil &gt; (.titre + .jobTitles + .actions) — .actions contient le bouton et le lien CV
           </p>
         </div>
 
@@ -228,25 +342,60 @@ export default function ChartePage() {
           </div>
         </div>
 
-        {/* Témoignage — ordre spec: photo → nom → fonction → temoignage */}
+        {/* Liste de Témoignages — grille 2 colonnes */}
         <div className="charte-exemple">
-          <code>.temoignage — ordre: photo → nom → fonction → temoignage</code>
-          <div className="temoignage">
-            <div className="contenu temoin">
-              <div className="contenu photo">[Photo: Florent Grosmaitre.jpeg]</div>
-              <div className="contenu temoinTexte">
-                <h3 className="contenu nom">Florent Grosmaitre</h3>
-                <p className="contenu fonction note">CEO chez CryptoNext Security</p>
+          <code>.listeDeTemoignages — data-layout=&quot;2 columns x N rows&quot;</code>
+          <div className="temoignages" data-layout="2 columns x N rows">
+            <div className="ui-grid">
+              {/* Témoignage 1 */}
+              <div className="temoignage ui-card">
+                <div className="ui-header">
+                  <div className="temoignage photo ui-photo">
+                    <div className="placeholder-image" style={{ width: 80, height: 80, borderRadius: '50%' }}>[Photo]</div>
+                  </div>
+                  <div className="ui-info">
+                    <h3 className="temoignage nom">Florent Grosmaitre</h3>
+                    <p className="temoignage fonction">CEO chez CryptoNext Security</p>
+                  </div>
+                </div>
+                <div className="temoignage temoignage">
+                  <p className="ui-paragraph">« J&apos;ai eu la chance de travailler avec Alain pour l&apos;entreprise Actibase qu&apos;il avait fondé. »</p>
+                </div>
               </div>
-            </div>
-            <div className="contenu temoignage">
-              <p>« J&apos;ai eu la chance de travailler avec Alain pour l&apos;entreprise Actibase qu&apos;il avait fondé.</p>
-              <p>Alain a un profil transverse capable d&apos;appréhender les problématiques variées de toute entreprise IT depuis les enjeux de R&amp;D jusqu&apos;aux éléments financiers en passant par les aspects produits, marketing et commerciaux.</p>
-              <p>Alain a des qualités exceptionnelles d&apos;analyse approfondie, de compréhension des aspects technologiques, de pro-activité pour trouver des solutions, d&apos;implication dans ses missions, de qualité des livrables… Et en plus, c&apos;est sympa de travailler avec lui ! »</p>
+              {/* Témoignage 2 */}
+              <div className="temoignage ui-card">
+                <div className="ui-header">
+                  <div className="temoignage photo ui-photo">
+                    <div className="placeholder-image" style={{ width: 80, height: 80, borderRadius: '50%' }}>[Photo]</div>
+                  </div>
+                  <div className="ui-info">
+                    <h3 className="temoignage nom">Marie Dupont</h3>
+                    <p className="temoignage fonction">Directrice Produit</p>
+                  </div>
+                </div>
+                <div className="temoignage temoignage">
+                  <p className="ui-paragraph">« Un professionnel exceptionnel avec une vision stratégique remarquable. »</p>
+                </div>
+              </div>
+              {/* Témoignage 3 */}
+              <div className="temoignage ui-card">
+                <div className="ui-header">
+                  <div className="temoignage photo ui-photo">
+                    <div className="placeholder-image" style={{ width: 80, height: 80, borderRadius: '50%' }}>[Photo]</div>
+                  </div>
+                  <div className="ui-info">
+                    <h3 className="temoignage nom">Pierre Martin</h3>
+                    <p className="temoignage fonction">CTO chez TechCorp</p>
+                  </div>
+                </div>
+                <div className="temoignage temoignage">
+                  <p className="ui-paragraph">« Alain combine expertise technique et leadership humain de façon unique. »</p>
+                </div>
+              </div>
             </div>
           </div>
           <p className="charte-note">
-            Données réelles : _temoignages.json → Florent Grosmaitre
+            Types : .nom (--h3), .fonction (--n), .temoignage (--p). Grille : 2 colonnes responsive.
           </p>
         </div>
 
@@ -321,31 +470,32 @@ export default function ChartePage() {
           </p>
         </div>
 
-        {/* Détournement vidéo — ordre: header(titre→pitch→date) → videos */}
+        {/* Détournement vidéo — rendu par le composant unique VideoDetournement */}
         <div className="charte-exemple">
-          <code>.detournementVideo — header → videos</code>
-          <div className="detournementVideo">
-            <div className="contenu header">
-              <h2 className="contenu titre">Team for the Planet</h2>
-              <p className="contenu pitch">
-                Contexte : la société et la marque «&nbsp;Time for the Planet&nbsp;» ont été poursuivies en justice par la société «&nbsp;Time to Planet&nbsp;» pour concurrence déloyale. L&apos;affaire a été longue et compliquée. Au final TFTP a modifié son nom en «&nbsp;Team for the Planet&nbsp;».
-              </p>
-              <p className="contenu date note">30/3/2023</p>
-            </div>
-            <div className="contenu videos">
-              <div className="contenu videoDetournee">
-                <h3 className="contenu titreVideoDetournee">Debriefing de l&apos;action contre le nom de TFTP</h3>
-                <div className="contenu video">[Vidéo: kVR1a7EHn9E]</div>
-                <p className="contenu linkedin note">[Lien LinkedIn]</p>
-              </div>
-              <div className="contenu videoOriginale">
-                <h3 className="contenu titreVideoOriginale">Les visiteurs</h3>
-                <div className="contenu video">[Vidéo: D66x25E_Zpc]</div>
-              </div>
-            </div>
-          </div>
+          <code>.detournementVideo — .titre (--h2) + .pitch (--p) + .videos (2 colonnes)</code>
+          <VideoDetournement element={{
+            type: 'listeDeDetournementsVideo',
+            items: [{
+              type: 'detournementVideo',
+              titre: 'Sator',
+              titreVideoDetournee: 'La machine à apprendre',
+              videoDetournee: 'SiIT5JustSE',
+              titreVideoOriginale: 'La machine à apprendre',
+              videoOriginale: 'ljYRbx4XipQ',
+              date: '17/9/2025',
+              pitch: 'Contexte : promotion de l\'offre Sator, la plateforme de formation dédiée aux enjeux sérieux.',
+              droitsAuteur: `Cette vidéo s'inscrit dans une démarche de détournement qui relève d'une exception au droit d'auteur au titre du pastiche ou de la parodie, selon l'alinéa 4 de l'article L122‑5 du Code de la propriété intellectuelle.
+Pour moi, elle respecte les exigences de la jurisprudence :
+- Loi du genre : parodie, pastiche ou caricature doit respecter les codes humoristiques du genre : satire, ironie, etc.
+- Éléments essentiels : l'œuvre évoque clairement une œuvre originale, mais de façon perceptiblement différente, et génère un effet comique ou satirique.
+- Intention non malveillante : il ne doit pas y avoir d'intention de nuire ou de dégrader l'image de l'œuvre d'origine.
+- Absence de confusion : le public ne doit pas confondre la parodie avec l'œuvre originale.
+- Respect du juste équilibre : l'évaluation doit tenir compte du contexte global, de la finalité non commerciale, de la portée critique ou satirique, et des droits de l'auteur original.`,
+              linkedin: 'https://www.linkedin.com/posts/pierre-gilbert-2916a5108_un-peu-dhumour-pour-commencer-la-journ%C3%A9e-activity-7373958957519900672-KOuP',
+            }],
+          } as ElementListeDeDetournementsVideo} />
           <p className="charte-note">
-            Données réelles : portfolio-detournements.json → Team for the Planet (id 4)
+            Rendu par le composant unique VideoDetournement (même rendu que /portfolio-detournements)
           </p>
         </div>
 
@@ -387,10 +537,10 @@ export default function ChartePage() {
       </section>
 
       {/* ============================================
-          SECTION 3 : TOKENS CSS
+          SECTION 4 : TOKENS CSS
           ============================================ */}
       <section className="charte-section">
-        <h2>3. Tokens CSS (variables)</h2>
+        <h2>4. Tokens CSS (variables)</h2>
         <p>Valeurs actuelles des tokens définis dans <code>globals.css</code>.</p>
 
         <div className="charte-tokens">

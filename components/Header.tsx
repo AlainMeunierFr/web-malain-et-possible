@@ -12,7 +12,7 @@ const PasswordModal = dynamic(() => import('./PasswordModal'), { ssr: false });
 import { ROUTES } from '../constants/routes';
 import { HEADER_IMAGES } from '../constants/headerImages';
 import { E2E_IDS } from '../constants/e2eIds';
-import { isProduction } from '../utils/environment';
+import { isProduction } from '../utils/client';
 
 const RAW_PAGE_TITLE = 'Raw — DOM sans feuille de style';
 

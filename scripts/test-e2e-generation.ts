@@ -2,7 +2,7 @@
  * Script de test pour la génération automatique des e2eID
  */
 
-import { generateE2eIdsFromAudit } from '../utils/e2eIdGenerator';
+import { generateE2eIdsFromAudit } from '../utils/backoffice/integrity/e2eIdGenerator';
 
 const result = generateE2eIdsFromAudit();
 

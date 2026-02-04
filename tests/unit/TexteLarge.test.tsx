@@ -6,7 +6,7 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import TexteLarge from '../../components/TexteLarge';
-import type { ElementTexteLarge } from '../../utils/indexReader';
+import type { ElementTexteLarge } from '../../utils';
 
 describe('Composant TexteLarge', () => {
   it('devrait afficher le texte', () => {

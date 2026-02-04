@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { verifyPassword } from '../../../utils/passwordUtils';
+import { verifyPassword } from '../../../utils/server';
 
 export async function POST(request: Request) {
   try {

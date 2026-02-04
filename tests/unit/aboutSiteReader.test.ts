@@ -16,7 +16,7 @@ import {
   ValidationError,
   readPathContentAtRoot,
   readChapitreByPath,
-} from '../../utils/aboutSiteReader';
+} from '../../utils/server';
 
 /**
  * readAboutSiteStructure a été supprimé (US-11.3 : bande pilotée par menu.json, contenu par readChapitreByPath).
@@ -36,7 +36,7 @@ import {
  * ITÉRATION 5 : Fichier vide ne doit pas lever d'erreur
  */
 
-import { validerContenuMarkdown, ValidationError } from '../../utils/aboutSiteReader';
+// Deuxième import supprimé car déjà importé ci-dessus
 
 describe('validerContenuMarkdown - APPROCHE TDD', () => {
   describe('ITÉRATION 1 : H1 est maintenant autorisé', () => {

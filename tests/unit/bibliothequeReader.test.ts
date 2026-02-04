@@ -5,7 +5,7 @@
 
 import fs from 'fs';
 import path from 'path';
-import { readCompetences, readDomaines, readAutres } from '../../utils/bibliothequeReader';
+import { readCompetences, readDomaines, readAutres } from '../../utils/server';
 
 // Mock fs
 jest.mock('fs');

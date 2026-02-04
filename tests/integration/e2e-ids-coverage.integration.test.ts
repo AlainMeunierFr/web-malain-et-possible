@@ -7,7 +7,7 @@ import {
   generateE2eIdInventory,
   extractE2eIdsFromTestFile,
   type E2eIdInventoryItem,
-} from '../../utils/e2eIdInventory';
+} from '../../utils/backoffice';
 import * as path from 'path';
 
 describe('Couverture des e2eID dans le scénario E2E', () => {

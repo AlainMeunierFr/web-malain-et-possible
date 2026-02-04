@@ -2,7 +2,7 @@
 
 import React, { useCallback, useEffect, useState } from 'react';
 import dynamic from 'next/dynamic';
-import { parseInlineMarkdown } from '../utils/markdownInlineParser';
+import { parseInlineMarkdown } from '../utils/client';
 
 const UsDetailModal = dynamic(() => import('./UsDetailModal'), { ssr: false });
 

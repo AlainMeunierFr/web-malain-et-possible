@@ -2,7 +2,7 @@ import { createBdd } from 'playwright-bdd';
 import { expect, Page } from '@playwright/test';
 import * as fs from 'fs';
 import * as path from 'path';
-import type { PlanSite, PlanPage } from '../../utils/siteMapGenerator';
+import type { PlanSite, PlanPage } from '../../utils/backoffice';
 
 const { Given, When, Then } = createBdd();
 

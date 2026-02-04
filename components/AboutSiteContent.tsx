@@ -6,7 +6,7 @@ import AboutSiteContentRenderer from './AboutSiteContentRenderer';
 /** Styles A propos : app/a-propos-du-site/a-propos-du-site.css (chargés via layout) */
 import AccordionTitle from './AccordionTitle';
 import AccordionDossier from './AccordionDossier';
-import type { AboutSiteStructure, PathContentAtRoot, Section } from '../utils/aboutSiteReader';
+import type { AboutSiteStructure, PathContentAtRoot, Section } from '../utils';
 
 interface AboutSiteContentProps {
   structure?: AboutSiteStructure;

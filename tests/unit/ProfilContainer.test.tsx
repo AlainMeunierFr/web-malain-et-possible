@@ -6,7 +6,7 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import ProfilContainer from '../../components/ProfilContainer';
-import type { ElementProfil } from '../../utils/indexReader';
+import type { ElementProfil } from '../../utils';
 
 // Mock next/link
 jest.mock('next/link', () => {

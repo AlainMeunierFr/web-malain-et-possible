@@ -2,7 +2,7 @@
  * Script pour tester le rendu de la section HERO
  */
 
-import { readPageData } from '../utils/indexReader';
+import { readPageData } from '../utils/server';
 
 function testHeroRendering() {
   console.log('🧪 Test du rendu de la section HERO...\n');

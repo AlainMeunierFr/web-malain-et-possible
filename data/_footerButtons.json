@@ -50,15 +50,6 @@
     },
     {
       "type": "bouton",
-      "id": "metrics",
-      "icone": "Metrics",
-      "texte": null,
-      "url": null,
-      "command": "cmd-Metrics",
-      "e2eID": "b14"
-    },
-    {
-      "type": "bouton",
       "id": "about-site",
       "icone": "Info",
       "texte": null,

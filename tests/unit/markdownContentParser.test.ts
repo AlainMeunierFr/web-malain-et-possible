@@ -9,7 +9,7 @@
  * Test 5 : Parser du texte mixte (texte + liste)
  */
 
-import { parseMarkdownContent } from '../../utils/aboutSiteReader';
+import { parseMarkdownContent } from '../../utils/server';
 
 describe('parseMarkdownContent', () => {
   describe('Test 1 : Cas simple - texte normal', () => {

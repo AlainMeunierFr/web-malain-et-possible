@@ -13,7 +13,7 @@ jest.mock('next/navigation', () => ({
 }));
 
 const mockIsDevelopment = jest.fn();
-jest.mock('../../utils/environment', () => ({
+jest.mock('../../utils/shared/environment', () => ({
   isDevelopment: () => mockIsDevelopment(),
 }));
 

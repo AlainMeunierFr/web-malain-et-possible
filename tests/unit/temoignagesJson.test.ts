@@ -4,8 +4,8 @@
  * Les témoignages sont dans mes-profils.json (et _temoignages.json pour les items) ; plus dans les fichiers profil-*.json.
  */
 
-import { readPageData } from '../../utils/indexReader';
-import type { ElementListeDeTemoignages, ElementTemoignage } from '../../utils/indexReader';
+import { readPageData } from '../../utils/server';
+import type { ElementListeDeTemoignages, ElementTemoignage } from '../../utils';
 import * as fs from 'fs';
 import * as path from 'path';
 

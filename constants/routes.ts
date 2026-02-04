@@ -7,7 +7,7 @@ export const ROUTES = {
   DETOURNEMENT_VIDEO: '/detournement-video',
   ROBUSTESSE: '/robustesse',
   FAISONS_CONNAISSANCE: '/faisons-connaissance',
-  METRICS: '/metrics',
+  METRICS: '/a-propos-du-site?view=metrics',
   MAINTENANCE: '/maintenance',
   INGENIERIE_LOGICIEL: '/ingenierie-logiciel',
 } as const;

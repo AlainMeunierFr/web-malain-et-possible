@@ -2,7 +2,7 @@
  * Script pour vérifier que les références sont bien résolues
  */
 
-import { readPageData } from '../utils/indexReader';
+import { readPageData } from '../utils/server';
 
 function verifyResolution() {
   console.log('🔍 Vérification de la résolution des références...\n');

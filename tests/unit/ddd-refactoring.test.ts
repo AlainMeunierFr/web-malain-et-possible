@@ -3,12 +3,12 @@
  * Tâche 0 : Renommage items → competences et ajout de type aux sous-éléments
  */
 
-import { 
+import type { 
   ElementCompetence, 
   ElementDomaineDeCompetence,
   ElementBoutonDeGroupe,
   ElementGroupeDeBoutons
-} from '../../utils/indexReader';
+} from '../../utils';
 
 describe('Refactorisation DDD - Domaine de Compétences', () => {
   

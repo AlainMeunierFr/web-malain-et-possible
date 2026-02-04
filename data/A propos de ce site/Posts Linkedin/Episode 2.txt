@@ -1,0 +1,46 @@
+𝐂𝐨𝐝𝐞𝐫 𝐚𝐯𝐞𝐜 𝐈𝐀 - 𝐄𝐩𝐢𝐬𝐨𝐝𝐞 𝟐 : préparer son environnement de travail.
+Bien qu’ancien développeur (𝘭𝘦 𝘴𝘶𝘪𝘴-𝘫𝘦 𝘦𝘯𝘤𝘰𝘳𝘦 ?), je voulais tester une hypothèse : est-il pertinent de faire du « Pair-Programming » avec une IA pour développer dans un langage qu’on ne connait pas ?
+Comme beaucoup j’ai découvert l’IA avec ChatGPT. Par curiosité, je lui ai d’abord soumis quelques prompts pour le tester.
+
+Puis j’ai eu besoin d’écrire un script pour explorer un fichier XML assez complexe à manipuler (2Go) afin d’en extraire les données avec lesquelles je voulais travailler.
+Naïvement j’ai continué comme pour ma première expérience :
+-         ChatGPT d’un côté
+-         NotePad++ de l’autre
+Et je faisais des aller et retour entre les deux par copier/coller. Un enfer…
+Pour mon projet ce n’était pas envisageable et puis ma valeur ajoutée n’est pas à faire de copier/coller entre deux fenêtres…
+𝐔𝐧 𝐞𝐧𝐟𝐞𝐫 !
+
+J’ai donc d’abord demandé au Chat de Mistral (# souveraineté européenne) ce que je devais installer sur mon poste de travail et les comptes que je devais créer en ligne.
+ 
+𝐌𝐞𝐬 𝐚𝐫𝐛𝐢𝐭𝐫𝐚𝐠𝐞𝐬 :
+ - IDE : Cursor
+ - Langage : TypeScript
+ - Frontend : Next.js
+ - Gestion du code : GitHub
+ - TDD : Jest
+ - BDD : Cucumber.js
+ - Hébergement : Vercel
+ 
+𝐂𝐞 𝐪𝐮𝐞 𝐣'𝐚𝐢 𝐟𝐚𝐢𝐭 :
+ - Installer Cursor, Git, NodeJS
+ - Créer un compte GitHub et Vercel
+Ces technologies sont familières pour les développeurs mais pas pour tous. Je n'ai fait que télécharger et installer.
+
+Une fois Cursor lancé :
+- A gauche : le chat de conversation avec l’IA
+- A droite : le projet, dans le langage de mon choix, dont les lignes de code s’écrivent, se corrigent, se refactorisent, se testent toutes seules sous mes yeux.
+
+Ça parait évident pour les développeurs qui passent leur journée dans un IDE mais quand ça n’est pas ton cas et que tu veux tester le « Pair-Programming » c’est un investissement initial minimum qui change tout !
+
+Mon premier prompt a été celui qui est en capture d’écran.
+𝐌𝐨𝐧 "𝐇𝐞𝐥𝐥𝐨𝐖𝐨𝐫𝐝" 𝐞𝐬𝐭 𝐚𝐩𝐩𝐚𝐫𝐮 𝐝𝐚𝐧𝐬 𝐦𝐨𝐧 𝐧𝐚𝐯𝐢𝐠𝐚𝐭𝐞𝐮𝐫 𝐪𝐮𝐞𝐥𝐪𝐮𝐞𝐬 𝐬𝐞𝐜𝐨𝐧𝐝𝐞𝐬 𝐚𝐩𝐫𝐞̀𝐬 !
+En quelques clics, j'avais du code automatiquement testé pour une application en TypeScript, langage que je ne connais pas, et mon site était en ligne. 𝐉𝐞 𝐩𝐨𝐮𝐯𝐚𝐢𝐬 𝐜𝐨𝐦𝐦𝐞𝐧𝐜𝐞𝐫 𝐚̀ 𝐢𝐭𝐞́𝐫𝐞𝐫.
+
+𝘊𝘦𝘳𝘪𝘴𝘦 𝘴𝘶𝘳 𝘭𝘦 𝘨𝘢̂𝘵𝘦𝘢𝘶 : dès le départ, l’IA m’a aidé à écrire mes spécifications avec la rigueur d’une UserStorie, de ses critères d’acceptation et de scénarios BDD. (Ce projet « bac à sable » ne devait pas être une excuse pour contourner les fondamentaux 💪).
+
+Si le sujet vous intéresse, suivez l’aventure (la cloche est aussi sur LinkedIn 😉)
+Vous pouvez aussi visiter mon nouveau site !
+https://lnkd.in/e34dPbGp
+
+Je suis Alain Meunier, Product Manager, profil hybride Tech/Business.
+hashtag#IA hashtag#SouverainetéNumérique hashtag#PairProgramming hashtag#InnovationManagériale

@@ -1,15 +1,9 @@
-import { readMenu } from '../../../utils/menuReader';
-import SprintDashboardLayout from '../../../components/SprintDashboardLayout';
+import SprintDashboardContent from '../../../components/SprintDashboardContent';
 
 /**
  * Page « A propos de ce site » en tableau de bord (US-11.3)
+ * Le menu est dans le layout partagé.
  */
 export default function AboutSitePage() {
-  const lignes = readMenu();
-
-  return (
-    <main className="main">
-      <SprintDashboardLayout lignes={lignes} />
-    </main>
-  );
+  return <SprintDashboardContent />;
 }

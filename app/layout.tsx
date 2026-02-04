@@ -5,7 +5,7 @@ import Matomo from "../components/Matomo";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import JsonLd from "../components/JsonLd";
-import { buildHomePageJsonLd } from "../utils/jsonLdBuilder";
+import { buildHomePageJsonLd } from "../utils/server";
 
 export const metadata: Metadata = {
   title: "Malain et possible",

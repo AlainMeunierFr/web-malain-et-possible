@@ -3,9 +3,8 @@
  * Backend pur : testable sans dépendance React/Next.js
  */
 
-import { resolvePageReferences } from '../../utils/profilBuilder';
-import type { PageData } from '../../utils/indexReader';
-import type { CompetenceBibliotheque, DomaineBibliotheque, ExperienceEtApprentissage } from '../../utils/bibliothequeReader';
+import { resolvePageReferences } from '../../utils/server';
+import type { PageData, CompetenceBibliotheque, DomaineBibliotheque, ExperienceEtApprentissage } from '../../utils';
 
 describe('profilBuilder - Approche TDD', () => {
   describe('resolvePageReferences', () => {

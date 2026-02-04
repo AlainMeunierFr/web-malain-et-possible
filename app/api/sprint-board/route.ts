@@ -9,7 +9,7 @@ import {
   readUsEnCours,
   getSprintFolderContainingUs,
   getSprintBoardData,
-} from '../../../utils/sprintBoardReader';
+} from '../../../utils/server';
 
 export async function GET() {
   const usEnCours = readUsEnCours();

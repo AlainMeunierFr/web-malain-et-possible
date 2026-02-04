@@ -2,8 +2,8 @@
 
 import React from 'react';
 import Link from 'next/link';
-import type { ElementGroupeDeBoutons, ElementBoutonDeGroupe } from '../utils/indexReader';
-import { getButtonAction } from '../utils/buttonHandlers';
+import type { ElementGroupeDeBoutons, ElementBoutonDeGroupe } from '../utils/client';
+import { getButtonAction } from '../utils/client';
 import {
   Mail,
   Youtube,
@@ -33,7 +33,8 @@ const GroupeBoutons: React.FC<GroupeBoutonsProps> = ({ element }) => {
   const tailleClass = element.taille === 'petite' ? 'taillePetite' : 'tailleGrande';
 
   return (
-    <div className={`groupeBoutons ${tailleClass}`}>
+    <div className={`groupeBoutons ${tailleClass}`} data-layout="1 column, centered">
+      <span className="groupeDeBoutons titre ui-visuallyHidden">Actions</span>
       {element.boutons.map((bouton) => {
         const IconComponent = iconMap[bouton.icone];
 

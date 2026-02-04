@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { detecterPages, detecterLiensInternes, mettreAJourPlanJSON } from '../../../../utils/siteMapGenerator';
+import { detecterPages, detecterLiensInternes, mettreAJourPlanJSON } from '../../../../utils/backoffice';
 
 export async function POST() {
   try {

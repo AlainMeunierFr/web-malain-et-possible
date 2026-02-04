@@ -4,8 +4,8 @@
  * Pour voir comment le navigateur affiche le DOM sans style.
  */
 
-import { readPageData } from '../../utils/indexReader';
-import type { ElementContenu, ElementListeDesPages } from '../../utils/indexReader';
+import { readPageData } from '../../utils/server';
+import type { ElementContenu, ElementListeDesPages } from '../../utils/client';
 import PageContentRenderer from '../../components/PageContentRenderer';
 
 const ORDRE_JSON: string[] = [

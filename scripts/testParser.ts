@@ -5,7 +5,7 @@
 
 import fs from 'fs';
 import path from 'path';
-import { parseJournalMarkdown } from '../utils/journalMarkdownParser';
+import { parseJournalMarkdown } from '../utils/server';
 
 const filePath = process.argv[2];
 

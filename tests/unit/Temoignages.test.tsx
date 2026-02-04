@@ -6,7 +6,7 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import Temoignages from '../../components/Temoignages';
-import type { ElementListeDeTemoignages } from '../../utils/indexReader';
+import type { ElementListeDeTemoignages } from '../../utils';
 
 // Mock next/image
 jest.mock('next/image', () => ({

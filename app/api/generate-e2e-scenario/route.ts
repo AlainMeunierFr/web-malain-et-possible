@@ -1,10 +1,9 @@
 import { NextResponse } from 'next/server';
 import fs from 'fs';
 import path from 'path';
-import type { PlanLien } from '../../../utils/siteMapGenerator';
-import type { PlanSite } from '../../../utils/siteMapGenerator';
-import { generateE2eIdInventory, type E2eIdInventoryItem } from '../../../utils/e2eIdInventory';
-import { genererContenuSpecE2E } from '../../../utils/e2eScenarioBuilder';
+import type { PlanLien, PlanSite } from '../../../utils/shared/planDuSiteTypes';
+import type { E2eIdInventoryItem } from '../../../utils/backoffice';
+import { generateE2eIdInventory, genererContenuSpecE2E } from '../../../utils/backoffice';
 
 const PLAN_PATH = path.join(process.cwd(), 'data', '_Pages-Et-Lien.json');
 const SPEC_PATH = path.join(process.cwd(), 'tests', 'end-to-end', 'parcours-complet-liens.spec.ts');

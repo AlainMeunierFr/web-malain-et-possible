@@ -12,8 +12,8 @@
 
 import fs from 'fs';
 import path from 'path';
-import { isDevelopment } from '../utils/environment';
-import { readAgentsFromCursorAgents } from '../utils/sprintBoardReader';
+import { isDevelopment } from '../utils/client';
+import { readAgentsFromCursorAgents } from '../utils/server';
 
 const DATA_DIR = path.join(process.cwd(), 'data', 'A propos de ce site');
 const CONFIG_IA_DIR = path.join(DATA_DIR, 'Configuration IA');

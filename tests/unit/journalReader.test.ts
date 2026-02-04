@@ -15,7 +15,8 @@
 
 import fs from 'fs';
 import path from 'path';
-import { readJournalFiles, readCourseFiles, type JournalFile, type CourseFile } from '../../utils/journalReader';
+import { readJournalFiles, readCourseFiles } from '../../utils/server';
+import type { JournalFile, CourseFile } from '../../utils';
 
 // Mock fs
 jest.mock('fs');

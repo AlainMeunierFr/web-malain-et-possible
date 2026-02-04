@@ -6,9 +6,8 @@
 
 import React from 'react';
 import Image from 'next/image';
-import type { ContenuElement } from '../utils/aboutSiteReader';
-import { getMdImagePath } from '../utils/imagePath';
-import { parseInlineMarkdown } from '../utils/markdownInlineParser';
+import type { ContenuElement } from '../utils';
+import { getMdImagePath, parseInlineMarkdown } from '../utils';
 
 export interface AboutSiteContentRendererProps {
   elements: ContenuElement[];

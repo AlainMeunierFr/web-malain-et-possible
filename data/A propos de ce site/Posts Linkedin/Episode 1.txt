@@ -1,0 +1,34 @@
+𝐂𝐡𝐨𝐜𝐨𝐥𝐚𝐭𝐢𝐧𝐞 ou 𝐩𝐚𝐢𝐧 𝐚𝐮 𝐜𝐡𝐨𝐜𝐨𝐥𝐚𝐭 ? 𝐂𝐨𝐝𝐞𝐫 𝐬𝐚𝐧𝐬 𝐈𝐀 ou 𝐜𝐨𝐝𝐞𝐫 𝐚𝐯𝐞𝐜 𝐈𝐀 ?
+Pour me faire ma propre idée j'ai fait comme je fais d'habitude : confronter mon a priori à la réalité.
+
+Disclaimer
+Je n'ai pas trouvé de différence fondamentale entre pain au chocolat et chocolatine (mis à part le nombre de kilomètres à parcourir pour s'en procurer).
+En revanche j'ai trouvé une grosse différence entre "Coder sans IA" et "Coder avec IA"
+
+𝐒𝐢 𝐯𝐨𝐮𝐬 𝐠𝐞́𝐫𝐞𝐳 𝐝𝐞𝐬 𝐝𝐞𝐯𝐬, 𝐝𝐞𝐬 𝐩𝐫𝐞𝐬𝐭𝐚𝐭𝐚𝐢𝐫𝐞𝐬, 𝐨𝐮 𝐝𝐞𝐬 𝐩𝐫𝐨𝐣𝐞𝐭𝐬 𝐭𝐞𝐜𝐡 𝐬𝐚𝐧𝐬 𝐲 𝐜𝐨𝐦𝐩𝐫𝐞𝐧𝐝𝐫𝐞 𝐠𝐫𝐚𝐧𝐝-𝐜𝐡𝐨𝐬𝐞, ce que je vais vous raconter ces prochaines semaines est pour vous. Pas de jargon, juste du concret.
+
+J'avais très envie de retrouver le plaisir de créer des logiciels mais, comme je n'ai jamais développé avec des langages moderne, sans "DevTeam" j'étais bloqué.
+
+Certains vont me répondre "tu fais du VibeCode quoi !" mais j'ai l'impression que cette expérimentation est d'une autre nature.
+L’IA ne permet pas de coder en 5 minutes "à la voix" des choses sérieuses...
+1. Je ne parle pas dans un micro : j’écris mes prompts manuellement, ce qui m’oblige à structurer ma pensée avant de demander quoi que ce soit à l’IA.
+2. Je ne suis pas un débutant : 20 ans de dev, de management tech et de création d’entreprises. Je connais les prérequis, l'exigence et l'humilité qu'il faut avoir pour obtenir du bon code.
+3. Je ne l'utilise pour "développer un SaaS qui va me 'donner 10.000€ de MRR par mois sans rien faire' : je l'utilise pour (re)vivre l'expérience grisante des bonnes pratiques de production logiciel.
+
+Mon cas d’usage : un site web simple
+1. Je ne supporte plus de payer 30€/mois pour 6 pages statiques sur Bubble.
+2. Basculer sous WordPress (ou un équivalent) n'était pas stimulant.
+3. Je voulais pouvoir modifier les choses sans être contraint par le cadre d'un outil no-code — un équilibre entre contrôle et simplicité.
+
+J’ai décidé de les recoder moi-même, avec l’aide de l’IA, pour :
+1. Comprendre les étapes clés : de l’idée au déploiement.
+2. Évaluer l'apport de mon expérience : est-ce que mon profil, bien que je ne code pas, peut aider une IA à bien coder.
+3. Identifier les pièges : où l’IA accélère, où elle complique, et quand il faut faire appel à un humain.
+
+Mon premier prompt a été "Affiche 'Hello World' sur mon site Internet de test" (1)
+En quelques secondes j'ai été bluffé !
+𝐌𝐞𝐬 𝐩𝐫𝐨𝐜𝐡𝐚𝐢𝐧𝐬 𝐩𝐨𝐬𝐭𝐬 𝐫𝐞𝐥𝐚𝐭𝐞𝐫𝐨𝐧𝐭 𝐥𝐚 𝐬𝐮𝐢𝐭𝐞 𝐝𝐞 𝐥'𝐚𝐯𝐞𝐧𝐭𝐮𝐫𝐞.
+
+Si le sujet vous intéresse, suivez l’aventure (la cloche est aussi sur LinkedIn 😉 )
+
+Je suis Alain Meunier, Product Manager, profil hybride Tech/Business.

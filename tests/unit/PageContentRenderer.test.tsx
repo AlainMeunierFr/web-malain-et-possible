@@ -5,7 +5,7 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import PageContentRenderer from '../../components/PageContentRenderer';
-import type { ElementContenu } from '../../utils/indexReader';
+import type { ElementContenu } from '../../utils';
 import { PageTitleProvider } from '../../contexts/PageTitleContext';
 
 // Mock all child components

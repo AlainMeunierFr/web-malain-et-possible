@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import footerButtonsData from '../data/_footerButtons.json';
 import FooterButton from './FooterButton';
 import type { FooterButton as FooterButtonType } from '../types/footer';
-import { getButtonAction } from '../utils/buttonHandlers';
+import { getButtonAction } from '../utils/client';
 
 interface FooterButtonsData {
   type: string;

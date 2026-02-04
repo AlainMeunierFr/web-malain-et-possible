@@ -166,7 +166,7 @@ function syncVersionWithUS(): void {
 function generateSiteMap(): void {
   try {
     console.log('📋 Génération automatique du plan du site...');
-    execSync('ts-node scripts/update-site-map.ts', {
+    execSync('ts-node --project tsconfig.node.json scripts/update-site-map.ts', {
       stdio: 'inherit',
       encoding: 'utf8',
       cwd: process.cwd(),

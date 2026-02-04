@@ -3,7 +3,7 @@
  * TDD: Tests d'abord pour valider la structure
  */
 
-import type { ElementHero, ElementProfil } from '../../utils/indexReader';
+import type { ElementHero, ElementProfil } from '../../utils';
 
 describe('Types hero et profil - TDD', () => {
   describe('Type ElementProfil', () => {

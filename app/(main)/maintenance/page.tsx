@@ -4,9 +4,9 @@ import React, { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useEditing } from '../../../contexts/EditingContext';
 import CallToAction from '../../../components/CallToAction';
-import type { ElementCallToAction } from '../../../utils/indexReader';
+import type { ElementCallToAction } from '../../../utils/client';
 import { Egg } from 'lucide-react';
-import { isDevelopment } from '../../../utils/environment';
+import { isDevelopment } from '../../../utils/client';
 import AssistantScenario from '../../../components/AssistantScenario';
 import styles from '../../maintenance/maintenance.module.css';
 

@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { ChevronDown, ChevronUp } from 'lucide-react';
 import CourseMarkdownRenderer from './CourseMarkdownRenderer';
-import type { CourseFile } from '../utils/journalReader';
+import type { CourseFile } from '../utils';
 
 export interface CourseListProps {
   courses: CourseFile[];

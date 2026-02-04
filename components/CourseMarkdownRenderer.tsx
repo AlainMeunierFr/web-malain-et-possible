@@ -1,5 +1,5 @@
 import React from 'react';
-import { parseInlineMarkdown } from '../utils/markdownInlineParser';
+import { parseInlineMarkdown } from '../utils';
 
 export interface CourseMarkdownRendererProps {
   content: string;

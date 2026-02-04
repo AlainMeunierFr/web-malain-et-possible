@@ -1,13 +1,13 @@
 'use client';
 
 import React, { useEffect, useState, useCallback } from 'react';
-import type { PlanSite, PlanPage, PlanLien } from '../utils/siteMapGenerator';
+import type { PlanSite, PlanPage, PlanLien } from '../utils/client';
 import {
   getLiensAParcourirInitial,
   getPagesAccessiblesDepuis,
   retirerLienUtilise,
   pageAccueil,
-} from '../utils/assistantScenario';
+} from '../utils/client';
 import styles from '../app/maintenance/maintenance.module.css';
 
 export default function AssistantScenario() {
@@ -18,6 +18,7 @@ export default function AssistantScenario() {
   const [pageCourante, setPageCourante] = useState<string>(pageAccueil());
   const [liensAParcourir, setLiensAParcourir] = useState<PlanLien[]>([]);
   const [cheminParcouru, setCheminParcouru] = useState<string[]>([pageAccueil()]);
+  const [regenerating, setRegenerating] = useState(false);
 
   useEffect(() => {
     fetch('/api/site-map')
@@ -85,6 +86,23 @@ export default function AssistantScenario() {
       alert(err instanceof Error ? err.message : 'Erreur');
     }
   }, [cheminParcouru, liensAParcourir.length]);
+
+  const handleRegenerateSiteMap = useCallback(async () => {
+    setRegenerating(true);
+    try {
+      const res = await fetch('/api/site-map/generate', { method: 'POST' });
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        throw new Error(data.error || 'Erreur regénération');
+      }
+      const data = await res.json();
+      alert(`Plan du site regénéré : ${data.pages} pages, ${data.liens} liens.\nRechargez la page pour voir les changements.`);
+    } catch (err) {
+      alert(err instanceof Error ? err.message : 'Erreur');
+    } finally {
+      setRegenerating(false);
+    }
+  }, []);
 
   if (loading) return <div className={styles.loading}>Chargement...</div>;
   if (error) return <div className={styles.error}>{error}</div>;
@@ -217,6 +235,17 @@ export default function AssistantScenario() {
               e2eid="e2eid-assistant-generer"
             >
               Générer scénario
+            </button>
+          </div>
+          <div className={styles.buttonsRow}>
+            <button
+              type="button"
+              className={`${styles.button} ${styles.buttonSecondary}`}
+              onClick={handleRegenerateSiteMap}
+              disabled={regenerating}
+              e2eid="e2eid-assistant-regenerer-plan"
+            >
+              {regenerating ? 'Regénération...' : 'Regénérer le plan du site'}
             </button>
           </div>
           <div className={styles.listBox}>

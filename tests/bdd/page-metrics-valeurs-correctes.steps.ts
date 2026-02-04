@@ -7,7 +7,7 @@ import { createBdd } from 'playwright-bdd';
 import { expect } from '@playwright/test';
 import * as fs from 'fs';
 import * as path from 'path';
-import { buildMetricsSnapshot, buildMetricsHistory } from '../../utils/metricsSnapshotBuilder';
+import { buildMetricsSnapshot, buildMetricsHistory } from '../../utils/server';
 
 const { Given, When, Then } = createBdd();
 

@@ -1,8 +1,7 @@
+import React from 'react';
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { readPageData } from '../../../../utils/indexReader';
-import { buildProfilMetadata } from '../../../../utils/metadataBuilder';
-import { buildProfilPageJsonLd } from '../../../../utils/jsonLdBuilder';
+import { readPageData, buildProfilMetadata, buildProfilPageJsonLd } from '../../../../utils/server';
 import PageContentRenderer from '../../../../components/PageContentRenderer';
 import JsonLd from '../../../../components/JsonLd';
 

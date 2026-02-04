@@ -3,8 +3,8 @@
  * APPROCHE TDD : Red → Green → Refactor
  */
 
-import { parseSectionContent } from '../../utils/aboutSiteReader';
-import type { ContenuElement } from '../../utils/aboutSiteReader';
+import { parseSectionContent } from '../../utils/server';
+import type { ContenuElement } from '../../utils';
 
 describe('Détection des thèmes et critères dans "Critères d\'acceptation"', () => {
   describe('Détection de la section "Critères d\'acceptation"', () => {

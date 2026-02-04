@@ -13,7 +13,7 @@
 
 import fs from 'fs';
 import path from 'path';
-import { hashMD5, hashPassword, getStoredPasswordHash, verifyPassword } from '../../utils/passwordUtils';
+import { hashMD5, hashPassword, getStoredPasswordHash, verifyPassword } from '../../utils/server';
 
 // Mock fs
 jest.mock('fs');

@@ -16,7 +16,7 @@ import {
   isInternalNavigation,
   getButtonAction,
   type ButtonAction,
-} from '../../utils/buttonHandlers';
+} from '../../utils';
 import { COMMANDS, ROUTES } from '../../constants/routes';
 
 describe('buttonHandlers - Approche TDD (simple → complexe)', () => {

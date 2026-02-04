@@ -3,6 +3,8 @@
  * Utilisé pour le SEO (rich snippets Google).
  */
 
+import React from 'react';
+
 interface JsonLdProps {
   data: object | object[];
 }

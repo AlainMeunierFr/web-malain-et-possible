@@ -783,92 +783,296 @@
         "buildTime": 15971,
         "lighthouseScore": "NC"
       }
+    },
+    {
+      "timestamp": "2026-02-04T15:55:04.761Z",
+      "branch": "refacto-css-metadata",
+      "commit": "b5f6332",
+      "tests": {
+        "unitTests": 853,
+        "unitTestFiles": 87,
+        "unitTestPassed": 831,
+        "unitTestFailed": 22,
+        "unitTestDuration": 18035,
+        "integrationTests": 31,
+        "integrationTestFiles": 5,
+        "integrationTestPassed": 30,
+        "integrationTestFailed": 1,
+        "integrationTestDuration": 11416,
+        "bddFeatures": 27,
+        "bddScenarios": 217,
+        "bddScenariosPassed": 217,
+        "bddScenariosFailed": 0,
+        "bddSteps": 80,
+        "bddTestDuration": 0,
+        "e2eSteps": 15,
+        "e2eScenarioFiles": 1,
+        "e2eScenarios": 3,
+        "e2eStepsPassed": 12,
+        "e2eStepsFailed": 3,
+        "e2eTests": {
+          "total": 3,
+          "passed": 0,
+          "failed": 3,
+          "duration": 27495,
+          "lastRunDate": "2026-02-04T15:55:04.646Z"
+        },
+        "totalTests": 1116,
+        "totalTestFiles": 120,
+        "passingTests": 1090,
+        "failingTests": 26,
+        "testDuration": 56946
+      },
+      "coverage": {
+        "lines": {
+          "total": 52,
+          "covered": 52,
+          "percentage": 100
+        },
+        "statements": {
+          "total": 52,
+          "covered": 52,
+          "percentage": 100
+        },
+        "functions": {
+          "total": 5,
+          "covered": 5,
+          "percentage": 100
+        },
+        "branches": {
+          "total": 32,
+          "covered": 29,
+          "percentage": 90.62
+        }
+      },
+      "quality": {
+        "eslintErrors": 0,
+        "eslintWarnings": 0,
+        "typeCoverage": 96,
+        "cyclomaticComplexity": "NC",
+        "maintainabilityIndex": "NC",
+        "technicalDebt": "NC"
+      },
+      "size": {
+        "totalFiles": 102,
+        "totalLines": 14455,
+        "sourceLines": 14455,
+        "commentLines": 0,
+        "blankLines": 0,
+        "components": 42,
+        "pages": 15,
+        "utils": 45,
+        "tests": 92
+      },
+      "dependencies": {
+        "total": 39,
+        "production": 6,
+        "development": 33,
+        "outdated": 0,
+        "vulnerabilities": {
+          "low": 0,
+          "moderate": 0,
+          "high": 0,
+          "critical": 0,
+          "total": 0
+        }
+      },
+      "performance": {
+        "bundleSize": 685013,
+        "buildTime": 33772,
+        "lighthouseScore": "NC"
+      }
+    },
+    {
+      "timestamp": "2026-02-04T16:03:59.111Z",
+      "branch": "refacto-css-metadata",
+      "commit": "b5f6332",
+      "tests": {
+        "unitTests": 853,
+        "unitTestFiles": 87,
+        "unitTestPassed": 831,
+        "unitTestFailed": 22,
+        "unitTestDuration": 25059,
+        "integrationTests": 31,
+        "integrationTestFiles": 5,
+        "integrationTestPassed": 30,
+        "integrationTestFailed": 1,
+        "integrationTestDuration": 14026,
+        "bddFeatures": 27,
+        "bddScenarios": 217,
+        "bddScenariosPassed": 217,
+        "bddScenariosFailed": 0,
+        "bddSteps": 80,
+        "bddTestDuration": 0,
+        "e2eSteps": 15,
+        "e2eScenarioFiles": 1,
+        "e2eScenarios": 3,
+        "e2eStepsPassed": 12,
+        "e2eStepsFailed": 3,
+        "e2eTests": {
+          "total": 3,
+          "passed": 0,
+          "failed": 3,
+          "duration": 29757,
+          "lastRunDate": "2026-02-04T16:03:59.014Z"
+        },
+        "totalTests": 1116,
+        "totalTestFiles": 120,
+        "passingTests": 1090,
+        "failingTests": 26,
+        "testDuration": 68842
+      },
+      "coverage": {
+        "lines": {
+          "total": 52,
+          "covered": 52,
+          "percentage": 100
+        },
+        "statements": {
+          "total": 52,
+          "covered": 52,
+          "percentage": 100
+        },
+        "functions": {
+          "total": 5,
+          "covered": 5,
+          "percentage": 100
+        },
+        "branches": {
+          "total": 32,
+          "covered": 29,
+          "percentage": 90.62
+        }
+      },
+      "quality": {
+        "eslintErrors": 0,
+        "eslintWarnings": 0,
+        "typeCoverage": 96,
+        "cyclomaticComplexity": "NC",
+        "maintainabilityIndex": "NC",
+        "technicalDebt": "NC"
+      },
+      "size": {
+        "totalFiles": 102,
+        "totalLines": 14457,
+        "sourceLines": 14457,
+        "commentLines": 0,
+        "blankLines": 0,
+        "components": 42,
+        "pages": 15,
+        "utils": 45,
+        "tests": 92
+      },
+      "dependencies": {
+        "total": 39,
+        "production": 6,
+        "development": 33,
+        "outdated": 0,
+        "vulnerabilities": {
+          "low": 0,
+          "moderate": 0,
+          "high": 0,
+          "critical": 0,
+          "total": 0
+        }
+      },
+      "performance": {
+        "bundleSize": 717051,
+        "buildTime": 33772,
+        "lighthouseScore": "NC"
+      },
+      "lighthouse": {
+        "performance": "NC",
+        "accessibility": "NC",
+        "bestPractices": "NC",
+        "seo": "NC"
+      }
     }
   ],
   "latest": {
-    "timestamp": "2026-01-30T21:49:33.672Z",
-    "branch": "main",
-    "commit": "72de6bc",
+    "timestamp": "2026-02-04T16:03:59.111Z",
+    "branch": "refacto-css-metadata",
+    "commit": "b5f6332",
     "tests": {
-      "unitTests": 595,
-      "unitTestFiles": 70,
-      "unitTestPassed": 590,
-      "unitTestFailed": 5,
-      "unitTestDuration": 9315,
+      "unitTests": 853,
+      "unitTestFiles": 87,
+      "unitTestPassed": 831,
+      "unitTestFailed": 22,
+      "unitTestDuration": 25059,
       "integrationTests": 31,
       "integrationTestFiles": 5,
-      "integrationTestPassed": 31,
-      "integrationTestFailed": 0,
-      "integrationTestDuration": 6620,
-      "bddFeatures": 23,
-      "bddScenarios": 182,
-      "bddScenariosPassed": 182,
+      "integrationTestPassed": 30,
+      "integrationTestFailed": 1,
+      "integrationTestDuration": 14026,
+      "bddFeatures": 27,
+      "bddScenarios": 217,
+      "bddScenariosPassed": 217,
       "bddScenariosFailed": 0,
-      "bddSteps": 0,
+      "bddSteps": 80,
       "bddTestDuration": 0,
-      "e2eSteps": 20,
+      "e2eSteps": 15,
       "e2eScenarioFiles": 1,
       "e2eScenarios": 3,
-      "e2eStepsPassed": 20,
-      "e2eStepsFailed": 0,
+      "e2eStepsPassed": 12,
+      "e2eStepsFailed": 3,
       "e2eTests": {
         "total": 3,
-        "passed": 3,
-        "failed": 0,
-        "duration": 35955,
-        "lastRunDate": "2026-01-30T21:49:33.631Z"
+        "passed": 0,
+        "failed": 3,
+        "duration": 29757,
+        "lastRunDate": "2026-02-04T16:03:59.014Z"
       },
-      "totalTests": 828,
-      "totalTestFiles": 99,
-      "passingTests": 823,
-      "failingTests": 5,
-      "testDuration": 51890
+      "totalTests": 1116,
+      "totalTestFiles": 120,
+      "passingTests": 1090,
+      "failingTests": 26,
+      "testDuration": 68842
     },
     "coverage": {
       "lines": {
-        "total": 2940,
-        "covered": 2373,
-        "percentage": 80.71
+        "total": 52,
+        "covered": 52,
+        "percentage": 100
       },
       "statements": {
-        "total": 3113,
-        "covered": 2499,
-        "percentage": 80.27
+        "total": 52,
+        "covered": 52,
+        "percentage": 100
       },
       "functions": {
-        "total": 409,
-        "covered": 338,
-        "percentage": 82.64
+        "total": 5,
+        "covered": 5,
+        "percentage": 100
       },
       "branches": {
-        "total": 2057,
-        "covered": 1407,
-        "percentage": 68.4
+        "total": 32,
+        "covered": 29,
+        "percentage": 90.62
       }
     },
     "quality": {
       "eslintErrors": 0,
       "eslintWarnings": 0,
-      "typeCoverage": 95,
+      "typeCoverage": 96,
       "cyclomaticComplexity": "NC",
       "maintainabilityIndex": "NC",
       "technicalDebt": "NC"
     },
     "size": {
-      "totalFiles": 74,
-      "totalLines": 10275,
-      "sourceLines": 10275,
+      "totalFiles": 102,
+      "totalLines": 14457,
+      "sourceLines": 14457,
       "commentLines": 0,
       "blankLines": 0,
-      "components": 35,
-      "pages": 12,
-      "utils": 27,
-      "tests": 75
+      "components": 42,
+      "pages": 15,
+      "utils": 45,
+      "tests": 92
     },
     "dependencies": {
-      "total": 36,
+      "total": 39,
       "production": 6,
-      "development": 30,
+      "development": 33,
       "outdated": 0,
       "vulnerabilities": {
         "low": 0,
@@ -879,9 +1083,15 @@
       }
     },
     "performance": {
-      "bundleSize": 940270,
-      "buildTime": 15971,
+      "bundleSize": 717051,
+      "buildTime": 33772,
       "lighthouseScore": "NC"
+    },
+    "lighthouse": {
+      "performance": "NC",
+      "accessibility": "NC",
+      "bestPractices": "NC",
+      "seo": "NC"
     }
   },
   "trends": {

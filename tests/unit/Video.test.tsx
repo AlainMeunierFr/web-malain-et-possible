@@ -6,7 +6,7 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import Video from '../../components/Video';
-import type { ElementVideo } from '../../utils/indexReader';
+import type { ElementVideo } from '../../utils';
 
 describe('Composant Video', () => {
   it('devrait afficher une iframe YouTube avec la bonne URL', () => {

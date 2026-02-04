@@ -1,5 +1,4 @@
-import { readPageData } from '../../../utils/indexReader';
-import { buildPageMetadata } from '../../../utils/metadataBuilder';
+import { readPageData, buildPageMetadata } from '../../../utils/server';
 import PageContentRenderer from '../../../components/PageContentRenderer';
 
 export const metadata = buildPageMetadata('faisons-connaissance.json', '/faisons-connaissance');

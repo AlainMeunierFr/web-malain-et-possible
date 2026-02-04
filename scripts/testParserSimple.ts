@@ -2,7 +2,7 @@
  * Script simple pour tester le parser avec un exemple minimal
  */
 
-import { parseJournalMarkdown } from '../utils/journalMarkdownParser';
+import { parseJournalMarkdown } from '../utils/server';
 
 const markdown = `# Création du site
 

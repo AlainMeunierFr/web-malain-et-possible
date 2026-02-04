@@ -14,7 +14,7 @@
  * Les tests sont conservés pour compatibilité avec d'anciens scripts.
  */
 
-import { adjustMarkdownTitleLevels } from '../../utils/markdownTitleAdjuster';
+import { adjustMarkdownTitleLevels } from '../../utils';
 
 describe('markdownTitleAdjuster - Approche TDD (simple → complexe)', () => {
   describe('adjustMarkdownTitleLevels', () => {

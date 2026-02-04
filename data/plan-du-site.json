@@ -25,6 +25,12 @@
           "dessiner": "Oui"
         },
         {
+          "url": "/charte",
+          "titre": "charte",
+          "zone": "Autres",
+          "dessiner": "Oui"
+        },
+        {
           "url": "/detournement-video",
           "titre": "Détournement de scènes cultes du cinéma",
           "zone": "Autres",
@@ -40,12 +46,6 @@
           "url": "/mes-profils",
           "titre": "Mes Profils",
           "zone": "Autres",
-          "dessiner": "Oui"
-        },
-        {
-          "url": "/metrics",
-          "titre": "metrics",
-          "zone": "Footer",
           "dessiner": "Oui"
         },
         {

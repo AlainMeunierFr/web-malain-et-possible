@@ -20,14 +20,17 @@
 
 import * as fs from 'fs';
 import * as path from 'path';
-import type { PlanLien } from '../utils/siteMapGenerator';
-import { generateE2eIdInventory, type E2eIdInventoryItem } from '../utils/e2eIdInventory';
-import { generateE2eIdFromUrl } from '../utils/e2eIdFromUrl';
-import { detectMissingE2eIds, generateAuditFile } from '../utils/e2eIdDetector';
-import { generateE2eIdsFromAudit } from '../utils/e2eIdGenerator';
+import { generateE2eIdFromUrl, getPagesExclues } from '../utils/client';
+import type { PlanLien } from '../utils/client';
+import type { E2eIdInventoryItem } from '../utils/backoffice/integrity/e2eIdInventory';
+import {
+  generateE2eIdInventory,
+  detectMissingE2eIds,
+  generateAuditFile,
+  generateE2eIdsFromAudit,
+  genererContenuSpecE2E,
+} from '../utils/backoffice/index';
 import { E2E_IDS } from '../constants/e2eIds';
-import { getPagesExclues } from '../utils/assistantScenario';
-import { genererContenuSpecE2E } from '../utils/e2eScenarioBuilder';
 
 interface LienAvecIndex extends PlanLien {
   index: number; // Index original dans le tableau
@@ -71,7 +74,8 @@ const validateE2eIdsConsistency = (
   codeTest: string,
   inventory: E2eIdInventoryItem[],
   footerE2eIds: string[],
-  planPages: { url: string }[]
+  planPages: { url: string }[],
+  planLiens: PlanLien[]
 ): { ok: boolean; orphelins: string[]; message?: string } => {
   const usedInTest = getE2eIdsUsedInGeneratedCode(codeTest);
   const appE2eIds = new Set<string>();
@@ -81,6 +85,18 @@ const validateE2eIdsConsistency = (
   appE2eIds.add(E2E_IDS.header.photo);
   // Liens du plan du site : e2eID déterministe depuis l'URL (ListeDesPages utilise generateE2eIdFromUrl)
   planPages.forEach((p) => appE2eIds.add(generateE2eIdFromUrl(p.url)));
+  // e2eID des liens définis dans _Pages-Et-Lien.json
+  planLiens.forEach((l) => {
+    if (l.e2eID) appE2eIds.add(l.e2eID);
+  });
+  // e2eID dynamiques des profils (profil-{slug}-acces, profil-{slug}-cv)
+  ['cpo', 'coo', 'agile', 'cto'].forEach((slug) => {
+    appE2eIds.add(`profil-${slug}-acces`);
+    appE2eIds.add(`profil-${slug}-cv`);
+  });
+  // e2eID dynamiques du hero
+  appE2eIds.add('hero-telecharger-cv');
+  appE2eIds.add('hero-bouton-principal');
 
   const orphelins = [...usedInTest].filter((id) => !appE2eIds.has(id));
   if (orphelins.length > 0) {
@@ -94,8 +110,8 @@ const validateE2eIdsConsistency = (
 };
 
 /**
- * Génère un chemin qui visite chaque page une seule fois
- * et teste tous les liens depuis chaque page visitée.
+ * Génère un chemin qui visite chaque page une seule fois en suivant les liens réels.
+ * Si aucun lien direct n'existe, passe par /plan-du-site pour atteindre la destination.
  * Les pages avec zone "Masqué" (sauf /plan-du-site) sont exclues.
  */
 const genererCheminComplet = (
@@ -107,6 +123,15 @@ const genererCheminComplet = (
   const chemin: string[] = [];
   const liensUtilises: PlanLien[] = [];
   const pagesVisitees = new Set<string>();
+
+  // Construire un index des liens par source pour accès rapide
+  const liensParSource = new Map<string, PlanLien[]>();
+  for (const lien of liens) {
+    if (!liensParSource.has(lien.source)) {
+      liensParSource.set(lien.source, []);
+    }
+    liensParSource.get(lien.source)!.push(lien);
+  }
 
   const pagesUniques = new Set<string>();
   liensRestants.forEach((lien) => {
@@ -123,24 +148,14 @@ const genererCheminComplet = (
   if (pagesUniques.has('/')) {
     pageCourante = '/';
   } else if (pagesUniques.size > 0) {
-    // Prendre la première page disponible
     pageCourante = Array.from(pagesUniques)[0];
   }
 
-  // Visiter toutes les pages une seule fois
-  while (pageCourante && pagesUniques.size > 0) {
-    // Ajouter la page au chemin si elle n'a pas encore été visitée
-    if (!pagesVisitees.has(pageCourante)) {
-      chemin.push(pageCourante);
-      pagesVisitees.add(pageCourante);
-      pagesUniques.delete(pageCourante);
-    }
-
-    // Marquer tous les liens depuis cette page comme utilisés
-    const liensDepuisPage = liensRestants.filter((l) => l.source === pageCourante);
+  // Fonction pour marquer les liens depuis une page comme utilisés
+  const marquerLiensUtilises = (page: string) => {
+    const liensDepuisPage = liensRestants.filter((l) => l.source === page);
     liensDepuisPage.forEach((lien) => {
       liensUtilises.push({ ...lien });
-      // Retirer le lien de la liste restante
       const index = liensRestants.findIndex(
         (l) => l.source === lien.source && l.destination === lien.destination
       );
@@ -148,36 +163,88 @@ const genererCheminComplet = (
         liensRestants.splice(index, 1);
       }
     });
+  };
 
-    // Trouver la prochaine page à visiter
-    // Priorité : une page qui a des liens restants depuis elle
-    let prochainePage: string | null = null;
-    
-    // Chercher une page avec des liens restants
-    for (const page of pagesUniques) {
-      const aDesLiensRestants = liensRestants.some((l) => l.source === page);
-      if (aDesLiensRestants) {
-        prochainePage = page;
-        break;
+  // Fonction pour trouver une destination accessible depuis la page courante
+  const trouverDestinationAccessible = (depuis: string): string | null => {
+    const liensDepuis = liensParSource.get(depuis) || [];
+    // Priorité 1 : destination non visitée avec des liens restants
+    for (const lien of liensDepuis) {
+      if (!pagesVisitees.has(lien.destination) && !pagesExclues.includes(lien.destination)) {
+        const aDesLiensRestants = liensRestants.some((l) => l.source === lien.destination);
+        if (aDesLiensRestants) {
+          return lien.destination;
+        }
       }
     }
+    // Priorité 2 : n'importe quelle destination non visitée
+    for (const lien of liensDepuis) {
+      if (!pagesVisitees.has(lien.destination) && !pagesExclues.includes(lien.destination)) {
+        return lien.destination;
+      }
+    }
+    return null;
+  };
 
-    // Si aucune page avec liens restants, prendre n'importe quelle page non visitée
+  // Visiter toutes les pages en suivant les liens réels
+  while (pageCourante && pagesUniques.size > 0) {
+    // Ajouter la page au chemin si elle n'a pas encore été visitée
+    if (!pagesVisitees.has(pageCourante)) {
+      chemin.push(pageCourante);
+      pagesVisitees.add(pageCourante);
+      pagesUniques.delete(pageCourante);
+      marquerLiensUtilises(pageCourante);
+    }
+
+    // Trouver la prochaine page accessible via un lien direct
+    let prochainePage = trouverDestinationAccessible(pageCourante);
+
+    // Si aucune destination accessible et qu'il reste des pages à visiter
     if (!prochainePage && pagesUniques.size > 0) {
-      prochainePage = Array.from(pagesUniques)[0];
+      // Passer par /plan-du-site pour accéder aux pages restantes
+      if (pageCourante !== '/plan-du-site' && !pagesVisitees.has('/plan-du-site')) {
+        // Aller d'abord sur /plan-du-site
+        prochainePage = '/plan-du-site';
+      } else if (pageCourante === '/plan-du-site') {
+        // Depuis /plan-du-site, on peut accéder à n'importe quelle page non masquée
+        prochainePage = trouverDestinationAccessible('/plan-du-site');
+        if (!prochainePage) {
+          // Prendre n'importe quelle page restante (accessible depuis plan-du-site)
+          for (const page of pagesUniques) {
+            if (!pagesExclues.includes(page)) {
+              prochainePage = page;
+              break;
+            }
+          }
+        }
+      } else {
+        // Retourner à /plan-du-site via le footer (toujours accessible)
+        chemin.push('/plan-du-site');
+        pagesVisitees.add('/plan-du-site');
+        pagesUniques.delete('/plan-du-site');
+        marquerLiensUtilises('/plan-du-site');
+        prochainePage = trouverDestinationAccessible('/plan-du-site');
+        if (!prochainePage) {
+          for (const page of pagesUniques) {
+            if (!pagesExclues.includes(page)) {
+              prochainePage = page;
+              break;
+            }
+          }
+        }
+      }
     }
 
     pageCourante = prochainePage;
   }
 
-  // Vérifier s'il reste des liens non testés (liens vers des pages exclues, etc.)
+  // Vérifier s'il reste des liens non testés
   if (liensRestants.length > 0) {
     console.warn(`⚠️  ${liensRestants.length} lien(s) non testé(s) (vers pages exclues ou inaccessibles)`);
   }
 
-  // Si le chemin est vide mais qu'il y a des pages dans le plan, visiter au moins l'accueil
+  // Si le chemin est vide, visiter au moins l'accueil
   if (chemin.length === 0) {
-    // Visiter au moins la page d'accueil pour pouvoir tester les e2eID
     chemin.push('/');
   }
 
@@ -347,7 +414,7 @@ const main = () => {
 
   // Validation : tous les e2eID utilisés dans le scénario doivent exister dans l'app
   const footerE2eIds = getFooterE2eIds();
-  const validation = validateE2eIdsConsistency(codeTest, inventory, footerE2eIds, pages);
+  const validation = validateE2eIdsConsistency(codeTest, inventory, footerE2eIds, pages, liens);
   if (!validation.ok) {
     console.error('❌ Incohérence des e2eID détectée :');
     console.error(`   ${validation.message}`);

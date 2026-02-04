@@ -5,10 +5,10 @@
 
 'use client';
 
-import React, { useState } from 'react';
-import { AlertTriangle } from 'lucide-react';
-import type { ElementListeDeDetournementsVideo } from '../utils/indexReader';
+import React from 'react';
+import type { ElementListeDeDetournementsVideo } from '../utils/client';
 import TexteLarge from './TexteLarge';
+import AlerteDroitsAuteur from './AlerteDroitsAuteur';
 
 export interface VideoDetournementProps {
   element: ElementListeDeDetournementsVideo;
@@ -47,8 +47,6 @@ function parseDate(dateStr: string): Date {
 }
 
 const VideoDetournement: React.FC<VideoDetournementProps> = ({ element }) => {
-  const [showDroitsAuteur, setShowDroitsAuteur] = useState<number | null>(null);
-
   // Vérifier que les items existent (peuvent être chargés depuis une source externe)
   if (!element.items || element.items.length === 0) {
     return null;
@@ -62,104 +60,76 @@ const VideoDetournement: React.FC<VideoDetournementProps> = ({ element }) => {
   });
 
   return (
-    <div className="videoDetournement" data-layout="X rows">
+    <section className="listeDeDetournementsVideo" data-layout="X rows">
       {sortedItems.map((detournement, index) => {
         const videoDetourneeId = extraireIdYouTube(detournement.videoDetournee);
         const videoOriginaleId = extraireIdYouTube(detournement.videoOriginale);
         
         return (
-          <div key={detournement.id || index} className="ui-card">
-            {/* Ordre DOM = CANONICAL_SPEC_ORDER : titre → pitch → date → titreVideoDetournee → videoDetournee → droitsAuteur → linkedin → titreVideoOriginale → videoOriginale */}
+          // Structure conforme à /charte : .detournementVideo.ui-card
+          <div key={detournement.id || index} className="detournementVideo ui-card">
+            {/* Titre h2 standard */}
             <h2 className="detournementVideo titre">{detournement.titre}</h2>
 
+            {/* Pitch */}
             {detournement.pitch && (
               <div className="detournementVideo pitch">
                 <TexteLarge element={{ type: 'texteLarge', texte: detournement.pitch }} />
               </div>
             )}
 
-            {detournement.date && (
-              <p className="detournementVideo date">{detournement.date}</p>
-            )}
-
-            <h3 className="detournementVideo titreVideoDetournee">{detournement.titreVideoDetournee}</h3>
-
-            {/* --v : videoDetournee */}
-            <div className="detournementVideo videoDetournee" data-url={detournement.videoDetournee}>
-              <span className="detournementVideo-url">{detournement.videoDetournee}</span>
-              {videoDetourneeId && (
-                <div className="ui-videoWrapper">
-                  <iframe
-                    src={`https://www.youtube.com/embed/${videoDetourneeId}?rel=0&modestbranding=1`}
-                    title="Vidéo détournée"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                    allowFullScreen
-                  />
-                </div>
-              )}
-            </div>
-
-            {/* droitsAuteur (--n) puis linkedin (--n) */}
-            <div className="ui-videoActions">
-              {detournement.droitsAuteur && (
-                <div className="ui-droitsAuteurContainer" data-layout="tooltip, droits d'auteur">
-                  <button
-                    className="ui-alertButton"
-                    onClick={() => setShowDroitsAuteur(showDroitsAuteur === index ? null : index)}
-                    aria-label="Information sur les droits d'auteur"
-                  >
-                    <AlertTriangle className="ui-alertIcon" />
-                  </button>
-                  {showDroitsAuteur === index && (
-                    <div className="ui-popup">
-                      <button
-                        className="ui-closeButton"
-                        onClick={() => setShowDroitsAuteur(null)}
-                        aria-label="Fermer"
-                      >
-                        ×
-                      </button>
-                      <div className="ui-popupContent">
-                        {detournement.droitsAuteur.split('\n').map((line: string, lineIndex: number) => (
-                          <p key={lineIndex}>{line}</p>
-                        ))}
-                      </div>
-                    </div>
+            {/* Videos : 2 colonnes côte à côte */}
+            <div className="detournementVideo videos">
+              {/* Vidéo détournée */}
+              <div className="detournementVideo videoDetournee">
+                <h3 className="detournementVideo titreVideoDetournee">{detournement.titreVideoDetournee}</h3>
+                <p className="detournementVideo source">{detournement.titre}</p>
+                {videoDetourneeId && (
+                  <div className="ui-videoWrapper">
+                    <iframe
+                      src={`https://www.youtube.com/embed/${videoDetourneeId}?rel=0&modestbranding=1`}
+                      title="Vidéo détournée"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                      allowFullScreen
+                    />
+                  </div>
+                )}
+                {/* Actions : droitsAuteur (tooltip CSS) + linkedin */}
+                <div className="ui-videoActions">
+                  <AlerteDroitsAuteur texte={detournement.droitsAuteur} />
+                  {detournement.linkedin && (
+                    <a 
+                      href={detournement.linkedin} 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="ui-linkedinButton bouton"
+                    >
+                      VOIR L&apos;ENGAGEMENT SUR LINKEDIN
+                    </a>
                   )}
                 </div>
-              )}
-              {detournement.linkedin && (
-                <a 
-                  href={detournement.linkedin} 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="ui-linkedinButton"
-                >
-                  VOIR L&apos;ENGAGEMENT SUR LINKEDIN
-                </a>
-              )}
-            </div>
+              </div>
 
-            <h3 className="detournementVideo titreVideoOriginale">{detournement.titreVideoOriginale}</h3>
-
-            {/* --v : videoOriginale */}
-            <div className="detournementVideo videoOriginale" data-url={detournement.videoOriginale}>
-              <span className="detournementVideo-url">{detournement.videoOriginale}</span>
-              {videoOriginaleId && (
-                <div className="ui-videoWrapper">
-                  <iframe
-                    src={`https://www.youtube.com/embed/${videoOriginaleId}?rel=0&modestbranding=1`}
-                    title="Vidéo originale"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                    allowFullScreen
-                  />
-                </div>
-              )}
+              {/* Vidéo originale */}
+              <div className="detournementVideo videoOriginale">
+                <h3 className="detournementVideo titreVideoOriginale">{detournement.titreVideoOriginale}</h3>
+                <p className="detournementVideo source">{detournement.titreVideoOriginale}</p>
+                {videoOriginaleId && (
+                  <div className="ui-videoWrapper">
+                    <iframe
+                      src={`https://www.youtube.com/embed/${videoOriginaleId}?rel=0&modestbranding=1`}
+                      title="Vidéo originale"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                      allowFullScreen
+                    />
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         );
       })}
-    </div>
+    </section>
   );
 };
 

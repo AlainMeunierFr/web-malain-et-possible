@@ -10,7 +10,7 @@ import {
   type PlanPage,
   type PlanLien,
   type PlanSite,
-} from '../../utils/siteMapGenerator';
+} from '../../utils/backoffice';
 
 const { Given, When, Then } = createBdd();
 

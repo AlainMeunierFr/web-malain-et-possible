@@ -5,7 +5,7 @@
 'use client';
 
 import React, { useEffect } from 'react';
-import type { ElementContenu } from '../utils/indexReader';
+import type { ElementContenu } from '../utils';
 import { usePageTitle } from '../contexts/PageTitleContext';
 import Titre from './Titre';
 import Video from './Video';
@@ -78,7 +78,7 @@ const PageContentRenderer: React.FC<PageContentRendererProps> = ({ contenu, list
             return <TexteLarge key={index} element={element} />;
           case 'domaineDeCompetence': {
             // Type guard : TypeScript sait maintenant que element est ElementDomaineDeCompetence
-            const domaineElement = element as import('../utils/indexReader').ElementDomaineDeCompetence;
+            const domaineElement = element as import('../utils').ElementDomaineDeCompetence;
             
             // Déterminer la couleur de fond : pair = blanc, impair = bleu clair
             // Le premier après un titre (index 0, pair) est toujours blanc

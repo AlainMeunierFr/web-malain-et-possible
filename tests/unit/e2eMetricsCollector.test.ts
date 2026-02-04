@@ -5,7 +5,7 @@
 
 import fs from 'fs';
 import path from 'path';
-import { collectE2EMetrics } from '../../utils/e2eMetricsCollector';
+import { collectE2EMetrics } from '../../utils/server';
 
 // Mock fs
 jest.mock('fs');

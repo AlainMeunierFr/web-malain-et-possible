@@ -5,8 +5,8 @@
  * Feuille de style dédiée : mode-lecture.css (pas de modification de content-styles.css).
  */
 
-import { readPageData } from '../../../utils/indexReader';
-import type { ElementContenu } from '../../../utils/indexReader';
+import { readPageData } from '../../../utils/server';
+import type { ElementContenu } from '../../../utils/client';
 import ModeLectureRenderer from '../../../components/ModeLectureRenderer';
 
 /** Page du plan du site (pour liste des pages en mode lecture). */

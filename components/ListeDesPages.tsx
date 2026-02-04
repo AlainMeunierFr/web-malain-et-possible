@@ -3,8 +3,8 @@
 import React from 'react';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
-import type { PlanSite, PlanPage } from '../utils/siteMapGenerator';
-import { generateE2eIdFromUrl } from '../utils/e2eIdFromUrl';
+import type { PlanSite, PlanPage } from '../utils/client';
+import { generateE2eIdFromUrl } from '../utils/client';
 
 /** Données initiales issues de plan-du-site.json (rendu pur JSON, pas de fetch). */
 export interface ListeDesPagesInitial {

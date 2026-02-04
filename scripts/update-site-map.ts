@@ -3,7 +3,7 @@
  * Les pages affichées dans "Plan du site" viennent de plan-du-site.json (rendu pur JSON).
  */
 
-import { detecterPages, detecterLiensInternes, mettreAJourPlanJSON, injecterPagesDansPlanDuSiteJson } from '../utils/siteMapGenerator';
+import { detecterPages, detecterLiensInternes, mettreAJourPlanJSON, injecterPagesDansPlanDuSiteJson } from '../utils/backoffice/generators/siteMapGenerator';
 
 const pages = detecterPages();
 const liens = detecterLiensInternes();

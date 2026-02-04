@@ -13,7 +13,7 @@
 
 import fs from 'fs';
 import path from 'path';
-import { generateE2eIdInventory, extractE2eIdsFromTestFile } from '../../utils/e2eIdInventory';
+import { generateE2eIdInventory, extractE2eIdsFromTestFile } from '../../utils/backoffice';
 import { E2E_IDS } from '../../constants/e2eIds';
 
 // Mock fs

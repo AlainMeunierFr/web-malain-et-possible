@@ -5,8 +5,8 @@
 
 import React from 'react';
 import Image from 'next/image';
-import type { ElementListeDeTemoignages, ElementTemoignage } from '../utils/indexReader';
-import { getJsonImagePath } from '../utils/imagePath';
+import type { ElementListeDeTemoignages, ElementTemoignage } from '../utils';
+import { getJsonImagePath } from '../utils';
 
 export interface TemoignagesProps {
   element: ElementListeDeTemoignages;
@@ -19,7 +19,8 @@ const Temoignages: React.FC<TemoignagesProps> = ({ element }) => {
   }
 
   return (
-    <div className="temoignages" data-layout="2 columns x N rows">
+    <section className="temoignages" data-layout="2 columns x N rows">
+      <h2 className="listeDeTemoignages titre">Témoignages</h2>
       <div className="ui-grid">
         {element.items.map((temoignage: ElementTemoignage, index) => (
           <div key={index} className="temoignage ui-card">
@@ -49,7 +50,7 @@ const Temoignages: React.FC<TemoignagesProps> = ({ element }) => {
           </div>
         ))}
       </div>
-    </div>
+    </section>
   );
 };
 

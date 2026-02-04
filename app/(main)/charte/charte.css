@@ -128,3 +128,29 @@
   border-radius: 0.25rem;
   font-size: var(--petite);
 }
+
+/* Hiérarchie ASCII */
+.hierarchy-ascii {
+  background: var(--Noir);
+  color: var(--CouleurClaire);
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+  overflow-x: auto;
+  font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+  font-size: var(--petite);
+  line-height: 1.4;
+  white-space: pre;
+  margin: 0;
+}
+
+/* data-layout en jaune dans la hiérarchie ASCII */
+.hierarchy-ascii .data-layout-highlight {
+  color: #ffd700; /* Jaune or */
+  font-weight: 600;
+}
+
+/* Types hiérarchiques en vert dans la hiérarchie ASCII */
+.hierarchy-ascii .type-hierarchique-highlight {
+  color: #00ff88; /* Vert clair */
+  font-weight: 600;
+}

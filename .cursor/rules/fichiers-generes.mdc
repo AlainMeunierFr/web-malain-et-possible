@@ -1,0 +1,42 @@
+---
+description: Protection des fichiers générés automatiquement
+globs:
+  - data/_Pages-Et-Lien.json
+  - data/plan-du-site.json
+  - tests/end-to-end/parcours-complet-liens.spec.ts
+---
+
+# Fichiers générés automatiquement — NE PAS MODIFIER MANUELLEMENT
+
+Ces fichiers sont générés par des scripts et ne doivent **JAMAIS être modifiés manuellement par l'IA**.
+
+## Fichiers concernés
+
+| Fichier | Script générateur |
+|---------|-------------------|
+| `data/_Pages-Et-Lien.json` | `scripts/update-site-map.ts` |
+| `data/plan-du-site.json` | `scripts/update-site-map.ts` |
+| `tests/end-to-end/parcours-complet-liens.spec.ts` | `npm run test:e2e:generate` |
+
+## Règles strictes
+
+1. **Ne jamais modifier directement** ces fichiers
+2. **Ne jamais ajouter d'e2eID inventés** — seuls les e2eID du format `lettre + numéro` sont valides (ex: `b13`, `c21`, `h1`)
+3. **Pour mettre à jour** : exécuter le script approprié
+
+## Convention e2eID (rappel)
+
+| Lettre | Signification |
+|--------|---------------|
+| `h` | header (h1=logo, h2=photo) |
+| `b` | bouton (footer, navigation) |
+| `v` | video |
+| `a` | action / callToAction |
+| `c` | compétence |
+| `l` | lien (plan du site, déterministe) |
+
+## Si modification nécessaire
+
+1. Modifier le **script générateur**, pas le fichier
+2. Ou modifier les **données sources** (JSON dans `data/`)
+3. Puis regénérer avec le script

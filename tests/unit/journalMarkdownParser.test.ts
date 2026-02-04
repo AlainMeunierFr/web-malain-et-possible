@@ -3,7 +3,7 @@
  * Approche TDD : les tests définissent le comportement attendu
  */
 
-import { parseJournalMarkdown } from '../../utils/journalMarkdownParser';
+import { parseJournalMarkdown } from '../../utils/server';
 
 describe('parseJournalMarkdown', () => {
   describe('Test 1 - Une partie', () => {

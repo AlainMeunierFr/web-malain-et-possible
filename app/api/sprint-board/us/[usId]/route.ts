@@ -5,7 +5,7 @@
  */
 
 import { NextResponse } from 'next/server';
-import { readUsContent } from '../../../../../utils/sprintBoardReader';
+import { readUsContent } from '../../../../../utils/server';
 
 export async function GET(
   _request: Request,

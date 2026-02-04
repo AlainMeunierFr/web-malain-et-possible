@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { ChevronDown, ChevronUp } from 'lucide-react';
 import MarkdownRenderer from './MarkdownRenderer';
-import type { JournalFile } from '../utils/journalReader';
+import type { JournalFile } from '../utils';
 
 export interface JournalListProps {
   journals: JournalFile[];

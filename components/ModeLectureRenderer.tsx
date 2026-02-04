@@ -6,7 +6,7 @@
 'use client';
 
 import React, { useState, useEffect, useRef, useLayoutEffect, useId } from 'react';
-import type { ElementContenu } from '../utils/indexReader';
+import type { ElementContenu } from '../utils';
 import {
   getSpecEntriesForType,
   getRepeaterSpec,
@@ -19,7 +19,7 @@ import {
 } from '../constants/canonicalSpec';
 import Image from 'next/image';
 import SimpleMarkdownRenderer from './SimpleMarkdownRenderer';
-import { getJsonImagePath } from '../utils/imagePath';
+import { getJsonImagePath } from '../utils/client';
 
 export interface ModeLecturePage {
   pageTitle: string;

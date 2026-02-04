@@ -2,8 +2,7 @@
  * Script pour tester la résolution des références
  */
 
-import { readPageData } from '../utils/indexReader';
-import { readCompetences, readDomaines } from '../utils/bibliothequeReader';
+import { readPageData, readCompetences, readDomaines } from '../utils/server';
 
 function testResolution() {
   console.log('🧪 Test de résolution des références...\n');

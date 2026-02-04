@@ -20,9 +20,8 @@ import {
   ChevronUp,
   type LucideIcon,
 } from 'lucide-react';
-import type { ElementDomaineDeCompetence } from '../utils/indexReader';
-import { getJsonImagePath } from '../utils/imagePath';
-import { parseInlineMarkdown } from '../utils/markdownInlineParser';
+import type { ElementDomaineDeCompetence } from '../utils/client';
+import { getJsonImagePath, parseInlineMarkdown } from '../utils/client';
 
 /**
  * Vérifie si une URL est externe (commence par http:// ou https://)
@@ -163,7 +162,7 @@ const DomaineDeCompetences: React.FC<DomaineDeCompetencesProps> = ({ domaine, ba
   return (
     <div className={containerClass}>
       {/* Premier sous-bloc : Domaine de compétences */}
-      <div className="header">
+      <div className="domaineHeader">
         <h2 className="domaineDeCompetence titre">{domaine.titre}</h2>
         {domaine.contenu && domaine.contenu.trim() && (
           <p className="domaineDeCompetence contenu">
@@ -190,19 +189,18 @@ const DomaineDeCompetences: React.FC<DomaineDeCompetencesProps> = ({ domaine, ba
                 <p className="competence auteur">{competence.auteur}</p>
               )}
               {competence.bouton && shouldDisplayButton(competence.bouton) && (
-                <div className="boutonContainer">
+                <div className="competence lienContainer">
                   {isExternalUrl(competence.bouton.action) ? (
                     <a
                       href={competence.bouton.action}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="lienInterne bouton competence bouton"
-                      e2eid={null}
+                      className="competence lienInterne"
                     >
                       {competence.bouton.texte}
                     </a>
                   ) : (
-                    <Link href={competence.bouton.action} className="lienInterne bouton competence bouton" e2eid={null}>
+                    <Link href={competence.bouton.action} className="competence lienInterne"e2eid={null}>
                       {competence.bouton.texte}
                     </Link>
                   )}
@@ -285,11 +283,12 @@ const DomaineDeCompetences: React.FC<DomaineDeCompetencesProps> = ({ domaine, ba
                         <h4 className="experienceEtApprentissage categorie">{experience.categorie}</h4>
                       )}
                       <span className="experienceEtApprentissage description">
-                        {parseMarkdownContent(experience.description)}
+                        {experience.periode && experience.periode.trim() !== '' ? (
+                          <><em>[{experience.periode}]</em> - {parseMarkdownContent(experience.description)}</>
+                        ) : (
+                          parseMarkdownContent(experience.description)
+                        )}
                       </span>
-                      {experience.periode && (
-                        <span className="experienceEtApprentissage periode">{experience.periode}</span>
-                      )}
                     </li>
                   ))}
               </ul>

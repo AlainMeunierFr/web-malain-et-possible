@@ -6,7 +6,7 @@
 'use client';
 
 import React from 'react';
-import type { ElementListeDeProfils } from '../utils/indexReader';
+import type { ElementListeDeProfils } from '../utils/client';
 import ProfilContainer from './ProfilContainer';
 
 export interface BlocsProfilsProps {
@@ -19,7 +19,8 @@ const BlocsProfils: React.FC<BlocsProfilsProps> = ({ element }) => {
   }
 
   return (
-    <section className="blocsProfils" aria-label="Mes profils professionnels" data-layout="4 columns x 1 row">
+    <section className="blocsProfils" data-layout="4 columns x 1 row">
+      <h2 className="listeDeProfils titre ui-visuallyHidden">Mes profils professionnels</h2>
       {element.profils.map((profil) => (
         <ProfilContainer
           key={profil.slug}

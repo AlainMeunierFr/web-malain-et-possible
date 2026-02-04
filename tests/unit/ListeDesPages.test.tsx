@@ -17,7 +17,7 @@ jest.mock('next/link', () => {
 });
 
 // Mock generateE2eIdFromUrl
-jest.mock('../../utils/e2eIdFromUrl', () => ({
+jest.mock('../../utils/shared/e2eIdFromUrl', () => ({
   generateE2eIdFromUrl: jest.fn((url: string) => {
     // Simuler la génération d'e2eID basée sur l'URL
     if (url === '/') return 'l1';

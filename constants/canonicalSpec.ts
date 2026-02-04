@@ -4,7 +4,7 @@
  * Convention : suffixe .cont pour les identifiants de container.
  */
 
-/** Entrée de spec : 4 colonnes alignées sur le tableau canonique. */
+/** Entrée de spec : 5 colonnes alignées sur le tableau canonique. */
 export interface CanonicalSpecEntry {
   nomCanonique: string;
   typeHierarchique: string;
@@ -12,6 +12,8 @@ export interface CanonicalSpecEntry {
   containerParent: string | null;
   /** Container layout (référence du container .cont) ; vide pour le contenu non container. */
   containerLayout: string | null;
+  /** Attribut data-layout pour le CSS (grilles, colonnes, etc.) ; null si aucun. */
+  dataLayout?: string | null;
 }
 
 /**
@@ -22,18 +24,18 @@ const CANONICAL_SPEC_ORDER_BASE: CanonicalSpecEntry[] = [
   { nomCanonique: 'header', typeHierarchique: '--c', containerParent: 'boby.count', containerLayout: 'header' },
   { nomCanonique: 'titreDePage.texte', typeHierarchique: '--h1', containerParent: 'header', containerLayout: null },
   { nomCanonique: 'page', typeHierarchique: '--c', containerParent: 'body', containerLayout: 'boby.count' },
-  { nomCanonique: 'listeDesPages', typeHierarchique: '--c', containerParent: 'boby.count', containerLayout: 'listeDesPages.cont' },
+  { nomCanonique: 'listeDesPages', typeHierarchique: '--c', containerParent: 'boby.count', containerLayout: 'listeDesPages.cont', dataLayout: 'draw with page properties' },
   { nomCanonique: 'listeDesPages.page', typeHierarchique: '--l1', containerParent: 'listeDesPages', containerLayout: null },
-  { nomCanonique: 'hero', typeHierarchique: '--c', containerParent: 'boby.count', containerLayout: 'hero.cont' },
+  { nomCanonique: 'hero', typeHierarchique: '--c', containerParent: 'boby.count', containerLayout: 'hero.cont', dataLayout: '2 columns' },
   { nomCanonique: 'hero.gauche', typeHierarchique: '--c', containerParent: 'hero.cont', containerLayout: 'hero.gauche.cont' },
   { nomCanonique: 'hero.titre', typeHierarchique: '--h1', containerParent: 'hero.gauche.cont', containerLayout: null },
-  { nomCanonique: 'hero.sousTitre', typeHierarchique: '--h2', containerParent: 'hero.gauche.cont', containerLayout: null },
+  { nomCanonique: 'hero.sousTitre', typeHierarchique: '--st', containerParent: 'hero.gauche.cont', containerLayout: null },
   { nomCanonique: 'hero.description', typeHierarchique: '--p', containerParent: 'hero.gauche.cont', containerLayout: null },
-  { nomCanonique: 'hero.callToAction', typeHierarchique: '--lk', containerParent: 'hero.gauche.cont', containerLayout: null },
+  { nomCanonique: 'hero.callToAction', typeHierarchique: '--b', containerParent: 'hero.gauche.cont', containerLayout: null },
   { nomCanonique: 'hero.ensavoirplus', typeHierarchique: '--lk', containerParent: 'hero.gauche.cont', containerLayout: null },
   { nomCanonique: 'hero.droite', typeHierarchique: '--c', containerParent: 'hero.cont', containerLayout: 'hero.droite.cont' },
   { nomCanonique: 'hero.video', typeHierarchique: '--v', containerParent: 'hero.droite.cont', containerLayout: null },
-  { nomCanonique: 'listeDeProfils', typeHierarchique: '--c', containerParent: 'boby.count', containerLayout: 'listeDeProfils.cont' },
+  { nomCanonique: 'listeDeProfils', typeHierarchique: '--c', containerParent: 'boby.count', containerLayout: 'listeDeProfils.cont', dataLayout: '4 columns x 1 row' },
   { nomCanonique: 'profil', typeHierarchique: '--c', containerParent: 'listeDeProfils.cont', containerLayout: 'profil.cont' },
   { nomCanonique: 'profil.titre', typeHierarchique: '--h2', containerParent: 'profil.cont', containerLayout: null },
   { nomCanonique: 'profil.jobTitles', typeHierarchique: '--n', containerParent: 'profil.cont', containerLayout: null },
@@ -43,7 +45,7 @@ const CANONICAL_SPEC_ORDER_BASE: CanonicalSpecEntry[] = [
   { nomCanonique: 'profil.cvPath', typeHierarchique: '--lk', containerParent: 'profil.cont', containerLayout: null },
   { nomCanonique: 'titre.texte', typeHierarchique: '--h2', containerParent: 'boby.count', containerLayout: null },
   { nomCanonique: 'video.urlYouTube', typeHierarchique: '--v', containerParent: 'boby.count', containerLayout: null },
-  { nomCanonique: 'listeDeTemoignages', typeHierarchique: '--c', containerParent: 'boby.count', containerLayout: 'listeDeTemoignages.cont' },
+  { nomCanonique: 'listeDeTemoignages', typeHierarchique: '--c', containerParent: 'boby.count', containerLayout: 'listeDeTemoignages.cont', dataLayout: '2 columns x N rows' },
   { nomCanonique: 'temoignage', typeHierarchique: '--c', containerParent: 'listeDeTemoignages.cont', containerLayout: 'temoignage.cont' },
   { nomCanonique: 'temoignage.temoin', typeHierarchique: '--c', containerParent: 'temoignage.cont', containerLayout: 'temoignage.temoin.cont' },
   { nomCanonique: 'temoignage.temoin.photo', typeHierarchique: '--c', containerParent: 'temoignage.temoin.cont', containerLayout: 'temoignage.temoin.photo.cont' },
@@ -57,7 +59,7 @@ const CANONICAL_SPEC_ORDER_BASE: CanonicalSpecEntry[] = [
   { nomCanonique: 'domaineDeCompetence.titre', typeHierarchique: '--h2', containerParent: 'domaineDeCompetence.header.cont', containerLayout: null },
   { nomCanonique: 'domaineDeCompetence.contenu', typeHierarchique: '--p', containerParent: 'domaineDeCompetence.header.cont', containerLayout: null },
   { nomCanonique: 'domaineDeCompetence.auteur', typeHierarchique: '--a', containerParent: 'domaineDeCompetence.header.cont', containerLayout: null },
-  { nomCanonique: 'domaineDeCompetence.competences', typeHierarchique: '--c', containerParent: 'domaineDeCompetence.cont', containerLayout: 'domaineDeCompetence.competences.cont' },
+  { nomCanonique: 'domaineDeCompetence.competences', typeHierarchique: '--c', containerParent: 'domaineDeCompetence.cont', containerLayout: 'domaineDeCompetence.competences.cont', dataLayout: '3 columns x 1 row' },
   { nomCanonique: 'competence', typeHierarchique: '--c', containerParent: 'domaineDeCompetence.competences.cont', containerLayout: 'competence.cont' },
   { nomCanonique: 'competence.titre', typeHierarchique: '--h3', containerParent: 'competence.cont', containerLayout: null },
   { nomCanonique: 'competence.description', typeHierarchique: '--p', containerParent: 'competence.cont', containerLayout: null },
@@ -65,18 +67,18 @@ const CANONICAL_SPEC_ORDER_BASE: CanonicalSpecEntry[] = [
   { nomCanonique: 'competence.image.src', typeHierarchique: '--img', containerParent: 'competence.cont', containerLayout: null },
   { nomCanonique: 'competence.image.alt', typeHierarchique: '--n', containerParent: 'competence.cont', containerLayout: null },
   { nomCanonique: 'competence.bouton.action', typeHierarchique: '--lk', containerParent: 'competence.cont', containerLayout: null },
-  { nomCanonique: 'listeDesExperiencesEtApprentissages', typeHierarchique: '--c', containerParent: 'boby.count', containerLayout: 'listeDesExperiencesEtApprentissages.cont' },
+  { nomCanonique: 'listeDesExperiencesEtApprentissages', typeHierarchique: '--c', containerParent: 'boby.count', containerLayout: 'listeDesExperiencesEtApprentissages.cont', dataLayout: 'accordeon, X rows' },
   { nomCanonique: 'listeDesExperiencesEtApprentissages.titre', typeHierarchique: '--h4', containerParent: 'listeDesExperiencesEtApprentissages.cont', containerLayout: null },
   { nomCanonique: 'experienceEtApprentissage', typeHierarchique: '--c', containerParent: 'listeDesExperiencesEtApprentissages.cont', containerLayout: 'experienceEtApprentissage.cont' },
   { nomCanonique: 'experienceEtApprentissage.categorie', typeHierarchique: '--m', containerParent: 'experienceEtApprentissage.cont', containerLayout: null },
   { nomCanonique: 'experienceEtApprentissage.description', typeHierarchique: '--n', containerParent: 'experienceEtApprentissage.cont', containerLayout: null },
   { nomCanonique: 'experienceEtApprentissage.periode', typeHierarchique: '--m', containerParent: 'experienceEtApprentissage.cont', containerLayout: null },
   { nomCanonique: 'texteLarge.texte', typeHierarchique: '--p', containerParent: 'boby.count', containerLayout: null },
-  { nomCanonique: 'callToAction.action', typeHierarchique: '--p', containerParent: 'boby.count', containerLayout: null },
-  { nomCanonique: 'groupeDeBoutons', typeHierarchique: '--c', containerParent: 'boby.count', containerLayout: 'groupeDeBoutons.cont' },
+  { nomCanonique: 'callToAction.action', typeHierarchique: '--b', containerParent: 'boby.count', containerLayout: null },
+  { nomCanonique: 'groupeDeBoutons', typeHierarchique: '--c', containerParent: 'boby.count', containerLayout: 'groupeDeBoutons.cont', dataLayout: '1 column, centered' },
   { nomCanonique: 'bouton', typeHierarchique: '--c', containerParent: 'groupeDeBoutons.cont', containerLayout: 'bouton.cont' },
   { nomCanonique: 'bouton.command', typeHierarchique: '--lk', containerParent: 'bouton.cont', containerLayout: null },
-  { nomCanonique: 'listeDeDetournementsVideo', typeHierarchique: '--c', containerParent: 'boby.count', containerLayout: 'listeDeDetournementsVideo.cont' },
+  { nomCanonique: 'listeDeDetournementsVideo', typeHierarchique: '--c', containerParent: 'boby.count', containerLayout: 'listeDeDetournementsVideo.cont', dataLayout: 'X rows' },
   { nomCanonique: 'detournementVideo', typeHierarchique: '--c', containerParent: 'listeDeDetournementsVideo.cont', containerLayout: 'detournementVideo.cont' },
   { nomCanonique: 'detournementVideo.header', typeHierarchique: '--c', containerParent: 'detournementVideo.cont', containerLayout: 'detournementVideo.header.cont' },
   { nomCanonique: 'detournementVideo.titre', typeHierarchique: '--h2', containerParent: 'detournementVideo.header.cont', containerLayout: null },
@@ -85,11 +87,13 @@ const CANONICAL_SPEC_ORDER_BASE: CanonicalSpecEntry[] = [
   { nomCanonique: 'detournementVideo.videos', typeHierarchique: '--c', containerParent: 'detournementVideo.cont', containerLayout: 'detournementVideo.videos.cont' },
   { nomCanonique: 'detournementVideo.videoDetournee', typeHierarchique: '--c', containerParent: 'detournementVideo.videos.cont', containerLayout: 'detournementVideo.videoDetournee.cont' },
   { nomCanonique: 'detournementVideo.titreVideoDetournee', typeHierarchique: '--h3', containerParent: 'detournementVideo.videoDetournee.cont', containerLayout: null },
+  { nomCanonique: 'detournementVideo.sourceVideoDetournee', typeHierarchique: '--p', containerParent: 'detournementVideo.videoDetournee.cont', containerLayout: null },
   { nomCanonique: 'detournementVideo.videoDetournee', typeHierarchique: '--v', containerParent: 'detournementVideo.videoDetournee.cont', containerLayout: null },
   { nomCanonique: 'detournementVideo.droitsAuteur', typeHierarchique: '--n', containerParent: 'detournementVideo.videoDetournee.cont', containerLayout: null },
   { nomCanonique: 'detournementVideo.linkedin', typeHierarchique: '--n', containerParent: 'detournementVideo.videoDetournee.cont', containerLayout: null },
   { nomCanonique: 'detournementVideo.videoOriginale', typeHierarchique: '--c', containerParent: 'detournementVideo.videos.cont', containerLayout: 'detournementVideo.videoOriginale.cont' },
   { nomCanonique: 'detournementVideo.titreVideoOriginale', typeHierarchique: '--h3', containerParent: 'detournementVideo.videoOriginale.cont', containerLayout: null },
+  { nomCanonique: 'detournementVideo.sourceVideoOriginale', typeHierarchique: '--p', containerParent: 'detournementVideo.videoOriginale.cont', containerLayout: null },
   { nomCanonique: 'detournementVideo.videoOriginale', typeHierarchique: '--v', containerParent: 'detournementVideo.videoOriginale.cont', containerLayout: null },
 ];
 
@@ -109,11 +113,13 @@ function expandWithImplicitContainers(entries: CanonicalSpecEntry[]): CanonicalS
         typeHierarchique: '--c',
         containerParent: e.containerParent,
         containerLayout: contName,
+        dataLayout: e.dataLayout, // Préserver le dataLayout sur le container implicite
       });
       result.push({
         ...e,
         containerParent: contName,
         containerLayout: null,
+        dataLayout: undefined, // Le dataLayout est sur le container, pas sur le contenu
       });
     }
   }
@@ -130,11 +136,11 @@ export interface RepeaterSpecEntry {
 }
 
 export const REPEATER_SPEC: Record<string, RepeaterSpecEntry> = {
-  listeDeDetournementsVideo: { libelle: 'Détournements vidéo', typeHierarchique: '--m' },
+  listeDeDetournementsVideo: { libelle: 'Détournements vidéo', typeHierarchique: '--h2' },
   listeDeTemoignages: { libelle: 'Témoignages', typeHierarchique: '--h2' },
-  listeDeProfils: { libelle: 'liste de profils', typeHierarchique: '--m' },
+  listeDeProfils: { libelle: 'Mes profils professionnels', typeHierarchique: '--m' },
   listeDesExperiencesEtApprentissage: { libelle: 'Expériences et apprentissages', typeHierarchique: '--h4' },
-  groupeDeBoutons: { libelle: 'Groupe de bouton', typeHierarchique: '--m' },
+  groupeDeBoutons: { libelle: 'Actions', typeHierarchique: '--m' },
   listeDesPages: { libelle: 'Liste des pages', typeHierarchique: '--m' },
 };
 

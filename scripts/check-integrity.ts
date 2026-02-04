@@ -2,8 +2,8 @@
  * Script pour vérifier l'intégrité référentielle de toutes les pages
  */
 
-import { readCompetences, readDomaines } from '../utils/bibliothequeReader';
-import { checkAllPagesIntegrity } from '../utils/referentialIntegrityChecker';
+import { readCompetences, readDomaines } from '../utils/server';
+import { checkAllPagesIntegrity } from '../utils/backoffice/integrity/referentialIntegrityChecker';
 
 function checkIntegrity() {
   console.log('🔍 Vérification de l\'intégrité référentielle...\n');

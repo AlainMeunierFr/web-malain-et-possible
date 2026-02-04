@@ -4,7 +4,7 @@
  */
 
 import React from 'react';
-import type { ElementVideo } from '../utils/indexReader';
+import type { ElementVideo } from '../utils';
 
 export interface VideoProps {
   element: ElementVideo;

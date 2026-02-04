@@ -11,7 +11,7 @@
  * - Test 6 : Cas limites et edge cases
  */
 
-import { parseMarkdownDOD, type ParsedDOD } from '../../utils/markdownParser';
+import { parseMarkdownDOD, type ParsedDOD } from '../../utils';
 
 describe('markdownParser - Approche TDD (simple → complexe)', () => {
   describe('parseMarkdownDOD', () => {

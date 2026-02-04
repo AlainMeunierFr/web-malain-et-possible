@@ -85,6 +85,7 @@ html {
      h2 : --grande, noir
      h3 : --normale (même taille que texte), gras, bleu
      h4 : --petite (comme notes), gras, noir */
+  /* Hiérarchie: h1=enorme, h2=grande, h3=moyenne, p=normale, h4=petite */
   --h1-font-size: var(--enorme);
   --h1-font-weight: 700;
   --h1-color: var(--Noir);
@@ -93,7 +94,7 @@ html {
   --h2-font-weight: 700;
   --h2-color: var(--Noir);
   --h2-line-height: 1.3;
-  --h3-font-size: var(--normale);
+  --h3-font-size: var(--moyenne);
   --h3-font-weight: 700;
   --h3-color: var(--CouleurFoncé);
   --h3-line-height: 1.4;
@@ -101,6 +102,12 @@ html {
   --h4-font-weight: 700;
   --h4-color: var(--Noir);
   --h4-line-height: 1.4;
+
+  /* Sous-titre (--st) : taille --moyenne, gras */
+  --st-font-size: var(--moyenne);
+  --st-font-weight: 700;
+  --st-color: var(--Noir);
+  --st-line-height: 1.3;
 
   /* Paragraphe (--p) : taille --normale, graisse 400. --n, --a idem 400. */
   --p-font-size: var(--normale);
@@ -229,12 +236,42 @@ p {
   line-height: var(--p-line-height);
 }
 
+/* Sous-titre (--st) */
+.sousTitre {
+  font-size: var(--st-font-size);
+  font-weight: var(--st-font-weight);
+  color: var(--st-color);
+  line-height: var(--st-line-height);
+  text-align: center;
+}
+
+/* Forcer les éléments inline à rester inline (contre Tailwind preflight) */
+strong, em, b, i, span {
+  display: inline;
+}
+
 /* Liens cliquables */
 a, .lien {
   font-size: var(--lk-font-size);
   font-weight: var(--lk-font-weight);
   color: var(--lk-color);
   text-decoration: var(--lk-text-decoration);
+}
+
+/* Icône ↗ pour les liens externes (automatique) */
+a[target="_blank"]::after,
+a[href^="http"]:not([href*="malain-et-possible"])::after {
+  content: " ↗";
+  font-size: 0.8em;
+  vertical-align: super;
+}
+
+/* Pas d'icône sur les boutons externes et les liens CV */
+a.bouton[target="_blank"]::after,
+a.bouton[href^="http"]::after,
+a.cvPath[target="_blank"]::after,
+a.cvPath[href^="http"]::after {
+  content: none;
 }
 
 /* Notes (petite taille) */
@@ -277,6 +314,7 @@ ul ul, ol ol, ul ol, ol ul {
   border-radius: var(--BoutonContourRadius);
   cursor: pointer;
   transition: var(--BoutonTransition);
+  text-decoration: none;
 }
 
 .bouton:hover, button:hover {
@@ -322,4 +360,21 @@ body {
   top: 1rem;
   outline: 2px solid white;
   outline-offset: 2px;
+}
+
+/* ============================================
+   UTILITAIRES
+   ============================================ */
+
+/* Masquer visuellement mais garder accessible (lecteurs d'écran) */
+.ui-visuallyHidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }

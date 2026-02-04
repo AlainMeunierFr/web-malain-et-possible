@@ -11,9 +11,8 @@
 
 import fs from 'fs';
 import path from 'path';
-import { readPageData } from '../../utils/indexReader';
-import { readCompetences, readDomaines } from '../../utils/bibliothequeReader';
-import { checkReferentialIntegrity } from '../../utils/referentialIntegrityChecker';
+import { readPageData, readCompetences, readDomaines } from '../../utils/server';
+import { checkReferentialIntegrity } from '../../utils/backoffice';
 
 // Mock fs
 jest.mock('fs');
@@ -159,7 +158,7 @@ describe('profilPages - Approche TDD', () => {
         }
         if (file.includes('experienceEtApprentissage.json')) {
           return JSON.stringify({
-            autres: {},
+            experienceEtApprentissage: {},
           });
         }
         return '{}';
@@ -285,7 +284,7 @@ describe('profilPages - Approche TDD', () => {
           return JSON.stringify(mockDomaines);
         }
         if (filePath.includes('experienceEtApprentissage.json')) {
-          return JSON.stringify({ autres: {} });
+          return JSON.stringify({ experienceEtApprentissage: {} });
         }
         return '{}';
       });
@@ -397,7 +396,7 @@ describe('profilPages - Approche TDD', () => {
           });
         }
         if (file === autresPath || file.includes('experienceEtApprentissage.json')) {
-          return JSON.stringify({ autres: {} });
+          return JSON.stringify({ experienceEtApprentissage: {} });
         }
         return '{}';
       });
@@ -502,7 +501,7 @@ describe('profilPages - Approche TDD', () => {
           });
         }
         if (file === autresPath || file.includes('experienceEtApprentissage.json')) {
-          return JSON.stringify({ autres: {} });
+          return JSON.stringify({ experienceEtApprentissage: {} });
         }
         return '{}';
       });

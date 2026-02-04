@@ -2,13 +2,13 @@
  * Tests US-7.12 : buildMesProfilsPageData (page Mes Profils depuis index.json)
  */
 
-import {
-  buildMesProfilsPageData,
-  type PageData,
-  type ElementListeDeProfils,
-  type ElementCallToAction,
-  type ElementTexteLarge,
-} from '../../utils/indexReader';
+import { buildMesProfilsPageData } from '../../utils/server';
+import type {
+  PageData,
+  ElementListeDeProfils,
+  ElementCallToAction,
+  ElementTexteLarge,
+} from '../../utils';
 
 describe('buildMesProfilsPageData (US-7.12)', () => {
   let pageData: PageData;

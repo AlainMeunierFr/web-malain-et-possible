@@ -6,7 +6,7 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import Titre from '../../components/Titre';
-import type { ElementTitre } from '../../utils/indexReader';
+import type { ElementTitre } from '../../utils';
 
 describe('Composant Titre', () => {
   it('devrait afficher le texte dans un h2', () => {

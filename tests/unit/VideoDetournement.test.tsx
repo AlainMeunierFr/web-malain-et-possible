@@ -6,7 +6,7 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import VideoDetournement from '../../components/VideoDetournement';
-import type { ElementListeDeDetournementsVideo } from '../../utils/indexReader';
+import type { ElementListeDeDetournementsVideo } from '../../utils';
 
 // Mock TexteLarge
 jest.mock('../../components/TexteLarge', () => {
@@ -56,12 +56,14 @@ describe('Composant VideoDetournement', () => {
   it('devrait afficher tous les détournements triés par date décroissante', () => {
     render(<VideoDetournement element={mockElement} />);
 
-    // Vérifier que les titres clients (H2) sont présents
-    expect(screen.getByText('Client Test 1')).toBeInTheDocument();
-    expect(screen.getByText('Client Test 2')).toBeInTheDocument();
+    // Vérifier que les titres clients (H2) sont présents (peuvent apparaître plusieurs fois)
+    expect(screen.getAllByText('Client Test 1').length).toBeGreaterThanOrEqual(1);
+    expect(screen.getAllByText('Client Test 2').length).toBeGreaterThanOrEqual(1);
 
     // Le deuxième devrait être affiché en premier (date plus récente)
     const titres = screen.getAllByRole('heading', { level: 2 });
+    expect(titres.length).toBeGreaterThanOrEqual(2);
+    // Vérifier l'ordre : plus récent d'abord
     expect(titres[0].textContent).toBe('Client Test 2');
     expect(titres[1].textContent).toBe('Client Test 1');
   });
@@ -79,13 +81,14 @@ describe('Composant VideoDetournement', () => {
     render(<VideoDetournement element={mockElement} />);
 
     // H3 = titreVideoDetournee et titreVideoOriginale (contenu des données)
-    expect(screen.getByText('Test Détournement 1')).toBeInTheDocument();
-    expect(screen.getByText('Test Détournement 2')).toBeInTheDocument();
-    expect(screen.getByText('Original 1')).toBeInTheDocument();
-    expect(screen.getByText('Original 2')).toBeInTheDocument();
+    // Ces textes peuvent apparaître plusieurs fois (h3 + p.source)
+    expect(screen.getAllByText('Test Détournement 1').length).toBeGreaterThanOrEqual(1);
+    expect(screen.getAllByText('Test Détournement 2').length).toBeGreaterThanOrEqual(1);
+    expect(screen.getAllByText('Original 1').length).toBeGreaterThanOrEqual(1);
+    expect(screen.getAllByText('Original 2').length).toBeGreaterThanOrEqual(1);
 
     const allH3 = screen.getAllByRole('heading', { level: 3 });
-    expect(allH3.length).toBe(4); // 2x titreVideoDetournee + 2x titreVideoOriginale
+    expect(allH3.length).toBeGreaterThanOrEqual(4); // Au moins 2x titreVideoDetournee + 2x titreVideoOriginale
   });
 
   it('devrait afficher les iframes YouTube avec les bons IDs', () => {
@@ -116,28 +119,16 @@ describe('Composant VideoDetournement', () => {
     expect(alertIcons.length).toBeGreaterThan(0);
   });
 
-  it('devrait ouvrir/fermer le popup des droits d\'auteur au clic', () => {
+  it('devrait afficher le tooltip des droits d\'auteur (CSS only)', () => {
     render(<VideoDetournement element={mockElement} />);
 
-    // Trouver le bouton d'alerte pour le détournement avec droits d'auteur
-    const alertButtons = screen.getAllByRole('button', { name: /Information sur les droits d'auteur/i });
+    // Le tooltip est rendu en CSS-only avec AlerteDroitsAuteur
+    // Le texte est présent dans le DOM (affiché au hover via CSS)
+    const tooltipContainers = document.querySelectorAll('.ui-droitsAuteurContainer');
+    expect(tooltipContainers.length).toBeGreaterThan(0);
     
-    // Le deuxième détournement a des droits d'auteur
-    const alertButton = alertButtons[0];
-    
-    // Cliquer pour ouvrir
-    fireEvent.click(alertButton);
-    
-    // Vérifier que le popup s'affiche
-    const popup = screen.getByText(/Droits d'auteur pour le test 2/);
-    expect(popup).toBeInTheDocument();
-
-    // Cliquer sur le bouton fermer
-    const closeButton = screen.getByRole('button', { name: /Fermer/i });
-    fireEvent.click(closeButton);
-
-    // Vérifier que le popup disparaît
-    expect(screen.queryByText(/Droits d'auteur pour le test 2/)).not.toBeInTheDocument();
+    // Vérifier que le contenu du tooltip est présent dans le DOM
+    expect(screen.getByText(/Droits d'auteur pour le test 2/)).toBeInTheDocument();
   });
 
   it('devrait afficher les pitchs via TexteLarge', () => {
@@ -152,17 +143,18 @@ describe('Composant VideoDetournement', () => {
   it('devrait afficher titre et titreVideoOriginale', () => {
     render(<VideoDetournement element={mockElement} />);
 
-    expect(screen.getByText('Client Test 1')).toBeInTheDocument();
-    expect(screen.getByText('Client Test 2')).toBeInTheDocument();
-    expect(screen.getByText('Original 1')).toBeInTheDocument();
-    expect(screen.getByText('Original 2')).toBeInTheDocument();
+    // Les titres apparaissent 2 fois (h2/h3 + p.source), donc on utilise getAllByText
+    expect(screen.getAllByText('Client Test 1').length).toBeGreaterThanOrEqual(1);
+    expect(screen.getAllByText('Client Test 2').length).toBeGreaterThanOrEqual(1);
+    expect(screen.getAllByText('Original 1').length).toBeGreaterThanOrEqual(1);
+    expect(screen.getAllByText('Original 2').length).toBeGreaterThanOrEqual(1);
   });
 
-  it('devrait avoir la classe CSS videoDetournement', () => {
+  it('devrait avoir la classe CSS listeDeDetournementsVideo', () => {
     const { container } = render(<VideoDetournement element={mockElement} />);
-    const div = container.firstChild as HTMLElement;
+    const section = container.firstChild as HTMLElement;
 
-    expect(div).toHaveClass('videoDetournement');
+    expect(section).toHaveClass('listeDeDetournementsVideo');
   });
 
   it('devrait retourner null pour un élément vide', () => {

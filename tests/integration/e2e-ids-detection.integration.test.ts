@@ -7,9 +7,9 @@
 import {
   detectMissingE2eIds,
   generateAuditFile,
+  generateE2eIdsFromAudit,
   type DetectionResult,
-} from '../../utils/e2eIdDetector';
-import { generateE2eIdsFromAudit } from '../../utils/e2eIdGenerator';
+} from '../../utils/backoffice';
 import * as fs from 'fs';
 import * as path from 'path';
 

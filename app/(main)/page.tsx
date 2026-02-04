@@ -1,6 +1,5 @@
-import { readPageData } from '../../utils/indexReader';
-import type { ElementHero } from '../../utils/indexReader';
-import { buildPageMetadata } from '../../utils/metadataBuilder';
+import { readPageData, buildPageMetadata } from '../../utils/server';
+import type { ElementHero } from '../../utils/client';
 import PageContentRenderer from '../../components/PageContentRenderer';
 import HeroSection from '../../components/HeroSection';
 

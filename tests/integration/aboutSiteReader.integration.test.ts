@@ -10,7 +10,7 @@
 
 import fs from 'fs';
 import path from 'path';
-import { validerContenuMarkdown, ValidationError, parseSectionContent } from '../../utils/aboutSiteReader';
+import { validerContenuMarkdown, ValidationError, parseSectionContent } from '../../utils/server';
 
 describe('Test d\'intégration : Validation des fichiers MD réels', () => {
   it('devrait valider tous les fichiers MD dans "A propos de ce site"', () => {

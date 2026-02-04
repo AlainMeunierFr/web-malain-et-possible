@@ -4,7 +4,7 @@
  */
 
 import React from 'react';
-import type { ElementTitre } from '../utils/indexReader';
+import type { ElementTitre } from '../utils';
 
 export interface TitreProps {
   element: ElementTitre;

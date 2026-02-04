@@ -3,8 +3,8 @@
  * Vérifie que readPageData peut lire et parser correctement les détournements vidéo
  */
 
-import { readPageData } from '../../utils/indexReader';
-import type { ElementDetournementVideo, ElementListeDeDetournementsVideo } from '../../utils/indexReader';
+import { readPageData } from '../../utils/server';
+import type { ElementDetournementVideo, ElementListeDeDetournementsVideo } from '../../utils';
 import * as fs from 'fs';
 import * as path from 'path';
 

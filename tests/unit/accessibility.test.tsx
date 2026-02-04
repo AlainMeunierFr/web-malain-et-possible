@@ -55,7 +55,7 @@ global.fetch = jest.fn(() =>
 import Titre from '../../components/Titre';
 import CallToAction from '../../components/CallToAction';
 import Footer from '../../components/Footer';
-import type { ElementTitre, ElementCallToAction } from '../../utils/indexReader';
+import type { ElementTitre, ElementCallToAction } from '../../utils';
 
 describe('Tests d\'accessibilité (jest-axe)', () => {
   describe('Composant Titre', () => {

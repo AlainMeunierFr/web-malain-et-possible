@@ -6,10 +6,14 @@
 
 /* ========== Structure page & bande menu (ex-about.module.css) ========== */
 
+/* Page A propos du site : pleine largeur pour le board Kanban */
 .main {
   padding: 2rem;
   padding-top: calc(max(80px, 8.75vh) + 2rem);
   padding-bottom: calc(max(50px, 5.47vh) + 2rem);
+  max-width: 100% !important;
+  width: 100% !important;
+  margin: 0 !important;
 }
 
 .bandeDossiers {
@@ -122,17 +126,84 @@
   color: var(--foreground);
 }
 
-/* ========== En-tête tableau de bord (menu + Sprint Goal) ========== */
+/* ========== Menu horizontal partagé (position fixed) ========== */
+
+.menuAPropos {
+  /* Position fixed : reste collé sous le header principal */
+  position: fixed;
+  top: max(80px, 8.75vh);
+  left: 0;
+  right: 0;
+  z-index: 500; /* Sous le header (1000) mais au-dessus du contenu (1) */
+  
+  display: flex;
+  align-items: center;
+  padding: 0.75rem 2rem;
+  border-bottom: 0.125rem solid var(--BleuClair);
+  background: var(--background);
+}
+
+.menuAPropos .liste {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.menuAPropos .item {
+  margin: 0;
+  padding: 0;
+}
+
+.menuAPropos .lien {
+  display: inline-block;
+  padding: 0.375rem 0.75rem;
+  border-radius: 0.25rem;
+  background-color: var(--BleuClair);
+  color: var(--BleuFonce);
+  font-weight: 500;
+  text-decoration: none;
+  font-size: 0.9rem;
+  border: 0.0625rem solid var(--BleuFonce);
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.menuAPropos .lien:hover {
+  background-color: var(--BleuFonce);
+  color: white;
+}
+
+.menuAPropos .lienActif {
+  display: inline-block;
+  padding: 0.375rem 0.75rem;
+  border-radius: 0.25rem;
+  background-color: var(--BleuFonce);
+  color: white;
+  font-weight: 600;
+  text-decoration: none;
+  font-size: 0.9rem;
+  border: 0.0625rem solid var(--BleuFonce);
+}
+
+/* Zone de contenu sous le menu fixed */
+.contenuAPropos {
+  /* Espace pour le menu fixed (hauteur ~50px + padding + marge sécurité) */
+  padding-top: 4.5rem;
+}
+
+/* ========== En-tête tableau de bord (Sprint Goal uniquement) ========== */
 
 .dashboardHeader {
   display: flex;
   flex-wrap: wrap;
   align-items: flex-start;
-  justify-content: space-between;
+  justify-content: flex-end;
   gap: 1rem;
   margin-bottom: 0.5rem;
+  padding-top: 0.5rem;
   padding-bottom: 0.5rem;
-  border-bottom: 0.125rem solid var(--BleuClair);
 }
 
 .dashboardHeader nav {
@@ -271,7 +342,9 @@
   gap: 0.5rem;
   overflow-y: auto;
   overflow-x: hidden;
-  max-height: 50vh;
+  /* Hauteur adaptative pour ~3 post-its visibles sans ascenseur page */
+  /* viewport - header - menu - footer - sprint goal - en-têtes - marges = ~480px à soustraire */
+  max-height: calc(100vh - 480px);
   min-height: 4rem;
   padding: 0.25rem 0.75rem;
   box-sizing: border-box;
@@ -1105,4 +1178,279 @@ ol.list {
 
 .accordionTitle .contentH2 .contentInner {
   padding-left: 10px;
+}
+
+/* ========== Métriques compactes (US-12.5) ========== */
+
+.zoneMetrics {
+  padding: 0.5rem;
+}
+
+.metricsCompact {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.metricsEmpty,
+.metricsLoading {
+  text-align: center;
+  padding: 2rem;
+  color: var(--BleuFonce);
+}
+
+.metricsEmpty code {
+  background: var(--BleuClair);
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+}
+
+/* Layout principal 2 colonnes : gauche 65%, droite 35% */
+.metricsMainLayout {
+  display: grid;
+  grid-template-columns: 65% 35%;
+  gap: 1rem;
+  align-items: stretch;
+}
+
+.metricsLeftColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.metricsRightColumn {
+  display: flex;
+  flex-direction: column;
+}
+
+.metricsRightColumn .metricsSection {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.metricsSection {
+  background: var(--background);
+  border: 1px solid var(--BleuClair);
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+}
+
+/* h2 - Titres de sections (Tests, Couverture, Autres) - conforme charte */
+.metricsSectionTitle {
+  margin: 0 0 0.5rem 0;
+  font-size: var(--h2-font-size);
+  font-weight: var(--h2-font-weight);
+  color: var(--h2-color);
+  line-height: var(--h2-line-height);
+  border-bottom: 2px solid var(--BleuClair);
+  padding-bottom: 0.25rem;
+}
+
+/* Tests grid - 5 cartes en ligne */
+.metricsTestsGrid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 0.5rem;
+}
+
+/* Carte de test - style post-it jaune */
+.metricsTestCard {
+  background: var(--BleuClair);
+  border: 1px solid var(--BleuFonce);
+  border-radius: 0.25rem;
+  padding: 0.5rem;
+  text-align: center;
+}
+
+.metricsCardHeader {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.25rem;
+  margin-bottom: 0.25rem;
+}
+
+/* h3 - Titres de cartes (Total, BDD, Lignes, etc.) - conforme charte */
+.metricsCardTitle {
+  margin: 0;
+  font-size: var(--h3-font-size);
+  font-weight: var(--h3-font-weight);
+  color: var(--h3-color);
+  line-height: var(--h3-line-height);
+}
+
+.metricsInfo {
+  font-size: 0.65rem;
+  cursor: help;
+}
+
+/* Valeur principale (chiffre) - grande taille pour mise en valeur */
+.metricsCardValue {
+  margin: 0.15rem 0;
+  font-size: var(--grande);
+  font-weight: 700;
+  color: var(--BleuFonce);
+  line-height: 1.1;
+}
+
+.metricsGauge {
+  height: 10px;
+  background: #ddd;
+  border-radius: 5px;
+  margin: 0.2rem 0;
+  overflow: hidden;
+}
+
+.metricsGaugeFill {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 0.3s;
+}
+
+.metricsGaugeFill.good { background: #15803d; }
+.metricsGaugeFill.warning { background: #ca8a04; }
+.metricsGaugeFill.danger { background: #b91c1c; }
+
+/* Pourcentage sous la jauge - conforme charte p */
+.metricsGaugeLabel {
+  margin: 0.1rem 0;
+  font-size: var(--p-font-size);
+  font-weight: 600;
+  color: var(--p-color);
+}
+
+/* Détails en colonne avec titres (style page Metrics originale) */
+.metricsCardDetails {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  margin-top: 0.25rem;
+  font-size: 0.75rem;
+}
+
+.metricsDetailRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Détails des cartes - conforme charte p */
+.metricsDetailLabel {
+  font-size: var(--petite);
+  color: var(--p-color);
+  opacity: 0.8;
+}
+
+.metricsDetailValue {
+  font-size: var(--petite);
+  font-weight: 600;
+  color: var(--p-color);
+}
+
+/* Couverture grid - 4 cartes en ligne */
+.metricsCoverageGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.5rem;
+}
+
+/* Carte de couverture - même style que Tests */
+.metricsCoverageCard {
+  background: var(--BleuClair);
+  border: 1px solid var(--BleuFonce);
+  border-radius: 0.25rem;
+  padding: 0.5rem;
+  text-align: center;
+}
+
+/* Autres indicateurs - liste compacte avec catégories */
+.metricsOther {
+  overflow-y: auto;
+}
+
+.metricsOtherCategory {
+  margin-bottom: 0.75rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px dotted var(--BleuClair);
+}
+
+.metricsOtherCategory:last-child {
+  margin-bottom: 0;
+  border-bottom: none;
+}
+
+/* h3 - Sous-titres catégories (Qualité, Taille, etc.) - conforme charte */
+.metricsOtherCategoryTitle {
+  margin: 0.5rem 0 0.25rem 0;
+  font-size: var(--h3-font-size);
+  font-weight: var(--h3-font-weight);
+  color: var(--h3-color);
+  line-height: var(--h3-line-height);
+}
+
+.metricsOtherItem {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  padding: 0.15rem 0;
+}
+
+/* p - Labels et valeurs - conforme charte */
+.metricsOtherLabel {
+  font-size: var(--p-font-size);
+  font-weight: var(--p-font-weight);
+  color: var(--p-color);
+  opacity: 0.7;
+}
+
+.metricsOtherValue {
+  font-size: var(--p-font-size);
+  font-weight: 600;
+  color: var(--p-color);
+}
+
+.metricsVuln {
+  color: #b91c1c;
+}
+
+/* Responsive : tablette - réduire colonnes */
+@media (max-width: 1200px) {
+  .metricsMainLayout {
+    grid-template-columns: 60% 40%;
+  }
+  
+  .metricsTestsGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  
+  .metricsCoverageGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Responsive : smartphone - empiler */
+@media (max-width: 768px) {
+  .metricsMainLayout {
+    grid-template-columns: 1fr;
+  }
+  
+  .metricsTestsGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .metricsCoverageGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .metricsTestsGrid {
+    grid-template-columns: 1fr;
+  }
+  
+  .metricsCoverageGrid {
+    grid-template-columns: 1fr;
+  }
 }

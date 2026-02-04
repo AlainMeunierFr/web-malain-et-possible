@@ -8,7 +8,7 @@
  * Test 4 : Les autres sous-parties ne doivent pas avoir typeDeContenu
  */
 
-import { parseSectionContent } from '../../utils/aboutSiteReader';
+import { parseSectionContent } from '../../utils/server';
 
 describe('parseSectionContent - Sous-parties spéciales', () => {
   describe('Test 1 : Détecter "## Prompt"', () => {

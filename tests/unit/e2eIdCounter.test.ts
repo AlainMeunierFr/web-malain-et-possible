@@ -13,7 +13,7 @@
 
 import fs from 'fs';
 import path from 'path';
-import { calculateMaxCounter, getNextAvailableId } from '../../utils/e2eIdCounter';
+import { calculateMaxCounter, getNextAvailableId } from '../../utils/backoffice';
 import { E2E_IDS } from '../../constants/e2eIds';
 
 // Mock fs

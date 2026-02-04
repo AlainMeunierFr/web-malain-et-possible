@@ -46,6 +46,13 @@ Quand on crée un **nouveau type**, en particulier un **type de contenu** : **un
 - **Fonctionnelle/métier** → User Story → Plan de test → Technique → Code
 - **Purement technique** → Peut passer directement au code
 
+## API REST (Vitrine)
+
+- Si le contrat API change (endpoints, structure JSON), incrémenter la version dans `utils/vitrine/openApiSpec.ts`
+- Version API = MAJOR.MINOR (ex: 1.0, 1.1, 2.0)
+- MAJOR : breaking change (suppression, renommage)
+- MINOR : ajout rétrocompatible
+
 ## Vérifications et Qualité
 
 ### Linters

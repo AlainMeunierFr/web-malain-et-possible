@@ -10,9 +10,8 @@ import {
   readIndexData,
   readPageData,
   readDomaineData,
-  type IndexData,
-  type PageData,
-} from '../../utils/indexReader';
+} from '../../utils/server';
+import type { IndexData, PageData } from '../../utils';
 
 // Mock fs
 jest.mock('fs');
@@ -317,6 +316,158 @@ describe('indexReader', () => {
       const hero = result.contenu[0] as any;
       expect(hero.titre).toBe('Alain Meunier');
       expect(hero.ensavoirplus).toBe('/mes-profils');
+    });
+  });
+
+  describe('readPageData - normalisation des domaines de compétences', () => {
+    it('devrait convertir competences en items si items absent', () => {
+      // Cas: rawElement.competences existe mais pas rawElement.items
+      const mockData = {
+        contenu: [
+          {
+            type: 'domaineDeCompetence',
+            titre: 'Domaine Test',
+            contenu: 'Description',
+            competences: [
+              { titre: 'Compétence A', description: 'Desc A' },
+              { titre: 'Compétence B', description: 'Desc B' },
+            ],
+          },
+        ],
+      };
+
+      mockFs.existsSync.mockReturnValue(true);
+      mockFs.readFileSync.mockReturnValue(JSON.stringify(mockData));
+
+      const result = readPageData('test-competences.json');
+
+      expect(result.contenu[0].type).toBe('domaineDeCompetence');
+      const domaine = result.contenu[0] as any;
+      expect(domaine.items).toHaveLength(2);
+      expect(domaine.items[0].type).toBe('competence');
+      expect(domaine.items[0].titre).toBe('Compétence A');
+    });
+
+    it('devrait normaliser les items sans type explicite', () => {
+      // Cas: rawElement.items existe mais les items n'ont pas de type
+      const mockData = {
+        contenu: [
+          {
+            type: 'domaineDeCompetence',
+            titre: 'Domaine Test',
+            contenu: 'Description',
+            items: [
+              { titre: 'Compétence sans type', description: 'Desc' },
+            ],
+          },
+        ],
+      };
+
+      mockFs.existsSync.mockReturnValue(true);
+      mockFs.readFileSync.mockReturnValue(JSON.stringify(mockData));
+
+      const result = readPageData('test-items-sans-type.json');
+
+      const domaine = result.contenu[0] as any;
+      expect(domaine.items[0].type).toBe('competence');
+    });
+
+    it('devrait normaliser les experiences dans un domaine', () => {
+      // Cas: rawElement.experiences existe
+      const mockData = {
+        contenu: [
+          {
+            type: 'domaineDeCompetence',
+            titre: 'Domaine avec experiences',
+            contenu: 'Description',
+            items: [{ type: 'competence', titre: 'Test', description: 'Desc' }],
+            experiences: [
+              { id: 'exp1', categorie: 'formation', description: 'Formation', periode: '2020-2023' },
+              { type: 'experienceEtApprentissage', id: 'exp2', categorie: 'projet', description: 'Projet' },
+            ],
+          },
+        ],
+      };
+
+      mockFs.existsSync.mockReturnValue(true);
+      mockFs.readFileSync.mockReturnValue(JSON.stringify(mockData));
+
+      const result = readPageData('test-experiences.json');
+
+      const domaine = result.contenu[0] as any;
+      expect(domaine.experiences).toHaveLength(2);
+      expect(domaine.experiences[0].type).toBe('experienceEtApprentissage');
+      expect(domaine.experiences[1].type).toBe('experienceEtApprentissage');
+    });
+
+    it('devrait conserver le type existant sur les items', () => {
+      // Cas: les items ont déjà un type
+      const mockData = {
+        contenu: [
+          {
+            type: 'domaineDeCompetence',
+            titre: 'Domaine',
+            contenu: 'Desc',
+            items: [
+              { type: 'competence', titre: 'Avec type', description: 'Desc' },
+            ],
+          },
+        ],
+      };
+
+      mockFs.existsSync.mockReturnValue(true);
+      mockFs.readFileSync.mockReturnValue(JSON.stringify(mockData));
+
+      const result = readPageData('test-items-avec-type.json');
+
+      const domaine = result.contenu[0] as any;
+      expect(domaine.items[0].type).toBe('competence');
+    });
+  });
+
+  describe('readPageData - portfolio détournements avec clé detournementVideo', () => {
+    it('devrait convertir la clé detournementVideo en listeDeDetournementsVideo', () => {
+      // Cas: rawElement.detournementVideo existe (sans type)
+      const mockData = {
+        contenu: [
+          {
+            detournementVideo: [
+              { id: 1, titre: 'Client 1', date: '2023-01-01' },
+              { id: 2, titre: 'Client 2', date: '2023-06-15' },
+            ],
+          },
+        ],
+      };
+
+      mockFs.existsSync.mockReturnValue(true);
+      mockFs.readFileSync.mockReturnValue(JSON.stringify(mockData));
+
+      const result = readPageData('portfolio.json');
+
+      expect(result.contenu[0].type).toBe('listeDeDetournementsVideo');
+      const liste = result.contenu[0] as any;
+      expect(liste.items).toHaveLength(2);
+      expect(liste.items[0].type).toBe('detournementVideo');
+    });
+
+    it('devrait conserver le type existant sur les détournements', () => {
+      const mockData = {
+        contenu: [
+          {
+            detournementVideo: [
+              { type: 'detournementVideo', id: 1, titre: 'Avec type' },
+            ],
+          },
+        ],
+      };
+
+      mockFs.existsSync.mockReturnValue(true);
+      mockFs.readFileSync.mockReturnValue(JSON.stringify(mockData));
+
+      const result = readPageData('portfolio-typed.json');
+
+      const liste = result.contenu[0] as any;
+      expect(liste.items[0].type).toBe('detournementVideo');
     });
   });
 });

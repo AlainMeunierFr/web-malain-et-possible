@@ -1,7 +1,7 @@
 import React from 'react';
 import CourseMarkdownRenderer from './CourseMarkdownRenderer';
 import AboutSiteContentRenderer from './AboutSiteContentRenderer';
-import { parseJournalMarkdown, type ParsedJournal } from '../utils/journalMarkdownParser';
+import { parseJournalMarkdown, type ParsedJournal } from '../utils/server';
 
 export interface MarkdownRendererProps {
   content: string;

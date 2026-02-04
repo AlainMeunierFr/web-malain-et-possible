@@ -4,7 +4,7 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server';
-import { readChapitreByPath } from '../../../utils/aboutSiteReader';
+import { readChapitreByPath } from '../../../utils/server';
 
 export async function GET(request: NextRequest) {
   const pathParam = request.nextUrl.searchParams.get('path');

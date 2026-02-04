@@ -3,7 +3,7 @@
  * Séparée du composant pour respecter la séparation des préoccupations
  */
 
-import { getStaticImagePath } from '../utils/imagePath';
+import { getStaticImagePath } from '../utils';
 
 export const HEADER_IMAGES = {
   logo: {

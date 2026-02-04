@@ -10,8 +10,8 @@ import {
   getPagesAccessiblesDepuis,
   retirerLienUtilise,
   pageAccueil,
-} from '../../utils/assistantScenario';
-import type { PlanPage, PlanLien, PlanSite } from '../../utils/siteMapGenerator';
+} from '../../utils';
+import type { PlanPage, PlanLien, PlanSite } from '../../utils';
 
 describe('assistantScenario', () => {
   describe('getPagesExclues', () => {

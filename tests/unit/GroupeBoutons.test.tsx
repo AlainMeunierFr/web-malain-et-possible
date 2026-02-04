@@ -6,7 +6,7 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import GroupeBoutons from '../../components/GroupeBoutons';
-import type { ElementGroupeDeBoutons } from '../../utils/indexReader';
+import type { ElementGroupeDeBoutons } from '../../utils';
 
 // Mock next/navigation
 jest.mock('next/navigation', () => ({
@@ -16,7 +16,7 @@ jest.mock('next/navigation', () => ({
 }));
 
 // Mock buttonHandlers
-jest.mock('../../utils/buttonHandlers', () => ({
+jest.mock('../../utils/vitrine/buttonHandlers', () => ({
   getButtonAction: jest.fn((command: string, url: string | null) => {
     if (command === 'cmd-test') {
       return { type: 'internal', route: '/test' };

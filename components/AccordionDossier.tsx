@@ -3,7 +3,7 @@
 import React, { useState, useCallback } from 'react';
 import AccordionTitle from './AccordionTitle';
 import AboutSiteContent from './AboutSiteContent';
-import type { DossierRacine, Chapitre } from '../utils/aboutSiteReader';
+import type { DossierRacine, Chapitre } from '../utils';
 
 export interface AccordionDossierProps {
   dossier: DossierRacine;

@@ -5,7 +5,7 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import JournalList from '../../components/JournalList';
-import type { JournalFile } from '../../utils/journalReader';
+import type { JournalFile } from '../../utils';
 
 // Mock lucide-react
 jest.mock('lucide-react', () => ({

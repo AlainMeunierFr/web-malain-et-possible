@@ -126,7 +126,18 @@ export interface DependencyMetrics {
 export interface PerformanceMetrics {
   bundleSize: number;          // Taille du bundle (KB)
   buildTime: number;           // Temps de build (ms)
-  lighthouseScore?: number | "NC";    // Score Lighthouse (0-100) ou "NC" si non calculé
+  lighthouseScore?: number | "NC";    // Score Lighthouse global (0-100) ou "NC" si non calculé
+  lighthouse?: LighthouseScoresMetrics; // Scores Lighthouse détaillés (4 catégories)
+}
+
+/**
+ * Scores Lighthouse détaillés (4 catégories)
+ */
+export interface LighthouseScoresMetrics {
+  performance: number | "NC";
+  accessibility: number | "NC";
+  bestPractices: number | "NC";
+  seo: number | "NC";
 }
 
 /**
@@ -142,6 +153,7 @@ export interface MetricsSnapshot {
   size: CodeSizeMetrics;
   dependencies: DependencyMetrics;
   performance: PerformanceMetrics;
+  lighthouse?: LighthouseScoresMetrics; // Scores Web (PageSpeed)
 }
 
 /**
@@ -155,6 +167,7 @@ export interface MetricsHistory {
     coverage: 'up' | 'down' | 'stable';
     quality: 'up' | 'down' | 'stable';
   };
+  lastLighthouseRun?: string;  // ISO 8601 - date du dernier run Lighthouse
 }
 
 /**

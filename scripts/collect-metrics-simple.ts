@@ -6,7 +6,8 @@
 import fs from 'fs';
 import path from 'path';
 import { execSync } from 'child_process';
-import type { MetricsSnapshot, MetricsHistory } from '../types/metrics';
+import type { MetricsSnapshot, MetricsHistory, LighthouseScoresMetrics } from '../types/metrics';
+import { collectLighthouseScores } from '../utils/projet/lighthouseCollector';
 
 const OUTPUT_DIR = path.join(process.cwd(), 'public', 'metrics');
 const HISTORY_FILE = path.join(OUTPUT_DIR, 'history.json');
@@ -1469,14 +1470,38 @@ async function main() {
     },
   };
 
+  let existingLighthouseScores: LighthouseScoresMetrics | undefined;
+  let lastLighthouseRun: string | undefined;
+
   if (fs.existsSync(HISTORY_FILE)) {
     try {
       const existingHistory = JSON.parse(fs.readFileSync(HISTORY_FILE, 'utf-8'));
       history.snapshots = existingHistory.snapshots || [];
+      lastLighthouseRun = existingHistory.lastLighthouseRun;
+      // Récupérer les scores Lighthouse existants du dernier snapshot
+      if (existingHistory.latest?.lighthouse) {
+        existingLighthouseScores = existingHistory.latest.lighthouse;
+      }
     } catch (e) {
       console.warn('⚠️  Erreur lors de la lecture de l\'historique');
     }
   }
+
+  // Collecter les scores Lighthouse (conditionnel - 7 jours)
+  console.log('\n🔍 Vérification Lighthouse (PageSpeed API)...');
+  const lighthouseResult = await collectLighthouseScores(lastLighthouseRun, existingLighthouseScores);
+  
+  if (!lighthouseResult.skipped) {
+    history.lastLighthouseRun = lighthouseResult.lastRun;
+    console.log(`✅ Scores Lighthouse collectés: Perf=${lighthouseResult.scores.performance}, A11y=${lighthouseResult.scores.accessibility}`);
+  } else {
+    // Conserver le lastLighthouseRun existant
+    history.lastLighthouseRun = lastLighthouseRun;
+    console.log('⏭️  Lighthouse skipped (dernière exécution < 7 jours)');
+  }
+  
+  // Ajouter les scores Lighthouse au snapshot
+  (snapshot as MetricsSnapshot & { lighthouse?: LighthouseScoresMetrics }).lighthouse = lighthouseResult.scores;
 
   history.snapshots.push(snapshot);
   
