@@ -92,4 +92,45 @@ describe('CourseMarkdownRenderer', () => {
     expect(screen.getByText('Para 1')).toBeInTheDocument();
     expect(screen.getByText('Para 2')).toBeInTheDocument();
   });
+
+  describe('mots-clés US', () => {
+    it('devrait rendre "En tant que" en gras, pas comme titre', () => {
+      const { container } = render(<CourseMarkdownRenderer content="## En tant que développeur" />);
+      
+      // Pas de h4 (## + 2 = h4)
+      expect(container.querySelector('h4')).not.toBeInTheDocument();
+      // Un paragraphe avec le mot-clé en gras
+      const p = container.querySelector('p.usKeyword');
+      expect(p).toBeInTheDocument();
+      expect(p?.querySelector('strong')?.textContent).toBe('En tant que');
+      expect(p?.textContent).toContain('développeur');
+    });
+
+    it('devrait rendre "Je souhaite" en gras, pas comme titre', () => {
+      const { container } = render(<CourseMarkdownRenderer content="## Je souhaite avoir un script" />);
+      
+      expect(container.querySelector('h4')).not.toBeInTheDocument();
+      const p = container.querySelector('p.usKeyword');
+      expect(p).toBeInTheDocument();
+      expect(p?.querySelector('strong')?.textContent).toBe('Je souhaite');
+    });
+
+    it('devrait rendre "Afin de" en gras, pas comme titre', () => {
+      const { container } = render(<CourseMarkdownRenderer content="## Afin de faciliter les tests" />);
+      
+      expect(container.querySelector('h4')).not.toBeInTheDocument();
+      const p = container.querySelector('p.usKeyword');
+      expect(p).toBeInTheDocument();
+      expect(p?.querySelector('strong')?.textContent).toBe('Afin de');
+    });
+
+    it('devrait rendre "Je veux" en gras comme variante de "Je souhaite"', () => {
+      const { container } = render(<CourseMarkdownRenderer content="## Je veux avoir un outil" />);
+      
+      expect(container.querySelector('h4')).not.toBeInTheDocument();
+      const p = container.querySelector('p.usKeyword');
+      expect(p).toBeInTheDocument();
+      expect(p?.querySelector('strong')?.textContent).toBe('Je veux');
+    });
+  });
 });

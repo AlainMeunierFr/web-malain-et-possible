@@ -1,76 +1,76 @@
 # US-7.5 : Améliorations design - TitreDePage et styles bouton HeroSection ✅ COMPLÉTÉ
 
-- **En tant que** visiteur/recruteur
-- **Je souhaite** avoir une meilleure expérience visuelle et de navigation
-- **Afin de** mieux identifier la page sur laquelle je me trouve et avoir un feedback visuel clair sur les interactions
+## En tant que visiteur/recruteur
 
-- **Critères d'acceptation** :
+## Je souhaite avoir une meilleure expérience visuelle et de navigation
 
-- **CA1 - Type TitreDePage** :
-  - Création d'un nouveau type de contenu `titreDePage` dans `utils/indexReader.ts`
-  - Interface `ElementTitreDePage` avec `type: 'titreDePage'` et `texte: string`
-  - Le type est ajouté au type union `ElementContenu`
+## Afin de mieux identifier la page sur laquelle je me trouve et avoir un feedback visuel clair sur les interactions
 
-- **CA2 - Affichage du titre dans le Header** :
-  - Le premier élément `titreDePage` de chaque page est extrait et affiché dans le header (bande bleue)
-  - Le titre s'affiche en police blanche, centré horizontalement et verticalement dans la bande bleue
-  - Positionnement : entre le logo et la photo
-  - Le titre est centré en hauteur dans la bande bleue (contrairement au logo et à la photo qui dépassent)
+# Critères d'acceptation
 
-- **CA3 - Contexte React pour partage du titre** :
-  - Création d'un contexte `PageTitleContext` (`contexts/PageTitleContext.tsx`)
-  - Provider `PageTitleProvider` avec state `pageTitle` et fonction `setPageTitle`
-  - Hook `usePageTitle()` pour accéder au contexte
-  - Intégration dans `app/layout.tsx` avec `PageTitleProvider`
+## CA1 - CA1 - Type TitreDePage
+- Création d'un nouveau type de contenu `titreDePage` dans `utils/indexReader.ts`
+- Interface `ElementTitreDePage` avec `type: 'titreDePage'` et `texte: string`
+- Le type est ajouté au type union `ElementContenu`
 
-- **CA4 - Extraction et affichage** :
-  - `PageContentRenderer.tsx` extrait le premier `titreDePage` du contenu via `useEffect`
-  - Le titre est mis dans le contexte via `setPageTitle`
-  - Le `titreDePage` n'est pas affiché dans le contenu de la page (retourne `null` dans le switch)
-  - `Header.tsx` utilise `usePageTitle()` pour récupérer et afficher le titre conditionnellement
+## CA2 - CA2 - Affichage du titre dans le Header
+- Le premier élément `titreDePage` de chaque page est extrait et affiché dans le header (bande bleue)
+- Le titre s'affiche en police blanche, centré horizontalement et verticalement dans la bande bleue
+- Positionnement : entre le logo et la photo
+- Le titre est centré en hauteur dans la bande bleue (contrairement au logo et à la photo qui dépassent)
 
-- **CA5 - Styles du titre dans le Header** :
-  - `.titleContainer` : Position absolue, centré (`left: 50%`, `top: 50%`, `transform: translate(-50%, -50%)`)
-  - `.pageTitle` : Police blanche, police serif, taille 1.5rem, gras, centré
-  - Responsive : Réduction à 1.125rem sur mobile, ajustement du `max-width` pour éviter les chevauchements
+## CA3 - CA3 - Contexte React pour partage du titre
+- Création d'un contexte `PageTitleContext` (`contexts/PageTitleContext.tsx`)
+- Provider `PageTitleProvider` avec state `pageTitle` et fonction `setPageTitle`
+- Hook `usePageTitle()` pour accéder au contexte
+- Intégration dans `app/layout.tsx` avec `PageTitleProvider`
 
-- **CA6 - Migration des pages** :
-  - Remplacement du premier `"type": "titre"` par `"type": "titreDePage"` dans :
-    - `profil-cpo.json` : "Produit logiciel"
-    - `profil-coo.json` : "Opérations"
-    - `profil-agile.json` : "Transformation Agile"
-    - `profil-cto.json` : "Technologie"
-    - `faisons-connaissance.json` : "Faisons connaissance"
-    - `detournement-video.json` : "Détournement de scènes cultes du cinéma"
-    - `portfolio-detournements.json` : "Portfolio de detournements vidéos"
-    - `pour-aller-plus-loin.json` : "Pour aller plus loin, je vous propose une expérience..."
+## CA4 - CA4 - Extraction et affichage
+- `PageContentRenderer.tsx` extrait le premier `titreDePage` du contenu via `useEffect`
+- Le titre est mis dans le contexte via `setPageTitle`
+- Le `titreDePage` n'est pas affiché dans le contenu de la page (retourne `null` dans le switch)
+- `Header.tsx` utilise `usePageTitle()` pour récupérer et afficher le titre conditionnellement
 
-- **CA7 - Styles bouton principal HeroSection** :
-  - Inversion des styles hover/normal pour améliorer l'UX
-  - **État normal** (`.boutonPrincipal`) :
-    - `background-color: var(--BoutonCouleurFond)` (style sobre)
-    - `color: var(--BoutonCouleur)`
-    - `transform: translateY(0)` (pas de décalage)
-    - `box-shadow: none` (pas d'ombre)
-  - **État hover** (`.boutonPrincipal:hover`) :
-    - `background-color: var(--BoutonCouleurFondHover)` (style plus visible)
-    - `color: var(--BoutonCouleurTexteHover)`
-    - `transform: var(--BoutonTransformHover)` (effet de décalage)
-    - `box-shadow: var(--BoutonOmbreHover)` (ombre pour profondeur)
+## CA5 - CA5 - Styles du titre dans le Header
+- `.titleContainer` : Position absolue, centré (`left: 50%`, `top: 50%`, `transform: translate(-50%, -50%)`)
+- `.pageTitle` : Police blanche, police serif, taille 1.5rem, gras, centré
+- Responsive : Réduction à 1.125rem sur mobile, ajustement du `max-width` pour éviter les chevauchements
 
-- **CA8 - Client Component** :
-  - `PageContentRenderer.tsx` est marqué comme Client Component avec `'use client'` pour utiliser les hooks React (`useEffect`, `usePageTitle`)
+## CA6 - CA6 - Migration des pages
+- Remplacement du premier `"type": "titre"` par `"type": "titreDePage"` dans :
+- `profil-cpo.json` : "Produit logiciel"
+- `profil-coo.json` : "Opérations"
+- `profil-agile.json` : "Transformation Agile"
+- `profil-cto.json` : "Technologie"
+- `faisons-connaissance.json` : "Faisons connaissance"
+- `detournement-video.json` : "Détournement de scènes cultes du cinéma"
+- `portfolio-detournements.json` : "Portfolio de detournements vidéos"
+- `pour-aller-plus-loin.json` : "Pour aller plus loin, je vous propose une expérience..."
+
+## CA7 - CA7 - Styles bouton principal HeroSection
+- Inversion des styles hover/normal pour améliorer l'UX
+- **État normal** (`.boutonPrincipal`) :
+- `background-color: var(--BoutonCouleurFond)` (style sobre)
+- `color: var(--BoutonCouleur)`
+- `transform: translateY(0)` (pas de décalage)
+- `box-shadow: none` (pas d'ombre)
+- **État hover** (`.boutonPrincipal:hover`) :
+- `background-color: var(--BoutonCouleurFondHover)` (style plus visible)
+- `color: var(--BoutonCouleurTexteHover)`
+- `transform: var(--BoutonTransformHover)` (effet de décalage)
+- `box-shadow: var(--BoutonOmbreHover)` (ombre pour profondeur)
+
+## CA8 - CA8 - Client Component
+- `PageContentRenderer.tsx` est marqué comme Client Component avec `'use client'` pour utiliser les hooks React (`useEffect`, `usePageTitle`)
 
 **Résultat attendu :**
 - Identification claire de la page courante via le titre dans le header
 - Meilleur feedback visuel sur les interactions (bouton sobre par défaut, plus visible au survol)
 - Expérience utilisateur améliorée avec navigation plus intuitive
 
----
-
 ## Résultats du Sprint
 
-## US-7.1 : ✅ Complétée
+# US-7.1 : ✅ Complétée
 
 **Livrables :**
 - ✅ `data/bibliotheque/competences.json` avec 50 compétences
@@ -96,7 +96,7 @@
 - Mise à jour centralisée des compétences
 - Base solide pour créer des profils ciblés
 
-## US-7.2 : ✅ Complétée
+# US-7.2 : ✅ Complétée
 
 **Livrables :**
 - ✅ Types `hero` et `profil` ajoutés dans `utils/indexReader.ts`
@@ -118,7 +118,7 @@
 - Interlignes réduits pour optimiser l'espace vertical
 - Support du markdown inline (gras) dans les textes de la HERO
 
-## US-7.3 : ✅ Complétée
+# US-7.3 : ✅ Complétée
 
 **Livrables :**
 - ✅ 4 pages de profils créées : `/profil/cpo`, `/profil/coo`, `/profil/agile`, `/profil/cto`
@@ -135,7 +135,7 @@
 - Structure cohérente : vidéo(s) → titre → domaines → témoignages → call-to-action
 - Navigation fluide depuis la page d'accueil vers les profils
 
-## US-7.4 : ✅ Complétée
+# US-7.4 : ✅ Complétée
 
 **Livrables :**
 - ✅ Section "Témoignages" ajoutée dans les 4 profils (`profil-cpo.json`, `profil-coo.json`, `profil-agile.json`, `profil-cto.json`)
@@ -148,7 +148,7 @@
 - Amélioration de la crédibilité et de la confiance
 - Cohérence du message avec témoignages partagés
 
-## US-7.5 : ✅ Complétée
+# US-7.5 : ✅ Complétée
 
 **Livrables :**
 - ✅ Type `titreDePage` créé dans `utils/indexReader.ts`

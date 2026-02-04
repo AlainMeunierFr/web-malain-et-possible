@@ -28,7 +28,9 @@ function contentFromEnTantQue(content: string): string {
 /** Sépare le contenu US en bloc fixe (En tant que... Afin de) et bloc défilable (CA et suite). */
 function splitUsContent(content: string): { fixed: string; scroll: string } {
   const fromEnTantQue = contentFromEnTantQue(content);
-  const match = fromEnTantQue.match(/\n\s*-\s*\*\*Critères d[\u2019']acceptation\*\*\s*:?/i);
+  // Pattern pour le nouveau format: # Critères d'acceptation
+  // ou l'ancien format: - **Critères d'acceptation** :
+  const match = fromEnTantQue.match(/\n\s*(?:#\s*Critères d[\u2019']acceptation|-\s*\*\*Critères d[\u2019']acceptation\*\*\s*:?)/i);
   const idx = match ? (match.index ?? -1) : -1;
   if (idx === -1) {
     return { fixed: '', scroll: fromEnTantQue };

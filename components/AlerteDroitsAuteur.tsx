@@ -18,7 +18,8 @@ const AlerteDroitsAuteur: React.FC<AlerteDroitsAuteurProps> = ({ texte }) => {
         <AlertTriangle className="ui-alertIcon" />
       </span>
       <div className="tooltip-content">
-        {texte.split('\n').map((line, index) => (
+        {/* Normaliser les retours à la ligne Windows (\r\n) en Unix (\n) */}
+        {texte.split(/\r?\n/).map((line, index) => (
           <p key={index}>{line}</p>
         ))}
       </div>

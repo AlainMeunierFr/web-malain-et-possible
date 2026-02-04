@@ -74,15 +74,13 @@ describe('parseSectionContent - Détection User Stories', () => {
     });
   });
 
-  describe('ITÉRATION 3 : Ne pas attribuer typeDeContenu si les éléments ne sont pas sous un H4', () => {
-    it('ne devrait pas attribuer typeDeContenu si les listes sont sous un H3', () => {
-      // ARRANGE : Listes normales sous un H3
+  describe('ITÉRATION 3 : Ne pas attribuer typeDeContenu aux listes normales', () => {
+    it('ne devrait pas attribuer typeDeContenu aux listes sans format US', () => {
+      // ARRANGE : Listes normales (sans format US)
       const contenu = `# Partie normale
-- **En tant que** Visiteur
-- **Je souhaite** Voir quelque chose
-- **Afin de** Faire quelque chose
-- **Critères d'acceptation** :
-  - Un critère
+- Premier élément
+- Deuxième élément
+- Troisième élément
 `;
 
       // ACT
@@ -90,7 +88,7 @@ describe('parseSectionContent - Détection User Stories', () => {
 
       // ASSERT
       expect(result.parties).toHaveLength(1);
-      // Les éléments ne doivent pas avoir de typeDeContenu car pas sous un H4
+      // Les éléments ne doivent pas avoir de typeDeContenu car ce ne sont pas des US
       const partie = result.parties[0];
       const typeDeContenus = partie.contenuParse
         .filter(e => e.typeDeContenu)

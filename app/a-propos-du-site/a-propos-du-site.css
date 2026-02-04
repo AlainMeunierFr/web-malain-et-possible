@@ -100,6 +100,7 @@
   margin: 0.75rem 0;
   margin-left: 1.25rem;
   color: var(--BleuFonce);
+  text-align: left; /* Alignement à gauche pour cohérence avec les autres titres */
 }
 
 .sousPartie {
@@ -112,6 +113,7 @@
   margin: 0.5rem 0;
   margin-left: 30px;
   color: var(--BleuFonce);
+  text-align: left; /* Alignement à gauche pour cohérence avec les autres titres */
 }
 
 .bloc {
@@ -124,6 +126,7 @@
   margin: 0.5rem 0;
   margin-left: 30px;
   color: var(--foreground);
+  text-align: left; /* Alignement à gauche pour cohérence avec les autres titres */
 }
 
 /* ========== Menu horizontal partagé (position fixed) ========== */
@@ -131,8 +134,8 @@
 .menuAPropos {
   /* Position fixed : reste collé sous le header principal */
   position: fixed;
-  top: max(80px, 8.75vh);
-  left: 0;
+  top: calc(max(80px, 8.75vh) + 8px); /* Décalage de 8px vers le bas */
+  left: 90px; /* Décalage de 90px à droite pour éviter le logo */
   right: 0;
   z-index: 500; /* Sous le header (1000) mais au-dessus du contenu (1) */
   
@@ -143,6 +146,50 @@
   background: var(--background);
 }
 
+/* Bouton hamburger (caché sur grand écran) */
+.menuAPropos__hamburger {
+  display: none; /* Caché par défaut sur grand écran */
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+  margin-right: 1rem;
+  flex-direction: column;
+  justify-content: space-around;
+  width: 2rem;
+  height: 2rem;
+  z-index: 501;
+}
+
+.menuAPropos__hamburger-icon {
+  width: 2rem;
+  height: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.menuAPropos__hamburger-icon span {
+  display: block;
+  height: 0.25rem;
+  width: 100%;
+  background-color: var(--BleuFonce);
+  border-radius: 0.125rem;
+  transition: all 0.3s ease;
+}
+
+.menuAPropos__hamburger-icon span.open:nth-child(1) {
+  transform: rotate(45deg) translate(0.5rem, 0.5rem);
+}
+
+.menuAPropos__hamburger-icon span.open:nth-child(2) {
+  opacity: 0;
+}
+
+.menuAPropos__hamburger-icon span.open:nth-child(3) {
+  transform: rotate(-45deg) translate(0.5rem, -0.5rem);
+}
+
 .menuAPropos .liste {
   display: flex;
   flex-wrap: wrap;
@@ -150,6 +197,7 @@
   list-style: none;
   margin: 0;
   padding: 0;
+  width: 100%;
 }
 
 .menuAPropos .item {
@@ -187,10 +235,50 @@
   border: 0.0625rem solid var(--BleuFonce);
 }
 
+/* Responsive : menu hamburger sur petit écran */
+@media (max-width: 768px) {
+  .menuAPropos {
+    left: 0;
+    padding: 0.75rem 1rem;
+    flex-direction: column;
+    align-items: flex-start;
+    top: calc(max(80px, 8.75vh) + 8px); /* Conserver le décalage de 8px */
+  }
+
+  .menuAPropos__hamburger {
+    display: flex; /* Afficher le bouton hamburger */
+  }
+
+  .menuAPropos .liste {
+    display: none; /* Cacher le menu par défaut */
+    flex-direction: column;
+    width: 100%;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+    padding-top: 0.5rem;
+    border-top: 0.125rem solid var(--BleuClair);
+  }
+
+  .menuAPropos .liste.liste--open {
+    display: flex; /* Afficher le menu quand ouvert */
+  }
+
+  .menuAPropos .item {
+    width: 100%;
+  }
+
+  .menuAPropos .lien,
+  .menuAPropos .lienActif {
+    display: block;
+    width: 100%;
+    text-align: left;
+  }
+}
+
 /* Zone de contenu sous le menu fixed */
 .contenuAPropos {
-  /* Espace pour le menu fixed (hauteur ~50px + padding + marge sécurité) */
-  padding-top: 4.5rem;
+  /* Espace pour le menu fixed (hauteur ~50px + padding + marge sécurité + décalage 8px) */
+  padding-top: calc(4.5rem + 8px);
 }
 
 /* ========== En-tête tableau de bord (Sprint Goal uniquement) ========== */
@@ -212,11 +300,10 @@
 }
 
 .sprintGoalContainer {
-  flex: 1 1 auto;
-  min-width: 12rem;
-  max-width: 50%;
+  flex: 1 1 100%; /* Prend toute la largeur */
+  min-width: 100%;
   display: flex;
-  justify-content: flex-end;
+  justify-content: flex-start; /* Aligné à gauche */
   align-items: flex-start;
 }
 
@@ -226,7 +313,8 @@
   line-height: 1.4;
   color: var(--BleuFonce);
   margin: 0;
-  text-align: right;
+  text-align: left; /* Aligné à gauche pour pleine largeur */
+  width: 100%;
 }
 
 .sprintGoal p {
@@ -398,6 +486,21 @@
   line-height: 1;
   opacity: 0.85;
   pointer-events: none;
+}
+
+/* Focus sur l'US en cours */
+.carteUS--focus {
+  border: 0.25rem solid var(--BleuFonce) !important;
+  box-shadow: 0 0 0 0.25rem var(--BleuClair), 0 0.25rem 0.5rem rgba(0, 0, 0, 0.2) !important;
+  z-index: 10;
+  position: relative;
+}
+
+/* Focus sur la colonne "A faire" si pas d'US en cours */
+.colonneTableauSprint--focus {
+  border: 0.25rem solid var(--BleuFonce) !important;
+  box-shadow: 0 0 0 0.25rem var(--BleuClair), 0 0.25rem 0.5rem rgba(0, 0, 0, 0.2) !important;
+  background-color: rgba(0, 0, 0, 0.02);
 }
 
 /* ========== Modal détail US (US-11.6) ========== */
@@ -734,6 +837,7 @@ ol.list {
   margin: 0.25rem 0 !important;
   line-height: 1.5;
   display: list-item !important;
+  font-weight: normal; /* SURCHARGE : texte à puce pas en gras */
 }
 
 .userStoryElement {
@@ -752,10 +856,18 @@ ol.list {
 
 .userStoryElement li {
   display: list-item !important;
+  font-weight: normal; /* SURCHARGE : texte à puce pas en gras */
 }
 
-.userStoryElement[data-type-contenu="Critères d'acceptation"] {
-  margin: 0.5rem 0 !important;
+/* Titre "Critères d'acceptation" - h4 sans puce, aligné à gauche */
+.criteresAcceptationTitre {
+  margin: 1rem 0 0.5rem 0 !important;
+  margin-left: 35px !important;
+  padding: 0 !important;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--BleuFonce);
+  text-align: left;
 }
 
 .themeCritere {
@@ -770,7 +882,7 @@ ol.list {
 
 .themeCritere li {
   display: list-item !important;
-  font-weight: 700;
+  font-weight: normal; /* SURCHARGE : texte à puce pas en gras (même pour les thèmes) */
 }
 
 .critere {
@@ -785,7 +897,7 @@ ol.list {
 
 .critere li {
   display: list-item !important;
-  font-weight: 400;
+  font-weight: normal; /* SURCHARGE : texte à puce pas en gras */
   color: inherit;
 }
 
@@ -883,78 +995,50 @@ ol.list {
   padding: 0 1.5rem 1.5rem 1.5rem;
 }
 
-/* ========== Markdown (ex-MarkdownRenderer.module.css) ========== */
+/* ========== Styles Markdown spécifiques pour "A propos du site" ========== */
+/* 
+ * SURCHARGE MINIMALE DE LA CHARTE GLOBALE
+ * 
+ * Ces styles s'appliquent aux fichiers MD dans toutes les sections :
+ * - "A propos du projet"
+ * - "Tous les sprints"
+ * - "Configuration IA"
+ * - "Documentation technique"
+ * 
+ * Principe : La charte globale (globals.css) est respectée à 100%
+ * Surcharges uniquement :
+ * - Alignement des titres à gauche (cohérence visuelle)
+ * - Styles spécifiques aux modules (IA, Alain, Prompt, Résultat technique)
+ * 
+ * Tous les autres styles (tailles, polices, couleurs) héritent de la charte globale.
+ */
+
 .markdownContent {
-  line-height: 1.6;
-  color: #444;
-  font-size: 1rem;
+  /* Base : hérite complètement de la charte globale */
 }
 
-.markdownContent h1 {
-  font-size: 2rem;
-  margin: 1.5rem 0 1rem 0;
-  color: var(--BleuFonce);
-  font-family: 'Outfit', sans-serif;
-  border-bottom: 3px solid var(--BleuFonce);
-  padding-bottom: 0.5rem;
-  font-weight: 700;
-  letter-spacing: -0.02em;
+/* SURCHARGE UNIQUEMENT : alignement des titres à gauche */
+.markdownContent h1,
+.markdownContent h2,
+.markdownContent h3,
+.markdownContent h4,
+.markdownContent h5,
+.markdownContent h6 {
+  text-align: left;
 }
 
-.markdownContent h2 {
-  font-size: 1.5rem;
-  margin: 2rem 0 1rem 0;
-  color: var(--BleuFonce);
-  font-family: 'Outfit', sans-serif;
-  border-bottom: 2px solid var(--BleuFonce);
-  padding-bottom: 0.5rem;
-  font-weight: 700;
-  letter-spacing: -0.02em;
-}
-
-.markdownContent h2:first-child {
-  margin-top: 0;
-}
-
-.markdownContent h3 {
-  font-size: 1.25rem;
-  margin: 1.5rem 0 0.75rem 0;
-  color: #1a1a1a;
-  font-family: 'Outfit', sans-serif;
-  font-weight: 600;
-  letter-spacing: -0.01em;
-}
-
-.markdownContent h4 {
-  font-size: 1.1rem;
-  margin: 1rem 0 0.5rem 0;
-  color: var(--BleuFonce);
-  font-family: 'Outfit', sans-serif;
-  font-weight: 600;
-  letter-spacing: -0.01em;
-}
-
-.markdownContent h5 {
-  font-size: 1rem;
-  margin: 0.8rem 0 0.4rem 0;
-  color: #666;
-  font-family: 'Outfit', sans-serif;
-  font-weight: 600;
-}
-
+/* Paragraphe - Base charte respectée, pas de surcharge */
 .markdownContent p {
   margin: 0;
   margin-top: 0.4em;
   padding: 0;
-  line-height: 1.4;
-  color: #444;
-  font-size: 1rem;
 }
 
 .markdownContent p + p {
   margin-top: 0.4em;
 }
 
+/* Listes - Base charte respectée */
 .markdownContent > ul {
   list-style: disc;
   margin-left: 1.5rem;
@@ -965,17 +1049,19 @@ ol.list {
 
 .markdownContent > ul > li {
   margin-bottom: 0.4rem;
-  line-height: 1.4;
   padding-left: 0.3em;
   list-style-position: outside;
   position: relative;
+  font-weight: normal; /* SURCHARGE : texte à puce pas en gras */
 }
 
+/* Masquer les puces générées par CSS pour utiliser list-style natif */
 .markdownContent > ul > li::before {
   display: none !important;
   content: none !important;
 }
 
+/* Listes imbriquées */
 .markdownContent > ul ul {
   list-style: disc;
   margin-left: 1.5rem;
@@ -986,10 +1072,10 @@ ol.list {
 
 .markdownContent > ul ul li {
   margin-bottom: 0.4rem;
-  line-height: 1.4;
   padding-left: 0.3em;
   list-style-position: outside;
   position: relative;
+  font-weight: normal; /* SURCHARGE : texte à puce pas en gras */
 }
 
 .markdownContent > ul ul li::before {
@@ -997,14 +1083,7 @@ ol.list {
   content: none !important;
 }
 
-.markdownContent h6 {
-  font-size: 0.9rem;
-  margin: 0.7rem 0 0.3rem 0;
-  color: #666;
-  font-family: 'Outfit', sans-serif;
-  font-weight: 600;
-}
-
+/* Blockquote, pre, hr, strong, em - Base charte respectée */
 .markdownContent blockquote {
   margin: 1rem 0;
   padding: 0.5rem 1rem;

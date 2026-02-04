@@ -18,21 +18,78 @@ interface AboutSiteContentProps {
   embedded?: boolean;
 }
 
+/**
+ * Calcule le niveau HTML à partir du niveau de base et du type de titre
+ * niveauBase 1: # = h3, ## = h4, ### = h5
+ * niveauBase 2: ## = h3, ### = h4, #### = h5
+ * niveauBase 3: ### = h3, #### = h4, ##### = h5
+ */
+function calculerNiveauHTML(niveauBase: number | undefined, typeTitre: 'partie' | 'sousPartie' | 'bloc'): number {
+  const base = niveauBase || 3; // Par défaut, niveau 3
+  // Le niveau HTML est toujours h3 pour partie, h4 pour sous-partie, h5 pour bloc
+  // Le niveau markdown change selon le niveau de base, mais le rendu HTML reste cohérent
+  if (typeTitre === 'partie') {
+    return 3; // Toujours h3
+  } else if (typeTitre === 'sousPartie') {
+    return 4; // Toujours h4
+  } else {
+    return 5; // Toujours h5
+  }
+}
+
+/**
+ * Normalise un titre pour la comparaison (enlève US-X.Y, ✅ COMPLÉTÉ, etc.)
+ */
+function normaliserTitre(titre: string): string {
+  return titre
+    // Enlever "US-X.Y - " ou "US-X.Y : " du début
+    .replace(/^US-\d+\.\d+[a-z]?\s*[-:]\s*/i, '')
+    // Enlever "✅ COMPLÉTÉ" ou variantes à la fin
+    .replace(/\s*✅\s*(COMPLÉTÉ|COMPLETÉ|COMPLETE)\s*$/gi, '')
+    .trim();
+}
+
+/**
+ * Vérifie si la première partie correspond au nom du fichier
+ */
+function premierePartieCorrespondAuFichier(section: Section): boolean {
+  if (section.parties.length === 0) return false;
+  
+  const premierePartie = section.parties[0];
+  const titrePremierePartie = normaliserTitre(premierePartie.titre);
+  const nomFichier = normaliserTitre(section.nom);
+  
+  return titrePremierePartie === nomFichier;
+}
+
 /** Rendu du contenu d'une section (parties H3, sous-parties H4, blocs H5) */
 function renderSectionContent(section: Section) {
-  return section.parties.map((partie, partieIndex) => (
+  const niveauBase = section.niveauBase || 3;
+  const niveauPartie = calculerNiveauHTML(niveauBase, 'partie');
+  const niveauSousPartie = calculerNiveauHTML(niveauBase, 'sousPartie');
+  const niveauBloc = calculerNiveauHTML(niveauBase, 'bloc');
+  
+  const doitMasquerPremierePartie = premierePartieCorrespondAuFichier(section);
+  
+  return section.parties.map((partie, partieIndex) => {
+    // Masquer le titre de la première partie si elle correspond au nom du fichier
+    const doitMasquerTitre = doitMasquerPremierePartie && partieIndex === 0;
+    
+    return (
     <div key={`${section.nom}-${partieIndex}-${partie.titre}`} className="partie">
-      <h3 className="partieTitle">{partie.titre}</h3>
+      {!doitMasquerTitre && (
+        React.createElement(`h${niveauPartie}`, { className: 'partieTitle' }, partie.titre)
+      )}
       {partie.contenuParse && partie.contenuParse.length > 0 && (
         <AboutSiteContentRenderer elements={partie.contenuParse} />
       )}
       {partie.sousParties.map((sousPartie, sousPartieIndex) => {
         const uniqueKey = `${section.nom}-${partieIndex}-${sousPartieIndex}-${sousPartie.titre}`;
-        const doitMasquerTitre = sousPartie.typeDeContenu === 'Prompt' || sousPartie.typeDeContenu === 'Résultat technique';
+        const doitMasquerTitreSousPartie = sousPartie.typeDeContenu === 'Prompt' || sousPartie.typeDeContenu === 'Résultat technique';
         return (
           <div key={uniqueKey} className="sousPartie">
-            {!doitMasquerTitre && (
-              <h4 className="sousPartieTitle">{sousPartie.titre}</h4>
+            {!doitMasquerTitreSousPartie && (
+              React.createElement(`h${niveauSousPartie}`, { className: 'sousPartieTitle' }, sousPartie.titre)
             )}
             {sousPartie.contenuParse && sousPartie.contenuParse.length > 0 && (
               <AboutSiteContentRenderer elements={sousPartie.contenuParse} />
@@ -42,7 +99,7 @@ function renderSectionContent(section: Section) {
               return (
                 <div key={blocKey} className="bloc">
                   {bloc.typeDeContenu !== 'Prompt' && bloc.typeDeContenu !== 'Résultat technique' && (
-                    <h5 className="blocTitle">{bloc.titre}</h5>
+                    React.createElement(`h${niveauBloc}`, { className: 'blocTitle' }, bloc.titre)
                   )}
                   {bloc.contenuParse && bloc.contenuParse.length > 0 && (
                     <AboutSiteContentRenderer
@@ -57,7 +114,8 @@ function renderSectionContent(section: Section) {
         );
       })}
     </div>
-  ));
+  );
+  });
 }
 
 /**

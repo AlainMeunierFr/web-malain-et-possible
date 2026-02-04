@@ -65,6 +65,7 @@ export interface ContenuElement {
   imageFilename?: string; // Pour les images (nom de fichier ou URL complète)
   imageUrl?: string; // Pour les images (URL complète depuis le markdown)
   typeDeContenu?: string; // "En tant que", "Je souhaite", "Afin de", "Critères d'acceptation" (pour User Stories)
+  niveauListe?: number; // 1 ou 2 pour indiquer le niveau d'indentation de la liste
 }
 
 /**
@@ -104,6 +105,7 @@ export interface Partie {
 export interface SectionContent {
   contenuInitial: string; // Contenu avant la première partie
   parties: Partie[]; // Parties (###) dans cette section
+  niveauBase?: number; // Niveau de base détecté (1, 2, ou 3) pour adapter la hiérarchie HTML
 }
 
 /**
@@ -113,6 +115,7 @@ export interface Section {
   nom: string; // Nom du fichier sans l'extension .md
   contenu: string; // Contenu complet du fichier MD
   parties: Partie[]; // Parties (###) dans cette section
+  niveauBase?: number; // Niveau de base détecté (1, 2, ou 3) pour adapter la hiérarchie HTML
 }
 
 /**
@@ -148,66 +151,96 @@ export interface AboutSiteStructure {
 }
 
 /**
+ * Détecte le premier niveau de titre dans le contenu MD
+ * Retourne le décalage (1, 2, ou 3) pour adapter la hiérarchie
+ */
+function detecterPremierNiveauTitre(lignes: string[]): number {
+  for (const ligne of lignes) {
+    const trimmed = ligne.trim();
+    if (trimmed.startsWith('# ') && !trimmed.startsWith('## ')) {
+      return 1; // # = h3
+    }
+    if (trimmed.startsWith('## ') && !trimmed.startsWith('### ')) {
+      return 2; // ## = h3
+    }
+    if (trimmed.startsWith('### ') && !trimmed.startsWith('#### ')) {
+      return 3; // ### = h3
+    }
+  }
+  return 3; // Par défaut, on assume ### comme premier niveau
+}
+
+/**
  * Valide le contenu d'un fichier MD selon les règles métier
- * APPROCHE TDD : Code fait émerger progressivement du simple au complexe
- * 
- * ITÉRATION 1 (GREEN) : Détecter un titre H1 - code minimal pour faire passer le test
- * ITÉRATION 2 (GREEN) : Détecter un titre H2 - extension du code
- * ITÉRATION 3 (GREEN) : Détecter H4 sans H3 - nécessite de tracker H3 et H4
- * ITÉRATION 4 (GREEN) : Ignorer les blocs de code markdown - nécessite de tracker l'état dans/dansBlocCode
- * ITÉRATION 5 (GREEN) : Fichier vide ne doit pas lever d'erreur - cas limite
+ * S'adapte au premier niveau de titre trouvé dans le fichier
  * 
  * @param contenu Contenu du fichier MD
  * @param filePath Chemin du fichier (pour les messages d'erreur)
  * @throws ValidationError Si le fichier ne respecte pas les règles métier
  */
 export const validerContenuMarkdown = (contenu: string, filePath: string): void => {
-  // ITÉRATION 5 : Fichier vide = inexistant (pas d'erreur, juste ignoré)
+  // Fichier vide = inexistant (pas d'erreur, juste ignoré)
   if (!contenu.trim()) {
-    return; // Fichier vide : considéré comme inexistant (pas d'erreur)
+    return;
   }
 
-  const lignes = contenu.split('\n');
-  let hasH3 = false;
-  let hasH4 = false;
+  // Normaliser les retours à la ligne Windows (\r\n) en Unix (\n)
+  const lignes = contenu.split(/\r?\n/);
+  
+  // Détecter le premier niveau de titre pour adapter la validation
+  const niveauBase = detecterPremierNiveauTitre(lignes);
+  
+  let hasPartie = false;
+  let hasSousPartie = false;
   let dansBlocCode = false;
+  
+  // Fonctions pour détecter les titres selon le niveau de base
+  const estPartie = (trimmed: string): boolean => {
+    if (niveauBase === 1) return trimmed.startsWith('# ') && !trimmed.startsWith('## ');
+    if (niveauBase === 2) return trimmed.startsWith('## ') && !trimmed.startsWith('### ');
+    return trimmed.startsWith('### ') && !trimmed.startsWith('#### ');
+  };
+  
+  const estSousPartie = (trimmed: string): boolean => {
+    if (niveauBase === 1) return trimmed.startsWith('## ') && !trimmed.startsWith('### ');
+    if (niveauBase === 2) return trimmed.startsWith('### ') && !trimmed.startsWith('#### ');
+    return trimmed.startsWith('#### ') && !trimmed.startsWith('##### ');
+  };
   
   for (const ligne of lignes) {
     const trimmed = ligne.trim();
     
-    // ITÉRATION 4 : Détecter les blocs de code markdown (``` ou ````)
-    // Gérer les blocs avec 3 ou 4 backticks
+    // Détecter les blocs de code markdown (``` ou ````)
     if (trimmed.startsWith('```')) {
-      // Compter le nombre de backticks consécutifs
       let backtickCount = 0;
       for (let j = 0; j < trimmed.length && trimmed[j] === '`'; j++) {
         backtickCount++;
       }
-      // Si c'est un nombre pair de backticks (4, 6, etc.), c'est un bloc de code imbriqué
-      // Sinon (3, 5, etc.), c'est un bloc de code normal
       if (backtickCount >= 3) {
         dansBlocCode = !dansBlocCode;
       }
-      continue; // Ignorer la ligne de délimitation
+      continue;
     }
     
-    // ITÉRATION 4 : Ignorer les lignes dans les blocs de code
+    // Ignorer les lignes dans les blocs de code
     if (dansBlocCode) {
       continue;
     }
     
-    // ITÉRATION 3 : Tracker H1 et H2 (pour validation hiérarchique)
-    if (trimmed.startsWith('# ') && !trimmed.startsWith('## ')) {
-      hasH3 = true; // H1 dans MD
-    } else if (trimmed.startsWith('## ') && !trimmed.startsWith('### ')) {
-      hasH4 = true; // H2 dans MD
+    // Tracker les parties et sous-parties selon le niveau de base
+    if (estPartie(trimmed)) {
+      hasPartie = true;
+    } else if (estSousPartie(trimmed)) {
+      hasSousPartie = true;
     }
   }
   
-  // ITÉRATION 3 : Vérifier si H2 existe sans H1
-  if (hasH4 && !hasH3) {
+  // Vérifier si sous-partie existe sans partie
+  if (hasSousPartie && !hasPartie) {
+    const niveauPartie = niveauBase === 1 ? '#' : niveauBase === 2 ? '##' : '###';
+    const niveauSousPartie = niveauBase === 1 ? '##' : niveauBase === 2 ? '###' : '####';
     throw new ValidationError(
-      `Le fichier "${filePath}" contient un titre de niveau 2 (##) sans titre de niveau 1 (#). Les sous-parties (##) doivent être dans une partie (#).`,
+      `Le fichier "${filePath}" contient un titre de niveau sous-partie (${niveauSousPartie}) sans titre de niveau partie (${niveauPartie}). Les sous-parties doivent être dans une partie.`,
       filePath
     );
   }
@@ -243,7 +276,23 @@ const detecterUserStory = (elements: ContenuElement[], _contenuBrut?: string): C
   let dansCriteresAcceptation = false;
   
   for (const element of elements) {
+    // Traiter les listes de niveau 2 (critères indentés) comme des critères séparés
+    // Ces listes apparaissent après un thème dans la section "Critères d'acceptation"
+    if (element.type === 'ul' && element.items && element.niveauListe === 2 && estUserStory && dansCriteresAcceptation) {
+      // Diviser chaque item de niveau 2 en élément critere séparé
+      for (const item of element.items) {
+        elementsAvecType.push({
+          type: 'ul',
+          items: [item],
+          typeDeContenu: 'critere'
+        });
+      }
+      // Ne pas ajouter l'élément original, on l'a déjà divisé
+      continue;
+    }
+    
     if (element.type === 'ul' && element.items && estUserStory) {
+      // Traiter les listes de niveau 1 (thèmes, éléments de User Story)
       for (const item of element.items) {
         const itemTrimmed = item.trim();
         let typeDeContenuTrouve: string | undefined = undefined;
@@ -275,10 +324,14 @@ const detecterUserStory = (elements: ContenuElement[], _contenuBrut?: string): C
         });
       }
     } else {
+      // Éléments non-liste : réinitialiser dansCriteresAcceptation seulement si ce n'est pas une liste
       if (element.type !== 'ul' && element.type !== 'ol') {
         dansCriteresAcceptation = false;
       }
-      elementsAvecType.push({ ...element });
+      // Ne pas ajouter les listes de niveau 2 qui ont déjà été traitées ci-dessus
+      if (!(element.type === 'ul' && element.niveauListe === 2 && estUserStory)) {
+        elementsAvecType.push({ ...element });
+      }
     }
   }
 
@@ -287,13 +340,29 @@ const detecterUserStory = (elements: ContenuElement[], _contenuBrut?: string): C
 
 /**
  * Parse le contenu markdown en éléments (paragraphes, listes)
+ * Conserve l'indentation pour détecter les niveaux de puces
  */
 export const parseMarkdownContent = (contenu: string): ContenuElement[] => {
-  const lignes = contenu.split('\n');
+  // Normaliser les retours à la ligne Windows (\r\n) en Unix (\n)
+  // Et transformer les mots-clés US (## En tant que XXX -> **En tant que** XXX)
+  // Note: "Critères d'acceptation" reste un titre, pas transformé ici
+  const lignes = contenu.split(/\r?\n/).map(ligne => {
+    const usMatch = ligne.match(/^#{1,2}\s+(En tant que|Je souhaite|Je veux|Afin de)\s+(.*)$/i);
+    if (usMatch) {
+      return `**${usMatch[1]}** ${usMatch[2]}`;
+    }
+    const caMatch = ligne.match(/^#{1,2}\s+(CA\d+\s*-\s*.+)$/i);
+    if (caMatch) {
+      return `**${caMatch[1]}**`;
+    }
+    return ligne;
+  });
   const elements: ContenuElement[] = [];
   let paragrapheCourant: string[] = [];
   let listeCourante: string[] = [];
+  let listeNiveau2Courante: string[] = [];
   let typeListeCourante: 'ul' | 'ol' | null = null;
+  let dansListeNiveau2 = false;
 
   const finaliserParagraphe = () => {
     if (paragrapheCourant.length > 0) {
@@ -306,8 +375,23 @@ export const parseMarkdownContent = (contenu: string): ContenuElement[] => {
   };
 
   const finaliserListe = () => {
+    // Finaliser d'abord la liste de niveau 2 si elle existe
+    if (listeNiveau2Courante.length > 0) {
+      elements.push({ 
+        type: typeListeCourante || 'ul', 
+        items: listeNiveau2Courante,
+        niveauListe: 2 // Marqueur pour le CSS
+      });
+      listeNiveau2Courante = [];
+      dansListeNiveau2 = false;
+    }
+    // Puis finaliser la liste de niveau 1
     if (listeCourante.length > 0 && typeListeCourante) {
-      elements.push({ type: typeListeCourante, items: listeCourante });
+      elements.push({ 
+        type: typeListeCourante, 
+        items: listeCourante,
+        niveauListe: 1 // Marqueur pour le CSS
+      });
       listeCourante = [];
       typeListeCourante = null;
     }
@@ -322,24 +406,136 @@ export const parseMarkdownContent = (contenu: string): ContenuElement[] => {
       continue;
     }
 
-    if (trimmed.startsWith('- ')) {
+    // Détecter les headings spéciaux US : ## En tant que, ## Je souhaite, ## Afin de
+    const usKeywordMatch = trimmed.match(/^#{1,2}\s+(En tant que|Je souhaite|Je veux|Afin de)\s+(.*)$/i);
+    if (usKeywordMatch) {
       finaliserParagraphe();
-      if (typeListeCourante !== 'ul') {
-        finaliserListe();
-        typeListeCourante = 'ul';
+      finaliserListe();
+      const keyword = usKeywordMatch[1];
+      const rest = usKeywordMatch[2];
+      // Créer un paragraphe avec le mot-clé en gras et le typeDeContenu approprié
+      let typeDeContenu = keyword;
+      if (keyword.toLowerCase() === 'je veux') {
+        typeDeContenu = 'Je souhaite';
       }
-      listeCourante.push(trimmed.substring(2).trim());
+      elements.push({ 
+        type: 'paragraph', 
+        content: `**${keyword}** ${rest}`,
+        typeDeContenu: typeDeContenu
+      });
       continue;
     }
 
-    const matchNumero = trimmed.match(/^(\d+)\.\s+(.+)$/);
+    // Détecter les headings CA : ## CA1 - Titre ou # Critères d'acceptation
+    const caHeaderMatch = trimmed.match(/^#{1,2}\s+(CA\d+\s*-\s*.+|Critères d'acceptation)$/i);
+    if (caHeaderMatch) {
+      finaliserParagraphe();
+      finaliserListe();
+      const titre = caHeaderMatch[1];
+      if (titre.toLowerCase() === "critères d'acceptation") {
+        elements.push({ 
+          type: 'paragraph', 
+          content: `**${titre}**`,
+          typeDeContenu: "Critères d'acceptation"
+        });
+      } else {
+        // CA1 - Titre
+        elements.push({ 
+          type: 'paragraph', 
+          content: `**${titre}**`,
+          typeDeContenu: 'themeCritere'
+        });
+      }
+      continue;
+    }
+
+    // Détecter les puces avec indentation (niveau 1 = 0 espaces, niveau 2 = 2+ espaces ou tab)
+    const matchPuce = ligne.match(/^(\s*)[-*+]\s+(.+)$/);
+    if (matchPuce) {
+      finaliserParagraphe();
+      const indent = matchPuce[1].length;
+      const texte = matchPuce[2].trim();
+      
+      // Niveau 2 : indentation de 2+ espaces ou 1+ tab
+      if (indent >= 2 || matchPuce[1].includes('\t')) {
+        // Si on est dans une liste de niveau 1, créer une liste de niveau 2 séparée
+        if (typeListeCourante === 'ul' && listeCourante.length > 0) {
+          finaliserListe();
+          typeListeCourante = 'ul';
+          listeCourante = [];
+        }
+        // Créer une liste de niveau 2
+        if (listeNiveau2Courante.length === 0) {
+          // Nouvelle liste de niveau 2
+          listeNiveau2Courante.push(texte);
+          dansListeNiveau2 = true;
+        } else {
+          // Continuer la liste de niveau 2
+          listeNiveau2Courante.push(texte);
+        }
+      } else {
+        // Niveau 1 : pas d'indentation ou 1 espace
+        // Finaliser seulement si on change de type de liste (de ol à ul)
+        if (typeListeCourante !== null && typeListeCourante !== 'ul') {
+          finaliserListe();
+        }
+        // Finaliser la liste de niveau 2 si on revient au niveau 1
+        if (listeNiveau2Courante.length > 0) {
+          elements.push({ 
+            type: 'ul', 
+            items: listeNiveau2Courante,
+            niveauListe: 2
+          });
+          listeNiveau2Courante = [];
+          dansListeNiveau2 = false;
+        }
+        typeListeCourante = 'ul';
+        listeCourante.push(texte);
+      }
+      continue;
+    }
+
+    // Détecter les listes numérotées avec indentation
+    const matchNumero = ligne.match(/^(\s*)(\d+)\.\s+(.+)$/);
     if (matchNumero) {
       finaliserParagraphe();
-      if (typeListeCourante !== 'ol') {
-        finaliserListe();
+      const indent = matchNumero[1].length;
+      const texte = matchNumero[3].trim();
+      
+      // Niveau 2 : indentation de 2+ espaces ou 1+ tab
+      if (indent >= 2 || matchNumero[1].includes('\t')) {
+        // Si on est dans une liste de niveau 1, créer une liste de niveau 2 séparée
+        if (typeListeCourante === 'ol' && listeCourante.length > 0) {
+          finaliserListe();
+          typeListeCourante = 'ol';
+          listeCourante = [];
+        }
+        // Créer une liste de niveau 2
+        if (listeNiveau2Courante.length === 0) {
+          listeNiveau2Courante.push(texte);
+          dansListeNiveau2 = true;
+        } else {
+          listeNiveau2Courante.push(texte);
+        }
+      } else {
+        // Niveau 1 : pas d'indentation ou 1 espace
+        // Finaliser seulement si on change de type de liste (de ul à ol)
+        if (typeListeCourante !== null && typeListeCourante !== 'ol') {
+          finaliserListe();
+        }
+        // Finaliser la liste de niveau 2 si on revient au niveau 1
+        if (listeNiveau2Courante.length > 0) {
+          elements.push({ 
+            type: 'ol', 
+            items: listeNiveau2Courante,
+            niveauListe: 2
+          });
+          listeNiveau2Courante = [];
+          dansListeNiveau2 = false;
+        }
         typeListeCourante = 'ol';
+        listeCourante.push(texte);
       }
-      listeCourante.push(matchNumero[2].trim());
       continue;
     }
 
@@ -393,9 +589,15 @@ export const parseMarkdownContent = (contenu: string): ContenuElement[] => {
 
 /**
  * Parse le contenu d'une section pour extraire les parties et sous-parties
+ * S'adapte au premier niveau de titre trouvé dans le fichier
  */
 export const parseSectionContent = (contenu: string): SectionContent => {
-  const lignes = contenu.split('\n');
+  // Normaliser les retours à la ligne Windows (\r\n) en Unix (\n)
+  const lignes = contenu.split(/\r?\n/);
+  
+  // Détecter le premier niveau de titre pour adapter la hiérarchie
+  const niveauBase = detecterPremierNiveauTitre(lignes);
+  
   const parties: Partie[] = [];
   let contenuInitial = '';
   let partieCourante: Partie | null = null;
@@ -403,11 +605,61 @@ export const parseSectionContent = (contenu: string): SectionContent => {
   let blocCourant: Bloc | null = null;
   let dansContenuInitial = true;
 
+  // Pattern pour les mots-clés US (à exclure des titres de section)
+  // Note: "Critères d'acceptation" reste un titre, donc pas exclu
+  const usKeywordsPattern = /^#{1,2}\s+(En tant que|Je souhaite|Je veux|Afin de|CA\d+\s*-)/i;
+  
+  // Fonctions pour détecter les titres selon le niveau de base
+  const estPartie = (trimmed: string): boolean => {
+    // Exclure les mots-clés US
+    if (usKeywordsPattern.test(trimmed)) return false;
+    
+    if (niveauBase === 1) return trimmed.startsWith('# ') && !trimmed.startsWith('## ');
+    if (niveauBase === 2) return trimmed.startsWith('## ') && !trimmed.startsWith('### ');
+    return trimmed.startsWith('### ') && !trimmed.startsWith('#### ');
+  };
+  
+  const estSousPartie = (trimmed: string): boolean => {
+    // Exclure les mots-clés US
+    if (usKeywordsPattern.test(trimmed)) return false;
+    
+    if (niveauBase === 1) return trimmed.startsWith('## ') && !trimmed.startsWith('### ');
+    if (niveauBase === 2) return trimmed.startsWith('### ') && !trimmed.startsWith('#### ');
+    return trimmed.startsWith('#### ') && !trimmed.startsWith('##### ');
+  };
+  
+  const estBloc = (trimmed: string): boolean => {
+    // Exclure les mots-clés US
+    if (usKeywordsPattern.test(trimmed)) return false;
+    
+    if (niveauBase === 1) return trimmed.startsWith('### ') && !trimmed.startsWith('#### ');
+    if (niveauBase === 2) return trimmed.startsWith('#### ') && !trimmed.startsWith('##### ');
+    return trimmed.startsWith('##### ');
+  };
+  
+  const extraireTitrePartie = (trimmed: string): string => {
+    if (niveauBase === 1) return trimmed.substring(2).trim();
+    if (niveauBase === 2) return trimmed.substring(3).trim();
+    return trimmed.substring(4).trim();
+  };
+  
+  const extraireTitreSousPartie = (trimmed: string): string => {
+    if (niveauBase === 1) return trimmed.substring(3).trim();
+    if (niveauBase === 2) return trimmed.substring(4).trim();
+    return trimmed.substring(5).trim();
+  };
+  
+  const extraireTitreBloc = (trimmed: string): string => {
+    if (niveauBase === 1) return trimmed.substring(4).trim();
+    if (niveauBase === 2) return trimmed.substring(5).trim();
+    return trimmed.substring(6).trim();
+  };
+
   for (let i = 0; i < lignes.length; i++) {
     const ligne = lignes[i];
     const trimmedLine = ligne.trim();
 
-    if (trimmedLine.startsWith('# ') && !trimmedLine.startsWith('## ')) {
+    if (estPartie(trimmedLine)) {
       dansContenuInitial = false;
       
       if (partieCourante) {
@@ -427,16 +679,18 @@ export const parseSectionContent = (contenu: string): SectionContent => {
           partieCourante.sousParties.push(sousPartieCourante);
           sousPartieCourante = null;
         }
-        partieCourante.contenuParse = parseMarkdownContent(partieCourante.contenu.trim());
+        // Appliquer detecterUserStory sur le contenu de la partie principale aussi
+        const contenuPartie = parseMarkdownContent(partieCourante.contenu.trim());
+        partieCourante.contenuParse = detecterUserStory(contenuPartie);
         parties.push(partieCourante);
       }
 
-      const titre = trimmedLine.substring(2).trim();
+      const titre = extraireTitrePartie(trimmedLine);
       partieCourante = { titre, contenu: '', contenuParse: [], sousParties: [] };
       sousPartieCourante = null;
       blocCourant = null;
     }
-    else if (trimmedLine.startsWith('## ') && !trimmedLine.startsWith('### ')) {
+    else if (estSousPartie(trimmedLine)) {
       if (partieCourante) {
         if (blocCourant) {
           blocCourant.contenuParse = parseMarkdownContent(blocCourant.contenu.trim());
@@ -454,7 +708,7 @@ export const parseSectionContent = (contenu: string): SectionContent => {
           partieCourante.sousParties.push(sousPartieCourante);
         }
 
-        const titre = trimmedLine.substring(3).trim();
+        const titre = extraireTitreSousPartie(trimmedLine);
         const titreLower = titre.toLowerCase();
         const typeDeContenu = (titreLower === 'prompt' || titreLower === 'résultat technique' || titreLower === 'resultat technique') 
           ? (titreLower === 'prompt' ? 'Prompt' : 'Résultat technique')
@@ -464,14 +718,14 @@ export const parseSectionContent = (contenu: string): SectionContent => {
         blocCourant = null;
       }
     }
-    else if (trimmedLine.startsWith('### ') && !trimmedLine.startsWith('#### ')) {
+    else if (estBloc(trimmedLine)) {
       if (sousPartieCourante) {
         if (blocCourant) {
           blocCourant.contenuParse = parseMarkdownContent(blocCourant.contenu.trim());
           sousPartieCourante.blocs.push(blocCourant);
         }
 
-        const titre = trimmedLine.substring(4).trim();
+        const titre = extraireTitreBloc(trimmedLine);
         const titreLower = titre.toLowerCase();
         const typeDeContenu = (titreLower === 'prompt' || titreLower === 'résultat technique' || titreLower === 'resultat technique') 
           ? (titreLower === 'prompt' ? 'Prompt' : 'Résultat technique')
@@ -509,11 +763,13 @@ export const parseSectionContent = (contenu: string): SectionContent => {
       }
       partieCourante.sousParties.push(sousPartieCourante);
     }
-    partieCourante.contenuParse = parseMarkdownContent(partieCourante.contenu.trim());
+    // Appliquer detecterUserStory sur le contenu de la partie principale aussi
+    const contenuPartie = parseMarkdownContent(partieCourante.contenu.trim());
+    partieCourante.contenuParse = detecterUserStory(contenuPartie);
     parties.push(partieCourante);
   }
 
-  return { contenuInitial: contenuInitial.trim(), parties };
+  return { contenuInitial: contenuInitial.trim(), parties, niveauBase };
 };
 
 /**
@@ -552,7 +808,7 @@ export const readChapitreByPath = (relativePath: string): Chapitre | null => {
     }
     const nom = entry.name.replace(/\.mdc?$/, '');
     const contenuParse = parseSectionContent(contenu);
-    sections.push({ nom, contenu, parties: contenuParse.parties });
+    sections.push({ nom, contenu, parties: contenuParse.parties, niveauBase: contenuParse.niveauBase });
   }
   sections.sort((a, b) => a.nom.localeCompare(b.nom));
   if (sections.length === 0) return null;
@@ -600,7 +856,7 @@ export const readPathContentAtRoot = (relativePath: string): PathContentAtRoot |
       }
       const nom = entry.name.replace(/\.mdc?$/, '');
       const contenuParse = parseSectionContent(contenu);
-      fichiers.push({ nom, contenu, parties: contenuParse.parties });
+      fichiers.push({ nom, contenu, parties: contenuParse.parties, niveauBase: contenuParse.niveauBase });
     }
   }
 

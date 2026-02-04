@@ -10,7 +10,7 @@
       "url": null,
       "command": "cmd-FaisonsConnaissance",
       "tooltip": "faisons connaissance",
-      "e2eID": "b9"
+      "e2eID": "b40"
     },
     {
       "type": "bouton",
@@ -19,7 +19,7 @@
       "texte": null,
       "url": "mailto:alain@maep.fr",
       "command": "cmd-email",
-      "e2eID": "b10"
+      "e2eID": "b41"
     },
     {
       "type": "bouton",
@@ -28,7 +28,7 @@
       "texte": null,
       "url": "https://www.youtube.com/@m-alain-et-possible",
       "command": "cmd-YouTube",
-      "e2eID": "b11"
+      "e2eID": "b42"
     },
     {
       "type": "bouton",
@@ -37,7 +37,7 @@
       "texte": null,
       "url": "https://www.linkedin.com/in/alain-meunier-maep/",
       "command": "cmd-Linkedin",
-      "e2eID": "b12"
+      "e2eID": "b43"
     },
     {
       "type": "bouton",
@@ -46,7 +46,7 @@
       "texte": null,
       "url": null,
       "command": "cmd-PlanDuSite",
-      "e2eID": "b13"
+      "e2eID": "b44"
     },
     {
       "type": "bouton",
@@ -55,7 +55,7 @@
       "texte": null,
       "url": null,
       "command": "cmd-AProposDuSite",
-      "e2eID": "b15"
+      "e2eID": "b45"
     }
   ]
 }

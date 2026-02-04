@@ -3,9 +3,18 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import footerButtonsData from '../data/_footerButtons.json';
+import e2eIdsMapping from '../data/_e2eIds-mapping.json';
 import FooterButton from './FooterButton';
 import type { FooterButton as FooterButtonType } from '../types/footer';
 import { getButtonAction } from '../utils/client';
+
+// Fonction pour résoudre l'e2eID d'un bouton footer depuis le mapping
+function getFooterE2eId(buttonId: string): string | undefined {
+  const key = `footer:${buttonId}`;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const mapping = e2eIdsMapping as Record<string, any>;
+  return mapping[key] as string | undefined;
+}
 
 interface FooterButtonsData {
   type: string;
@@ -51,12 +60,14 @@ const Footer: React.FC = () => {
             console.error('Invalid button data:', button);
             return null;
           }
+          // Résoudre l'e2eID depuis le mapping centralisé
+          const e2eId = getFooterE2eId(button.id);
           return (
             <FooterButton
               key={button.id}
               {...button}
               url={button.url ?? null}
-              e2eID={button.e2eID ?? (button as { e2eid?: string }).e2eid}
+              e2eID={e2eId}
             />
           );
         })}

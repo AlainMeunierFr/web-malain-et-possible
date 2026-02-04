@@ -11,7 +11,8 @@ export interface CourseMarkdownRendererProps {
  * sans parser les prompts/résultats techniques
  */
 const CourseMarkdownRenderer: React.FC<CourseMarkdownRendererProps> = ({ content }) => {
-  const lines = content.split('\n');
+  // Normaliser les retours à la ligne Windows (\r\n) en Unix (\n)
+  const lines = content.split(/\r?\n/);
   const elements: React.ReactNode[] = [];
   let currentParagraph: string[] = [];
   type ListItem = { text: string; children: string[] };
@@ -117,9 +118,23 @@ const CourseMarkdownRenderer: React.FC<CourseMarkdownRendererProps> = ({ content
       flushParagraph();
       flushList();
       flushQuote();
+      const text = headingMatch[2];
+      
+      // Cas spécial : "En tant que", "Je souhaite", "Afin de" → pas de titre, texte avec mot-clé en gras
+      const usKeywordMatch = text.match(/^(En tant que|Je souhaite|Je veux|Afin de)\s+(.*)$/i);
+      if (usKeywordMatch) {
+        const keyword = usKeywordMatch[1];
+        const rest = usKeywordMatch[2];
+        elements.push(
+          <p key={`us-${elements.length}`} className="usKeyword">
+            <strong>{keyword}</strong> {rest}
+          </p>
+        );
+        return;
+      }
+      
       const markdownLevel = headingMatch[1].length;
       const htmlLevel = Math.min(markdownLevel + 2, 6); // Limité à h6 maximum
-      const text = headingMatch[2];
       // Utiliser le style CSS correspondant au niveau HTML (h3, h4, h5, h6)
       const headingContent = parseInlineMarkdown(text);
       const headingKey = `h${htmlLevel}-${elements.length}`;

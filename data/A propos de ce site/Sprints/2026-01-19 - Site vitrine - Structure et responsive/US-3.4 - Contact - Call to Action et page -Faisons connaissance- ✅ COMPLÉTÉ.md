@@ -1,23 +1,28 @@
 # US-3.4 : Contact - Call to Action et page "Faisons connaissance" ✅ COMPLÉTÉ
-- **En tant que** Visiteur du site
-- **Je souhaite** Pouvoir accéder à une page "Faisons connaissance" depuis un bouton d'action visible en bas de toutes les pages
-- **Afin de** Entrer en contact avec Alain et découvrir comment collaborer
-- **Critères d'acceptation** :
-- **Type de contenu "callToAction"** :
-  - Un nouveau type de contenu "callToAction" est défini dans `TypeElementContenu` avec une interface `ElementCallToAction` contenant un champ "action" (string) pour le texte du bouton
-  - Ce type est ajouté à l'union type `ElementContenu` dans `utils/indexReader.ts`
-  - Le composant `PageContentRenderer` gère le rendu de ce nouveau type de contenu
-- **Ajout dans les JSON** :
-  - Un élément `callToAction` avec `action: "Faisons connaissance..."` est ajouté à la fin du tableau `contenu` de tous les fichiers JSON de pages (`index.json`, `Conduite du changement.json`, `Détournement vidéo.json`, `Robustesse.json`)
-- **Rendu CSS du bouton** :
-  - Le bouton a le même style que "En savoir plus..." : bordure bleue (`rgba(0, 112, 192, 1)`), police 'Clint Marker', fond transparent, effet hover (fond bleu, texte blanc)
-  - La largeur maximale du bouton est de 947px (identique à un "Domaine de compétence")
-  - Le bouton est centré dans son conteneur
-  - Le design est responsive (mobile-first)
-- **Comportement du bouton** :
-  - Un clic sur le bouton "Faisons connaissance..." redirige vers la page "/faisons-connaissance"
-  - La navigation utilise Next.js Link pour une navigation optimisée
-- **Page "Faisons connaissance"** :
-  - La page "/faisons-connaissance" affiche le contenu de contact
-  - Le contenu est basé sur le fichier HTML d'exemple "Malain et possible - Faisons connaissance.html"
-  - La page est responsive et utilise la même structure que les autres pages du site (Header/Footer partagés)
+
+## En tant que Visiteur du site
+
+## Je souhaite Pouvoir accéder à une page "Faisons connaissance" depuis un bouton d'action visible en bas de toutes les pages
+
+## Afin de Entrer en contact avec Alain et découvrir comment collaborer
+
+# Critères d'acceptation
+
+## CA1 - Type de contenu "callToAction"
+- Un nouveau type de contenu "callToAction" est défini dans `TypeElementContenu` avec une interface `ElementCallToAction` contenant un champ "action" (string) pour le texte du bouton
+- Ce type est ajouté à l'union type `ElementContenu` dans `utils/indexReader.ts`
+- Le composant `PageContentRenderer` gère le rendu de ce nouveau type de contenu
+## CA2 - Ajout dans les JSON
+- Un élément `callToAction` avec `action: "Faisons connaissance..."` est ajouté à la fin du tableau `contenu` de tous les fichiers JSON de pages (`index.json`, `Conduite du changement.json`, `Détournement vidéo.json`, `Robustesse.json`)
+## CA3 - Rendu CSS du bouton
+- Le bouton a le même style que "En savoir plus..." : bordure bleue (`rgba(0, 112, 192, 1)`), police 'Clint Marker', fond transparent, effet hover (fond bleu, texte blanc)
+- La largeur maximale du bouton est de 947px (identique à un "Domaine de compétence")
+- Le bouton est centré dans son conteneur
+- Le design est responsive (mobile-first)
+## CA4 - Comportement du bouton
+- Un clic sur le bouton "Faisons connaissance..." redirige vers la page "/faisons-connaissance"
+- La navigation utilise Next.js Link pour une navigation optimisée
+## CA5 - Page "Faisons connaissance"
+- La page "/faisons-connaissance" affiche le contenu de contact
+- Le contenu est basé sur le fichier HTML d'exemple "Malain et possible - Faisons connaissance.html"
+- La page est responsive et utilise la même structure que les autres pages du site (Header/Footer partagés)

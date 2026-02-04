@@ -131,12 +131,14 @@ export interface Partie {
 export interface SectionContent {
   contenuInitial: string;
   parties: Partie[];
+  niveauBase?: number; // Niveau de base détecté (1, 2, ou 3) pour adapter la hiérarchie HTML
 }
 
 export interface Section {
   nom: string;
   contenu: string;
   parties: Partie[];
+  niveauBase?: number; // Niveau de base détecté (1, 2, ou 3) pour adapter la hiérarchie HTML
 }
 
 export interface Chapitre {

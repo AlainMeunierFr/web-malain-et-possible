@@ -54,14 +54,6 @@
       "zone": "Profils"
     },
     {
-      "url": "/charte",
-      "titre": "charte",
-      "x": null,
-      "y": null,
-      "dessiner": "Oui",
-      "zone": "Autres"
-    },
-    {
       "url": "/detournement-video",
       "titre": "Détournement de scènes cultes du cinéma",
       "x": null,
@@ -102,6 +94,14 @@
       "zone": "Footer"
     },
     {
+      "url": "/charte",
+      "titre": "charte",
+      "x": null,
+      "y": null,
+      "dessiner": "Non",
+      "zone": "Masqué"
+    },
+    {
       "url": "/maintenance",
       "titre": "maintenance",
       "x": null,
@@ -138,319 +138,471 @@
     {
       "source": "/detournement-video",
       "destination": "/portfolio-detournements",
-      "label": "Voir le portfolio"
+      "label": "Voir le portfolio",
+      "e2eID": "c35",
+      "typeElement": "Competence"
     },
     {
       "source": "/",
       "destination": "/mes-profils",
-      "label": "Télécharger mon CV"
+      "label": "Télécharger mon CV",
+      "typeElement": "Hero.EnSavoirPlus",
+      "e2eID": "l1"
     },
     {
       "source": "/mes-profils",
       "destination": "/profil/cpo",
-      "label": "En savoir plus…"
+      "label": "En savoir plus…",
+      "typeElement": "Profil",
+      "e2eID": "p9"
     },
     {
       "source": "/mes-profils",
       "destination": "/profil/coo",
-      "label": "En savoir plus…"
+      "label": "En savoir plus…",
+      "typeElement": "Profil",
+      "e2eID": "p10"
     },
     {
       "source": "/mes-profils",
       "destination": "/profil/agile",
-      "label": "En savoir plus…"
+      "label": "En savoir plus…",
+      "typeElement": "Profil",
+      "e2eID": "p11"
     },
     {
       "source": "/mes-profils",
       "destination": "/profil/cto",
-      "label": "En savoir plus…"
+      "label": "En savoir plus…",
+      "typeElement": "Profil",
+      "e2eID": "p12"
+    },
+    {
+      "source": "/plan-du-site",
+      "destination": "/",
+      "label": "Home",
+      "e2eID": "l2",
+      "typeElement": "LienPage"
+    },
+    {
+      "source": "/plan-du-site",
+      "destination": "/mes-profils",
+      "label": "Mes Profils",
+      "typeElement": "LienPage",
+      "e2eID": "l3"
+    },
+    {
+      "source": "/plan-du-site",
+      "destination": "/profil/cpo",
+      "label": "Produit logiciel",
+      "typeElement": "LienPage",
+      "e2eID": "l4"
+    },
+    {
+      "source": "/plan-du-site",
+      "destination": "/profil/coo",
+      "label": "Opérations",
+      "typeElement": "LienPage",
+      "e2eID": "l5"
+    },
+    {
+      "source": "/plan-du-site",
+      "destination": "/profil/agile",
+      "label": "Transformation Agile",
+      "typeElement": "LienPage",
+      "e2eID": "l6"
+    },
+    {
+      "source": "/plan-du-site",
+      "destination": "/profil/cto",
+      "label": "Technologie",
+      "typeElement": "LienPage",
+      "e2eID": "l7"
+    },
+    {
+      "source": "/plan-du-site",
+      "destination": "/detournement-video",
+      "label": "Détournement de scènes cultes du cinéma",
+      "typeElement": "LienPage",
+      "e2eID": "l8"
+    },
+    {
+      "source": "/plan-du-site",
+      "destination": "/portfolio-detournements",
+      "label": "Portfolio de detournements vidéos",
+      "typeElement": "LienPage",
+      "e2eID": "l9"
+    },
+    {
+      "source": "/plan-du-site",
+      "destination": "/pour-aller-plus-loin",
+      "label": "Pour aller plus loin, je vous propose une expérience...",
+      "typeElement": "LienPage",
+      "e2eID": "l10"
+    },
+    {
+      "source": "/plan-du-site",
+      "destination": "/a-propos-du-site",
+      "label": "a-propos-du-site",
+      "typeElement": "LienPage",
+      "e2eID": "l11"
     },
     {
       "source": "/profil/agile",
       "destination": "/detournement-video",
       "label": "En savoir plus...",
-      "e2eID": "c13"
+      "e2eID": "c30",
+      "typeElement": "Competence"
     },
     {
       "source": "/profil/coo",
       "destination": "/detournement-video",
       "label": "En savoir plus...",
-      "e2eID": "c13"
+      "e2eID": "c28",
+      "typeElement": "Competence"
     },
     {
       "source": "/profil/cpo",
       "destination": "/profil/cto",
       "label": "En savoir plus...",
-      "e2eID": "c15"
+      "e2eID": "c24",
+      "typeElement": "Competence"
     },
     {
       "source": "/profil/cpo",
       "destination": "/profil/coo",
       "label": "En savoir plus...",
-      "e2eID": "c12"
+      "e2eID": "c25",
+      "typeElement": "Competence"
     },
     {
       "source": "/profil/cpo",
       "destination": "/detournement-video",
       "label": "En savoir plus...",
-      "e2eID": "c13"
+      "e2eID": "c26",
+      "typeElement": "Competence"
     },
     {
       "source": "/profil/cto",
       "destination": "/profil/cpo",
       "label": "En savoir plus...",
-      "e2eID": "c14"
+      "e2eID": "c31",
+      "typeElement": "Competence"
     },
     {
       "source": "/profil/cto",
       "destination": "/a-propos-du-site",
-      "label": "Info"
+      "label": "En savoir plus...",
+      "e2eID": "c33",
+      "typeElement": "Competence"
     },
     {
       "source": "/profil/cto",
       "destination": "/profil/coo",
       "label": "En savoir plus...",
-      "e2eID": "c12"
+      "e2eID": "c34",
+      "typeElement": "Competence"
     },
     {
       "source": "/",
       "destination": "/plan-du-site",
-      "label": "Plan du site"
+      "label": "Plan du site",
+      "typeElement": "Footer.Bouton",
+      "e2eID": "b51"
     },
     {
       "source": "/a-propos-du-site",
       "destination": "/plan-du-site",
-      "label": "Plan du site"
+      "label": "Plan du site",
+      "typeElement": "Footer.Bouton",
+      "e2eID": "b51"
     },
     {
       "source": "/charte",
       "destination": "/plan-du-site",
-      "label": "Plan du site"
+      "label": "Plan du site",
+      "typeElement": "Footer.Bouton",
+      "e2eID": "b51"
     },
     {
       "source": "/detournement-video",
       "destination": "/plan-du-site",
-      "label": "Plan du site"
+      "label": "Plan du site",
+      "typeElement": "Footer.Bouton",
+      "e2eID": "b51"
     },
     {
       "source": "/faisons-connaissance",
       "destination": "/plan-du-site",
-      "label": "Plan du site"
+      "label": "Plan du site",
+      "typeElement": "Footer.Bouton",
+      "e2eID": "b51"
     },
     {
       "source": "/maintenance",
       "destination": "/plan-du-site",
-      "label": "Plan du site"
+      "label": "Plan du site",
+      "typeElement": "Footer.Bouton",
+      "e2eID": "b51"
     },
     {
       "source": "/mes-profils",
       "destination": "/plan-du-site",
-      "label": "Plan du site"
+      "label": "Plan du site",
+      "typeElement": "Footer.Bouton",
+      "e2eID": "b51"
     },
     {
       "source": "/mode-lecture",
       "destination": "/plan-du-site",
-      "label": "Plan du site"
+      "label": "Plan du site",
+      "typeElement": "Footer.Bouton",
+      "e2eID": "b51"
     },
     {
       "source": "/portfolio-detournements",
       "destination": "/plan-du-site",
-      "label": "Plan du site"
+      "label": "Plan du site",
+      "typeElement": "Footer.Bouton",
+      "e2eID": "b51"
     },
     {
       "source": "/pour-aller-plus-loin",
       "destination": "/plan-du-site",
-      "label": "Plan du site"
+      "label": "Plan du site",
+      "typeElement": "Footer.Bouton",
+      "e2eID": "b51"
     },
     {
       "source": "/raw",
       "destination": "/plan-du-site",
-      "label": "Plan du site"
+      "label": "Plan du site",
+      "typeElement": "Footer.Bouton",
+      "e2eID": "b51"
     },
     {
       "source": "/profil/cpo",
       "destination": "/plan-du-site",
-      "label": "Plan du site"
+      "label": "Plan du site",
+      "typeElement": "Footer.Bouton",
+      "e2eID": "b51"
     },
     {
       "source": "/profil/coo",
       "destination": "/plan-du-site",
-      "label": "Plan du site"
+      "label": "Plan du site",
+      "typeElement": "Footer.Bouton",
+      "e2eID": "b51"
     },
     {
       "source": "/profil/agile",
       "destination": "/plan-du-site",
-      "label": "Plan du site"
+      "label": "Plan du site",
+      "typeElement": "Footer.Bouton",
+      "e2eID": "b51"
     },
     {
       "source": "/profil/cto",
       "destination": "/plan-du-site",
-      "label": "Plan du site"
+      "label": "Plan du site",
+      "typeElement": "Footer.Bouton",
+      "e2eID": "b51"
     },
     {
       "source": "/",
       "destination": "/a-propos-du-site",
-      "label": "Info"
+      "label": "Info",
+      "typeElement": "Footer.Bouton",
+      "e2eID": "b52"
     },
     {
       "source": "/charte",
       "destination": "/a-propos-du-site",
-      "label": "Info"
+      "label": "Info",
+      "typeElement": "Footer.Bouton",
+      "e2eID": "b52"
     },
     {
       "source": "/detournement-video",
       "destination": "/a-propos-du-site",
-      "label": "Info"
+      "label": "Info",
+      "typeElement": "Footer.Bouton",
+      "e2eID": "b52"
     },
     {
       "source": "/faisons-connaissance",
       "destination": "/a-propos-du-site",
-      "label": "Info"
+      "label": "Info",
+      "typeElement": "Footer.Bouton",
+      "e2eID": "b52"
     },
     {
       "source": "/maintenance",
       "destination": "/a-propos-du-site",
-      "label": "Info"
+      "label": "Info",
+      "typeElement": "Footer.Bouton",
+      "e2eID": "b52"
     },
     {
       "source": "/mes-profils",
       "destination": "/a-propos-du-site",
-      "label": "Info"
+      "label": "Info",
+      "typeElement": "Footer.Bouton",
+      "e2eID": "b52"
     },
     {
       "source": "/mode-lecture",
       "destination": "/a-propos-du-site",
-      "label": "Info"
-    },
-    {
-      "source": "/plan-du-site",
-      "destination": "/a-propos-du-site",
-      "label": "Info"
+      "label": "Info",
+      "typeElement": "Footer.Bouton",
+      "e2eID": "b52"
     },
     {
       "source": "/portfolio-detournements",
       "destination": "/a-propos-du-site",
-      "label": "Info"
+      "label": "Info",
+      "typeElement": "Footer.Bouton",
+      "e2eID": "b52"
     },
     {
       "source": "/pour-aller-plus-loin",
       "destination": "/a-propos-du-site",
-      "label": "Info"
+      "label": "Info",
+      "typeElement": "Footer.Bouton",
+      "e2eID": "b52"
     },
     {
       "source": "/raw",
       "destination": "/a-propos-du-site",
-      "label": "Info"
+      "label": "Info",
+      "typeElement": "Footer.Bouton",
+      "e2eID": "b52"
     },
     {
       "source": "/profil/cpo",
       "destination": "/a-propos-du-site",
-      "label": "Info"
+      "label": "Info",
+      "typeElement": "Footer.Bouton",
+      "e2eID": "b52"
     },
     {
       "source": "/profil/coo",
       "destination": "/a-propos-du-site",
-      "label": "Info"
+      "label": "Info",
+      "typeElement": "Footer.Bouton",
+      "e2eID": "b52"
     },
     {
       "source": "/profil/agile",
       "destination": "/a-propos-du-site",
-      "label": "Info"
+      "label": "Info",
+      "typeElement": "Footer.Bouton",
+      "e2eID": "b52"
     },
     {
       "source": "/a-propos-du-site",
       "destination": "/",
       "label": "Logo",
-      "e2eID": "h1"
+      "e2eID": "h1",
+      "typeElement": "Header.Logo"
     },
     {
       "source": "/charte",
       "destination": "/",
       "label": "Logo",
-      "e2eID": "h1"
+      "e2eID": "h1",
+      "typeElement": "Header.Logo"
     },
     {
       "source": "/detournement-video",
       "destination": "/",
       "label": "Logo",
-      "e2eID": "h1"
+      "e2eID": "h1",
+      "typeElement": "Header.Logo"
     },
     {
       "source": "/faisons-connaissance",
       "destination": "/",
       "label": "Logo",
-      "e2eID": "h1"
+      "e2eID": "h1",
+      "typeElement": "Header.Logo"
     },
     {
       "source": "/maintenance",
       "destination": "/",
       "label": "Logo",
-      "e2eID": "h1"
+      "e2eID": "h1",
+      "typeElement": "Header.Logo"
     },
     {
       "source": "/mes-profils",
       "destination": "/",
       "label": "Logo",
-      "e2eID": "h1"
+      "e2eID": "h1",
+      "typeElement": "Header.Logo"
     },
     {
       "source": "/mode-lecture",
       "destination": "/",
       "label": "Logo",
-      "e2eID": "h1"
-    },
-    {
-      "source": "/plan-du-site",
-      "destination": "/",
-      "label": "Logo",
-      "e2eID": "h1"
+      "e2eID": "h1",
+      "typeElement": "Header.Logo"
     },
     {
       "source": "/portfolio-detournements",
       "destination": "/",
       "label": "Logo",
-      "e2eID": "h1"
+      "e2eID": "h1",
+      "typeElement": "Header.Logo"
     },
     {
       "source": "/pour-aller-plus-loin",
       "destination": "/",
       "label": "Logo",
-      "e2eID": "h1"
+      "e2eID": "h1",
+      "typeElement": "Header.Logo"
     },
     {
       "source": "/raw",
       "destination": "/",
       "label": "Logo",
-      "e2eID": "h1"
+      "e2eID": "h1",
+      "typeElement": "Header.Logo"
     },
     {
       "source": "/profil/cpo",
       "destination": "/",
       "label": "Logo",
-      "e2eID": "h1"
+      "e2eID": "h1",
+      "typeElement": "Header.Logo"
     },
     {
       "source": "/profil/coo",
       "destination": "/",
       "label": "Logo",
-      "e2eID": "h1"
+      "e2eID": "h1",
+      "typeElement": "Header.Logo"
     },
     {
       "source": "/profil/agile",
       "destination": "/",
       "label": "Logo",
-      "e2eID": "h1"
+      "e2eID": "h1",
+      "typeElement": "Header.Logo"
     },
     {
       "source": "/profil/cto",
       "destination": "/",
       "label": "Logo",
-      "e2eID": "h1"
+      "e2eID": "h1",
+      "typeElement": "Header.Logo"
     },
     {
       "source": "/",
       "destination": "/faisons-connaissance",
-      "label": "Discutons"
+      "label": "Discutons",
+      "typeElement": "Hero.CallToAction",
+      "e2eID": "a10"
     }
   ]
 }

@@ -10,7 +10,8 @@ export interface SimpleMarkdownRendererProps {
  * Utilisé dans Prompt, TechnicalResult et mode lecture.
  */
 const SimpleMarkdownRenderer: React.FC<SimpleMarkdownRendererProps> = ({ content }) => {
-  const lines = content.split('\n');
+  // Normaliser les retours à la ligne Windows (\r\n) en Unix (\n)
+  const lines = content.split(/\r?\n/);
   const elements: React.ReactNode[] = [];
   let currentList: string[] = [];
   let currentParagraph: string[] = [];

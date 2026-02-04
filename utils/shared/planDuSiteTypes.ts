@@ -25,6 +25,22 @@ export interface PlanPage {
 }
 
 /**
+ * Types d'éléments cliquables (basés sur les types métier du contenu)
+ */
+export type TypeElementCliquable = 
+  | 'Hero.CallToAction'
+  | 'Hero.EnSavoirPlus'
+  | 'Hero.Video'
+  | 'Competence'
+  | 'CallToAction'
+  | 'Profil'
+  | 'LienPage'
+  | 'Video'
+  | 'Footer.Bouton'
+  | 'Header.Logo'
+  | 'Header.Photo';
+
+/**
  * Interface pour un Lien dans le plan du site
  */
 export interface PlanLien {
@@ -34,6 +50,8 @@ export interface PlanLien {
   destinationSide?: 'Haut' | 'Bas' | 'Droite' | 'Gauche';
   label?: string;
   e2eID?: string;
+  /** Type métier de l'élément cliquable */
+  typeElement?: TypeElementCliquable;
 }
 
 /**

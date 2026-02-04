@@ -19,57 +19,9 @@
           "dessiner": "Oui"
         },
         {
-          "url": "/a-propos-du-site",
-          "titre": "a-propos-du-site",
-          "zone": "Footer",
-          "dessiner": "Oui"
-        },
-        {
-          "url": "/charte",
-          "titre": "charte",
-          "zone": "Autres",
-          "dessiner": "Oui"
-        },
-        {
-          "url": "/detournement-video",
-          "titre": "Détournement de scènes cultes du cinéma",
-          "zone": "Autres",
-          "dessiner": "Oui"
-        },
-        {
-          "url": "/faisons-connaissance",
-          "titre": "Faisons connaissance",
-          "zone": "Footer",
-          "dessiner": "Oui"
-        },
-        {
           "url": "/mes-profils",
           "titre": "Mes Profils",
-          "zone": "Autres",
-          "dessiner": "Oui"
-        },
-        {
-          "url": "/mode-lecture",
-          "titre": "Mode lecture",
-          "zone": "Autres",
-          "dessiner": "Oui"
-        },
-        {
-          "url": "/portfolio-detournements",
-          "titre": "Portfolio de detournements vidéos",
-          "zone": "Autres",
-          "dessiner": "Oui"
-        },
-        {
-          "url": "/pour-aller-plus-loin",
-          "titre": "Pour aller plus loin, je vous propose une expérience...",
-          "zone": "Autres",
-          "dessiner": "Oui"
-        },
-        {
-          "url": "/raw",
-          "titre": "Raw (DOM sans CSS)",
-          "zone": "Autres",
+          "zone": "HomePage",
           "dessiner": "Oui"
         },
         {
@@ -94,6 +46,36 @@
           "url": "/profil/cto",
           "titre": "Technologie",
           "zone": "Profils",
+          "dessiner": "Oui"
+        },
+        {
+          "url": "/detournement-video",
+          "titre": "Détournement de scènes cultes du cinéma",
+          "zone": "Autres",
+          "dessiner": "Oui"
+        },
+        {
+          "url": "/portfolio-detournements",
+          "titre": "Portfolio de detournements vidéos",
+          "zone": "Autres",
+          "dessiner": "Oui"
+        },
+        {
+          "url": "/pour-aller-plus-loin",
+          "titre": "Pour aller plus loin, je vous propose une expérience...",
+          "zone": "Autres",
+          "dessiner": "Oui"
+        },
+        {
+          "url": "/a-propos-du-site",
+          "titre": "a-propos-du-site",
+          "zone": "Footer",
+          "dessiner": "Oui"
+        },
+        {
+          "url": "/faisons-connaissance",
+          "titre": "Faisons connaissance",
+          "zone": "Footer",
           "dessiner": "Oui"
         }
       ]

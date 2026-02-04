@@ -35,7 +35,8 @@ function isExternalUrl(url: string): boolean {
  * Gère les blocs de texte et les listes (lignes commençant par "- ")
  */
 function parseMarkdownContent(text: string): React.ReactNode {
-  const lines = text.split('\n');
+  // Normaliser les retours à la ligne Windows (\r\n) en Unix (\n)
+  const lines = text.split(/\r?\n/);
   const blocks: React.ReactNode[] = [];
   let currentListItems: string[] = [];
   let currentParagraph: string[] = [];

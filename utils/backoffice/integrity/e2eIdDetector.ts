@@ -47,12 +47,15 @@ const COMPOSANTS_EXCLUS_MD = new Set([
 ]);
 
 // Fichiers JSON à ignorer
+// Note: _footerButtons.json et les fichiers de la bibliothèque utilisent le mapping e2eID centralisé (_e2eIds-mapping.json)
 const FICHIERS_JSON_IGNORES = new Set([
   '_Pages-Et-Lien.json',
   'plan-du-site.json',
   '_motdepasse.json',
   '_metrics.json',
   '_temoignages.json',
+  '_footerButtons.json', // Les e2eID sont dans _e2eIds-mapping.json
+  '_e2eIds-mapping.json', // Fichier de mapping lui-même
 ]);
 
 export interface DetectionItem {
@@ -90,7 +93,8 @@ function detectInJsonFiles(): DetectionItem[] {
   const jsonFiles = files.filter((file) => file.endsWith('.json'));
 
   for (const jsonFile of jsonFiles) {
-    if ((jsonFile.startsWith('_') && jsonFile !== '_footerButtons.json') || FICHIERS_JSON_IGNORES.has(jsonFile)) {
+    // Ignorer les fichiers qui commencent par _ (config) ou sont dans la liste d'exclusion
+    if (jsonFile.startsWith('_') || FICHIERS_JSON_IGNORES.has(jsonFile)) {
       continue;
     }
 
@@ -169,23 +173,7 @@ function detectInJsonFiles(): DetectionItem[] {
           traverse(element, `contenu[${index}]`);
         });
       }
-
-      if (jsonFile === '_footerButtons.json') {
-        if (data.boutons && Array.isArray(data.boutons)) {
-          data.boutons.forEach((bouton: any, index: number) => {
-            if (!bouton.e2eID) {
-              detections.push({ file: jsonFile, path: `boutons[${index}]`, type: 'bouton', action: '' });
-            }
-          });
-        }
-        if (data.type === 'groupeDeBoutons' && data.boutons) {
-          data.boutons.forEach((bouton: any, index: number) => {
-            if (!bouton.e2eID) {
-              detections.push({ file: jsonFile, path: `boutons[${index}]`, type: 'bouton', action: '' });
-            }
-          });
-        }
-      }
+      // Note: _footerButtons.json est maintenant ignoré car les e2eID sont dans le mapping centralisé
     } catch (error) {
       continue;
     }

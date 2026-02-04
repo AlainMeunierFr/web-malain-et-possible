@@ -103,6 +103,32 @@ const AboutSiteContentRenderer: React.FC<AboutSiteContentRendererProps> = ({
 
     // Paragraphe
     if (element.type === 'paragraph') {
+      // Paragraphes spéciaux US : En tant que, Je souhaite, Afin de
+      if (element.typeDeContenu === 'En tant que' || 
+          element.typeDeContenu === 'Je souhaite' || 
+          element.typeDeContenu === 'Afin de') {
+        return (
+          <p key={elementIndex} className="usKeyword">
+            {parseInlineMarkdown(element.content || '')}
+          </p>
+        );
+      }
+      // Paragraphe Critères d'acceptation : titre en gras
+      if (element.typeDeContenu === "Critères d'acceptation") {
+        return (
+          <p key={elementIndex} className="criteresAcceptationTitre">
+            {parseInlineMarkdown(element.content || '')}
+          </p>
+        );
+      }
+      // Paragraphe CA (themeCritere) : titre de critère
+      if (element.typeDeContenu === 'themeCritere') {
+        return (
+          <p key={elementIndex} className="themeCritere">
+            {parseInlineMarkdown(element.content || '')}
+          </p>
+        );
+      }
       return (
         <p key={elementIndex} className="paragraph">
           {parseInlineMarkdown(element.content || '')}
@@ -114,8 +140,25 @@ const AboutSiteContentRenderer: React.FC<AboutSiteContentRendererProps> = ({
     if (element.type === 'ul' || element.type === 'ol') {
       if (element.typeDeContenu) {
         const text = element.items?.[0] || '';
+        
+        // "Critères d'acceptation" → h4 sans puce
+        if (element.typeDeContenu === "Critères d'acceptation") {
+          return (
+            <h4 key={elementIndex} className="criteresAcceptationTitre" data-type-contenu={element.typeDeContenu}>
+              {parseInlineMarkdown(text)}
+            </h4>
+          );
+        }
+        
+        // Déterminer la classe CSS selon le typeDeContenu
+        let className = 'userStoryElement';
+        if (element.typeDeContenu === 'themeCritere') {
+          className = 'themeCritere'; // Puce niveau 1
+        } else if (element.typeDeContenu === 'critere') {
+          className = 'critere'; // Puce niveau 2
+        }
         return (
-          <ul key={elementIndex} className={element.typeDeContenu === 'themeCritere' || element.typeDeContenu === 'critere' ? element.typeDeContenu : 'userStoryElement'} data-type-contenu={element.typeDeContenu}>
+          <ul key={elementIndex} className={className} data-type-contenu={element.typeDeContenu}>
             <li>
               {parseInlineMarkdown(text)}
             </li>

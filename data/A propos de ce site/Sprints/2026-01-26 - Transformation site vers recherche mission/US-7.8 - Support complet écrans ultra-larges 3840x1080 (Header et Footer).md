@@ -1,36 +1,40 @@
 # US-7.8 : Support complet écrans ultra-larges 3840x1080 (Header et Footer)
 
-- **En tant que** visiteur avec un écran ultra-large (3840x1080 ou similaire)
-- **Je souhaite** que le Header et le Footer soient également optimisés pour mon écran
-- **Afin de** avoir une expérience cohérente et lisible sur tous les éléments de la page
+## En tant que visiteur avec un écran ultra-large (3840x1080 ou similaire)
 
-- **Critères d'acceptation :**
+## Je souhaite que le Header et le Footer soient également optimisés pour mon écran
 
-- **CA1 - Header optimisé pour écrans ultra-larges :**
-  - Media queries pour `@media (min-width: 2560px)` ajoutées dans `Header.module.css`
-  - Media queries pour `@media (min-width: 3840px)` ajoutées dans `Header.module.css`
-  - Hauteur du header ajustée proportionnellement
-  - Logo et photo dimensionnés correctement
-  - Titre de page (pageTitle) avec taille de police adaptée
+## Afin de avoir une expérience cohérente et lisible sur tous les éléments de la page
 
-- **CA2 - Footer optimisé pour écrans ultra-larges :**
-  - Media queries pour `@media (min-width: 2560px)` ajoutées dans `Footer.module.css`
-  - Media queries pour `@media (min-width: 3840px)` ajoutées dans `Footer.module.css`
-  - Hauteur du footer ajustée proportionnellement
-  - Icônes des boutons dimensionnées correctement
-  - Texte de version avec taille de police adaptée
+# Critères d'acceptation
 
-- **CA3 - Cohérence visuelle :**
-  - Les ajustements sont proportionnels et cohérents avec les autres éléments
-  - Le Header et Footer restent lisibles et fonctionnels sur tous les écrans
-  - Pas de chevauchement ou d'espacement excessif
+## CA1 - Critères d'acceptation :
+
+## CA2 - CA1 - Header optimisé pour écrans ultra-larges :
+- Media queries pour `@media (min-width: 2560px)` ajoutées dans `Header.module.css`
+- Media queries pour `@media (min-width: 3840px)` ajoutées dans `Header.module.css`
+- Hauteur du header ajustée proportionnellement
+- Logo et photo dimensionnés correctement
+- Titre de page (pageTitle) avec taille de police adaptée
+
+## CA3 - CA2 - Footer optimisé pour écrans ultra-larges :
+- Media queries pour `@media (min-width: 2560px)` ajoutées dans `Footer.module.css`
+- Media queries pour `@media (min-width: 3840px)` ajoutées dans `Footer.module.css`
+- Hauteur du footer ajustée proportionnellement
+- Icônes des boutons dimensionnées correctement
+- Texte de version avec taille de police adaptée
+
+## CA4 - CA3 - Cohérence visuelle :
+- Les ajustements sont proportionnels et cohérents avec les autres éléments
+- Le Header et Footer restent lisibles et fonctionnels sur tous les écrans
+- Pas de chevauchement ou d'espacement excessif
 
 **Résultat attendu :**
 - Le Header et Footer sont parfaitement adaptés aux écrans ultra-larges (3840x1080)
 - Expérience utilisateur cohérente sur tous les éléments de la page
 - Support complet pour tous les types d'écrans (mobile, tablette, desktop, ultra-large)
 
-## US-7.8 : ✅ Complétée
+# US-7.8 : ✅ Complétée
 
 **Livrables :**
 - ✅ Media queries pour écrans ultra-larges (≥2560px) ajoutées dans `Header.module.css`

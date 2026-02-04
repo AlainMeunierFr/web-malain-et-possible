@@ -36,7 +36,8 @@ export interface ParsedJournal {
  * - Bloc (h5) : correspond à "###### Prompt" ou "###### Résultat technique" (H6 après ajustement)
  */
 export const parseJournalMarkdown = (markdown: string): ParsedJournal => {
-  const lines = markdown.split('\n');
+  // Normaliser les retours à la ligne Windows (\r\n) en Unix (\n)
+  const lines = markdown.split(/\r?\n/);
   const parties: Partie[] = [];
   let partieCourante: Partie | null = null;
   let sousPartieCourante: SousPartie | null = null;

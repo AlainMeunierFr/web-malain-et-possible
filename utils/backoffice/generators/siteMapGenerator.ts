@@ -9,13 +9,14 @@ import path from 'path';
 import { getRouteForCommand } from '../../vitrine/buttonHandlers';
 import { generateE2eIdInventory } from '../integrity/e2eIdInventory';
 import { readPageData, type ElementContenu } from '../../vitrine/pageReader';
+import { loadMapping, getE2eId, isExcluded, competenceKey, profilKey, lienPageKey, heroCallToActionKey, heroEnSavoirPlusKey, footerKey } from '../../shared/e2eIdMapping';
 
 // Types importés depuis shared/ pour éviter les imports circulaires
 // et permettre aux modules client d'utiliser ces types sans tirer 'fs'
-import type { PlanPage, PlanLien, PlanSite } from '../../shared/planDuSiteTypes';
+import type { PlanPage, PlanLien, PlanSite, TypeElementCliquable } from '../../shared/planDuSiteTypes';
 
 // Réexport des types pour les consommateurs existants
-export type { PlanPage, PlanLien, PlanSite };
+export type { PlanPage, PlanLien, PlanSite, TypeElementCliquable };
 
 /** Ordre d'affichage des zones dans le plan du site */
 const ORDRE_ZONES: (PlanPage['zone'])[] = ['HomePage', 'Profils', 'Autres', 'Footer', 'Masqué'];
@@ -235,55 +236,72 @@ function loadBibliotheque(): { domaines: Record<string, unknown>; competences: R
 /**
  * Extrait tous les liens internes depuis un contenu de page résolu.
  * Résout les références vers la bibliothèque pour trouver les boutons des compétences.
+ * Les e2eID sont résolus depuis le mapping centralisé, pas depuis les données métier.
  */
 function extractLinksFromContenu(
   contenu: ElementContenu[] | undefined,
   pageSource: string,
   estLienInterne: (url: string) => boolean,
-  bibliotheque?: { domaines: Record<string, unknown>; competences: Record<string, unknown> }
+  bibliotheque?: { domaines: Record<string, unknown>; competences: Record<string, unknown> },
+  e2eMapping?: Record<string, string>
 ): PlanLien[] {
   const liens: PlanLien[] = [];
   if (!contenu || !Array.isArray(contenu)) return liens;
   
   const biblio = bibliotheque || loadBibliotheque();
+  const mapping = e2eMapping || loadMapping();
   
   for (const element of contenu) {
     // Type hero : callToAction et ensavoirplus
     if (element.type === 'hero') {
       const hero = element as { callToAction?: { action?: string; texte?: string }; ensavoirplus?: string };
       if (hero.callToAction?.action && estLienInterne(hero.callToAction.action) && hero.callToAction.action !== pageSource) {
+        const key = heroCallToActionKey(pageSource, hero.callToAction.action);
+        const e2eId = getE2eId(key, mapping);
         liens.push({
           source: pageSource,
           destination: hero.callToAction.action,
           label: hero.callToAction.texte || 'Call to action',
+          typeElement: 'Hero.CallToAction',
+          e2eID: e2eId ?? undefined,
         });
       }
       if (hero.ensavoirplus && estLienInterne(hero.ensavoirplus) && hero.ensavoirplus !== pageSource) {
+        const key = heroEnSavoirPlusKey(pageSource, hero.ensavoirplus);
+        const e2eId = getE2eId(key, mapping);
         liens.push({
           source: pageSource,
           destination: hero.ensavoirplus,
           label: 'Télécharger mon CV',
+          typeElement: 'Hero.EnSavoirPlus',
+          e2eID: e2eId ?? undefined,
         });
       }
     }
     
     // Type domaineDeCompetence avec ref : résoudre vers la bibliothèque
     if (element.type === 'domaineDeCompetence') {
-      const domaine = element as { ref?: string; items?: Array<{ bouton?: { action?: string; texte?: string; e2eID?: string } }> };
+      const domaine = element as { ref?: string; id?: string; items?: Array<{ id?: string; bouton?: { action?: string; texte?: string } }> };
       
       // Si c'est une référence, résoudre depuis la bibliothèque
       if (domaine.ref && biblio.domaines[domaine.ref]) {
         const domaineData = biblio.domaines[domaine.ref] as { competences?: string[] };
         if (domaineData.competences) {
           for (const compRef of domaineData.competences) {
-            const comp = biblio.competences[compRef] as { bouton?: { action?: string; texte?: string; e2eID?: string } } | undefined;
+            const comp = biblio.competences[compRef] as { id?: string; bouton?: { action?: string; texte?: string } } | undefined;
             if (comp?.bouton?.action && estLienInterne(comp.bouton.action) && comp.bouton.action !== '/faisons-connaissance' && comp.bouton.action !== pageSource) {
-              liens.push({
-                source: pageSource,
-                destination: comp.bouton.action,
-                label: comp.bouton.texte,
-                e2eID: comp.bouton.e2eID ?? undefined,
-              });
+              // Résoudre l'e2eID depuis le mapping via la clé Source.Competence:Destination
+              const key = competenceKey(pageSource, comp.bouton.action);
+              // Si l'élément est exclu ("null"), ne pas l'ajouter au plan de test
+              if (isExcluded(key, mapping)) continue;
+              const e2eId = getE2eId(key, mapping);
+            liens.push({
+              source: pageSource,
+              destination: comp.bouton.action,
+              label: comp.bouton.texte,
+              e2eID: e2eId ?? undefined,
+              typeElement: 'Competence',
+            });
             }
           }
         }
@@ -294,11 +312,17 @@ function extractLinksFromContenu(
         for (const item of domaine.items) {
           const action = item.bouton?.action;
           if (action && estLienInterne(action) && action !== '/faisons-connaissance' && action !== pageSource) {
+            // Résoudre l'e2eID depuis le mapping via la clé Source.Competence:Destination
+            const key = competenceKey(pageSource, action);
+            // Si l'élément est exclu ("null"), ne pas l'ajouter au plan de test
+            if (isExcluded(key, mapping)) continue;
+            const e2eId = getE2eId(key, mapping);
             liens.push({
               source: pageSource,
               destination: action,
               label: item.bouton?.texte,
-              e2eID: item.bouton?.e2eID ?? undefined,
+              e2eID: e2eId ?? undefined,
+              typeElement: 'Competence',
             });
           }
         }
@@ -311,11 +335,15 @@ function extractLinksFromContenu(
       for (const p of profils) {
         if (p.route && estLienInterne(p.route) && p.route !== pageSource) {
           // Le composant ProfilContainer utilise "En savoir plus…" comme texte du lien
-          // Pas d'e2eID car le composant utilise un format non-standard (profil-{slug}-acces)
+          // Résoudre l'e2eID depuis le mapping
+          const key = profilKey(pageSource, p.route);
+          const e2eId = getE2eId(key, mapping);
           liens.push({
             source: pageSource,
             destination: p.route,
             label: 'En savoir plus…',
+            typeElement: 'Profil',
+            e2eID: e2eId ?? undefined,
           });
         }
       }
@@ -323,15 +351,45 @@ function extractLinksFromContenu(
     
     // Type callToAction standalone
     if (element.type === 'callToAction') {
-      const cta = element as { action?: string; texte?: string; e2eID?: string };
+      const cta = element as { action?: string; texte?: string };
       // Les callToAction avec texte "On discute ?" ou similaire pointent vers /faisons-connaissance, on les ignore
       if (cta.action && estLienInterne(cta.action) && cta.action !== '/faisons-connaissance' && cta.action !== pageSource) {
+        // L'e2eID pour les callToAction serait basé sur l'action
+        const ctaKey = `callToAction:${pageSource}:${cta.action}`;
+        const e2eId = getE2eId(ctaKey, mapping);
         liens.push({
           source: pageSource,
           destination: cta.action,
           label: cta.texte || 'Action',
-          e2eID: cta.e2eID ?? undefined,
+          e2eID: e2eId ?? undefined,
+          typeElement: 'CallToAction',
         });
+      }
+    }
+    
+    // Type listeDesPages : génère des liens vers toutes les pages listées
+    // Le composant ListeDesPages crée des liens avec e2eID généré par generateE2eIdFromUrl
+    if (element.type === 'listeDesPages') {
+      const listeDesPages = element as { pages?: Array<{ url: string; titre: string; zone?: string; dessiner?: string }> };
+      if (listeDesPages.pages) {
+        for (const page of listeDesPages.pages) {
+          // Exclure les pages masquées et la page source elle-même
+          if (page.zone === 'Masqué' || page.dessiner === 'Non' || page.url === pageSource) {
+            continue;
+          }
+          if (estLienInterne(page.url)) {
+            // Résoudre l'e2eID depuis le mapping
+            const key = lienPageKey(pageSource, page.url);
+            const e2eId = getE2eId(key, mapping);
+            liens.push({
+              source: pageSource,
+              destination: page.url,
+              label: page.titre,
+              typeElement: 'LienPage',
+              e2eID: e2eId ?? undefined,
+            });
+          }
+        }
       }
     }
   }
@@ -364,18 +422,18 @@ export const detecterLiensInternes = (): PlanLien[] => {
   const liens: PlanLien[] = [];
   const dataDir = path.join(process.cwd(), 'data');
 
-  const liensInventaire = getLiensFromE2eIdInventory();
-  for (const l of liensInventaire) {
-    liens.push(l);
-  }
+  // Note: getLiensFromE2eIdInventory() n'est plus utilisé ici car les liens
+  // sont maintenant extraits directement depuis le contenu des pages avec les types métier.
+  // Les liens footer sont gérés par la lecture de _footerButtons.json ci-dessous.
   
   const estLienInterne = (url: string | null | undefined): boolean => {
     if (!url) return false;
     return url.startsWith('/') && !url.startsWith('//') && !url.match(/^https?:\/\//);
   };
 
-  // Charger la bibliothèque une seule fois pour toutes les pages
+  // Charger la bibliothèque et le mapping e2eID une seule fois pour toutes les pages
   const bibliotheque = loadBibliotheque();
+  const e2eMapping = loadMapping();
 
   const fichiersJSON = fs.readdirSync(dataDir).filter((f) => f.endsWith('.json') && !f.startsWith('_'));
 
@@ -389,7 +447,7 @@ export const detecterLiensInternes = (): PlanLien[] => {
         continue;
       }
       
-      for (const l of extractLinksFromContenu(pageData.contenu, pageSource, estLienInterne, bibliotheque)) {
+      for (const l of extractLinksFromContenu(pageData.contenu, pageSource, estLienInterne, bibliotheque, e2eMapping)) {
         liens.push(l);
       }
     } catch {
@@ -397,7 +455,7 @@ export const detecterLiensInternes = (): PlanLien[] => {
     }
   }
 
-  liens.push({ source: '/', destination: '/mes-profils', label: 'Mes Profils' });
+  liens.push({ source: '/', destination: '/mes-profils', label: 'Mes Profils', typeElement: 'Hero.EnSavoirPlus' });
 
   try {
     const footerButtonsPath = path.join(dataDir, '_footerButtons.json');
@@ -409,7 +467,9 @@ export const detecterLiensInternes = (): PlanLien[] => {
           if (button.command) {
             const route = getRouteForCommand(button.command);
             if (route && route !== '/faisons-connaissance') {
-              liens.push({ source: '*', destination: route, label: button.texte || button.icone });
+              const key = footerKey(route);
+              const e2eId = getE2eId(key, e2eMapping);
+              liens.push({ source: '*', destination: route, label: button.texte || button.icone, typeElement: 'Footer.Bouton', e2eID: e2eId ?? undefined });
             }
           }
         }
@@ -424,22 +484,48 @@ export const detecterLiensInternes = (): PlanLien[] => {
 
   for (const lien of liens) {
     if (lien.source === '*') {
+      // Les liens avec source '*' sont des éléments globaux (footer, header)
+      // On les duplique pour chaque page pour que tous les liens soient présents
+      // Mais ils auront le même e2eID dans le mapping (géré par generate-e2e-mapping.ts)
       for (const page of pages) {
-        liensResolus.push({ source: page.url, destination: lien.destination, label: lien.label });
+        // Résoudre l'e2eID depuis le mapping avec la clé complète Source.TypeMétier:Destination
+        const key = `${page.url}.${lien.typeElement}:${lien.destination}`;
+        const e2eId = getE2eId(key, e2eMapping) ?? lien.e2eID;
+        liensResolus.push({ 
+          source: page.url, 
+          destination: lien.destination, 
+          label: lien.label,
+          typeElement: lien.typeElement,
+          e2eID: e2eId ?? undefined,
+        });
       }
     } else {
       liensResolus.push(lien);
     }
   }
 
+  // Header.Logo : élément global, dupliqué pour chaque page (sauf la homepage)
   for (const page of pages) {
     if (page.url !== '/') {
-      liensResolus.push({ source: page.url, destination: '/', label: 'Logo', e2eID: 'h1' });
+      // Résoudre l'e2eID depuis le mapping avec la clé complète
+      const key = `${page.url}.Header.Logo:/`;
+      const logoE2eId = getE2eId(key, e2eMapping) ?? 'h1';
+      liensResolus.push({ 
+        source: page.url, 
+        destination: '/', 
+        label: 'Logo', 
+        e2eID: logoE2eId, 
+        typeElement: 'Header.Logo' 
+      });
     }
   }
 
   const liensFiltres = liensResolus.filter((lien) => lien.destination !== '/faisons-connaissance');
-  liensFiltres.push({ source: '/', destination: '/faisons-connaissance', label: 'Discutons' });
+  
+  // Ajouter le lien principal vers "Faisons connaissance" avec e2eID depuis le mapping
+  const ctaKey = heroCallToActionKey('/', '/faisons-connaissance');
+  const ctaE2eId = getE2eId(ctaKey, e2eMapping);
+  liensFiltres.push({ source: '/', destination: '/faisons-connaissance', label: 'Discutons', typeElement: 'Hero.CallToAction', e2eID: ctaE2eId ?? undefined });
 
   const liensSansAuto = liensFiltres.filter((lien) => lien.source !== lien.destination);
 
@@ -514,7 +600,8 @@ export const mettreAJourPlanJSON = (
   const liensMisesAJour: PlanLien[] = [];
   
   for (const lienDetecte of liens) {
-    const sourceExiste = pagesMisesAJour.some((p) => p.url === lienDetecte.source);
+    // Les liens globaux (source = '*') sont toujours valides
+    const sourceExiste = lienDetecte.source === '*' || pagesMisesAJour.some((p) => p.url === lienDetecte.source);
     const destinationExiste = pagesMisesAJour.some((p) => p.url === lienDetecte.destination);
     
     if (sourceExiste && destinationExiste) {
@@ -523,7 +610,14 @@ export const mettreAJourPlanJSON = (
       );
       
       if (lienExistant) {
-        liensMisesAJour.push(lienExistant);
+        // Fusionner : conserver les propriétés existantes (sourceSide, destinationSide)
+        // mais utiliser le nouveau e2eID, label et typeElement
+        liensMisesAJour.push({
+          ...lienExistant,
+          label: lienDetecte.label ?? lienExistant.label,
+          e2eID: lienDetecte.e2eID ?? lienExistant.e2eID,
+          typeElement: lienDetecte.typeElement ?? lienExistant.typeElement,
+        });
       } else {
         liensMisesAJour.push(lienDetecte);
       }

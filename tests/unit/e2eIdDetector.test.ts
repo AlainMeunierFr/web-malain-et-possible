@@ -279,8 +279,10 @@ describe('e2eIdDetector - Approche TDD (simple → complexe)', () => {
   });
 
   describe('ITÉRATION 9 : Détection dans _footerButtons.json', () => {
-    it('devrait détecter les boutons sans e2eID dans _footerButtons.json', () => {
+    it('devrait ignorer _footerButtons.json (e2eID dans mapping centralisé)', () => {
       // ARRANGE : _footerButtons.json avec bouton sans e2eID
+      // NOUVELLE ARCHITECTURE : _footerButtons.json est ignoré car les e2eID
+      // sont maintenant stockés dans _e2eIds-mapping.json (mapping centralisé)
       mockFs.existsSync.mockReturnValue(true);
       mockFs.readdirSync.mockReturnValue(['_footerButtons.json'] as any);
       mockFs.readFileSync.mockReturnValue(
@@ -298,9 +300,9 @@ describe('e2eIdDetector - Approche TDD (simple → complexe)', () => {
       // ACT
       const result = detectMissingE2eIds();
 
-      // ASSERT
-      expect(result.json.length).toBeGreaterThan(0);
-      expect(result.json.some((item) => item.file === '_footerButtons.json')).toBe(true);
+      // ASSERT : _footerButtons.json est ignoré car les e2eID sont dans le mapping centralisé
+      expect(result.json.length).toBe(0);
+      expect(result.json.some((item) => item.file === '_footerButtons.json')).toBe(false);
     });
   });
 

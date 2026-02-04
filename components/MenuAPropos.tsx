@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname, useSearchParams } from 'next/navigation';
-import { Suspense } from 'react';
+import { Suspense, useState } from 'react';
 import type { LigneDeMenu } from '../utils/client';
 
 interface MenuAProposProps {
@@ -12,10 +12,12 @@ interface MenuAProposProps {
 /**
  * Menu horizontal partagé pour toutes les pages "A propos du site".
  * Position fixed sous le header principal.
+ * Responsive : menu hamburger sur petit écran, menu horizontal sur grand écran.
  */
 function MenuAProposContent({ lignes }: MenuAProposProps) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
+  const [isOpen, setIsOpen] = useState(false);
   
   // Extraire le dossier actif du pathname
   const segments = pathname.split('/');
@@ -54,19 +56,48 @@ function MenuAProposContent({ lignes }: MenuAProposProps) {
     return '/a-propos-du-site';
   };
 
+  const toggleMenu = () => {
+    setIsOpen(!isOpen);
+  };
+
+  const closeMenu = () => {
+    setIsOpen(false);
+  };
+
   return (
     <nav
       className="menuAPropos"
       data-testid="menu-a-propos"
       aria-label="Menu A propos du site"
     >
-      <ul className="liste">
+      {/* Bouton hamburger (visible sur petit écran uniquement) */}
+      <button
+        className="menuAPropos__hamburger"
+        onClick={toggleMenu}
+        aria-expanded={isOpen}
+        aria-controls="menu-a-propos-liste"
+        aria-label="Ouvrir le menu"
+        type="button"
+      >
+        <span className="menuAPropos__hamburger-icon">
+          <span className={isOpen ? 'open' : ''}></span>
+          <span className={isOpen ? 'open' : ''}></span>
+          <span className={isOpen ? 'open' : ''}></span>
+        </span>
+      </button>
+
+      {/* Liste des liens */}
+      <ul 
+        id="menu-a-propos-liste"
+        className={`liste ${isOpen ? 'liste--open' : ''}`}
+      >
         {lignes.map((ligne) => (
           <li key={`${ligne.Numéro}-${ligne.Titre}`} className="item">
             <Link
               href={getHref(ligne)}
               className={isActive(ligne) ? 'lienActif' : 'lien'}
               e2eid={ligne.e2eID ? `e2eid-${ligne.e2eID}` : `e2eid-menu-${ligne.Titre.replace(/\s/g, '-')}`}
+              onClick={closeMenu}
             >
               {ligne.Titre}
             </Link>

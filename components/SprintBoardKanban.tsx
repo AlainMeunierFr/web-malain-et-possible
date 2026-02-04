@@ -119,6 +119,13 @@ export default function SprintBoardKanban({ initialData: initialDataProp, hideGo
 
   const showGoal = !hideGoal && effectiveData.goal;
 
+  // Trouver la première US en cours pour le focus
+  const firstUsEnCours = effectiveData.cards.find((card) => card.state === 'en_cours');
+  // Trouver la première colonne "A faire" si pas d'US en cours
+  const firstColumnAFaire = !firstUsEnCours 
+    ? effectiveData.columns.find((col) => col.type === 'a_faire')
+    : null;
+
   return (
     <div className="tableauSprint">
       {showGoal && (
@@ -130,45 +137,55 @@ export default function SprintBoardKanban({ initialData: initialDataProp, hideGo
       )}
       <div className="grille" role="table" aria-label="Board KanBan du sprint">
         <div className="ligne ligneStatique" role="row">
-          {effectiveData.columns.map((col) => (
-            <div
-              key={col.id}
-              className="colonneTableauSprint"
-              role="columnheader"
-              data-column-id={col.id}
-              data-column-type={col.type}
-            >
-              <div className="enTete">
-                <span className="titre">{col.label}</span>
-                <span className="compte" aria-label={`Décompte ${col.label}`}>
-                  {getColumnCountLabel(col)}
-                </span>
+          {effectiveData.columns.map((col) => {
+            const isFocusColumn = firstColumnAFaire?.id === col.id;
+            return (
+              <div
+                key={col.id}
+                className={`colonneTableauSprint ${isFocusColumn ? 'colonneTableauSprint--focus' : ''}`}
+                role="columnheader"
+                data-column-id={col.id}
+                data-column-type={col.type}
+              >
+                <div className="enTete">
+                  <span className="titre">{col.label}</span>
+                  <span className="compte" aria-label={`Décompte ${col.label}`}>
+                    {getColumnCountLabel(col)}
+                  </span>
+                </div>
+                <div className="cartes" role="rowgroup">
+                                  {getCardsForColumn(col, effectiveData.cards).map((card) => {
+                                    const isFocusCard = firstUsEnCours?.id === card.id;
+                                    const rotation = card.rotation ?? 0;
+                                    const transform = isFocusCard 
+                                      ? `rotate(${rotation}deg) scale(1.05)`
+                                      : `rotate(${rotation}deg)`;
+                                    return (
+                                      <div
+                                        key={card.id}
+                                        className={`carteUS ${isFocusCard ? 'carteUS--focus' : ''}`}
+                                        data-us-id={card.id}
+                                        data-state={card.state}
+                                        style={{ transform }}
+                                        role="button"
+                                        tabIndex={0}
+                                        aria-label={`Voir le détail de ${card.id} - ${card.titre}`}
+                                        onClick={() => openUsDetail(card.id)}
+                                        onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && openUsDetail(card.id)}
+                                      >
+                                        {card.enRevue && (
+                                          <span className="badgeEnRevue" aria-label="En revue">🔍</span>
+                                        )}
+                                        <span className="contenu titre">
+                                          {parseInlineMarkdown(`**${card.id}** - ${card.titre}`)}
+                                        </span>
+                                      </div>
+                                    );
+                                  })}
+                </div>
               </div>
-              <div className="cartes" role="rowgroup">
-                                {getCardsForColumn(col, effectiveData.cards).map((card) => (
-                                  <div
-                                    key={card.id}
-                                    className="carteUS"
-                                    data-us-id={card.id}
-                                    data-state={card.state}
-                                    style={{ transform: `rotate(${card.rotation ?? 0}deg)` }}
-                                    role="button"
-                                    tabIndex={0}
-                                    aria-label={`Voir le détail de ${card.id} - ${card.titre}`}
-                                    onClick={() => openUsDetail(card.id)}
-                                    onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && openUsDetail(card.id)}
-                                  >
-                                    {card.enRevue && (
-                                      <span className="badgeEnRevue" aria-label="En revue">🔍</span>
-                                    )}
-                                    <span className="contenu titre">
-                                      {parseInlineMarkdown(`**${card.id}** - ${card.titre}`)}
-                                    </span>
-                                  </div>
-                                ))}
-              </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
       {loadingUs && (

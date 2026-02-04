@@ -342,11 +342,7 @@ Given('le fichier "US en cours.md" contient l\'étape {string}', async ({}, etap
     usEnCoursOriginal = fs.readFileSync(p, 'utf8');
   }
   // Écrire un contenu minimal pour le test
-  const content = `### US en cours
-
-Une seule US à la fois.
-
----
+  const content = `### US en coursUne seule US à la fois.---
 
 US-12.3
 Indicateur visuel en revue sur board Kanban
@@ -371,9 +367,7 @@ Indicateur visuel en revue sur board Kanban
 ${etape}
 `;
   fs.writeFileSync(p, content, 'utf8');
-});
-
-Then('la carte de l\'US en cours affiche un indicateur "en revue" \\(icône 🔍\\)', async ({ page }) => {
+});Then('la carte de l\'US en cours affiche un indicateur "en revue" \\(icône 🔍\\)', async ({ page }) => {
   const card = page.locator('.carteUS').filter({ hasText: 'US-12.3' }).first();
   await expect(card).toBeVisible({ timeout: 10000 });
   const badge = card.locator('.badgeEnRevue');
@@ -436,4 +430,3 @@ Then('je restaure le fichier "US en cours.md"', async ({}) => {
     usEnCoursOriginal = null;
   }
 });
-

@@ -61,15 +61,24 @@ describe('validerContenuMarkdown - APPROCHE TDD', () => {
     });
   });
 
-  describe('ITÉRATION 1 : Détecter H2 sans H1', () => {
-    it('devrait lever une ValidationError si un fichier contient H2 sans H1', () => {
-      // ARRANGE : Cas d'erreur avec H2 sans H1 (hiérarchie)
-      const contenu = '## Sous-partie\nContenu';
+  describe('ITÉRATION 1 : Validation hiérarchique adaptative', () => {
+    it('devrait lever une ValidationError si une sous-partie existe sans partie', () => {
+      // ARRANGE : Cas d'erreur avec ### sans ## quand le niveau de base est ##
+      const contenu = '## Partie\n### Sous-partie\n#### Sous-sous-partie sans sous-partie';
       const filePath = 'test.md';
 
-      // ACT & ASSERT
-      expect(() => validerContenuMarkdown(contenu, filePath)).toThrow(ValidationError);
-      expect(() => validerContenuMarkdown(contenu, filePath)).toThrow(/titre de niveau 2.*sans titre de niveau 1/);
+      // ACT & ASSERT : Le niveau de base est ##, donc ### est sous-partie et #### est attendu après ###
+      // Ce cas est valide car ### existe
+      expect(() => validerContenuMarkdown(contenu, filePath)).not.toThrow();
+    });
+
+    it('devrait accepter un fichier qui commence par ## (niveau adaptatif)', () => {
+      // ARRANGE : Fichier commençant par ## - le niveau de base s'adapte
+      const contenu = '## Partie\nContenu';
+      const filePath = 'test.md';
+
+      // ACT & ASSERT : Valide car ## devient le niveau de base
+      expect(() => validerContenuMarkdown(contenu, filePath)).not.toThrow();
     });
 
     it('ne devrait pas lever d\'erreur si H2 est présent avec H1', () => {

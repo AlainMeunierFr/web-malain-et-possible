@@ -33,8 +33,7 @@
       "bouton": {
         "type": "bouton",
         "texte": "Voir le portfolio",
-        "action": "/portfolio-detournements",
-        "e2eID": "c2"
+        "action": "/portfolio-detournements"
       },
       "type": "competence",
       "auteur": "Albert Einstein"
@@ -50,8 +49,7 @@
       "bouton": {
         "type": "bouton",
         "texte": "Lire un témoignage linkedin",
-        "action": "/temoignage-linkedin",
-        "e2eID": "c21"
+        "action": "/temoignage-linkedin"
       },
       "type": "competence",
       "auteur": "Malcolm Gladwell"
@@ -101,8 +99,7 @@
       "bouton": {
         "type": "bouton",
         "texte": "En savoir plus...",
-        "action": "/profil/coo",
-        "e2eID": "c12"
+        "action": "/profil/coo"
       },
       "type": "competence"
     },
@@ -133,8 +130,7 @@
       "bouton": {
         "type": "bouton",
         "texte": "En savoir plus...",
-        "action": "/profil/cto",
-        "e2eID": "c15"
+        "action": "/profil/cto"
       },
       "type": "competence"
     },
@@ -297,8 +293,7 @@
       "bouton": {
         "type": "bouton",
         "texte": "Aller plus loin...",
-        "action": "/robustesse",
-        "e2eID": "c16"
+        "action": "/robustesse"
       },
       "type": "competence"
     },
@@ -406,8 +401,7 @@
       "bouton": {
         "type": "bouton",
         "texte": "En savoir plus...",
-        "action": "https://youtu.be/vV_heigVAUo",
-        "e2eID": null
+        "action": "https://youtu.be/vV_heigVAUo"
       },
       "type": "competence"
     },
@@ -471,8 +465,7 @@
       "bouton": {
         "type": "bouton",
         "texte": "En savoir plus...",
-        "action": "https://youtu.be/S1V4t7SXXCU",
-        "e2eID": null
+        "action": "https://youtu.be/S1V4t7SXXCU"
       },
       "type": "competence"
     },

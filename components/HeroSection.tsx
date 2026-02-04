@@ -21,7 +21,8 @@ const HeroSection: React.FC<HeroSectionProps> = ({ element }) => {
     : undefined;
   /* Retours à la ligne uniquement sur \n dans la source ; gras/italique restent inline */
   const descriptionAvecRetoursLigne = element.description.replace(/\\n/g, '\n');
-  const paragraphes = descriptionAvecRetoursLigne.split('\n').filter(Boolean);
+  // Normaliser les retours à la ligne Windows (\r\n) en Unix (\n)
+  const paragraphes = descriptionAvecRetoursLigne.split(/\r?\n/).filter(Boolean);
   const descriptionNodes =
     paragraphes.length <= 1
       ? parseInlineMarkdown(descriptionAvecRetoursLigne)
