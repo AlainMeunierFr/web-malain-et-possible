@@ -34,13 +34,13 @@ describe('e2eScenarioBuilder', () => {
   describe('genererCodeTestE2eId', () => {
     it('génère des lignes avec getByTestId et expect toBeVisible', () => {
       const item: E2eIdInventoryItem = {
-        e2eID: 'b13',
+        e2eID: 'b44',
         source: 'json',
         file: '_footerButtons.json',
         type: 'bouton',
       };
       const lignes = genererCodeTestE2eId(item, 0);
-      expect(lignes.some((l) => l.includes("getByTestId('e2eid-b13')"))).toBe(true);
+      expect(lignes.some((l) => l.includes("getByTestId('e2eid-b44')"))).toBe(true);
       expect(lignes.some((l) => l.includes('toBeVisible()'))).toBe(true);
     });
 
@@ -117,7 +117,7 @@ describe('e2eScenarioBuilder', () => {
       const liens: PlanLien[] = [{ source: '/', destination: '/plan-du-site', label: 'Plan du site' }];
       const pages = [{ url: '/', titre: 'Accueil' }, { url: '/plan-du-site', titre: 'Plan' }];
       const result = genererContenuSpecE2E(chemin, liens, pages, []);
-      expect(result).toContain("e2eid-b13");
+      expect(result).toContain("e2eid-b44");
       expect(result).toContain("toHaveURL('/plan-du-site'");
     });
 
@@ -144,11 +144,11 @@ describe('e2eScenarioBuilder', () => {
     it('injecte les tests e2eID pour chaque page visitée', () => {
       const chemin = ['/'];
       const inventory: E2eIdInventoryItem[] = [
-        { e2eID: 'b13', source: 'json', file: '_footerButtons.json', type: 'bouton' },
+        { e2eID: 'b44', source: 'json', file: '_footerButtons.json', type: 'bouton' },
       ];
       const result = genererContenuSpecE2E(chemin, [], [{ url: '/', titre: 'Accueil' }], inventory);
       expect(result).toContain('Test des e2eID présents sur /');
-      expect(result).toContain("getByTestId('e2eid-b13')");
+      expect(result).toContain("getByTestId('e2eid-b44')");
     });
 
     it('lien direct présent : utilise le label du lien avec fallback e2eID dérivé de l\'URL', () => {
@@ -191,7 +191,7 @@ describe('e2eScenarioBuilder', () => {
         { url: '/plan-du-site', titre: 'Plan' },
       ];
       const result = genererContenuSpecE2E(chemin, liens, pages, []);
-      expect(result).toContain('e2eid-b13');
+      expect(result).toContain('e2eid-b44');
       expect(result).toContain("toHaveURL('/plan-du-site'");
     });
 

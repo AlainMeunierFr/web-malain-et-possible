@@ -60,8 +60,8 @@ const Footer: React.FC = () => {
             console.error('Invalid button data:', button);
             return null;
           }
-          // Résoudre l'e2eID depuis le mapping centralisé
-          const e2eId = getFooterE2eId(button.id);
+          // Utiliser l'e2eID du JSON directement (fallback: résolution depuis mapping)
+          const e2eId = button.e2eID || getFooterE2eId(button.id);
           return (
             <FooterButton
               key={button.id}

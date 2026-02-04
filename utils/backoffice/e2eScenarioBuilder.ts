@@ -153,7 +153,7 @@ export function genererContenuSpecE2E(
       }
       if (page === '/plan-du-site') {
         lignes.push(
-          `    const boutonPlanDuSite = page.locator('footer').locator('[e2eid="e2eid-b13"]');`
+          `    const boutonPlanDuSite = page.locator('footer').locator('[e2eid="e2eid-b44"]');`
         );
         lignes.push(`    await boutonPlanDuSite.first().waitFor({ state: 'visible', timeout: 15000 });`);
         lignes.push(`    if (await boutonPlanDuSite.count() > 0) {`);
@@ -162,7 +162,7 @@ export function genererContenuSpecE2E(
         lignes.push(`      await expect(page).toHaveURL('/plan-du-site', { timeout: 15000 });`);
         lignes.push(`    } else {`);
         lignes.push(
-          `      throw new Error('Impossible de trouver le bouton Plan du site (e2eid-b13) dans le footer.');`
+          `      throw new Error('Impossible de trouver le bouton Plan du site (e2eid-b44) dans le footer.');`
         );
         lignes.push(`    }`);
         lignes.push(`  });`);

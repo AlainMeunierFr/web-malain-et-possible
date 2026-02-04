@@ -8,10 +8,10 @@
  * 3. Pour chaque transition (page A → page B), génère du code de navigation
  * 4. Après chaque navigation, teste tous les e2eID présents sur la page
  *
- * Algorithme de navigation : Plan du site (e2eid-b13) est la source de vérité.
+ * Algorithme de navigation : Plan du site (e2eid-b44) est la source de vérité.
  * - Pour aller vers une page (sauf /, /metrics, /a-propos-du-site, /plan-du-site) :
- *   → Clic sur le bouton Plan du site (e2eid-b13) → puis clic sur le lien vers la destination (e2eID déterministe depuis l'URL).
- * - Pages footer : /metrics (b14), /a-propos-du-site (b15), /plan-du-site (b13), / (logo h1).
+ *   → Clic sur le bouton Plan du site (e2eid-b44) → puis clic sur le lien vers la destination (e2eID déterministe depuis l'URL).
+ * - Pages footer : /a-propos-du-site (b45), /plan-du-site (b44), / (logo h1).
  * - Si le bouton Plan du site (b13) est absent : throw (pas de fallback).
  *
  * Pages avec zone "Masqué" (sauf Plan du site) : exclues du scénario de navigation.

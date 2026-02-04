@@ -350,14 +350,14 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
 
   // Test des e2eID présents sur /a-propos-du-site
   await test.step("Étape 6: Navigation de /a-propos-du-site vers /plan-du-site (Plan du site)", async () => {
-    const boutonPlanDuSite = page.locator('footer').locator('[e2eid="e2eid-b13"]');
+    const boutonPlanDuSite = page.locator('footer').locator('[e2eid="e2eid-b44"]');
     await boutonPlanDuSite.first().waitFor({ state: 'visible', timeout: 15000 });
     if (await boutonPlanDuSite.count() > 0) {
       await boutonPlanDuSite.first().evaluate((el) => el.scrollIntoView({ block: 'nearest', behavior: 'instant' }));
       await boutonPlanDuSite.first().click({ timeout: 15000 });
       await expect(page).toHaveURL('/plan-du-site', { timeout: 15000 });
     } else {
-      throw new Error('Impossible de trouver le bouton Plan du site (e2eid-b13) dans le footer.');
+      throw new Error('Impossible de trouver le bouton Plan du site (e2eid-b44) dans le footer.');
     }
   });
   await test.step("Étape 7: Navigation de /plan-du-site vers /profil/coo (Opérations)", async () => {
@@ -454,14 +454,14 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
 
   // Test des e2eID présents sur /portfolio-detournements
   await test.step("Étape 10: Navigation de /portfolio-detournements vers /plan-du-site (Plan du site)", async () => {
-    const boutonPlanDuSite = page.locator('footer').locator('[e2eid="e2eid-b13"]');
+    const boutonPlanDuSite = page.locator('footer').locator('[e2eid="e2eid-b44"]');
     await boutonPlanDuSite.first().waitFor({ state: 'visible', timeout: 15000 });
     if (await boutonPlanDuSite.count() > 0) {
       await boutonPlanDuSite.first().evaluate((el) => el.scrollIntoView({ block: 'nearest', behavior: 'instant' }));
       await boutonPlanDuSite.first().click({ timeout: 15000 });
       await expect(page).toHaveURL('/plan-du-site', { timeout: 15000 });
     } else {
-      throw new Error('Impossible de trouver le bouton Plan du site (e2eid-b13) dans le footer.');
+      throw new Error('Impossible de trouver le bouton Plan du site (e2eid-b44) dans le footer.');
     }
   });
   await test.step("Étape 11: Navigation de /plan-du-site vers /profil/agile (Transformation Agile)", async () => {
@@ -496,14 +496,14 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
 
   // Test des e2eID présents sur /profil/agile
   await test.step("Étape 12: Navigation de /profil/agile vers /plan-du-site (Plan du site)", async () => {
-    const boutonPlanDuSite = page.locator('footer').locator('[e2eid="e2eid-b13"]');
+    const boutonPlanDuSite = page.locator('footer').locator('[e2eid="e2eid-b44"]');
     await boutonPlanDuSite.first().waitFor({ state: 'visible', timeout: 15000 });
     if (await boutonPlanDuSite.count() > 0) {
       await boutonPlanDuSite.first().evaluate((el) => el.scrollIntoView({ block: 'nearest', behavior: 'instant' }));
       await boutonPlanDuSite.first().click({ timeout: 15000 });
       await expect(page).toHaveURL('/plan-du-site', { timeout: 15000 });
     } else {
-      throw new Error('Impossible de trouver le bouton Plan du site (e2eid-b13) dans le footer.');
+      throw new Error('Impossible de trouver le bouton Plan du site (e2eid-b44) dans le footer.');
     }
   });
   await test.step("Étape 13: Navigation de /plan-du-site vers /pour-aller-plus-loin (Pour aller plus loin, je vous propose une expérience...)", async () => {
@@ -538,14 +538,14 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
 
   // Test des e2eID présents sur /pour-aller-plus-loin
   await test.step("Étape 14: Navigation de /pour-aller-plus-loin vers /plan-du-site (Plan du site)", async () => {
-    const boutonPlanDuSite = page.locator('footer').locator('[e2eid="e2eid-b13"]');
+    const boutonPlanDuSite = page.locator('footer').locator('[e2eid="e2eid-b44"]');
     await boutonPlanDuSite.first().waitFor({ state: 'visible', timeout: 15000 });
     if (await boutonPlanDuSite.count() > 0) {
       await boutonPlanDuSite.first().evaluate((el) => el.scrollIntoView({ block: 'nearest', behavior: 'instant' }));
       await boutonPlanDuSite.first().click({ timeout: 15000 });
       await expect(page).toHaveURL('/plan-du-site', { timeout: 15000 });
     } else {
-      throw new Error('Impossible de trouver le bouton Plan du site (e2eid-b13) dans le footer.');
+      throw new Error('Impossible de trouver le bouton Plan du site (e2eid-b44) dans le footer.');
     }
   });
   await test.step("Étape 15: Navigation de /plan-du-site vers /faisons-connaissance (lien)", async () => {
