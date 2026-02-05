@@ -1024,7 +1024,9 @@ function collectPerformanceMetrics() {
     console.log('   Le temps de build sera mesuré automatiquement lors du prochain "npm run build".');
   }
   
-  if (fs.existsSync(nextDir)) {
+  // Mesurer uniquement le bundle client (.next/static), pas tout le dossier .next
+  const staticDir = path.join(nextDir, 'static');
+  if (fs.existsSync(staticDir)) {
     function getSize(dir: string): number {
       let size = 0;
       try {
@@ -1043,7 +1045,7 @@ function collectPerformanceMetrics() {
       }
       return size;
     }
-    bundleSize = Math.round(getSize(nextDir) / 1024);
+    bundleSize = Math.round(getSize(staticDir) / 1024);
   }
 
   // Score Lighthouse : exécuté si METRICS_LIGHTHOUSE_URL est défini (ex. http://localhost:3000)

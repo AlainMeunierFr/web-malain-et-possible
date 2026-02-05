@@ -4,15 +4,17 @@
  */
 
 import React from 'react';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import VideoDetournement from '../../components/VideoDetournement';
 import type { ElementListeDeDetournementsVideo } from '../../utils';
 
 // Mock TexteLarge
 jest.mock('../../components/TexteLarge', () => {
-  return ({ element }: { element: { type: string; texte: string } }) => {
+  const MockTexteLarge = ({ element }: { element: { type: string; texte: string } }) => {
     return React.createElement('div', { 'e2eid': 'texte-large' }, element.texte);
   };
+  MockTexteLarge.displayName = 'MockTexteLarge';
+  return MockTexteLarge;
 });
 
 // Mock lucide-react
@@ -100,7 +102,7 @@ describe('Composant VideoDetournement', () => {
     // Vérifier que les URLs contiennent les IDs YouTube
     iframes.forEach((iframe) => {
       const src = iframe.getAttribute('src');
-      expect(src).toContain('youtube.com/embed');
+      expect(src).toContain('youtube-nocookie.com/embed');
     });
   });
 

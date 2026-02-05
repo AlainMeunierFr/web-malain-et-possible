@@ -20,7 +20,7 @@ describe('Composant Video', () => {
 
     const iframe = screen.getByTitle('YouTube video player');
     expect(iframe).toBeInTheDocument();
-    expect(iframe).toHaveAttribute('src', expect.stringContaining('youtube.com/embed'));
+    expect(iframe).toHaveAttribute('src', expect.stringContaining('youtube-nocookie.com/embed'));
     expect(iframe).toHaveAttribute('src', expect.stringContaining('dQw4w9WgXcQ'));
   });
 

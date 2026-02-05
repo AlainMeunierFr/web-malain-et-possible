@@ -87,7 +87,7 @@ const VideoDetournement: React.FC<VideoDetournementProps> = ({ element }) => {
                 {videoDetourneeId && (
                   <div className="ui-videoWrapper">
                     <iframe
-                      src={`https://www.youtube.com/embed/${videoDetourneeId}?rel=0&modestbranding=1`}
+                      src={`https://www.youtube-nocookie.com/embed/${videoDetourneeId}?rel=0&modestbranding=1`}
                       title="Vidéo détournée"
                       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                       allowFullScreen
@@ -117,7 +117,7 @@ const VideoDetournement: React.FC<VideoDetournementProps> = ({ element }) => {
                 {videoOriginaleId && (
                   <div className="ui-videoWrapper">
                     <iframe
-                      src={`https://www.youtube.com/embed/${videoOriginaleId}?rel=0&modestbranding=1`}
+                      src={`https://www.youtube-nocookie.com/embed/${videoOriginaleId}?rel=0&modestbranding=1`}
                       title="Vidéo originale"
                       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                       allowFullScreen

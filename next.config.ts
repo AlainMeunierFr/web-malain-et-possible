@@ -46,13 +46,13 @@ const nextConfig: NextConfig = {
     // CSP : autoriser YouTube (embeds), Matomo (analytics), et les ressources locales
     const cspDirectives = [
       "default-src 'self'",
-      "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.youtube.com https://*.matomo.cloud",
+      "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.youtube-nocookie.com https://*.matomo.cloud https://matomo.m-alain-et-possible.fr",
       "style-src 'self' 'unsafe-inline'",
       "img-src 'self' data: https: blob:",
       "font-src 'self'",
       "frame-src 'self' https://www.youtube.com https://www.youtube-nocookie.com",
-      "connect-src 'self' https://*.matomo.cloud",
-      "media-src 'self' https://www.youtube.com",
+      "connect-src 'self' https://*.matomo.cloud https://matomo.m-alain-et-possible.fr",
+      "media-src 'self' https://www.youtube-nocookie.com",
       "object-src 'none'",
       "base-uri 'self'",
       "form-action 'self'",
@@ -83,6 +83,10 @@ const nextConfig: NextConfig = {
           {
             key: 'Permissions-Policy',
             value: 'camera=(), microphone=(), geolocation=()'
+          },
+          {
+            key: 'Cross-Origin-Opener-Policy',
+            value: 'same-origin'
           },
           {
             key: 'Content-Security-Policy',

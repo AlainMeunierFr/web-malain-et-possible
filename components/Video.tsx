@@ -50,7 +50,7 @@ const Video: React.FC<VideoProps> = ({ element, backgroundColor = 'white' }) => 
   }
 
   // Construction de l'URL d'embed avec paramètres
-  const embedUrl = `https://www.youtube.com/embed/${videoId}?${
+  const embedUrl = `https://www.youtube-nocookie.com/embed/${videoId}?${
     element.lancementAuto ? 'autoplay=1&' : ''
   }rel=0&modestbranding=1`;
 
