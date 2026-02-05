@@ -447,51 +447,44 @@
 .colonneTableauSprint .cartes {
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: 0.4rem;
   overflow-y: auto;
   overflow-x: hidden;
-  /* Hauteur adaptative pour ~3 post-its visibles sans ascenseur page */
-  /* viewport - header - menu - footer - sprint goal - en-têtes - marges = ~480px à soustraire */
+  /* Hauteur adaptative pour post-its visibles */
   max-height: calc(100vh - 480px);
   min-height: 4rem;
-  /* Padding augmenté pour éviter que les coins des post-its tournés soient cachés */
-  padding: 0.75rem 1rem;
+  padding: 0.4rem 0.5rem;
   box-sizing: border-box;
 }
 
 .carteUS {
   position: relative;
-  width: calc(100% - 0.5rem); /* Légèrement plus petit pour laisser de la marge avec rotation */
-  margin: 0 auto; /* Centré */
-  aspect-ratio: 1;
-  padding: 0.5rem;
+  width: calc(100% - 0.25rem);
+  margin: 0 auto;
+  aspect-ratio: 1; /* Post-it = carré ! */
+  padding: 0.4rem;
   border-radius: 0;
   background-color: #f7f7b2;
   border: 0.125rem solid #000;
   flex-shrink: 0;
   box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.1);
   overflow: hidden;
-  /* Container query pour taille de police adaptative */
-  container-type: size;
   min-width: 0;
   max-width: 100%;
   box-sizing: border-box;
-  display: flex;
-  align-items: flex-start;
-  justify-content: flex-start;
   cursor: pointer;
+  /* Pas de flex - contenu en flow normal, texte en haut à gauche */
 }
 
 .carteUS .contenu,
 .carteUS .contenu.titre {
   display: block;
-  width: 100%;
-  height: 100%;
+  margin: 0;
+  padding: 0;
   font-family: 'Clint Marker', cursive;
   color: #1a1a1a;
-  /* Taille grande et adaptative */
-  font-size: clamp(1rem, 4cqi, 1.8rem);
-  line-height: 1.2;
+  font-size: 0.8rem;
+  line-height: 1.15;
   word-wrap: break-word;
   overflow-wrap: break-word;
   hyphens: auto;
@@ -586,10 +579,26 @@
     flex-direction: column;
   }
   
-  /* Réduire la hauteur max des cartes sur mobile */
+  /* Styles cartes sur mobile */
   .tableauSprint .colonneTableauSprint .cartes {
     max-height: calc(100vh - 350px);
     min-height: 150px;
+    padding: 0.75rem 1rem;
+    gap: 0.75rem;
+  }
+  
+  /* Post-its plus grands et carrés sur mobile */
+  .carteUS {
+    width: calc(100% - 0.5rem);
+    aspect-ratio: 1;
+    padding: 0.5rem;
+    container-type: size;
+  }
+  
+  .carteUS .contenu,
+  .carteUS .contenu.titre {
+    font-size: clamp(1.1rem, 4cqi, 1.6rem);
+    line-height: 1.2;
   }
 }
 
