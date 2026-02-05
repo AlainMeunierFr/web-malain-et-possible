@@ -25,10 +25,10 @@ export default function HomePage() {
       {hero ? (
         <>
           <HeroSection element={hero} />
-          <PageContentRenderer contenu={contenuSansHeroTexteLarge} />
+          <PageContentRenderer contenu={contenuSansHeroTexteLarge} isHomePage />
         </>
       ) : (
-        <PageContentRenderer contenu={contenu} />
+        <PageContentRenderer contenu={contenu} isHomePage />
       )}
     </main>
   );

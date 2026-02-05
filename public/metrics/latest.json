@@ -1,18 +1,18 @@
 {
-  "timestamp": "2026-02-05T01:26:55.951Z",
+  "timestamp": "2026-02-05T02:08:16.407Z",
   "branch": "main",
-  "commit": "bdb1283",
+  "commit": "5a081c8",
   "tests": {
-    "unitTests": 911,
-    "unitTestFiles": 88,
-    "unitTestPassed": 911,
+    "unitTests": 943,
+    "unitTestFiles": 90,
+    "unitTestPassed": 943,
     "unitTestFailed": 0,
-    "unitTestDuration": 11361,
+    "unitTestDuration": 14723,
     "integrationTests": 31,
     "integrationTestFiles": 5,
     "integrationTestPassed": 31,
     "integrationTestFailed": 0,
-    "integrationTestDuration": 8537,
+    "integrationTestDuration": 7777,
     "bddFeatures": 28,
     "bddScenarios": 233,
     "bddScenariosPassed": 233,
@@ -28,35 +28,35 @@
       "total": 3,
       "passed": 2,
       "failed": 1,
-      "duration": 24711,
-      "lastRunDate": "2026-02-05T01:26:55.918Z"
+      "duration": 37816,
+      "lastRunDate": "2026-02-05T02:08:16.367Z"
     },
-    "totalTests": 1187,
-    "totalTestFiles": 122,
-    "passingTests": 1186,
+    "totalTests": 1219,
+    "totalTestFiles": 124,
+    "passingTests": 1218,
     "failingTests": 1,
-    "testDuration": 44609
+    "testDuration": 60316
   },
   "coverage": {
     "lines": {
-      "total": 3915,
-      "covered": 3120,
-      "percentage": 79.69
+      "total": 3807,
+      "covered": 3150,
+      "percentage": 82.74
     },
     "statements": {
-      "total": 4219,
-      "covered": 3317,
-      "percentage": 78.62
+      "total": 4084,
+      "covered": 3346,
+      "percentage": 81.92
     },
     "functions": {
-      "total": 728,
-      "covered": 530,
-      "percentage": 72.8
+      "total": 626,
+      "covered": 527,
+      "percentage": 84.18
     },
     "branches": {
-      "total": 3132,
-      "covered": 1994,
-      "percentage": 63.66
+      "total": 3137,
+      "covered": 2054,
+      "percentage": 65.47
     }
   },
   "quality": {
@@ -69,14 +69,14 @@
   },
   "size": {
     "totalFiles": 103,
-    "totalLines": 15447,
-    "sourceLines": 15447,
+    "totalLines": 15457,
+    "sourceLines": 15457,
     "commentLines": 0,
     "blankLines": 0,
     "components": 42,
     "pages": 15,
     "utils": 46,
-    "tests": 93
+    "tests": 95
   },
   "dependencies": {
     "total": 40,
@@ -92,8 +92,8 @@
     }
   },
   "performance": {
-    "bundleSize": 2234,
-    "buildTime": 21227,
+    "bundleSize": 0,
+    "buildTime": 0,
     "lighthouseScore": "NC"
   }
 }

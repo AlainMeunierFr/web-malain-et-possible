@@ -179,13 +179,8 @@ describe('DomaineDeCompetences', () => {
 
       // ASSERT
       const experiencesContainer = container.querySelector('.experiencesContainer');
-      const domaineElement = container.querySelector('.domaineDeCompetence');
       
       expect(experiencesContainer).toBeInTheDocument();
-      
-      // Vérifier que experiencesContainer a width: 100%
-      const styles = window.getComputedStyle(experiencesContainer!);
-      // Note: getComputedStyle ne fonctionne pas en test, on vérifie la classe CSS
       expect(experiencesContainer).toHaveClass('experiencesContainer');
     });
 
@@ -255,6 +250,211 @@ describe('DomaineDeCompetences', () => {
       // ASSERT
       const titreElements = screen.queryAllByText('Gestion de crise - Réorganisation après départ associé');
       expect(titreElements.length).toBe(1);
+    });
+
+    it('devrait trier les expériences par période décroissante (plus récente en premier)', () => {
+      const domaine: ElementDomaineDeCompetence = {
+        type: 'domaineDeCompetence',
+        titre: 'Test Domaine',
+        contenu: 'Contenu du domaine',
+        items: [],
+        experiences: [
+          {
+            id: '1',
+            type: 'Expériences et apprentissages',
+            description: 'Ancienne',
+            periode: '2015-2018',
+          },
+          {
+            id: '2',
+            type: 'Expériences et apprentissages',
+            description: 'Récente',
+            periode: '2020-2023',
+          },
+          {
+            id: '3',
+            type: 'Expériences et apprentissages',
+            description: 'Depuis 2024',
+            periode: 'Depuis 2024',
+          },
+        ],
+      };
+
+      render(<DomaineDeCompetences domaine={domaine} />);
+      ouvrirExperiences();
+
+      const experienceItems = screen.getAllByRole('listitem');
+      // Les expériences devraient être triées : Depuis 2024, 2020-2023, 2015-2018
+      expect(experienceItems[0]).toHaveTextContent('Depuis 2024');
+      expect(experienceItems[1]).toHaveTextContent('Récente');
+      expect(experienceItems[2]).toHaveTextContent('Ancienne');
+    });
+
+    it('devrait placer les expériences sans période en premier', () => {
+      const domaine: ElementDomaineDeCompetence = {
+        type: 'domaineDeCompetence',
+        titre: 'Test Domaine',
+        contenu: 'Contenu du domaine',
+        items: [],
+        experiences: [
+          {
+            id: '1',
+            type: 'Expériences et apprentissages',
+            description: 'Avec période',
+            periode: '2020',
+          },
+          {
+            id: '2',
+            type: 'Expériences et apprentissages',
+            description: 'Sans période',
+            periode: null,
+          },
+        ],
+      };
+
+      render(<DomaineDeCompetences domaine={domaine} />);
+      ouvrirExperiences();
+
+      const experienceItems = screen.getAllByRole('listitem');
+      expect(experienceItems[0]).toHaveTextContent('Sans période');
+    });
+
+    it('devrait afficher une description avec liste à puces', () => {
+      const domaine: ElementDomaineDeCompetence = {
+        type: 'domaineDeCompetence',
+        titre: 'Test Domaine',
+        contenu: 'Contenu du domaine',
+        items: [
+          {
+            type: 'competence',
+            titre: 'Compétence',
+            description: 'Intro\n- Point 1\n- Point 2',
+            bouton: null,
+          },
+        ],
+      };
+
+      const { container } = render(<DomaineDeCompetences domaine={domaine} />);
+      
+      // Vérifier qu'une liste est créée
+      const list = container.querySelector('.markdownList');
+      expect(list).toBeInTheDocument();
+    });
+  });
+
+  describe('Protection contre données invalides', () => {
+    it('devrait retourner null si items est undefined', () => {
+      const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+      
+      const domaine = {
+        type: 'domaineDeCompetence',
+        titre: 'Test Domaine',
+        contenu: 'Contenu',
+      } as unknown as ElementDomaineDeCompetence;
+
+      const { container } = render(<DomaineDeCompetences domaine={domaine} />);
+      
+      expect(container.firstChild).toBeNull();
+      expect(consoleSpy).toHaveBeenCalled();
+      
+      consoleSpy.mockRestore();
+    });
+
+    it('devrait retourner null si items n\'est pas un tableau', () => {
+      const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+      
+      const domaine = {
+        type: 'domaineDeCompetence',
+        titre: 'Test Domaine',
+        contenu: 'Contenu',
+        items: 'not an array',
+      } as unknown as ElementDomaineDeCompetence;
+
+      const { container } = render(<DomaineDeCompetences domaine={domaine} />);
+      
+      expect(container.firstChild).toBeNull();
+      expect(consoleSpy).toHaveBeenCalled();
+      
+      consoleSpy.mockRestore();
+    });
+  });
+
+  describe('Gestion des boutons', () => {
+    it('devrait afficher un bouton avec lien interne', () => {
+      const domaine: ElementDomaineDeCompetence = {
+        type: 'domaineDeCompetence',
+        titre: 'Test Domaine',
+        contenu: 'Contenu du domaine',
+        items: [
+          {
+            type: 'competence',
+            titre: 'Compétence',
+            description: 'Description',
+            bouton: {
+              texte: 'Voir plus',
+              action: '/profil/test',
+            },
+          },
+        ],
+      };
+
+      render(<DomaineDeCompetences domaine={domaine} />);
+      
+      expect(screen.getByText('Voir plus')).toBeInTheDocument();
+    });
+
+    it('devrait afficher un bouton avec lien externe', () => {
+      const domaine: ElementDomaineDeCompetence = {
+        type: 'domaineDeCompetence',
+        titre: 'Test Domaine',
+        contenu: 'Contenu du domaine',
+        items: [
+          {
+            type: 'competence',
+            titre: 'Compétence',
+            description: 'Description',
+            bouton: {
+              texte: 'Site externe',
+              action: 'https://example.com',
+            },
+          },
+        ],
+      };
+
+      render(<DomaineDeCompetences domaine={domaine} />);
+      
+      const link = screen.getByText('Site externe');
+      expect(link).toBeInTheDocument();
+      expect(link.closest('a')).toHaveAttribute('href', 'https://example.com');
+      expect(link.closest('a')).toHaveAttribute('target', '_blank');
+    });
+  });
+
+  describe('Couleur de fond', () => {
+    it('devrait appliquer la classe light quand backgroundColor est light', () => {
+      const domaine: ElementDomaineDeCompetence = {
+        type: 'domaineDeCompetence',
+        titre: 'Test Domaine',
+        contenu: 'Contenu',
+        items: [],
+      };
+
+      const { container } = render(<DomaineDeCompetences domaine={domaine} backgroundColor="light" />);
+      
+      expect(container.querySelector('.domaineDeCompetence')).toHaveClass('light');
+    });
+
+    it('devrait ne pas appliquer la classe light par défaut', () => {
+      const domaine: ElementDomaineDeCompetence = {
+        type: 'domaineDeCompetence',
+        titre: 'Test Domaine',
+        contenu: 'Contenu',
+        items: [],
+      };
+
+      const { container } = render(<DomaineDeCompetences domaine={domaine} />);
+      
+      expect(container.querySelector('.domaineDeCompetence')).not.toHaveClass('light');
     });
   });
 });

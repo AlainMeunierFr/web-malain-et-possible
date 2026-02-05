@@ -23,9 +23,11 @@ export interface PageContentRendererProps {
   contenu: ElementContenu[];
   /** Liste des pages du plan du site (ex. depuis plan-du-site.json). Optionnel : ListeDesPages fera un fetch si absent. */
   listeDesPagesInitial?: { url: string; titre: string }[];
+  /** Si true, désactive l'alternance de fond (pour la HomePage) */
+  isHomePage?: boolean;
 }
 
-const PageContentRenderer: React.FC<PageContentRendererProps> = ({ contenu, listeDesPagesInitial }) => {
+const PageContentRenderer: React.FC<PageContentRendererProps> = ({ contenu, listeDesPagesInitial, isHomePage = false }) => {
   const { setPageTitle } = usePageTitle();
   
   // Extraire le TitreDePage et le mettre dans le contexte
@@ -43,25 +45,38 @@ const PageContentRenderer: React.FC<PageContentRendererProps> = ({ contenu, list
     };
   }, [contenu, setPageTitle]);
   
-  // Calculer l'index relatif (en ignorant les titres et vidéos) pour l'alternance de fond
-  // Seuls les DomaineDeCompetences participent à l'alternance
-  let contentIndex = -1; // Commence à -1 car on incrémente avant d'utiliser
+  // Compteur pour l'alternance de fond (tous les TypeDeContenu sauf titreDePage et hero)
+  // On compte à partir de 1 : impair = blanc, pair = bleu clair
+  let contentIndex = 0;
+  
+  // Fonction helper pour déterminer la classe de fond
+  const getBackgroundClass = (currentIndex: number): string => {
+    if (isHomePage) return ''; // Pas d'alternance sur HomePage
+    // Impair (1, 3, 5...) = blanc (pas de classe), Pair (2, 4, 6...) = bleu clair
+    return currentIndex % 2 === 0 ? 'fondBleuClair' : '';
+  };
   
   return (
     <>
       {contenu.map((element, index) => {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const elementAny = element as any;
         
-        // Les titres remettent le compteur à zéro
-        if (element.type === 'titre') {
-          contentIndex = -1;
-        }
+        // Types qui ne participent pas à l'alternance
+        const typesExclus = ['titreDePage', 'hero', 'listeDesExperiencesEtApprentissage'];
         
-        // Incrémenter l'index de contenu seulement pour les DomaineDeCompetences
-        // Les vidéos ne participent pas à l'alternance et ont toujours un fond blanc
-        if (element.type === 'domaineDeCompetence') {
+        // Incrémenter le compteur pour tous les TypeDeContenu sauf les exclus
+        if (!typesExclus.includes(element.type)) {
           contentIndex++;
         }
+        
+        const bgClass = getBackgroundClass(contentIndex);
+        
+        // Helper pour envelopper un composant avec la classe de fond
+        const wrapWithBackground = (component: React.ReactNode, key: number) => {
+          if (!bgClass) return component;
+          return <section key={key} className={bgClass}>{component}</section>;
+        };
         
         switch (element.type) {
           case 'hero':
@@ -70,21 +85,14 @@ const PageContentRenderer: React.FC<PageContentRendererProps> = ({ contenu, list
             // Ne pas afficher le TitreDePage dans le contenu, il est affiché dans le Header
             return null;
           case 'titre':
-            return <Titre key={index} element={element} />;
+            return wrapWithBackground(<Titre key={index} element={element} />, index);
           case 'video':
-            // Les vidéos ont toujours un fond blanc
-            return <Video key={index} element={element} backgroundColor="white" />;
+            return wrapWithBackground(<Video key={index} element={element} />, index);
           case 'texteLarge':
-            return <TexteLarge key={index} element={element} />;
+            return wrapWithBackground(<TexteLarge key={index} element={element} />, index);
           case 'domaineDeCompetence': {
             // Type guard : TypeScript sait maintenant que element est ElementDomaineDeCompetence
             const domaineElement = element as import('../utils').ElementDomaineDeCompetence;
-            
-            // Déterminer la couleur de fond : pair = blanc, impair = bleu clair
-            // Le premier après un titre (index 0, pair) est toujours blanc
-            const backgroundColor = contentIndex % 2 === 0 
-              ? 'white' // Index pair (0, 2, 4...) = blanc
-              : 'light'; // Index impair (1, 3, 5...) = bleu clair
             
             // Vérifier que le domaine a bien été résolu (a des items, pas de ref)
             if ('ref' in domaineElement) {
@@ -97,6 +105,9 @@ const PageContentRenderer: React.FC<PageContentRendererProps> = ({ contenu, list
               return null;
             }
             
+            // Passer la couleur de fond au composant (il gère son propre style)
+            const backgroundColor = (bgClass === 'fondBleuClair') ? 'light' : 'white';
+            
             return (
               <DomaineDeCompetences
                 key={index}
@@ -106,17 +117,17 @@ const PageContentRenderer: React.FC<PageContentRendererProps> = ({ contenu, list
             );
           }
           case 'callToAction':
-            return <CallToAction key={index} element={element} />;
+            return wrapWithBackground(<CallToAction key={index} element={element} />, index);
           case 'groupeDeBoutons':
-            return <GroupeBoutons key={index} element={element} />;
+            return wrapWithBackground(<GroupeBoutons key={index} element={element} />, index);
           case 'listeDesPages':
-            return <ListeDesPages key={index} initialPages={listeDesPagesInitial} />;
+            return wrapWithBackground(<ListeDesPages key={index} initialPages={listeDesPagesInitial} />, index);
           case 'listeDeDetournementsVideo':
-            return <VideoDetournement key={index} element={elementAny} />;
+            return wrapWithBackground(<VideoDetournement key={index} element={elementAny} />, index);
           case 'listeDeTemoignages':
-            return <Temoignages key={index} element={elementAny} />;
+            return wrapWithBackground(<Temoignages key={index} element={elementAny} />, index);
           case 'listeDeProfils':
-            return <BlocsProfils key={index} element={element} />;
+            return wrapWithBackground(<BlocsProfils key={index} element={element} />, index);
           case 'listeDesExperiencesEtApprentissage':
             /* Conteneur logique utilisé uniquement en mode lecture (domaineDeCompetence.experiences) */
             return null;

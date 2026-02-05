@@ -13,7 +13,7 @@ export default function MesProfilsPage() {
 
   return (
     <main className="main">
-      <PageContentRenderer contenu={pageData.contenu} />
+      <PageContentRenderer contenu={pageData.contenu} isHomePage />
     </main>
   );
 }

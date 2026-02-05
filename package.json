@@ -19,7 +19,7 @@
     "build:analyze": "ANALYZE=true ts-node scripts/increment-site-version.ts sync && ts-node scripts/increment-site-version.ts patch && next build",
     "start": "next start",
     "lint": "eslint",
-    "metrics:collect": "ts-node scripts/collect-metrics-simple.ts",
+    "metrics:collect": "tsx scripts/collect-metrics-simple.ts",
     "metrics:view": "npm run dev",
     "metrics:full": "npm run metrics:collect && npm run dev",
     "publie": "ts-node scripts/publie.ts",

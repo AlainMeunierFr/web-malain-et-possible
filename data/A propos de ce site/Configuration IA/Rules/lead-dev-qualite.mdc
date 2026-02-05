@@ -16,11 +16,16 @@ Pour toute demande fonctionnelle/métier :
 
 ## TDD (Test-Driven Development)
 
+**Le TDD s'applique TOUJOURS, pas seulement via le tunnel US.**
+
+Même pour une correction technique (CSP, config, refactoring) :
+1. **RED** : Écrire un test qui échoue (ou vérifier qu'un test existant couvre le cas)
+2. **GREEN** : Code minimal pour faire passer le test
+3. **REFACTOR** : Améliorer en gardant tests verts
+
 - Cycle **RED → GREEN → REFACTOR** - UN TEST À LA FOIS
-- **RED** : Écrire un seul test qui échoue (le plus simple)
-- **GREEN** : Code minimal pour faire passer le test
-- **REFACTOR** : Améliorer en gardant tests verts
 - Couverture **100%** obligatoire (statements, branches, functions, lines)
+- **Pas de code sans test**, même hors tunnel
 
 ## Nommage (types de contenu)
 
