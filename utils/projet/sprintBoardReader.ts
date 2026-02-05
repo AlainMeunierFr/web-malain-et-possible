@@ -329,3 +329,40 @@ export function readUsContent(usId: string): UsContent | null {
 function escapeRegex(s: string): string {
   return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
+
+/**
+ * Retourne le chemin relatif du dernier sprint connu qui contient des US (fichiers US-*.md).
+ * Les dossiers sont nommés "YYYY-MM-DD - Description" donc un tri alphabétique inversé donne le plus récent.
+ * On parcourt les sprints du plus récent au plus ancien jusqu'à en trouver un avec des US.
+ */
+export function getLatestSprintFolder(): string | null {
+  const sprintsPath = path.join(process.cwd(), SPRINTS_DIR.split('/').join(path.sep));
+  let dirs: fs.Dirent[];
+  try {
+    dirs = fs.readdirSync(sprintsPath, { withFileTypes: true });
+  } catch {
+    return null;
+  }
+  // Filtrer les dossiers qui commencent par une date YYYY-MM-DD, triés du plus récent au plus ancien
+  const sprintDirs = dirs
+    .filter((d) => d.isDirectory() && /^\d{4}-\d{2}-\d{2}/.test(d.name))
+    .map((d) => d.name)
+    .sort()
+    .reverse();
+  
+  // Trouver le premier sprint qui contient des fichiers US-*.md
+  for (const dirName of sprintDirs) {
+    const sprintPath = path.join(sprintsPath, dirName);
+    try {
+      const files = fs.readdirSync(sprintPath, { withFileTypes: true });
+      const hasUs = files.some((f) => f.isFile() && f.name.endsWith('.md') && /^US-\d+\.\d+\s+-/.test(f.name));
+      if (hasUs) {
+        return path.join(SPRINTS_DIR, dirName).split(path.sep).join('/');
+      }
+    } catch {
+      continue;
+    }
+  }
+  
+  return null;
+}

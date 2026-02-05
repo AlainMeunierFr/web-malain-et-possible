@@ -297,8 +297,8 @@
 
 /* Zone de contenu sous le menu fixed */
 .contenuAPropos {
-  /* Espace pour le menu fixed (hauteur ~50px + padding + marge sécurité + décalage 8px) */
-  padding-top: calc(4.5rem + 8px);
+  /* Espace pour le menu fixed (hauteur ~50px + petite marge) */
+  padding-top: 2.5rem;
 }
 
 /* ========== En-tête tableau de bord (Sprint Goal uniquement) ========== */
@@ -447,28 +447,32 @@
 .colonneTableauSprint .cartes {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 0.75rem;
   overflow-y: auto;
   overflow-x: hidden;
   /* Hauteur adaptative pour ~3 post-its visibles sans ascenseur page */
   /* viewport - header - menu - footer - sprint goal - en-têtes - marges = ~480px à soustraire */
   max-height: calc(100vh - 480px);
   min-height: 4rem;
-  padding: 0.25rem 0.75rem;
+  /* Padding augmenté pour éviter que les coins des post-its tournés soient cachés */
+  padding: 0.75rem 1rem;
   box-sizing: border-box;
 }
 
 .carteUS {
   position: relative;
-  width: 100%;
+  width: calc(100% - 0.5rem); /* Légèrement plus petit pour laisser de la marge avec rotation */
+  margin: 0 auto; /* Centré */
   aspect-ratio: 1;
-  padding: 0.35rem 0.5rem;
+  padding: 0.5rem;
   border-radius: 0;
   background-color: #f7f7b2;
   border: 0.125rem solid #000;
   flex-shrink: 0;
   box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.1);
   overflow: hidden;
+  /* Container query pour taille de police adaptative */
+  container-type: size;
   min-width: 0;
   max-width: 100%;
   box-sizing: border-box;
@@ -481,16 +485,17 @@
 .carteUS .contenu,
 .carteUS .contenu.titre {
   display: block;
-  flex: 1 1 0;
-  min-width: 0;
-  min-height: 0;
+  width: 100%;
+  height: 100%;
   font-family: 'Clint Marker', cursive;
   color: #1a1a1a;
-  font-size: 0.76rem;
-  line-height: 1.25;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  /* Taille grande et adaptative */
+  font-size: clamp(1rem, 4cqi, 1.8rem);
+  line-height: 1.2;
   word-wrap: break-word;
+  overflow-wrap: break-word;
+  hyphens: auto;
+  white-space: normal;
 }
 
 .carteUS .contenu strong {
@@ -508,19 +513,84 @@
   pointer-events: none;
 }
 
-/* Focus sur l'US en cours */
+/* Focus sur l'US en cours - style subtil sans contour bleu */
 .carteUS--focus {
-  border: 0.25rem solid var(--BleuFonce) !important;
-  box-shadow: 0 0 0 0.25rem var(--BleuClair), 0 0.25rem 0.5rem rgba(0, 0, 0, 0.2) !important;
   z-index: 10;
   position: relative;
 }
 
-/* Focus sur la colonne "A faire" si pas d'US en cours */
-.colonneTableauSprint--focus {
-  border: 0.25rem solid var(--BleuFonce) !important;
-  box-shadow: 0 0 0 0.25rem var(--BleuClair), 0 0.25rem 0.5rem rgba(0, 0, 0, 0.2) !important;
-  background-color: rgba(0, 0, 0, 0.02);
+/* ========== Navigation mobile Kanban ========== */
+
+/* Cachée sur desktop */
+.kanbanMobileNav {
+  display: none;
+}
+
+/* Visible sur mobile */
+@media (max-width: 768px) {
+  .kanbanMobileNav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.5rem;
+    background: var(--BleuFonce);
+    border-radius: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .kanbanNavBtn {
+    background: transparent;
+    border: none;
+    color: white;
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 0.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s;
+  }
+  
+  .kanbanNavBtn:hover:not(:disabled) {
+    background: rgba(255, 255, 255, 0.2);
+  }
+  
+  .kanbanNavBtn:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+  }
+  
+  .kanbanNavLabel {
+    color: white;
+    font-weight: bold;
+    font-size: 1rem;
+    text-transform: uppercase;
+  }
+  
+  /* Sur mobile, masquer toutes les colonnes sauf celle visible */
+  .colonneTableauSprint {
+    display: none !important;
+  }
+  
+  .colonneTableauSprint--mobileVisible {
+    display: flex !important;
+    width: 100% !important;
+    min-width: 100% !important;
+    max-width: 100% !important;
+    min-height: 450px; /* Au moins la taille d'un post-it */
+  }
+  
+  /* La grille n'a qu'une colonne sur mobile */
+  .tableauSprint .grille .ligne {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  /* Réduire la hauteur max des cartes sur mobile */
+  .tableauSprint .colonneTableauSprint .cartes {
+    max-height: calc(100vh - 350px);
+    min-height: 150px;
+  }
 }
 
 /* ========== Modal détail US (US-11.6) ========== */
@@ -545,21 +615,22 @@
   border: 0.125rem solid #000;
   border-radius: 0;
   width: 100%;
-  max-width: 56rem;
-  max-height: 100%;
+  max-width: 40rem;
+  max-height: min(500px, 70vh);
   display: flex;
   flex-direction: column;
   min-height: 0;
   font-family: 'Clint Marker', cursive;
   box-shadow: 0 0.5rem 2rem rgba(0, 0, 0, 0.2);
+  overflow: hidden;
 }
 
 .modalDetailUS .enTete {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  gap: 1rem;
-  padding: 1rem 1.25rem;
+  gap: 0.75rem;
+  padding: 0.5rem 1rem;
   border-bottom: 0.0625rem solid #000;
   flex-shrink: 0;
   font-family: 'Clint Marker', cursive;
@@ -593,7 +664,7 @@
 
 .modalDetailUS .zoneFixe {
   flex-shrink: 0;
-  padding: 0.75rem 1.25rem;
+  padding: 0.5rem 1rem;
   border-bottom: 0.0625rem solid #000;
   font-family: 'Clint Marker', cursive;
   overflow: hidden;
@@ -608,7 +679,7 @@
   flex: 1 1 auto;
   min-height: 0;
   overflow-y: auto;
-  padding: 1rem 1.25rem;
+  padding: 0.5rem 1rem;
   font-family: 'Clint Marker', cursive;
 }
 

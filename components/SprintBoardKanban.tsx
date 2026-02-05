@@ -1,7 +1,8 @@
 'use client';
 
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState, useRef } from 'react';
 import dynamic from 'next/dynamic';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { parseInlineMarkdown } from '../utils/client';
 
 const UsDetailModal = dynamic(() => import('./UsDetailModal'), { ssr: false });
@@ -66,6 +67,8 @@ export default function SprintBoardKanban({ initialData: initialDataProp, hideGo
   const [error, setError] = useState<string | null>(null);
   const [usDetail, setUsDetail] = useState<UsContent | null>(null);
   const [loadingUs, setLoadingUs] = useState(false);
+  const [mobileColumnOffset, setMobileColumnOffset] = useState(0); // Offset depuis l'index initial
+  const grilleRef = useRef<HTMLDivElement>(null);
   const isControlled = initialDataProp !== undefined;
 
   const openUsDetail = useCallback((usId: string) => {
@@ -101,6 +104,27 @@ export default function SprintBoardKanban({ initialData: initialDataProp, hideGo
       .catch(() => setError('Impossible de charger le board'));
   }, [isControlled, initialDataProp]);
 
+  // Calculer l'index de la colonne avec l'US en cours (ou dernière colonne)
+  const columnsLength = effectiveData?.columns?.length ?? 0;
+  const usEnCoursForIndex = effectiveData?.cards?.find((c) => c.state === 'en_cours');
+  let baseColumnIndex = columnsLength > 0 ? columnsLength - 1 : 0;
+  if (usEnCoursForIndex?.agentColumn && effectiveData?.columns) {
+    const idx = effectiveData.columns.findIndex((col) => col.id === usEnCoursForIndex.agentColumn);
+    if (idx >= 0) baseColumnIndex = idx;
+  }
+
+  // Index courant = base + offset (clampé)
+  const mobileColumnIndex = Math.max(0, Math.min(columnsLength - 1, baseColumnIndex + mobileColumnOffset));
+
+  const navigateMobile = (direction: 'prev' | 'next') => {
+    if (!columnsLength) return;
+    setMobileColumnOffset((prev) => {
+      const newIndex = baseColumnIndex + prev + (direction === 'prev' ? -1 : 1);
+      if (newIndex < 0 || newIndex >= columnsLength) return prev;
+      return prev + (direction === 'prev' ? -1 : 1);
+    });
+  };
+
   if (error && !effectiveData?.columns?.length) {
     return (
       <div className="tableauSprint">
@@ -119,12 +143,12 @@ export default function SprintBoardKanban({ initialData: initialDataProp, hideGo
 
   const showGoal = !hideGoal && effectiveData.goal;
 
-  // Trouver la première US en cours pour le focus
+  // Trouver la première US en cours pour le focus visuel
   const firstUsEnCours = effectiveData.cards.find((card) => card.state === 'en_cours');
-  // Trouver la première colonne "A faire" si pas d'US en cours
-  const firstColumnAFaire = !firstUsEnCours 
-    ? effectiveData.columns.find((col) => col.type === 'a_faire')
-    : null;
+  
+  // Navigation mobile
+  const canGoPrev = mobileColumnIndex > 0;
+  const canGoNext = mobileColumnIndex < effectiveData.columns.length - 1;
 
   return (
     <div className="tableauSprint">
@@ -135,14 +159,40 @@ export default function SprintBoardKanban({ initialData: initialDataProp, hideGo
           ))}
         </div>
       )}
-      <div className="grille" role="table" aria-label="Board KanBan du sprint">
+      
+      {/* Navigation mobile */}
+      <div className="kanbanMobileNav">
+        <button
+          type="button"
+          className="kanbanNavBtn kanbanNavPrev"
+          onClick={() => navigateMobile('prev')}
+          disabled={!canGoPrev}
+          aria-label="Colonne précédente"
+        >
+          <ChevronLeft size={32} />
+        </button>
+        <span className="kanbanNavLabel">
+          {effectiveData.columns[mobileColumnIndex]?.label ?? ''}
+        </span>
+        <button
+          type="button"
+          className="kanbanNavBtn kanbanNavNext"
+          onClick={() => navigateMobile('next')}
+          disabled={!canGoNext}
+          aria-label="Colonne suivante"
+        >
+          <ChevronRight size={32} />
+        </button>
+      </div>
+      
+      <div className="grille" ref={grilleRef} role="table" aria-label="Board KanBan du sprint">
         <div className="ligne ligneStatique" role="row">
-          {effectiveData.columns.map((col) => {
-            const isFocusColumn = firstColumnAFaire?.id === col.id;
+          {effectiveData.columns.map((col, colIndex) => {
+            const isMobileVisible = colIndex === mobileColumnIndex;
             return (
               <div
                 key={col.id}
-                className={`colonneTableauSprint ${isFocusColumn ? 'colonneTableauSprint--focus' : ''}`}
+                className={`colonneTableauSprint ${isMobileVisible ? 'colonneTableauSprint--mobileVisible' : ''}`}
                 role="columnheader"
                 data-column-id={col.id}
                 data-column-type={col.type}
@@ -154,34 +204,34 @@ export default function SprintBoardKanban({ initialData: initialDataProp, hideGo
                   </span>
                 </div>
                 <div className="cartes" role="rowgroup">
-                                  {getCardsForColumn(col, effectiveData.cards).map((card) => {
-                                    const isFocusCard = firstUsEnCours?.id === card.id;
-                                    const rotation = card.rotation ?? 0;
-                                    const transform = isFocusCard 
-                                      ? `rotate(${rotation}deg) scale(1.05)`
-                                      : `rotate(${rotation}deg)`;
-                                    return (
-                                      <div
-                                        key={card.id}
-                                        className={`carteUS ${isFocusCard ? 'carteUS--focus' : ''}`}
-                                        data-us-id={card.id}
-                                        data-state={card.state}
-                                        style={{ transform }}
-                                        role="button"
-                                        tabIndex={0}
-                                        aria-label={`Voir le détail de ${card.id} - ${card.titre}`}
-                                        onClick={() => openUsDetail(card.id)}
-                                        onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && openUsDetail(card.id)}
-                                      >
-                                        {card.enRevue && (
-                                          <span className="badgeEnRevue" aria-label="En revue">🔍</span>
-                                        )}
-                                        <span className="contenu titre">
-                                          {parseInlineMarkdown(`**${card.id}** - ${card.titre}`)}
-                                        </span>
-                                      </div>
-                                    );
-                                  })}
+                  {getCardsForColumn(col, effectiveData.cards).map((card) => {
+                    const isFocusCard = firstUsEnCours?.id === card.id;
+                    const rotation = card.rotation ?? 0;
+                    const transform = isFocusCard 
+                      ? `rotate(${rotation}deg) scale(1.05)`
+                      : `rotate(${rotation}deg)`;
+                    return (
+                      <div
+                        key={card.id}
+                        className={`carteUS ${isFocusCard ? 'carteUS--focus' : ''}`}
+                        data-us-id={card.id}
+                        data-state={card.state}
+                        style={{ transform }}
+                        role="button"
+                        tabIndex={0}
+                        aria-label={`Voir le détail de ${card.id} - ${card.titre}`}
+                        onClick={() => openUsDetail(card.id)}
+                        onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && openUsDetail(card.id)}
+                      >
+                        {card.enRevue && (
+                          <span className="badgeEnRevue" aria-label="En revue">🔍</span>
+                        )}
+                        <span className="contenu titre">
+                          {parseInlineMarkdown(`**${card.id}** - ${card.titre}`)}
+                        </span>
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
             );

@@ -11,6 +11,7 @@ import {
   readAgentsFromAgentsJson,
   readUsEnCours,
   getSprintFolderContainingUs,
+  getLatestSprintFolder,
   readSprintUsCards,
   getSprintBoardData,
   readUsContent,
@@ -19,13 +20,11 @@ import {
 describe('sprintBoardReader', () => {
   let readFileSyncSpy: jest.SpyInstance;
   let readdirSyncSpy: jest.SpyInstance;
-  let pathJoinSpy: jest.SpyInstance;
-  let cwdSpy: jest.SpyInstance;
 
   beforeEach(() => {
     jest.clearAllMocks();
-    cwdSpy = jest.spyOn(process, 'cwd').mockReturnValue('/project');
-    pathJoinSpy = jest.spyOn(path, 'join').mockImplementation((...args) => args.join('/'));
+    jest.spyOn(process, 'cwd').mockReturnValue('/project');
+    jest.spyOn(path, 'join').mockImplementation((...args) => args.join('/'));
     readFileSyncSpy = jest.spyOn(fs, 'readFileSync');
     readdirSyncSpy = jest.spyOn(fs, 'readdirSync');
   });
@@ -562,6 +561,53 @@ BDD
       const result = readUsContent('US-11.4');
 
       expect(result?.titre).toBe('Affichage Path avec accordéon');
+    });
+  });
+
+  describe('getLatestSprintFolder', () => {
+    it('retourne le dossier sprint le plus récent contenant des US', () => {
+      readdirSyncSpy
+        .mockReturnValueOnce([
+          { name: '2026-01-22 - Sprint ancien', isDirectory: () => true, isFile: () => false },
+          { name: '2026-01-30 - Sprint récent', isDirectory: () => true, isFile: () => false },
+          { name: '2026-02-04 - Sprint vide', isDirectory: () => true, isFile: () => false },
+        ] as fs.Dirent[])
+        // Premier sprint testé (2026-02-04) - pas d'US
+        .mockReturnValueOnce([
+          { name: 'fichier.txt', isDirectory: () => false, isFile: () => true },
+        ] as fs.Dirent[])
+        // Deuxième sprint testé (2026-01-30) - a des US
+        .mockReturnValueOnce([
+          { name: 'US-12.1 - Une US.md', isDirectory: () => false, isFile: () => true },
+        ] as fs.Dirent[]);
+
+      const result = getLatestSprintFolder();
+
+      expect(result).toBe('data/A propos de ce site/Sprints/2026-01-30 - Sprint récent');
+    });
+
+    it('retourne null si aucun dossier sprint contient des US', () => {
+      readdirSyncSpy
+        .mockReturnValueOnce([
+          { name: '2026-01-30 - Sprint vide', isDirectory: () => true, isFile: () => false },
+        ] as fs.Dirent[])
+        .mockReturnValueOnce([
+          { name: 'fichier.txt', isDirectory: () => false, isFile: () => true },
+        ] as fs.Dirent[]);
+
+      const result = getLatestSprintFolder();
+
+      expect(result).toBeNull();
+    });
+
+    it('retourne null si le dossier Sprints est inaccessible', () => {
+      readdirSyncSpy.mockImplementation(() => {
+        throw new Error('ENOENT');
+      });
+
+      const result = getLatestSprintFolder();
+
+      expect(result).toBeNull();
     });
   });
 });

@@ -17,6 +17,7 @@ export {
   readAgentsFromAgentsJson,
   readUsEnCours,
   getSprintFolderContainingUs,
+  getLatestSprintFolder,
   readSprintUsCards,
   getSprintBoardData,
   readUsContent,
