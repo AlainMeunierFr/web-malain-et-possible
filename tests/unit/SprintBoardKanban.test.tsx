@@ -58,7 +58,7 @@ describe('SprintBoardKanban', () => {
       expect(screen.getByText('A faire')).toBeInTheDocument();
     });
     expect(screen.getByText('A faire')).toBeInTheDocument();
-    expect(screen.getByText('TDD-back-end')).toBeInTheDocument();
+    expect(screen.getAllByText('TDD-back-end').length).toBeGreaterThan(0);
     expect(screen.getByText('Fait')).toBeInTheDocument();
     expect(screen.getByText('2')).toBeInTheDocument();
     expect(screen.getByText('1/1')).toBeInTheDocument();

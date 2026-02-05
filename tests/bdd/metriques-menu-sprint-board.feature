@@ -20,7 +20,7 @@ Fonctionnalité: Déplacer Métriques vers menu Sprint Board (US-12.5)
     Étant donné que je suis sur la page "A propos de ce site"
     Quand je regarde le menu horizontal
     Alors je vois un bouton "Métriques"
-    Et le bouton "Métriques" est positionné avant le bouton "API Swagger"
+    Et le bouton "Métriques" est positionné avant le bouton "API Open IA"
 
   Scénario: Le bouton Métriques est actif quand on est sur la vue métriques
     Étant donné que je suis sur la page "/a-propos-du-site?view=metrics"

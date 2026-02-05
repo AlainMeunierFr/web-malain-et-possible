@@ -42,11 +42,11 @@
     "e2eID": "menu-metrics"
   },
   {
-    "Titre": "API Swagger",
+    "Titre": "API OpenAPI",
     "Numéro": 7,
     "Type": "container",
-    "Parametre": "swagger",
-    "e2eID": "menu-api-swagger"
+    "Parametre": "openapi",
+    "e2eID": "menu-api-openapi"
   },
   {
     "Titre": "Charte graphique",

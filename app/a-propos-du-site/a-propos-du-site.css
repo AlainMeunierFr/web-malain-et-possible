@@ -914,6 +914,54 @@
   margin-left: 35px !important;
 }
 
+/* Blocs de code « À propos du site » : label + fond clair, bordure (ex. Présentation de la méthode) */
+.codeBlockAPropos {
+  margin: 1rem 0;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  overflow: hidden;
+  background-color: #fafafa;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+}
+
+.codeBlockAProposHeader {
+  padding: 0.4rem 0.75rem;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: #555;
+  background-color: #f0f0f0;
+  border-bottom: 1px solid #e0e0e0;
+  font-family: var(--font-sans, system-ui, sans-serif);
+}
+
+.codeBlockAProposPre {
+  margin: 0;
+  padding: 1rem;
+  overflow-x: auto;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  background-color: #fafafa;
+  font-weight: normal;
+}
+
+.codeBlockAProposPre--syntax .codeBlockAProposCode {
+  font-family: ui-monospace, "Cascadia Code", "Source Code Pro", Menlo, Consolas, monospace;
+}
+
+.codeBlockAProposCode {
+  font-family: ui-monospace, "Cascadia Code", "Source Code Pro", Menlo, Consolas, monospace;
+  color: #1a1a1a;
+  white-space: pre;
+  word-break: normal;
+  font-weight: normal;
+}
+
+/* Mots-clés User Storie / Gherkin dans les cartes de code */
+.codeBlockAProposCode .codeKeyword {
+  font-weight: bold;
+  color: var(--BleuFonce);
+}
+
 .paragraph {
   margin: 0.5rem 0 !important;
   line-height: 1.6;

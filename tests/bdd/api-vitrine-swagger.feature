@@ -1,5 +1,5 @@
 # language: en
-Feature: API Vitrine via Swagger
+Feature: API Vitrine via OpenAPI
   En tant que consommateur technique du site (robot, développeur)
   Je souhaite disposer d'une API REST documentée pour accéder aux données du site vitrine
   Afin de consommer les données de manière programmatique
@@ -146,7 +146,7 @@ Feature: API Vitrine via Swagger
     And la réponse contient un tableau d'expériences
 
   # ============================================================================
-  # CA6 - Documentation Swagger
+  # CA6 - Documentation OpenAPI
   # ============================================================================
 
   Scenario: La spécification OpenAPI est accessible

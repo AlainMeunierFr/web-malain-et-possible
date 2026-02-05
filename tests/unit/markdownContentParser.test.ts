@@ -99,4 +99,50 @@ Deuxième paragraphe.`;
       expect(result[1].items).toEqual(['Item 1', 'Item 2']);
     });
   });
+
+  describe('Test 6 : Blocs de code', () => {
+    it('devrait parser un bloc de code avec langage', () => {
+      const contenu = `\`\`\`typescript
+function hello(): string {
+  return "world";
+}
+\`\`\``;
+
+      const result = parseMarkdownContent(contenu);
+
+      expect(result).toHaveLength(1);
+      expect(result[0].type).toBe('code');
+      expect(result[0].language).toBe('typescript');
+      expect(result[0].content).toContain('function hello()');
+      expect(result[0].content).toContain('return "world"');
+    });
+
+    it('devrait parser un bloc de code sans langage', () => {
+      const contenu = `\`\`\`
+ligne 1
+ligne 2
+\`\`\``;
+
+      const result = parseMarkdownContent(contenu);
+
+      expect(result).toHaveLength(1);
+      expect(result[0].type).toBe('code');
+      expect(result[0].language).toBeUndefined();
+      expect(result[0].content).toBe('ligne 1\nligne 2');
+    });
+
+    it('devrait parser un bloc de code avec langage contenant un espace (agnostique)', () => {
+      const contenu = `\`\`\`User Storie
+En tant qu'utilisateur,
+Je souhaite me connecter.
+\`\`\``;
+
+      const result = parseMarkdownContent(contenu);
+
+      expect(result).toHaveLength(1);
+      expect(result[0].type).toBe('code');
+      expect(result[0].language).toBe('User Storie');
+      expect(result[0].content).toContain("En tant qu'utilisateur");
+    });
+  });
 });

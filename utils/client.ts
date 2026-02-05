@@ -98,12 +98,14 @@ export interface LigneDeMenu {
 // === TYPES du domaine Projet (copiés depuis aboutSiteReader.ts) ===
 
 export interface ContenuElement {
-  type: 'paragraph' | 'ul' | 'ol' | 'image';
+  type: 'paragraph' | 'ul' | 'ol' | 'image' | 'code';
   content?: string;
   items?: string[];
   imageFilename?: string;
   imageUrl?: string;
   typeDeContenu?: string;
+  language?: string;
+  niveauListe?: number;
 }
 
 export interface Bloc {

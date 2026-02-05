@@ -6,29 +6,24 @@ import SprintBoardKanban, { type SprintBoardData } from './SprintBoardKanban';
 import SwaggerUIWrapper from './SwaggerUIWrapper';
 import MetricsCompact from './MetricsCompact';
 
-type ContainerView = 'sprint' | 'swagger' | 'metrics';
+type ContainerView = 'sprint' | 'openapi' | 'metrics';
+
+function viewFromParams(searchParams: URLSearchParams): ContainerView {
+  const view = searchParams.get('view');
+  if (view === 'openapi') return 'openapi';
+  if (view === 'metrics') return 'metrics';
+  return 'sprint';
+}
 
 /**
  * Contenu principal de la page "A propos du site".
- * Affiche le Sprint Board ou Swagger selon le paramètre ?view=
+ * Affiche le Sprint Board, l'API OpenAPI ou les Métriques selon le paramètre ?view=
  * Le menu est géré par le layout parent.
  */
 function SprintDashboardInner() {
   const searchParams = useSearchParams();
   const [data, setData] = useState<SprintBoardData | null>(null);
-  const [activeView, setActiveView] = useState<ContainerView>('sprint');
-
-  // Synchroniser la vue active avec les query params
-  useEffect(() => {
-    const view = searchParams.get('view');
-    if (view === 'swagger') {
-      setActiveView('swagger');
-    } else if (view === 'metrics') {
-      setActiveView('metrics');
-    } else {
-      setActiveView('sprint');
-    }
-  }, [searchParams]);
+  const activeView = viewFromParams(searchParams);
 
   useEffect(() => {
     fetch('/api/sprint-board')
@@ -43,9 +38,9 @@ function SprintDashboardInner() {
       .catch(() => setData({ goal: '', columns: [], cards: [] }));
   }, []);
 
-  if (activeView === 'swagger') {
+  if (activeView === 'openapi') {
     return (
-      <section className="zoneSwagger" e2eid="zone-swagger" aria-label="Documentation API">
+      <section className="zoneOpenAPI" e2eid="zone-openapi" aria-label="Documentation API">
         <SwaggerUIWrapper specUrl="/api/vitrine/openapi.json" />
       </section>
     );

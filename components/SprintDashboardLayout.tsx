@@ -7,25 +7,19 @@ import type { LigneDeMenu } from '../utils/client';
 import SprintBoardKanban, { type SprintBoardData } from './SprintBoardKanban';
 import SwaggerUIWrapper from './SwaggerUIWrapper';
 
-type ContainerView = 'sprint' | 'swagger';
+type ContainerView = 'sprint' | 'openapi';
+
+function viewFromParams(searchParams: URLSearchParams): ContainerView {
+  return searchParams.get('view') === 'openapi' ? 'openapi' : 'sprint';
+}
 
 // Composant interne qui utilise useSearchParams
 function SprintDashboardContent({ lignes }: { lignes: LigneDeMenu[] }) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const [data, setData] = useState<SprintBoardData | null>(null);
-  const [activeView, setActiveView] = useState<ContainerView>('sprint');
+  const activeView = viewFromParams(searchParams);
   const estSurBoard = pathname === '/a-propos-du-site';
-
-  // Synchroniser la vue active avec les query params
-  useEffect(() => {
-    const view = searchParams.get('view');
-    if (view === 'swagger') {
-      setActiveView('swagger');
-    } else {
-      setActiveView('sprint');
-    }
-  }, [searchParams]);
 
   useEffect(() => {
     fetch('/api/sprint-board')
@@ -42,8 +36,8 @@ function SprintDashboardContent({ lignes }: { lignes: LigneDeMenu[] }) {
 
   // Déterminer le lien href pour un item container
   const getContainerHref = (parametre: string): string => {
-    if (parametre === 'swagger') {
-      return '/a-propos-du-site?view=swagger';
+    if (parametre === 'openapi') {
+      return '/a-propos-du-site?view=openapi';
     }
     // Sprint en cours (par défaut)
     return '/a-propos-du-site';
@@ -52,18 +46,18 @@ function SprintDashboardContent({ lignes }: { lignes: LigneDeMenu[] }) {
   // Déterminer si un item container est actif
   const isContainerActive = (parametre: string): boolean => {
     if (!estSurBoard) return false;
-    if (parametre === 'swagger') {
-      return activeView === 'swagger';
+    if (parametre === 'openapi') {
+      return activeView === 'openapi';
     }
-    // Sprint en cours est actif si on est sur le board sans view=swagger
+    // Sprint en cours est actif si on est sur le board sans view=openapi
     return activeView === 'sprint';
   };
 
   // Rendu de la zone centrale selon la vue active
   const renderContent = () => {
-    if (activeView === 'swagger') {
+    if (activeView === 'openapi') {
       return (
-        <section className="zoneSwagger" e2eid="zone-swagger" aria-label="Documentation API">
+        <section className="zoneOpenAPI" e2eid="zone-openapi" aria-label="Documentation API">
           <SwaggerUIWrapper specUrl="/api/vitrine/openapi.json" />
         </section>
       );

@@ -59,13 +59,14 @@ export class ValidationError extends Error {
  * Interface pour un élément de contenu parsé
  */
 export interface ContenuElement {
-  type: 'paragraph' | 'ul' | 'ol' | 'image';
-  content?: string; // Pour les paragraphes
+  type: 'paragraph' | 'ul' | 'ol' | 'image' | 'code';
+  content?: string; // Pour les paragraphes ou le contenu du bloc de code
   items?: string[]; // Pour les listes
   imageFilename?: string; // Pour les images (nom de fichier ou URL complète)
   imageUrl?: string; // Pour les images (URL complète depuis le markdown)
   typeDeContenu?: string; // "En tant que", "Je souhaite", "Afin de", "Critères d'acceptation" (pour User Stories)
   niveauListe?: number; // 1 ou 2 pour indiquer le niveau d'indentation de la liste
+  language?: string; // Pour les blocs de code : langage (ts, javascript, gherkin, etc.)
 }
 
 /**
@@ -249,6 +250,7 @@ export const validerContenuMarkdown = (contenu: string, filePath: string): void 
 /**
  * Détecte si une sous-partie est une User Story et attribue les typeDeContenu
  */
+// eslint-disable-next-line @typescript-eslint/no-unused-vars -- paramètre réservé pour usage futur
 const detecterUserStory = (elements: ContenuElement[], _contenuBrut?: string): ContenuElement[] => {
   const patterns = {
     'En tant que': /^\*\*En tant que\*\*\s*(.+)$/i,
@@ -363,6 +365,9 @@ export const parseMarkdownContent = (contenu: string): ContenuElement[] => {
   let listeNiveau2Courante: string[] = [];
   let typeListeCourante: 'ul' | 'ol' | null = null;
   let dansListeNiveau2 = false;
+  let dansBlocCode = false;
+  let codeLang = '';
+  const codeLines: string[] = [];
 
   const finaliserParagraphe = () => {
     if (paragrapheCourant.length > 0) {
@@ -399,6 +404,33 @@ export const parseMarkdownContent = (contenu: string): ContenuElement[] => {
 
   for (const ligne of lignes) {
     const trimmed = ligne.trim();
+
+    // Blocs de code markdown (``` ou ```n'importe quoi) — agnostique : tout ouvre une carte
+    const openFence = trimmed.match(/^(`{3,})\s*(.*)$/);
+    const closeFence = trimmed.match(/^`{3,}\s*$/);
+
+    if (dansBlocCode) {
+      if (closeFence) {
+        elements.push({
+          type: 'code',
+          content: codeLines.join('\n'),
+          language: codeLang || undefined,
+        });
+        codeLines.length = 0;
+        dansBlocCode = false;
+      } else {
+        codeLines.push(ligne);
+      }
+      continue;
+    }
+
+    if (openFence && openFence[1].length >= 3) {
+      finaliserParagraphe();
+      finaliserListe();
+      codeLang = (openFence[2] ?? '').trim();
+      dansBlocCode = true;
+      continue;
+    }
 
     if (!trimmed) {
       finaliserParagraphe();
@@ -531,6 +563,7 @@ export const parseMarkdownContent = (contenu: string): ContenuElement[] => {
             niveauListe: 2
           });
           listeNiveau2Courante = [];
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars -- état liste niveau 2, cohérence parseur
           dansListeNiveau2 = false;
         }
         typeListeCourante = 'ol';

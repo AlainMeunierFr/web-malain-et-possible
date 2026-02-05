@@ -23,7 +23,7 @@ function MenuAProposContent({ lignes }: MenuAProposProps) {
   const segments = pathname.split('/');
   const dossierActif = segments.length > 2 ? decodeURIComponent(segments[2]) : null;
   
-  // Vue active (sprint ou swagger) pour la page principale
+  // Vue active (sprint, openapi ou metrics) pour la page principale
   const viewParam = searchParams.get('view');
   const estSurPagePrincipale = pathname === '/a-propos-du-site';
 
@@ -31,28 +31,28 @@ function MenuAProposContent({ lignes }: MenuAProposProps) {
     if (ligne.Type === 'Path') {
       return ligne.Parametre === dossierActif;
     }
-    // Container : Sprint en cours, Métriques, Swagger ou Charte
+    // Container : Sprint en cours, Métriques, API OpenAPI ou Charte
     // Charte a sa propre route statique /a-propos-du-site/charte
     if (ligne.Parametre === 'charte') {
       return dossierActif === 'charte';
     }
     if (!estSurPagePrincipale) return false;
-    if (ligne.Parametre === 'swagger') {
-      return viewParam === 'swagger';
+    if (ligne.Parametre === 'openapi') {
+      return viewParam === 'openapi';
     }
     if (ligne.Parametre === 'metrics') {
       return viewParam === 'metrics';
     }
     // Sprint en cours est actif par défaut sur la page principale
-    return viewParam !== 'swagger' && viewParam !== 'metrics';
+    return viewParam !== 'openapi' && viewParam !== 'metrics';
   };
 
   const getHref = (ligne: LigneDeMenu): string => {
     if (ligne.Type === 'Path') {
       return `/a-propos-du-site/${encodeURIComponent(ligne.Parametre)}`;
     }
-    if (ligne.Parametre === 'swagger') {
-      return '/a-propos-du-site?view=swagger';
+    if (ligne.Parametre === 'openapi') {
+      return '/a-propos-du-site?view=openapi';
     }
     if (ligne.Parametre === 'metrics') {
       return '/a-propos-du-site?view=metrics';

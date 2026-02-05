@@ -195,8 +195,8 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
     await expect(element33).toBeVisible();
     // Élément interactif présent et visible
   }
-  // Test e2eID: zone-swagger (react - SprintDashboardContent.tsx)
-  const element34 = page.getByTestId('e2eid-zone-swagger');
+  // Test e2eID: zone-openapi (react - SprintDashboardContent.tsx)
+  const element34 = page.getByTestId('e2eid-zone-openapi');
   if (await element34.count() > 0) {
     await expect(element34).toBeVisible();
     // Élément interactif présent et visible
