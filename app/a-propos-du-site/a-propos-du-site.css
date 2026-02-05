@@ -4,6 +4,26 @@
  * Ne pas mélanger avec la charte globale (content-styles.css)
  */
 
+/* ========== Reset pour la page Charte graphique (CA4 US-13.1) ========== */
+/* 
+ * La page /a-propos-du-site/charte doit utiliser UNIQUEMENT les styles
+ * du site vitrine (content-styles.css, globals.css).
+ * Ces règles neutralisent les surcharges de cette section.
+ */
+
+/* Reset du conteneur .main quand .charte est présent */
+.main:has(.charte) {
+  padding: 0 !important;
+  max-width: none !important;
+  width: auto !important;
+  margin: 0 !important;
+}
+
+/* Reset du conteneur .contenuAPropos pour la charte */
+.contenuAPropos:has(.charte) {
+  padding-top: 4.5rem; /* Garder l'espace pour le menu fixed mais pas plus */
+}
+
 /* ========== Structure page & bande menu (ex-about.module.css) ========== */
 
 /* Page A propos du site : pleine largeur pour le board Kanban */

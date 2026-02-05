@@ -1,4 +1,4 @@
-# language: fr
+# language: en
 Feature: API Vitrine via Swagger
   En tant que consommateur technique du site (robot, développeur)
   Je souhaite disposer d'une API REST documentée pour accéder aux données du site vitrine

@@ -33,7 +33,7 @@ describe('lighthouseCollector', () => {
 
   describe('constantes exportées', () => {
     it('exporte PROD_URL avec la bonne valeur', () => {
-      expect(PROD_URL).toBe('https://www.malain-et-possible.fr');
+      expect(PROD_URL).toBe('https://m-alain-et-possible.fr');
     });
 
     it('exporte MIN_DELAY_MS correspondant à 7 jours', () => {
@@ -181,6 +181,7 @@ describe('lighthouseCollector', () => {
         ok: false,
         status: 500,
         statusText: 'Internal Server Error',
+        text: async () => 'Server error details',
       });
 
       const scores = await fetchLighthouseScores();
@@ -407,7 +408,28 @@ describe('lighthouseCollector', () => {
 
       // Pas d'exception levée
       expect(result.skipped).toBe(false);
-      expect(result.lastRun).toBe(now.toISOString());
+      // lastRun n'est pas mis à jour en cas d'échec (tous scores NC)
+      expect(result.lastRun).toBe('');
+      expect(result.scores).toEqual({
+        performance: 'NC',
+        accessibility: 'NC',
+        bestPractices: 'NC',
+        seo: 'NC',
+      });
+    });
+
+    it('conserve l\'ancienne date lastRun si l\'API échoue mais qu\'il y avait un run précédent', async () => {
+      const now = new Date('2026-02-04T12:00:00.000Z');
+      jest.setSystemTime(now);
+      const previousRun = new Date('2026-01-01T12:00:00.000Z').toISOString();
+
+      mockFetch.mockRejectedValueOnce(new Error('API unavailable'));
+
+      const result = await collectLighthouseScores(previousRun);
+
+      expect(result.skipped).toBe(false);
+      // lastRun conserve l'ancienne date en cas d'échec
+      expect(result.lastRun).toBe(previousRun);
       expect(result.scores).toEqual({
         performance: 'NC',
         accessibility: 'NC',

@@ -731,9 +731,10 @@ h3.experienceEtApprentissage.titre {
   text-align: right;
 }
 
-/* Lien "En savoir plus" : style lien, sous la description */
-.competence .lienContainer {
-  order: 3;
+/* Lien "En savoir plus" : style lien, en bas de la compétence */
+.competence .lienContainer,
+.competence > .lienInterne {
+  order: 4;
   margin-top: 0.5rem;
 }
 

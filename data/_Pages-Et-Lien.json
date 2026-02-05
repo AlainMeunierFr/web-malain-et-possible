@@ -94,14 +94,6 @@
       "zone": "Footer"
     },
     {
-      "url": "/charte",
-      "titre": "charte",
-      "x": null,
-      "y": null,
-      "dessiner": "Non",
-      "zone": "Masqué"
-    },
-    {
       "url": "/maintenance",
       "titre": "maintenance",
       "x": null,
@@ -318,13 +310,6 @@
       "e2eID": "b51"
     },
     {
-      "source": "/charte",
-      "destination": "/plan-du-site",
-      "label": "Plan du site",
-      "typeElement": "Footer.Bouton",
-      "e2eID": "b51"
-    },
-    {
       "source": "/detournement-video",
       "destination": "/plan-du-site",
       "label": "Plan du site",
@@ -416,13 +401,6 @@
       "e2eID": "b52"
     },
     {
-      "source": "/charte",
-      "destination": "/a-propos-du-site",
-      "label": "Info",
-      "typeElement": "Footer.Bouton",
-      "e2eID": "b52"
-    },
-    {
       "source": "/detournement-video",
       "destination": "/a-propos-du-site",
       "label": "Info",
@@ -501,13 +479,6 @@
     },
     {
       "source": "/a-propos-du-site",
-      "destination": "/",
-      "label": "Logo",
-      "e2eID": "h1",
-      "typeElement": "Header.Logo"
-    },
-    {
-      "source": "/charte",
       "destination": "/",
       "label": "Logo",
       "e2eID": "h1",

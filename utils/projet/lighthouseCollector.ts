@@ -29,7 +29,7 @@ export interface LighthouseResult {
 /**
  * URL de production à analyser
  */
-export const PROD_URL = 'https://www.malain-et-possible.fr';
+export const PROD_URL = 'https://m-alain-et-possible.fr';
 
 /**
  * Délai minimum entre deux exécutions (7 jours en ms)
@@ -103,6 +103,9 @@ function extractScore(
  * Appelle l'API PageSpeed Insights et retourne les scores
  * @param url - URL à analyser (défaut: URL de production)
  * @returns Scores Lighthouse pour les 4 catégories
+ * 
+ * Note: Définir PAGESPEED_API_KEY en variable d'environnement pour éviter les limites (429)
+ * Obtenir une clé: https://developers.google.com/speed/docs/insights/v5/get-started
  */
 export async function fetchLighthouseScores(
   url: string = PROD_URL
@@ -113,14 +116,22 @@ export async function fetchLighthouseScores(
   apiUrl.searchParams.append('category', 'accessibility');
   apiUrl.searchParams.append('category', 'best-practices');
   apiUrl.searchParams.append('category', 'seo');
+  
+  // Ajouter la clé API si disponible (évite les limites 429)
+  const apiKey = process.env.PAGESPEED_API_KEY;
+  if (apiKey) {
+    apiUrl.searchParams.set('key', apiKey);
+  }
 
   try {
     const response = await fetch(apiUrl.toString());
 
     if (!response.ok) {
+      const errorBody = await response.text();
       console.warn(
         `PageSpeed Insights API error: ${response.status} ${response.statusText}`
       );
+      console.warn(`Error details: ${errorBody.slice(0, 500)}`);
       return NC_SCORES;
     }
 
@@ -174,9 +185,17 @@ export async function collectLighthouseScores(
   const scores = await fetchLighthouseScores();
   const now = new Date().toISOString();
 
+  // Ne sauvegarder la date que si le test a réussi (au moins un score valide)
+  const hasValidScore = 
+    scores.performance !== 'NC' || 
+    scores.accessibility !== 'NC' || 
+    scores.bestPractices !== 'NC' || 
+    scores.seo !== 'NC';
+
   return {
     scores,
-    lastRun: now,
+    // Conserver l'ancienne date si échec, nouvelle date si succès
+    lastRun: hasValidScore ? now : (lastRun || ''),
     skipped: false,
   };
 }

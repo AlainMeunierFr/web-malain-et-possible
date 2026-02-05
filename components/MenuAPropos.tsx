@@ -31,7 +31,11 @@ function MenuAProposContent({ lignes }: MenuAProposProps) {
     if (ligne.Type === 'Path') {
       return ligne.Parametre === dossierActif;
     }
-    // Container : Sprint en cours, Métriques ou Swagger
+    // Container : Sprint en cours, Métriques, Swagger ou Charte
+    // Charte a sa propre route statique /a-propos-du-site/charte
+    if (ligne.Parametre === 'charte') {
+      return dossierActif === 'charte';
+    }
     if (!estSurPagePrincipale) return false;
     if (ligne.Parametre === 'swagger') {
       return viewParam === 'swagger';
@@ -52,6 +56,9 @@ function MenuAProposContent({ lignes }: MenuAProposProps) {
     }
     if (ligne.Parametre === 'metrics') {
       return '/a-propos-du-site?view=metrics';
+    }
+    if (ligne.Parametre === 'charte') {
+      return '/a-propos-du-site/charte';
     }
     return '/a-propos-du-site';
   };

@@ -284,7 +284,7 @@ const DomaineDeCompetences: React.FC<DomaineDeCompetencesProps> = ({ domaine, ba
                         <h4 className="experienceEtApprentissage categorie">{experience.categorie}</h4>
                       )}
                       <span className="experienceEtApprentissage description">
-                        {experience.periode && experience.periode.trim() !== '' ? (
+                        {experience.periode && String(experience.periode).trim() !== '' ? (
                           <><em>[{experience.periode}]</em> - {parseMarkdownContent(experience.description)}</>
                         ) : (
                           parseMarkdownContent(experience.description)

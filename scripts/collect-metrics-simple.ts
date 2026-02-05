@@ -3,6 +3,10 @@
  * Version allégée qui fonctionne sans commandes Unix
  */
 
+// Charger les variables d'environnement depuis .env.local
+import { config } from 'dotenv';
+config({ path: '.env.local' });
+
 import fs from 'fs';
 import path from 'path';
 import { execSync } from 'child_process';
@@ -897,7 +901,7 @@ function collectQualityMetrics() {
   try {
     const result = execSync('npm run lint -- --format=json', { encoding: 'utf-8' });
     const eslintResults = JSON.parse(result);
-    eslintResults.forEach((file: any) => {
+    eslintResults.forEach((file: { errorCount?: number; warningCount?: number }) => {
       eslintErrors += file.errorCount || 0;
       eslintWarnings += file.warningCount || 0;
     });
@@ -915,9 +919,9 @@ function collectQualityMetrics() {
     eslintErrors,
     eslintWarnings,
     typeCoverage,
-    cyclomaticComplexity: "NC" as "NC",
-    maintainabilityIndex: "NC" as "NC",
-    technicalDebt: "NC" as "NC",
+    cyclomaticComplexity: "NC" as const,
+    maintainabilityIndex: "NC" as const,
+    technicalDebt: "NC" as const,
   };
 }
 
@@ -1460,7 +1464,7 @@ async function main() {
   console.log(`\n✅ Snapshot sauvegardé: ${LATEST_FILE}`);
 
   // Charger et mettre à jour l'historique
-  let history: MetricsHistory = {
+  const history: MetricsHistory = {
     snapshots: [],
     latest: snapshot,
     trends: {

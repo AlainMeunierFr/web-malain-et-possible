@@ -47,6 +47,13 @@
     "Type": "container",
     "Parametre": "swagger",
     "e2eID": "menu-api-swagger"
+  },
+  {
+    "Titre": "Charte graphique",
+    "Numéro": 8,
+    "Type": "container",
+    "Parametre": "charte",
+    "e2eID": "menu-charte-graphique"
   }
 ]
 

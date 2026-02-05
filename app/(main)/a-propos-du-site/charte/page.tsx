@@ -1,15 +1,18 @@
 /**
- * Page /charte — Charte graphique des types hiérarchiques et de contenu
+ * Page /a-propos-du-site/charte — Charte graphique des types hiérarchiques et de contenu
  * 
  * Affiche tous les éléments typographiques et types de contenu en un seul endroit
  * pour valider la "grammaire visuelle" avant de l'appliquer sur tout le site.
+ * 
+ * Cette page utilise les styles du site vitrine (content-styles.css, globals.css)
+ * et neutralise les surcharges CSS de la section "À propos du site".
  */
 
 import './charte.css';
-import { buildHierarchyTree, renderHierarchyToAscii } from '../../../utils/backoffice';
-import { CANONICAL_SPEC_ORDER } from '../../../constants/canonicalSpec';
-import VideoDetournement from '../../../components/VideoDetournement';
-import type { ElementListeDeDetournementsVideo } from '../../../utils';
+import { buildHierarchyTree, renderHierarchyToAscii } from '../../../../utils/backoffice';
+import { CANONICAL_SPEC_ORDER } from '../../../../constants/canonicalSpec';
+import VideoDetournement from '../../../../components/VideoDetournement';
+import type { ElementListeDeDetournementsVideo } from '../../../../utils';
 
 // Génère la hiérarchie ASCII au moment du build (Server Component)
 const hierarchyAscii = renderHierarchyToAscii(buildHierarchyTree(CANONICAL_SPEC_ORDER));
@@ -72,7 +75,7 @@ export const metadata = {
 
 export default function ChartePage() {
   return (
-    <main className="charte">
+    <div className="charte">
       <section className="charte-section">
         <h1>Charte graphique</h1>
         <p className="intro">
@@ -403,42 +406,44 @@ export default function ChartePage() {
         <div className="charte-exemple">
           <code>.domaineDeCompetence — spec: titre=--h2, contenu=--p, auteur=--a</code>
           <div className="domaineDeCompetence">
-            <h2 className="contenu titre">Interactions humaines</h2>
-            <p className="contenu contenu">
-              « Lorsque les gens sont financièrement investis, ils veulent un retour. Lorsque les gens sont émotionnellement investis, ils veulent contribuer. »
-            </p>
-            <p className="contenu auteur">— Simon Sinek</p>
-            {/* Ordre visuel: titre → image → description → auteur → bouton */}
+            <div className="domaineHeader">
+              <h2 className="domaineDeCompetence titre">Interactions humaines</h2>
+              <p className="domaineDeCompetence contenu">
+                « Lorsque les gens sont financièrement investis, ils veulent un retour. Lorsque les gens sont émotionnellement investis, ils veulent contribuer. »
+              </p>
+              <p className="domaineDeCompetence auteur">— Simon Sinek</p>
+            </div>
+            {/* Ordre spec canonique: titre → image → description → auteur → bouton */}
             <div className="competences" data-layout="3 columns x 1 row">
               <div className="competence">
-                <h3 className="contenu titre">Créativité</h3>
-                <div className="contenu image">
+                <h3 className="competence titre">Créativité</h3>
+                <div className="competence image">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img src="/api/images/json/Cr%C3%A9ativit%C3%A9.png" alt="Créativité" />
                 </div>
-                <p className="contenu description">
+                <p className="competence description">
                   « L&apos;imagination est plus importante que le savoir. Car le savoir est limité, tandis que l&apos;imagination embrasse le monde entier. »
                 </p>
-                <p className="contenu auteur">— Albert Einstein</p>
-                <a href="#" className="bouton lien">Voir le portfolio</a>
+                <p className="competence auteur">— Albert Einstein</p>
+                <a href="#" className="competence lienInterne">Voir le portfolio</a>
               </div>
               <div className="competence">
-                <h3 className="contenu titre">Service client</h3>
-                <div className="contenu image">
+                <h3 className="competence titre">Service client</h3>
+                <div className="competence image">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img src="/api/images/json/Service%20client.png" alt="Service client" />
                 </div>
-                <p className="contenu description">
+                <p className="competence description">
                   Un <strong>client satisfait</strong> est notre meilleur commercial. Il est très compliqué de construire une image de marque, mais facile de la détruire.
                 </p>
               </div>
               <div className="competence">
-                <h3 className="contenu titre">Gestion des talents</h3>
-                <div className="contenu image">
+                <h3 className="competence titre">Gestion des talents</h3>
+                <div className="competence image">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img src="/api/images/json/Talents.png" alt="Gestion des talents" />
                 </div>
-                <p className="contenu description">
+                <p className="competence description">
                   Le succès d&apos;une entreprise repose sur <strong>la reconnaissance</strong> et <strong>le développement</strong> des talents individuels.
                 </p>
               </div>
@@ -574,6 +579,6 @@ Pour moi, elle respecte les exigences de la jurisprudence :
           </div>
         </div>
       </section>
-    </main>
+    </div>
   );
 }
