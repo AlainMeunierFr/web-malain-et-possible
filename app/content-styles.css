@@ -1,6 +1,6 @@
 /* ============================================
    CONTENT-STYLES — Header et Footer uniquement
-   Le contenu (boby.count / .main) reste en RAW : aucune mise en forme.
+   Le contenu (main.main-content-cont) reste en RAW : aucune mise en forme.
    Styles issus de Header.module.css et Footer.module.css (production).
    ============================================ */
 
@@ -85,7 +85,7 @@
 
 @media (max-width: 768px) {
   .header .titreDePage.texte {
-    font-size: 1.125rem;
+    font-size: calc(var(--normale) * 1.125);
     max-width: calc(100% - 180px);
     padding: 0 0.5rem;
   }
@@ -111,7 +111,7 @@
 
 .footer .version {
   color: white;
-  font-size: 0.875rem;
+  font-size: calc(var(--normale) * 0.875);
   font-weight: 400;
   margin-left: 60px;
   opacity: 0.8;
@@ -164,191 +164,76 @@
 @media (max-width: 480px) {
   .footer .version {
     margin-left: 60px;
-    font-size: 0.75rem;
+    font-size: calc(var(--normale) * 0.75);
   }
 }
 
-/* Réserver la place pour le contenu (RAW) entre header fixe et footer fixe */
-.main {
-  padding-top: max(140px, calc(8.75vh + 60px));
-  padding-bottom: max(50px, 5.47vh);
-  padding-left: 1rem;
-  padding-right: 1rem;
-  width: 100%;
+/* ============================================
+   .main-content-cont — zone d'affichage jusqu'en bas
+   En DOM : main.main-content-cont (entre header et footer).
+   - Contenu court (< viewport) : centré verticalement
+   - Contenu long (> viewport) : collé en haut
+   padding-top = position inférieure du logo + 5px.
+   ============================================ */
+.main-content-cont {
+  display: flex;
+  flex-direction: column;
   box-sizing: border-box;
-  position: relative;
-  z-index: 1; /* Sous le header (z-index: 1000) et les logos (z-index: 1001) */
-  background: var(--Blanc);
+  min-height: 100vh;
+  padding-top: calc(max(11px, 1.2vh) + max(99px, 10.83vh) + 5px);
+  padding-bottom: max(50px, 5.47vh);
+  padding-left: 2.5%;
+  padding-right: 2.5%;
 }
 
-/* Paysage (largeur > hauteur) : boby.count limité en largeur et centré */
-/* Ratio 12/9 = 1.33, donc largeur max = hauteur viewport * 1.33 */
-@media (min-aspect-ratio: 1) {
-  .main {
-    max-width: min(calc(100vh * 1.33), 92vw);
-    margin-left: auto;
-    margin-right: auto;
-  }
+/* Enfant direct : centré si court, collé en haut si long. min-height pour reste visible quand vide. */
+.main-content-cont > * {
+  margin-top: auto;
+  margin-bottom: auto;
+  min-height: 4px;
 }
 
-/* Très grands écrans paysage : plafond 1300px */
-@media (min-aspect-ratio: 1) and (min-width: 1400px) {
-  .main {
-    max-width: 1300px;
-  }
-}
+/* Containers : AUCUNE propriété par défaut. Consignes à ajouter explicitement (GO CSS). */
 
-/* hero.video (dans hero.droite) : n'afficher que la vidéo (masquer l'URL), 16:9, pleine largeur de hero.droite */
-.hero .heroDroite .video .urlYouTube {
-  display: none;
-}
+/* --- Titre (type "titre" = h2) : typographie uniquement --- */
 
-.hero .heroDroite .video {
-  width: 100%;
-}
-
-.hero .heroDroite .video .videoWrapper {
-  position: relative;
-  width: 100%;
-  height: 0;
-  padding-bottom: 56.25%;
-  overflow: hidden;
-}
-
-.hero .heroDroite .video .videoWrapper iframe {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-}
-
-/* --- Vidéo pleine page (hors hero) : 80vh, ratio 16/9, centrée --- */
-.main .video {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  margin: 0 auto;
-}
-
-/* Masquer l'URL YouTube */
-.main .video .urlYouTube {
-  display: none;
-}
-
-/* Wrapper vidéo : hauteur 50vh (tient compte header/footer), largeur calculée pour ratio 16/9 */
-.main .video .videoWrapper {
-  position: relative;
-  height: 50vh;
-  width: min(calc(50vh * 16 / 9), 100%);
-  max-width: 100%;
-}
-
-.main .video .videoWrapper iframe {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-}
-
-/* --- Hero : structure de base (1 colonne, sans vidéo) --- */
-.hero {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-/* --- Hero en 2 colonnes (avec vidéo) : paysage --- */
-.hero[data-layout="2 columns"] {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 2rem;
-  align-items: center;
-}
-
-.hero[data-layout="2 columns"] .heroGauche {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  min-width: 0;
-}
-
-.hero[data-layout="2 columns"] .heroDroite {
-  min-width: 0;
-}
-
-/* --- Hero en 2 colonnes : portrait (empilé) --- */
-@media (max-aspect-ratio: 1) {
-  .hero[data-layout="2 columns"] {
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-  }
-}
-
-/* --- Titre (type "titre" = h2 dans le contenu) --- */
-.main .titre {
-  margin: 2rem 0 1rem 0;
-}
-
-.main .titre .texte {
+.main-cont .titre .texte {
   font-size: var(--h2-font-size);
   font-weight: var(--h2-font-weight);
   color: var(--h2-color);
   margin: 0;
 }
 
-.hero .titre {
-  margin-bottom: 0.5rem;
+/* Hero : typographie via tokens (déjà interpolés dans globals.css) */
+.hero-cont .titre,
+.hero-cont h1.titre {
+  font-size: var(--enorme) !important;
 }
 
-/* Hack Hero : sousTitre et description 10% plus petit ; sous-titre centré */
-.hero .sousTitre,
-.hero p.sousTitre {
-  font-size: calc(var(--st-font-size) * 0.9) !important;
+.hero-cont .sousTitre,
+.hero-cont p.sousTitre {
+  font-size: calc(var(--moyenne) * 0.9) !important;
   text-align: center;
+  margin-bottom: 1rem; /* 1 espace avant Hero.Description */
 }
 
-.hero .description,
-.hero p.description,
-.hero .description p {
-  margin-bottom: 1rem;
-  display: block;
-  font-size: calc(var(--p-font-size) * 0.9) !important;
+.hero-cont .description,
+.hero-cont p.description {
+  font-size: var(--normale);
+  margin-bottom: 2rem; /* 2 espaces avant Hero.ensavoirplus */
+  width: 100%;
 }
 
-/* Forcer les éléments inline dans la description à rester inline */
-.hero .description * {
+.hero-cont .description p {
+  font-size: inherit !important;
+}
+
+.hero-cont .description * {
   display: inline;
 }
 
-.hero .description br {
+.hero-cont .description br {
   display: block;
-}
-
-/* CTAs du hero : centrés, max 50% de largeur */
-.hero .ui-heroCtas {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.75rem;
-  width: 50%;
-  margin: 0 auto;
-}
-
-/* --- Groupe de boutons dans hero : empilés verticalement, centrés --- */
-[data-layout="1 column, centered"] {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.75rem;
-}
-
-/* --- Call to Action : centré avec marges verticales cohérentes --- */
-.callToAction {
-  display: flex;
-  justify-content: center;
-  margin: 1.5rem 0;
 }
 
 /* Bouton CTA plus large */
@@ -357,10 +242,85 @@
   font-size: var(--grande);
 }
 
+/* CallToAction block (Mes Profils, etc.) */
+.callToAction:has(> .action) {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
 /* ============================================
    DATA-LAYOUT — Grilles et comportements des containers
    Source de vérité : 4. Organisation du DOM.md
    ============================================ */
+
+/* --- Hero.Gauche : 5 containers empilés, contenu centré, centré verticalement dans Hero --- */
+.hero-gauche-cont,
+.hero-cont .ui-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  align-self: center;
+}
+
+.hero-gauche-cont .ui-heroCtas,
+.hero-cont .ui-content .ui-heroCtas {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem; /* 1 espace entre Hero.callToAction et Hero.ensavoirplus */
+}
+
+/* --- Hero 2 colonnes : empilé en portrait (iPhone, iPad), côte à côte en paysage si assez large --- */
+.hero-cont[data-layout="2 columns"] {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+
+@media (orientation: landscape) and (min-width: 48rem) {
+  .hero-cont[data-layout="2 columns"] {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* --- Hero.Vidéo : 45% largeur Hero, ratio 16:9 préservé, centré (horizontal et vertical), URL masquée --- */
+/* align-self: center pour centrer verticalement Hero.Droite dans Hero quand la colonne opposée est plus haute */
+.hero-droite-cont {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-self: center;
+}
+
+/* Mode empilé (mobile, portrait) : vidéo 100% de la largeur disponible */
+.hero-droite-cont .video {
+  width: 100%;
+}
+
+.hero-droite-cont .video .urlYouTube {
+  display: none;
+}
+
+.hero-droite-cont .video .videoWrapper {
+  aspect-ratio: 16 / 9;
+  width: 100%;
+  overflow: hidden;
+}
+
+.hero-droite-cont .video .videoWrapper iframe {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* Mode 2 colonnes : vidéo 45% du Hero (90% de hero-droite qui fait 50%) */
+@media (orientation: landscape) and (min-width: 48rem) {
+  .hero-droite-cont .video {
+    width: 90%;
+  }
+}
 
 /* --- Grille 4 colonnes responsive (blocsProfils) --- */
 [data-layout="4 columns x 1 row"] {
@@ -378,7 +338,7 @@
 }
 
 /* --- Carte de profil dans la grille --- */
-[data-layout="4 columns x 1 row"] > .profil {
+[data-layout="4 columns x 1 row"] > .profil-cont {
   border: 1px solid #d0d0d0;
   border-radius: 10px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
@@ -391,13 +351,13 @@
 }
 
 /* Titre du profil : centré */
-.profil .titre {
+.profil-cont .titre {
   text-align: center;
   margin-bottom: 0.5rem;
 }
 
 /* Liste des job titles : centrée, prend l'espace flexible pour aligner les boutons */
-.profil .jobTitles {
+.profil-cont .jobTitles {
   list-style: none;
   padding: 0;
   margin: 0 0 1rem 0;
@@ -405,13 +365,13 @@
   flex: 1 0 auto;
 }
 
-.profil .jobTitle {
+.profil-cont .jobTitle {
   margin-bottom: 0.25rem;
 }
 
 
 /* Lien CV : icône dans le coin inférieur droit de la card */
-.profil .cvPath {
+.profil-cont .cvPath {
   position: absolute;
   bottom: 0.5rem;
   right: 0.5rem;
@@ -419,7 +379,7 @@
 }
 
 /* Cacher le texte du lien CV, garder l'icône */
-.profil .cvPath span {
+.profil-cont .cvPath span {
   position: absolute;
   width: 1px;
   height: 1px;
@@ -432,26 +392,26 @@
 }
 
 /* Style de l'icône CV */
-.profil .cvPath svg {
+.profil-cont .cvPath svg {
   color: var(--lk-color);
   transition: transform 0.2s ease;
 }
 
-.profil .cvPath:hover svg {
+.profil-cont .cvPath:hover svg {
   transform: scale(1.1);
   color: var(--BoutonCouleurFondHover);
 }
 
 /* Actions : bouton centré, poussé en bas */
-.profil .actions {
+.profil-cont .actions {
   display: flex;
   justify-content: center;
   margin-top: auto;
 }
 
 /* Boutons dans profil : pas de soulignement */
-.profil .bouton,
-.profil .route.bouton {
+.profil-cont .bouton,
+.profil-cont .route.bouton {
   text-decoration: none;
 }
 
@@ -468,18 +428,38 @@
 }
 
 /* --- Témoignages --- */
-.temoignages {
+.listeDeTemoignages-cont {
   margin-top: 3rem; /* Compense: paragraphes ont ~1rem margin-bottom, total = 1.5rem comme .callToAction */
 }
 
+@media (orientation: landscape) {
+  [data-layout="2 columns x N rows"] {
+    width: 70%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+/* TexteLarge : 70% centré, comme témoignages */
+.texteLarge {
+  width: 70%;
+  margin-inline: auto;
+  padding: 0;
+}
+.texteLarge p {
+  margin: 0 0 1em;
+  padding: 0;
+}
+.texteLarge p:last-child { margin-bottom: 0; }
+
 /* Titre : pas de marge supplémentaire */
-.temoignages .listeDeTemoignages.titre {
+.listeDeTemoignages-cont.titre {
   margin: 0;
   padding: 0 0 0 0;
 }
 
 /* Titre de section "Témoignages" */
-.listeDeTemoignages.titre {
+.listeDeTemoignages-cont.titre {
   font-size: var(--h2-font-size);
   font-weight: var(--h2-font-weight);
   color: var(--h2-color);
@@ -490,7 +470,7 @@
 
 
 /* --- Grille 2 colonnes (temoignages) --- */
-.temoignages .ui-grid,
+.listeDeTemoignages-cont .ui-grid,
 [data-layout="2 columns x N rows"] .ui-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -498,7 +478,7 @@
 }
 
 @media (max-width: 768px) {
-  .temoignages .ui-grid,
+  .listeDeTemoignages-cont .ui-grid,
   [data-layout="2 columns x N rows"] .ui-grid {
     grid-template-columns: 1fr;
   }
@@ -506,7 +486,7 @@
 
 /* --- Témoignage : carte avec header (photo + info) + texte --- */
 /* Style card ombré identique aux profils, mais fond bleu clair */
-.temoignage.ui-card {
+.temoignage-cont.ui-card {
   border: 1px solid #d0d0d0;
   border-radius: 10px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
@@ -515,7 +495,7 @@
 }
 
 /* Header du témoignage : photo à gauche, info à droite */
-.temoignage .ui-header {
+.temoignage-cont .ui-header {
   display: flex;
   align-items: flex-start;
   gap: 1rem;
@@ -523,12 +503,12 @@
 }
 
 /* Photo ronde du témoin */
-.temoignage .ui-photo {
+.temoignage-cont .ui-photo {
   flex-shrink: 0;
 }
 
-.temoignage .ui-photo img,
-.temoignage .ui-photo .placeholder-image {
+.temoignage-cont .ui-photo img,
+.temoignage-cont .ui-photo .placeholder-image {
   width: 80px;
   height: 80px;
   border-radius: 50%;
@@ -536,14 +516,14 @@
 }
 
 /* Info du témoin : nom + fonction */
-.temoignage .ui-info {
+.temoignage-cont .ui-info {
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
 }
 
 /* Nom du témoin (--h3) */
-.temoignage .nom {
+.temoignage-cont .nom {
   font-size: var(--h3-font-size);
   font-weight: var(--h3-font-weight);
   color: var(--h3-color);
@@ -552,7 +532,7 @@
 }
 
 /* Fonction du témoin (--n = note) */
-.temoignage .fonction {
+.temoignage-cont .fonction {
   font-size: var(--n-font-size);
   font-weight: var(--n-font-weight);
   color: var(--n-color);
@@ -561,15 +541,15 @@
 }
 
 /* Texte du témoignage */
-.temoignage .temoignage {
+.temoignage-cont .temoignage-cont {
   line-height: 1.5;
 }
 
-.temoignage .ui-paragraph {
+.temoignage-cont .ui-paragraph {
   margin-bottom: 0rem;
 }
 
-.temoignage .ui-paragraph:last-child {
+.temoignage-cont .ui-paragraph:last-child {
   margin-bottom: 0;
 }
 
@@ -582,17 +562,17 @@
 /* --- Domaine de compétence --- */
 
 /* Espacement entre les sections */
-.domaineDeCompetence {
+.domaineDeCompetence-cont {
   margin-top: 2rem;
 }
 
 /* Fond bleu clair pour DomaineDeCompetence (géré via prop backgroundColor) */
-.domaineDeCompetence.light {
+.domaineDeCompetence-cont.light {
   background-color: var(--BleuClair);
 }
 
 /* Titre du domaine (h2) */
-.domaineDeCompetence .titre {
+.domaineDeCompetence-cont .titre {
   font-size: var(--h2-font-size);
   font-weight: var(--h2-font-weight);
   color: var(--h2-color);
@@ -601,11 +581,11 @@
 }
 
 /* Pas d'espace entre domaineHeader et competencesContainer */
-.domaineDeCompetence .domaineHeader {
+.domaineDeCompetence-cont .domaineDeCompetence-header-cont {
   margin-bottom: 0;
 }
 
-.domaineDeCompetence .competencesContainer {
+.domaineDeCompetence-cont .domaineDeCompetence-competences-cont {
   margin-top: 0;
 }
 
@@ -684,31 +664,31 @@ h3.experienceEtApprentissage.titre {
 }
 
 /* Contenu avec marges latérales (~16%) */
-.domaineDeCompetence > .contenu {
+.domaineDeCompetence-cont > .contenu {
   padding-left: 16%;
   padding-right: 16%;
 }
 
-.domaineDeCompetence > .auteur {
+.domaineDeCompetence-cont > .auteur {
   text-align: right;
   padding-right: 16%;
 }
 
 /* --- Compétence : layout et espacement --- */
-.competence {
+.competence-cont {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
   padding: 0.75rem;
 }
 
-.competence .image {
+.competence-cont .image {
   order: 1;
   align-self: center;
   max-width: 50%;
 }
 
-.competence .image img {
+.competence-cont .image img {
   display: block;
   max-width: 100%;
   height: auto;
@@ -730,7 +710,7 @@ h3.experienceEtApprentissage.titre {
   padding: 0.5rem;
 }
 
-.competence .titre {
+.competence-cont .titre {
   order: 0;
   font-size: var(--h3-font-size);
   font-weight: var(--h3-font-weight);
@@ -739,30 +719,30 @@ h3.experienceEtApprentissage.titre {
   margin: 0;
 }
 
-.competence .description {
+.competence-cont .description {
   order: 2;
 }
 
-.competence .auteur {
+.competence-cont .auteur {
   order: 3;
   text-align: right;
 }
 
 /* Lien "En savoir plus" : style lien, en bas de la compétence */
-.competence .lienContainer,
-.competence > .lienInterne {
+.competence-cont .lienContainer,
+.competence-cont > .lienInterne {
   order: 4;
   margin-top: 0.5rem;
 }
 
-.competence .lienInterne {
+.competence-cont .lienInterne {
   font-size: var(--lk-font-size);
   font-weight: var(--lk-font-weight);
   color: var(--lk-color);
   text-decoration: var(--lk-text-decoration);
 }
 
-.competence .lienInterne:hover {
+.competence-cont .lienInterne:hover {
   text-decoration: none;
 }
 
@@ -1016,7 +996,7 @@ h3.experienceEtApprentissage.titre {
 }
 
 /* --- Plan du site (listeDesPages) --- */
-.listeDesPages {
+.listeDesPages-cont {
   display: flex;
   flex-direction: column;
   gap: 2rem;
@@ -1026,7 +1006,7 @@ h3.experienceEtApprentissage.titre {
 }
 
 /* Ligne 1 : HomePage (vertical, centré) */
-.listeDesPages .ligne-1.zone-homepage {
+.listeDesPages-cont .ligne-1.zone-homepage {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -1034,7 +1014,7 @@ h3.experienceEtApprentissage.titre {
 }
 
 /* Ligne 2 : Profils (horizontal, centré, même largeur) */
-.listeDesPages .ligne-2.zone-profils {
+.listeDesPages-cont .ligne-2.zone-profils {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
@@ -1042,20 +1022,20 @@ h3.experienceEtApprentissage.titre {
   gap: 0.75rem;
 }
 
-.listeDesPages .ligne-2.zone-profils .bouton {
+.listeDesPages-cont .ligne-2.zone-profils .bouton {
   width: 180px;
   max-width: none;
 }
 
 /* Ligne 3 : 2 colonnes (Autres à gauche, Footer à droite) */
-.listeDesPages .ligne-3 {
+.listeDesPages-cont .ligne-3 {
   display: flex;
   justify-content: space-between;
   gap: 2rem;
 }
 
-.listeDesPages .colonne-gauche.zone-autres,
-.listeDesPages .colonne-droite.zone-footer {
+.listeDesPages-cont .colonne-gauche.zone-autres,
+.listeDesPages-cont .colonne-droite.zone-footer {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -1064,7 +1044,7 @@ h3.experienceEtApprentissage.titre {
 }
 
 /* Boutons du plan du site : même charte que callToAction */
-.listeDesPages .bouton {
+.listeDesPages-cont .bouton {
   display: block;
   width: 100%;
   max-width: 350px;
@@ -1075,13 +1055,13 @@ h3.experienceEtApprentissage.titre {
 
 /* Responsive */
 @media (max-width: 600px) {
-  .listeDesPages .ligne-3 {
+  .listeDesPages-cont .ligne-3 {
     flex-direction: column;
     align-items: center;
   }
   
-  .listeDesPages .colonne-gauche.zone-autres,
-  .listeDesPages .colonne-droite.zone-footer {
+  .listeDesPages-cont .colonne-gauche.zone-autres,
+  .listeDesPages-cont .colonne-droite.zone-footer {
     align-items: center;
   }
 }
@@ -1096,7 +1076,7 @@ h3.experienceEtApprentissage.titre {
    ========================================================================== */
 
 /* Container de la page Faisons connaissance : centrage vertical + horizontal */
-.main:has(.groupeBoutons) {
+.main-cont:has(.groupeBoutons) {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -1194,6 +1174,6 @@ h3.experienceEtApprentissage.titre {
   
   .groupeBoutons.tailleGrande .bouton {
     padding: 0.875rem 1rem;
-    font-size: 0.9rem;
+    font-size: calc(var(--normale) * 0.9);
   }
 }
