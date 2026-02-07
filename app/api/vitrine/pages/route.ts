@@ -2,16 +2,19 @@
  * API Route : GET /api/vitrine/pages
  * Retourne la liste des pages du site
  * Mode obligatoire : refs ou full
+ * Format optionnel : json (défaut) ou ascii — les deux appellent readPageData (même code)
  */
 
 import { NextRequest, NextResponse } from 'next/server';
 import fs from 'fs';
 import path from 'path';
 import { validateModeParameter, readPageData } from '@/utils/vitrine';
+import { contenuToAsciiArt } from '@/utils/backoffice';
 
 export async function GET(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams;
   const mode = searchParams.get('mode');
+  const format = searchParams.get('format') ?? 'json';
 
   // Valider le mode
   const validation = validateModeParameter(mode);
@@ -26,9 +29,8 @@ export async function GET(request: NextRequest) {
     // Filtrer les fichiers JSON qui sont des pages (pas les fichiers techniques)
     const pageFiles = files.filter((file) => {
       if (!file.endsWith('.json')) return false;
-      // Exclure les fichiers techniques
       const excludedFiles = [
-        '_Pages-Et-Lien.json',
+        '_Pages-Liens-Et-Menus.json',
         '_temoignages.json',
         'plan-du-site.json',
       ];
@@ -38,35 +40,46 @@ export async function GET(request: NextRequest) {
     });
 
     if (mode === 'refs') {
-      // Mode refs : retourner slug et type seulement
+      // Mode refs : retourner slug et type seulement (format ascii ignoré)
       const pages = pageFiles.map((file) => {
         const slug = file.replace('.json', '');
-        // Déduire le type depuis le nom du fichier
         let type = 'page';
-        if (slug.startsWith('profil-')) {
-          type = 'profil';
-        } else if (slug === 'index') {
-          type = 'home';
-        }
+        if (slug.startsWith('profil-')) type = 'profil';
+        else if (slug === 'index') type = 'home';
         return { slug, type };
       });
       return NextResponse.json(pages);
     }
 
-    // Mode full : retourner le contenu complet de chaque page
+    // Mode full : mêmes appels readPageData, format de sortie variable
     const pages = pageFiles.map((file) => {
       const slug = file.replace('.json', '');
       try {
         const pageData = readPageData(file);
-        return {
-          slug,
-          ...pageData,
-        };
+        if (format === 'ascii') {
+          const ascii = contenuToAsciiArt(pageData.contenu ?? []);
+          const titre =
+            pageData.contenu?.find((el: { type?: string }) => el.type === 'titreDePage' || el.type === 'titre') as
+              | { texte?: string }
+              | undefined;
+          return { slug, titre: titre?.texte ?? slug, ascii };
+        }
+        return { slug, ...pageData };
       } catch {
-        // Si erreur de lecture, retourner un objet minimal
         return { slug, error: 'Failed to read page' };
       }
     });
+
+    if (format === 'ascii') {
+      const lines = pages.flatMap((p) => {
+        if ('error' in p) return [`## ${p.slug}\n(erreur: ${p.error})\n`];
+        return [`## ${(p as { titre: string }).titre} (${p.slug})\n\n${(p as { ascii: string }).ascii}\n`];
+      });
+      return new NextResponse(lines.join('\n---\n\n'), {
+        status: 200,
+        headers: { 'Content-Type': 'text/plain; charset=utf-8' },
+      });
+    }
 
     return NextResponse.json(pages);
   } catch (error) {

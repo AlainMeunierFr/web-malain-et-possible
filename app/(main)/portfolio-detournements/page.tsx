@@ -11,7 +11,7 @@ export default function PortfolioDetournementsPage() {
   const pageData = readPageData('portfolio-detournements.json');
 
   return (
-    <main className="main">
+    <main className="main-cont">
       <PageContentRenderer contenu={pageData.contenu} />
     </main>
   );

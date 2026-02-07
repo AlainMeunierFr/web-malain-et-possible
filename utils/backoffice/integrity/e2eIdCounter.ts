@@ -43,7 +43,7 @@ export function calculateMaxCounter(): number {
   // Fichiers à ignorer (configuration, pas de contenu interactif)
   // Les fichiers avec préfixe _ sont automatiquement ignorés
   const ignoredFiles = new Set([
-    '_Pages-Et-Lien.json',
+    '_Pages-Liens-Et-Menus.json',
     'plan-du-site.json',
     '_motdepasse.json',
     '_footerButtons.json',

@@ -17,14 +17,6 @@
     },
     {
       "type": "domaineDeCompetence",
-      "ref": "et-si-nous-rendions-votre-entreprise-stable-malgre-les-fluctuations"
-    },
-    {
-      "type": "domaineDeCompetence",
-      "ref": "la-robustesse-est-la-reponse-operationnelle-a-un-monde-fluctuant"
-    },
-    {
-      "type": "domaineDeCompetence",
       "ref": "strategie-et-transformations"
     },
     {
@@ -37,11 +29,15 @@
     },
     {
       "type": "domaineDeCompetence",
+      "ref": "et-si-nous-rendions-votre-entreprise-stable-malgre-les-fluctuations"
+    },
+    {
+      "type": "domaineDeCompetence",
       "ref": "diagnostic-civilisationnel"
     },
     {
       "type": "domaineDeCompetence",
-      "ref": "activites-extra-professionnelles-au-service-de-ma-profession"
+      "ref": "la-robustesse-est-la-reponse-operationnelle-a-un-monde-fluctuant"
     },
     {
       "type": "callToAction",

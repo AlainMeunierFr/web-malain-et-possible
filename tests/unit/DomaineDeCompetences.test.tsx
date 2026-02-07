@@ -143,14 +143,14 @@ describe('DomaineDeCompetences', () => {
       const { container } = render(<DomaineDeCompetences domaine={domaine} />);
 
       // ASSERT
-      const competencesContainer = container.querySelector('.competencesContainer');
+      const competencesContainer = container.querySelector('.domaineDeCompetence-competences-cont');
       const experiencesContainer = container.querySelector('.experiencesContainer');
       
       expect(competencesContainer).toBeInTheDocument();
       expect(experiencesContainer).toBeInTheDocument();
       
       // Vérifier que experiencesContainer vient après competencesContainer dans le DOM
-      const domaineElement = container.querySelector('.domaineDeCompetence');
+      const domaineElement = container.querySelector('.domaineDeCompetence-cont');
       const competencesIndex = Array.from(domaineElement!.children).indexOf(competencesContainer!);
       const experiencesIndex = Array.from(domaineElement!.children).indexOf(experiencesContainer!);
       
@@ -441,7 +441,7 @@ describe('DomaineDeCompetences', () => {
 
       const { container } = render(<DomaineDeCompetences domaine={domaine} backgroundColor="light" />);
       
-      expect(container.querySelector('.domaineDeCompetence')).toHaveClass('light');
+      expect(container.querySelector('.domaineDeCompetence-cont')).toHaveClass('light');
     });
 
     it('devrait ne pas appliquer la classe light par défaut', () => {
@@ -454,7 +454,7 @@ describe('DomaineDeCompetences', () => {
 
       const { container } = render(<DomaineDeCompetences domaine={domaine} />);
       
-      expect(container.querySelector('.domaineDeCompetence')).not.toHaveClass('light');
+      expect(container.querySelector('.domaineDeCompetence-cont')).not.toHaveClass('light');
     });
   });
 });

@@ -10,7 +10,7 @@ export const dynamic = 'force-dynamic';
 
 export default function NotFound() {
   return (
-    <main className="main">
+    <main className="main-cont">
       <div className="texteLarge">
         <h1 style={{ 
           fontFamily: 'var(--font-sans)', 

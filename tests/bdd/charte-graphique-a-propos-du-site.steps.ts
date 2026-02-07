@@ -77,9 +77,9 @@ Given('que je suis sur la page Charte à l\'URL {string}', async ({ page }, url:
 });
 
 Then('la page n\'applique aucun style spécifique à la section "À propos du site"', async ({ page }) => {
-  // Vérifier que .main n'a pas les styles .main typiques de "À propos du site"
+  // Vérifier que .main-cont n'a pas les styles typiques de "À propos du site"
   // Le reset CSS `:has(.charte)` doit neutraliser ces styles
-  const main = page.locator('.main:has(.charte)');
+  const main = page.locator('.main-cont:has(.charte)');
   await expect(main).toBeVisible();
   
   // Vérifier que le padding a été reset
@@ -136,19 +136,19 @@ Then('chaque type utilise la taille CSS correspondante \\(--enorme, --grande, --
 // --- Types de contenu (Section 3) ---
 
 Then('je vois un exemple de composant Hero', async ({ page }) => {
-  const hero = page.locator('.charte .hero[data-layout="2 columns"]');
+  const hero = page.locator('.charte .hero-cont-cont[data-layout="2 columns"]');
   await expect(hero).toBeVisible();
 });
 
-Then('le Hero utilise le layout {string} avec les classes .heroGauche et .heroDroite', async ({ page }, layout: string) => {
-  const hero = page.locator('.charte .hero');
+Then('le Hero utilise le layout {string} avec les classes .hero-gauche-cont et .hero-droite-cont', async ({ page }, layout: string) => {
+  const hero = page.locator('.charte .hero-cont');
   await expect(hero).toHaveAttribute('data-layout', layout);
-  await expect(hero.locator('.heroGauche')).toBeVisible();
-  await expect(hero.locator('.heroDroite')).toBeVisible();
+  await expect(hero.locator('.hero-gauche-cont')).toBeVisible();
+  await expect(hero.locator('.hero-droite-cont')).toBeVisible();
 });
 
 Then('le Hero contient un titre, un sous-titre, une description et des CTAs', async ({ page }) => {
-  const hero = page.locator('.charte .hero');
+  const hero = page.locator('.charte .hero-cont');
   await expect(hero.locator('.titre, h1').first()).toBeVisible();
   await expect(hero.locator('.sousTitre')).toBeVisible();
   await expect(hero.locator('.description')).toBeVisible();
@@ -166,7 +166,7 @@ Then('la liste utilise le layout {string}', async ({ page }, layout: string) => 
 });
 
 Then('chaque profil contient un titre, des jobTitles, des actions et un lien CV', async ({ page }) => {
-  const profil = page.locator('.charte .profil').first();
+  const profil = page.locator('.charte .profil-cont').first();
   await expect(profil.locator('.titre, h2').first()).toBeVisible();
   await expect(profil.locator('.jobTitles')).toBeVisible();
   await expect(profil.locator('.actions')).toBeVisible();
@@ -184,17 +184,17 @@ Then('le titre utilise le type hiérarchique --h2', async ({ page }) => {
 });
 
 Then('je vois un exemple de liste de témoignages', async ({ page }) => {
-  const temoignages = page.locator('.charte .temoignages');
+  const temoignages = page.locator('.charte .listeDeTemoignages-cont');
   await expect(temoignages).toBeVisible();
 });
 
 Then('les témoignages utilisent le layout {string}', async ({ page }, layout: string) => {
-  const temoignages = page.locator('.charte .temoignages');
+  const temoignages = page.locator('.charte .listeDeTemoignages-cont');
   await expect(temoignages).toHaveAttribute('data-layout', layout);
 });
 
 Then('chaque témoignage contient une photo, un nom, une fonction et un texte', async ({ page }) => {
-  const temoignage = page.locator('.charte .temoignage.ui-card').first();
+  const temoignage = page.locator('.charte .temoignage-cont.ui-card').first();
   await expect(temoignage.locator('.photo, .ui-photo')).toBeVisible();
   await expect(temoignage.locator('.nom')).toBeVisible();
   await expect(temoignage.locator('.fonction')).toBeVisible();
@@ -202,7 +202,7 @@ Then('chaque témoignage contient une photo, un nom, une fonction et un texte', 
 });
 
 Then('je vois un exemple de domaine de compétences', async ({ page }) => {
-  const domaine = page.locator('.charte .domaineDeCompetence');
+  const domaine = page.locator('.charte .domaineDeCompetence-cont');
   await expect(domaine).toBeVisible();
 });
 
@@ -214,12 +214,12 @@ Then('le domaine contient un domaineHeader avec titre, contenu et auteur', async
 });
 
 Then('les compétences utilisent le layout {string}', async ({ page }, layout: string) => {
-  const competences = page.locator('.charte .competences');
+  const competences = page.locator('.charte .domaineDeCompetence-competences-cont');
   await expect(competences).toHaveAttribute('data-layout', layout);
 });
 
 Then('chaque compétence suit l\'ordre : titre → image → description → auteur → lien', async ({ page }) => {
-  const competence = page.locator('.charte .competence').first();
+  const competence = page.locator('.charte .competence-cont').first();
   await expect(competence.locator('.titre, h3').first()).toBeVisible();
   await expect(competence.locator('.image')).toBeVisible();
   await expect(competence.locator('.description')).toBeVisible();

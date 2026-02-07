@@ -5,9 +5,9 @@ Fonctionnalité: Navigation entre les pages du site
   Je veux naviguer facilement entre les différentes pages
   Afin de découvrir tout le contenu disponible
 
-  Scénario: Navigation vers la page d'accueil depuis le logo
+  Scénario: Navigation vers la page d'accueil depuis le menu
     Étant donné que je suis sur n'importe quelle page du site
-    Quand je clique sur le logo en haut à gauche
+    Quand je clique sur "Accueil" dans le menu du header
     Alors je suis redirigé vers la page d'accueil
 
   Scénario: Navigation vers la page "À propos du site" depuis la photo

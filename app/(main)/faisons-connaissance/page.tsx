@@ -7,7 +7,7 @@ export default function FaisonsConnaissancePage() {
   const pageData = readPageData('faisons-connaissance.json');
 
   return (
-    <main className="main">
+    <main className="main-cont">
       <PageContentRenderer contenu={pageData.contenu} />
     </main>
   );

@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 
 test('parcours complet de tous les liens du site et test de tous les e2eID', async ({ page }) => {
-  // Scénario généré automatiquement depuis _Pages-Et-Lien.json
+  // Scénario généré automatiquement depuis _Pages-Liens-Et-Menus.json
   // Ce test parcourt tous les liens du site et teste tous les e2eID présents
 
   await test.step("Étape 1: Page d'accueil", async () => {
@@ -171,20 +171,20 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
     await expect(element29).toBeVisible();
     // Élément interactif présent et visible
   }
-  // Test e2eID: e2eid-h1 (react - Header.tsx)
-  const element30 = page.getByTestId('e2eid-e2eid-h1');
+  // Test e2eID: e2eid-header-hamburger (react - Header.tsx)
+  const element30 = page.getByTestId('e2eid-e2eid-header-hamburger');
   if (await element30.count() > 0) {
     await expect(element30).toBeVisible();
     // Élément interactif présent et visible
   }
-  // Test e2eID: hero-telecharger-cv (react - HeroSection.tsx)
-  const element31 = page.getByTestId('e2eid-hero-telecharger-cv');
+  // Test e2eID: hero-bouton-principal (react - HeroSection.tsx)
+  const element31 = page.getByTestId('e2eid-hero-bouton-principal');
   if (await element31.count() > 0) {
     await expect(element31).toBeVisible();
     // Élément interactif présent et visible
   }
-  // Test e2eID: hero-bouton-principal (react - HeroSection.tsx)
-  const element32 = page.getByTestId('e2eid-hero-bouton-principal');
+  // Test e2eID: hero-telecharger-cv (react - HeroSection.tsx)
+  const element32 = page.getByTestId('e2eid-hero-telecharger-cv');
   if (await element32.count() > 0) {
     await expect(element32).toBeVisible();
     // Élément interactif présent et visible
@@ -506,38 +506,18 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
       throw new Error('Impossible de trouver le bouton Plan du site (e2eid-b44) dans le footer.');
     }
   });
-  await test.step("Étape 13: Navigation de /plan-du-site vers /pour-aller-plus-loin (Pour aller plus loin, je vous propose une expérience...)", async () => {
-    const liens12 = page.getByRole('link', { name: /Pour aller plus loin, je vous propose une expérience\.\.\./i });
-    if (await liens12.count() > 0) {
-      const liensTrouves = await liens12.all();
-      let lienTrouve = null;
-      for (const lien of liensTrouves) {
-        const href = await lien.getAttribute('href');
-        const hrefNormalise = href ? href.replace(/\/$/, '') : '';
-        const destinationNormalisee = '/pour-aller-plus-loin'.replace(/\/$/, '');
-        if (hrefNormalise === destinationNormalisee || hrefNormalise === destinationNormalisee + '/' || href === destinationNormalisee || href === destinationNormalisee + '/') {
-          lienTrouve = lien;
-          break;
-        }
-      }
-      if (lienTrouve) {
-        await lienTrouve.click();
-      } else {
-        throw new Error(`Impossible de trouver un lien vers /pour-aller-plus-loin depuis /plan-du-site.`);
-      }
-    } else {
-      await page.waitForSelector('[e2eid^="e2eid-l"]', { timeout: 10000 }).catch(() => {});
-      const lienDepuisPlan12 = page.getByTestId('e2eid-l707');
-      if (await lienDepuisPlan12.count() === 0) {
-        throw new Error('Impossible de trouver un lien vers /pour-aller-plus-loin.');
-      }
-      await lienDepuisPlan12.first().click();
+  await test.step("Étape 13: Navigation de /plan-du-site vers /faisons-connaissance (lien)", async () => {
+    await page.waitForSelector('[e2eid^="e2eid-l"]', { timeout: 10000 }).catch(() => {});
+    const lienDepuisPlan12 = page.getByTestId('e2eid-l719');
+    if (await lienDepuisPlan12.count() === 0) {
+      throw new Error('Impossible de trouver un lien vers /faisons-connaissance.');
     }
-    await expect(page).toHaveURL('/pour-aller-plus-loin');
+    await lienDepuisPlan12.first().click();
+    await expect(page).toHaveURL('/faisons-connaissance');
   });
 
-  // Test des e2eID présents sur /pour-aller-plus-loin
-  await test.step("Étape 14: Navigation de /pour-aller-plus-loin vers /plan-du-site (Plan du site)", async () => {
+  // Test des e2eID présents sur /faisons-connaissance
+  await test.step("Étape 14: Navigation de /faisons-connaissance vers /plan-du-site (Plan du site)", async () => {
     const boutonPlanDuSite = page.locator('footer').locator('[e2eid="e2eid-b44"]');
     await boutonPlanDuSite.first().waitFor({ state: 'visible', timeout: 15000 });
     if (await boutonPlanDuSite.count() > 0) {
@@ -548,17 +528,17 @@ test('parcours complet de tous les liens du site et test de tous les e2eID', asy
       throw new Error('Impossible de trouver le bouton Plan du site (e2eid-b44) dans le footer.');
     }
   });
-  await test.step("Étape 15: Navigation de /plan-du-site vers /faisons-connaissance (lien)", async () => {
+  await test.step("Étape 15: Navigation de /plan-du-site vers /pour-aller-plus-loin (lien)", async () => {
     await page.waitForSelector('[e2eid^="e2eid-l"]', { timeout: 10000 }).catch(() => {});
-    const lienDepuisPlan14 = page.getByTestId('e2eid-l719');
+    const lienDepuisPlan14 = page.getByTestId('e2eid-l707');
     if (await lienDepuisPlan14.count() === 0) {
-      throw new Error('Impossible de trouver un lien vers /faisons-connaissance.');
+      throw new Error('Impossible de trouver un lien vers /pour-aller-plus-loin.');
     }
     await lienDepuisPlan14.first().click();
-    await expect(page).toHaveURL('/faisons-connaissance');
+    await expect(page).toHaveURL('/pour-aller-plus-loin');
   });
 
-  // Test des e2eID présents sur /faisons-connaissance
+  // Test des e2eID présents sur /pour-aller-plus-loin
 
   // Tous les liens ont été parcourus
   // 39 e2eID ont été testés

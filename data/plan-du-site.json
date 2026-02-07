@@ -61,12 +61,6 @@
           "dessiner": "Oui"
         },
         {
-          "url": "/pour-aller-plus-loin",
-          "titre": "Pour aller plus loin, je vous propose une expérience...",
-          "zone": "Autres",
-          "dessiner": "Oui"
-        },
-        {
           "url": "/a-propos-du-site",
           "titre": "a-propos-du-site",
           "zone": "Footer",

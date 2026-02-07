@@ -1,7 +1,7 @@
 /**
  * Logique métier de l'assistant graphique de construction de scénario E2E
  * US-Assistant-Scenario : listes "Liens à parcourir", "pages accessibles depuis la page courante", "Chemin parcouru"
- * Réutilise les types et la logique du plan du site (siteMapGenerator / _Pages-Et-Lien.json).
+ * Réutilise les types et la logique du plan du site (siteMapGenerator / _Pages-Liens-Et-Menus.json).
  */
 
 import type { PlanPage, PlanLien, PlanSite } from './planDuSiteTypes';

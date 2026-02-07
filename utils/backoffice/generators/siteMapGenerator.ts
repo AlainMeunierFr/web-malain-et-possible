@@ -551,7 +551,7 @@ export const mettreAJourPlanJSON = (
   liens: PlanLien[],
   options?: { siteMapPath?: string }
 ): void => {
-  const siteMapPath = options?.siteMapPath ?? path.join(process.cwd(), 'data', '_Pages-Et-Lien.json');
+  const siteMapPath = options?.siteMapPath ?? path.join(process.cwd(), 'data', '_Pages-Liens-Et-Menus.json');
   
   let planExistant: PlanSite = { pages: [], liens: [] };
   
@@ -687,7 +687,7 @@ export const validerEmplacements = (plan: PlanSite): void => {
     const urlsSansEmplacement = pagesSansEmplacement.map((p) => p.url).join(', ');
     throw new Error(
       `Les pages suivantes n'ont pas d'emplacement défini (x, y) : ${urlsSansEmplacement}. ` +
-      `Veuillez remplir manuellement les coordonnées dans le fichier _Pages-Et-Lien.json.`
+      'Veuillez remplir manuellement les coordonnées dans le fichier _Pages-Liens-Et-Menus.json.'
     );
   }
 };

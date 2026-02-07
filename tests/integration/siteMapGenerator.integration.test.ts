@@ -9,10 +9,10 @@ import * as fs from 'fs';
 import * as path from 'path';
 
 const getSiteMapPath = () => {
-  return path.join(process.cwd(), 'data', '_Pages-Et-Lien.json');
+  return path.join(process.cwd(), 'data', '_Pages-Liens-Et-Menus.json');
 };
 
-// Note : Ce test d'intégration analyse et corrige le fichier Pages-Et-Lien.json existant
+// Note : Ce test d'intégration analyse et corrige le fichier _Pages-Liens-Et-Menus.json existant
 // Il laisse le fichier dans son état final (même s'il a été corrigé)
 // Il ne doit PAS restaurer le fichier à son état initial
 
@@ -250,7 +250,7 @@ describe('siteMapGenerator - Tests d\'intégration avec données réelles', () =
     });
   });
 
-  describe('Contrôle de l\'intégrité du fichier _Pages-Et-Lien.json', () => {
+  describe('Contrôle de l\'intégrité du fichier _Pages-Liens-Et-Menus.json', () => {
     it('devrait analyser le fichier existant, détecter les erreurs et les corriger', () => {
       const siteMapPath = getSiteMapPath();
       const pages = detecterPages();
@@ -264,7 +264,7 @@ describe('siteMapGenerator - Tests d\'intégration avec données réelles', () =
           planExistant = JSON.parse(contenu);
         } catch (e) {
           // Erreur de parsing : le fichier est corrompu
-          console.error('⚠️ ERREUR : Le fichier Pages-Et-Lien.json est corrompu (JSON invalide)');
+          console.error('⚠️ ERREUR : Le fichier _Pages-Liens-Et-Menus.json est corrompu (JSON invalide)');
           planExistant = null;
         }
       }
@@ -273,7 +273,7 @@ describe('siteMapGenerator - Tests d\'intégration avec données réelles', () =
       let erreursDetectees: string[] = [];
       
       if (!planExistant) {
-        erreursDetectees.push('Le fichier _Pages-Et-Lien.json n\'existe pas ou est corrompu');
+        erreursDetectees.push('Le fichier _Pages-Liens-Et-Menus.json n\'existe pas ou est corrompu');
       } else {
         // Vérifier que toutes les pages détectées sont présentes
         const urlsPagesDetectees = new Set(pages.map((p) => p.url));
@@ -337,13 +337,13 @@ describe('siteMapGenerator - Tests d\'intégration avec données réelles', () =
       
       // Signaler les erreurs détectées
       if (erreursDetectees.length > 0) {
-        console.warn('\n⚠️ ERREURS D\'INTÉGRITÉ DÉTECTÉES DANS _Pages-Et-Lien.json :');
+        console.warn('\n⚠️ ERREURS D\'INTÉGRITÉ DÉTECTÉES DANS _Pages-Liens-Et-Menus.json :');
         erreursDetectees.forEach((erreur) => {
           console.warn(`  - ${erreur}`);
         });
         console.warn('🔧 Correction automatique en cours...\n');
       } else {
-        console.log('✅ Le fichier _Pages-Et-Lien.json est intègre');
+        console.log('✅ Le fichier _Pages-Liens-Et-Menus.json est intègre');
       }
       
       // Corriger le fichier en le mettant à jour
@@ -375,7 +375,7 @@ describe('siteMapGenerator - Tests d\'intégration avec données réelles', () =
       // Le fichier est maintenant corrigé et laissé dans cet état
       // Si des erreurs étaient présentes, elles sont maintenant corrigées
       if (erreursDetectees.length > 0) {
-        console.log('✅ Fichier _Pages-Et-Lien.json corrigé avec succès\n');
+        console.log('✅ Fichier _Pages-Liens-Et-Menus.json corrigé avec succès\n');
       }
     });
   });

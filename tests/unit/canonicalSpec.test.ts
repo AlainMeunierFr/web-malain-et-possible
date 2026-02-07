@@ -73,7 +73,7 @@ describe('canonicalSpec', () => {
       expect(titreDePageTexte).toMatchObject({ typeHierarchique: '--h1', containerParent: 'titreDePage.texte.cont' });
       const pageEntry = CANONICAL_SPEC_ORDER.find((e) => e.nomCanonique === 'page');
       expect(pageEntry).toBeDefined();
-      expect(pageEntry).toMatchObject({ typeHierarchique: '--c', containerParent: 'body', containerLayout: 'boby.count' });
+      expect(pageEntry).toMatchObject({ typeHierarchique: '--c', containerParent: 'body', containerLayout: 'main-content-cont' });
     });
 
     it('devrait contenir hero, hero.gauche, containers implicites (.cont), hero.droite en ordre', () => {
@@ -94,7 +94,7 @@ describe('canonicalSpec', () => {
     it('getPageContainerSpecEntries devrait retourner l\'entrée page', () => {
       const entries = getPageContainerSpecEntries();
       expect(entries).toHaveLength(1);
-      expect(entries[0]).toMatchObject({ nomCanonique: 'page', typeHierarchique: '--c', containerLayout: 'boby.count' });
+      expect(entries[0]).toMatchObject({ nomCanonique: 'page', typeHierarchique: '--c', containerLayout: 'main-content-cont' });
     });
 
     it('isContainerType devrait retourner true pour --c uniquement', () => {
@@ -108,7 +108,7 @@ describe('canonicalSpec', () => {
       const listeDesPagesPageCont = CANONICAL_SPEC_ORDER.find((e) => e.nomCanonique === 'listeDesPages.page.cont');
       const listeDesPagesPage = CANONICAL_SPEC_ORDER.find((e) => e.nomCanonique === 'listeDesPages.page');
       expect(listeDesPagesCont).toBeDefined();
-      expect(listeDesPagesCont).toMatchObject({ containerParent: 'boby.count', containerLayout: 'listeDesPages.cont' });
+      expect(listeDesPagesCont).toMatchObject({ containerParent: 'main-content-cont', containerLayout: 'listeDesPages.cont' });
       expect(listeDesPagesPageCont).toBeDefined();
       expect(listeDesPagesPageCont).toMatchObject({ containerParent: 'listeDesPages', typeHierarchique: '--c', containerLayout: 'listeDesPages.page.cont' });
       expect(listeDesPagesPage).toBeDefined();
@@ -177,11 +177,11 @@ describe('canonicalSpec', () => {
   describe('getContainerParentMap', () => {
     it('devrait mapper containerLayout vers containerParent pour les wrappers DOM', () => {
       const map = getContainerParentMap();
-      expect(map.get('header')).toBe('boby.count');
-      expect(map.get('hero.cont')).toBe('boby.count');
+      expect(map.get('header')).toBe('main-content-cont');
+      expect(map.get('hero.cont')).toBe('main-content-cont');
       expect(map.get('hero.gauche.cont')).toBe('hero.cont');
       expect(map.get('hero.droite.cont')).toBe('hero.cont');
-      expect(map.get('listeDesPages.cont')).toBe('boby.count');
+      expect(map.get('listeDesPages.cont')).toBe('main-content-cont');
     });
   });
 });

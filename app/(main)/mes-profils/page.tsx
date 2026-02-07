@@ -12,7 +12,7 @@ export default function MesProfilsPage() {
   const pageData = readPageData('mes-profils.json');
 
   return (
-    <main className="main">
+    <main className="main-cont">
       <PageContentRenderer contenu={pageData.contenu} isHomePage />
     </main>
   );

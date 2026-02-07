@@ -34,10 +34,17 @@ const HeroSection: React.FC<HeroSectionProps> = ({ element }) => {
 
   const contenuGauche = (
     <>
-      <h1 className="hero titre">{parseInlineMarkdown(element.titre)}</h1>
-      <p className="hero sousTitre">{parseInlineMarkdown(element.sousTitre)}</p>
-      <p className="hero description">{descriptionNodes}</p>
+      <h1 className="hero-cont titre">{parseInlineMarkdown(element.titre)}</h1>
+      <p className="hero-cont sousTitre">{parseInlineMarkdown(element.sousTitre)}</p>
+      <p className="hero-cont description">{descriptionNodes}</p>
       <div className="ui-heroCtas">
+        <Link
+          href={element.callToAction.action}
+          className="bouton hero-cont callToAction"
+          e2eid="hero-bouton-principal"
+        >
+          {element.callToAction.texte}
+        </Link>
         <Link
           href={element.ensavoirplus}
           className="lienInterne"
@@ -45,22 +52,15 @@ const HeroSection: React.FC<HeroSectionProps> = ({ element }) => {
         >
           Télécharger mon CV
         </Link>
-        <Link
-          href={element.callToAction.action}
-          className="bouton hero callToAction"
-          e2eid="hero-bouton-principal"
-        >
-          {element.callToAction.texte}
-        </Link>
       </div>
     </>
   );
 
   if (video) {
     return (
-      <section className="hero" data-layout="2 columns">
-        <div className="heroGauche">{contenuGauche}</div>
-        <div className="heroDroite">
+      <section className="hero-cont" data-layout="2 columns">
+        <div className="hero-gauche-cont">{contenuGauche}</div>
+        <div className="hero-droite-cont">
           <Video element={video} backgroundColor="white" />
         </div>
       </section>
@@ -68,7 +68,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ element }) => {
   }
 
   return (
-    <section className="hero">
+    <section className="hero-cont">
       <div className="ui-content">
         {contenuGauche}
       </div>

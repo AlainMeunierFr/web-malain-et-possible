@@ -70,14 +70,6 @@
       "zone": "Autres"
     },
     {
-      "url": "/pour-aller-plus-loin",
-      "titre": "Pour aller plus loin, je vous propose une expérience...",
-      "x": null,
-      "y": null,
-      "dessiner": "Oui",
-      "zone": "Autres"
-    },
-    {
       "url": "/a-propos-du-site",
       "titre": "a-propos-du-site",
       "x": 200,
@@ -124,6 +116,14 @@
       "y": null,
       "dessiner": "non",
       "zone": "Masqué"
+    },
+    {
+      "url": "/pour-aller-plus-loin",
+      "titre": "Pour aller plus loin, je vous propose une expérience...",
+      "x": null,
+      "y": null,
+      "dessiner": "Non",
+      "zone": "Masquer"
     }
   ],
   "liens": [
@@ -224,13 +224,6 @@
       "label": "Portfolio de detournements vidéos",
       "typeElement": "LienPage",
       "e2eID": "l9"
-    },
-    {
-      "source": "/plan-du-site",
-      "destination": "/pour-aller-plus-loin",
-      "label": "Pour aller plus loin, je vous propose une expérience...",
-      "typeElement": "LienPage",
-      "e2eID": "l10"
     },
     {
       "source": "/plan-du-site",

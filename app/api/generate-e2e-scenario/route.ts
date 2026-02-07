@@ -5,7 +5,7 @@ import type { PlanLien, PlanSite } from '../../../utils/shared/planDuSiteTypes';
 import type { E2eIdInventoryItem } from '../../../utils/backoffice';
 import { generateE2eIdInventory, genererContenuSpecE2E } from '../../../utils/backoffice';
 
-const PLAN_PATH = path.join(process.cwd(), 'data', '_Pages-Et-Lien.json');
+const PLAN_PATH = path.join(process.cwd(), 'data', '_Pages-Liens-Et-Menus.json');
 const SPEC_PATH = path.join(process.cwd(), 'tests', 'end-to-end', 'parcours-complet-liens.spec.ts');
 
 export async function POST(request: Request) {
@@ -21,7 +21,7 @@ export async function POST(request: Request) {
 
     if (!fs.existsSync(PLAN_PATH)) {
       return NextResponse.json(
-        { error: 'Plan du site (_Pages-Et-Lien.json) introuvable' },
+        { error: 'Plan du site (_Pages-Liens-Et-Menus.json) introuvable' },
         { status: 404 }
       );
     }

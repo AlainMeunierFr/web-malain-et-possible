@@ -21,7 +21,7 @@ export default function HomePage() {
   );
 
   return (
-    <main className="main home">
+    <main className="main-cont home">
       {hero ? (
         <>
           <HeroSection element={hero} />

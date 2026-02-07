@@ -15,7 +15,7 @@ export default function PlanDuSitePage() {
     listeDesPagesEl?.pages && listeDesPagesEl.pages.length > 0 ? listeDesPagesEl.pages : undefined;
 
   return (
-    <main className="main">
+    <main className="main-cont">
       <PageContentRenderer contenu={pageData.contenu} listeDesPagesInitial={listeDesPagesInitial} />
     </main>
   );

@@ -27,6 +27,10 @@ Même pour une correction technique (CSP, config, refactoring) :
 - Couverture **100%** obligatoire (statements, branches, functions, lines)
 - **Pas de code sans test**, même hors tunnel
 
+### Plan de tests baby steps (tunnel US)
+
+Pour les agents TDD (back-end, front-end) : le **Lead Dev** propose une **liste de tests incrémentaux** validée par l'utilisateur avant délégation. L'agent suit cette liste strictement : un test à la fois, pas de fusion ni de saut d'étape. Voir `lead-dev-workflow.mdc` → section « Plan de tests baby steps ».
+
 ## Nommage (types de contenu)
 
 Quand on crée un **nouveau type**, en particulier un **type de contenu** : **un seul nom**, identique sur **toutes les couches** — propriété dans les JSON, type/propriété en TypeScript, classe dans les feuilles CSS. Pas de variante.

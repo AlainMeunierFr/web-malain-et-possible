@@ -15,14 +15,14 @@ interface PlanSite {
 }
 
 /**
- * Génère le sitemap.xml dynamiquement à partir de _Pages-Et-Lien.json
+ * Génère le sitemap.xml dynamiquement à partir de _Pages-Liens-Et-Menus.json
  * Exclut automatiquement les pages avec zone = "Masqué"
  */
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date()
 
   // Lire le plan du site (source de vérité)
-  const planPath = path.join(process.cwd(), 'data', '_Pages-Et-Lien.json')
+  const planPath = path.join(process.cwd(), 'data', '_Pages-Liens-Et-Menus.json')
   const planData: PlanSite = JSON.parse(fs.readFileSync(planPath, 'utf-8'))
 
   // Filtrer les pages visibles (exclure "Masqué")

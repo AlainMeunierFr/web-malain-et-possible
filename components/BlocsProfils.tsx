@@ -19,8 +19,8 @@ const BlocsProfils: React.FC<BlocsProfilsProps> = ({ element }) => {
   }
 
   return (
-    <section className="blocsProfils" data-layout="4 columns x 1 row">
-      <h2 className="listeDeProfils titre ui-visuallyHidden">Mes profils professionnels</h2>
+    <section className="listeDeProfils-cont" data-layout="4 columns x 1 row">
+      <h2 className="listeDeProfils-cont titre ui-visuallyHidden">Mes profils professionnels</h2>
       {element.profils.map((profil) => (
         <ProfilContainer
           key={profil.slug}

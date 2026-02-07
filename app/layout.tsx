@@ -5,7 +5,7 @@ import Matomo from "../components/Matomo";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import JsonLd from "../components/JsonLd";
-import { buildHomePageJsonLd } from "../utils/server";
+import { buildHomePageJsonLd, readHeaderMenu } from "../utils/server";
 
 export const metadata: Metadata = {
   title: "Malain et possible",
@@ -50,8 +50,8 @@ export default function RootLayout({
         <EditingProvider>
           <PageTitleProvider>
             <Matomo />
-            <Header />
-            <main id="main-content">{children}</main>
+            <Header menuEntries={readHeaderMenu()} />
+            <main className="main-content-cont" id="main-content-cont">{children}</main>
             <Footer />
           </PageTitleProvider>
         </EditingProvider>

@@ -3,7 +3,7 @@
  * TDD : RED → GREEN → REFACTOR
  * Approche progressive : du plus simple au plus complexe
  * Utilise un chemin temporaire pour le plan (option siteMapPath) pour ne pas modifier
- * data/_Pages-Et-Lien.json réel (évite les conflits avec les tests d'intégration).
+ * data/_Pages-Liens-Et-Menus.json réel (évite les conflits avec les tests d'intégration).
  */
 
 import { detecterPages, detecterLiensInternes, mettreAJourPlanJSON, validerEmplacements } from '../../utils/backoffice';
@@ -15,7 +15,7 @@ import * as os from 'os';
 let testSiteMapPath: string;
 
 beforeEach(() => {
-  testSiteMapPath = path.join(fs.mkdtempSync(path.join(os.tmpdir(), 'sitemap-unit-')), '_Pages-Et-Lien.json');
+  testSiteMapPath = path.join(fs.mkdtempSync(path.join(os.tmpdir(), 'sitemap-unit-')), '_Pages-Liens-Et-Menus.json');
 });
 
 afterEach(() => {

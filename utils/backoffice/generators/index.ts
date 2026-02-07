@@ -5,7 +5,10 @@
 // Site Hierarchy Generator
 export {
   buildHierarchyTree,
+  buildHierarchyFromPageContenu,
+  contenuToAsciiArt,
   renderHierarchyToAscii,
+  renderContainersOnlyToAscii,
   generateHierarchyMarkdown,
 } from './siteHierarchyGenerator';
 

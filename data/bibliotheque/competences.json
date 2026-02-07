@@ -141,7 +141,7 @@
         "src": "Data.png",
         "alt": "Data et Business Intelligence"
       },
-      "description": "Nos nombreux biais cognitifs peuvent nous tromper. Objectiver nos arbitrages via des **données quantitatives factuelles** permet d'éviter bien des erreurs. L'analyse de données permet de transformer des informations brutes en insights stratégiques. J'utilise des **outils de BI**, Excel et PowerQuery pour visualiser les données et aider à la prise de décisions éclairées.",
+      "description": "Nos nombreux biais cognitifs peuvent nous tromper.Objectiver nos arbitrages via des **données quantitatives factuelles** permet d'éviter bien des erreurs. L'analyse de données permet de transformer des informations brutes en insights stratégiques. J'utilise des **outils de BI**, Excel et PowerQuery pour visualiser les données et aider à la prise de décisions éclairées.",
       "bouton": null,
       "type": "competence"
     },
@@ -315,7 +315,8 @@
         "src": "TheWeek.png",
         "alt": "Une vision systémique"
       },
-      "description": "**L'environnement se dégrade** et le climat change rapidement. [**The Week**](https://www.theweek.ooo/) est une expérience émotionnelle de groupe pour nous aider à comprendre ce qui se profile et **ce que nous pouvons faire** à ce sujet.",
+      "description": "**L'environnement se dégrade** et le climat change rapidement. [**The Week**](https://www.theweek.ooo/) est une expérience émotionnelle de groupe pour nous aider à comprendre ce qui se profile et **ce que nous pouvons faire** à ce sujet.\n\n« Comment est-il possible que nous construisions collectivement ce qu'individuellement aucun d'entre nous ne voudrions ? »",
+	  "auteur": "Otto Scharmer",
       "bouton": null,
       "type": "competence"
     },

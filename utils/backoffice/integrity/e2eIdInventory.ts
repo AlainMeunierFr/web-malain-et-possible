@@ -34,7 +34,7 @@ function extractE2eIdsFromJson(): E2eIdInventoryItem[] {
   const jsonFiles = files.filter((file) => file.endsWith('.json'));
 
   const ignoredFiles = new Set([
-    '_Pages-Et-Lien.json',
+    '_Pages-Liens-Et-Menus.json',
     'plan-du-site.json',
     '_motdepasse.json',
     '_footerButtons.json',

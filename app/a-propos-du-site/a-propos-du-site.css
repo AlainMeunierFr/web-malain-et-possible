@@ -12,7 +12,7 @@
  */
 
 /* Reset du conteneur .main quand .charte est présent */
-.main:has(.charte) {
+.main-cont:has(.charte) {
   padding: 0 !important;
   max-width: none !important;
   width: auto !important;
@@ -27,7 +27,7 @@
 /* ========== Structure page & bande menu (ex-about.module.css) ========== */
 
 /* Page A propos du site : pleine largeur pour le board Kanban */
-.main {
+.main-cont {
   padding: 2rem;
   padding-top: calc(max(80px, 8.75vh) + 2rem);
   padding-bottom: calc(max(50px, 5.47vh) + 2rem);

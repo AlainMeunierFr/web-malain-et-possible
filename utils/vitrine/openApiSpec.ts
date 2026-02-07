@@ -54,6 +54,21 @@ function getSlugParameter(resourceName: string) {
 }
 
 /**
+ * Paramètre format pour les endpoints Pages (optionnel).
+ * Les deux formats appellent le même code (readPageData).
+ */
+function getFormatParameter() {
+  return {
+    name: 'format',
+    in: 'query',
+    required: false,
+    description:
+      'Format de sortie : `json` (défaut) ou `ascii` (hiérarchie containers en ASCII Art). Même code appelé pour les deux.',
+    schema: { type: 'string', enum: ['json', 'ascii'], default: 'json' },
+  };
+}
+
+/**
  * Génère la spécification OpenAPI 3.0 pour l'API Vitrine
  */
 export function generateOpenApiSpec(): OpenApiSpec {
@@ -73,6 +88,7 @@ export function generateOpenApiSpec(): OpenApiSpec {
     ],
     tags: [
       { name: 'Pages', description: 'Gestion des pages du site' },
+      { name: 'Menu', description: 'Menu header (entrées et sous-menus)' },
       { name: 'Profils', description: 'Profils professionnels' },
       { name: 'Domaines', description: 'Domaines de compétences' },
       { name: 'Compétences', description: 'Compétences détaillées' },
@@ -381,6 +397,35 @@ export function generateOpenApiSpec(): OpenApiSpec {
           },
         },
       },
+      '/api/vitrine/menu': {
+        get: {
+          tags: ['Menu'],
+          summary: 'Menu header',
+          description:
+            'Retourne le menu header du site (entrées et sous-menus). Source : _Pages-Liens-Et-Menus.json (section menus).',
+          responses: {
+            '200': {
+              description: 'Liste des entrées du menu avec sous-menus',
+              content: {
+                'application/json': {
+                  schema: {
+                    type: 'array',
+                    items: { $ref: '#/components/schemas/MenuItemAPI' },
+                  },
+                },
+              },
+            },
+            '500': {
+              description: 'Erreur lecture du plan (fichier absent ou invalide)',
+              content: {
+                'application/json': {
+                  schema: { $ref: '#/components/schemas/ApiError' },
+                },
+              },
+            },
+          },
+        },
+      },
       '/api/vitrine/version': {
         get: {
           tags: ['Système'],
@@ -565,6 +610,28 @@ export function generateOpenApiSpec(): OpenApiSpec {
               description: 'Contenu de la page (variable selon le type)',
             },
           },
+        },
+        MenuItemAPI: {
+          type: 'object',
+          description: 'Entrée du menu header (avec sous-menus optionnels)',
+          properties: {
+            id: { type: 'string', description: 'Identifiant de l\'entrée' },
+            label: { type: 'string', description: 'Libellé affiché' },
+            url: { type: 'string', description: 'URL de la page' },
+            sousMenu: {
+              type: 'array',
+              description: 'Sous-pages (ex. profils, portfolio)',
+              items: {
+                type: 'object',
+                properties: {
+                  label: { type: 'string' },
+                  url: { type: 'string' },
+                },
+                required: ['label', 'url'],
+              },
+            },
+          },
+          required: ['id', 'label', 'url'],
         },
         VersionAPI: {
           type: 'object',

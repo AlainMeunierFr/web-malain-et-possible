@@ -11,6 +11,7 @@ alwaysApply: false
 - Principes Clean Code (SOLID, pas de duplication, noms explicites)
 - Tests TDD/BDD avec **couverture 100%**
 - Cycle RED → GREEN → REFACTOR respecté
+- **Plan de tests baby steps** (si applicable) : l'agent TDD a suivi la liste validée, un test à la fois
 - Scénarios BDD validés respectés
 - Cohérence avec les BDD existants
 - **Nouvelle page / nouveau lien** : plan du site à jour, e2eID présents, scénario E2E régénéré

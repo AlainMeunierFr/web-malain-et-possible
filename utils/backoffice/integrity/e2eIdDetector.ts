@@ -49,7 +49,7 @@ const COMPOSANTS_EXCLUS_MD = new Set([
 // Fichiers JSON à ignorer
 // Note: _footerButtons.json et les fichiers de la bibliothèque utilisent le mapping e2eID centralisé (_e2eIds-mapping.json)
 const FICHIERS_JSON_IGNORES = new Set([
-  '_Pages-Et-Lien.json',
+  '_Pages-Liens-Et-Menus.json',
   'plan-du-site.json',
   '_motdepasse.json',
   '_metrics.json',

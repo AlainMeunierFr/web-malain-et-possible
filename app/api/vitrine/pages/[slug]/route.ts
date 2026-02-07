@@ -2,12 +2,14 @@
  * API Route : GET /api/vitrine/pages/[slug]
  * Retourne une page spécifique
  * Mode obligatoire : refs ou full
+ * Format optionnel : json (défaut) ou ascii — les deux appellent readPageData (même code)
  */
 
 import { NextRequest, NextResponse } from 'next/server';
 import fs from 'fs';
 import path from 'path';
 import { validateModeParameter, readPageData } from '@/utils/vitrine';
+import { contenuToAsciiArt } from '@/utils/backoffice';
 
 interface RouteParams {
   params: Promise<{ slug: string }>;
@@ -16,6 +18,7 @@ interface RouteParams {
 export async function GET(request: NextRequest, { params }: RouteParams) {
   const searchParams = request.nextUrl.searchParams;
   const mode = searchParams.get('mode');
+  const format = searchParams.get('format') ?? 'json';
 
   // Valider le mode
   const validation = validateModeParameter(mode);
@@ -36,9 +39,16 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
       );
     }
 
-    // Pour les deux modes, on retourne les mêmes données
-    // (les pages n'ont pas de FK à résoudre différemment)
+    // Les deux formats appellent le même code de lecture
     const pageData = readPageData(filename);
+
+    if (format === 'ascii') {
+      const ascii = contenuToAsciiArt(pageData.contenu ?? []);
+      return new NextResponse(ascii, {
+        status: 200,
+        headers: { 'Content-Type': 'text/plain; charset=utf-8' },
+      });
+    }
 
     return NextResponse.json({
       slug,

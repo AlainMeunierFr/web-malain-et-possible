@@ -5,6 +5,15 @@ alwaysApply: false
 
 # Outils et Automatisation
 
+## Délégation vers les agents
+
+**Deux mécanismes (par ordre de préférence) :**
+
+1. **Outil Task** : Si disponible, appelle `Task({ subagent_type, description, prompt })`. Cursor injecte cet outil quand les sous-agents sont activés (Settings > Rules, Skills, Subagents).
+2. **Commande /go-next** : Fichier **`.cursor/commands/go-next.md`**. Contenu = `@[agent]` + prompt de délégation. Quand tu délégues, TU ÉCRIS ce fichier. L'utilisateur tape `/go-next` dans le chat → Cursor insère le contenu et invoque l'agent. **Une seule action pour l'utilisateur.**
+
+**Agents** : `.cursor/agents/` — nom = champ `name` du frontmatter (US, BDD, TDD-back-end, TDD-front-end, Designer).
+
 ## Stack Technique
 
 - **IDE** : Cursor

@@ -11,7 +11,7 @@ export default function DetournementVideoPage() {
   const pageData = readPageData('detournement-video.json');
 
   return (
-    <main className="main">
+    <main className="main-cont">
       <PageContentRenderer contenu={pageData.contenu} />
     </main>
   );

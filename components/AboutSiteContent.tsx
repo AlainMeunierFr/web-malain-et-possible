@@ -146,7 +146,7 @@ export default function AboutSiteContent({ structure, pathContent, startAtSectio
     );
     if (embedded) return <>{content}</>;
     return (
-      <main className="main">
+      <main className="main-cont">
         <div className="content">
           {content}
         </div>
@@ -188,7 +188,7 @@ export default function AboutSiteContent({ structure, pathContent, startAtSectio
   }
 
   return (
-    <main className="main">
+    <main className="main-cont">
       <div className="content">
         {content}
       </div>

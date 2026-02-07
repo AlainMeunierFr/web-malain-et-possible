@@ -82,7 +82,7 @@ export default function ListeDesPages({ initialPages }: { initialPages?: ListeDe
         dessiner: p.dessiner,
       })),
     });
-    return <div className="listeDesPages">Aucune page à afficher.</div>;
+    return <div className="listeDesPages-cont">Aucune page à afficher.</div>;
   }
 
   const renderPageButton = (page: PlanPage) => {
@@ -100,7 +100,7 @@ export default function ListeDesPages({ initialPages }: { initialPages?: ListeDe
   };
 
   return (
-    <div className="listeDesPages" data-layout="draw with page properties">
+    <div className="listeDesPages-cont" data-layout="draw with page properties">
       {/* Ligne 1 : HomePage (horizontal) */}
       {pagesParZone.HomePage.length > 0 && (
         <div className="ligne-1 zone-homepage">

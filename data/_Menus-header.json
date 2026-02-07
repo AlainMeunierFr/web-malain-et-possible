@@ -1,0 +1,19 @@
+{
+  "header": [
+    { "id": "accueil", "pageUrl": "/", "label": "Accueil" },
+    {
+      "id": "mes-profils",
+      "pageUrl": "/mes-profils",
+      "label": "Mes profils",
+      "sousmenuPageUrls": ["/profil/cpo", "/profil/coo", "/profil/agile", "/profil/cto"]
+    },
+    {
+      "id": "detournements",
+      "pageUrl": "/detournement-video",
+      "label": "Détournement vidéo",
+      "sousmenuPageUrls": ["/portfolio-detournements"]
+    },
+    { "id": "a-propos", "pageUrl": "/a-propos-du-site", "label": "A propos" }
+  ],
+  "exclusHeader": ["/pour-aller-plus-loin", "/faisons-connaissance"]
+}

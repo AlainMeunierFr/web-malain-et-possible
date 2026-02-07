@@ -36,6 +36,8 @@
     "screenshot:prod": "tsx scripts/screenshot-page.ts https://web-malain-et-possible.vercel.app/ .cursor",
     "screenshot:compare": "tsx scripts/screenshot-compare.ts",
     "hierarchie:generate": "ts-node --project tsconfig.node.json scripts/generate-hierarchie-site.ts",
+    "css:hierarchy": "ts-node --project tsconfig.node.json scripts/generate-css-hierarchy.ts",
+    "check:menu-integrity": "tsx scripts/check-menu-integrity.ts",
     "prepare": "husky"
   },
   "dependencies": {

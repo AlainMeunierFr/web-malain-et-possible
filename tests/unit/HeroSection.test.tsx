@@ -158,8 +158,8 @@ describe('Composant HeroSection', () => {
 
     expect(screen.getByTestId('hero-video')).toBeInTheDocument();
     expect(screen.getByTestId('hero-video')).toHaveAttribute('data-url', hero.video!.urlYouTube);
-    expect(document.querySelector('.heroDroite')).toBeInTheDocument();
-    expect(document.querySelector('.heroGauche')).toBeInTheDocument();
+    expect(document.querySelector('.hero-droite-cont')).toBeInTheDocument();
+    expect(document.querySelector('.hero-gauche-cont')).toBeInTheDocument();
   });
 
   it('devrait parser le markdown **gras** dans le titre', () => {

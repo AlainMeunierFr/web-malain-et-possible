@@ -63,6 +63,9 @@ html {
   --Blanc: #ffffff;
   --Transparent: transparent;
 
+  /* Mode debug GO CSS : bordure des containers (1px noir ; QUIT CSS = transparent) */
+  --CouleurBordDeContainer: 1px solid #000;
+
   /* Rétrocompat */
   --background: var(--Blanc);
   --foreground: var(--Noir);
@@ -73,12 +76,13 @@ html {
   /* Force le mode clair */
   color-scheme: light;
 
-  /* Tailles de police (concepts) */
-  --enorme: 2rem;
-  --grande: 1.5rem;
-  --moyenne: 1.25rem;
-  --normale: 1rem;
-  --petite: 0.8rem;
+  /* Tailles de police (concepts) — interpolation proportionnelle viewport.
+     Formule de base : 1280px→0.75rem, 5120px→2.5rem (calc(0.73vw + 2.65px) pour 1rem). */
+  --enorme: clamp(1.7em, calc(1.46vw + 5.3px), 5rem);
+  --grande: clamp(1.275em, calc(1.095vw + 3.98px), 3.75rem);
+  --moyenne: clamp(1.06em, calc(0.91vw + 3.31px), 3.125rem);
+  --normale: clamp(0.85em, calc(0.73vw + 2.65px), 2.5rem);
+  --petite: clamp(0.68em, calc(0.584vw + 2.12px), 2rem);
 
   /* Types sémantiques pour les titres
      h1 : contexte TitreDePage (header bleu) = --enorme, blanc — contexte Hero = à définir

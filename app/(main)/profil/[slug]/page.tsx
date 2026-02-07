@@ -61,7 +61,7 @@ export default async function ProfilPage({ params }: { params: Promise<{ slug: s
   return (
     <>
       <JsonLd data={buildProfilPageJsonLd(titresParSlug[slug] || slug, slug)} />
-      <main className="main">
+      <main className="main-cont">
         <PageContentRenderer contenu={pageData.contenu} />
       </main>
     </>

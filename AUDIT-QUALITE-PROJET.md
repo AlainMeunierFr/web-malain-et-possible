@@ -580,7 +580,7 @@ Avec les corrections recommandées, le projet pourrait atteindre une **note moye
 - ✅ **Skip link ajouté** : lien "Aller au contenu principal" dans Header avec style `.skip-link` (invisible sauf au focus)
 - ✅ **Hiérarchie H1 corrigée** : un seul H1 par page (dans Header), HeroSection/Titre utilisent H2
 - ✅ **Touch targets 44px** : `min-height: 44px` et `min-width: 44px` sur `.footer .icone` et `.footer .bouton`
-- ✅ **`id="main-content"`** sur le main pour la navigation au clavier
+- ✅ **`class="main-content-cont" id="main-content-cont"`** sur le main pour la navigation au clavier
 
 #### Points restants
 - Gestion du focus dans les modals (pas de trap)

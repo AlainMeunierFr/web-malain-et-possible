@@ -15,10 +15,14 @@
   width: 100%;
   background-color: var(--BleuFonce);
   z-index: 1000;
-  height: max(80px, 8.75vh);
+  height: var(--header-height);
   min-height: 80px;
   overflow: visible;
-  padding: 30px;
+  padding: 0 max(11px, 1.2vw);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
 }
 
 .header .logoContainer {
@@ -42,6 +46,112 @@
   object-fit: contain;
 }
 
+/* Nav menu (desktop) — largeur au contenu pour laisser le titre à droite du menu (pas sous la photo) */
+.header .headerNav {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem 1.5rem;
+  flex-wrap: wrap;
+  flex: 0 0 auto;
+  min-width: 0;
+}
+
+.header .headerNavGroup {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+.header .headerNavLink {
+  display: inline-block;
+  padding: 0.5rem 0.75rem;
+  color: var(--Blanc);
+  text-decoration: none;
+  font-size: var(--normale);
+  font-weight: 500;
+  border-radius: 4px;
+  transition: background-color 0.2s ease, color 0.2s ease;
+  white-space: nowrap;
+}
+
+.header .headerNavLink:hover {
+  background-color: rgba(255, 255, 255, 0.15);
+  color: var(--Blanc);
+}
+
+/* Dropdown : parent en 1ère ligne du panneau, panneau par-dessus le header */
+.header .headerDropdown {
+  position: absolute;
+  top: 0;
+  left: 0;
+  min-width: 12rem;
+  padding: 0.5rem 0;
+  background-color: var(--Blanc);
+  border-radius: 6px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-4px);
+  transition: opacity 0.2s ease, visibility 0.2s ease, transform 0.2s ease;
+  z-index: 1002;
+}
+
+.header .headerNavGroup:hover .headerDropdown {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.header .headerDropdownLink {
+  display: block;
+  padding: 0.5rem 1rem;
+  color: var(--BleuFonce);
+  text-decoration: none;
+  font-size: var(--normale);
+  transition: background-color 0.15s ease;
+}
+
+.header .headerDropdownLink:hover {
+  background-color: var(--BleuClair);
+}
+
+/* Bloc gauche : menu puis titre (fer à gauche du titre, titre à droite de la fin du menu) */
+.header .headerLeft {
+  display: flex;
+  align-items: center;
+  gap: 0 1rem;
+  flex: 1;
+  min-width: 0;
+}
+
+.header .headerTitleBlock {
+  display: flex;
+  align-items: center;
+  margin-left: 0;
+  padding-left: 1rem;
+  border-left: 1px solid rgba(255, 255, 255, 0.6);
+  min-width: 0;
+  flex: 0 1 auto;
+}
+
+.header .headerTitleBlock .titreDePage.texte {
+  color: var(--Blanc);
+  font-family: var(--font-serif);
+  font-size: var(--moyenne);
+  font-weight: 600;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@media (max-width: 767px) {
+  .header .headerTitleBlock {
+    display: none;
+  }
+}
+
+/* US-1.2 CA1 : la photo flotte au-dessus du header en haut à droite (position absolue, déborde vers le bas) */
 .header .photoContainer {
   position: absolute;
   top: max(11px, 1.2vh);
@@ -63,32 +173,90 @@
   object-fit: contain;
 }
 
-.header .titleContainer {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 1001;
-}
-
-.header .titreDePage.texte {
+/* Hamburger (mobile) — masqué sur desktop */
+.header .headerHamburger {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  background: transparent;
+  border: none;
   color: var(--Blanc);
-  font-family: var(--font-serif);
-  font-size: var(--enorme);
-  font-weight: 700;
-  margin: 0;
-  white-space: nowrap;
-  text-align: center;
-  padding: 0 1rem;
-  max-width: calc(100% - 250px);
+  cursor: pointer;
+  font-size: 1.5rem;
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
 }
 
-@media (max-width: 768px) {
-  .header .titreDePage.texte {
-    font-size: calc(var(--normale) * 1.125);
-    max-width: calc(100% - 180px);
-    padding: 0 0.5rem;
+.header .headerHamburger:hover {
+  background-color: rgba(255, 255, 255, 0.15);
+}
+
+@media (max-width: 767px) {
+  .header .headerHamburger {
+    display: flex;
   }
+
+  .header .headerNav {
+    display: none;
+  }
+}
+
+/* Panneau mobile (overlay) */
+.headerMobilePanel {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1003;
+  display: flex;
+  flex-direction: column;
+  padding: max(80px, 8.75vh) 1rem 1rem;
+}
+
+.headerMobilePanel .headerMobilePanelClose {
+  position: absolute;
+  top: max(11px, 1.2vh);
+  right: max(11px, 1.2vw);
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  background: var(--Blanc);
+  border: none;
+  border-radius: 4px;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: var(--BleuFonce);
+  line-height: 1;
+}
+
+.headerMobilePanel .headerMobileNav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  background: var(--Blanc);
+  padding: 1rem;
+  border-radius: 8px;
+  max-width: 20rem;
+}
+
+.headerMobilePanel .headerMobileNavLink {
+  display: block;
+  padding: 0.75rem 1rem;
+  color: var(--BleuFonce);
+  text-decoration: none;
+  font-size: var(--normale);
+  font-weight: 500;
+  border-radius: 4px;
+  transition: background-color 0.15s ease;
+}
+
+.headerMobilePanel .headerMobileNavLink:hover {
+  background-color: var(--BleuClair);
 }
 
 /* ============================================
@@ -171,16 +339,17 @@
 /* ============================================
    .main-content-cont — zone d'affichage jusqu'en bas
    En DOM : main.main-content-cont (entre header et footer).
-   - Contenu court (< viewport) : centré verticalement
-   - Contenu long (> viewport) : collé en haut
-   padding-top = position inférieure du logo + 5px.
    ============================================ */
+:root {
+  --header-height: max(80px, 8.75vh);
+  --hauteur-main: calc(100vh - var(--header-height) - max(50px, 5.47vh));
+}
 .main-content-cont {
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
   min-height: 100vh;
-  padding-top: calc(max(11px, 1.2vh) + max(99px, 10.83vh) + 5px);
+  padding-top: calc(var(--header-height) + 1rem);
   padding-bottom: max(50px, 5.47vh);
   padding-left: 2.5%;
   padding-right: 2.5%;
@@ -285,8 +454,54 @@
   }
 }
 
-/* --- Hero.Vidéo : 45% largeur Hero, ratio 16:9 préservé, centré (horizontal et vertical), URL masquée --- */
-/* align-self: center pour centrer verticalement Hero.Droite dans Hero quand la colonne opposée est plus haute */
+/* --- video.urlYouTube : centré, URL masquée, proportions 16:9 conservées (jamais tronquer) --- */
+/* Portrait : 96% de la largeur | Paysage : 70% de la hauteur de main (entre header et footer) */
+.video .urlYouTube {
+  display: none;
+}
+
+.video {
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.video .videoWrapper {
+  aspect-ratio: 16 / 9;
+  overflow: visible; /* jamais tronquer */
+}
+
+.video .videoWrapper iframe {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+@media (orientation: portrait) {
+  .video {
+    width: 96%;
+    max-width: 96%;
+  }
+  .video .videoWrapper {
+    width: 100%;
+  }
+}
+
+@media (orientation: landscape) {
+  .video {
+    width: fit-content;
+    max-width: 100%;
+  }
+  .video .videoWrapper {
+    height: calc(0.5 * var(--hauteur-main));
+    width: auto;
+    max-width: 100%;
+  }
+}
+
+/* --- Hero.Vidéo : réglage spécifique (déjà en place), ne pas hériter des règles génériques --- */
 .hero-droite-cont {
   display: flex;
   justify-content: center;
@@ -294,28 +509,16 @@
   align-self: center;
 }
 
-/* Mode empilé (mobile, portrait) : vidéo 100% de la largeur disponible */
 .hero-droite-cont .video {
   width: 100%;
 }
 
-.hero-droite-cont .video .urlYouTube {
-  display: none;
-}
-
 .hero-droite-cont .video .videoWrapper {
-  aspect-ratio: 16 / 9;
   width: 100%;
+  height: auto;
   overflow: hidden;
 }
 
-.hero-droite-cont .video .videoWrapper iframe {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-}
-
-/* Mode 2 colonnes : vidéo 45% du Hero (90% de hero-droite qui fait 50%) */
 @media (orientation: landscape) and (min-width: 48rem) {
   .hero-droite-cont .video {
     width: 90%;
@@ -433,24 +636,14 @@
 }
 
 @media (orientation: landscape) {
-  [data-layout="2 columns x N rows"] {
+  [data-layout="2 columns x N rows"],
+  .texteLarge.texte,
+  .domaineDeCompetence-cont {
     width: 70%;
     margin-left: auto;
     margin-right: auto;
   }
 }
-
-/* TexteLarge : 70% centré, comme témoignages */
-.texteLarge {
-  width: 70%;
-  margin-inline: auto;
-  padding: 0;
-}
-.texteLarge p {
-  margin: 0 0 1em;
-  padding: 0;
-}
-.texteLarge p:last-child { margin-bottom: 0; }
 
 /* Titre : pas de marge supplémentaire */
 .listeDeTemoignages-cont.titre {
@@ -561,14 +754,18 @@
 
 /* --- Domaine de compétence --- */
 
-/* Espacement entre les sections */
+/* Espacement au-dessus */
 .domaineDeCompetence-cont {
-  margin-top: 2rem;
+  padding-top: 2rem;
 }
 
 /* Fond bleu clair pour DomaineDeCompetence (géré via prop backgroundColor) */
 .domaineDeCompetence-cont.light {
   background-color: var(--BleuClair);
+}
+
+.domaineDeCompetence-cont .domaineDeCompetence-competences-cont {
+  padding-top: 1rem;
 }
 
 /* Titre du domaine (h2) */
@@ -577,19 +774,13 @@
   font-weight: var(--h2-font-weight);
   color: var(--h2-color);
   text-align: center;
-  margin: 0;
-}
-
-/* Pas d'espace entre domaineHeader et competencesContainer */
-.domaineDeCompetence-cont .domaineDeCompetence-header-cont {
-  margin-bottom: 0;
-}
-
-.domaineDeCompetence-cont .domaineDeCompetence-competences-cont {
-  margin-top: 0;
 }
 
 /* --- Expériences et apprentissages : discret --- */
+.experiencesContainer {
+  padding: 1rem 1rem 0 1rem;
+}
+
 .experiencesToggle {
   display: flex;
   align-items: center;
@@ -608,9 +799,9 @@
   background: var(--Blanc);
 }
 
-/* Titre de l'accordéon : gras */
+/* Titre de l'accordéon : gras, légèrement plus grand que --petite */
 h3.experienceEtApprentissage.titre {
-  font-size: var(--petite);
+  font-size: var(--normale);
   font-weight: 700 !important;
   color: var(--Noir);
   margin: 0;
@@ -627,9 +818,9 @@ h3.experienceEtApprentissage.titre {
   color: var(--Noir);
 }
 
-/* Contenu des expériences : petite police, aligné à gauche, collé au toggle */
+/* Contenu des expériences : taille lisible (--normale), aligné à gauche, collé au toggle */
 .experiencesContent {
-  font-size: var(--petite);
+  font-size: var(--normale);
   text-align: left;
   margin: 0;
   padding: 0;
@@ -644,12 +835,12 @@ h3.experienceEtApprentissage.titre {
 
 .experiencesContent li,
 .experiencesContent li * {
-  font-size: var(--petite);
+  font-size: var(--normale);
   margin-bottom: 0.25rem;
 }
 
 .experienceEtApprentissage.description {
-  font-size: var(--petite);
+  font-size: var(--normale);
   display: inline;
 }
 
@@ -663,35 +854,44 @@ h3.experienceEtApprentissage.titre {
   display: none;
 }
 
-/* Contenu avec marges latérales (~16%) */
+/* Contenu : centré */
 .domaineDeCompetence-cont > .contenu {
-  padding-left: 16%;
-  padding-right: 16%;
+  text-align: center;
 }
 
 .domaineDeCompetence-cont > .auteur {
-  text-align: right;
-  padding-right: 16%;
+  text-align: center;
 }
 
-/* --- Compétence : layout et espacement --- */
+/* --- Compétence : image flottante (solution Mistral), style carte comme témoignages --- */
 .competence-cont {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  padding: 0.75rem;
+  overflow: auto;
+  min-width: 0; /* évite débordement dans la grille parente */
 }
 
-.competence-cont .image {
-  order: 1;
-  align-self: center;
-  max-width: 50%;
+/* Carte uniquement (pas les enfants .competence-cont.titre etc.) */
+.domaineDeCompetence-competences-cont > .competence-cont {
+  padding: 1rem;
+  border: 1px solid #d0d0d0;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
 
-.competence-cont .image img {
-  display: block;
-  max-width: 100%;
+.competence-cont .image,
+.competence-cont .icon {
+  float: left;
+  margin: 0 15px 10px 0;
+  width: 72px;
   height: auto;
+}
+
+.competence-cont .titre,
+.competence-cont .description p,
+.competence-cont .markdownParagraph,
+.competence-cont .markdownList,
+.competence-cont .auteur {
+  margin-top: 0;
+  margin-bottom: 10px;
 }
 
 /* Placeholder pour images manquantes (page /charte) */
@@ -711,28 +911,14 @@ h3.experienceEtApprentissage.titre {
 }
 
 .competence-cont .titre {
-  order: 0;
   font-size: var(--h3-font-size);
   font-weight: var(--h3-font-weight);
   color: var(--h3-color);
-  text-align: center;
-  margin: 0;
-}
-
-.competence-cont .description {
-  order: 2;
+  text-align: left;
 }
 
 .competence-cont .auteur {
-  order: 3;
   text-align: right;
-}
-
-/* Lien "En savoir plus" : style lien, en bas de la compétence */
-.competence-cont .lienContainer,
-.competence-cont > .lienInterne {
-  order: 4;
-  margin-top: 0.5rem;
 }
 
 .competence-cont .lienInterne {
@@ -746,20 +932,22 @@ h3.experienceEtApprentissage.titre {
   text-decoration: none;
 }
 
-/* --- Grille 3 colonnes (competences dans domaineDeCompetence) --- */
-[data-layout="3 columns x 1 row"] {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1rem;
+/* --- domaineDeCompetence.competences : grille 3 colonnes en paysage --- */
+@media (orientation: landscape) {
+  [data-layout="3 columns x 1 row"] {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+  }
 }
 
-@media (max-width: 900px) {
+@media (orientation: landscape) and (max-width: 900px) {
   [data-layout="3 columns x 1 row"] {
     grid-template-columns: repeat(2, 1fr);
   }
 }
 
-@media (max-width: 600px) {
+@media (orientation: landscape) and (max-width: 600px) {
   [data-layout="3 columns x 1 row"] {
     grid-template-columns: 1fr;
   }

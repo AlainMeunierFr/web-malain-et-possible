@@ -101,7 +101,7 @@ export function genererContenuSpecE2E(
   lignes.push(
     "test('parcours complet de tous les liens du site et test de tous les e2eID', async ({ page }) => {"
   );
-  lignes.push('  // Scénario généré automatiquement depuis _Pages-Et-Lien.json');
+  lignes.push('  // Scénario généré automatiquement depuis _Pages-Liens-Et-Menus.json');
   lignes.push('  // Ce test parcourt tous les liens du site et teste tous les e2eID présents');
   lignes.push('');
 

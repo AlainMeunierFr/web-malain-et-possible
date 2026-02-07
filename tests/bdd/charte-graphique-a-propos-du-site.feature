@@ -50,7 +50,7 @@ Fonctionnalité: Page Charte graphique accessible via « À propos du site »
     Étant donné que je suis sur la page Charte à l'URL /a-propos-du-site/charte
     Quand la page se charge
     Alors je vois un exemple de composant Hero
-    Et le Hero utilise le layout "2 columns" avec les classes .heroGauche et .heroDroite
+    Et le Hero utilise le layout "2 columns" avec les classes .hero-gauche-cont et .hero-droite-cont
     Et le Hero contient un titre, un sous-titre, une description et des CTAs
 
   Scénario: Le composant Liste de Profils s'affiche avec le rendu vitrine

@@ -3,12 +3,13 @@
  */
 
 import React from 'react';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import fs from 'fs';
 import path from 'path';
 import Header from '../../components/Header';
 import { EditingProvider } from '../../contexts/EditingContext';
-import { PageTitleProvider } from '../../contexts/PageTitleContext';
+import { PageTitleProvider, usePageTitle } from '../../contexts/PageTitleContext';
+import type { HeaderMenuEntry } from '../../utils/shared/headerMenuTypes';
 
 // Mock next/navigation
 const mockPush = jest.fn();
@@ -45,56 +46,140 @@ const renderWithProvider = (ui: React.ReactElement) => {
 describe('Header', () => {
   beforeEach(() => {
     mockPush.mockClear();
+    Object.defineProperty(window, 'matchMedia', {
+      value: jest.fn().mockImplementation((query: string) => ({
+        matches: false,
+        addListener: jest.fn(),
+        removeListener: jest.fn(),
+        addEventListener: jest.fn(),
+        removeEventListener: jest.fn(),
+        dispatchEvent: jest.fn(),
+      })),
+      writable: true,
+    });
   });
 
   it('devrait afficher le header', () => {
-    const { container } = renderWithProvider(<Header />);
+    const { container } = renderWithProvider(<Header menuEntries={[]} />);
     
     expect(container.querySelector('header')).toBeInTheDocument();
   });
 
-  it('devrait afficher le logo', () => {
-    renderWithProvider(<Header />);
-    
-    const logo = screen.getByAltText('Logo Malain et possible');
-    expect(logo).toBeInTheDocument();
+  // US-13.1 baby step 1 : le logo est retiré du header
+  it('ne devrait pas afficher le logo dans le header (US-13.1)', () => {
+    renderWithProvider(<Header menuEntries={[]} />);
+    const logo = screen.queryByAltText('Logo Malain et possible');
+    expect(logo).not.toBeInTheDocument();
   });
 
-  it('devrait naviguer vers HOME au clic sur le logo', () => {
-    renderWithProvider(<Header />);
-    
-    const logoLink = screen.getByAltText('Logo Malain et possible').closest('a');
-    expect(logoLink).toBeInTheDocument();
-    // Le Link de Next.js pointe vers HOME
-    expect(logoLink).toHaveAttribute('href', '/');
+  // US-13.1 baby step 3 : Header utilise readHeaderMenu() et affiche au moins une entrée en lien
+  it('devrait afficher au moins une entrée de menu en lien (ex. Accueil) quand menuEntries est fourni (US-13.1)', () => {
+    const menuEntries: HeaderMenuEntry[] = [
+      { id: 'accueil', label: 'Accueil', url: '/' },
+    ];
+    renderWithProvider(<Header menuEntries={menuEntries} />);
+    const accueilLink = screen.getByRole('link', { name: 'Accueil' });
+    expect(accueilLink).toBeInTheDocument();
+    expect(accueilLink).toHaveAttribute('href', '/');
   });
 
-  it('devrait naviguer vers HOME avec Enter sur le logo', () => {
-    renderWithProvider(<Header />);
-    
-    const logoLink = screen.getByAltText('Logo Malain et possible').closest('a');
-    expect(logoLink).toBeInTheDocument();
-    expect(logoLink).toHaveAttribute('href', '/');
+  // US-13.1 baby step 4 : toutes les entrées niveau 1 sont des liens cliquables
+  it('devrait afficher toutes les entrées niveau 1 comme liens vers leurs pages (US-13.1)', () => {
+    const menuEntries: HeaderMenuEntry[] = [
+      { id: 'accueil', label: 'Accueil', url: '/' },
+      { id: 'mes-profils', label: 'Mes profils', url: '/mes-profils' },
+    ];
+    renderWithProvider(<Header menuEntries={menuEntries} />);
+    expect(screen.getByRole('link', { name: 'Accueil' })).toHaveAttribute('href', '/');
+    expect(screen.getByRole('link', { name: 'Mes profils' })).toHaveAttribute('href', '/mes-profils');
   });
 
-  it('devrait naviguer vers HOME avec Space sur le logo', () => {
-    renderWithProvider(<Header />);
-    
-    const logoLink = screen.getByAltText('Logo Malain et possible').closest('a');
-    expect(logoLink).toBeInTheDocument();
-    expect(logoLink).toHaveAttribute('href', '/');
+  // US-13.1 baby step 5 : entrées avec sous-menu affichent un dropdown au survol
+  it('devrait afficher un dropdown avec les sous-items pour une entrée avec sousMenu (US-13.1)', () => {
+    const menuEntries: HeaderMenuEntry[] = [
+      {
+        id: 'mes-profils',
+        label: 'Mes profils',
+        url: '/mes-profils',
+        sousMenu: [
+          { label: 'Produit logiciel', url: '/profil/cpo' },
+          { label: 'Opérations', url: '/profil/coo' },
+        ],
+      },
+    ];
+    renderWithProvider(<Header menuEntries={menuEntries} />);
+    const sousLink = screen.getByText('Produit logiciel').closest('a');
+    expect(sousLink).toBeInTheDocument();
+    expect(sousLink).toHaveAttribute('href', '/profil/cpo');
   });
 
-  it('ne devrait pas naviguer avec une autre touche', () => {
-    renderWithProvider(<Header />);
-    
-    const logo = screen.getByAltText('Logo Malain et possible');
-    fireEvent.keyDown(logo, { key: 'a' });
-    
-    expect(mockPush).not.toHaveBeenCalled();
+  // US-13.1 baby step 6 : clic sur libellé entrée avec sous-menu navigue vers page mère (déjà couvert par step 4)
+  // US-13.1 baby step 8 : en dessous de 768px, menu horizontal masqué, icône hamburger visible
+  it('devrait afficher l’icône hamburger et masquer le menu horizontal en mode mobile (US-13.1)', async () => {
+    const matchMedia = jest.fn().mockImplementation((query: string) => ({
+      matches: query === '(max-width: 767px)',
+      addListener: jest.fn(),
+      removeListener: jest.fn(),
+      addEventListener: jest.fn(),
+      removeEventListener: jest.fn(),
+      dispatchEvent: jest.fn(),
+    }));
+    Object.defineProperty(window, 'matchMedia', { value: matchMedia, writable: true });
+    const menuEntries: HeaderMenuEntry[] = [{ id: 'accueil', label: 'Accueil', url: '/' }];
+    renderWithProvider(<Header menuEntries={menuEntries} />);
+    await waitFor(() => {
+      expect(screen.getByRole('button', { name: /ouvrir le menu/i })).toBeInTheDocument();
+    });
+    const nav = document.getElementById('headerNavDesktop');
+    expect(nav).toHaveAttribute('aria-hidden', 'true');
+  });
+
+  // US-13.1 baby step 9 : au clic sur hamburger, panneau latéral avec les mêmes entrées
+  it('devrait ouvrir un panneau latéral avec les entrées du menu au clic sur l’icône hamburger (US-13.1)', async () => {
+    const matchMedia = jest.fn().mockImplementation((query: string) => ({
+      matches: query === '(max-width: 767px)',
+      addListener: jest.fn(),
+      removeListener: jest.fn(),
+      addEventListener: jest.fn(),
+      removeEventListener: jest.fn(),
+      dispatchEvent: jest.fn(),
+    }));
+    Object.defineProperty(window, 'matchMedia', { value: matchMedia, writable: true });
+    const menuEntries: HeaderMenuEntry[] = [{ id: 'accueil', label: 'Accueil', url: '/' }];
+    renderWithProvider(<Header menuEntries={menuEntries} />);
+    await waitFor(() => {
+      expect(screen.getByRole('button', { name: /ouvrir le menu/i })).toBeInTheDocument();
+    });
+    fireEvent.click(screen.getByRole('button', { name: /ouvrir le menu/i }));
+    const accueilInPanel = screen.getAllByRole('link', { name: 'Accueil' });
+    expect(accueilInPanel.length).toBeGreaterThanOrEqual(1);
+  });
+
+  // US-13.1 : titre dans le header, après le menu (zone dédiée avec fer à gauche)
+  it('devrait rendre le titre de page dans une zone dédiée dans le header (US-13.1)', () => {
+    const SetTitleAndHeader = () => {
+      const { setPageTitle } = usePageTitle();
+      React.useEffect(() => {
+        setPageTitle('Mes Profils');
+      }, [setPageTitle]);
+      return <Header menuEntries={[]} />;
+    };
+    const { container } = render(
+      <PageTitleProvider>
+        <EditingProvider>
+          <SetTitleAndHeader />
+        </EditingProvider>
+      </PageTitleProvider>
+    );
+    const header = container.querySelector('header');
+    expect(header).toBeInTheDocument();
+    const titleBlock = header?.querySelector('.headerTitleBlock');
+    expect(titleBlock).toBeInTheDocument();
+    expect(titleBlock).toHaveTextContent('Mes Profils');
   });
 
   it('devrait avoir un z-index minimum de 1000 pour rester au-dessus du contenu (US-1.2)', () => {
+    renderWithProvider(<Header menuEntries={[]} />);
     // ARRANGE - Lire le fichier CSS global (sélecteur .header)
     const cssPath = path.join(__dirname, '../../app/content-styles.css');
     const cssContent = fs.readFileSync(cssPath, 'utf-8');
@@ -137,23 +222,10 @@ describe('Header', () => {
     expect(position).toBe('fixed');
   });
 
-  // ITÉRATION 1 : Test tooltip logo (US-1.4b)
-  it('devrait afficher un tooltip "Accueil" au survol du logo (US-1.4b)', () => {
-    // ARRANGE
-    renderWithProvider(<Header />);
-    
-    // ACT - Le logo a un alt text
-    const logo = screen.getByAltText('Logo Malain et possible');
-    
-    // ASSERT - Vérifier la présence du tooltip (le logo devrait avoir un title)
-    // Note: Les Images Next.js peuvent ne pas avoir de title directement, vérifier via le parent ou l'attribut
-    expect(logo).toBeInTheDocument();
-  });
-
   // ITÉRATION 2 : Test tooltip photo (US-1.4a)
   it('devrait afficher un tooltip "À propos de moi" au survol de la photo (US-1.4a)', () => {
     // ARRANGE
-    renderWithProvider(<Header />);
+    renderWithProvider(<Header menuEntries={[]} />);
     
     // ACT - Chercher la photo par son alt
     const photo = screen.getByAltText('Photo Alain Meunier');
@@ -165,14 +237,14 @@ describe('Header', () => {
   // US-Assistant-Scenario : Photo → Maintenance, prod = mot de passe / dev = direct
   it('en développement, le lien Photo pointe vers /maintenance', () => {
     mockIsProduction.mockReturnValue(false);
-    renderWithProvider(<Header />);
+    renderWithProvider(<Header menuEntries={[]} />);
     const photoLink = screen.getByAltText('Photo Alain Meunier').closest('a');
     expect(photoLink).toHaveAttribute('href', '/maintenance');
   });
 
   it('en production, le lien Photo pointe vers /maintenance (modal gérée séparément)', () => {
     mockIsProduction.mockReturnValue(true);
-    renderWithProvider(<Header />);
+    renderWithProvider(<Header menuEntries={[]} />);
     const photoLink = screen.getByAltText('Photo Alain Meunier').closest('a');
     expect(photoLink).toBeInTheDocument();
     // En production, le lien pointe toujours vers /maintenance
@@ -182,7 +254,7 @@ describe('Header', () => {
 
   it('en production, le clic sur la photo déclenche le modal de mot de passe', () => {
     mockIsProduction.mockReturnValue(true);
-    renderWithProvider(<Header />);
+    renderWithProvider(<Header menuEntries={[]} />);
     const photoLink = screen.getByAltText('Photo Alain Meunier').closest('a');
     
     // Cliquer sur le lien photo

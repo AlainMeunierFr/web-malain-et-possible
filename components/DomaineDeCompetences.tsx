@@ -6,7 +6,6 @@
 
 import React from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { useState } from 'react';
 import {
@@ -31,8 +30,7 @@ function isExternalUrl(url: string): boolean {
 }
 
 /**
- * Parse markdown avec support des listes à puces
- * Gère les blocs de texte et les listes (lignes commençant par "- ")
+ * Parse markdown avec support des listes à puces.
  */
 function parseMarkdownContent(text: string): React.ReactNode {
   // Normaliser les retours à la ligne Windows (\r\n) en Unix (\n)
@@ -93,11 +91,7 @@ function parseMarkdownContent(text: string): React.ReactNode {
   flushList();
   flushParagraph();
 
-  // Si aucun bloc n'a été créé, retourner le texte parsé inline
-  if (blocks.length === 0) {
-    return <>{parseInlineMarkdown(text)}</>;
-  }
-
+  if (blocks.length === 0) return <>{parseInlineMarkdown(text)}</>;
   return <>{blocks}</>;
 }
 
@@ -157,73 +151,66 @@ const DomaineDeCompetences: React.FC<DomaineDeCompetencesProps> = ({ domaine, ba
   };
 
   const containerClass = backgroundColor === 'light' 
-    ? 'domaineDeCompetence light'
-    : 'domaineDeCompetence';
+    ? 'domaineDeCompetence-cont light'
+    : 'domaineDeCompetence-cont';
 
   return (
     <div className={containerClass}>
       {/* Premier sous-bloc : Domaine de compétences */}
-      <div className="domaineHeader">
-        <h2 className="domaineDeCompetence titre">{domaine.titre}</h2>
+      <div className="domaineDeCompetence-header-cont">
+        <h2 className="domaineDeCompetence-cont titre">{domaine.titre}</h2>
         {domaine.contenu && domaine.contenu.trim() && (
-          <p className="domaineDeCompetence contenu">
+          <p className="domaineDeCompetence-cont contenu">
             {parseInlineMarkdown(domaine.contenu)}
           </p>
         )}
         {domaine.auteur && (
-          <p className="domaineDeCompetence auteur">{domaine.auteur}</p>
+          <p className="domaineDeCompetence-cont auteur">{domaine.auteur}</p>
         )}
       </div>
 
       {/* Second bloc : compétences organisées verticalement par compétence */}
-      <div className="competencesContainer" data-layout="3 columns x 1 row">
+      <div className="domaineDeCompetence-competences-cont" data-layout="3 columns x 1 row">
         {domaine.items.map((competence, index) => {
           const IconComponent = competence.icon ? iconMap[competence.icon] : null;
           return (
-            <div key={`competence-${index}`} className="competenceCard competence">
-              {/* Ordre spec : titre (h3) → description (p) → auteur (a) → bouton (lk) → image.alt (n) */}
-              <h3 className="competence titre">{competence.titre}</h3>
-              <div className="competence description">
-                {parseMarkdownContent(competence.description)}
-              </div>
+            <div key={`competence-${index}`} className="competence-cont">
+              {/* Image en premier pour float left (structure Mistral : img direct) */}
+              {IconComponent && (
+                <div className="competence-cont icon">
+                  <IconComponent size={72} color="rgba(9, 23, 71, 1)" strokeWidth={1.5} />
+                </div>
+              )}
+              {competence.image && !IconComponent && (
+                <img
+                  src={getJsonImagePath(competence.image.src)}
+                  alt={competence.image.alt}
+                  width={72}
+                  height={72}
+                  className="competence-cont image"
+                />
+              )}
+              <h3 className="competence-cont titre">{competence.titre}</h3>
+              {parseMarkdownContent(competence.description)}
               {competence.auteur && (
-                <p className="competence auteur">{competence.auteur}</p>
+                <p className="competence-cont auteur">{competence.auteur}</p>
               )}
               {competence.bouton && shouldDisplayButton(competence.bouton) && (
-                <div className="competence lienContainer">
+                <div className="competence-cont lienContainer">
                   {isExternalUrl(competence.bouton.action) ? (
                     <a
                       href={competence.bouton.action}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="competence lienInterne"
+                      className="competence-cont lienInterne"
                     >
                       {competence.bouton.texte}
                     </a>
                   ) : (
-                    <Link href={competence.bouton.action} className="competence lienInterne"e2eid={null}>
+                    <Link href={competence.bouton.action} className="competence-cont lienInterne" e2eid={null}>
                       {competence.bouton.texte}
                     </Link>
                   )}
-                </div>
-              )}
-              {(IconComponent || competence.image) && (
-                <div className={IconComponent ? 'competence icon' : 'competence image'}>
-                  {IconComponent ? (
-                    <IconComponent
-                      size={72}
-                      color="rgba(9, 23, 71, 1)"
-                      strokeWidth={1.5}
-                    />
-                  ) : competence.image ? (
-                    <Image 
-                      src={getJsonImagePath(competence.image.src)} 
-                      alt={competence.image.alt}
-                      width={72}
-                      height={72}
-                      style={{ objectFit: 'contain' }}
-                    />
-                  ) : null}
                 </div>
               )}
             </div>

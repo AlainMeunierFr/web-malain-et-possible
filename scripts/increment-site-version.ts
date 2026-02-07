@@ -160,7 +160,7 @@ function syncVersionWithUS(): void {
 }
 
 /**
- * Génère automatiquement le plan du site (_Pages-Et-Lien.json)
+ * Génère automatiquement le plan du site (_Pages-Liens-Et-Menus.json)
  * pour s'assurer qu'il est toujours à jour lors du build
  */
 function generateSiteMap(): void {

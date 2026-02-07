@@ -1,7 +1,7 @@
 /**
  * Test d'intégration : Génération automatique du plan de test E2E
  * 
- * Ce test génère le scénario E2E qui parcourt tous les liens de _Pages-Et-Lien.json
+ * Ce test génère le scénario E2E qui parcourt tous les liens de _Pages-Liens-Et-Menus.json
  * Il doit être exécuté avant chaque commit pour s'assurer que les tests E2E sont à jour
  */
 
@@ -10,9 +10,9 @@ import * as path from 'path';
 import { execSync } from 'child_process';
 
 describe('Génération du plan de test E2E', () => {
-  it('devrait générer le scénario E2E parcours-complet-liens.spec.ts depuis _Pages-Et-Lien.json', () => {
-    // Générer _Pages-Et-Lien.json s'il n'existe pas
-    const siteMapPath = path.join(process.cwd(), 'data', '_Pages-Et-Lien.json');
+  it('devrait générer le scénario E2E parcours-complet-liens.spec.ts depuis _Pages-Liens-Et-Menus.json', () => {
+    // Générer _Pages-Liens-Et-Menus.json s'il n'existe pas
+    const siteMapPath = path.join(process.cwd(), 'data', '_Pages-Liens-Et-Menus.json');
     if (!fs.existsSync(siteMapPath)) {
       // Exécuter le script de mise à jour du plan du site
       const updateSiteMapScript = path.join(process.cwd(), 'scripts', 'update-site-map.ts');
@@ -26,7 +26,7 @@ describe('Génération du plan de test E2E', () => {
           });
         } catch (error: any) {
           // Si le script échoue, créer un fichier minimal pour permettre au test de continuer
-          console.warn('Erreur lors de la génération de _Pages-Et-Lien.json:', error.message);
+          console.warn('Erreur lors de la génération de _Pages-Liens-Et-Menus.json:', error.message);
           const minimalPlan = { pages: [{ url: '/', titre: 'Accueil', x: 0, y: 0, dessiner: 'Oui' }], liens: [] };
           fs.writeFileSync(siteMapPath, JSON.stringify(minimalPlan, null, 2), 'utf8');
         }
@@ -37,7 +37,7 @@ describe('Génération du plan de test E2E', () => {
       }
     }
     
-    // Vérifier que Pages-Et-Lien.json existe maintenant
+    // Vérifier que _Pages-Liens-Et-Menus.json existe maintenant
     expect(fs.existsSync(siteMapPath)).toBe(true);
 
     // Exécuter le script de génération
@@ -67,7 +67,7 @@ describe('Génération du plan de test E2E', () => {
         } catch (retryError: any) {
           throw new Error(`Erreur lors de la génération du scénario E2E : ${retryError.message}`);
         }
-      } else if (errorMessage.includes('_Pages-Et-Lien.json n\'existe pas') || errorMessage.includes('Pages-Et-Lien.json n\'existe pas')) {
+      } else if (errorMessage.includes('_Pages-Liens-Et-Menus.json n\'existe pas') || errorMessage.includes('_Pages-Liens-Et-Menus.json n\'existe pas')) {
         // Le fichier n'existe toujours pas, créer un fichier minimal et réessayer
         const minimalPlan = { pages: [{ url: '/', titre: 'Accueil', x: 0, y: 0, dessiner: 'Oui' }], liens: [] };
         fs.writeFileSync(siteMapPath, JSON.stringify(minimalPlan, null, 2), 'utf8');
@@ -94,7 +94,7 @@ describe('Génération du plan de test E2E', () => {
     expect(contenu).toContain("parcours complet de tous les liens du site");
 
     // Spécification : le scénario ne doit jamais générer un fallback "depuis l'accueil"
-    // pour une page qui n'a pas de lien source="/" dans _Pages-Et-Lien.json
+    // pour une page qui n'a pas de lien source="/" dans _Pages-Liens-Et-Menus.json
     const plan = JSON.parse(fs.readFileSync(siteMapPath, 'utf8')) as { liens?: { source: string; destination: string }[] };
     const liensDepuisAccueil = (plan.liens || []).filter((l) => l.source === '/');
     const destinationsDepuisAccueil = new Set(liensDepuisAccueil.map((l) => l.destination));
@@ -106,7 +106,7 @@ describe('Génération du plan de test E2E', () => {
 
   it('ne doit pas générer de fallback "depuis l\'accueil" pour une page non liée depuis / dans le plan', () => {
     // Test unitaire de la règle métier : hasLinkFromAccueil doit contrôler le fallback
-    const siteMapPath = path.join(process.cwd(), 'data', '_Pages-Et-Lien.json');
+    const siteMapPath = path.join(process.cwd(), 'data', '_Pages-Liens-Et-Menus.json');
     if (!fs.existsSync(siteMapPath)) return;
     const plan = JSON.parse(fs.readFileSync(siteMapPath, 'utf8')) as { liens?: { source: string; destination: string }[] };
     const hasLinkFromAccueil = (url: string) =>

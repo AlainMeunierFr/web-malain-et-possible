@@ -19,13 +19,13 @@ const Temoignages: React.FC<TemoignagesProps> = ({ element }) => {
   }
 
   return (
-    <section className="temoignages" data-layout="2 columns x N rows">
-      <h2 className="listeDeTemoignages titre">Témoignages</h2>
+    <section className="listeDeTemoignages-cont" data-layout="2 columns x N rows">
+      <h2 className="listeDeTemoignages-cont titre">Témoignages</h2>
       <div className="ui-grid">
         {element.items.map((temoignage: ElementTemoignage, index) => (
-          <div key={index} className="temoignage ui-card">
+          <div key={index} className="temoignage-cont ui-card">
             <div className="ui-header">
-              <div className="temoignage photo ui-photo">
+              <div className="temoignage-cont photo ui-photo">
                 <Image
                   src={getJsonImagePath(temoignage.photo)}
                   alt={temoignage.nom}
@@ -36,11 +36,11 @@ const Temoignages: React.FC<TemoignagesProps> = ({ element }) => {
                 />
               </div>
               <div className="ui-info">
-                <h3 className="temoignage nom">{temoignage.nom}</h3>
-                <p className="temoignage fonction">{temoignage.fonction}</p>
+                <h3 className="temoignage-cont nom">{temoignage.nom}</h3>
+                <p className="temoignage-cont fonction">{temoignage.fonction}</p>
               </div>
             </div>
-            <div className="temoignage temoignage">
+            <div className="temoignage-cont temoignage">
               {temoignage.temoignage.split('\n\n').map((paragraph, pIndex) => (
                 <p key={pIndex} className="ui-paragraph">
                   {paragraph.trim()}

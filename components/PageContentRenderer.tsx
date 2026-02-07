@@ -49,12 +49,8 @@ const PageContentRenderer: React.FC<PageContentRendererProps> = ({ contenu, list
   // On compte à partir de 1 : impair = blanc, pair = bleu clair
   let contentIndex = 0;
   
-  // Fonction helper pour déterminer la classe de fond
-  const getBackgroundClass = (currentIndex: number): string => {
-    if (isHomePage) return ''; // Pas d'alternance sur HomePage
-    // Impair (1, 3, 5...) = blanc (pas de classe), Pair (2, 4, 6...) = bleu clair
-    return currentIndex % 2 === 0 ? 'fondBleuClair' : '';
-  };
+  // Pas d'alternance blanc/bleu clair entre les TypeDeContenu
+  const getBackgroundClass = (_currentIndex: number): string => '';
   
   return (
     <>

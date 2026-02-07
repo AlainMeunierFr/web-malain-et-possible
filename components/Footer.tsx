@@ -1,12 +1,15 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import footerButtonsData from '../data/_footerButtons.json';
 import e2eIdsMapping from '../data/_e2eIds-mapping.json';
 import FooterButton from './FooterButton';
 import type { FooterButton as FooterButtonType } from '../types/footer';
 import { getButtonAction } from '../utils/client';
+import { HEADER_IMAGES } from '../constants/headerImages';
+import { E2E_IDS } from '../constants/e2eIds';
 
 // Fonction pour résoudre l'e2eID d'un bouton footer depuis le mapping
 function getFooterE2eId(buttonId: string): string | undefined {
@@ -48,19 +51,48 @@ const Footer: React.FC = () => {
     return null;
   }
 
+  // US-13.1 : logo comme bouton dans la liste, entre "Plan du site" et "À propos de ce site"
+  const FOOTER_LOGO_SIZE = 24; // même taille que les icônes footer (.icone)
+  const boutonsWithLogo: (FooterButtonType | { _logo: true })[] = [];
+  for (const b of footerButtons.boutons) {
+    boutonsWithLogo.push(b);
+    if (b.id === 'sitemap') {
+      boutonsWithLogo.push({ _logo: true });
+    }
+  }
+
   return (
     <footer className="footer">
       <div className="version">
         {version ? `v${version}` : '\u00A0'}
       </div>
       <div className="boutonsContainer">
-        {footerButtons.boutons.map((button) => {
-          // Vérifier que chaque bouton a les propriétés requises
+        {boutonsWithLogo.map((item, index) => {
+          if ('_logo' in item && item._logo) {
+            return (
+              <button
+                key="footer-logo"
+                type="button"
+                className="bouton"
+                aria-label={HEADER_IMAGES.logo.alt}
+                title={HEADER_IMAGES.logo.title}
+                e2eid={`e2eid-${E2E_IDS.footer.logo}`}
+              >
+                <Image
+                  src={HEADER_IMAGES.logo.src}
+                  alt={HEADER_IMAGES.logo.alt}
+                  width={FOOTER_LOGO_SIZE}
+                  height={FOOTER_LOGO_SIZE}
+                  className="icone"
+                />
+              </button>
+            );
+          }
+          const button = item as FooterButtonType;
           if (!button || !button.id || !button.icone || !button.command) {
             console.error('Invalid button data:', button);
             return null;
           }
-          // Utiliser l'e2eID du JSON directement (fallback: résolution depuis mapping)
           const e2eId = button.e2eID || getFooterE2eId(button.id);
           return (
             <FooterButton

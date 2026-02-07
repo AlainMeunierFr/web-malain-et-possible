@@ -29,6 +29,13 @@ export { resolvePageReferences } from './vitrine/profilBuilder';
 
 export { readMenu } from './vitrine/menuReader';
 
+export { readHeaderMenu, readExclusHeader } from './vitrine/headerMenuReader';
+export {
+  checkMenuIntegrity,
+  type MenuIntegrityResult,
+} from './vitrine/headerMenuIntegrityChecker';
+export type { HeaderMenuEntry, HeaderMenuEntryConfig, MenusConfig } from './shared/headerMenuTypes';
+
 export {
   buildPersonJsonLd,
   buildWebSiteJsonLd,

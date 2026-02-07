@@ -11,7 +11,7 @@ export default function PourAllerPlusLoinPage() {
   const pageData = readPageData('pour-aller-plus-loin.json');
 
   return (
-    <main className="main">
+    <main className="main-cont">
       <PageContentRenderer contenu={pageData.contenu} />
     </main>
   );

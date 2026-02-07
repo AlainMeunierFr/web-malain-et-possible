@@ -186,13 +186,13 @@ function isContainer(el: ElementContenu): boolean {
   return getChildren(el).length > 0;
 }
 
-/** Container père affiché : parent réel (arbre) ou boby.count si racine. */
+/** Container père affiché : parent réel (arbre) ou main-content-cont si racine. */
 function resolveContainerPere(containerType: string | null): string | null {
   if (containerType !== null) return containerType;
-  return 'boby.count';
+  return 'main-content-cont';
 }
 
-/** Chemin de containers à ouvrir pour aller de `from` à `to` (ex. boby.count → hero.gauche.cont = [hero.cont, hero.gauche.cont]). */
+/** Chemin de containers à ouvrir pour aller de `from` à `to` (ex. main-content-cont → hero.gauche.cont = [hero.cont, hero.gauche.cont]). */
 function getPathFrom(
   parentMap: Map<string, string | null>,
   from: string | null,
@@ -281,7 +281,7 @@ function Block({
     for (const entry of specEntries) {
       const displayType = typeHierarchiqueToDisplay(entry.typeHierarchique);
       if (displayType === null) continue;
-      const targetParent = entry.containerParent ?? rootContainer ?? 'boby.count';
+      const targetParent = entry.containerParent ?? rootContainer ?? 'main-content-cont';
 
       // Fermer les wrappers jusqu'à être dans targetParent (clé unique pour éviter doublons entre blocs frères)
       while (stack.length > 1 && stack[stack.length - 1].id !== targetParent) {
@@ -454,7 +454,7 @@ function Block({
   );
 }
 
-/** Émet les lignes des containers de page (boby.count) en tête de chaque page. */
+/** Émet les lignes des containers de page (main-content-cont) en tête de chaque page. */
 function PageContainerRows({ RowComponent }: { RowComponent: typeof Row }) {
   const pageContainers = getPageContainerSpecEntries();
   if (pageContainers.length === 0) return null;
@@ -493,9 +493,9 @@ const ModeLectureRenderer: React.FC<ModeLectureRendererProps> = ({ pages, siteMa
           <hr className="mode-lecture-page-separator" aria-hidden />
           <div data-container-id="body">
             <PageContainerRows RowComponent={Row} />
-            <div data-container-id="boby.count">
+            <div data-container-id="main-content-cont">
               {page.contenu.map((element, i) => (
-                <Block key={i} element={element} level={0} containerType="boby.count" siteMapPages={siteMapPages} />
+                <Block key={i} element={element} level={0} containerType="main-content-cont" siteMapPages={siteMapPages} />
               ))}
             </div>
           </div>

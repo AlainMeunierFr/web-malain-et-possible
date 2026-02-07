@@ -7,7 +7,7 @@ import type { PlanSite, PlanPage } from '../../utils/backoffice';
 const { Given, When, Then } = createBdd();
 
 const getSiteMapPath = () => {
-  return path.join(process.cwd(), 'data', '_Pages-Et-Lien.json');
+  return path.join(process.cwd(), 'data', '_Pages-Liens-Et-Menus.json');
 };
 
 const getPlanDuSitePath = () => {
@@ -55,15 +55,15 @@ Then('je vois toutes les pages {string} affichées horizontalement sur la ligne 
   }
   
   // Vérifier la disposition horizontale (via les classes CSS ou la structure)
-  const ligneContainer = page.locator(`.listeDesPages .zone-${zone.toLowerCase()}`);
+  const ligneContainer = page.locator(`.listeDesPages-cont .zone-${zone.toLowerCase()}`);
   await expect(ligneContainer).toHaveCSS('display', 'flex');
   await expect(ligneContainer).toHaveCSS('flex-direction', 'row');
 });
 
 Then('il y a un padding entre la ligne {int} et la ligne {int}', async ({ page }: { page: Page }, ligne1: number, ligne2: number) => {
   // Vérifier qu'il y a un espacement entre les lignes
-  const ligne1Element = page.locator(`.listeDesPages .ligne-${ligne1}`);
-  const ligne2Element = page.locator(`.listeDesPages .ligne-${ligne2}`);
+  const ligne1Element = page.locator(`.listeDesPages-cont .ligne-${ligne1}`);
+  const ligne2Element = page.locator(`.listeDesPages-cont .ligne-${ligne2}`);
   
   if (await ligne1Element.count() > 0 && await ligne2Element.count() > 0) {
     const box1 = await ligne1Element.boundingBox();
@@ -89,7 +89,7 @@ Then('je vois toutes les pages {string} affichées verticalement dans la colonne
   }
   
   // Vérifier la disposition verticale
-  const colonneContainer = page.locator(`.listeDesPages .ligne-${ligne} .colonne-${colonne} .zone-${zone.toLowerCase()}`);
+  const colonneContainer = page.locator(`.listeDesPages-cont .ligne-${ligne} .colonne-${colonne} .zone-${zone.toLowerCase()}`);
   if (await colonneContainer.count() > 0) {
     await expect(colonneContainer).toHaveCSS('display', 'flex');
     await expect(colonneContainer).toHaveCSS('flex-direction', 'column');
@@ -120,7 +120,7 @@ Then('cette page n\'est pas affichée', async ({ page }: { page: Page }) => {
 });
 
 // Scénario: Conservation de la zone lors de la mise à jour
-Given('qu\'une page a une zone définie dans _Pages-Et-Lien.json', async ({}, testInfo) => {
+Given('qu\'une page a une zone définie dans _Pages-Liens-Et-Menus.json', async ({}, testInfo) => {
   const siteMapPath = getSiteMapPath();
   if (fs.existsSync(siteMapPath)) {
     const contenu = fs.readFileSync(siteMapPath, 'utf8');

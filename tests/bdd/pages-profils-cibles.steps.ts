@@ -122,7 +122,7 @@ Given('que chaque élément a une propriété {string} unique', async ({}, prope
 });
 
 Given('que le plan du site existe', async ({}) => {
-  const filePath = path.join(process.cwd(), 'data', '_Pages-Et-Lien.json');
+  const filePath = path.join(process.cwd(), 'data', '_Pages-Liens-Et-Menus.json');
   expect(fs.existsSync(filePath)).toBe(true);
 });
 

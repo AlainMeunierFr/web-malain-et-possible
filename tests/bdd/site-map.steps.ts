@@ -31,7 +31,7 @@ const getContextData = (context: any) => {
 };
 
 const getSiteMapPath = () => {
-  return path.join(process.cwd(), 'data', '_Pages-Et-Lien.json');
+  return path.join(process.cwd(), 'data', '_Pages-Liens-Et-Menus.json');
 };
 
 // Variables globales pour la sauvegarde/restauration (partagées entre tous les tests)
@@ -40,7 +40,7 @@ let originalFileExisted = false;
 let backupAlreadyDone = false;
 
 // Step pour initialiser la sauvegarde (à appeler dans Background si nécessaire)
-Given('que le système sauvegarde le fichier _Pages-Et-Lien.json', async ({}) => {
+Given('que le système sauvegarde le fichier _Pages-Liens-Et-Menus.json', async ({}) => {
   if (!backupAlreadyDone) {
     const siteMapPath = getSiteMapPath();
     if (fs.existsSync(siteMapPath)) {
@@ -53,7 +53,7 @@ Given('que le système sauvegarde le fichier _Pages-Et-Lien.json', async ({}) =>
 });
 
 // Step pour restaurer le fichier (à appeler à la fin des scénarios si nécessaire)
-Given('que le système restaure le fichier _Pages-Et-Lien.json', async ({}) => {
+Given('que le système restaure le fichier _Pages-Liens-Et-Menus.json', async ({}) => {
   const siteMapPath = getSiteMapPath();
   if (backupPath && originalFileExisted && fs.existsSync(backupPath)) {
     fs.copyFileSync(backupPath, siteMapPath);
@@ -182,7 +182,7 @@ Then('les liens externes du footer sont exclus', async ({}, testInfo) => {
 });
 
 // Scénario: Mise à jour automatique du plan JSON avec les pages détectées
-Given('qu\'un plan JSON existe dans data\\/_Pages-Et-Lien.json', async ({}, testInfo) => {
+Given('qu\'un plan JSON existe dans data\\/_Pages-Liens-Et-Menus.json', async ({}, testInfo) => {
   const data = getContextData(testInfo);
   // Créer un plan JSON de test s'il n'existe pas
   const siteMapPath = getSiteMapPath();
@@ -198,7 +198,7 @@ Given('qu\'un plan JSON existe dans data\\/_Pages-Et-Lien.json', async ({}, test
   data.planJSON = JSON.parse(contenu);
 });
 
-Given('un plan JSON existe dans data\\/_Pages-Et-Lien.json', async ({}, testInfo) => {
+Given('un plan JSON existe dans data\\/_Pages-Liens-Et-Menus.json', async ({}, testInfo) => {
   // Alias pour correspondre au texte exact de la feature (sans "qu'")
   const data = getContextData(testInfo);
   const siteMapPath = getSiteMapPath();
@@ -430,14 +430,14 @@ Then('le test échoue si au moins une page n\'a pas d\'emplacement', async ({}, 
 });
 
 // Scénario: Création initiale du plan JSON s'il n'existe pas
-Given('que le fichier data\\/_Pages-Et-Lien.json n\'existe pas', async ({}) => {
+Given('que le fichier data\\/_Pages-Liens-Et-Menus.json n\'existe pas', async ({}) => {
   const siteMapPath = getSiteMapPath();
   if (fs.existsSync(siteMapPath)) {
     fs.unlinkSync(siteMapPath);
   }
 });
 
-Given('le fichier data\\/Pages-Et-Lien.json n\'existe pas', async ({}) => {
+Given('le fichier data\\/_Pages-Liens-Et-Menus.json n\'existe pas', async ({}) => {
   // Alias pour correspondre au texte exact de la feature (sans "Étant donné que")
   const siteMapPath = getSiteMapPath();
   if (fs.existsSync(siteMapPath)) {
@@ -445,7 +445,7 @@ Given('le fichier data\\/Pages-Et-Lien.json n\'existe pas', async ({}) => {
   }
 });
 
-Then('un nouveau fichier data\\/_Pages-Et-Lien.json est créé', async ({}) => {
+Then('un nouveau fichier data\\/_Pages-Liens-Et-Menus.json est créé', async ({}) => {
   const siteMapPath = getSiteMapPath();
   expect(fs.existsSync(siteMapPath)).toBe(true);
 });

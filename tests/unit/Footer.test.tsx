@@ -25,6 +25,13 @@ jest.mock('../../components/FooterButton', () => ({
   ),
 }));
 
+// Mock next/image pour le bouton logo (US-13.1)
+jest.mock('next/image', () => ({
+  __esModule: true,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  default: (props: any) => <img {...props} />,
+}));
+
 describe('Footer', () => {
   beforeEach(() => {
     mockPush.mockClear();
@@ -40,6 +47,45 @@ describe('Footer', () => {
   
   afterEach(() => {
     jest.restoreAllMocks();
+  });
+
+  // US-13.1 baby step 2 : bouton logo dans le footer, visible, sans action
+  it('devrait afficher un bouton avec le logo Malain et possible dans le footer (US-13.1)', async () => {
+    await act(async () => {
+      render(<Footer />);
+    });
+    const logo = screen.getByAltText('Logo Malain et possible');
+    expect(logo).toBeInTheDocument();
+    const logoButton = logo.closest('button');
+    expect(logoButton).toBeInTheDocument();
+  });
+
+  it('devrait ne pas déclencher de navigation au clic sur le bouton logo du footer (US-13.1)', async () => {
+    await act(async () => {
+      render(<Footer />);
+    });
+    const logo = screen.getByAltText('Logo Malain et possible');
+    const logoButton = logo.closest('button');
+    expect(logoButton).toBeInTheDocument();
+    logoButton!.click();
+    expect(mockPush).not.toHaveBeenCalled();
+  });
+
+  it('devrait placer le bouton logo entre Plan du site et À propos de ce site (US-13.1)', async () => {
+    await act(async () => {
+      render(<Footer />);
+    });
+    const boutonsContainer = document.querySelector('.boutonsContainer');
+    expect(boutonsContainer).toBeInTheDocument();
+    const children = Array.from(boutonsContainer!.children);
+    const indexOfLogo = children.findIndex((el) => el.querySelector('img[alt="Logo Malain et possible"]'));
+    const indexOfSitemap = children.findIndex((el) => el.textContent?.trim() === 'sitemap');
+    const indexOfAboutSite = children.findIndex((el) => el.textContent?.trim() === 'about-site');
+    expect(indexOfSitemap).toBeGreaterThanOrEqual(0);
+    expect(indexOfLogo).toBeGreaterThanOrEqual(0);
+    expect(indexOfAboutSite).toBeGreaterThanOrEqual(0);
+    expect(indexOfSitemap).toBeLessThan(indexOfLogo);
+    expect(indexOfLogo).toBeLessThan(indexOfAboutSite);
   });
 
   it('devrait afficher le footer', async () => {

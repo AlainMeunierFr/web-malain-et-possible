@@ -47,17 +47,33 @@ Cela permet :
 
 **Exception** : si l'utilisateur dit explicitement « vas-y sans me demander » ou « US simple, pas besoin de discuter », tu peux déléguer directement.
 
-### Utiliser l'outil Task pour déléguer
+### Plan de tests baby steps OBLIGATOIRE — avant TDD-back-end et TDD-front-end
 
-**Noms d'agents** : US, BDD, TDD-back-end, TDD-front-end, Designer (exactement ces noms).
+**AVANT de déléguer à un agent TDD** (back-end ou front-end), tu **proposes et valides** une liste de tests incrémentaux :
 
-```typescript
-Task({
-  subagent_type: "US",
-  description: "Description courte",
-  prompt: "Contexte détaillé..."
-})
-```
+1. **Proposer** : une liste numérotée de baby steps (tests incrémentaux) répondant à « quels seront les baby steps ? »
+   - Commencer par le cas minimal (1 entrée, 0 variante).
+   - Ajouter progressivement : plusieurs entrées, puis variantes (ex. dropdown, sous-menus).
+   - Séparer clairement reader / checker / intégration si plusieurs modules.
+2. **Demander validation** : « Voici la liste des baby steps que je propose. Ça te convient ? As-tu des ajustements ? »
+3. **Attendre validation explicite** : ne pas déléguer tant que l'utilisateur n'a pas validé ou ajusté la liste.
+4. **Transmettre la liste** : inclure la liste validée dans le `prompt` du Task, afin que l'agent TDD la suive strictement (un test à la fois).
+
+L'agent TDD doit recevoir cette liste et la respecter. Un seul test rouge à la fois → implémentation minimale → vert → test suivant.
+
+### Délégation — outil Task ou commande /go-next
+
+**Objectif** : L'utilisateur dit GO NEXT → l'agent suivant est lancé automatiquement. L'utilisateur ne doit jamais copier-coller un prompt ni invoquer manuellement.
+
+**Méthode 1 — Outil Task** (si disponible) : Appelle directement `Task({ subagent_type, description, prompt })`. Noms d'agents : US, BDD, TDD-back-end, TDD-front-end, Designer (champ `name` du frontmatter dans `.cursor/agents/`).
+
+**Méthode 2 — Commande /go-next** (si Task absent) : Mets à jour le fichier **`.cursor/commands/go-next.md`** avec le contenu suivant :
+- En première ligne : `@[nom-agent]` (ex. `@TDD-front-end`)
+- Ensuite : le prompt de délégation complet (contexte + plan de tests baby steps si TDD)
+
+Puis dis à l'utilisateur : **« Tape /go-next dans le chat pour lancer [agent]. »** C'est la seule action requise.
+
+La commande `/go-next` (touche `/` puis sélection) insère ce contenu dans le chat et invoque l'agent. Tu DOIS maintenir ce fichier à jour à chaque délégation pour que /go-next pointe vers le bon agent.
 
 ## 🎯 Workflow Type
 
@@ -66,10 +82,11 @@ Task({
 3. **Si fonctionnelle** : User Story → Plan de test → Validation
 4. **Découper en tâches techniques** (US → BDD → TDD-back-end → TDD-front-end)
 5. **DISCUTER avec l'utilisateur** avant chaque délégation (mode interactif)
-6. **Déléguer via Task** aux agents spécialisés (après validation)
-7. **Valider résultats** de chaque agent (revue)
-8. **Vérifier DoD** avant considérer terminé
-9. **Commit et push** si validé
+6. **AVANT TDD** : proposer la **liste des baby steps** (tests incrémentaux) → validation utilisateur → inclure dans le prompt
+7. **Déléguer via Task** aux agents spécialisés (après validation)
+8. **Valider résultats** de chaque agent (revue)
+9. **Vérifier DoD** avant considérer terminé
+10. **Commit et push** si validé
 
 ## 📚 Ressources
 

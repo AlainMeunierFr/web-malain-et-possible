@@ -24,19 +24,19 @@ const ProfilContainer: React.FC<ProfilContainerProps> = ({
   labelCV = 'Voir le CV',
 }) => {
   return (
-    <div className="profil">
-      <h2 className="profil titre">{profil.titre}</h2>
-      <ul className="profil jobTitles">
+    <div className="profil-cont">
+      <h2 className="profil-cont titre">{profil.titre}</h2>
+      <ul className="profil-cont jobTitles">
         {profil.jobTitles.map((jobTitle, index) => (
-          <li key={index} className="profil jobTitle">
+          <li key={index} className="profil-cont jobTitle">
             {jobTitle}
           </li>
         ))}
       </ul>
-      <div className="profil actions">
+      <div className="profil-cont actions">
         <Link
           href={profil.route}
-          className="profil route lienInterne"
+          className="profil-cont route lienInterne"
           e2eid={`profil-${profil.slug}-acces`}
         >
           {labelAcces}

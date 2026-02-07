@@ -251,13 +251,13 @@ describe('e2eIdDetector - Approche TDD (simple → complexe)', () => {
   });
 
   describe('ITÉRATION 8 : Ignorer les fichiers de configuration', () => {
-    it('devrait ignorer _Pages-Et-Lien.json', () => {
+    it('devrait ignorer _Pages-Liens-Et-Menus.json', () => {
       // ARRANGE : Fichier de configuration
       mockFs.existsSync.mockReturnValue(true);
-      mockFs.readdirSync.mockReturnValue(['_Pages-Et-Lien.json', 'test.json'] as any);
+      mockFs.readdirSync.mockReturnValue(['_Pages-Liens-Et-Menus.json', 'test.json'] as any);
       
       mockFs.readFileSync.mockImplementation((filePath: any) => {
-        if (filePath.includes('_Pages-Et-Lien.json')) {
+        if (filePath.includes('_Pages-Liens-Et-Menus.json')) {
           return JSON.stringify({
             pages: [{ e2eID: 'v999' }], // Devrait être ignoré
           });
@@ -273,7 +273,7 @@ describe('e2eIdDetector - Approche TDD (simple → complexe)', () => {
       // ACT
       const result = detectMissingE2eIds();
 
-      // ASSERT : Ne devrait pas détecter d'éléments dans Pages-Et-Lien.json
+      // ASSERT : Ne devrait pas détecter d'éléments dans _Pages-Liens-Et-Menus.json
       expect(result.json.length).toBe(0);
     });
   });

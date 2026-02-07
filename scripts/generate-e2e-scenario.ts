@@ -1,9 +1,9 @@
 /**
- * Script pour générer un scénario E2E qui parcourt tous les liens de _Pages-Et-Lien.json
+ * Script pour générer un scénario E2E qui parcourt tous les liens de _Pages-Liens-Et-Menus.json
  * et teste tous les e2eID présents sur chaque page
  *
  * Principe général :
- * 1. Lit la liste des liens depuis _Pages-Et-Lien.json
+ * 1. Lit la liste des liens depuis _Pages-Liens-Et-Menus.json
  * 2. Construit un chemin qui visite chaque page une fois (genererCheminComplet)
  * 3. Pour chaque transition (page A → page B), génère du code de navigation
  * 4. Après chaque navigation, teste tous les e2eID présents sur la page
@@ -85,7 +85,7 @@ const validateE2eIdsConsistency = (
   appE2eIds.add(E2E_IDS.header.photo);
   // Liens du plan du site : e2eID déterministe depuis l'URL (ListeDesPages utilise generateE2eIdFromUrl)
   planPages.forEach((p) => appE2eIds.add(generateE2eIdFromUrl(p.url)));
-  // e2eID des liens définis dans _Pages-Et-Lien.json
+  // e2eID des liens définis dans _Pages-Liens-Et-Menus.json
   planLiens.forEach((l) => {
     if (l.e2eID) appE2eIds.add(l.e2eID);
   });
@@ -336,12 +336,12 @@ const main = () => {
     console.log('✅ Aucun e2eID manquant détecté\n');
   }
 
-  console.log('🔍 Lecture de _Pages-Et-Lien.json...\n');
+  console.log('🔍 Lecture de _Pages-Liens-Et-Menus.json...\n');
 
-  const siteMapPath = path.join(process.cwd(), 'data', '_Pages-Et-Lien.json');
-  
+  const siteMapPath = path.join(process.cwd(), 'data', '_Pages-Liens-Et-Menus.json');
+
   if (!fs.existsSync(siteMapPath)) {
-    console.error('❌ Erreur : Le fichier Pages-Et-Lien.json n\'existe pas');
+    console.error('❌ Erreur : Le fichier _Pages-Liens-Et-Menus.json n\'existe pas');
     console.error('   Veuillez d\'abord générer le plan du site avec le script approprié');
     process.exit(1);
   }
@@ -369,7 +369,7 @@ const main = () => {
     console.log(`⚠️  ${liensFiltres} lien(s) exclu(s) (pages zone "Masqué")\n`);
   }
 
-  console.log(`📊 ${liens.length} liens détectés dans _Pages-Et-Lien.json\n`);
+  console.log(`📊 ${liens.length} liens détectés dans _Pages-Liens-Et-Menus.json\n`);
 
   const liensCopie = [...liens];
   console.log(`💾 Copie en RAM créée : ${liensCopie.length} liens\n`);

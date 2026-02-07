@@ -140,13 +140,13 @@ describe('e2eIdCounter - Approche TDD (simple → complexe)', () => {
   });
 
   describe('ITÉRATION 5 : calculateMaxCounter ignore les fichiers de configuration', () => {
-    it('devrait ignorer _Pages-Et-Lien.json', () => {
+    it('devrait ignorer _Pages-Liens-Et-Menus.json', () => {
       // ARRANGE : Fichier de configuration avec e2eID
       mockFs.existsSync.mockReturnValue(true);
-      mockFs.readdirSync.mockReturnValue(['_Pages-Et-Lien.json', 'test.json'] as any);
+      mockFs.readdirSync.mockReturnValue(['_Pages-Liens-Et-Menus.json', 'test.json'] as any);
       
       mockFs.readFileSync.mockImplementation((filePath: any) => {
-        if (filePath.includes('_Pages-Et-Lien.json')) {
+        if (filePath.includes('_Pages-Liens-Et-Menus.json')) {
           return JSON.stringify({
             pages: [{ e2eID: 'v999' }], // Devrait être ignoré
           });

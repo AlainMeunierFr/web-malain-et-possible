@@ -34,7 +34,7 @@ Fonctionnalité: Plan du site organisé par zones
     Alors cette page n'est pas affichée
 
   Scénario: Conservation de la zone lors de la mise à jour du générateur
-    Étant donné qu'une page a une zone définie dans _Pages-Et-Lien.json
+    Étant donné qu'une page a une zone définie dans _Pages-Liens-Et-Menus.json
     Quand le générateur met à jour le plan du site
     Alors la propriété zone de cette page est conservée
 

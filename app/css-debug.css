@@ -1,0 +1,27 @@
+/* ============================================
+   GO CSS — Mode debug containers (surcharge réversible)
+   Home hero (data-layout="2 columns") : hero + hero.gauche + hero.droite.
+   Couleurs distinctes. Enfants masqués. min-height pour rester visibles.
+   !important uniquement sur bordure et fond.
+   QUIT CSS remet --CouleurBordDeContainer à transparent.
+   ============================================ */
+
+.hero-cont {
+  border: var(--CouleurBordDeContainer) !important;
+  background: rgba(240, 235, 255, 0.4) !important;
+  min-height: 10px;
+}
+
+.hero-gauche-cont {
+  border: var(--CouleurBordDeContainer) !important;
+  background: rgba(200, 220, 255, 0.5) !important;
+  min-height: 10px;
+}
+
+/* Contenu visible pour les réglages */
+
+.hero-droite-cont {
+  border: var(--CouleurBordDeContainer) !important;
+  background: rgba(220, 255, 200, 0.5) !important;
+  min-height: 10px;
+}

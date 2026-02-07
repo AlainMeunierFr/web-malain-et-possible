@@ -14,7 +14,7 @@ export default function AProposDuSiteLayout({
   const lignes = readMenu();
 
   return (
-    <main className="main">
+    <main className="main-cont">
       <MenuAPropos lignes={lignes} />
       <div className="contenuAPropos">
         {children}

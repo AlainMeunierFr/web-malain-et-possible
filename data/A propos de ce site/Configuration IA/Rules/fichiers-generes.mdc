@@ -1,8 +1,9 @@
 ---
 description: Protection des fichiers générés automatiquement
 globs:
-  - data/_Pages-Et-Lien.json
+  - data/_Pages-Liens-Et-Menus.json
   - data/plan-du-site.json
+  - "data/A propos de ce site/Documentation technique/9. Hiérarchie containers par page.md"
   - tests/end-to-end/parcours-complet-liens.spec.ts
 ---
 
@@ -14,8 +15,9 @@ Ces fichiers sont générés par des scripts et ne doivent **JAMAIS être modifi
 
 | Fichier | Script générateur |
 |---------|-------------------|
-| `data/_Pages-Et-Lien.json` | `scripts/update-site-map.ts` |
+| `data/_Pages-Liens-Et-Menus.json` | `scripts/update-site-map.ts` (pages + liens + menus) |
 | `data/plan-du-site.json` | `scripts/update-site-map.ts` |
+| `data/A propos de ce site/Documentation technique/9. Hiérarchie containers par page.md` | `npm run css:hierarchy` |
 | `tests/end-to-end/parcours-complet-liens.spec.ts` | `npm run test:e2e:generate` |
 
 ## Règles strictes

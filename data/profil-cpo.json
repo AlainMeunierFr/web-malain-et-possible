@@ -37,10 +37,6 @@
     },
     {
       "type": "domaineDeCompetence",
-      "ref": "interactions-humaines"
-    },
-    {
-      "type": "domaineDeCompetence",
       "ref": "activites-extra-professionnelles-au-service-de-ma-profession"
     },
     {

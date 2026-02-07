@@ -66,7 +66,7 @@ export default function ModeLecturePage() {
   }
 
   return (
-    <main className="main">
+    <main className="main-cont">
       <ModeLectureRenderer pages={pages} siteMapPages={siteMapPages} />
     </main>
   );
