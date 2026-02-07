@@ -1,4 +1,4 @@
----
+--- 
 description: Protection des fichiers générés automatiquement
 globs:
   - data/_Pages-Liens-Et-Menus.json
@@ -15,8 +15,12 @@ Ces fichiers sont générés par des scripts et ne doivent **JAMAIS être modifi
 
 | Fichier | Script générateur |
 |---------|-------------------|
-| `data/_Pages-Liens-Et-Menus.json` | `scripts/update-site-map.ts` (pages + liens + menus) |
+| `data/_Pages-Liens-Et-Menus.json` | `scripts/update-site-map.ts` (pages + liens + section `menus` depuis `data/_Menus-header.json`, CA5 US-13.1) |
 | `data/plan-du-site.json` | `scripts/update-site-map.ts` |
+
+## Paramétrage des menus (header)
+
+Le fichier **`data/_Menus-header.json`** n'est **pas** généré : c'est la **source éditable** du menu header. Il contient `header` (entrées du menu) et `exclusHeader` (URLs exclues). Lors de `npm run build` ou de l'exécution de `scripts/update-site-map.ts`, son contenu est fusionné dans `_Pages-Liens-Et-Menus.json`. Pour modifier le menu, éditer `data/_Menus-header.json` puis regénérer.
 | `data/A propos de ce site/Documentation technique/9. Hiérarchie containers par page.md` | `npm run css:hierarchy` |
 | `tests/end-to-end/parcours-complet-liens.spec.ts` | `npm run test:e2e:generate` |
 
