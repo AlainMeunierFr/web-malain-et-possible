@@ -1,23 +1,23 @@
 {
-  "timestamp": "2026-02-08T23:51:07.131Z",
+  "timestamp": "2026-02-08T23:55:15.336Z",
   "branch": "main",
-  "commit": "e50a2f5",
+  "commit": "412a02f",
   "tests": {
     "unitTests": 961,
     "unitTestFiles": 93,
     "unitTestPassed": 961,
     "unitTestFailed": 0,
-    "unitTestDuration": 118833,
+    "unitTestDuration": 62659,
     "integrationTests": 33,
     "integrationTestFiles": 5,
     "integrationTestPassed": 33,
     "integrationTestFailed": 0,
-    "integrationTestDuration": 8949,
+    "integrationTestDuration": 4370,
     "bddFeatures": 24,
     "bddScenariosTotal": 224,
     "bddScenariosTestable": 97,
     "bddScenariosNonTestable": 127,
-    "bddTestDuration": 104339,
+    "bddTestDuration": 98317,
     "bddStepsTotal": 48,
     "bddStepsImplemented": 0,
     "bddStepsMissing": 285,
@@ -30,14 +30,14 @@
       "total": 1,
       "passed": 1,
       "failed": 0,
-      "duration": 83459,
-      "lastRunDate": "2026-02-08T23:48:15.435Z"
+      "duration": 64653,
+      "lastRunDate": "2026-02-08T23:55:15.292Z"
     },
     "totalTests": 1226,
     "totalTestFiles": 134,
     "passingTests": 1226,
     "failingTests": 0,
-    "testDuration": 315580
+    "testDuration": 229999
   },
   "coverage": {
     "lines": {

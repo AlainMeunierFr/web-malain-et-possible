@@ -52,7 +52,8 @@ function Show-Menu {
     Write-Host "11. Linter (ESLint)" -ForegroundColor Yellow
     Write-Host ""
     Write-Host "GIT:" -ForegroundColor Magenta
-    Write-Host "1.  Publier la version (git add + commit + push)" -ForegroundColor Yellow
+    Write-Host "1.  Publier la version (avec BDD)" -ForegroundColor Yellow
+    Write-Host "1b. Publier la version (sans BDD, plus rapide)" -ForegroundColor Yellow
     Write-Host "12. Stager tous les fichiers (git add -A)" -ForegroundColor Yellow
     Write-Host "13. Voir le statut Git" -ForegroundColor Yellow
     Write-Host "14. Voir les derniers commits" -ForegroundColor Yellow
@@ -127,16 +128,9 @@ do {
     $choice = Read-Host "Choisissez une option"
     switch ($choice) {
         "1" {
+            Remove-Item Env:\SKIP_BDD -ErrorAction SilentlyContinue
             Write-Host ""
-            $bddChoice = Read-Host "Inclure les tests BDD ? (o/n) [o]"
-            $skipBdd = ($bddChoice -match '^n|non$')
-            if ($skipBdd) {
-                $env:SKIP_BDD = "1"
-                Write-Host "[*] Publication SANS BDD (métriques BDD conservées = ordre de grandeur)" -ForegroundColor Cyan
-            } else {
-                Remove-Item Env:\SKIP_BDD -ErrorAction SilentlyContinue
-                Write-Host "[*] Publication AVEC BDD" -ForegroundColor Cyan
-            }
+            Write-Host "[*] Publication AVEC BDD" -ForegroundColor Cyan
             Write-Host ""
             Write-Host "========================================" -ForegroundColor Green
             Write-Host "Commande: Publier la version (script scripts/publie.ts)" -ForegroundColor Green
@@ -147,7 +141,23 @@ do {
             Write-Host ""
             & npm run publie
             $exitCode = $LASTEXITCODE
-            if ($skipBdd) { Remove-Item Env:\SKIP_BDD -ErrorAction SilentlyContinue }
+            Write-Host ""
+            Write-Host "Appuyez sur une touche pour continuer..." -ForegroundColor Gray
+            $null = $Host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown")
+        }
+        "1b" {
+            $env:SKIP_BDD = "1"
+            Write-Host ""
+            Write-Host "[*] Publication SANS BDD (métriques BDD = ordre de grandeur conservé)" -ForegroundColor Cyan
+            Write-Host ""
+            Write-Host "========================================" -ForegroundColor Green
+            Write-Host "Commande: Publier la version (sans BDD)" -ForegroundColor Green
+            Write-Host "Exécution: npm run publie (SKIP_BDD=1)" -ForegroundColor Gray
+            Write-Host "========================================" -ForegroundColor Green
+            Write-Host ""
+            & npm run publie
+            $exitCode = $LASTEXITCODE
+            Remove-Item Env:\SKIP_BDD -ErrorAction SilentlyContinue
             Write-Host ""
             Write-Host "Appuyez sur une touche pour continuer..." -ForegroundColor Gray
             $null = $Host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown")
