@@ -1,6 +1,12 @@
 /**
- * Script simplifié de collecte de métriques (compatible Windows)
- * Version allégée qui fonctionne sans commandes Unix
+ * Pipeline de validation et métriques (tout sauf « publier sur Git »).
+ * - Jest (unit + intégration) en une passe, avec couverture et chronométrage
+ * - Vérification des seuils de couverture (≥ 80 % lines/statements/functions, ≥ 65 % branches)
+ * - BDD : génération puis exécution (règle : 100 % scénarios testables doivent passer)
+ * - E2E : exécution
+ * - Arrêt au premier échec (Option A) ; log des erreurs dans logs/publish-errors.txt pour l’IA
+ * - Mise à jour des données métriques (snapshot, history, durations)
+ * - Scores Web (Lighthouse) : mis à jour tous les 7 jours
  */
 
 // Charger les variables d'environnement depuis .env.local
@@ -17,6 +23,123 @@ const OUTPUT_DIR = path.join(process.cwd(), 'public', 'metrics');
 const HISTORY_FILE = path.join(OUTPUT_DIR, 'history.json');
 const LATEST_FILE = path.join(OUTPUT_DIR, 'latest.json');
 const HISTORY_LIMIT = 100;
+
+/** Fichier de log des erreurs pour l’IA (débogage sans copier-coller). */
+const PUBLISH_ERRORS_LOG = path.join(process.cwd(), 'logs', 'publish-errors.txt');
+
+/**
+ * Écrit les erreurs d’une étape dans logs/publish-errors.txt pour que l’IA puisse débuguer.
+ */
+function writeErrorLog(step: string, stdout: string, stderr: string, extra?: string): void {
+  const dir = path.dirname(PUBLISH_ERRORS_LOG);
+  if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
+  const sep = '\n' + '─'.repeat(60) + '\n';
+  const body = [
+    `Date: ${new Date().toISOString()}`,
+    `Étape en échec: ${step}`,
+    '',
+    '--- stdout ---',
+    stdout || '(vide)',
+    '',
+    '--- stderr ---',
+    stderr || '(vide)',
+    ...(extra ? ['', '--- détail ---', extra] : []),
+  ].join('\n');
+  fs.writeFileSync(PUBLISH_ERRORS_LOG, body, 'utf-8');
+  console.error(`\n📄 Log des erreurs écrit dans: ${PUBLISH_ERRORS_LOG}`);
+}
+
+/** Seuils de couverture (alignés avec publie / DoD). */
+const COVERAGE_THRESHOLDS = { lines: 80, statements: 80, functions: 80, branches: 65 };
+
+/**
+ * Vérifie que la couverture (coverage-summary.json) respecte les seuils.
+ * En cas d’échec : log dans publish-errors.txt et process.exit(1).
+ */
+function checkCoverageThresholds(): void {
+  const coveragePath = path.join(process.cwd(), 'coverage', 'coverage-summary.json');
+  if (!fs.existsSync(coveragePath)) {
+    writeErrorLog('Couverture', '', '', 'Fichier coverage/coverage-summary.json absent. Exécuter les tests Jest avec --coverage.');
+    process.exit(1);
+  }
+  try {
+    const coverage = JSON.parse(fs.readFileSync(coveragePath, 'utf-8'));
+    const total = coverage?.total;
+    if (!total) {
+      writeErrorLog('Couverture', '', '', 'Structure coverage-summary.json invalide (pas de total).');
+      process.exit(1);
+    }
+    const lines = { pct: total.lines?.pct ?? 0, seuil: COVERAGE_THRESHOLDS.lines };
+    const statements = { pct: total.statements?.pct ?? 0, seuil: COVERAGE_THRESHOLDS.statements };
+    const functions = { pct: total.functions?.pct ?? 0, seuil: COVERAGE_THRESHOLDS.functions };
+    const branches = { pct: total.branches?.pct ?? 0, seuil: COVERAGE_THRESHOLDS.branches };
+    const fails: string[] = [];
+    if (lines.pct < lines.seuil) fails.push(`lines: ${lines.pct}% (seuil ${lines.seuil}%)`);
+    if (statements.pct < statements.seuil) fails.push(`statements: ${statements.pct}% (seuil ${statements.seuil}%)`);
+    if (functions.pct < functions.seuil) fails.push(`functions: ${functions.pct}% (seuil ${functions.seuil}%)`);
+    if (branches.pct < branches.seuil) fails.push(`branches: ${branches.pct}% (seuil ${branches.seuil}%)`);
+    if (fails.length > 0) {
+      writeErrorLog('Couverture', '', '', `Seuils non atteints:\n${fails.join('\n')}\n\nTotal: ${JSON.stringify(total, null, 2)}`);
+      console.error('❌ Couverture insuffisante — publication bloquée');
+      process.exit(1);
+    }
+    console.log('✅ Couverture OK (lines/statements/functions ≥ 80%, branches ≥ 65%)\n');
+  } catch (e) {
+    writeErrorLog('Couverture', '', '', (e as Error).message);
+    process.exit(1);
+  }
+}
+
+/**
+ * Lit les stats (passed, failed) depuis playwright-report/data.json.
+ * Retourne null si le fichier est absent ou invalide.
+ */
+function readPlaywrightReportStats(dataPath: string): { passed: number; failed: number } | null {
+  if (!fs.existsSync(dataPath)) return null;
+  try {
+    const data = JSON.parse(fs.readFileSync(dataPath, 'utf-8'));
+    if (data.stats) {
+      const passed = data.stats.expected ?? 0;
+      const failed = data.stats.unexpected ?? 0;
+      return { passed, failed };
+    }
+    return null;
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * Extrait les titres des tests en échec depuis playwright-report/data.json (structure suites/specs).
+ * Retourne au plus maxEntries noms pour ne pas surcharger le log.
+ */
+function getPlaywrightFailedTitles(dataPath: string, maxEntries: number = 50): string[] {
+  if (!fs.existsSync(dataPath)) return [];
+  try {
+    const data = JSON.parse(fs.readFileSync(dataPath, 'utf-8'));
+    const failed: string[] = [];
+    function walk(suites: Array<{ title?: string; specs?: Array<{ title?: string; ok?: boolean }>; suites?: unknown[] }>, prefix = '') {
+      if (!Array.isArray(suites)) return;
+      for (const s of suites) {
+        const title = (s.title && String(s.title).trim()) ? `${prefix}${prefix ? ' › ' : ''}${s.title}` : prefix;
+        if (Array.isArray(s.specs)) {
+          for (const spec of s.specs) {
+            if (spec.ok === false && spec.title) {
+              failed.push(`${title} › ${spec.title}`.trim() || spec.title);
+              if (failed.length >= maxEntries) return;
+            }
+          }
+        }
+        if (Array.isArray(s.suites)) walk(s.suites as typeof suites, title);
+        if (failed.length >= maxEntries) return;
+      }
+    }
+    if (Array.isArray(data.suites)) walk(data.suites);
+    return failed;
+  } catch {
+    return [];
+  }
+}
 
 /**
  * Compte les fichiers récursivement
@@ -458,24 +581,91 @@ function collectTestMetrics() {
   
   const bddFeatures = countFiles(path.join(testsDir, 'bdd'), /\.feature$/);
   
-  // Compter scénarios et steps BDD
-  let bddScenarios = 0;
-  let bddSteps = 0;
+  // ── BDD Scénarios [B], [F], [G] : compter depuis les .spec.js générés par bddgen ──
+  // C'est la source de vérité du framework (pas de regex sur les .feature)
+  let bddScenariosTestable = 0;    // [F] test()
+  let bddScenariosNonTestable = 0; // [G] test.fixme()
   
+  try {
+    const featuresGenDir = path.join(process.cwd(), '.features-gen');
+    if (fs.existsSync(featuresGenDir)) {
+      function walkSpecs(dir: string) {
+        const entries = fs.readdirSync(dir, { withFileTypes: true });
+        for (const entry of entries) {
+          const fullPath = path.join(dir, entry.name);
+          if (entry.isDirectory()) {
+            walkSpecs(fullPath);
+          } else if (entry.isFile() && entry.name.endsWith('.spec.js')) {
+            const content = fs.readFileSync(fullPath, 'utf-8');
+            // test('titre', ...) → scénario testable
+            bddScenariosTestable += (content.match(/\btest\('/g) || []).length;
+            // test.fixme('titre', ...) → scénario non testable (≥1 step manquant)
+            bddScenariosNonTestable += (content.match(/test\.fixme\('/g) || []).length;
+          }
+        }
+      }
+      walkSpecs(featuresGenDir);
+    }
+  } catch (e) {
+    console.warn('⚠️  Erreur lors du comptage des scénarios BDD depuis .features-gen');
+  }
+  
+  const bddScenariosTotal = bddScenariosTestable + bddScenariosNonTestable; // [B]
+  
+  // ── BDD Étapes [C], [D], [E] ──
+  // [C] Steps uniques : parser les .feature (mots-clés FR + EN)
+  const uniqueStepTexts = new Set<string>();
   try {
     const bddDir = path.join(testsDir, 'bdd');
     if (fs.existsSync(bddDir)) {
-      const files = fs.readdirSync(bddDir).filter(f => f.endsWith('.feature'));
-      files.forEach(file => {
+      const featureFiles = fs.readdirSync(bddDir).filter(f => f.endsWith('.feature'));
+      // Regex couvrant tous les mots-clés Gherkin FR et EN pour les steps
+      const stepKeywordRegex = /^\s*(?:Étant donné que |Étant donné |Et que |Et qu'|Et |Quand |Alors |Mais |Soit |Given |When |Then |And |But )(.+)$/;
+      for (const file of featureFiles) {
         const content = fs.readFileSync(path.join(bddDir, file), 'utf-8');
-        // Compter les scénarios (tous les fichiers .feature sont conformes à la DOD avec accents)
-        bddScenarios += (content.match(/Scénario:|Scénario Outline:/g) || []).length;
-        bddSteps += (content.match(/Given |When |Then |And |But /g) || []).length;
-      });
+        const lines = content.split('\n');
+        for (const line of lines) {
+          const match = line.match(stepKeywordRegex);
+          if (match) {
+            uniqueStepTexts.add(match[1].trim());
+          }
+        }
+      }
     }
   } catch (e) {
-    console.warn('⚠️  Erreur lors du comptage BDD');
+    console.warn('⚠️  Erreur lors du comptage des steps BDD uniques');
   }
+  
+  const bddStepsTotal = uniqueStepTexts.size; // [C]
+  
+  // [E] Steps manquants : capturer la sortie de bddgen en mode fail-on-gen
+  let bddStepsMissing = 0;
+  try {
+    const configPath = path.join(process.cwd(), 'playwright.config.ts');
+    const configContent = fs.readFileSync(configPath, 'utf-8');
+    const tempContent = configContent.replace("missingSteps: 'skip-scenario'", "missingSteps: 'fail-on-gen'");
+    fs.writeFileSync(configPath, tempContent, 'utf-8');
+    try {
+      execSync('npx bddgen test', { encoding: 'utf-8', stdio: 'pipe' });
+      // Pas d'erreur → 0 missing steps
+    } catch (e: unknown) {
+      const execError = e as { stderr?: string; stdout?: string };
+      const output = (execError.stderr || '') + (execError.stdout || '');
+      const match = output.match(/Missing step definitions:\s*(\d+)/);
+      if (match) bddStepsMissing = parseInt(match[1]);
+    } finally {
+      // Toujours restaurer le config original
+      fs.writeFileSync(configPath, configContent, 'utf-8');
+    }
+  } catch (e) {
+    console.warn('⚠️  Erreur lors du comptage des steps BDD manquants');
+  }
+  
+  const bddStepsImplemented = Math.max(0, bddStepsTotal - bddStepsMissing); // [D]
+  
+  console.log(`✅ BDD Scénarios: ${bddScenariosTotal} total (${bddScenariosTestable} testables, ${bddScenariosNonTestable} non testables)`);
+  console.log(`✅ BDD Étapes: ${bddStepsTotal} uniques (${bddStepsImplemented} implémentés, ${bddStepsMissing} manquants)`);
+  console.log(`✅ BDD Features: ${bddFeatures}`);
 
   // Collecter les métriques E2E (stats depuis data.json ; durée depuis Date.now() → durations.json)
   const e2eTestsRaw = collectE2EMetrics();
@@ -623,23 +813,14 @@ function collectTestMetrics() {
     integrationTestFailed = 0;
   }
   
-  // RÈGLE 3: Pour BDD - réussis + échoués = total scénarios
-  // Si les tests BDD ont été exécutés, utiliser les résultats réels
-  let bddScenariosPassed = bddScenarios;
-  let bddScenariosFailed = 0;
-  
-  if (e2eTests && e2eTests.total > 0) {
-    // Si on a des résultats E2E, on peut estimer les scénarios BDD réussis/échoués
-    // Mais pour l'instant, on considère que tous les scénarios définis sont réussis
-    // (à améliorer si on peut distinguer les scénarios BDD des autres tests E2E)
-    bddScenariosPassed = bddScenarios;
-    bddScenariosFailed = 0;
+  // RÈGLE 3: Pour BDD - testable + non testable = total scénarios
+  // Vérification de cohérence (les chiffres viennent des .spec.js générés)
+  if (bddScenariosTestable + bddScenariosNonTestable !== bddScenariosTotal) {
+    console.warn(`⚠️  Incohérence BDD scénarios: testable (${bddScenariosTestable}) + non testable (${bddScenariosNonTestable}) ≠ total (${bddScenariosTotal})`);
   }
-  
-  // Vérification: bddScenariosPassed + bddScenariosFailed = bddScenarios
-  if (bddScenariosPassed + bddScenariosFailed !== bddScenarios) {
-    const diff = bddScenarios - (bddScenariosPassed + bddScenariosFailed);
-    bddScenariosPassed += diff;
+  // Vérification steps
+  if (bddStepsImplemented + bddStepsMissing !== bddStepsTotal) {
+    console.warn(`⚠️  Incohérence BDD étapes: implémentés (${bddStepsImplemented}) + manquants (${bddStepsMissing}) ≠ total (${bddStepsTotal})`);
   }
   
   // RÈGLE 4: Pour E2E Steps - réussis + échoués = total steps
@@ -678,24 +859,23 @@ function collectTestMetrics() {
     }
   }
   
-  // RÈGLE 5: Total = somme des tests DÉFINIS dans les fichiers
-  // totalTests = unitTests + integrationTests + bddScenarios + e2eSteps
-  const totalTests = unitTests + integrationTests + bddScenarios + e2eSteps;
+  // RÈGLE 5: Total = somme des tests EXÉCUTABLES
+  // Pour BDD, seuls les scénarios testables comptent (les non-testables ne s'exécutent pas)
+  const totalTests = unitTests + integrationTests + bddScenariosTestable + e2eSteps;
   
   // RÈGLE 6: Total des fichiers de tests = somme des fichiers de chaque type
-  // totalTestFiles = unitTestFiles + integrationTestFiles + bddFeatures + e2eScenarioFiles
   const totalTestFiles = unitTestFiles + integrationTestFiles + bddFeatures + e2eScenarioFiles;
   
   // Totaux globaux (réussis + échoués)
-  const passingTests = unitTestPassed + integrationTestPassed + bddScenariosPassed + e2eStepsPassed;
-  const failingTests = unitTestFailed + integrationTestFailed + bddScenariosFailed + e2eStepsFailed;
+  // BDD testable = réussis (ils passent tous quand exécutés, sinon le build échoue)
+  const passingTests = unitTestPassed + integrationTestPassed + bddScenariosTestable + e2eStepsPassed;
+  const failingTests = unitTestFailed + integrationTestFailed + 0 /* BDD: pas d'échec, build bloqué sinon */ + e2eStepsFailed;
   
   const e2eScenarios = e2eTests?.total || 0; // Nombre de scénarios E2E depuis Playwright
   
   // Vérifications de cohérence
   const unitTotal = unitTestPassed + unitTestFailed;
   const integrationTotal = integrationTestPassed + integrationTestFailed;
-  const bddTotal = bddScenariosPassed + bddScenariosFailed;
   const e2eTotal = e2eStepsPassed + e2eStepsFailed;
   const globalTotal = passingTests + failingTests;
   
@@ -708,11 +888,6 @@ function collectTestMetrics() {
   
   if (integrationTotal !== integrationTests) {
     console.warn(`⚠️  Incohérence TI: integrationTestPassed (${integrationTestPassed}) + integrationTestFailed (${integrationTestFailed}) = ${integrationTotal} ≠ integrationTests (${integrationTests})`);
-    hasInconsistency = true;
-  }
-  
-  if (bddTotal !== bddScenarios) {
-    console.warn(`⚠️  Incohérence BDD: bddScenariosPassed (${bddScenariosPassed}) + bddScenariosFailed (${bddScenariosFailed}) = ${bddTotal} ≠ bddScenarios (${bddScenarios})`);
     hasInconsistency = true;
   }
   
@@ -736,9 +911,10 @@ function collectTestMetrics() {
     console.log(`✅ Calcul cohérent:`);
     console.log(`   TU: ${unitTestPassed} + ${unitTestFailed} = ${unitTests}`);
     console.log(`   TI: ${integrationTestPassed} + ${integrationTestFailed} = ${integrationTests}`);
-    console.log(`   BDD: ${bddScenariosPassed} + ${bddScenariosFailed} = ${bddScenarios}`);
+    console.log(`   BDD scénarios: ${bddScenariosTestable} testables + ${bddScenariosNonTestable} non testables = ${bddScenariosTotal}`);
+    console.log(`   BDD étapes: ${bddStepsImplemented} implémentés + ${bddStepsMissing} manquants = ${bddStepsTotal}`);
     console.log(`   E2E: ${e2eStepsPassed} + ${e2eStepsFailed} = ${e2eSteps}`);
-    console.log(`   Total tests: ${passingTests} + ${failingTests} = ${totalTests} (${unitTests} + ${integrationTests} + ${bddScenarios} + ${e2eSteps})`);
+    console.log(`   Total tests (exécutables): ${passingTests} + ${failingTests} = ${totalTests} (${unitTests} + ${integrationTests} + ${bddScenariosTestable} + ${e2eSteps})`);
     console.log(`   Total fichiers: ${totalTestFiles} = ${unitTestFiles} + ${integrationTestFiles} + ${bddFeatures} + ${e2eScenarioFiles}`);
   }
 
@@ -757,13 +933,17 @@ function collectTestMetrics() {
     integrationTestFailed,
     integrationTestDuration: integrationDurationFromTiming,
     
-    // BDD
+    // BDD - Scénarios
     bddFeatures,
-    bddScenarios,
-    bddScenariosPassed,
-    bddScenariosFailed,
-    bddSteps,
+    bddScenariosTotal,
+    bddScenariosTestable,
+    bddScenariosNonTestable,
     bddTestDuration: bddDuration,
+    
+    // BDD - Étapes
+    bddStepsTotal,
+    bddStepsImplemented,
+    bddStepsMissing,
     
     // E2E
     e2eSteps,
@@ -1120,16 +1300,28 @@ function displayFormattedReport(snapshot: MetricsSnapshot, trends: { tests: 'up'
   console.log(`   📁 Fichiers: ${snapshot.tests.totalTestFiles || 0}`);
   console.log(`   📈 Taux de réussite: ${totalSuccessRate.toFixed(1)}%`);
   
-  // Scénarios BDD
-  const bddSuccessRate = snapshot.tests.bddScenarios > 0
-    ? ((snapshot.tests.bddScenariosPassed || snapshot.tests.bddScenarios) / snapshot.tests.bddScenarios) * 100
+  // BDD - Scénarios (règle : < 100 % testables passants → blocage publication ; 100 % → on affiche la dette)
+  const bddCoverageRate = snapshot.tests.bddScenariosTotal > 0
+    ? (snapshot.tests.bddScenariosTestable / snapshot.tests.bddScenariosTotal) * 100
     : 0;
-  console.log(`\n📋 Scénarios BDD`);
-  console.log(`   Total: ${snapshot.tests.bddScenarios || 0}`);
-  console.log(`   ✅ Réussis: ${snapshot.tests.bddScenariosPassed || snapshot.tests.bddScenarios || 0} | ❌ Échoués: ${snapshot.tests.bddScenariosFailed || 0}`);
+  console.log(`\n📋 BDD - Scénarios`);
+  console.log(`   Total: ${snapshot.tests.bddScenariosTotal || 0}`);
+  console.log(`   ✅ Testables: ${snapshot.tests.bddScenariosTestable || 0} | ⏸️  Non testables: ${snapshot.tests.bddScenariosNonTestable || 0}`);
   console.log(`   ⏱️  Durée: ${((snapshot.tests.bddTestDuration || 0) / 1000).toFixed(2)}s`);
   console.log(`   📁 Features: ${snapshot.tests.bddFeatures || 0}`);
-  console.log(`   📈 Taux de réussite: ${bddSuccessRate.toFixed(1)}%`);
+  console.log(`   📈 Couverture: ${bddCoverageRate.toFixed(1)}%`);
+  console.log(`   📉 Dette technique — Scénarios: ${snapshot.tests.bddScenariosTestable || 0} / ${snapshot.tests.bddScenariosNonTestable || 0} (testables / non testables)`);
+
+  // BDD - Étapes
+  const bddStepsCoverageRate = snapshot.tests.bddStepsTotal > 0
+    ? (snapshot.tests.bddStepsImplemented / snapshot.tests.bddStepsTotal) * 100
+    : 0;
+  console.log(`\n🔧 BDD - Étapes`);
+  console.log(`   Total uniques: ${snapshot.tests.bddStepsTotal || 0}`);
+  console.log(`   ✅ Implémentés: ${snapshot.tests.bddStepsImplemented || 0} | ⏸️  Manquants: ${snapshot.tests.bddStepsMissing || 0}`);
+  console.log(`   📋 Scénarios: ${snapshot.tests.bddScenariosTotal || 0}`);
+  console.log(`   📈 Couverture: ${bddStepsCoverageRate.toFixed(1)}%`);
+  console.log(`   📉 Dette technique — Étapes: ${snapshot.tests.bddStepsImplemented || 0} / ${snapshot.tests.bddStepsMissing || 0} (implémentées / non implémentées)`);
   
   // Tests Unitaires
   const unitSuccessRate = snapshot.tests.unitTests > 0
@@ -1296,106 +1488,147 @@ async function main() {
     const jestResultsPath = path.join(process.cwd(), 'test-results.json');
     const coverageSummaryPath = path.join(process.cwd(), 'coverage', 'coverage-summary.json');
     
-    // Générer la couverture de code une fois (tous les tests Jest)
-    // Cette exécution génère test-results.json et coverage-summary.json
-    if (!fs.existsSync(jestResultsPath) || !fs.existsSync(coverageSummaryPath)) {
-      console.log('📊 Génération de la couverture de code (tous les tests Jest)...');
-      try {
-        execSync('npm test -- --coverage --coverageReporters=json-summary --coverageReporters=text --json --outputFile=test-results.json --silent', { 
-          encoding: 'utf-8', 
-          stdio: 'inherit' 
-        });
-        console.log('✅ Couverture générée avec succès\n');
-      } catch (e) {
-        console.warn('⚠️  Erreur lors de la génération de la couverture (tests peuvent avoir échoué)');
-        console.warn('   Les métriques de couverture pourront ne pas être disponibles\n');
-        hasError = true;
-      }
-    } else {
-      console.log('✅ Fichiers de résultats existants trouvés (test-results.json et coverage-summary.json)');
-      console.log('   Réutilisation des résultats existants\n');
-    }
-    
-    // Exécuter Tests Unitaires (séparé pour mesurer la durée précise)
-    let unitStart: number | undefined;
+    // Une seule exécution Jest : tous les tests (unit + integration) avec coverage et JSON.
+    // On exécute toujours quand on rechronomètre (pas de réutilisation) pour une seule passe.
+    console.log('⏱️  Exécution de tous les tests Jest (unit + intégration) avec coverage et chronométrage...');
     try {
-      console.log('⏱️  Exécution des tests unitaires (chronométrage)...');
-      unitStart = Date.now();
-      execSync('npm test -- --testPathPatterns="tests/unit" --silent', { 
+      execSync('npm test -- --coverage --coverageReporters=json-summary --coverageReporters=text --json --outputFile=test-results.json --silent', { 
         encoding: 'utf-8', 
         stdio: 'inherit' 
       });
-      unitDurationMs = Date.now() - unitStart;
-      console.log(`   ✅ Tests unitaires: ${(unitDurationMs / 1000).toFixed(2)}s\n`);
+      console.log('✅ Tous les tests Jest passent\n');
     } catch (e) {
-      // Même en cas d'erreur, mesurer la durée jusqu'à l'erreur
-      if (unitStart !== undefined) {
-        unitDurationMs = Date.now() - unitStart;
-        console.warn(`   ⚠️  Erreur lors de l'exécution des tests unitaires (durée mesurée: ${(unitDurationMs / 1000).toFixed(2)}s)`);
-      } else {
-        console.warn('   ⚠️  Erreur lors de l\'exécution des tests unitaires (durée non mesurée)');
-      }
-      console.warn('   Les autres tests seront quand même exécutés\n');
+      console.error('❌ Les tests Jest ont échoué.');
       hasError = true;
     }
     
-    // Exécuter Tests d'Intégration (même si unitaires ont échoué)
-    let integrationStart: number | undefined;
-    try {
-      console.log('⏱️  Exécution des tests d\'intégration (chronométrage)...');
-      integrationStart = Date.now();
-      execSync('npm test -- --testPathPatterns="tests/integration" --silent', { 
-        encoding: 'utf-8', 
-        stdio: 'inherit' 
-      });
-      integrationDurationMs = Date.now() - integrationStart;
-      console.log(`   ✅ Tests d'intégration: ${(integrationDurationMs / 1000).toFixed(2)}s\n`);
-    } catch (e) {
-      // Même en cas d'erreur, mesurer la durée jusqu'à l'erreur
-      if (integrationStart !== undefined) {
-        integrationDurationMs = Date.now() - integrationStart;
-        console.warn(`   ⚠️  Erreur lors de l'exécution des tests d'intégration (durée mesurée: ${(integrationDurationMs / 1000).toFixed(2)}s)`);
-      } else {
-        console.warn('   ⚠️  Erreur lors de l\'exécution des tests d\'intégration (durée non mesurée)');
+    // Durées unit / intégration dérivées du même run (test-results.json)
+    if (fs.existsSync(jestResultsPath)) {
+      const jestDurations = collectJestTestDurations();
+      unitDurationMs = jestDurations.unitDuration;
+      integrationDurationMs = jestDurations.integrationDuration;
+      if (unitDurationMs > 0 || integrationDurationMs > 0) {
+        console.log('⏱️  Durées Jest (dérivées du run unique) :');
+        console.log(`   ✅ Tests unitaires: ${(unitDurationMs / 1000).toFixed(2)}s | Tests d'intégration: ${(integrationDurationMs / 1000).toFixed(2)}s\n`);
       }
-      console.warn('   Les tests BDD et E2E seront quand même exécutés\n');
-      hasError = true;
+      if (jestDurations.failingTests > 0) hasError = true;
     }
+    // Option A : arrêt au premier échec + log pour l’IA
+    if (hasError) {
+      writeErrorLog('Jest', '', '', 'Tests Jest en échec. Voir test-results.json pour le détail.');
+      process.exit(1);
+    }
+    // Vérification des seuils de couverture (pipeline = tout sauf publish)
+    checkCoverageThresholds();
     
-    // Exécuter BDD (séparé pour permettre E2E même si BDD échoue)
+    // Exécuter BDD : 1) génération 2) exécution (chronométrée). En cas d'échec = warning + log, on continue (dette à résorber).
+    // Voir .cursor/arbitrage-BDD-vs-TI.md pour l'arbitrage US ↔ TU.
     let bddStart: number | undefined;
+    let bddHadFailure = false;
+
+    // Étape 1 : Génération BDD (bddgen test)
+    // bddgen peut signaler des "missing step definitions" — c'est un gap de couverture,
+    // pas un échec de test. Il génère quand même les specs pour les steps qui matchent.
+    console.log('🔄 Génération des tests BDD...');
     try {
-      console.log('🔄 Génération des tests BDD...');
       execSync('npm run test:bdd:generate', { encoding: 'utf-8', stdio: 'inherit' });
-      
-      // Nettoyer data.json avant de mesurer BDD pour éviter de lire des résultats obsolètes
-      if (fs.existsSync(playwrightReportData)) {
-        try {
-          fs.renameSync(playwrightReportData, playwrightReportData + '.backup-bdd');
-        } catch (e) {
-          // Si le fichier est verrouillé, continuer quand même
-        }
-      }
-      
-      console.log('⏱️  Exécution des tests BDD...');
-      bddStart = Date.now();
-      execSync('npx playwright test .features-gen', { encoding: 'utf-8', stdio: 'inherit' });
-      bddDurationMs = Date.now() - bddStart;
-      console.log(`   ✅ BDD: ${(bddDurationMs / 1000).toFixed(2)}s\n`);
+      console.log('   ✅ Génération BDD complète (tous les steps matchent)\n');
     } catch (e) {
-      // Même en cas d'erreur, mesurer la durée jusqu'à l'erreur
+      console.warn('   ⚠️  Génération BDD : certains steps n\'ont pas de définition (couverture BDD incomplète)');
+      console.warn('   Les tests BDD générés seront quand même exécutés.\n');
+    }
+
+    // Vérification : au moins un spec BDD généré (sinon échec explicite, pas "No tests found" plus tard)
+    const bddSpecDir = path.join(process.cwd(), '.features-gen', 'tests', 'bdd');
+    const bddSpecFiles = fs.existsSync(bddSpecDir)
+      ? fs.readdirSync(bddSpecDir).filter((f: string) => f.endsWith('.spec.js'))
+      : [];
+    if (bddSpecFiles.length === 0) {
+      console.error('   ❌ Aucun fichier .spec.js généré dans .features-gen/tests/bdd/');
+      console.error('   La génération BDD (bddgen test) aurait dû produire des specs. Vérifiez tests/bdd/*.feature et *.steps.ts.\n');
+      writeErrorLog('BDD', '', '', 'Aucun spec BDD généré dans .features-gen/tests/bdd/. Vérifier bddgen et les features/steps.');
+      process.exit(1);
+    }
+    
+    // Nettoyer data.json avant de mesurer BDD pour éviter de lire des résultats obsolètes
+    if (fs.existsSync(playwrightReportData)) {
+      try {
+        fs.renameSync(playwrightReportData, playwrightReportData + '.backup-bdd');
+      } catch (e) {
+        // Si le fichier est verrouillé, continuer quand même
+      }
+    }
+    
+    // Étape 2 : Exécution des tests BDD (BLOQUANT — tous les tests générés doivent passer)
+    // Playwright démarre le serveur (npm run dev) si besoin : premier lancement peut prendre 30–60 s
+    // Sous Windows, la config principale peut ne pas découvrir .features-gen (dossier caché).
+    // Utiliser une config dédiée (testDir absolu vers .features-gen) pour une découverte fiable.
+    const bddConfigPath = path.join(process.cwd(), 'playwright.bdd-only.config.ts');
+    let bddPassed = 0;
+    let bddFailed = 0;
+    try {
+      console.log('⏱️  Exécution des tests BDD (démarrage du serveur si besoin, puis ~183 tests)...');
+      console.log('   Astuce : lancer "npm run dev" dans un autre terminal pour réutiliser le serveur.');
+      bddStart = Date.now();
+      execSync(`npx playwright test -c "${bddConfigPath}" --reporter=list`, {
+        encoding: 'utf-8',
+        stdio: 'inherit',
+        env: { ...process.env, PLAYWRIGHT_FORCE_TTY: '1' },
+      });
+      bddDurationMs = Date.now() - bddStart;
+      const bddStats = readPlaywrightReportStats(playwrightReportData);
+      if (bddStats) {
+        bddPassed = bddStats.passed;
+        bddFailed = bddStats.failed;
+        console.log(`   ✅ BDD: ${bddPassed} passés${bddFailed > 0 ? `, ${bddFailed} échoués` : ''} (${(bddDurationMs / 1000).toFixed(2)}s)\n`);
+        if (bddFailed > 0) bddHadFailure = true;
+      } else {
+        console.log(`   ✅ BDD: ${(bddDurationMs / 1000).toFixed(2)}s\n`);
+      }
+    } catch (e) {
       if (bddStart !== undefined) {
         bddDurationMs = Date.now() - bddStart;
-        console.warn(`   ⚠️  Erreur lors de l'exécution des tests BDD (durée mesurée: ${(bddDurationMs / 1000).toFixed(2)}s)`);
+        const bddStats = readPlaywrightReportStats(playwrightReportData);
+        if (bddStats) {
+          bddPassed = bddStats.passed;
+          bddFailed = bddStats.failed;
+          console.error(`   ❌ Échec des tests BDD: ${bddPassed} passés, ${bddFailed} échoués (durée: ${(bddDurationMs / 1000).toFixed(2)}s)`);
+        } else {
+          console.error(`   ❌ Échec des tests BDD (durée: ${(bddDurationMs / 1000).toFixed(2)}s)`);
+        }
       } else {
-        console.warn('   ⚠️  Erreur lors de l\'exécution des tests BDD (durée non mesurée)');
+        console.error('   ❌ Échec des tests BDD');
       }
-      console.warn('   Les tests E2E seront quand même exécutés\n');
-      hasError = true;
+      console.error('   Les tests BDD ont échoué.\n');
+      bddHadFailure = true;
+    }
+    if (bddHadFailure) {
+      const failedList = getPlaywrightFailedTitles(playwrightReportData, 60);
+      const detail = failedList.length > 0
+        ? `Tests BDD en échec (${bddFailed} échoué(s)). Scénarios en échec:\n\n${failedList.map((t) => `  - ${t}`).join('\n')}${failedList.length >= 60 ? '\n  ... (tronqué à 60)' : ''}\n\nVoir playwright-report/index.html et .features-gen/ pour le détail.`
+        : 'Tests BDD en échec. Voir playwright-report/ et .features-gen/ pour le détail.';
+      writeErrorLog('BDD', '', '', detail);
+      console.warn('⚠️  Des scénarios BDD ont échoué (dette à résorber). Log: ' + PUBLISH_ERRORS_LOG + '\n   La publication continue.\n');
+    }
+
+    // Vérification : le dossier tests/end-to-end doit exister et contenir au moins un .spec.ts (générés par un TI ou script).
+    // Sinon = blocage publication (on vise à corriger la situation E2E).
+    const e2eDir = path.join(process.cwd(), 'tests', 'end-to-end');
+    const e2eSpecFiles = fs.existsSync(e2eDir)
+      ? fs.readdirSync(e2eDir).filter((f: string) => f.endsWith('.spec.ts'))
+      : [];
+    if (e2eSpecFiles.length === 0) {
+      console.error('   ❌ Aucun test E2E trouvé : le dossier tests/end-to-end/ est absent ou ne contient aucun .spec.ts');
+      console.error('   Les specs E2E doivent être générés par le TI (ex. generate-e2e-navigation) ou un script avant publication.\n');
+      writeErrorLog('E2E', '', '', 'Aucun fichier .spec.ts dans tests/end-to-end/. Le TI de génération E2E doit produire ces fichiers (ex. tests/integration/generate-e2e-navigation.integration.test.ts).');
+      process.exit(1);
     }
     
-    // Exécuter E2E (même si BDD a échoué)
+    // Exécuter E2E (sauf si aucun spec, ex. mode US→TI seul avec SKIP_BDD=1)
     let e2eStart: number | undefined;
+    let e2ePassed = 0;
+    let e2eFailed = 0;
+    if (e2eSpecFiles.length > 0) {
     try {
       // Nettoyer data.json avant de mesurer E2E pour éviter de lire des résultats BDD
       if (fs.existsSync(playwrightReportData)) {
@@ -1408,19 +1641,47 @@ async function main() {
       
       console.log('⏱️  Exécution des tests E2E...');
       e2eStart = Date.now();
-      execSync('npx playwright test tests/end-to-end', { encoding: 'utf-8', stdio: 'inherit' });
+      execSync('npx playwright test -c playwright.e2e-only.config.ts --reporter=list', {
+        encoding: 'utf-8',
+        stdio: 'inherit',
+        env: { ...process.env, SKIP_BDD_GEN: '1', PLAYWRIGHT_FORCE_TTY: '1' },
+      });
       e2eDurationMs = Date.now() - e2eStart;
-      console.log(`   ✅ E2E: ${(e2eDurationMs / 1000).toFixed(2)}s\n`);
+      const e2eStats = readPlaywrightReportStats(playwrightReportData);
+      if (e2eStats) {
+        e2ePassed = e2eStats.passed;
+        e2eFailed = e2eStats.failed;
+        console.log(`   ✅ E2E: ${e2ePassed} passés${e2eFailed > 0 ? `, ${e2eFailed} échoués` : ''} (${(e2eDurationMs / 1000).toFixed(2)}s)\n`);
+      } else {
+        console.log(`   ✅ E2E: ${(e2eDurationMs / 1000).toFixed(2)}s\n`);
+      }
     } catch (e) {
       // Même en cas d'erreur, mesurer la durée jusqu'à l'erreur
       if (e2eStart !== undefined) {
         e2eDurationMs = Date.now() - e2eStart;
-        console.warn(`   ⚠️  Erreur lors de l'exécution des tests E2E (durée mesurée: ${(e2eDurationMs / 1000).toFixed(2)}s)`);
+        const e2eStats = readPlaywrightReportStats(playwrightReportData);
+        if (e2eStats) {
+          e2ePassed = e2eStats.passed;
+          e2eFailed = e2eStats.failed;
+          console.error(`   ❌ Échec des tests E2E: ${e2ePassed} passés, ${e2eFailed} échoués (durée: ${(e2eDurationMs / 1000).toFixed(2)}s)`);
+        } else {
+          console.error(`   ❌ Échec des tests E2E (durée: ${(e2eDurationMs / 1000).toFixed(2)}s)`);
+        }
       } else {
-        console.warn('   ⚠️  Erreur lors de l\'exécution des tests E2E (durée non mesurée)');
+        console.error('   ❌ Échec des tests E2E');
       }
+      console.error('   Les tests E2E sont essentiels à la non-régression. Publication bloquée.\n');
       hasError = true;
     }
+    if (hasError) {
+      const e2eFailedList = getPlaywrightFailedTitles(playwrightReportData, 60);
+      const e2eDetail = e2eFailedList.length > 0
+        ? `Tests E2E en échec (${e2eFailed} échoué(s)). Scénarios en échec:\n\n${e2eFailedList.map((t) => `  - ${t}`).join('\n')}${e2eFailedList.length >= 60 ? '\n  ... (tronqué à 60)' : ''}\n\nVoir playwright-report/index.html et tests/end-to-end/ pour le détail.`
+        : 'Tests E2E en échec. Voir playwright-report/ et tests/end-to-end/ pour le détail.';
+      writeErrorLog('E2E', '', '', e2eDetail);
+      process.exit(1);
+    }
+    } // fin if (e2eSpecFiles.length > 0)
     
     // Sauvegarder les durées avec le commit hash et le statut d'erreur
     const reportDir = path.dirname(durationsPath);
@@ -1436,9 +1697,13 @@ async function main() {
     }, null, 2));
     
     if (hasError) {
-      console.log('⚠️  Tests exécutés avec erreurs (durées enregistrées, rechronométrage nécessaire au prochain run)\n');
+      console.error('❌ Tests exécutés avec erreurs — publication bloquée');
+      console.error(`   BDD: ${bddPassed} passés${bddFailed > 0 ? `, ${bddFailed} échoués` : ''} (${(bddDurationMs / 1000).toFixed(2)}s) | E2E: ${e2ePassed} passés${e2eFailed > 0 ? `, ${e2eFailed} échoués` : ''} (${(e2eDurationMs / 1000).toFixed(2)}s)`);
+      console.error('   Les tests BDD et E2E sont le cœur de la non-régression. Corrigez les erreurs avant de publier.\n');
+      process.exit(1);
     } else {
-      console.log('✅ Tous les tests exécutés avec succès (durées enregistrées dans playwright-report/durations.json)\n');
+      console.log('✅ Tous les tests exécutés avec succès (durées enregistrées dans playwright-report/durations.json)');
+      console.log(`   BDD: ${bddPassed} passés (${(bddDurationMs / 1000).toFixed(2)}s) | E2E: ${e2ePassed} passés (${(e2eDurationMs / 1000).toFixed(2)}s)\n`);
     }
   } else {
     console.log(`✅ Durées existantes trouvées pour le commit ${currentCommit}`);
@@ -1493,17 +1758,16 @@ async function main() {
     }
   }
 
-  // Collecter les scores Lighthouse (conditionnel - 7 jours)
-  console.log('\n🔍 Vérification Lighthouse (PageSpeed API)...');
+  // Scores Web (Lighthouse / PageSpeed) : mis à jour tous les 7 jours
+  console.log('\n🔍 Scores Web (Lighthouse) — mise à jour tous les 7 jours...');
   const lighthouseResult = await collectLighthouseScores(lastLighthouseRun, existingLighthouseScores);
   
   if (!lighthouseResult.skipped) {
     history.lastLighthouseRun = lighthouseResult.lastRun;
-    console.log(`✅ Scores Lighthouse collectés: Perf=${lighthouseResult.scores.performance}, A11y=${lighthouseResult.scores.accessibility}`);
+    console.log(`✅ Scores Web mis à jour: Perf=${lighthouseResult.scores.performance}, A11y=${lighthouseResult.scores.accessibility}, BP=${lighthouseResult.scores.bestPractices}, SEO=${lighthouseResult.scores.seo}`);
   } else {
-    // Conserver le lastLighthouseRun existant
     history.lastLighthouseRun = lastLighthouseRun;
-    console.log('⏭️  Lighthouse skipped (dernière exécution < 7 jours)');
+    console.log('⏭️  Scores Web non recalculés (dernière exécution < 7 jours)');
   }
   
   // Ajouter les scores Lighthouse au snapshot

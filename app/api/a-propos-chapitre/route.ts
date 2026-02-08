@@ -1,6 +1,6 @@
 /**
- * API Route : Retourne le contenu d'un chapitre (dossier) « A propos de ce site » (US-11.4).
- * GET /api/a-propos-chapitre?path=... (path = chemin relatif, ex. data/A propos de ce site/A propos du projet)
+ * API Route : Retourne le contenu d'un chapitre (dossier) « A propos » (US-11.4).
+ * GET /api/a-propos-chapitre?path=... (path = chemin relatif, ex. data/A propos/A propos du projet)
  */
 
 import { NextRequest, NextResponse } from 'next/server';

@@ -32,8 +32,8 @@ const Header: React.FC<HeaderProps> = ({ menuEntries }) => {
   useEffect(() => {
     if (typeof window === 'undefined' || !window.matchMedia) return;
     const m = window.matchMedia('(max-width: 767px)');
-    setIsMobile(m.matches);
     const handler = () => setIsMobile(m.matches);
+    queueMicrotask(() => setIsMobile(m.matches));
     m.addEventListener('change', handler);
     return () => m.removeEventListener('change', handler);
   }, []);
@@ -82,7 +82,7 @@ const Header: React.FC<HeaderProps> = ({ menuEntries }) => {
                     <Link
                       href={entry.url}
                       className="headerNavLink"
-                      e2eid={`e2eid-header-menu-${entry.id}`}
+                      e2eid={entry.url === '/' ? `e2eid-${E2E_IDS.header.logo}` : `e2eid-header-menu-${entry.id}`}
                     >
                       {entry.label}
                     </Link>
@@ -91,7 +91,7 @@ const Header: React.FC<HeaderProps> = ({ menuEntries }) => {
                         href={entry.url}
                         className="headerDropdownLink"
                         role="menuitem"
-                        e2eid={`e2eid-header-menu-${entry.id}`}
+                        e2eid={entry.url === '/' ? `e2eid-${E2E_IDS.header.logo}` : `e2eid-header-menu-${entry.id}`}
                       >
                         {entry.label}
                       </Link>
@@ -113,7 +113,7 @@ const Header: React.FC<HeaderProps> = ({ menuEntries }) => {
                     key={entry.id}
                     href={entry.url}
                     className="headerNavLink"
-                    e2eid={`e2eid-header-menu-${entry.id}`}
+                    e2eid={entry.url === '/' ? `e2eid-${E2E_IDS.header.logo}` : `e2eid-header-menu-${entry.id}`}
                   >
                     {entry.label}
                   </Link>
@@ -171,7 +171,7 @@ const Header: React.FC<HeaderProps> = ({ menuEntries }) => {
                 href={entry.url}
                 className="headerMobileNavLink"
                 onClick={() => setIsMobileMenuOpen(false)}
-                e2eid={`e2eid-header-mobile-${entry.id}`}
+                e2eid={entry.url === '/' ? `e2eid-${E2E_IDS.header.logo}` : `e2eid-header-mobile-${entry.id}`}
               >
                 {entry.label}
               </Link>

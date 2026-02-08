@@ -7,7 +7,7 @@ import React from 'react';
 import { render, screen, waitFor } from '@testing-library/react';
 
 // Mock next/navigation
-const mockPathname = jest.fn().mockReturnValue('/a-propos-du-site');
+const mockPathname = jest.fn().mockReturnValue('/a-propos');
 const mockSearchParams = { get: jest.fn().mockReturnValue(null) };
 jest.mock('next/navigation', () => ({
   usePathname: () => mockPathname(),
@@ -51,7 +51,7 @@ describe('SprintDashboardLayout', () => {
 
   beforeEach(() => {
     jest.clearAllMocks();
-    mockPathname.mockReturnValue('/a-propos-du-site');
+    mockPathname.mockReturnValue('/a-propos');
     (global.fetch as jest.Mock).mockResolvedValue({
       json: () => Promise.resolve({
         goal: 'Sprint Goal Test',
@@ -90,18 +90,18 @@ describe('SprintDashboardLayout', () => {
     render(<SprintDashboardLayout lignes={mockLignes} />);
     
     const journalLink = screen.getByText('Journal').closest('a');
-    expect(journalLink).toHaveAttribute('href', '/a-propos-du-site/journal');
+    expect(journalLink).toHaveAttribute('href', '/a-propos/journal');
   });
 
   it('devrait créer un lien vers le board pour les items de type Board', () => {
     render(<SprintDashboardLayout lignes={mockLignes} />);
     
     const boardLink = screen.getByText('Board').closest('a');
-    expect(boardLink).toHaveAttribute('href', '/a-propos-du-site');
+    expect(boardLink).toHaveAttribute('href', '/a-propos');
   });
 
   it('devrait appliquer la classe lienActif quand on est sur le board', () => {
-    mockPathname.mockReturnValue('/a-propos-du-site');
+    mockPathname.mockReturnValue('/a-propos');
     render(<SprintDashboardLayout lignes={mockLignes} />);
     
     const boardLink = screen.getByText('Board').closest('a');
@@ -109,7 +109,7 @@ describe('SprintDashboardLayout', () => {
   });
 
   it('devrait appliquer la classe lien quand on n\'est pas sur le board', () => {
-    mockPathname.mockReturnValue('/a-propos-du-site/journal');
+    mockPathname.mockReturnValue('/a-propos/journal');
     render(<SprintDashboardLayout lignes={mockLignes} />);
     
     const boardLink = screen.getByText('Board').closest('a');

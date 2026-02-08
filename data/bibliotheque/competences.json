@@ -293,7 +293,7 @@
       "bouton": {
         "type": "bouton",
         "texte": "Aller plus loin...",
-        "action": "/robustesse"
+        "action": "/pour-aller-plus-loin"
       },
       "type": "competence"
     },
@@ -386,7 +386,7 @@
       "bouton": {
         "type": "bouton",
         "texte": "En savoir plus...",
-        "action": "/a-propos-du-site",
+        "action": "/a-propos",
         "e2eID": null
       },
       "type": "competence"

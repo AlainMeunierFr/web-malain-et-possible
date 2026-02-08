@@ -62,9 +62,9 @@ Fonctionnalité: Génération automatique du plan du site et validation de confo
     Et le test échoue si au moins une page n'a pas d'emplacement
 
   Scénario: Création initiale du plan JSON s'il n'existe pas
-    Étant donné que le fichier data/__Pages-Liens-Et-Menus.json n'existe pas
+    Étant donné que le fichier data/_Pages-Liens-Et-Menus.json n'existe pas
     Quand la fonction de mise à jour du plan est exécutée
-    Alors un nouveau fichier data/__Pages-Liens-Et-Menus.json est créé
+    Alors un nouveau fichier data/_Pages-Liens-Et-Menus.json est créé
     Et toutes les pages détectées sont ajoutées au JSON
     Et tous les liens détectés sont ajoutés au JSON
     Et les emplacements (x, y) sont null pour toutes les pages

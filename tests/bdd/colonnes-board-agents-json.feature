@@ -1,12 +1,12 @@
 # language: fr
 
 Fonctionnalité: Colonnes du board basées sur agents.json — US-12.2
-  En tant que visiteur ou membre du projet qui consulte le tableau de bord « A propos de ce site »
+  En tant que visiteur ou membre du projet qui consulte le tableau de bord « A propos »
   Je souhaite que la liste des colonnes (agents) du board soit construite à partir du fichier agents.json
   Afin de garantir le même affichage des colonnes en local et sur Vercel
 
   Contexte:
-    Étant donné que je suis sur la page "A propos de ce site"
+    Étant donné que je suis sur la page "A propos"
     Et que menu.json contient une ligne avec Titre "Sprint en cours", Type "container", Parametre "sprintEnCours"
     Et j'ai cliqué sur la ligne de menu "Sprint en cours" dans la bande horizontale
 
@@ -20,7 +20,7 @@ Fonctionnalité: Colonnes du board basées sur agents.json — US-12.2
 
   Scénario: Si agents.json est absent, le board n'affiche que les colonnes A faire et Fait
     Étant donné que le fichier agents.json est absent
-    Et que je suis sur la page "A propos de ce site"
+    Et que je suis sur la page "A propos"
     Et que menu.json contient une ligne avec Titre "Sprint en cours", Type "container", Parametre "sprintEnCours"
     Et j'ai cliqué sur la ligne de menu "Sprint en cours" dans la bande horizontale
     Quand le contenu du container sprintEnCours s'affiche

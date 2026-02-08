@@ -64,17 +64,17 @@ export { isProduction, isDevelopment } from './shared/environment';
 // E2E ID utilities (sans fs)
 export { isInReservedRange, generateE2eIdFromUrl } from './shared/e2eIdFromUrl';
 
-// Types du plan du site
+// Types et helpers du plan du site (client-safe)
 export type { PlanPage, PlanLien, PlanSite } from './shared/planDuSiteTypes';
-
-// Assistant scenario (sans fs depuis la correction)
 export {
-  getPagesExclues,
+  pageAccueil,
   getLiensAParcourirInitial,
   getPagesAccessiblesDepuis,
   retirerLienUtilise,
-  pageAccueil,
-} from './shared/assistantScenario';
+} from './shared/planDuSiteTypes';
+
+// Slug pour ancres (titres → id HTML, sommaire A propos)
+export { titreToAnchorId } from './shared/slugFromTitle';
 
 // Markdown utilities (client-safe)
 export { parseInlineMarkdown } from './shared/markdown/markdownInlineParser';
@@ -151,6 +151,8 @@ export interface Chapitre {
 export interface DossierRacine {
   nom: string;
   path: string;
+  /** Présent uniquement si le dossier ne contient qu'un seul fichier MD : affichage direct sans accordéon */
+  chapitre?: Chapitre;
 }
 
 export interface PathContentAtRoot {

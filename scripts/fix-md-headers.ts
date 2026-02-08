@@ -4,14 +4,14 @@ import * as path from 'path';
 const filePath = path.join(
   process.cwd(),
   'data',
-  'A propos de ce site',
+  'A propos',
   '5. Cours',
   'FORMATION - Flux de requête HomePage.md'
 );
 
 console.log(`Correction du fichier: ${filePath}`);
 
-let content = fs.readFileSync(filePath, 'utf-8');
+const content = fs.readFileSync(filePath, 'utf-8');
 
 // ⚠️ OBSOLÈTE : Ce script convertit vers l'ancien format (avant US-5.5)
 // Avec US-5.5, les fichiers MD utilisent directement #, ##, ###, etc.

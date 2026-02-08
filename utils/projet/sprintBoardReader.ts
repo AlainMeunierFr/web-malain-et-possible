@@ -5,8 +5,9 @@
 
 import fs from 'fs';
 import path from 'path';
+import { ABOUT_SITE_DATA_DIR } from '../../constants/routes';
 
-const DATA_DIR = path.join('data', 'A propos de ce site');
+const DATA_DIR = path.join('data', ABOUT_SITE_DATA_DIR);
 const SPRINTS_DIR = path.join(DATA_DIR, 'Sprints');
 const US_EN_COURS_FILENAME = 'US en cours.md';
 const SPRINT_GOAL_FILENAME = '00 - Sprint goal et contexte.md';
@@ -114,7 +115,7 @@ export function readAgentsFromCursorAgents(): { id: string; label: string }[] {
 }
 
 /**
- * Lit la liste des agents depuis data/A propos de ce site/agents.json (US-12.2).
+ * Lit la liste des agents depuis data/<ABOUT_SITE_DATA_DIR>/agents.json (US-12.2).
  * Retourne un tableau vide si le fichier est absent ou invalide (repli : board sans colonnes agent).
  */
 export function readAgentsFromAgentsJson(): { id: string; label: string }[] {

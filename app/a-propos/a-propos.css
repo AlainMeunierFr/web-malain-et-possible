@@ -1,0 +1,1709 @@
+/**
+ * Styles dédiés à la section « A propos »
+ * Chargés uniquement pour les routes /a-propos/*
+ * Ne pas mélanger avec la charte globale (content-styles.css)
+ */
+
+/* ========== Reset pour la page Charte graphique (CA4 US-13.1) ========== */
+/* 
+ * La page /a-propos/charte doit utiliser UNIQUEMENT les styles
+ * du site vitrine (content-styles.css, globals.css).
+ * Ces règles neutralisent les surcharges de cette section.
+ */
+
+/* Reset du conteneur .main quand .charte est présent */
+.main-cont:has(.charte) {
+  padding: 0 !important;
+  max-width: none !important;
+  width: auto !important;
+  margin: 0 !important;
+}
+
+/* Reset du conteneur .contenuAPropos pour la charte */
+.contenuAPropos:has(.charte) {
+  padding-top: 4.5rem; /* Garder l'espace pour le menu fixed mais pas plus */
+}
+
+/* ========== Structure page & bande menu (ex-about.module.css) ========== */
+
+/* Page A propos : pleine largeur pour le board Kanban.
+   Le parent (main.main-content-cont, layout racine) a déjà padding-top = header + 1rem.
+   On annule ce padding par un margin-top négatif pour ne garder qu'un seul espace (celui de .main-cont). */
+.main-content-cont > .main-cont {
+  margin-top: calc(-1 * (var(--header-height, 80px) + 1rem));
+}
+
+.main-cont {
+  padding: 2rem;
+  padding-top: calc(var(--header-height, 80px) + 2.25rem + 30px); /* header + sous-menu + 30px de marge */
+  padding-bottom: calc(max(50px, 5.47vh) + 2rem);
+  max-width: 100% !important;
+  width: 100% !important;
+  margin-left: 0;
+  margin-right: 0;
+  margin-bottom: 0;
+  /* margin-top géré par .main-content-cont > .main-cont ci-dessus */
+}
+
+.bandeDossiers {
+  margin-bottom: 1.5rem;
+  padding: 0.75rem 0;
+  border-bottom: 0.125rem solid var(--BleuClair);
+}
+
+.bandeDossiers .liste {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.bandeDossiers .item {
+  margin: 0;
+  padding: 0;
+}
+
+.bandeDossiers .lien {
+  display: inline-block;
+  padding: 0.375rem 0.75rem;
+  border-radius: 0.25rem;
+  background-color: var(--BleuClair);
+  color: var(--BleuFonce);
+  font-weight: 500;
+  text-decoration: none;
+  font-size: 0.9rem;
+  border: 0.0625rem solid var(--BleuFonce);
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.bandeDossiers .lien:hover {
+  background-color: var(--BleuFonce);
+  color: white;
+}
+
+.bandeDossiers .lienActif {
+  display: inline-block;
+  padding: 0.375rem 0.75rem;
+  border-radius: 0.25rem;
+  background-color: var(--BleuFonce);
+  color: white;
+  font-weight: 600;
+  text-decoration: none;
+  font-size: 0.9rem;
+  border: 0.0625rem solid var(--BleuFonce);
+}
+
+.zoneSprint {
+  min-height: 6rem;
+  padding: 0.5rem 1rem 1rem 1rem;
+  background-color: var(--background);
+  border: 0.0625rem dashed var(--BleuClair);
+  border-radius: 0.5rem;
+}
+
+.zoneSprintPlaceholder {
+  margin: 0;
+  color: var(--foreground);
+  font-size: 0.9rem;
+  opacity: 0.8;
+}
+
+.content {
+  max-width: 75rem;
+  margin: 0 auto;
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+.partie {
+  margin-bottom: 1.5rem;
+}
+
+.partieTitle {
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 0.75rem 0;
+  margin-left: 1.25rem;
+  color: var(--BleuFonce);
+  text-align: left; /* Alignement à gauche pour cohérence avec les autres titres */
+}
+
+.sousPartie {
+  margin-bottom: 1rem;
+}
+
+.sousPartieTitle {
+  font-size: 0.95rem;
+  font-weight: bold;
+  margin: 0.5rem 0;
+  margin-left: 30px;
+  color: var(--BleuFonce);
+  text-align: left; /* Alignement à gauche pour cohérence avec les autres titres */
+}
+
+.bloc {
+  margin: 0.5rem 0;
+}
+
+.blocTitle {
+  font-size: 0.9rem;
+  font-weight: 500;
+  margin: 0.5rem 0;
+  margin-left: 30px;
+  color: var(--foreground);
+  text-align: left; /* Alignement à gauche pour cohérence avec les autres titres */
+}
+
+/* ========== Menu horizontal partagé (position fixed) ========== */
+
+/* Sous-menu A propos : collé sous le header (pas de gap), même padding horizontal que .header
+   pour aligner "Accueil" et "A propos du projet". Couleurs inversées (texte bleu sur fond blanc). */
+.menuAPropos {
+  position: fixed;
+  top: var(--header-height, 80px);
+  left: 0;
+  right: 0;
+  z-index: 500;
+  display: flex;
+  align-items: center;
+  margin: 0;
+  padding: 0.2rem max(11px, 1.2vw); /* minimal vertical = pas de gap blanc sous le header */
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  background: var(--background);
+  box-sizing: border-box;
+}
+
+/* Bouton hamburger (caché sur grand écran) */
+.menuAPropos__hamburger {
+  display: none; /* Caché par défaut sur grand écran */
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+  margin-right: 1rem;
+  flex-direction: column;
+  justify-content: space-around;
+  width: 2rem;
+  height: 2rem;
+  z-index: 501;
+}
+
+.menuAPropos__hamburger-icon {
+  width: 2rem;
+  height: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.menuAPropos__hamburger-icon span {
+  display: block;
+  height: 0.25rem;
+  width: 100%;
+  background-color: var(--BleuFonce);
+  border-radius: 0.125rem;
+  transition: all 0.3s ease;
+}
+
+.menuAPropos__hamburger-icon span.open:nth-child(1) {
+  transform: rotate(45deg) translate(0.5rem, 0.5rem);
+}
+
+.menuAPropos__hamburger-icon span.open:nth-child(2) {
+  opacity: 0;
+}
+
+.menuAPropos__hamburger-icon span.open:nth-child(3) {
+  transform: rotate(-45deg) translate(0.5rem, -0.5rem);
+}
+
+.menuAPropos .liste {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.25rem 1.5rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.menuAPropos .item {
+  margin: 0;
+  padding: 0;
+}
+
+/* Liens = même style que .header .headerNavLink mais couleurs inversées (texte bleu sur fond blanc) */
+.menuAPropos .lien {
+  display: inline-block;
+  padding: 0.5rem 0.75rem;
+  color: var(--BleuFonce);
+  text-decoration: none;
+  font-size: var(--normale);
+  font-weight: 500;
+  border-radius: 4px;
+  transition: background-color 0.2s ease, color 0.2s ease;
+  white-space: nowrap;
+}
+
+.menuAPropos .lien:hover {
+  background-color: var(--BleuClair);
+  color: var(--BleuFonce);
+}
+
+.menuAPropos .lienActif {
+  display: inline-block;
+  padding: 0.5rem 0.75rem;
+  color: var(--Blanc);
+  background-color: var(--BleuFonce);
+  text-decoration: none;
+  font-size: var(--normale);
+  font-weight: 600;
+  border-radius: 4px;
+  white-space: nowrap;
+}
+
+.menuAPropos .lienActif:hover {
+  background-color: var(--BleuFonce);
+  color: var(--Blanc);
+}
+
+/* Responsive : menu hamburger sur petit écran */
+@media (max-width: 768px) {
+  .menuAPropos {
+    left: 0;
+    padding: 0.75rem max(11px, 1.2vw);
+    flex-direction: column;
+    align-items: flex-start;
+    top: var(--header-height);
+  }
+
+  .menuAPropos__hamburger {
+    display: flex; /* Afficher le bouton hamburger */
+  }
+
+  .menuAPropos .liste {
+    display: none; /* Cacher le menu par défaut */
+    flex-direction: column;
+    width: 100%;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+    padding-top: 0.5rem;
+    border-top: 0.125rem solid var(--BleuClair);
+  }
+
+  .menuAPropos .liste.liste--open {
+    display: flex; /* Afficher le menu quand ouvert */
+  }
+
+  .menuAPropos .item {
+    width: 100%;
+  }
+
+  .menuAPropos .lien,
+  .menuAPropos .lienActif {
+    display: block;
+    width: 100%;
+    text-align: left;
+  }
+}
+
+/* Zone de contenu sous le sous-menu fixed (espace déjà dans .main-cont padding-top) */
+.contenuAPropos {
+  padding-top: 0;
+}
+
+/* ========== En-tête tableau de bord (Sprint Goal uniquement) ========== */
+
+.dashboardHeader {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-bottom: 0.5rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+}
+
+.dashboardHeader nav {
+  flex: 0 1 auto;
+  margin-bottom: 0;
+}
+
+.sprintGoalContainer {
+  flex: 1 1 100%; /* Prend toute la largeur */
+  min-width: 100%;
+  display: flex;
+  justify-content: flex-start; /* Aligné à gauche */
+  align-items: flex-start;
+}
+
+.sprintGoal {
+  font-family: 'Clint Marker', cursive;
+  font-size: 0.9rem;
+  line-height: 1.4;
+  color: var(--BleuFonce);
+  margin: 0;
+  text-align: left; /* Aligné à gauche pour pleine largeur */
+  width: 100%;
+}
+
+.sprintGoal p {
+  margin: 0 0 0.35em 0;
+  font-family: 'Clint Marker', cursive;
+}
+
+.sprintGoal p:last-child {
+  margin-bottom: 0;
+}
+
+/* ========== Tableau Kanban (US-11.5) ========== */
+
+.tableauSprint {
+  min-height: 6rem;
+  padding: 1rem;
+  background-color: var(--background);
+  border: 0.0625rem solid var(--BleuClair);
+  border-radius: 0.5rem;
+}
+
+.tableauSprint .objectif {
+  margin-bottom: 1rem;
+}
+
+.tableauSprint .grille {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 0.5rem;
+}
+
+.tableauSprint .ligne {
+  display: flex;
+  flex: 1 1 100%;
+  gap: 1rem;
+  min-width: 0;
+}
+
+.tableauSprint .ligneStatique {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: var(--background);
+}
+
+.colonneTableauSprint {
+  flex: 1 1 0;
+  min-width: 8rem;
+  border: 0.125rem solid var(--BleuFonce);
+  border-radius: 0;
+  padding: 0.75rem;
+  background-color: var(--background);
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.colonneTableauSprint .enTete {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 0.0625rem solid var(--BleuClair);
+  font-family: 'Clint Marker', cursive;
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--BleuFonce);
+  flex-shrink: 0;
+}
+
+.colonneTableauSprint .titre {
+  flex-shrink: 0;
+  font-family: 'Clint Marker', cursive;
+}
+
+.colonneTableauSprint .compte {
+  font-family: 'Clint Marker', cursive;
+  font-weight: 500;
+  opacity: 0.9;
+}
+
+.colonneTableauSprint[data-column-type="a_faire"] {
+  border-color: #b91c1c;
+}
+
+.colonneTableauSprint[data-column-type="a_faire"] .enTete,
+.colonneTableauSprint[data-column-type="a_faire"] .enTete * {
+  color: #b91c1c;
+}
+
+.colonneTableauSprint[data-column-type="a_faire"] .enTete {
+  border-bottom-color: #b91c1c;
+}
+
+.colonneTableauSprint[data-column-type="fait"] {
+  border-color: #15803d;
+}
+
+.colonneTableauSprint[data-column-type="fait"] .enTete,
+.colonneTableauSprint[data-column-type="fait"] .enTete * {
+  color: #15803d;
+}
+
+.colonneTableauSprint[data-column-type="fait"] .enTete {
+  border-bottom-color: #15803d;
+}
+
+.colonneTableauSprint .cartes {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  overflow-y: auto;
+  overflow-x: hidden;
+  /* Hauteur adaptative pour post-its visibles */
+  max-height: calc(100vh - 480px);
+  min-height: 4rem;
+  padding: 0.4rem 0.5rem;
+  box-sizing: border-box;
+}
+
+.carteUS {
+  position: relative;
+  width: calc(100% - 0.25rem);
+  margin: 0 auto;
+  aspect-ratio: 1; /* Post-it = carré ! */
+  padding: 0.4rem;
+  border-radius: 0;
+  background-color: #f7f7b2;
+  border: 0.125rem solid #000;
+  flex-shrink: 0;
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  min-width: 0;
+  max-width: 100%;
+  box-sizing: border-box;
+  cursor: pointer;
+  /* Pas de flex - contenu en flow normal, texte en haut à gauche */
+}
+
+.carteUS .contenu,
+.carteUS .contenu.titre {
+  display: block;
+  margin: 0;
+  padding: 0;
+  font-family: 'Clint Marker', cursive;
+  color: #1a1a1a;
+  font-size: 0.8rem;
+  line-height: 1.15;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  hyphens: auto;
+  white-space: normal;
+}
+
+.carteUS .contenu strong {
+  font-weight: 700;
+}
+
+/* Badge "en revue" (US-12.3) */
+.carteUS .badgeEnRevue {
+  position: absolute;
+  top: 0.15rem;
+  right: 0.15rem;
+  font-size: 0.65rem;
+  line-height: 1;
+  opacity: 0.85;
+  pointer-events: none;
+}
+
+/* Focus sur l'US en cours - style subtil sans contour bleu */
+.carteUS--focus {
+  z-index: 10;
+  position: relative;
+}
+
+/* ========== Navigation mobile Kanban ========== */
+
+/* Cachée sur desktop */
+.kanbanMobileNav {
+  display: none;
+}
+
+/* Visible sur mobile */
+@media (max-width: 768px) {
+  .kanbanMobileNav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.5rem;
+    background: var(--BleuFonce);
+    border-radius: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .kanbanNavBtn {
+    background: transparent;
+    border: none;
+    color: white;
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 0.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s;
+  }
+  
+  .kanbanNavBtn:hover:not(:disabled) {
+    background: rgba(255, 255, 255, 0.2);
+  }
+  
+  .kanbanNavBtn:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+  }
+  
+  .kanbanNavLabel {
+    color: white;
+    font-weight: bold;
+    font-size: 1rem;
+    text-transform: uppercase;
+  }
+  
+  /* Sur mobile, masquer toutes les colonnes sauf celle visible */
+  .colonneTableauSprint {
+    display: none !important;
+  }
+  
+  .colonneTableauSprint--mobileVisible {
+    display: flex !important;
+    width: 100% !important;
+    min-width: 100% !important;
+    max-width: 100% !important;
+    min-height: 450px; /* Au moins la taille d'un post-it */
+  }
+  
+  /* La grille n'a qu'une colonne sur mobile */
+  .tableauSprint .grille .ligne {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  /* Styles cartes sur mobile */
+  .tableauSprint .colonneTableauSprint .cartes {
+    max-height: calc(100vh - 350px);
+    min-height: 150px;
+    padding: 0.75rem 1rem;
+    gap: 0.75rem;
+  }
+  
+  /* Post-its plus grands et carrés sur mobile */
+  .carteUS {
+    width: calc(100% - 0.5rem);
+    aspect-ratio: 1;
+    padding: 0.5rem;
+    container-type: size;
+  }
+  
+  .carteUS .contenu,
+  .carteUS .contenu.titre {
+    font-size: clamp(1.1rem, 4cqi, 1.6rem);
+    line-height: 1.2;
+  }
+}
+
+/* ========== Modal détail US (US-11.6) ========== */
+
+.modalDetailUS {
+  position: fixed;
+  top: max(80px, 8.75vh);
+  bottom: max(50px, 5.47vh);
+  left: 0;
+  right: 0;
+  z-index: 100;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  box-sizing: border-box;
+}
+
+.modalDetailUS .fenetre {
+  background: #f7f7b2;
+  border: 0.125rem solid #000;
+  border-radius: 0;
+  width: 100%;
+  max-width: 40rem;
+  max-height: min(500px, 70vh);
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  font-family: 'Clint Marker', cursive;
+  box-shadow: 0 0.5rem 2rem rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+}
+
+.modalDetailUS .enTete {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.5rem 1rem;
+  border-bottom: 0.0625rem solid #000;
+  flex-shrink: 0;
+  font-family: 'Clint Marker', cursive;
+}
+
+.modalDetailUS .titre {
+  margin: 0;
+  font-size: 1.125rem;
+  font-family: 'Clint Marker', cursive;
+  color: #1a1a1a;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.modalDetailUS .fermer {
+  flex-shrink: 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.25rem;
+  color: #1a1a1a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0;
+}
+
+.modalDetailUS .fermer:hover {
+  opacity: 0.8;
+}
+
+.modalDetailUS .zoneFixe {
+  flex-shrink: 0;
+  padding: 0.5rem 1rem;
+  border-bottom: 0.0625rem solid #000;
+  font-family: 'Clint Marker', cursive;
+  overflow: hidden;
+}
+
+.modalDetailUS .zoneFixe .contenu,
+.modalDetailUS .zoneFixe .contenu * {
+  font-family: 'Clint Marker', cursive;
+}
+
+.modalDetailUS .zoneScroll {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 0.5rem 1rem;
+  font-family: 'Clint Marker', cursive;
+}
+
+.modalDetailUS .zoneScroll .contenu,
+.modalDetailUS .zoneScroll .contenu * {
+  font-family: 'Clint Marker', cursive;
+}
+
+.chargementUS {
+  position: absolute;
+  bottom: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--BleuFonce);
+}
+
+/* ========== Media queries (A propos) ========== */
+
+@media (min-width: 2560px) {
+  .content {
+    max-width: 100rem;
+  }
+}
+
+@media (min-width: 3840px) {
+  .content {
+    max-width: 112.5rem;
+  }
+}
+
+@media (min-width: 1920px) {
+  .content {
+    max-width: 87.5rem;
+    font-size: 1rem;
+  }
+
+  .partieTitle {
+    font-size: 1.125rem;
+  }
+
+  .sousPartieTitle {
+    font-size: 1.05rem;
+  }
+
+  .blocTitle {
+    font-size: 1rem;
+  }
+}
+
+/* ========== Résultat technique (ex-TechnicalResult.module.css) ========== */
+.technicalResult {
+  margin: 1rem 0;
+  background-color: white;
+  padding: 1rem;
+  border-radius: 4px;
+}
+
+/* ========== Liste des journaux (ex-JournalList.module.css) ========== */
+.journalList {
+  margin: 1rem 0;
+}
+
+.journalItem {
+  margin-bottom: 1rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  overflow: visible;
+  background-color: #ffffff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.journalHeader {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.5rem;
+  background-color: #ffffff;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  text-align: left;
+}
+
+.journalHeader:hover {
+  background-color: #f5f5f5;
+}
+
+.journalHeader:focus {
+  outline: 2px solid var(--BleuFonce);
+  outline-offset: -2px;
+}
+
+.journalDate {
+  font-size: 1.25rem;
+  margin: 0;
+  color: var(--BleuFonce);
+  font-family: var(--font-sans);
+  font-weight: 600;
+  flex: 1;
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.journalIcon {
+  width: 20px;
+  height: 20px;
+  color: var(--BleuFonce);
+  flex-shrink: 0;
+  transition: transform 0.2s ease;
+}
+
+.journalContent {
+  overflow: visible;
+  transition: opacity 0.2s ease-out;
+}
+
+.journalContent.closed {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+}
+
+.journalContent.open {
+  max-height: none;
+  opacity: 1;
+  overflow: visible;
+}
+
+.journalContentInner {
+  padding: 0 1.5rem 1.5rem 1.5rem;
+}
+
+/* ========== Accordéon (ex-AccordionSection.module.css) ========== */
+.accordionSection {
+  margin-bottom: 1.5rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  overflow: hidden;
+  background-color: #ffffff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.accordionHeader {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.5rem;
+  background-color: #ffffff;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  text-align: left;
+}
+
+.accordionHeader:hover {
+  background-color: #f5f5f5;
+}
+
+.accordionHeader:focus {
+  outline: 2px solid var(--BleuFonce);
+  outline-offset: -2px;
+}
+
+.accordionTitle {
+  font-size: 1.75rem;
+  margin: 0;
+  color: var(--BleuFonce);
+  font-family: var(--font-sans);
+  font-weight: 600;
+  flex: 1;
+}
+
+.accordionIcon {
+  width: 24px;
+  height: 24px;
+  color: var(--BleuFonce);
+  flex-shrink: 0;
+  transition: transform 0.2s ease;
+}
+
+.accordionContent {
+  overflow: hidden;
+  transition: max-height 0.3s ease-out, opacity 0.2s ease-out;
+}
+
+.accordionContent.closed {
+  max-height: 0;
+  opacity: 0;
+}
+
+.accordionContent.open {
+  max-height: 10000px;
+  opacity: 1;
+}
+
+.accordionContentInner {
+  padding: 0 1.5rem 1.5rem 1.5rem;
+}
+
+/* ========== Rendu contenu A propos (ex-AboutSiteContentRenderer.module.css) ========== */
+.promptContainer {
+  margin: 0.5rem 0 !important;
+  margin-left: 35px !important;
+  background-color: var(--BleuClair);
+  padding: 1rem;
+  border-radius: 4px;
+}
+
+.technicalResultContainer {
+  margin: 0.5rem 0 !important;
+  margin-left: 35px !important;
+  background-color: white;
+  padding: 1rem;
+  border-radius: 4px;
+}
+
+.normalContainer {
+  margin: 0.5rem 0 !important;
+  margin-left: 35px !important;
+}
+
+/* Blocs de code « À propos du site » : label + fond clair, bordure (ex. Présentation de la méthode) */
+.codeBlockAPropos {
+  margin: 1rem 0;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  overflow: hidden;
+  background-color: #fafafa;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+}
+
+.codeBlockAProposHeader {
+  padding: 0.4rem 0.75rem;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: #555;
+  background-color: #f0f0f0;
+  border-bottom: 1px solid #e0e0e0;
+  font-family: var(--font-sans, system-ui, sans-serif);
+}
+
+.codeBlockAProposPre {
+  margin: 0;
+  padding: 1rem;
+  overflow-x: auto;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  background-color: #fafafa;
+  font-weight: normal;
+}
+
+.codeBlockAProposPre--syntax .codeBlockAProposCode {
+  font-family: ui-monospace, "Cascadia Code", "Source Code Pro", Menlo, Consolas, monospace;
+}
+
+.codeBlockAProposCode {
+  font-family: ui-monospace, "Cascadia Code", "Source Code Pro", Menlo, Consolas, monospace;
+  color: #1a1a1a;
+  white-space: pre;
+  word-break: normal;
+  font-weight: normal;
+}
+
+/* Mots-clés User Storie / Gherkin dans les cartes de code */
+.codeBlockAProposCode .codeKeyword {
+  font-weight: bold;
+  color: var(--BleuFonce);
+}
+
+.paragraph {
+  margin: 0.5rem 0 !important;
+  line-height: 1.6;
+  font-size: 0.9rem;
+  /* Préserver les retours à la ligne du MD (ex. Mentions légales) */
+  white-space: pre-line;
+}
+
+.list {
+  margin: 0.5rem 0 !important;
+  margin-left: 40px !important;
+  padding-left: 1.5rem !important;
+  list-style-type: disc !important;
+  list-style-position: outside !important;
+  font-size: 0.9rem;
+}
+
+ol.list {
+  list-style-type: decimal !important;
+}
+
+.listItem {
+  margin: 0.25rem 0 !important;
+  line-height: 1.5;
+  display: list-item !important;
+  font-weight: normal; /* SURCHARGE : texte à puce pas en gras */
+}
+
+/* Sommaire : listes numérotées "1. Titre" rendues en liens vers ancres */
+.sommaire .sommaireLink {
+  color: var(--BleuFonce, #0a3d6e);
+  text-decoration: none;
+}
+.sommaire .sommaireLink:hover {
+  text-decoration: underline;
+}
+
+.userStoryElement {
+  margin: 0.25rem 0 !important;
+  margin-left: 35px !important;
+  padding-left: 1.5rem !important;
+  list-style-type: disc !important;
+  list-style-position: outside !important;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.userStoryElement[data-type-contenu="En tant que"] {
+  margin-top: 0.5rem !important;
+}
+
+.userStoryElement li {
+  display: list-item !important;
+  font-weight: normal; /* SURCHARGE : texte à puce pas en gras */
+}
+
+/* Titre "Critères d'acceptation" - h4 sans puce, aligné à gauche */
+.criteresAcceptationTitre {
+  margin: 1rem 0 0.5rem 0 !important;
+  margin-left: 35px !important;
+  padding: 0 !important;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--BleuFonce);
+  text-align: left;
+}
+
+.themeCritere {
+  margin: 0.75rem 0 0.5rem 0 !important;
+  margin-left: 35px !important;
+  padding-left: 1.5rem !important;
+  list-style-type: disc !important;
+  list-style-position: outside !important;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.themeCritere li {
+  display: list-item !important;
+  font-weight: normal; /* SURCHARGE : texte à puce pas en gras (même pour les thèmes) */
+}
+
+.critere {
+  margin: 0.25rem 0 !important;
+  margin-left: 55px !important;
+  padding-left: 1.5rem !important;
+  list-style-type: circle !important;
+  list-style-position: outside !important;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.critere li {
+  display: list-item !important;
+  font-weight: normal; /* SURCHARGE : texte à puce pas en gras */
+  color: inherit;
+}
+
+.inlineImage {
+  display: inline-block;
+  vertical-align: middle;
+  max-width: 100%;
+  height: auto;
+  margin: 0 0.25rem;
+}
+
+.imageBlock {
+  margin: 1rem 0;
+  text-align: center;
+}
+
+.blockImage {
+  max-width: 100%;
+  height: auto;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* ========== Liste des cours (ex-CourseList.module.css) ========== */
+.courseList {
+  margin: 1rem 0;
+}
+
+.courseItem {
+  margin-bottom: 1rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  overflow: hidden;
+  background-color: #ffffff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.courseHeader {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.5rem;
+  background-color: #ffffff;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  text-align: left;
+}
+
+.courseHeader:hover {
+  background-color: #f5f5f5;
+}
+
+.courseHeader:focus {
+  outline: 2px solid var(--BleuFonce);
+  outline-offset: -2px;
+}
+
+.courseTitle {
+  font-size: 1.25rem;
+  margin: 0;
+  color: var(--BleuFonce);
+  font-family: var(--font-sans);
+  font-weight: 600;
+  flex: 1;
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.courseIcon {
+  width: 20px;
+  height: 20px;
+  color: var(--BleuFonce);
+  flex-shrink: 0;
+  transition: transform 0.2s ease;
+}
+
+.courseContent {
+  overflow: hidden;
+  transition: max-height 0.3s ease-out, opacity 0.2s ease-out;
+}
+
+.courseContent.closed {
+  max-height: 0;
+  opacity: 0;
+}
+
+.courseContent.open {
+  max-height: 10000px;
+  opacity: 1;
+}
+
+.courseContentInner {
+  padding: 0 1.5rem 1.5rem 1.5rem;
+}
+
+/* ========== Styles Markdown spécifiques pour "A propos du site" ========== */
+/* 
+ * SURCHARGE MINIMALE DE LA CHARTE GLOBALE
+ * 
+ * Ces styles s'appliquent aux fichiers MD dans toutes les sections :
+ * - "A propos du projet"
+ * - "Tous les sprints"
+ * - "Configuration IA"
+ * - "Documentation technique"
+ * 
+ * Principe : La charte globale (globals.css) est respectée à 100%
+ * Surcharges uniquement :
+ * - Alignement des titres à gauche (cohérence visuelle)
+ * - Styles spécifiques aux modules (IA, Alain, Prompt, Résultat technique)
+ * 
+ * Tous les autres styles (tailles, polices, couleurs) héritent de la charte globale.
+ */
+
+.markdownContent {
+  /* Base : hérite complètement de la charte globale */
+}
+
+/* SURCHARGE UNIQUEMENT : alignement des titres à gauche */
+.markdownContent h1,
+.markdownContent h2,
+.markdownContent h3,
+.markdownContent h4,
+.markdownContent h5,
+.markdownContent h6 {
+  text-align: left;
+}
+
+/* Paragraphe - Base charte respectée, pas de surcharge */
+.markdownContent p {
+  margin: 0;
+  margin-top: 0.4em;
+  padding: 0;
+}
+
+.markdownContent p + p {
+  margin-top: 0.4em;
+}
+
+/* Listes - Base charte respectée */
+.markdownContent > ul {
+  list-style: disc;
+  margin-left: 1.5rem;
+  margin-top: 0.4em;
+  margin-bottom: 0.8rem;
+  padding-left: 0;
+}
+
+.markdownContent > ul > li {
+  margin-bottom: 0.4rem;
+  padding-left: 0.3em;
+  list-style-position: outside;
+  position: relative;
+  font-weight: normal; /* SURCHARGE : texte à puce pas en gras */
+}
+
+/* Masquer les puces générées par CSS pour utiliser list-style natif */
+.markdownContent > ul > li::before {
+  display: none !important;
+  content: none !important;
+}
+
+/* Listes imbriquées */
+.markdownContent > ul ul {
+  list-style: disc;
+  margin-left: 1.5rem;
+  margin-top: 0.4em;
+  margin-bottom: 0.8rem;
+  padding-left: 0;
+}
+
+.markdownContent > ul ul li {
+  margin-bottom: 0.4rem;
+  padding-left: 0.3em;
+  list-style-position: outside;
+  position: relative;
+  font-weight: normal; /* SURCHARGE : texte à puce pas en gras */
+}
+
+.markdownContent > ul ul li::before {
+  display: none !important;
+  content: none !important;
+}
+
+/* Blockquote, pre, hr, strong, em - Base charte respectée */
+.markdownContent blockquote {
+  margin: 1rem 0;
+  padding: 0.5rem 1rem;
+  border-left: 3px solid var(--BleuFonce);
+  background-color: #f5f5f5;
+  font-style: italic;
+  color: #555;
+}
+
+.markdownContent pre {
+  background-color: #f5f5f5;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 1rem;
+  overflow-x: auto;
+  margin: 1rem 0;
+}
+
+.markdownContent pre code {
+  font-family: 'Courier New', monospace;
+  font-size: 0.9rem;
+  color: #333;
+}
+
+.markdownContent hr {
+  border: none;
+  border-top: 2px solid #e0e0e0;
+  margin: 2rem 0;
+}
+
+.markdownContent strong {
+  color: var(--BleuFonce);
+  font-weight: 600;
+}
+
+.markdownContent em {
+  font-style: italic;
+}
+
+/* ========== Prompt (ex-Prompt.module.css) ========== */
+.prompt {
+  margin: 0.5rem 0 !important;
+  margin-left: 35px !important;
+  background-color: var(--BleuClair);
+  padding: 1rem;
+  border-radius: 4px;
+}
+
+/* ========== Simple markdown (ex-SimpleMarkdownRenderer.module.css) ========== */
+.simpleMarkdownContent {
+  line-height: 1.5;
+  color: #333;
+  font-size: 0.95rem;
+}
+
+.simpleMarkdownContent p {
+  margin: 0;
+  margin-top: 0.4em;
+  padding: 0;
+  line-height: 1.4;
+}
+
+.simpleMarkdownContent ul {
+  list-style: disc !important;
+  list-style-position: outside !important;
+  margin-left: 1rem !important;
+  margin-top: 0.4em !important;
+  padding-left: 0 !important;
+}
+
+.simpleMarkdownContent li {
+  margin-bottom: 0.2em !important;
+  line-height: 1.3 !important;
+  list-style-position: outside !important;
+  display: list-item !important;
+  padding-left: 0.5em !important;
+  margin-left: 0 !important;
+  position: relative !important;
+}
+
+.simpleMarkdownContent li::before,
+.simpleMarkdownContent li::after {
+  display: none !important;
+  content: none !important;
+  visibility: hidden !important;
+}
+
+/* ========== Accordion titre (ex-AccordionTitle.module.css) ========== */
+.accordionTitle {
+  margin-bottom: 1rem;
+}
+
+.accordionTitle .headerH1,
+.accordionTitle .headerH2 {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  text-align: left;
+  color: var(--foreground);
+  transition: opacity 0.2s;
+}
+
+.accordionTitle .headerH1:hover,
+.accordionTitle .headerH2:hover {
+  opacity: 0.8;
+}
+
+.accordionTitle .headerH1:focus,
+.accordionTitle .headerH2:focus {
+  outline: 2px solid var(--BleuFonce);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+.accordionTitle .titleH1 {
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin: 0;
+  color: var(--foreground);
+}
+
+.accordionTitle .titleH2 {
+  font-size: 1.05rem;
+  font-weight: 600;
+  margin: 0;
+  margin-left: 10px;
+  color: var(--foreground);
+}
+
+.accordionTitle .icon {
+  width: 1.25rem;
+  height: 1.25rem;
+  flex-shrink: 0;
+  margin-left: 0.5rem;
+  transition: transform 0.2s;
+  color: var(--foreground);
+}
+
+.accordionTitle .contentH1,
+.accordionTitle .contentH2 {
+  overflow: visible;
+  transition: opacity 0.2s ease-out;
+}
+
+.accordionTitle .contentH1.closed,
+.accordionTitle .contentH2.closed {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+}
+
+.accordionTitle .contentH1.open,
+.accordionTitle .contentH2.open {
+  max-height: none;
+  opacity: 1;
+  overflow: visible;
+}
+
+.accordionTitle .contentInner {
+  padding-top: 0.75rem;
+}
+
+.accordionTitle .contentH1 .contentInner {
+  padding-left: 0;
+}
+
+.accordionTitle .contentH2 .contentInner {
+  padding-left: 10px;
+}
+
+/* ========== Métriques compactes (US-12.5) ========== */
+
+.zoneMetrics {
+  padding: 0.5rem;
+}
+
+.metricsCompact {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.metricsEmpty,
+.metricsLoading {
+  text-align: center;
+  padding: 2rem;
+  color: var(--BleuFonce);
+}
+
+.metricsEmpty code {
+  background: var(--BleuClair);
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+}
+
+/* Layout principal 2 colonnes : gauche 65%, droite 35% */
+.metricsMainLayout {
+  display: grid;
+  grid-template-columns: 65% 35%;
+  gap: 1rem;
+  align-items: stretch;
+}
+
+.metricsLeftColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.metricsRightColumn {
+  display: flex;
+  flex-direction: column;
+}
+
+.metricsRightColumn .metricsSection {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.metricsSection {
+  background: var(--background);
+  border: 1px solid var(--BleuClair);
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+}
+
+/* h2 - Titres de sections (Tests, Couverture, Autres) - conforme charte */
+.metricsSectionTitle {
+  margin: 0 0 0.5rem 0;
+  font-size: var(--h2-font-size);
+  font-weight: var(--h2-font-weight);
+  color: var(--h2-color);
+  line-height: var(--h2-line-height);
+  border-bottom: 2px solid var(--BleuClair);
+  padding-bottom: 0.25rem;
+}
+
+/* Tests grid - 5 cartes en ligne */
+.metricsTestsGrid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 0.5rem;
+}
+
+/* Carte de test - style post-it jaune */
+.metricsTestCard {
+  background: var(--BleuClair);
+  border: 1px solid var(--BleuFonce);
+  border-radius: 0.25rem;
+  padding: 0.5rem;
+  text-align: center;
+}
+
+.metricsCardHeader {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.25rem;
+  margin-bottom: 0.25rem;
+}
+
+/* h3 - Titres de cartes (Total, BDD, Lignes, etc.) - conforme charte */
+.metricsCardTitle {
+  margin: 0;
+  font-size: var(--h3-font-size);
+  font-weight: var(--h3-font-weight);
+  color: var(--h3-color);
+  line-height: var(--h3-line-height);
+}
+
+.metricsInfo {
+  font-size: 0.65rem;
+  cursor: help;
+}
+
+/* Valeur principale (chiffre) - grande taille pour mise en valeur */
+.metricsCardValue {
+  margin: 0.15rem 0;
+  font-size: var(--grande);
+  font-weight: 700;
+  color: var(--BleuFonce);
+  line-height: 1.1;
+}
+
+.metricsGauge {
+  height: 10px;
+  background: #ddd;
+  border-radius: 5px;
+  margin: 0.2rem 0;
+  overflow: hidden;
+}
+
+.metricsGaugeFill {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 0.3s;
+}
+
+.metricsGaugeFill.good { background: #15803d; }
+.metricsGaugeFill.warning { background: #ca8a04; }
+.metricsGaugeFill.danger { background: #b91c1c; }
+
+/* Pourcentage sous la jauge - conforme charte p */
+.metricsGaugeLabel {
+  margin: 0.1rem 0;
+  font-size: var(--p-font-size);
+  font-weight: 600;
+  color: var(--p-color);
+}
+
+/* Détails en colonne avec titres (style page Metrics originale) */
+.metricsCardDetails {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  margin-top: 0.25rem;
+  font-size: 0.75rem;
+}
+
+.metricsDetailRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Détails des cartes - conforme charte p */
+.metricsDetailLabel {
+  font-size: var(--petite);
+  color: var(--p-color);
+  opacity: 0.8;
+}
+
+.metricsDetailValue {
+  font-size: var(--petite);
+  font-weight: 600;
+  color: var(--p-color);
+}
+
+/* Couverture grid - 4 cartes en ligne */
+.metricsCoverageGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.5rem;
+}
+
+/* Carte de couverture - même style que Tests */
+.metricsCoverageCard {
+  background: var(--BleuClair);
+  border: 1px solid var(--BleuFonce);
+  border-radius: 0.25rem;
+  padding: 0.5rem;
+  text-align: center;
+}
+
+/* Autres indicateurs - liste compacte avec catégories */
+.metricsOther {
+  overflow-y: auto;
+}
+
+.metricsOtherCategory {
+  margin-bottom: 0.75rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px dotted var(--BleuClair);
+}
+
+.metricsOtherCategory:last-child {
+  margin-bottom: 0;
+  border-bottom: none;
+}
+
+/* h3 - Sous-titres catégories (Qualité, Taille, etc.) - conforme charte */
+.metricsOtherCategoryTitle {
+  margin: 0.5rem 0 0.25rem 0;
+  font-size: var(--h3-font-size);
+  font-weight: var(--h3-font-weight);
+  color: var(--h3-color);
+  line-height: var(--h3-line-height);
+}
+
+.metricsOtherItem {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  padding: 0.15rem 0;
+}
+
+/* p - Labels et valeurs - conforme charte */
+.metricsOtherLabel {
+  font-size: var(--p-font-size);
+  font-weight: var(--p-font-weight);
+  color: var(--p-color);
+  opacity: 0.7;
+}
+
+.metricsOtherValue {
+  font-size: var(--p-font-size);
+  font-weight: 600;
+  color: var(--p-color);
+}
+
+.metricsVuln {
+  color: #b91c1c;
+}
+
+/* Responsive : tablette - réduire colonnes */
+@media (max-width: 1200px) {
+  .metricsMainLayout {
+    grid-template-columns: 60% 40%;
+  }
+  
+  .metricsTestsGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  
+  .metricsCoverageGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Responsive : smartphone - empiler */
+@media (max-width: 768px) {
+  .metricsMainLayout {
+    grid-template-columns: 1fr;
+  }
+  
+  .metricsTestsGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .metricsCoverageGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .metricsTestsGrid {
+    grid-template-columns: 1fr;
+  }
+  
+  .metricsCoverageGrid {
+    grid-template-columns: 1fr;
+  }
+}

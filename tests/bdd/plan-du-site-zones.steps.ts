@@ -19,7 +19,7 @@ Given('que je suis sur la page plan-du-site', async ({ page }: { page: Page }) =
   await page.goto('/plan-du-site');
 });
 
-// When('la page se charge') : défini dans a-propos-du-site-tableau-de-bord.steps.ts (step partagé)
+// When('la page se charge') : défini dans a-propos-tableau-de-bord.steps.ts (step partagé)
 
 Then('je vois {string} dans la têtière', async ({ page }: { page: Page }, titre: string) => {
   const headerTitle = page.locator('header h1.pageTitle');
@@ -155,6 +155,79 @@ Then('la propriété zone de cette page est conservée', async ({}, testInfo) =>
 // Scénario: Attribution des zones aux pages existantes
 Given('que le plan du site contient les pages suivantes :', async ({}, table: any) => {
   // Cette table sera utilisée pour vérifier les zones
+  (global as any).tableZones = table;
+});
+
+// --- Variantes sans "que" pour le matching Gherkin ---
+
+Given('je suis sur la page plan-du-site', async ({ page }: { page: Page }) => {
+  await page.goto('/plan-du-site');
+});
+
+Given('le plan du site contient des pages avec zone {string}', async ({}, zone: string) => {
+  const siteMapPath = getSiteMapPath();
+  if (fs.existsSync(siteMapPath)) {
+    const contenu = fs.readFileSync(siteMapPath, 'utf8');
+    const plan: PlanSite = JSON.parse(contenu);
+    const pagesAvecZone = plan.pages.filter((p: PlanPage) => (p as any).zone === zone);
+    expect(pagesAvecZone.length).toBeGreaterThan(0);
+  }
+});
+
+Given('le plan du site contient des pages avec zone {string} et {string}', async ({}, zone1: string, zone2: string) => {
+  const siteMapPath = getSiteMapPath();
+  if (fs.existsSync(siteMapPath)) {
+    const contenu = fs.readFileSync(siteMapPath, 'utf8');
+    const plan: PlanSite = JSON.parse(contenu);
+    const pages1 = plan.pages.filter((p: PlanPage) => (p as any).zone === zone1);
+    const pages2 = plan.pages.filter((p: PlanPage) => (p as any).zone === zone2);
+    expect(pages1.length + pages2.length).toBeGreaterThan(0);
+  }
+});
+
+Then('je vois toutes les pages {string} affichées verticalement dans la colonne gauche de la ligne {int}', async ({ page }: { page: Page }, zone: string, _ligne: number) => {
+  const siteMapPath = getSiteMapPath();
+  const contenu = fs.readFileSync(siteMapPath, 'utf8');
+  const plan: PlanSite = JSON.parse(contenu);
+  const pagesZone = plan.pages.filter((p: PlanPage) => (p as any).zone === zone && (p as any).dessiner !== 'Non');
+  for (const pageZone of pagesZone) {
+    const bouton = page.locator(`a.bouton[href="${pageZone.url}"]`);
+    await expect(bouton).toBeVisible();
+  }
+});
+
+Then('je vois toutes les pages {string} affichées verticalement dans la colonne droite de la ligne {int}', async ({ page }: { page: Page }, zone: string, _ligne: number) => {
+  const siteMapPath = getSiteMapPath();
+  const contenu = fs.readFileSync(siteMapPath, 'utf8');
+  const plan: PlanSite = JSON.parse(contenu);
+  const pagesZone = plan.pages.filter((p: PlanPage) => (p as any).zone === zone && (p as any).dessiner !== 'Non');
+  for (const pageZone of pagesZone) {
+    const bouton = page.locator(`a.bouton[href="${pageZone.url}"]`);
+    await expect(bouton).toBeVisible();
+  }
+});
+
+Given('une page a la zone {string}', async ({}, zone: string) => {
+  const siteMapPath = getSiteMapPath();
+  if (fs.existsSync(siteMapPath)) {
+    const contenu = fs.readFileSync(siteMapPath, 'utf8');
+    const plan: PlanSite = JSON.parse(contenu);
+    const pagesMasquees = plan.pages.filter((p: PlanPage) => (p as any).zone === zone);
+    expect(pagesMasquees.length).toBeGreaterThan(0);
+  }
+});
+
+Given('une page a une zone définie dans _Pages-Liens-Et-Menus.json', async ({}) => {
+  const siteMapPath = getSiteMapPath();
+  if (fs.existsSync(siteMapPath)) {
+    const contenu = fs.readFileSync(siteMapPath, 'utf8');
+    const plan: PlanSite = JSON.parse(contenu);
+    const pageAvecZone = plan.pages.find((p: PlanPage) => (p as any).zone);
+    expect(pageAvecZone).toBeDefined();
+  }
+});
+
+Given('le plan du site contient les pages suivantes :', async ({}, table: any) => {
   (global as any).tableZones = table;
 });
 

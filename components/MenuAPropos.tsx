@@ -1,5 +1,6 @@
 'use client';
 
+import React from 'react';
 import Link from 'next/link';
 import { usePathname, useSearchParams } from 'next/navigation';
 import { Suspense, useState } from 'react';
@@ -25,14 +26,14 @@ function MenuAProposContent({ lignes }: MenuAProposProps) {
   
   // Vue active (sprint, openapi ou metrics) pour la page principale
   const viewParam = searchParams.get('view');
-  const estSurPagePrincipale = pathname === '/a-propos-du-site';
+  const estSurPagePrincipale = pathname === '/a-propos';
 
   const isActive = (ligne: LigneDeMenu): boolean => {
     if (ligne.Type === 'Path') {
       return ligne.Parametre === dossierActif;
     }
     // Container : Sprint en cours, Métriques, API OpenAPI ou Charte
-    // Charte a sa propre route statique /a-propos-du-site/charte
+    // Charte a sa propre route statique /a-propos/charte
     if (ligne.Parametre === 'charte') {
       return dossierActif === 'charte';
     }
@@ -49,18 +50,18 @@ function MenuAProposContent({ lignes }: MenuAProposProps) {
 
   const getHref = (ligne: LigneDeMenu): string => {
     if (ligne.Type === 'Path') {
-      return `/a-propos-du-site/${encodeURIComponent(ligne.Parametre)}`;
+      return `/a-propos/${encodeURIComponent(ligne.Parametre)}`;
     }
     if (ligne.Parametre === 'openapi') {
-      return '/a-propos-du-site?view=openapi';
+      return '/a-propos?view=openapi';
     }
     if (ligne.Parametre === 'metrics') {
-      return '/a-propos-du-site?view=metrics';
+      return '/a-propos?view=metrics';
     }
     if (ligne.Parametre === 'charte') {
-      return '/a-propos-du-site/charte';
+      return '/a-propos/charte';
     }
-    return '/a-propos-du-site';
+    return '/a-propos';
   };
 
   const toggleMenu = () => {

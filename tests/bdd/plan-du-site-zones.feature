@@ -50,6 +50,6 @@ Fonctionnalité: Plan du site organisé par zones
       | Portfolio de detournements vidéos                  | Autres    |
       | Pour aller plus loin, je vous propose une expérience... | Autres |
       | metrics                                            | Footer    |
-      | a-propos-du-site                                   | Footer    |
+      | a-propos                                   | Footer    |
     Quand je consulte la page plan-du-site
     Alors chaque page est affichée dans sa zone correspondante

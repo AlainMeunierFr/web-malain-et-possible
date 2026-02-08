@@ -207,7 +207,7 @@ const DomaineDeCompetences: React.FC<DomaineDeCompetencesProps> = ({ domaine, ba
                       {competence.bouton.texte}
                     </a>
                   ) : (
-                    <Link href={competence.bouton.action} className="competence-cont lienInterne" e2eid={null}>
+                    <Link href={competence.bouton.action} className="competence-cont lienInterne" e2eid={competence.bouton.e2eID ? `e2eid-${competence.bouton.e2eID}` : undefined}>
                       {competence.bouton.texte}
                     </Link>
                   )}

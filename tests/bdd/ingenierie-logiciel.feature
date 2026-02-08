@@ -54,11 +54,11 @@ Fonctionnalité: Page dédiée Ingénierie logiciel
     Et chaque compétence a une image
     Et chaque compétence a un texte descriptif
 
-  Scénario: Navigation depuis Vibe Coding vers À propos du site
+  Scénario: Navigation depuis Vibe Coding vers A propos
     Étant donné que je suis sur la page "/ingenierie-logiciel"
     Et que je vois la compétence "Vibe Coding"
     Quand je clique sur le bouton "En savoir plus..." de cette compétence
-    Alors je suis redirigé vers la page "/a-propos-du-site"
+    Alors je suis redirigé vers la page "/a-propos"
 
   Scénario: Affichage responsive sur mobile
     Étant donné que je suis sur la page "/ingenierie-logiciel"

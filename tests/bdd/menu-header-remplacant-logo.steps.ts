@@ -59,14 +59,6 @@ When('je regarde le footer', async () => {
   // Pas d'action
 });
 
-let urlBeforeFooterLogoClick: string;
-
-When('je clique sur le bouton logo dans le footer', async ({ page }) => {
-  urlBeforeFooterLogoClick = page.url();
-  const logoButton = page.locator('footer button').filter({ has: page.locator('img[alt="Logo Malain et possible"]') });
-  await logoButton.click();
-});
-
 Then('je ne vois pas le logo "Malain et possible" dans le header', async ({ page }) => {
   const header = page.locator('header');
   await expect(header.locator('img[alt="Logo Malain et possible"]')).toHaveCount(0);
@@ -170,8 +162,8 @@ Then(/^je suis redirigé vers \/portfolio-detournements$/, async ({ page }) => {
   await expect(page).toHaveURL(/\/portfolio-detournements/);
 });
 
-Then(/^je suis redirigé vers \/a-propos-du-site$/, async ({ page }) => {
-  await expect(page).toHaveURL(/\/a-propos-du-site/);
+Then(/^je suis redirigé vers \/a-propos$/, async ({ page }) => {
+  await expect(page).toHaveURL(/\/a-propos(?:\?|$)/);
 });
 
 Then('je ne vois pas le menu horizontal avec les liens', async ({ page }) => {
@@ -206,17 +198,53 @@ Then('les sous-menus sont accessibles dans le panneau', async ({ page }) => {
   await expect(panel.getByRole('link').first()).toBeVisible();
 });
 
-Then('je vois un bouton affichant le logo "Malain et possible"', async ({ page }) => {
-  const footer = page.locator('footer');
-  const logo = footer.locator('img[alt="Logo Malain et possible"]');
-  await expect(logo).toBeVisible();
+// --- Variantes sans "que" et avec parenthèses échappées pour le matching Gherkin ---
+
+Given('l\'écran est en mode desktop \\(largeur ≥ 768px\\)', async ({ page }) => {
+  await page.setViewportSize({ width: 1024, height: 768 });
 });
 
-Then('aucune navigation n\'est déclenchée', async ({ page }) => {
-  // On vérifie qu'on est toujours sur la même page (pas de changement d'URL)
-  // Le step "je reste sur la page actuelle" le fait
+Given('l\'écran est en mode mobile \\(largeur < 768px\\)', async ({ page }) => {
+  await page.setViewportSize({ width: 375, height: 667 });
 });
 
-Then('je reste sur la page actuelle', async ({ page }) => {
-  await expect(page).toHaveURL(urlBeforeFooterLogoClick);
+Given('la configuration par défaut du menu est utilisée', async () => {
+  // Pas d'action : le site utilise déjà la config par défaut
+});
+
+Given('je suis sur une page avec un titre \\(ex. {string}\\)', async ({ page }, titre: string) => {
+  if (titre.toLowerCase().includes('profil')) {
+    await page.goto('/mes-profils');
+  } else {
+    await page.goto('/');
+  }
+});
+
+Then('le menu contient des liens et des menus déroulants \\(dropdown\\)', async ({ page }) => {
+  const nav = page.locator('header nav.headerNav');
+  await expect(nav.getByRole('link').first()).toBeVisible();
+  await expect(nav.locator('.headerNavGroup')).toHaveCount(2);
+});
+
+Then('un séparateur vertical \\(fer\\) est visible à gauche du titre', async ({ page }) => {
+  const block = page.locator('header .headerTitleBlock');
+  await expect(block).toBeVisible();
+  const borderLeft = await block.evaluate((el) => window.getComputedStyle(el).borderLeftWidth);
+  expect(parseInt(borderLeft, 10)).toBeGreaterThan(0);
+});
+
+Then('je vois les entrées suivantes : Accueil, Mes profils, Détournement vidéo, A propos', async ({ page }) => {
+  const nav = page.locator('header nav.headerNav');
+  await expect(nav.getByRole('link', { name: 'Accueil' })).toBeVisible();
+  await expect(nav.getByRole('link', { name: 'Mes profils' })).toBeVisible();
+  await expect(nav.getByRole('link', { name: 'Détournement vidéo' })).toBeVisible();
+  await expect(nav.getByRole('link', { name: 'A propos' })).toBeVisible();
+});
+
+Then('le panneau contient les mêmes entrées que le menu desktop \\(Accueil, Mes profils, Détournement vidéo, A propos\\)', async ({ page }) => {
+  const panel = page.locator('.headerMobileNav');
+  await expect(panel.getByRole('link', { name: 'Accueil' })).toBeVisible();
+  await expect(panel.getByRole('link', { name: 'Mes profils' })).toBeVisible();
+  await expect(panel.getByRole('link', { name: 'Détournement vidéo' })).toBeVisible();
+  await expect(panel.getByRole('link', { name: 'A propos' })).toBeVisible();
 });

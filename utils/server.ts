@@ -17,6 +17,7 @@ export {
   readDomaineData,
   buildMesProfilsPageData,
   convertirIndexDataEnPageData,
+  enrichListeDeProfilsE2eIds,
 } from './vitrine/pageReader';
 
 export {
@@ -29,7 +30,7 @@ export { resolvePageReferences } from './vitrine/profilBuilder';
 
 export { readMenu } from './vitrine/menuReader';
 
-export { readHeaderMenu, readExclusHeader } from './vitrine/headerMenuReader';
+export { readHeaderMenu, readExclusHeader, enrichMenuLignesE2eIds, getUrlForLigneAPropos } from './vitrine/headerMenuReader';
 export {
   checkMenuIntegrity,
   type MenuIntegrityResult,

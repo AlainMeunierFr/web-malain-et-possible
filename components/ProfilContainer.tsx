@@ -37,7 +37,7 @@ const ProfilContainer: React.FC<ProfilContainerProps> = ({
         <Link
           href={profil.route}
           className="profil-cont route lienInterne"
-          e2eid={`profil-${profil.slug}-acces`}
+          e2eid={profil.e2eID ? `e2eid-${profil.e2eID}` : `profil-${profil.slug}-acces`}
         >
           {labelAcces}
         </Link>

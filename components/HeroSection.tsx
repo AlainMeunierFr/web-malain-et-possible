@@ -9,6 +9,7 @@ import Link from 'next/link';
 import type { ElementHero } from '../utils/client';
 import Video from './Video';
 import { parseInlineMarkdown } from '../utils/client';
+import { E2E_IDS } from '../constants/e2eIds';
 
 export interface HeroSectionProps {
   element: ElementHero;
@@ -41,14 +42,14 @@ const HeroSection: React.FC<HeroSectionProps> = ({ element }) => {
         <Link
           href={element.callToAction.action}
           className="bouton hero-cont callToAction"
-          e2eid="hero-bouton-principal"
+          e2eid={element.callToAction.e2eID ? `e2eid-${element.callToAction.e2eID}` : undefined}
         >
           {element.callToAction.texte}
         </Link>
         <Link
           href={element.ensavoirplus}
           className="lienInterne"
-          e2eid="hero-telecharger-cv"
+          e2eid={`e2eid-${element.ensavoirplusE2eID ?? E2E_IDS.hero.lienCv}`}
         >
           Télécharger mon CV
         </Link>

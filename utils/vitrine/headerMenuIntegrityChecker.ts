@@ -29,7 +29,7 @@ const DEFAULT_HEADER_MENU: HeaderMenuEntryConfig[] = [
     pageUrl: '/detournement-video',
     sousmenuPageUrls: ['/portfolio-detournements'],
   },
-  { id: 'a-propos', pageUrl: '/a-propos-du-site' },
+  { id: 'a-propos', pageUrl: '/a-propos' },
 ];
 
 const DEFAULT_EXCLUS_HEADER = ['/pour-aller-plus-loin', '/faisons-connaissance'];

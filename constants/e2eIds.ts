@@ -8,6 +8,10 @@ export const E2E_IDS = {
     logo: 'h1',
     photo: 'h2',
   },
+  /** Hero page d'accueil : lien CV = l1 (canonique lettre+numéro) */
+  hero: {
+    lienCv: 'l1',
+  },
   footer: {
     /** US-13.1 : bouton logo (sans action) */
     logo: 'b46',

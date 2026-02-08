@@ -31,7 +31,7 @@ describe('headerMenuReader', () => {
           { url: '/', titre: 'Home' },
           { url: '/mes-profils', titre: 'Mes Profils' },
           { url: '/detournement-video', titre: 'Détournement de scènes cultes du cinéma' },
-          { url: '/a-propos-du-site', titre: 'À propos de ce site' },
+          { url: '/a-propos', titre: 'À propos de ce site' },
           { url: '/profil/cpo', titre: 'Produit logiciel' },
           { url: '/profil/coo', titre: 'Opérations' },
           { url: '/profil/agile', titre: 'Transformation Agile' },
@@ -39,8 +39,12 @@ describe('headerMenuReader', () => {
           { url: '/portfolio-detournements', titre: 'Portfolio de detournements vidéos' },
         ],
       };
+      const menuAPropos = [{ Titre: 'A propos du projet', Numéro: 1, Type: 'Path' as const, Parametre: 'data/A propos/A propos du projet' }];
       existsSyncSpy.mockReturnValue(true);
-      readFileSyncSpy.mockReturnValue(JSON.stringify(planSansMenus));
+      readFileSyncSpy.mockImplementation((filePath: string) => {
+        if (filePath.includes('menu.json')) return JSON.stringify(menuAPropos);
+        return JSON.stringify(planSansMenus);
+      });
 
       const result = readHeaderMenu();
 
@@ -51,30 +55,34 @@ describe('headerMenuReader', () => {
       expect(result[1].sousMenu).toContainEqual({ label: 'Produit logiciel', url: '/profil/cpo' });
       expect(result[2]).toMatchObject({ id: 'detournements', label: 'Détournement vidéo', url: '/detournement-video' });
       expect(result[2].sousMenu).toContainEqual({ label: 'Portfolio', url: '/portfolio-detournements' });
-      expect(result[3]).toMatchObject({ id: 'a-propos', label: 'A propos', url: '/a-propos-du-site' });
+      expect(result[3]).toMatchObject({ id: 'a-propos', label: 'A propos', url: '/a-propos' });
     });
 
     it('utilise menus.header quand présent', () => {
       const planAvecMenus = {
         pages: [
           { url: '/', titre: 'Accueil' },
-          { url: '/a-propos-du-site', titre: 'À propos' },
+          { url: '/a-propos', titre: 'À propos' },
         ],
         menus: {
           header: [
             { id: 'accueil', pageUrl: '/' },
-            { id: 'a-propos', pageUrl: '/a-propos-du-site' },
+            { id: 'a-propos', pageUrl: '/a-propos' },
           ],
         },
       };
+      const menuAPropos = [{ Titre: 'A propos du projet', Numéro: 1, Type: 'Path' as const, Parametre: 'data/A propos' }];
       existsSyncSpy.mockReturnValue(true);
-      readFileSyncSpy.mockReturnValue(JSON.stringify(planAvecMenus));
+      readFileSyncSpy.mockImplementation((filePath: string) => {
+        if (filePath.includes('menu.json')) return JSON.stringify(menuAPropos);
+        return JSON.stringify(planAvecMenus);
+      });
 
       const result = readHeaderMenu();
 
       expect(result).toHaveLength(2);
       expect(result[0]).toMatchObject({ id: 'accueil', label: 'Accueil', url: '/' });
-      expect(result[1]).toMatchObject({ id: 'a-propos', label: 'A propos', url: '/a-propos-du-site' });
+      expect(result[1]).toMatchObject({ id: 'a-propos', label: 'A propos', url: '/a-propos' });
     });
 
     it('résout les titres depuis pages par URL', () => {
@@ -90,6 +98,34 @@ describe('headerMenuReader', () => {
       expect(result[0].label).toBe('Mon Titre Personnalisé');
     });
 
+    it('construit les URLs du sous-menu A propos (openapi, metrics, charte)', () => {
+      const plan = {
+        pages: [{ url: '/', titre: 'Accueil' }, { url: '/a-propos', titre: 'A propos' }],
+        menus: { header: [{ id: 'accueil', pageUrl: '/' }, { id: 'a-propos', pageUrl: '/a-propos' }] },
+      };
+      const menuAPropos = [
+        { Titre: 'API', Numéro: 1, Type: 'container' as const, Parametre: 'openapi' },
+        { Titre: 'Métriques', Numéro: 2, Type: 'container' as const, Parametre: 'metrics' },
+        { Titre: 'Charte', Numéro: 3, Type: 'container' as const, Parametre: 'charte' },
+        { Titre: 'Autre', Numéro: 4, Type: 'container' as const, Parametre: 'autre' },
+      ];
+      existsSyncSpy.mockReturnValue(true);
+      readFileSyncSpy.mockImplementation((filePath: string) => {
+        if (filePath.includes('menu.json')) return JSON.stringify(menuAPropos);
+        return JSON.stringify(plan);
+      });
+
+      const result = readHeaderMenu();
+
+      const aPropos = result.find((e) => e.id === 'a-propos');
+      expect(aPropos?.sousMenu).toEqual([
+        { label: 'API', url: '/a-propos?view=openapi' },
+        { label: 'Métriques', url: '/a-propos?view=metrics' },
+        { label: 'Charte', url: '/a-propos/charte' },
+        { label: 'Autre', url: '/a-propos' },
+      ]);
+    });
+
     it('lit _Pages-Liens-Et-Menus.json (seul fichier plan pour le menu)', () => {
       existsSyncSpy.mockImplementation((p: string) => p.includes('_Pages-Liens-Et-Menus'));
       readFileSyncSpy.mockReturnValue(JSON.stringify({
@@ -103,10 +139,15 @@ describe('headerMenuReader', () => {
       expect(pathRead).toContain('_Pages-Liens-Et-Menus');
     });
 
-    it('lance une erreur quand aucun fichier plan n\'existe', () => {
+    it('retourne le menu header par défaut quand aucun fichier plan n\'existe', () => {
       existsSyncSpy.mockReturnValue(false);
 
-      expect(() => readHeaderMenu()).toThrow(/introuvable|_Pages/i);
+      const result = readHeaderMenu();
+
+      expect(result).toBeDefined();
+      expect(Array.isArray(result)).toBe(true);
+      expect(result.length).toBeGreaterThan(0);
+      expect(result.some((e) => e.id === 'accueil' && e.url === '/')).toBe(true);
     });
   });
 

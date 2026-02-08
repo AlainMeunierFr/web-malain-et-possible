@@ -1,12 +1,13 @@
 /**
- * Backend pur : lecture du fichier menu.json pour la page "A propos de ce site" (US-11.3).
+ * Backend pur : lecture du fichier menu.json pour la page "A propos" (US-11.3, US-13.2).
  * Expose les lignes de menu (Titre, Numéro, Type, Parametre) triées par Numéro.
  */
 
 import fs from 'fs';
 import path from 'path';
+import { ABOUT_SITE_DATA_DIR } from '../../constants/routes';
 
-/** Ligne de menu telle que définie dans data/A propos de ce site/menu.json */
+/** Ligne de menu telle que définie dans data/<ABOUT_SITE_DATA_DIR>/menu.json */
 export interface LigneDeMenu {
   Titre: string;
   Numéro: number;
@@ -16,14 +17,18 @@ export interface LigneDeMenu {
   e2eID?: string | null;
 }
 
-const MENU_RELATIVE_PATH = path.join('data', 'A propos de ce site', 'menu.json');
+const MENU_RELATIVE_PATH = path.join('data', ABOUT_SITE_DATA_DIR, 'menu.json');
 
 /**
  * Lit le fichier menu.json et retourne les lignes de menu triées par Numéro.
- * @throws Si le fichier est absent ou si le JSON est invalide
+ * Si le fichier est absent, retourne [] (résilient au premier run ou dossier non initialisé).
+ * @throws Si le JSON est invalide
  */
 export function readMenu(): LigneDeMenu[] {
   const menuPath = path.join(process.cwd(), MENU_RELATIVE_PATH);
+  if (!fs.existsSync(menuPath)) {
+    return [];
+  }
   const raw = fs.readFileSync(menuPath, 'utf-8');
   let data: unknown;
   try {

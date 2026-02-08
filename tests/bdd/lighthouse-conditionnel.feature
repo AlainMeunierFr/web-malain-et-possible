@@ -53,23 +53,23 @@ Fonctionnalité: Scores Lighthouse avec exécution conditionnelle (US-12.7)
 
   Scénario: Affichage des scores Lighthouse dans la section Autres indicateurs
     Étant donné que les métriques contiennent des scores Lighthouse valides
-    Quand j'accède à la page "/a-propos-du-site?view=metrics"
+    Quand j'accède à la page "/a-propos?view=metrics"
     Alors je vois les 4 scores Lighthouse dans la section "Autres indicateurs"
     Et chaque score affiche son libellé (Performance, Accessibilité, Bonnes pratiques, SEO)
 
   Scénario: Score affiché en vert quand supérieur ou égal à 90
     Étant donné que les métriques contiennent un score Lighthouse "Performance" valant 95
-    Quand j'accède à la page "/a-propos-du-site?view=metrics"
+    Quand j'accède à la page "/a-propos?view=metrics"
     Alors le score "Performance" est affiché avec un indicateur vert
 
   Scénario: Score affiché en orange quand compris entre 50 et 89
     Étant donné que les métriques contiennent un score Lighthouse "Accessibilité" valant 75
-    Quand j'accède à la page "/a-propos-du-site?view=metrics"
+    Quand j'accède à la page "/a-propos?view=metrics"
     Alors le score "Accessibilité" est affiché avec un indicateur orange
 
   Scénario: Score affiché en rouge quand inférieur à 50
     Étant donné que les métriques contiennent un score Lighthouse "SEO" valant 45
-    Quand j'accède à la page "/a-propos-du-site?view=metrics"
+    Quand j'accède à la page "/a-propos?view=metrics"
     Alors le score "SEO" est affiché avec un indicateur rouge
 
   # CA6 - Fallback en cas d'échec
@@ -84,7 +84,7 @@ Fonctionnalité: Scores Lighthouse avec exécution conditionnelle (US-12.7)
 
   Scénario: Scores NC affichés correctement sur la page metrics
     Étant donné que les métriques contiennent "NC" pour les scores Lighthouse
-    Quand j'accède à la page "/a-propos-du-site?view=metrics"
+    Quand j'accède à la page "/a-propos?view=metrics"
     Alors les scores Lighthouse ne sont pas affichés dans "Autres indicateurs"
 
   # CA7 - Compatibilité environnements

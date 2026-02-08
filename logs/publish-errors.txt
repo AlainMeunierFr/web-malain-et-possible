@@ -1,0 +1,11 @@
+Date: 2026-02-08T23:18:45.530Z
+Étape en échec: BDD
+
+--- stdout ---
+(vide)
+
+--- stderr ---
+(vide)
+
+--- détail ---
+Tests BDD en échec. Voir playwright-report/ et .features-gen/ pour le détail.

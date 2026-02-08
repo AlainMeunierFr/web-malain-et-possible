@@ -45,20 +45,25 @@ describe('AboutSiteContentRenderer', () => {
   });
 
   it('devrait rendre une liste ordonnée', () => {
-    // ARRANGE
+    // ARRANGE : sans partieTitre = liste normale (pas de liens)
     const elements: ContenuElement[] = [
-      {
-        type: 'ol',
-        items: ['Premier élément', 'Deuxième élément'],
-      },
+      { type: 'ol', items: ['Premier élément', 'Deuxième élément'] },
     ];
-
-    // ACT
     render(<AboutSiteContentRenderer elements={elements} />);
-    
-    // ASSERT
     expect(screen.getByText('Premier élément')).toBeInTheDocument();
     expect(screen.getByText('Deuxième élément')).toBeInTheDocument();
+    expect(screen.queryByRole('link')).not.toBeInTheDocument();
+  });
+
+  it('devrait rendre une liste ordonnée en sommaire (liens ancres) quand partieTitre = Plan de l\'article', () => {
+    // ARRANGE : avec titre explicite de sommaire dans le MD
+    const elements: ContenuElement[] = [
+      { type: 'ol', items: ['Introduction', 'Product Goal'] },
+    ];
+    render(<AboutSiteContentRenderer elements={elements} partieTitre="Plan de l'article" />);
+    expect(screen.getByText('Introduction')).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: 'Introduction' })).toHaveAttribute('href', '#1-introduction');
+    expect(screen.getByRole('link', { name: 'Product Goal' })).toHaveAttribute('href', '#2-product-goal');
   });
 
   it('devrait rendre une liste avec typeDeContenu', () => {

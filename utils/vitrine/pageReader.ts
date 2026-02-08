@@ -5,6 +5,7 @@
 
 import fs from 'fs';
 import path from 'path';
+import { loadMapping, getE2eId, profilKey, heroCallToActionKey, heroEnSavoirPlusKey, competenceKey } from '../shared/e2eIdMapping';
 
 // Import différé pour éviter les dépendances circulaires
 // bibliothequeReader et profilBuilder importent des types depuis ce fichier
@@ -173,6 +174,8 @@ export interface ElementProfil {
   slug: string;
   route: string;
   cvPath: string;
+  /** e2eID fourni par le mapping (injecté côté serveur pour listeDeProfils) */
+  e2eID?: string;
 }
 
 /** Vidéo embarquée (propriété de hero ou bloc standalone). */
@@ -191,11 +194,15 @@ export interface ElementHero {
   callToAction: {
     texte: string;
     action: string;
+    /** e2eID du mapping (ex. a10 pour Discutons → /faisons-connaissance). */
+    e2eID?: string;
   };
   /** Vidéo affichée à droite (hero.droite) ; nom canonique hero.video. */
   video?: HeroVideoData;
   /** URL interne vers la page "Mes profils" (ex. lien "Télécharger mon CV"). */
   ensavoirplus: string;
+  /** e2eID du mapping pour le lien "Télécharger mon CV" (ex. l1 pour → /mes-profils). */
+  ensavoirplusE2eID?: string;
 }
 
 /** listeDeProfils */
@@ -455,6 +462,21 @@ export const readPageData = (filename: string = 'index.json'): PageData => {
     }) as ElementContenu[];
   }
 
+  // Enrichir le hero de la page d'accueil avec les e2eID du mapping (l1, a10)
+  if (filename === 'index.json' && pageData.contenu) {
+    const mapping = loadMapping();
+    pageData.contenu = pageData.contenu.map((el) => {
+      if (el.type !== 'hero') return el;
+      const ctaE2e = getE2eId(heroCallToActionKey('/', el.callToAction.action), mapping);
+      const enPlusE2e = getE2eId(heroEnSavoirPlusKey('/', el.ensavoirplus), mapping);
+      return {
+        ...el,
+        callToAction: { ...el.callToAction, ...(ctaE2e && { e2eID: ctaE2e }) },
+        ...(enPlusE2e && { ensavoirplusE2eID: enPlusE2e }),
+      };
+    }) as ElementContenu[];
+  }
+
   // Détecter si la page contient des références vers la bibliothèque
   const hasReferences = pageData.contenu && pageData.contenu.some((element) => {
     if (element.type === 'domaineDeCompetence') {
@@ -486,6 +508,36 @@ export const readPageData = (filename: string = 'index.json'): PageData => {
       if (stillHasRefs) {
         console.error(`Des références n'ont pas été résolues pour ${filename}`);
       }
+      // Enrichir les boutons des domaines avec les e2eID depuis _Pages-Liens-Et-Menus (liens)
+      const slugMatch = filename.match(/^profil-(.+)\.json$/);
+      if (slugMatch) {
+        const slug = slugMatch[1];
+        const sourcePath = `/profil/${slug}`;
+        const planPath = path.join(process.cwd(), 'data', '_Pages-Liens-Et-Menus.json');
+        if (fs.existsSync(planPath)) {
+          const planData = JSON.parse(fs.readFileSync(planPath, 'utf-8')) as { liens?: Array<{ source: string; destination: string; e2eID?: string }> };
+          const liens = planData.liens || [];
+          const lienByDest = new Map<string, string>();
+          for (const lien of liens) {
+            if (lien.source === sourcePath && lien.e2eID) {
+              lienByDest.set(lien.destination, lien.e2eID);
+            }
+          }
+          for (const element of resolved.contenu) {
+            if (element.type === 'domaineDeCompetence' && element.items) {
+              for (const item of element.items) {
+                if (item.bouton && item.bouton.action) {
+                  const e2eID = lienByDest.get(item.bouton.action);
+                  if (e2eID) {
+                    item.bouton.e2eID = e2eID;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+      enrichDomainesE2eIdsFromMapping(resolved, filename);
       return resolved;
     } catch (error) {
       // Si la bibliothèque n'existe pas encore, continuer sans résolution (compatibilité ascendante)
@@ -495,7 +547,52 @@ export const readPageData = (filename: string = 'index.json'): PageData => {
     }
   }
 
+  enrichDomainesE2eIdsFromMapping(pageData, filename);
   return pageData;
+};
+
+function sourcePathFromFilename(filename: string): string {
+  if (filename === 'index.json') return '/';
+  const base = filename.replace(/\.json$/, '');
+  if (base.startsWith('profil-')) return `/profil/${base.slice(7)}`;
+  return `/${base}`;
+}
+
+function enrichDomainesE2eIdsFromMapping(pageData: PageData, filename: string): void {
+  const sourcePath = sourcePathFromFilename(filename);
+  const mapping = loadMapping();
+  if (!pageData.contenu) return;
+  for (const element of pageData.contenu) {
+    if (element.type === 'domaineDeCompetence' && element.items) {
+      for (const item of element.items) {
+        if (item.bouton?.action) {
+          const e2eID = getE2eId(competenceKey(sourcePath, item.bouton.action), mapping);
+          if (e2eID) item.bouton.e2eID = e2eID;
+        }
+      }
+    }
+  }
+}
+
+/**
+ * Enrichit les profils des blocs listeDeProfils avec les e2eID du mapping (source page → Profil:destination).
+ * À appeler côté serveur pour la page Mes profils afin que les liens "En savoir plus" aient les e2eID attendus par les specs E2E.
+ */
+export const enrichListeDeProfilsE2eIds = (
+  contenu: ElementContenu[],
+  sourcePath: string
+): ElementContenu[] => {
+  const mapping = loadMapping();
+  return contenu.map((element) => {
+    if (element.type !== 'listeDeProfils') return element;
+    return {
+      ...element,
+      profils: element.profils.map((p) => {
+        const e2eID = getE2eId(profilKey(sourcePath, p.route), mapping);
+        return { ...p, ...(e2eID && { e2eID }) };
+      }),
+    };
+  });
 };
 
 /**
@@ -518,8 +615,12 @@ export const readDomaineData = (filename: string): IndexData => {
 /**
  * Retourne les données de la page Mes Profils (US-7.12).
  * Source unique : data/mes-profils.json (profils + CTA Discutons + texteLarge).
- * Les profils et texteLarge ont été retirés de index.json (home allégée).
+ * Les profils sont enrichis avec les e2eID du mapping (p9, p10, p11, p12) pour les tests E2E.
  */
 export const buildMesProfilsPageData = (): PageData => {
-  return readPageData('mes-profils.json');
+  const pageData = readPageData('mes-profils.json');
+  if (pageData.contenu) {
+    pageData.contenu = enrichListeDeProfilsE2eIds(pageData.contenu, '/mes-profils');
+  }
+  return pageData;
 };

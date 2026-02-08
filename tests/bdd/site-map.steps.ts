@@ -1,6 +1,7 @@
 import { createBdd } from 'playwright-bdd';
 import { expect } from '@playwright/test';
 import * as fs from 'fs';
+import * as os from 'os';
 import * as path from 'path';
 import {
   detecterPages,
@@ -14,6 +15,11 @@ import {
 
 const { Given, When, Then } = createBdd();
 
+// Chemin du fichier réel (jamais supprimé par les tests)
+const getSiteMapPath = () => {
+  return path.join(process.cwd(), 'data', '_Pages-Liens-Et-Menus.json');
+};
+
 // Variables pour partager l'état entre les steps (stockées dans le contexte Playwright)
 const getContextData = (context: any) => {
   if (!context.siteMapData) {
@@ -25,13 +31,17 @@ const getContextData = (context: any) => {
       backupPath: null as string | null,
       originalFileExisted: false,
       backupAlreadyDone: false,
+      /** Chemin temporaire pour le scénario "fichier n'existe pas" (ne jamais toucher au fichier réel) */
+      siteMapPathOverride: null as string | null,
     };
   }
   return context.siteMapData;
 };
 
-const getSiteMapPath = () => {
-  return path.join(process.cwd(), 'data', '_Pages-Liens-Et-Menus.json');
+/** Retourne le chemin du plan à utiliser dans ce step (réel ou temporaire). */
+const getSiteMapPathForStep = (context: any) => {
+  const data = getContextData(context);
+  return data.siteMapPathOverride ?? getSiteMapPath();
 };
 
 // Variables globales pour la sauvegarde/restauration (partagées entre tous les tests)
@@ -53,12 +63,11 @@ Given('que le système sauvegarde le fichier _Pages-Liens-Et-Menus.json', async 
 });
 
 // Step pour restaurer le fichier (à appeler à la fin des scénarios si nécessaire)
+// Ne supprime jamais le fichier réel : on restaure uniquement depuis la sauvegarde si elle existe.
 Given('que le système restaure le fichier _Pages-Liens-Et-Menus.json', async ({}) => {
   const siteMapPath = getSiteMapPath();
   if (backupPath && originalFileExisted && fs.existsSync(backupPath)) {
     fs.copyFileSync(backupPath, siteMapPath);
-  } else if (!originalFileExisted && fs.existsSync(siteMapPath)) {
-    fs.unlinkSync(siteMapPath);
   }
 });
 
@@ -83,7 +92,7 @@ Then('toutes les routes Next.js sont détectées', async ({}, testInfo) => {
   // Vérifier que les pages principales sont détectées
   const urls = data.pagesDetectees.map((p) => p.url);
   expect(urls).toContain('/');
-  expect(urls).toContain('/a-propos-du-site');
+  expect(urls).toContain('/a-propos');
   expect(urls).toContain('/plan-du-site');
 });
 
@@ -166,7 +175,7 @@ Given('le système analyse le fichier _footerButtons.json', async ({}) => {
 Then('tous les liens internes dans le footer sont détectés', async ({}, testInfo) => {
   const data = getContextData(testInfo);
   // Vérifier qu'il y a des liens du footer détectés
-  const urlsFooter = ['/a-propos-du-site', '/plan-du-site'];
+  const urlsFooter = ['/a-propos', '/plan-du-site'];
   const liensFooter = data.liensDetectes.filter((l) => urlsFooter.includes(l.destination));
   expect(liensFooter.length).toBeGreaterThan(0);
 });
@@ -229,10 +238,14 @@ Given('de nouvelles pages ont été détectées dans le code', async ({}, testIn
 
 When('la fonction de mise à jour du plan est exécutée', async ({}, testInfo) => {
   const data = getContextData(testInfo);
-  mettreAJourPlanJSON(data.pagesDetectees, data.liensDetectes);
-  
-  // Relire le JSON mis à jour
-  const siteMapPath = getSiteMapPath();
+  const siteMapPath = getSiteMapPathForStep(testInfo);
+  // Scénario "fichier n'existe pas" : détecter pages/liens si pas encore fait
+  if (data.siteMapPathOverride && (!data.pagesDetectees?.length || data.liensDetectes === undefined)) {
+    data.pagesDetectees = detecterPages();
+    data.liensDetectes = detecterLiensInternes();
+  }
+  mettreAJourPlanJSON(data.pagesDetectees ?? [], data.liensDetectes ?? [], { siteMapPath });
+
   const contenu = fs.readFileSync(siteMapPath, 'utf8');
   data.planJSON = JSON.parse(contenu);
 });
@@ -430,31 +443,36 @@ Then('le test échoue si au moins une page n\'a pas d\'emplacement', async ({}, 
 });
 
 // Scénario: Création initiale du plan JSON s'il n'existe pas
-Given('que le fichier data\\/_Pages-Liens-Et-Menus.json n\'existe pas', async ({}) => {
-  const siteMapPath = getSiteMapPath();
-  if (fs.existsSync(siteMapPath)) {
-    fs.unlinkSync(siteMapPath);
-  }
+// On utilise un fichier temporaire pour ne jamais supprimer le fichier réel du projet.
+Given('que le fichier data\\/_Pages-Liens-Et-Menus.json n\'existe pas', async ({}, testInfo) => {
+  const data = getContextData(testInfo);
+  data.siteMapPathOverride = path.join(
+    os.tmpdir(),
+    `bdd-site-map-${Date.now()}-${Math.random().toString(36).slice(2)}.json`
+  );
+  // Ne pas toucher au fichier réel : le chemin temporaire n'existe pas encore.
 });
 
-Given('le fichier data\\/_Pages-Liens-Et-Menus.json n\'existe pas', async ({}) => {
+Given('le fichier data\\/_Pages-Liens-Et-Menus.json n\'existe pas', async ({}, testInfo) => {
   // Alias pour correspondre au texte exact de la feature (sans "Étant donné que")
-  const siteMapPath = getSiteMapPath();
-  if (fs.existsSync(siteMapPath)) {
-    fs.unlinkSync(siteMapPath);
-  }
+  const data = getContextData(testInfo);
+  data.siteMapPathOverride = path.join(
+    os.tmpdir(),
+    `bdd-site-map-${Date.now()}-${Math.random().toString(36).slice(2)}.json`
+  );
 });
 
-Then('un nouveau fichier data\\/_Pages-Liens-Et-Menus.json est créé', async ({}) => {
-  const siteMapPath = getSiteMapPath();
+Then('un nouveau fichier data\\/_Pages-Liens-Et-Menus.json est créé', async ({}, testInfo) => {
+  const siteMapPath = getSiteMapPathForStep(testInfo);
   expect(fs.existsSync(siteMapPath)).toBe(true);
 });
 
 Then('toutes les pages détectées sont ajoutées au JSON', async ({}, testInfo) => {
   const data = getContextData(testInfo);
-  const contenu = fs.readFileSync(getSiteMapPath(), 'utf8');
+  const siteMapPath = getSiteMapPathForStep(testInfo);
+  const contenu = fs.readFileSync(siteMapPath, 'utf8');
   const plan = JSON.parse(contenu);
-  
+
   const urlsDansJSON = plan.pages.map((p: PlanPage) => p.url);
   data.pagesDetectees.forEach((page) => {
     expect(urlsDansJSON).toContain(page.url);
@@ -463,19 +481,21 @@ Then('toutes les pages détectées sont ajoutées au JSON', async ({}, testInfo)
 
 Then('tous les liens détectés sont ajoutés au JSON', async ({}, testInfo) => {
   const data = getContextData(testInfo);
-  const contenu = fs.readFileSync(getSiteMapPath(), 'utf8');
+  const siteMapPath = getSiteMapPathForStep(testInfo);
+  const contenu = fs.readFileSync(siteMapPath, 'utf8');
   const plan = JSON.parse(contenu);
-  
+
   const liensDansJSON = plan.liens.map((l: PlanLien) => `${l.source}->${l.destination}`);
   data.liensDetectes.forEach((lien) => {
     expect(liensDansJSON).toContain(`${lien.source}->${lien.destination}`);
   });
 });
 
-Then('les emplacements \\(x, y\\) sont null pour toutes les pages', async () => {
-  const contenu = fs.readFileSync(getSiteMapPath(), 'utf8');
+Then('les emplacements \\(x, y\\) sont null pour toutes les pages', async ({}, testInfo) => {
+  const siteMapPath = getSiteMapPathForStep(testInfo);
+  const contenu = fs.readFileSync(siteMapPath, 'utf8');
   const plan = JSON.parse(contenu);
-  
+
   plan.pages.forEach((page: PlanPage) => {
     expect(page.x).toBeNull();
     expect(page.y).toBeNull();

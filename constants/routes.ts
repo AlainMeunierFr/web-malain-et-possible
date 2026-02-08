@@ -1,13 +1,16 @@
+/** Dossier des données « A propos » (Sprints, menu, agents, etc.) */
+export const ABOUT_SITE_DATA_DIR = 'A propos';
+
 export const ROUTES = {
   HOME: '/',
-  ABOUT: '/a-propos-du-site',
+  ABOUT: '/a-propos',
   SITEMAP: '/plan-du-site',
   MES_PROFILS: '/mes-profils',
   TRANSFORMATION: '/transformation',
   DETOURNEMENT_VIDEO: '/detournement-video',
   ROBUSTESSE: '/robustesse',
   FAISONS_CONNAISSANCE: '/faisons-connaissance',
-  METRICS: '/a-propos-du-site?view=metrics',
+  METRICS: '/a-propos?view=metrics',
   MAINTENANCE: '/maintenance',
   INGENIERIE_LOGICIEL: '/ingenierie-logiciel',
 } as const;

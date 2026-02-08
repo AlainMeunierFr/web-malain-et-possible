@@ -70,10 +70,10 @@
       "zone": "Autres"
     },
     {
-      "url": "/a-propos-du-site",
-      "titre": "a-propos-du-site",
-      "x": 200,
-      "y": 200,
+      "url": "/a-propos",
+      "titre": "a-propos",
+      "x": null,
+      "y": null,
       "dessiner": "Oui",
       "zone": "Footer"
     },
@@ -88,14 +88,6 @@
     {
       "url": "/maintenance",
       "titre": "maintenance",
-      "x": null,
-      "y": null,
-      "dessiner": "Non",
-      "zone": "Masqué"
-    },
-    {
-      "url": "/mode-lecture",
-      "titre": "Mode lecture",
       "x": null,
       "y": null,
       "dessiner": "Non",
@@ -227,8 +219,8 @@
     },
     {
       "source": "/plan-du-site",
-      "destination": "/a-propos-du-site",
-      "label": "a-propos-du-site",
+      "destination": "/a-propos",
+      "label": "a-propos",
       "typeElement": "LienPage",
       "e2eID": "l11"
     },
@@ -276,7 +268,7 @@
     },
     {
       "source": "/profil/cto",
-      "destination": "/a-propos-du-site",
+      "destination": "/a-propos",
       "label": "En savoir plus...",
       "e2eID": "c33",
       "typeElement": "Competence"
@@ -296,7 +288,7 @@
       "e2eID": "b51"
     },
     {
-      "source": "/a-propos-du-site",
+      "source": "/a-propos",
       "destination": "/plan-du-site",
       "label": "Plan du site",
       "typeElement": "Footer.Bouton",
@@ -317,13 +309,6 @@
       "e2eID": "b51"
     },
     {
-      "source": "/maintenance",
-      "destination": "/plan-du-site",
-      "label": "Plan du site",
-      "typeElement": "Footer.Bouton",
-      "e2eID": "b51"
-    },
-    {
       "source": "/mes-profils",
       "destination": "/plan-du-site",
       "label": "Plan du site",
@@ -331,21 +316,7 @@
       "e2eID": "b51"
     },
     {
-      "source": "/mode-lecture",
-      "destination": "/plan-du-site",
-      "label": "Plan du site",
-      "typeElement": "Footer.Bouton",
-      "e2eID": "b51"
-    },
-    {
       "source": "/portfolio-detournements",
-      "destination": "/plan-du-site",
-      "label": "Plan du site",
-      "typeElement": "Footer.Bouton",
-      "e2eID": "b51"
-    },
-    {
-      "source": "/pour-aller-plus-loin",
       "destination": "/plan-du-site",
       "label": "Plan du site",
       "typeElement": "Footer.Bouton",
@@ -387,91 +358,7 @@
       "e2eID": "b51"
     },
     {
-      "source": "/",
-      "destination": "/a-propos-du-site",
-      "label": "Info",
-      "typeElement": "Footer.Bouton",
-      "e2eID": "b52"
-    },
-    {
-      "source": "/detournement-video",
-      "destination": "/a-propos-du-site",
-      "label": "Info",
-      "typeElement": "Footer.Bouton",
-      "e2eID": "b52"
-    },
-    {
-      "source": "/faisons-connaissance",
-      "destination": "/a-propos-du-site",
-      "label": "Info",
-      "typeElement": "Footer.Bouton",
-      "e2eID": "b52"
-    },
-    {
-      "source": "/maintenance",
-      "destination": "/a-propos-du-site",
-      "label": "Info",
-      "typeElement": "Footer.Bouton",
-      "e2eID": "b52"
-    },
-    {
-      "source": "/mes-profils",
-      "destination": "/a-propos-du-site",
-      "label": "Info",
-      "typeElement": "Footer.Bouton",
-      "e2eID": "b52"
-    },
-    {
-      "source": "/mode-lecture",
-      "destination": "/a-propos-du-site",
-      "label": "Info",
-      "typeElement": "Footer.Bouton",
-      "e2eID": "b52"
-    },
-    {
-      "source": "/portfolio-detournements",
-      "destination": "/a-propos-du-site",
-      "label": "Info",
-      "typeElement": "Footer.Bouton",
-      "e2eID": "b52"
-    },
-    {
-      "source": "/pour-aller-plus-loin",
-      "destination": "/a-propos-du-site",
-      "label": "Info",
-      "typeElement": "Footer.Bouton",
-      "e2eID": "b52"
-    },
-    {
-      "source": "/raw",
-      "destination": "/a-propos-du-site",
-      "label": "Info",
-      "typeElement": "Footer.Bouton",
-      "e2eID": "b52"
-    },
-    {
-      "source": "/profil/cpo",
-      "destination": "/a-propos-du-site",
-      "label": "Info",
-      "typeElement": "Footer.Bouton",
-      "e2eID": "b52"
-    },
-    {
-      "source": "/profil/coo",
-      "destination": "/a-propos-du-site",
-      "label": "Info",
-      "typeElement": "Footer.Bouton",
-      "e2eID": "b52"
-    },
-    {
-      "source": "/profil/agile",
-      "destination": "/a-propos-du-site",
-      "label": "Info",
-      "typeElement": "Footer.Bouton",
-      "e2eID": "b52"
-    },
-    {
-      "source": "/a-propos-du-site",
+      "source": "/a-propos",
       "destination": "/",
       "label": "Logo",
       "e2eID": "h1",
@@ -492,13 +379,6 @@
       "typeElement": "Header.Logo"
     },
     {
-      "source": "/maintenance",
-      "destination": "/",
-      "label": "Logo",
-      "e2eID": "h1",
-      "typeElement": "Header.Logo"
-    },
-    {
       "source": "/mes-profils",
       "destination": "/",
       "label": "Logo",
@@ -506,21 +386,7 @@
       "typeElement": "Header.Logo"
     },
     {
-      "source": "/mode-lecture",
-      "destination": "/",
-      "label": "Logo",
-      "e2eID": "h1",
-      "typeElement": "Header.Logo"
-    },
-    {
       "source": "/portfolio-detournements",
-      "destination": "/",
-      "label": "Logo",
-      "e2eID": "h1",
-      "typeElement": "Header.Logo"
-    },
-    {
-      "source": "/pour-aller-plus-loin",
       "destination": "/",
       "label": "Logo",
       "e2eID": "h1",

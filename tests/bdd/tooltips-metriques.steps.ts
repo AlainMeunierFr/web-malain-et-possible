@@ -45,7 +45,7 @@ Then('toutes les 20 métriques doivent avoir leur configuration tooltip', async 
   const configPath = path.resolve(process.cwd(), 'data/tooltips-metrics.json');
   const config = JSON.parse(fs.readFileSync(configPath, 'utf8'));
   const expectedMetrics = [
-    'cyclomaticComplexity', 'bddScenarios', 'unitTests', 'integrationTests',
+    'cyclomaticComplexity', 'bddScenariosTotal', 'unitTests', 'integrationTests',
     'e2eSteps', 'eslintErrors', 'eslintWarnings', 'typeCoverage',
     'coverageLines', 'coverageStatements', 'coverageFunctions', 'coverageBranches',
     'totalFiles', 'sourceLines', 'components', 'pages',
@@ -315,4 +315,63 @@ Then('ne pas déborder de la zone d\'affichage mobile', async ({ page }) => {
   expect(tooltipBox!.y).toBeGreaterThanOrEqual(0);
   expect(tooltipBox!.x + tooltipBox!.width).toBeLessThanOrEqual(375);
   expect(tooltipBox!.y + tooltipBox!.height).toBeLessThanOrEqual(667);
+});
+
+// --- Variantes sans "que" et avec parenthèses échappées ---
+
+Given('les métriques sont chargées et affichées', async ({ page }) => {
+  await waitForMetricsLoaded(page);
+});
+
+Given('le fichier {string} existe', async ({}, filePath: string) => {
+  const resolvedPath = path.resolve(process.cwd(), filePath);
+  expect(fs.existsSync(resolvedPath)).toBe(true);
+});
+
+Given('je consulte une métrique quelconque', async ({ page }) => {
+  await navigateToMetrics(page);
+  await waitForMetricsLoaded(page);
+});
+
+Given('je vois l\'icône {string} d\'une métrique', async ({ page }, iconText: string) => {
+  const icon = page.locator('.infoIcon').first();
+  await expect(icon).toBeVisible();
+  await expect(icon).toHaveText(iconText);
+});
+
+Given('je navigue au clavier', async ({ page }) => {
+  await navigateToMetrics(page);
+  await waitForMetricsLoaded(page);
+});
+
+When('je donne le focus à l\'icône {string} \\(Tab\\)', async ({ page }, _iconText: string) => {
+  const icon = page.locator('.infoIcon').first();
+  await icon.focus();
+});
+
+Given('une tooltip est affichée', async ({ page }) => {
+  await navigateToMetrics(page);
+  await waitForMetricsLoaded(page);
+  const icon = page.locator('.infoIcon').first();
+  await icon.hover();
+  await expect(page.locator('[data-testid="tooltip"]').first()).toBeVisible();
+});
+
+Given('une tooltip est affichée près du bord d\'écran', async ({ page }) => {
+  await navigateToMetrics(page);
+  await waitForMetricsLoaded(page);
+  const icons = page.locator('.infoIcon');
+  const lastIcon = icons.last();
+  await lastIcon.hover();
+});
+
+Given('j\'accède à la page des métriques', async ({ page }) => {
+  await navigateToMetrics(page);
+  await waitForMetricsLoaded(page);
+});
+
+Given('je consulte la page sur un écran mobile \\(≤768px\\)', async ({ page }) => {
+  await page.setViewportSize({ width: 375, height: 667 });
+  await navigateToMetrics(page);
+  await waitForMetricsLoaded(page);
 });

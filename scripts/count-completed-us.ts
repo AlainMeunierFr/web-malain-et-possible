@@ -1,13 +1,13 @@
 /**
  * Script pour compter les User Stories complétées dans les sprints
- * Les US sont dans les sous-dossiers de "data/A propos de ce site/Sprints".
+ * Les US sont dans les sous-dossiers de "data/A propos/Sprints".
  * Une US est considérée comme complétée si le nom du fichier ou le contenu contient "✅ COMPLÉTÉ" ou "COMPLETÉ"
  */
 
 import fs from 'fs';
 import path from 'path';
 
-const SPRINTS_DIR = path.join(process.cwd(), 'data', 'A propos de ce site', 'Sprints');
+const SPRINTS_DIR = path.join(process.cwd(), 'data', 'A propos', 'Sprints');
 
 /** Nom de fichier qui identifie une US (ex. US-7.1 - Titre.md ou US-7.1 - Titre ✅ COMPLÉTÉ.md) */
 const US_FILENAME_REGEX = /^US-\d+\.\d+[a-z]?\s*-/i;

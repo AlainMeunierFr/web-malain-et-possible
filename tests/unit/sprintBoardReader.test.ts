@@ -5,6 +5,7 @@
 
 import fs from 'fs';
 import path from 'path';
+import { ABOUT_SITE_DATA_DIR } from '../../constants/routes';
 import {
   readSprintGoal,
   readAgentsFromCursorAgents,
@@ -46,7 +47,7 @@ Améliorer le back-office du projet.
 `;
       readFileSyncSpy.mockReturnValue(content);
 
-      const result = readSprintGoal('data/A propos de ce site/Sprints/2026-01-28 - Evolution');
+      const result = readSprintGoal('data/A propos/Sprints/2026-01-28 - Evolution');
 
       expect(result).toContain('Améliorer le back-office');
       expect(result).toContain('- point 1');
@@ -59,7 +60,7 @@ Améliorer le back-office du projet.
         throw new Error('ENOENT');
       });
 
-      const result = readSprintGoal('data/A propos de ce site/Sprints/UnSprint');
+      const result = readSprintGoal('data/A propos/Sprints/UnSprint');
 
       expect(result).toBe('');
     });
@@ -67,7 +68,7 @@ Améliorer le back-office du projet.
     it('lit le fichier 00 - Sprint goal et contexte.md dans le dossier sprint', () => {
       readFileSyncSpy.mockReturnValue('# Sprint Goal\n\nUn goal.\n---');
 
-      readSprintGoal('data/A propos de ce site/Sprints/MonSprint');
+      readSprintGoal('data/A propos/Sprints/MonSprint');
 
       const callPath = readFileSyncSpy.mock.calls[0][0];
       expect(callPath).toContain('MonSprint');
@@ -308,7 +309,7 @@ BDD
         { name: 'US-11.1 - Assistant ✅ COMPLÉTÉ.md', isFile: () => true },
       ] as fs.Dirent[]);
 
-      const result = readSprintUsCards('data/A propos de ce site/Sprints/UnSprint');
+      const result = readSprintUsCards('data/A propos/Sprints/UnSprint');
 
       expect(result).toHaveLength(1);
       expect(result[0].state).toBe('fait');
@@ -321,7 +322,7 @@ BDD
         { name: 'US-11.5 - Definition du board KanBan pour le sprint en cours.md', isFile: () => true },
       ] as fs.Dirent[]);
 
-      const result = readSprintUsCards('data/A propos de ce site/Sprints/UnSprint');
+      const result = readSprintUsCards('data/A propos/Sprints/UnSprint');
 
       expect(result).toHaveLength(1);
       expect(result[0].state).toBe('en_cours');
@@ -334,7 +335,7 @@ BDD
         { name: 'US-12.3 - Indicateur revue.md', isFile: () => true },
       ] as fs.Dirent[]);
 
-      const result = readSprintUsCards('data/A propos de ce site/Sprints/UnSprint');
+      const result = readSprintUsCards('data/A propos/Sprints/UnSprint');
 
       expect(result).toHaveLength(1);
       expect(result[0].state).toBe('en_cours');
@@ -348,7 +349,7 @@ BDD
         { name: 'US-12.3 - Indicateur revue.md', isFile: () => true },
       ] as fs.Dirent[]);
 
-      const result = readSprintUsCards('data/A propos de ce site/Sprints/UnSprint');
+      const result = readSprintUsCards('data/A propos/Sprints/UnSprint');
 
       expect(result).toHaveLength(1);
       expect(result[0].enRevue).toBe(false);
@@ -360,7 +361,7 @@ BDD
         { name: 'US-12.4 - Autre US.md', isFile: () => true },
       ] as fs.Dirent[]);
 
-      const result = readSprintUsCards('data/A propos de ce site/Sprints/UnSprint');
+      const result = readSprintUsCards('data/A propos/Sprints/UnSprint');
 
       expect(result).toHaveLength(1);
       expect(result[0].state).toBe('a_faire');
@@ -373,7 +374,7 @@ BDD
         { name: 'US-11.3 - Bande horizontale.md', isFile: () => true },
       ] as fs.Dirent[]);
 
-      const result = readSprintUsCards('data/A propos de ce site/Sprints/UnSprint');
+      const result = readSprintUsCards('data/A propos/Sprints/UnSprint');
 
       expect(result).toHaveLength(1);
       expect(result[0].state).toBe('a_faire');
@@ -385,7 +386,7 @@ BDD
         { name: 'US-12.1 - Métriques NC calculées par outils gratuits.md', isFile: () => true },
       ] as fs.Dirent[]);
 
-      const result = readSprintUsCards('data/A propos de ce site/Sprints/UnSprint');
+      const result = readSprintUsCards('data/A propos/Sprints/UnSprint');
 
       expect(result).toHaveLength(1);
       expect(result[0].state).toBe('fait');
@@ -399,7 +400,7 @@ BDD
         { name: 'US-11.5 - Definition.md', isFile: () => true },
       ] as fs.Dirent[]);
 
-      const result = readSprintUsCards('data/A propos de ce site/Sprints/UnSprint');
+      const result = readSprintUsCards('data/A propos/Sprints/UnSprint');
 
       expect(result).toHaveLength(1);
       expect(result[0].filename).toBe('US-11.5 - Definition.md');
@@ -422,7 +423,7 @@ BDD
         { name: 'US-11.5 - Definition du board.md', isFile: () => true },
       ] as fs.Dirent[]);
 
-      const result = getSprintBoardData('data/A propos de ce site/Sprints/UnSprint');
+      const result = getSprintBoardData('data/A propos/Sprints/UnSprint');
 
       expect(result.goal).toContain('Mon goal');
       expect(result.columns[0]).toMatchObject({ id: 'a_faire', label: 'A faire', type: 'a_faire' });
@@ -446,7 +447,7 @@ BDD
         { name: 'US-11.2 - Deux.md', isFile: () => true },
       ] as fs.Dirent[]);
 
-      const result = getSprintBoardData('data/A propos de ce site/Sprints/UnSprint');
+      const result = getSprintBoardData('data/A propos/Sprints/UnSprint');
 
       expect(result.columns[0].count).toBe(1); // A faire : 1
       expect(result.columns[1].wipLimit).toBe('0/1'); // agent sans carte en cours
@@ -464,7 +465,7 @@ BDD
         { name: 'US-12.1 - Métriques NC.md', isFile: () => true },
       ] as fs.Dirent[]);
 
-      const result = getSprintBoardData('data/A propos de ce site/Sprints/UnSprint');
+      const result = getSprintBoardData('data/A propos/Sprints/UnSprint');
 
       expect(result.columns).toHaveLength(2); // A faire + Fait (pas de colonnes agents)
       expect(result.columns[0]).toMatchObject({ id: 'a_faire', label: 'A faire' });
@@ -487,7 +488,7 @@ BDD
         { name: 'US-12.3 - Indicateur revue.md', isFile: () => true },
       ] as fs.Dirent[]);
 
-      const result = getSprintBoardData('data/A propos de ce site/Sprints/UnSprint');
+      const result = getSprintBoardData('data/A propos/Sprints/UnSprint');
 
       const tddCol = result.columns.find((c) => c.id === 'TDD-back-end');
       expect(tddCol?.wipLimit).toBe('1/1');
@@ -583,7 +584,7 @@ BDD
 
       const result = getLatestSprintFolder();
 
-      expect(result).toBe('data/A propos de ce site/Sprints/2026-01-30 - Sprint récent');
+      expect(result).toBe(`data/${ABOUT_SITE_DATA_DIR}/Sprints/2026-01-30 - Sprint récent`);
     });
 
     it('retourne null si aucun dossier sprint contient des US', () => {

@@ -23,10 +23,16 @@ const nextConfig: NextConfig = {
   // Redirections
   async redirects() {
     return [
+      // US-13.2 : ancienne URL A propos → nouvelle (refactor a-propos-du-site → a-propos)
       {
-        source: '/a-propos',
-        destination: '/',
-        permanent: true, // 301 redirect
+        source: '/a-propos-du-site',
+        destination: '/a-propos',
+        permanent: true, // 301
+      },
+      {
+        source: '/a-propos-du-site/:path*',
+        destination: '/a-propos/:path*',
+        permanent: true, // 301
       },
       {
         source: '/site-map',
@@ -99,16 +105,8 @@ const nextConfig: NextConfig = {
           },
         ],
       },
-      {
-        // Cache agressif pour les assets statiques
-        source: '/api/images/:type/:path*',
-        headers: [
-          {
-            key: 'Cache-Control',
-            value: 'public, max-age=31536000, immutable',
-          },
-        ],
-      },
+      // Cache /api/images : géré par la route (no-cache en dev pour voir les modifs Photo.png)
+      // Pas de header global ici pour laisser la route API décider (dev vs prod).
     ];
   },
 };

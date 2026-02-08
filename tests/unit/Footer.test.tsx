@@ -6,6 +6,26 @@ import React from 'react';
 import { render, screen, act, waitFor } from '@testing-library/react';
 import Footer from '../../components/Footer';
 
+// Données mockées (objet créé dans la factory pour éviter "before initialization")
+jest.mock('../../data/_footerButtons.json', () => ({
+  __esModule: true,
+  default: {
+    type: 'groupeDeBoutons',
+    boutons: [
+      { type: 'bouton', id: 'calendar', icone: 'Calendar', command: 'cmd-FaisonsConnaissance', e2eID: 'b40' },
+      { type: 'bouton', id: 'email', icone: 'Mail', command: 'cmd-email', url: 'mailto:x', e2eID: 'b41' },
+    ],
+  },
+}));
+jest.mock('../../data/_e2eIds-mapping.json', () => ({
+  __esModule: true,
+  default: {
+    'footer:calendar': 'b40',
+    'footer:email': 'b41',
+    'footer:sans-e2e': 'b99',
+  },
+}));
+
 // Mock next/navigation
 const mockPush = jest.fn();
 jest.mock('next/navigation', () => ({
@@ -14,29 +34,35 @@ jest.mock('next/navigation', () => ({
   }),
 }));
 
-// Mock FooterButton
+// Mock FooterButton (e2eID pour tester getFooterE2eId)
 jest.mock('../../components/FooterButton', () => ({
   __esModule: true,
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  default: ({ id, onButtonClick }: any) => (
-    <button e2eid={`footer-button-${id}`} onClick={() => onButtonClick('cmd-test', null)}>
+  default: ({ id, e2eID, onButtonClick }: any) => (
+    <button
+      e2eid={e2eID ? `e2eid-${e2eID}` : `footer-button-${id}`}
+      onClick={() => onButtonClick?.('cmd-test', null)}
+    >
       {id}
     </button>
   ),
 }));
 
-// Mock next/image pour le bouton logo (US-13.1)
-jest.mock('next/image', () => ({
-  __esModule: true,
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  default: (props: any) => <img {...props} />,
-}));
+const getMockFooterData = () => require('../../data/_footerButtons.json').default;
+
+const validBoutons = [
+  { type: 'bouton', id: 'calendar', icone: 'Calendar', command: 'cmd-FaisonsConnaissance', e2eID: 'b40' },
+  { type: 'bouton', id: 'email', icone: 'Mail', command: 'cmd-email', url: 'mailto:x', e2eID: 'b41' },
+];
 
 describe('Footer', () => {
   beforeEach(() => {
     mockPush.mockClear();
     jest.clearAllMocks();
-    
+    const mockData = getMockFooterData();
+    mockData.type = 'groupeDeBoutons';
+    mockData.boutons = [...validBoutons];
+
     // Mock fetch global
     global.fetch = jest.fn(() =>
       Promise.resolve({
@@ -44,48 +70,19 @@ describe('Footer', () => {
       })
     ) as jest.Mock;
   });
-  
+
   afterEach(() => {
     jest.restoreAllMocks();
   });
 
-  // US-13.1 baby step 2 : bouton logo dans le footer, visible, sans action
-  it('devrait afficher un bouton avec le logo Malain et possible dans le footer (US-13.1)', async () => {
+  it('ne devrait pas afficher le logo dans le footer', async () => {
     await act(async () => {
       render(<Footer />);
     });
-    const logo = screen.getByAltText('Logo Malain et possible');
-    expect(logo).toBeInTheDocument();
-    const logoButton = logo.closest('button');
-    expect(logoButton).toBeInTheDocument();
-  });
-
-  it('devrait ne pas déclencher de navigation au clic sur le bouton logo du footer (US-13.1)', async () => {
-    await act(async () => {
-      render(<Footer />);
-    });
-    const logo = screen.getByAltText('Logo Malain et possible');
-    const logoButton = logo.closest('button');
-    expect(logoButton).toBeInTheDocument();
-    logoButton!.click();
-    expect(mockPush).not.toHaveBeenCalled();
-  });
-
-  it('devrait placer le bouton logo entre Plan du site et À propos de ce site (US-13.1)', async () => {
-    await act(async () => {
-      render(<Footer />);
-    });
-    const boutonsContainer = document.querySelector('.boutonsContainer');
-    expect(boutonsContainer).toBeInTheDocument();
-    const children = Array.from(boutonsContainer!.children);
-    const indexOfLogo = children.findIndex((el) => el.querySelector('img[alt="Logo Malain et possible"]'));
-    const indexOfSitemap = children.findIndex((el) => el.textContent?.trim() === 'sitemap');
-    const indexOfAboutSite = children.findIndex((el) => el.textContent?.trim() === 'about-site');
-    expect(indexOfSitemap).toBeGreaterThanOrEqual(0);
-    expect(indexOfLogo).toBeGreaterThanOrEqual(0);
-    expect(indexOfAboutSite).toBeGreaterThanOrEqual(0);
-    expect(indexOfSitemap).toBeLessThan(indexOfLogo);
-    expect(indexOfLogo).toBeLessThan(indexOfAboutSite);
+    const footer = document.querySelector('footer');
+    expect(footer).toBeInTheDocument();
+    const logoInFooter = footer!.querySelector('img[alt="Logo Malain et possible"]');
+    expect(logoInFooter).toBeNull();
   });
 
   it('devrait afficher le footer', async () => {
@@ -98,13 +95,14 @@ describe('Footer', () => {
     expect(container!.querySelector('footer')).toBeInTheDocument();
   });
 
-  it('devrait afficher des boutons', async () => {
+  it('devrait afficher des boutons ou liens dans le footer', async () => {
     await act(async () => {
       render(<Footer />);
     });
-    
-    const buttons = screen.getAllByRole('button');
-    expect(buttons.length).toBeGreaterThan(0);
+    const container = document.querySelector('footer .boutonsContainer');
+    expect(container).toBeInTheDocument();
+    const interactive = container!.querySelectorAll('a, button');
+    expect(interactive.length).toBeGreaterThan(0);
   });
 
   it('devrait avoir la classe CSS footer', async () => {
@@ -140,13 +138,43 @@ describe('Footer', () => {
         json: () => Promise.resolve({ version: '2.5.0' }),
       })
     ) as jest.Mock;
-    
+
     await act(async () => {
       render(<Footer />);
     });
-    
+
     await waitFor(() => {
       expect(screen.getByText('v2.5.0')).toBeInTheDocument();
     });
+  });
+
+  it('retourne null quand les données des boutons sont invalides', async () => {
+    getMockFooterData().boutons = null as unknown as typeof validBoutons;
+    const { container } = render(<Footer />);
+    expect(container.firstChild).toBeNull();
+  });
+
+  it('ignore les boutons invalides (sans id, icone ou command)', async () => {
+    getMockFooterData().boutons = [
+      { type: 'bouton', id: 'ok', icone: 'Mail', command: 'c', e2eID: 'b1' },
+      { type: 'bouton', id: '', icone: 'Mail', command: 'c' }, // pas d'id
+    ];
+    await act(async () => {
+      render(<Footer />);
+    });
+    const container = document.querySelector('footer .boutonsContainer');
+    expect(container).toBeInTheDocument();
+    expect(container!.querySelectorAll('button').length).toBe(1);
+  });
+
+  it('utilise le mapping e2eID quand un bouton n\'a pas d\'e2eID', async () => {
+    getMockFooterData().boutons = [
+      { type: 'bouton', id: 'sans-e2e', icone: 'Mail', command: 'cmd-x' },
+    ];
+    await act(async () => {
+      render(<Footer />);
+    });
+    const btn = document.querySelector('[e2eid="e2eid-b99"]');
+    expect(btn).toBeInTheDocument();
   });
 });

@@ -6,7 +6,7 @@ Fonctionnalité: Affichage structuré des critères d'acceptation dans le wiki
   Afin de mieux comprendre l'organisation et la hiérarchie des critères
 
   Contexte:
-    Étant donné que je suis sur la page "À propos du site"
+    Étant donné que je suis sur la page "A propos"
     Et j'affiche le dossier "3. Definition of Done"
     Et qu'une User Story contient une section "Critères d'acceptation"
 

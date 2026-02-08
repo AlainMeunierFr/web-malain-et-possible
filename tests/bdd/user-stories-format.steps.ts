@@ -3,9 +3,9 @@ import { expect } from '@playwright/test';
 
 const { Given, When, Then } = createBdd();
 
-/** Après US-11.2 : contenu US dans la visualisation du dossier "1. A propos du projet". Steps "que je suis sur la page" / "j'affiche le dossier" dans a-propos-du-site-tableau-de-bord.steps.ts. */
+/** Après US-11.2 : contenu US dans la visualisation du dossier "1. A propos du projet". Steps "que je suis sur la page" / "j'affiche le dossier" dans a-propos-tableau-de-bord.steps.ts. */
 const urlVisualisationDossier = (nomDossier: string) =>
-  '/a-propos-du-site/' + encodeURIComponent(nomDossier);
+  '/a-propos/' + encodeURIComponent(nomDossier);
 
 // Scénario: Détection d'une User Story par son titre H4
 Given('un fichier Markdown contenant {string}', async ({}) => {
@@ -66,7 +66,7 @@ Then('aucun élément n\'a de `typeDeContenu` attribué', async ({ page }) => {
 });
 
 // Scénario: Affichage formaté d'une User Story
-Given('que la section {string} est déroulée', async ({ page }, sectionName: string) => {
+Given('la section {string} est déroulée', async ({ page }, sectionName: string) => {
   // Cliquer sur la section pour la dérouler
   const section = page.getByText(sectionName, { exact: false });
   await section.first().click();

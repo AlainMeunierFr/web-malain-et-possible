@@ -5,7 +5,7 @@ const root = path.join(__dirname, '..');
 const files = [
   'app/globals.css',
   'app/content-styles.css',
-  'app/a-propos-du-site/a-propos-du-site.css',
+  'app/a-propos/a-propos.css',
   'app/maintenance/maintenance.module.css',
   'app/metrics/metrics.css'
 ];

@@ -16,55 +16,64 @@
           "url": "/",
           "titre": "Home",
           "zone": "HomePage",
-          "dessiner": "Oui"
+          "dessiner": "Oui",
+          "e2eID": "l2"
         },
         {
           "url": "/mes-profils",
           "titre": "Mes Profils",
           "zone": "HomePage",
-          "dessiner": "Oui"
+          "dessiner": "Oui",
+          "e2eID": "l3"
         },
         {
           "url": "/profil/cpo",
           "titre": "Produit logiciel",
           "zone": "Profils",
-          "dessiner": "Oui"
+          "dessiner": "Oui",
+          "e2eID": "l4"
         },
         {
           "url": "/profil/coo",
           "titre": "Opérations",
           "zone": "Profils",
-          "dessiner": "Oui"
+          "dessiner": "Oui",
+          "e2eID": "l5"
         },
         {
           "url": "/profil/agile",
           "titre": "Transformation Agile",
           "zone": "Profils",
-          "dessiner": "Oui"
+          "dessiner": "Oui",
+          "e2eID": "l6"
         },
         {
           "url": "/profil/cto",
           "titre": "Technologie",
           "zone": "Profils",
-          "dessiner": "Oui"
+          "dessiner": "Oui",
+          "e2eID": "l7"
         },
         {
           "url": "/detournement-video",
           "titre": "Détournement de scènes cultes du cinéma",
           "zone": "Autres",
-          "dessiner": "Oui"
+          "dessiner": "Oui",
+          "e2eID": "l8"
         },
         {
           "url": "/portfolio-detournements",
           "titre": "Portfolio de detournements vidéos",
           "zone": "Autres",
-          "dessiner": "Oui"
+          "dessiner": "Oui",
+          "e2eID": "l9"
         },
         {
-          "url": "/a-propos-du-site",
-          "titre": "a-propos-du-site",
+          "url": "/a-propos",
+          "titre": "a-propos",
           "zone": "Footer",
-          "dessiner": "Oui"
+          "dessiner": "Oui",
+          "e2eID": "l11"
         },
         {
           "url": "/faisons-connaissance",

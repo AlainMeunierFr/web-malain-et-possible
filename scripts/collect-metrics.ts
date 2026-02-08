@@ -33,8 +33,12 @@ function collectTestMetrics(): TestMetrics {
 
   let unitTests = 0;
   let integrationTests = 0;
-  let bddScenarios = 0;
-  let bddSteps = 0;
+  let bddScenariosTotal = 0;
+  let bddScenariosTestable = 0;
+  let bddScenariosNonTestable = 0;
+  let bddStepsTotal = 0;
+  let bddStepsImplemented = 0;
+  let bddStepsMissing = 0;
   try {
     const unitFiles = execSync('find tests/unit -name "*.test.ts*" 2>/dev/null', { encoding: 'utf-8' })
       .trim().split('\n').filter((f) => f && !/\.integration\.test\./.test(f));
@@ -55,8 +59,8 @@ function collectTestMetrics(): TestMetrics {
     featureFiles.forEach((file) => {
       if (fs.existsSync(file)) {
         const content = fs.readFileSync(file, 'utf-8');
-        bddScenarios += (content.match(/Scénario:|Scénario Outline:/g) || []).length;
-        bddSteps += (content.match(/Given |When |Then |And |But /g) || []).length;
+        bddScenariosTotal += (content.match(/Scénario:|Scénario Outline:|Scenario:|Scenario Outline:/g) || []).length;
+        bddStepsTotal += (content.match(/Given |When |Then |And |But |Étant donné que |Et que |Et |Quand |Alors |Mais /g) || []).length;
       }
     });
   } catch (e) {
@@ -90,10 +94,13 @@ function collectTestMetrics(): TestMetrics {
   const e2eScenarios = 0;
   const e2eStepsPassed = 0;
   const e2eStepsFailed = 0;
-  const bddScenariosPassed = bddScenarios;
-  const bddScenariosFailed = 0;
+  // Ancien script : pas de parsing des .spec.js, on met des valeurs approximatives
+  bddScenariosTestable = bddScenariosTotal;
+  bddScenariosNonTestable = 0;
+  bddStepsImplemented = bddStepsTotal;
+  bddStepsMissing = 0;
   const totalTestFiles = unitTestFiles + integrationTestFiles + bddFeatures + e2eScenarioFiles;
-  const totalTests = unitTests + integrationTests + bddScenarios + e2eSteps;
+  const totalTests = unitTests + integrationTests + bddScenariosTestable + e2eSteps;
 
   return {
     unitTests,
@@ -107,10 +114,12 @@ function collectTestMetrics(): TestMetrics {
     integrationTestFailed,
     integrationTestDuration: 0,
     bddFeatures,
-    bddScenarios,
-    bddScenariosPassed,
-    bddScenariosFailed,
-    bddSteps,
+    bddScenariosTotal,
+    bddScenariosTestable,
+    bddScenariosNonTestable,
+    bddStepsTotal,
+    bddStepsImplemented,
+    bddStepsMissing,
     bddTestDuration: undefined,
     e2eSteps,
     e2eScenarioFiles,
@@ -120,8 +129,8 @@ function collectTestMetrics(): TestMetrics {
     e2eTests: undefined,
     totalTests,
     totalTestFiles,
-    passingTests: unitTestPassed + integrationTestPassed + bddScenariosPassed + e2eStepsPassed,
-    failingTests: unitTestFailed + integrationTestFailed + bddScenariosFailed + e2eStepsFailed,
+    passingTests: unitTestPassed + integrationTestPassed + bddScenariosTestable + e2eStepsPassed,
+    failingTests: unitTestFailed + integrationTestFailed + 0 + e2eStepsFailed,
     testDuration,
   };
 }
@@ -374,7 +383,7 @@ async function main() {
   console.log(`\n✅ Snapshot sauvegardé: ${LATEST_FILE}`);
 
   // Charger l'historique existant
-  let history: MetricsHistory = {
+  const history: MetricsHistory = {
     snapshots: [],
     latest: snapshot,
     trends: {

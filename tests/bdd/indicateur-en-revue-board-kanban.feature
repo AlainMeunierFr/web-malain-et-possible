@@ -6,7 +6,7 @@ Fonctionnalité: Indicateur visuel "en revue" sur le board Kanban — US-12.3
   Afin de comprendre immédiatement que l'US est entre deux étapes et attend validation
 
   Contexte:
-    Étant donné que je suis sur la page "A propos de ce site"
+    Étant donné que je suis sur la page "A propos"
     Et que menu.json contient une ligne avec Titre "Sprint en cours", Type "container", Parametre "sprintEnCours"
     Et j'ai cliqué sur la ligne de menu "Sprint en cours" dans la bande horizontale
 

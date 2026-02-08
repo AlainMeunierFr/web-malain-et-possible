@@ -17,7 +17,7 @@ Given('je vois une compétence avec un bouton "En savoir plus..."', async ({ pag
   await expect(button).toBeVisible();
 });
 
-// When('la page se charge') : défini dans a-propos-du-site-tableau-de-bord.steps.ts (step partagé)
+// When('la page se charge') : défini dans a-propos-tableau-de-bord.steps.ts (step partagé)
 
 When('je clique sur le bouton "En savoir plus..." de cette compétence', async ({ page }) => {
   const button = page.getByRole('link', { name: /En savoir plus/i }).first();

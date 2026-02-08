@@ -11,7 +11,7 @@ import { readPageData } from '../utils/vitrine';
 import { contenuToAsciiArt } from '../utils/backoffice';
 
 const ROOT = path.resolve(__dirname, '..');
-const OUTPUT_DIR = path.join(ROOT, 'data', 'A propos de ce site', 'Documentation technique');
+const OUTPUT_DIR = path.join(ROOT, 'data', 'A propos', 'Documentation technique');
 const OUTPUT_FILE = path.join(OUTPUT_DIR, '9. Hiérarchie containers par page.md');
 
 /** Pages à documenter (routes + titres). */
@@ -42,7 +42,7 @@ function loadPagesFromPlanDuSite(): PageInfo[] {
     const pages = plan?.contenu?.find((el: { type: string }) => el.type === 'listeDesPages')?.pages;
     if (Array.isArray(pages) && pages.length > 0) {
       return pages
-        .filter((p: { url: string }) => p.url !== '/a-propos-du-site' && p.url !== '/plan-du-site')
+        .filter((p: { url: string }) => p.url !== '/a-propos' && p.url !== '/plan-du-site')
         .map((p: { url: string; titre: string }) => ({ url: p.url, titre: p.titre || p.url }));
     }
   } catch {
@@ -110,5 +110,5 @@ for (const p of pages) {
 const markdown = generateMarkdown(sections);
 fs.writeFileSync(OUTPUT_FILE, markdown, 'utf-8');
 
-console.log('✅ Fichier généré : data/A propos de ce site/Documentation technique/9. Hiérarchie containers par page.md');
+console.log('✅ Fichier généré : data/A propos/Documentation technique/9. Hiérarchie containers par page.md');
 console.log(`   ${sections.length} pages documentées (source : JSON réel).`);

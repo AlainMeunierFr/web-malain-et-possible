@@ -79,10 +79,10 @@ Fonctionnalité: Menu header remplaçant le logo (US-13.1)
     Et je clique sur "Portfolio" dans le sous-menu
     Alors je suis redirigé vers /portfolio-detournements
 
-  Scénario: Le lien A propos mène vers la page À propos de ce site
+  Scénario: Le lien A propos mène vers la page A propos
     Étant donné que je suis sur n'importe quelle page du site
     Quand je clique sur "A propos" dans le menu du header
-    Alors je suis redirigé vers /a-propos-du-site
+    Alors je suis redirigé vers /a-propos
 
   # --- CA3 : Menu hamburger mobile ---
 
@@ -107,15 +107,4 @@ Fonctionnalité: Menu header remplaçant le logo (US-13.1)
     Et le panneau contient les mêmes entrées que le menu desktop (Accueil, Mes profils, Détournement vidéo, A propos)
     Et les sous-menus sont accessibles dans le panneau
 
-  # --- CA4 : Logo dans le footer ---
-
-  Scénario: Un bouton logo est visible dans le footer
-    Étant donné que je suis sur n'importe quelle page du site
-    Quand je regarde le footer
-    Alors je vois un bouton affichant le logo "Malain et possible"
-
-  Scénario: Le bouton logo du footer n'a pas d'action
-    Étant donné que je suis sur n'importe quelle page du site
-    Quand je clique sur le bouton logo dans le footer
-    Alors aucune navigation n'est déclenchée
-    Et je reste sur la page actuelle
+  # CA4 (logo dans le footer) supprimé : logo retiré du footer

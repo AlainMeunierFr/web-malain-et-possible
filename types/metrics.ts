@@ -20,13 +20,17 @@ export interface TestMetrics {
   integrationTestFailed: number; // Tests d'intégration échoués
   integrationTestDuration?: number; // Durée des tests d'intégration (ms)
   
-  // BDD
-  bddFeatures: number;         // Nombre de features BDD
-  bddScenarios: number;        // Nombre de scénarios BDD
-  bddScenariosPassed: number;  // Scénarios BDD réussis (tous si définis)
-  bddScenariosFailed: number;  // Scénarios BDD échoués
-  bddSteps: number;            // Nombre de steps BDD
-  bddTestDuration?: number;    // Durée des tests BDD (ms)
+  // BDD - Scénarios
+  bddFeatures: number;              // [A] Nombre de fichiers .feature
+  bddScenariosTotal: number;        // [B] Scénarios (expanded, inclut Outline × Examples)
+  bddScenariosTestable: number;     // [F] Scénarios testables (tous les steps implémentés)
+  bddScenariosNonTestable: number;  // [G] Scénarios non testables (≥1 step manquant)
+  bddTestDuration?: number;         // Durée d'exécution des scénarios testables (ms)
+  
+  // BDD - Étapes
+  bddStepsTotal: number;            // [C] Nombre de textes de steps uniques dans les .feature
+  bddStepsImplemented: number;      // [D] Steps ayant une définition dans les .steps.ts
+  bddStepsMissing: number;          // [E] Steps sans définition (dette BDD)
   
   // E2E
   e2eSteps: number;            // Nombre total d'étapes E2E dans les fichiers de test

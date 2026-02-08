@@ -20,7 +20,7 @@ export default function ListeDesPages({ initialPages }: { initialPages?: ListeDe
 
   useEffect(() => {
     if (initialPages && initialPages.length > 0) {
-      setLoading(false);
+      queueMicrotask(() => setLoading(false));
       return;
     }
     fetch('/api/site-map')
@@ -48,7 +48,7 @@ export default function ListeDesPages({ initialPages }: { initialPages?: ListeDe
 
   // Organiser les pages par zone ; filtrer : exclure zone "Masqué" et dessiner "Non"
   const pagesAAfficher = pagesSource.filter((p) => {
-    const zone = (p as any).zone;
+    const zone = p.zone;
     const dessiner = p.dessiner;
     return zone !== 'Masqué' && dessiner !== 'Non';
   });
@@ -57,13 +57,13 @@ export default function ListeDesPages({ initialPages }: { initialPages?: ListeDe
     // Zone du haut : HomePage + Home (ex. Home, Mes Profils)
     HomePage: pagesAAfficher
       .filter((p) => {
-        const z = (p as any).zone;
+        const z = p.zone;
         return z === 'HomePage' || z === 'Home';
       })
-      .sort((a, b) => ((a as any).ordre ?? 99) - ((b as any).ordre ?? 99)),
-    Profils: pagesAAfficher.filter((p) => (p as any).zone === 'Profils'),
-    Autres: pagesAAfficher.filter((p) => (p as any).zone === 'Autres'),
-    Footer: pagesAAfficher.filter((p) => (p as any).zone === 'Footer'),
+      .sort((a, b) => (a.ordre ?? 99) - (b.ordre ?? 99)),
+    Profils: pagesAAfficher.filter((p) => p.zone === 'Profils'),
+    Autres: pagesAAfficher.filter((p) => p.zone === 'Autres'),
+    Footer: pagesAAfficher.filter((p) => p.zone === 'Footer'),
   };
 
   const totalPages = pagesParZone.HomePage.length + pagesParZone.Profils.length + 
@@ -78,7 +78,7 @@ export default function ListeDesPages({ initialPages }: { initialPages?: ListeDe
       toutesLesPages: planSite.pages.map((p) => ({
         url: p.url,
         titre: p.titre,
-        zone: (p as any).zone,
+        zone: p.zone,
         dessiner: p.dessiner,
       })),
     });
@@ -86,7 +86,7 @@ export default function ListeDesPages({ initialPages }: { initialPages?: ListeDe
   }
 
   const renderPageButton = (page: PlanPage) => {
-    const e2eId = generateE2eIdFromUrl(page.url);
+    const e2eId = page.e2eID ?? generateE2eIdFromUrl(page.url);
     return (
       <Link 
         key={page.url}

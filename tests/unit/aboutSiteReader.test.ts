@@ -11,6 +11,7 @@
  */
 
 import path from 'path';
+import { ABOUT_SITE_DATA_DIR } from '../../constants/routes';
 import {
   validerContenuMarkdown,
   ValidationError,
@@ -137,12 +138,12 @@ describe('readPathContentAtRoot - US-11.4 Path avec dossiers et accordéon', () 
   });
 
   it('retourne null quand le chemin pointe vers un fichier (pas un dossier)', () => {
-    const result = readPathContentAtRoot(path.join('data', 'A propos de ce site', 'menu.json'));
+    const result = readPathContentAtRoot(path.join('data', ABOUT_SITE_DATA_DIR, 'menu.json'));
     expect(result).toBeNull();
   });
 
   it('retourne dossiers à la racine quand le dossier contient des sous-dossiers', () => {
-    const dirWithSubdirs = path.join('data', 'A propos de ce site');
+    const dirWithSubdirs = path.join('data', ABOUT_SITE_DATA_DIR);
     const result = readPathContentAtRoot(dirWithSubdirs);
     expect(result).not.toBeNull();
     expect(result!.dossiers.length).toBeGreaterThan(0);
@@ -153,7 +154,7 @@ describe('readPathContentAtRoot - US-11.4 Path avec dossiers et accordéon', () 
   });
 
   it('retourne fichiers MD à la racine quand le dossier contient des .md', () => {
-    const dirWithMd = path.join('data', 'A propos de ce site', 'A propos du projet');
+    const dirWithMd = path.join('data', ABOUT_SITE_DATA_DIR, 'A propos du projet');
     const result = readPathContentAtRoot(dirWithMd);
     expect(result).not.toBeNull();
     expect(result!.fichiers.length).toBeGreaterThan(0);
@@ -161,7 +162,7 @@ describe('readPathContentAtRoot - US-11.4 Path avec dossiers et accordéon', () 
   });
 
   it('retourne à la fois fichiers et dossiers triés par nom', () => {
-    const rootAbout = path.join('data', 'A propos de ce site');
+    const rootAbout = path.join('data', ABOUT_SITE_DATA_DIR);
     const result = readPathContentAtRoot(rootAbout);
     expect(result).not.toBeNull();
     const nomsDossiers = result!.dossiers.map((d) => d.nom);
@@ -171,7 +172,7 @@ describe('readPathContentAtRoot - US-11.4 Path avec dossiers et accordéon', () 
   });
 
   it('chaque dossier a un path utilisable par readChapitreByPath', () => {
-    const rootAbout = path.join('data', 'A propos de ce site');
+    const rootAbout = path.join('data', ABOUT_SITE_DATA_DIR);
     const result = readPathContentAtRoot(rootAbout);
     expect(result).not.toBeNull();
     const sousDossier = result!.dossiers.find((d) => d.nom === 'A propos du projet');

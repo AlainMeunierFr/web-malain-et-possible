@@ -156,7 +156,7 @@ export const readAboutSiteStructure = (): AboutSiteStructure => {
 };
 ```
 
-**Backend Next.js** (`app/a-propos-du-site/page.tsx`) :
+**Backend Next.js** (`app/a-propos/page.tsx`) :
 ```typescript
 import { readAboutSiteStructure } from '../../utils/aboutSiteReader'; // ← Backend pur
 

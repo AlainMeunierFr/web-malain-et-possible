@@ -19,7 +19,7 @@ function SprintDashboardContent({ lignes }: { lignes: LigneDeMenu[] }) {
   const searchParams = useSearchParams();
   const [data, setData] = useState<SprintBoardData | null>(null);
   const activeView = viewFromParams(searchParams);
-  const estSurBoard = pathname === '/a-propos-du-site';
+  const estSurBoard = pathname === '/a-propos';
 
   useEffect(() => {
     fetch('/api/sprint-board')
@@ -37,10 +37,10 @@ function SprintDashboardContent({ lignes }: { lignes: LigneDeMenu[] }) {
   // Déterminer le lien href pour un item container
   const getContainerHref = (parametre: string): string => {
     if (parametre === 'openapi') {
-      return '/a-propos-du-site?view=openapi';
+      return '/a-propos?view=openapi';
     }
     // Sprint en cours (par défaut)
-    return '/a-propos-du-site';
+    return '/a-propos';
   };
 
   // Déterminer si un item container est actif
@@ -82,7 +82,7 @@ function SprintDashboardContent({ lignes }: { lignes: LigneDeMenu[] }) {
               <li key={`${ligne.Numéro}-${ligne.Titre}`} className="item">
                 {ligne.Type === 'Path' ? (
                   <Link
-                    href={`/a-propos-du-site/${encodeURIComponent(ligne.Parametre)}`}
+                    href={`/a-propos/${encodeURIComponent(ligne.Parametre)}`}
                     className="lien"
                     e2eid={ligne.e2eID ? `e2eid-${ligne.e2eID}` : `e2eid-menu-${ligne.Titre.replace(/\s/g, '-')}`}
                   >

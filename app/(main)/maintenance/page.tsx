@@ -7,7 +7,6 @@ import CallToAction from '../../../components/CallToAction';
 import type { ElementCallToAction } from '../../../utils/client';
 import { Egg } from 'lucide-react';
 import { isDevelopment } from '../../../utils/client';
-import AssistantScenario from '../../../components/AssistantScenario';
 import styles from '../../maintenance/maintenance.module.css';
 
 export default function MaintenancePage() {
@@ -22,14 +21,6 @@ export default function MaintenancePage() {
 
   if (!isDevelopment() && !isAuthenticated) {
     return null;
-  }
-
-  if (isDevelopment()) {
-    return (
-      <div className={styles.maintenancePage}>
-        <AssistantScenario />
-      </div>
-    );
   }
 
   const callToActionElement: ElementCallToAction & { e2eID?: string } = {

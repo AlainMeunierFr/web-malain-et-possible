@@ -2,7 +2,7 @@
  * Tests pour AboutSiteContent
  * Approche TDD : Tests pour atteindre 100% de couverture
  *
- * Après US-11.2 (tableau de bord A propos de ce site) : la page racine devient un tableau de bord ;
+ * Après US-11.2 (tableau de bord A propos) : la page racine devient un tableau de bord ;
  * la visualisation d'un dossier (H2 = fichiers MD, H3+ = contenu) peut réutiliser ce composant ou un dérivé.
  * Adapter ou dupliquer ces tests pour le nouveau rendu (bande dossiers + zone contenu) si besoin.
  */
@@ -181,7 +181,7 @@ describe('AboutSiteContent', () => {
           parties: [{ titre: 'Partie', contenu: '', sousParties: [], contenuParse: [] }],
         },
       ],
-      dossiers: [{ nom: 'Dossier à la racine', path: 'data/A propos de ce site/A propos du projet' }],
+      dossiers: [{ nom: 'Dossier à la racine', path: 'data/A propos/A propos du projet' }],
     };
 
     render(<AboutSiteContent pathContent={pathContent} embedded />);

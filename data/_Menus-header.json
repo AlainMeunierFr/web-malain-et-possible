@@ -13,7 +13,7 @@
       "label": "Détournement vidéo",
       "sousmenuPageUrls": ["/portfolio-detournements"]
     },
-    { "id": "a-propos", "pageUrl": "/a-propos-du-site", "label": "A propos" }
+    { "id": "a-propos", "pageUrl": "/a-propos", "label": "A propos" }
   ],
   "exclusHeader": ["/pour-aller-plus-loin", "/faisons-connaissance"]
 }

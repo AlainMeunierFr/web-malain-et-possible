@@ -159,7 +159,7 @@ describe('Validation des fichiers Markdown', () => {
 Pour garantir que les erreurs de validation font échouer le build (et pas seulement apparaître au runtime), les erreurs sont lancées de manière synchrone dans les Server Components :
 
 ```typescript
-// app/a-propos-du-site/page.tsx
+// app/a-propos/page.tsx
 export default function AboutSitePage() {
   try {
     const structure = readAboutSiteStructure(); // ← Peut lancer ValidationError

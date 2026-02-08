@@ -3,16 +3,30 @@
 import React from 'react';
 import AboutSiteContentRenderer from './AboutSiteContentRenderer';
 
-/** Styles A propos : app/a-propos-du-site/a-propos-du-site.css (chargés via layout) */
+/** Styles A propos : app/a-propos/a-propos.css (chargés via layout) */
 import AccordionTitle from './AccordionTitle';
 import AccordionDossier from './AccordionDossier';
+import { titreToAnchorId } from '../utils';
 import type { AboutSiteStructure, PathContentAtRoot, Section } from '../utils';
+
+/** Retourne un id d'ancre unique à partir du titre (pour liens sommaire → chapitres). */
+function uniqueAnchorId(titre: string, used: Set<string>): string {
+  const id = titreToAnchorId(titre);
+  if (!id) return '';
+  let candidate = id;
+  let n = 1;
+  while (used.has(candidate)) {
+    candidate = `${id}-${++n}`;
+  }
+  used.add(candidate);
+  return candidate;
+}
 
 interface AboutSiteContentProps {
   structure?: AboutSiteStructure;
   /** US-11.4 : contenu à la racine du Path (fichiers MD + dossiers accordéon) */
   pathContent?: PathContentAtRoot;
-  /** En vue dossier (page /a-propos-du-site/[dossier]) : affichage commence à H2 = liste des fichiers, sans H1/accordéon du nom du dossier */
+  /** En vue dossier (page /a-propos/[dossier]) : affichage commence à H2 = liste des fichiers, sans H1/accordéon du nom du dossier */
   startAtSections?: boolean;
   /** Utilisé dans une page qui fournit déjà main : ne pas rendre le wrapper main/div (évite double main) */
   embedded?: boolean;
@@ -62,44 +76,47 @@ function premierePartieCorrespondAuFichier(section: Section): boolean {
   return titrePremierePartie === nomFichier;
 }
 
-/** Rendu du contenu d'une section (parties H3, sous-parties H4, blocs H5) */
+/** Rendu du contenu d'une section (parties H3, sous-parties H4, blocs H5) avec ancres pour sommaire */
 function renderSectionContent(section: Section) {
   const niveauBase = section.niveauBase || 3;
   const niveauPartie = calculerNiveauHTML(niveauBase, 'partie');
   const niveauSousPartie = calculerNiveauHTML(niveauBase, 'sousPartie');
   const niveauBloc = calculerNiveauHTML(niveauBase, 'bloc');
-  
+  const usedIds = new Set<string>();
+
   const doitMasquerPremierePartie = premierePartieCorrespondAuFichier(section);
-  
+
   return section.parties.map((partie, partieIndex) => {
-    // Masquer le titre de la première partie si elle correspond au nom du fichier
+    const partieId = uniqueAnchorId(partie.titre, usedIds);
     const doitMasquerTitre = doitMasquerPremierePartie && partieIndex === 0;
-    
+
     return (
     <div key={`${section.nom}-${partieIndex}-${partie.titre}`} className="partie">
       {!doitMasquerTitre && (
-        React.createElement(`h${niveauPartie}`, { className: 'partieTitle' }, partie.titre)
+        React.createElement(`h${niveauPartie}`, { className: 'partieTitle', id: partieId || undefined }, partie.titre)
       )}
       {partie.contenuParse && partie.contenuParse.length > 0 && (
-        <AboutSiteContentRenderer elements={partie.contenuParse} />
+        <AboutSiteContentRenderer elements={partie.contenuParse} partieTitre={partie.titre} />
       )}
       {partie.sousParties.map((sousPartie, sousPartieIndex) => {
+        const sousPartieId = uniqueAnchorId(sousPartie.titre, usedIds);
         const uniqueKey = `${section.nom}-${partieIndex}-${sousPartieIndex}-${sousPartie.titre}`;
         const doitMasquerTitreSousPartie = sousPartie.typeDeContenu === 'Prompt' || sousPartie.typeDeContenu === 'Résultat technique';
         return (
           <div key={uniqueKey} className="sousPartie">
             {!doitMasquerTitreSousPartie && (
-              React.createElement(`h${niveauSousPartie}`, { className: 'sousPartieTitle' }, sousPartie.titre)
+              React.createElement(`h${niveauSousPartie}`, { className: 'sousPartieTitle', id: sousPartieId || undefined }, sousPartie.titre)
             )}
             {sousPartie.contenuParse && sousPartie.contenuParse.length > 0 && (
               <AboutSiteContentRenderer elements={sousPartie.contenuParse} />
             )}
             {sousPartie.blocs && sousPartie.blocs.map((bloc, blocIndex) => {
+              const blocId = uniqueAnchorId(bloc.titre, usedIds);
               const blocKey = `${uniqueKey}-bloc-${blocIndex}`;
               return (
                 <div key={blocKey} className="bloc">
                   {bloc.typeDeContenu !== 'Prompt' && bloc.typeDeContenu !== 'Résultat technique' && (
-                    React.createElement(`h${niveauBloc}`, { className: 'blocTitle' }, bloc.titre)
+                    React.createElement(`h${niveauBloc}`, { className: 'blocTitle', id: blocId || undefined }, bloc.titre)
                   )}
                   {bloc.contenuParse && bloc.contenuParse.length > 0 && (
                     <AboutSiteContentRenderer
@@ -127,21 +144,33 @@ function renderSectionContent(section: Section) {
  */
 export default function AboutSiteContent({ structure, pathContent, startAtSections = false, embedded = false }: AboutSiteContentProps) {
   if (pathContent) {
+    const seulFichierSansSousDossiers =
+      pathContent.fichiers.length === 1 && pathContent.dossiers.length === 0;
     const content = (
       <>
-        {pathContent.fichiers.map((section) => (
-          <AccordionTitle
-            key={section.nom}
-            title={section.nom}
-            level={1}
-            defaultOpen={false}
-          >
-            {renderSectionContent(section)}
-          </AccordionTitle>
-        ))}
-        {pathContent.dossiers.map((dossier) => (
-          <AccordionDossier key={dossier.path} dossier={dossier} />
-        ))}
+        {seulFichierSansSousDossiers ? (
+          <div>{renderSectionContent(pathContent.fichiers[0])}</div>
+        ) : (
+          pathContent.fichiers.map((section) => (
+            <AccordionTitle
+              key={section.nom}
+              title={section.nom}
+              level={1}
+              defaultOpen={false}
+            >
+              {renderSectionContent(section)}
+            </AccordionTitle>
+          ))
+        )}
+        {pathContent.dossiers.map((dossier) =>
+          dossier.chapitre ? (
+            <div key={dossier.path}>
+              {renderSectionContent(dossier.chapitre.sections[0])}
+            </div>
+          ) : (
+            <AccordionDossier key={dossier.path} dossier={dossier} />
+          )
+        )}
       </>
     );
     if (embedded) return <>{content}</>;

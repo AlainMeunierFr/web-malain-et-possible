@@ -19,109 +19,106 @@ const readJsonFile = (filename: string): any => {
 };
 
 // Given steps
-Given('que le fichier {string} existe', async ({}, filename: string) => {
-  const filePath = getJsonPath(filename);
-  expect(fs.existsSync(filePath)).toBe(true);
-});
+// Note: 'le fichier {string} existe' défini dans tooltips-metriques.steps.ts (step partagé)
 
-Given('que le fichier {string} contient un tableau {string} avec des éléments dans l\'ordre suivant :', async ({}, filename: string, arrayName: string, table: any) => {
+Given('le fichier {string} contient un tableau {string} avec des éléments dans l\'ordre suivant :', async ({}, filename: string, arrayName: string, table: any) => {
   const data = readJsonFile(filename);
   expect(data[arrayName]).toBeDefined();
   expect(Array.isArray(data[arrayName])).toBe(true);
 });
 
-Given('que le fichier {string} contient un élément de type {string} en première position', async ({}, filename: string, type: string) => {
+Given('le fichier {string} contient un élément de type {string} en première position', async ({}, filename: string, type: string) => {
   const data = readJsonFile(filename);
   expect(data.contenu[0].type).toBe(type);
 });
 
-Given('que cet élément a les propriétés :', async ({}, table: any) => {
+Given('cet élément a les propriétés :', async ({}, table: any) => {
   // Cette étape est utilisée avec les données du tableau, mais la vérification se fait dans les Then
 });
 
-Given('que le fichier {string} contient un élément de type {string}', async ({}, filename: string, type: string) => {
+Given('le fichier {string} contient un élément de type {string}', async ({}, filename: string, type: string) => {
   const data = readJsonFile(filename);
   const element = data.contenu.find((el: any) => el.type === type);
   expect(element).toBeDefined();
 });
 
-Given('que cet élément a une propriété {string} avec une valeur non vide', async ({}, property: string) => {
+Given('cet élément a une propriété {string} avec une valeur non vide', async ({}, property: string) => {
   // Vérification faite dans les Then
 });
 
-Given('que le fichier {string} contient des éléments de type {string}', async ({}, filename: string, type: string) => {
+Given('le fichier {string} contient des éléments de type {string}', async ({}, filename: string, type: string) => {
   const data = readJsonFile(filename);
   const elements = data.contenu.filter((el: any) => el.type === type);
   expect(elements.length).toBeGreaterThan(0);
 });
 
-Given('que chaque élément a une propriété {string} pointant vers un domaine de la bibliothèque', async ({}, property: string) => {
+Given('chaque élément a une propriété {string} pointant vers un domaine de la bibliothèque', async ({}, property: string) => {
   // Vérification faite dans les Then
 });
 
-Given('que la bibliothèque {string} contient les domaines référencés', async ({}, filename: string) => {
+Given('la bibliothèque {string} contient les domaines référencés', async ({}, filename: string) => {
   const filePath = path.join(process.cwd(), 'data', 'bibliotheque', filename);
   expect(fs.existsSync(filePath)).toBe(true);
 });
 
-Given('que le fichier {string} contient un élément de type {string} en dernière position', async ({}, filename: string, type: string) => {
+Given('le fichier {string} contient un élément de type {string} en dernière position', async ({}, filename: string, type: string) => {
   const data = readJsonFile(filename);
   const lastElement = data.contenu[data.contenu.length - 1];
   expect(lastElement.type).toBe(type);
 });
 
-Given('que cet élément a une propriété {string} avec la valeur {string}', async ({}, property: string, value: string) => {
+Given('cet élément a une propriété {string} avec la valeur {string}', async ({}, property: string, value: string) => {
   // Vérification faite dans les Then
 });
 
-Given('que le fichier {string} contient un tableau {string} avec une structure similaire à {string}', async ({}, filename: string, arrayName: string, referenceFile: string) => {
+Given('le fichier {string} contient un tableau {string} avec une structure similaire à {string}', async ({}, filename: string, arrayName: string, referenceFile: string) => {
   const data = readJsonFile(filename);
   expect(data[arrayName]).toBeDefined();
   expect(Array.isArray(data[arrayName])).toBe(true);
 });
 
-Given('que le fichier {string} contient un tableau {string} avec :', async ({}, filename: string, arrayName: string, table: any) => {
+Given('le fichier {string} contient un tableau {string} avec :', async ({}, filename: string, arrayName: string, table: any) => {
   const data = readJsonFile(filename);
   expect(data[arrayName]).toBeDefined();
   expect(Array.isArray(data[arrayName])).toBe(true);
 });
 
-Given('que le fichier {string} contient deux éléments de type {string}', async ({}, filename: string, type: string) => {
+Given('le fichier {string} contient deux éléments de type {string}', async ({}, filename: string, type: string) => {
   const data = readJsonFile(filename);
   const elements = data.contenu.filter((el: any) => el.type === type);
   expect(elements.length).toBeGreaterThanOrEqual(2);
 });
 
-Given('que le premier élément début a les propriétés :', async ({}, table: any) => {
+Given('le premier élément début a les propriétés :', async ({}, table: any) => {
   // Vérification faite dans les Then
 });
 
-Given('que le deuxième élément fin a les propriétés :', async ({}, table: any) => {
+Given('le deuxième élément fin a les propriétés :', async ({}, table: any) => {
   // Vérification faite dans les Then
 });
 
-Given('que la page d\'accueil contient une section HERO avec {int} containers de profils', async ({ page }, count: number) => {
+Given('la page d\'accueil contient une section HERO avec {int} containers de profils', async ({ page }, count: number) => {
   await page.goto('/');
   const containers = page.locator('[data-testid*="profil"], .profil-container, [class*="profil"]');
   const containerCount = await containers.count();
   expect(containerCount).toBeGreaterThanOrEqual(count);
 });
 
-Given('que chaque container a un bouton {string} avec une route vers {string}', async ({}, buttonText: string, routePattern: string) => {
+Given('chaque container a un bouton {string} avec une route vers {string}', async ({}, buttonText: string, routePattern: string) => {
   // Vérification faite dans les Then
 });
 
-Given('que le fichier {string} contient plusieurs éléments de type {string} dans un ordre spécifique', async ({}, filename: string, type: string) => {
+Given('le fichier {string} contient plusieurs éléments de type {string} dans un ordre spécifique', async ({}, filename: string, type: string) => {
   const data = readJsonFile(filename);
   const elements = data.contenu.filter((el: any) => el.type === type);
   expect(elements.length).toBeGreaterThan(1);
 });
 
-Given('que chaque élément a une propriété {string} unique', async ({}, property: string) => {
+Given('chaque élément a une propriété {string} unique', async ({}, property: string) => {
   // Vérification faite dans les Then
 });
 
-Given('que le plan du site existe', async ({}) => {
+Given('le plan du site existe', async ({}) => {
   const filePath = path.join(process.cwd(), 'data', '_Pages-Liens-Et-Menus.json');
   expect(fs.existsSync(filePath)).toBe(true);
 });
@@ -134,7 +131,7 @@ When('je charge la page {string}', async ({ page }, url: string) => {
 
 // When('je suis sur la page d\'accueil') : défini comme Given dans navigation-domaines-competences.steps.ts (step partagé)
 
-When('que je clique sur le bouton {string} du profil {string}', async ({ page }, buttonText: string, profilSlug: string) => {
+When('je clique sur le bouton {string} du profil {string}', async ({ page }, buttonText: string, profilSlug: string) => {
   const button = page.getByRole('link', { name: new RegExp(buttonText, 'i') }).filter({ has: page.locator(`[href*="/profil/${profilSlug}"]`) });
   await button.first().click();
 });

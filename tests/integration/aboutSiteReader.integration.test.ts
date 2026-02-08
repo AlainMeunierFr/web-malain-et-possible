@@ -1,7 +1,7 @@
 /**
  * Test d'intégration : Validation des vrais fichiers MD du projet
  * 
- * Ce test lit tous les fichiers MD réels dans "A propos de ce site" et valide qu'ils respectent les règles.
+ * Ce test lit tous les fichiers MD réels dans "A propos" et valide qu'ils respectent les règles.
  * Il doit faire échouer le build si un fichier contient un H1/H2, permettant de détecter les erreurs
  * lors des tests plutôt qu'au runtime dans le navigateur.
  * 
@@ -10,12 +10,13 @@
 
 import fs from 'fs';
 import path from 'path';
+import { ABOUT_SITE_DATA_DIR } from '../../constants/routes';
 import { validerContenuMarkdown, ValidationError, parseSectionContent } from '../../utils/server';
 
 describe('Test d\'intégration : Validation des fichiers MD réels', () => {
-  it('devrait valider tous les fichiers MD dans "A propos de ce site"', () => {
-    // ARRANGE : Chemin vers le dossier "A propos de ce site"
-    const aboutSiteDir = path.join(process.cwd(), 'data', 'A propos de ce site');
+  it('devrait valider tous les fichiers MD dans le dossier A propos (ABOUT_SITE_DATA_DIR)', () => {
+    // ARRANGE : Chemin vers le dossier A propos (constants/aboutSitePath)
+    const aboutSiteDir = path.join(process.cwd(), 'data', ABOUT_SITE_DATA_DIR);
     
     // Fonction récursive pour lire tous les fichiers MD
     const lireFichiersMD = (dir: string): string[] => {

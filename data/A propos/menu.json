@@ -1,0 +1,65 @@
+[
+  {
+    "Titre": "A propos du projet",
+    "Numéro": 1,
+    "Type": "Path",
+    "Parametre": "data/A propos/A propos du projet",
+    "e2eID": "menu-a-propos-projet"
+  },
+  {
+    "Titre": "Sprint en cours",
+    "Numéro": 2,
+    "Type": "container",
+    "Parametre": "sprintEnCours",
+    "e2eID": "menu-sprint-en-cours"
+  },
+  {
+    "Titre": "Tous les sprints",
+    "Numéro": 3,
+    "Type": "Path",
+    "Parametre": "data/A propos/Sprints",
+    "e2eID": "menu-tous-sprints"
+  },
+  {
+    "Titre": "Documentation technique",
+    "Numéro": 5,
+    "Type": "Path",
+    "Parametre": "data/A propos/Documentation technique",
+    "e2eID": "menu-documentation-technique"
+  },
+  {
+    "Titre": "Configuration IA",
+    "Numéro": 4,
+    "Type": "Path",
+    "Parametre": "data/A propos/Configuration IA",
+    "e2eID": "menu-configuration-ia"
+  },
+  {
+    "Titre": "Métriques",
+    "Numéro": 6,
+    "Type": "container",
+    "Parametre": "metrics",
+    "e2eID": "menu-metrics"
+  },
+  {
+    "Titre": "API OpenAPI",
+    "Numéro": 7,
+    "Type": "container",
+    "Parametre": "openapi",
+    "e2eID": "menu-api-openapi"
+  },
+  {
+    "Titre": "Charte graphique",
+    "Numéro": 8,
+    "Type": "container",
+    "Parametre": "charte",
+    "e2eID": "menu-charte-graphique"
+  },
+  {
+    "Titre": "Mentions légales",
+    "Numéro": 9,
+    "Type": "Path",
+    "Parametre": "data/A propos/Mentions légales",
+    "e2eID": "menu-mentions-legales"
+  }
+]

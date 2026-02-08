@@ -10,7 +10,7 @@ import Image from 'next/image';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import oneLight from 'react-syntax-highlighter/dist/cjs/styles/prism/one-light';
 import type { ContenuElement } from '../utils';
-import { getMdImagePath, parseInlineMarkdown } from '../utils';
+import { getMdImagePath, parseInlineMarkdown, titreToAnchorId } from '../utils';
 
 /** Label d’affichage pour le langage du bloc de code (ex. "ts" → "TS TypeScript") */
 function codeBlockLabel(lang: string | undefined): string {
@@ -89,14 +89,20 @@ function prismLanguage(lang: string | undefined): string {
   return l || 'text';
 }
 
+/** Titres de partie qui indiquent un sommaire (liste → liens ancres). Sans ce titre dans le MD, les listes numérotées restent des listes normales. */
+const SOMMAIRE_TITRES = /^(Plan de l'article|Sommaire|Table des matières)$/i;
+
 export interface AboutSiteContentRendererProps {
   elements: ContenuElement[];
   typeDeContenu?: string;
+  /** Si fourni et correspond à un titre de sommaire, la liste ordonnée sera rendue en liens vers les ancres. */
+  partieTitre?: string;
 }
 
 const AboutSiteContentRenderer: React.FC<AboutSiteContentRendererProps> = ({ 
   elements, 
-  typeDeContenu 
+  typeDeContenu,
+  partieTitre,
 }) => {
   // Regrouper les éléments par zones (Alain, IA, normal)
   const groupedElements: Array<{
@@ -283,13 +289,28 @@ const AboutSiteContentRenderer: React.FC<AboutSiteContentRendererProps> = ({
         );
       }
       const Tag = element.type === 'ul' ? 'ul' : 'ol';
+      const items = element.items ?? [];
+      // Sommaire uniquement si la partie a un titre explicite (Plan de l'article, Sommaire, Table des matières)
+      const looksLikeSommaire = Tag === 'ol' && items.length >= 2 && partieTitre != null && SOMMAIRE_TITRES.test(partieTitre.trim());
       return (
-        <Tag key={elementIndex} className="list">
-            {element.items?.map((item, itemIndex) => (
-            <li key={itemIndex} className="listItem">
-              {parseInlineMarkdown(item)}
-            </li>
-          ))}
+        <Tag key={elementIndex} className={looksLikeSommaire ? 'list sommaire' : 'list'}>
+          {items.map((item, itemIndex) => {
+            const trimmed = item.trim();
+            const slugLabel = /^\d+\.\s+.+/.test(trimmed) ? trimmed : `${itemIndex + 1}. ${trimmed}`;
+            const anchorId = looksLikeSommaire ? titreToAnchorId(slugLabel) : '';
+            const linkText = /^\d+\.\s+.+/.test(trimmed) ? trimmed.replace(/^\d+\.\s+/, '') : trimmed;
+            return (
+              <li key={itemIndex} className="listItem">
+                {anchorId ? (
+                  <a href={`#${anchorId}`} className="sommaireLink">
+                    {parseInlineMarkdown(linkText)}
+                  </a>
+                ) : (
+                  parseInlineMarkdown(item)
+                )}
+              </li>
+            );
+          })}
         </Tag>
       );
     }

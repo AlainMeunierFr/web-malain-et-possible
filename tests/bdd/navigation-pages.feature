@@ -10,10 +10,10 @@ Fonctionnalité: Navigation entre les pages du site
     Quand je clique sur "Accueil" dans le menu du header
     Alors je suis redirigé vers la page d'accueil
 
-  Scénario: Navigation vers la page "À propos du site" depuis la photo
+  Scénario: Navigation vers la page "A propos" depuis la photo
     Étant donné que je suis sur n'importe quelle page du site
     Quand je clique sur la photo en haut à droite
-    Alors je suis redirigé vers la page "À propos du site"
+    Alors je suis redirigé vers la page "A propos"
 
   Scénario: Navigation vers le plan du site depuis le footer
     Étant donné que je suis sur n'importe quelle page du site

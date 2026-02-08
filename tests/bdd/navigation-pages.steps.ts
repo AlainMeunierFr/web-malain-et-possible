@@ -42,8 +42,9 @@ Then('je suis redirigé vers la page d\'accueil', async ({ page }) => {
 const pathForPageName = (name: string): string => {
   if (name.startsWith('/')) return name;
   const map: Record<string, string> = {
-    'À propos du site': '/a-propos-du-site',
-    'A propos de ce site': '/a-propos-du-site',
+    'A propos': '/a-propos',
+    'À propos du site': '/a-propos',
+    'A propos': '/a-propos',
     'Plan du site': '/plan-du-site',
     'Faisons connaissance': '/faisons-connaissance',
     'Mes Profils': '/mes-profils',

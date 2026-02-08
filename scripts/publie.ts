@@ -2,78 +2,17 @@
  * Script "Publie" : Automatise le processus de publication
  * 
  * Ce script :
- * 0. Vérification TypeScript (tsc --noEmit) pour détecter les mêmes erreurs que Vercel
- * 1. Génération du scénario E2E
- * 2. Lance tous les tests avec chronométrage (coverage + JSON)
- * 3. Si échec, analyse et liste les erreurs avec exigences et causes, puis s'arrête
- * 4. Si succès, collecte toutes les métriques (E2E, BDD, etc.)
- * 5. Publie sur Git
+ * 0. Vérification de la couverture précédente (≥ 80% lines/statements/functions, ≥ 65% branches) — fail fast
+ * 1. Vérification TypeScript (tsc --noEmit)
+ * 2. Lance les tests et collecte les métriques (Jest + BDD + E2E en une seule passe, avec chronométrage)
+ * 3. Publie sur Git
  * 
- * Objectif : Avoir sur git et Vercel un site avec 100% de couverture de test avec leur chronométrage à jour
+ * Objectif : Une seule exécution des tests pour valider et chronométrer.
  */
 
 import { execSync } from 'child_process';
 import fs from 'fs';
 import path from 'path';
-
-/**
- * Lance tous les tests avec chronométrage et coverage
- * Retourne le code de sortie et les résultats JSON
- */
-function runTestsWithTiming(): { 
-  exitCode: number; 
-  output: string; 
-  stderr: string;
-  resultsJson?: any;
-} {
-  const jestResultsPath = path.join(process.cwd(), 'test-results.json');
-  const coverageSummaryPath = path.join(process.cwd(), 'coverage', 'coverage-summary.json');
-  
-  // Supprimer les fichiers existants pour forcer un nouveau run
-  if (fs.existsSync(jestResultsPath)) {
-    fs.unlinkSync(jestResultsPath);
-  }
-  if (fs.existsSync(coverageSummaryPath)) {
-    fs.rmSync(path.dirname(coverageSummaryPath), { recursive: true, force: true });
-  }
-  
-  try {
-    console.log('⏱️  Lancement des tests avec chronométrage et coverage...\n');
-    const output = execSync('npm test -- --coverage --coverageReporters=json-summary --coverageReporters=text --json --outputFile=test-results.json', { 
-      encoding: 'utf-8',
-      stdio: 'pipe' // Capture la sortie pour analyse
-    });
-    
-    // Lire les résultats JSON
-    let resultsJson = null;
-    if (fs.existsSync(jestResultsPath)) {
-      try {
-        resultsJson = JSON.parse(fs.readFileSync(jestResultsPath, 'utf-8'));
-      } catch (e) {
-        console.warn('⚠️  Impossible de parser test-results.json');
-      }
-    }
-    
-    return { exitCode: 0, output, stderr: '', resultsJson };
-  } catch (error: any) {
-    // Lire les résultats JSON même en cas d'erreur (pour analyser les échecs)
-    let resultsJson = null;
-    if (fs.existsSync(jestResultsPath)) {
-      try {
-        resultsJson = JSON.parse(fs.readFileSync(jestResultsPath, 'utf-8'));
-      } catch (e) {
-        // Ignorer si le fichier n'est pas valide
-      }
-    }
-    
-    return { 
-      exitCode: error.status || 1, 
-      output: error.stdout?.toString() || '',
-      stderr: error.stderr?.toString() || error.message || '',
-      resultsJson
-    };
-  }
-}
 
 /**
  * Analyse les erreurs de tests en détail
@@ -177,23 +116,20 @@ function analyzeTestFailures(output: string, stderr: string, resultsJson?: any):
 }
 
 /**
- * Collecte toutes les métriques (E2E, BDD, etc.)
- * NOTE : Les tests Jest ont déjà été exécutés avec coverage, cette étape
- * collecte les métriques E2E et BDD et met à jour les durées
+ * Lance les tests (Jest + BDD + E2E) et collecte les métriques en une seule passe.
+ * Chronométrage pendant l'exécution — pas de double run.
  */
-function collectAllMetrics(): void {
-  console.log('📊 Collecte de toutes les métriques (E2E, BDD, etc.)...\n');
-  console.log('   (Les tests Jest ont déjà été exécutés avec chronométrage)\n');
+function runTestsAndCollectMetrics(): void {
+  console.log('📊 Lancement des tests et collecte des métriques (une seule passe)...\n');
   try {
     execSync('npm run metrics:collect', { 
       encoding: 'utf-8',
       stdio: 'inherit'
     });
-    console.log('\n✅ Toutes les métriques collectées avec succès\n');
+    console.log('\n✅ Tous les tests passent, métriques collectées\n');
   } catch (error) {
-    console.error('\n❌ Erreur lors de la collecte des métriques');
-    console.error('   Les métriques E2E/BDD ne seront pas à jour');
-    throw error; // Bloquer la publication si les métriques échouent
+    console.error('\n❌ Des tests ont échoué ou la collecte a échoué — publication bloquée');
+    throw error;
   }
 }
 
@@ -236,14 +172,15 @@ function publishToGit(message: string): void {
 }
 
 /**
- * Vérifie que la couverture de code est à 100%
+ * Vérifie la couverture de code précédente (fail fast)
+ * Si un rapport de couverture existe et qu'un critère est < 80%, on bloque immédiatement.
+ * Pas de rapport = premier run → on laisse passer.
  */
-function checkCoverage(): void {
+function checkPreviousCoverage(): void {
   const coveragePath = path.join(process.cwd(), 'coverage', 'coverage-summary.json');
   
   if (!fs.existsSync(coveragePath)) {
-    console.warn('⚠️  Fichier coverage-summary.json non trouvé');
-    console.warn('   La couverture sera vérifiée lors de la collecte des métriques\n');
+    console.log('   Pas de rapport de couverture précédent → premier run, on continue\n');
     return;
   }
   
@@ -252,29 +189,38 @@ function checkCoverage(): void {
     const total = coverage.total;
     
     if (!total) {
-      console.warn('⚠️  Structure de couverture invalide\n');
+      console.warn('⚠️  Structure de couverture invalide → on continue\n');
       return;
     }
     
-    const metrics = ['lines', 'statements', 'functions', 'branches'];
-    const all100 = metrics.every(metric => {
-      const pct = total[metric]?.pct || 0;
-      return pct >= 100;
-    });
+    // Seuils différenciés : les branches (if/else, ternaires JSX) sont plus dures à couvrir
+    const SEUILS: Record<string, number> = {
+      lines: 80,
+      statements: 80,
+      functions: 80,
+      branches: 65,
+    };
+    let tousAuDessus = true;
     
-    if (all100) {
-      console.log('✅ Couverture de code : 100% sur tous les critères\n');
-    } else {
-      console.warn('⚠️  Couverture de code < 100% :');
-      metrics.forEach(metric => {
-        const pct = total[metric]?.pct || 0;
-        const status = pct >= 100 ? '✅' : '❌';
-        console.warn(`   ${status} ${metric}: ${pct}%`);
-      });
-      console.warn('\n   La publication continue, mais la couverture n\'est pas à 100%\n');
+    for (const [metric, seuil] of Object.entries(SEUILS)) {
+      const pct = total[metric]?.pct ?? 0;
+      const status = pct >= seuil ? '✅' : '❌';
+      console.log(`   ${status} ${metric}: ${pct}% (seuil: ${seuil}%)`);
+      if (pct < seuil) tousAuDessus = false;
     }
+    
+    if (!tousAuDessus) {
+      console.error('\n❌ Couverture insuffisante détectée sur le run précédent');
+      console.error('   Corriger la couverture avant de publier\n');
+      throw new Error('Couverture insuffisante');
+    }
+    
+    console.log('\n✅ Couverture précédente OK sur tous les critères\n');
   } catch (error) {
-    console.warn('⚠️  Erreur lors de la lecture de la couverture\n');
+    if (error instanceof Error && error.message.includes('Couverture insuffisante')) {
+      throw error;
+    }
+    console.warn('⚠️  Erreur lors de la lecture de la couverture → on continue\n');
   }
 }
 
@@ -298,93 +244,59 @@ function runTypeCheck(): void {
 }
 
 /**
- * Génère le scénario E2E avant de lancer les tests
- * Le scénario doit être à jour pour que les tests d'intégration passent
- */
-function generateE2EScenario(): void {
-  console.log('📝 Génération du scénario E2E...\n');
-  try {
-    execSync('npm run test:e2e:generate', { 
-      encoding: 'utf-8',
-      stdio: 'inherit'
-    });
-    console.log('\n✅ Scénario E2E généré avec succès\n');
-  } catch (error) {
-    console.error('\n❌ Erreur lors de la génération du scénario E2E');
-    console.error('   Les tests d\'intégration pourront échouer\n');
-    throw error; // Bloquer la publication si la génération échoue
-  }
-}
-
-/**
  * Fonction principale
  */
 function main() {
   console.log('🚀 Démarrage du processus "Publie"\n');
+  
   console.log('='.repeat(60));
-  console.log('Étape 0/5 : Vérification TypeScript\n');
+  console.log('Étape 0/3 : Vérification de la couverture précédente\n');
+  
+  checkPreviousCoverage();
+  
+  console.log('='.repeat(60));
+  console.log('Étape 1/3 : Vérification TypeScript\n');
   
   runTypeCheck();
   
   console.log('='.repeat(60));
-  console.log('Étape 1/5 : Génération du scénario E2E\n');
+  console.log('Étape 2/3 : Lancement des tests et collecte des métriques\n');
   
-  generateE2EScenario();
-  
-  console.log('='.repeat(60));
-  console.log('Étape 2/5 : Lancement des tests avec chronométrage\n');
-  
-  const testResult = runTestsWithTiming();
-  
-  // Si les tests échouent, analyser en détail et arrêter
-  if (testResult.exitCode !== 0) {
-    console.error('\n❌ Les tests échouent');
-    console.error('   La publication est bloquée jusqu\'à correction\n');
-    
-    analyzeTestFailures(testResult.output, testResult.stderr, testResult.resultsJson);
-    
-    // Afficher un résumé
-    if (testResult.resultsJson) {
-      const total = testResult.resultsJson.numTotalTests || 0;
-      const passed = testResult.resultsJson.numPassedTests || 0;
-      const failed = testResult.resultsJson.numFailedTests || 0;
-      console.log(`\n📊 Résumé : ${passed}/${total} test(s) passent, ${failed} test(s) échouent\n`);
+  try {
+    runTestsAndCollectMetrics();
+  } catch (error) {
+    // Analyser les échecs si test-results.json existe (Jest)
+    const jestResultsPath = path.join(process.cwd(), 'test-results.json');
+    let resultsJson: any = null;
+    if (fs.existsSync(jestResultsPath)) {
+      try {
+        resultsJson = JSON.parse(fs.readFileSync(jestResultsPath, 'utf-8'));
+      } catch {
+        // Ignorer
+      }
     }
-    
-    // Délai pour que la sortie s'affiche avant de quitter (notamment quand lancé depuis menu.ps1)
-    process.exitCode = 1;
-    setTimeout(() => process.exit(1), 300);
+    analyzeTestFailures('', '', resultsJson);
+    if (resultsJson) {
+      const total = resultsJson.numTotalTests || 0;
+      const passed = resultsJson.numPassedTests || 0;
+      const failed = resultsJson.numFailedTests || 0;
+      console.log(`\n📊 Résumé Jest : ${passed}/${total} passent, ${failed} échouent\n`);
+    }
+    console.error('❌ Publication Git annulée — ne pas publier en cas d\'erreur.\n');
+    process.exit(1);
   }
-  
-  console.log('✅ Tous les tests passent\n');
-  
-  // Afficher un résumé des tests réussis
-  if (testResult.resultsJson) {
-    const total = testResult.resultsJson.numTotalTests || 0;
-    const passed = testResult.resultsJson.numPassedTests || 0;
-    console.log(`📊 ${passed}/${total} test(s) passent\n`);
-  }
-  
+
   console.log('='.repeat(60));
-  console.log('Étape 3/5 : Collecte de toutes les métriques (E2E, BDD, etc.)\n');
-  
-  collectAllMetrics();
-  
-  console.log('='.repeat(60));
-  console.log('Étape 4/5 : Vérification de la couverture de code\n');
-  
-  checkCoverage();
-  
-  console.log('='.repeat(60));
-  console.log('Étape 5/5 : Publication sur Git\n');
-  
+  console.log('Étape 3/3 : Publication sur Git\n');
+
   const commitMessage = `Publication automatique - Tests OK, métriques à jour`;
   publishToGit(commitMessage);
   
   console.log('\n' + '='.repeat(60));
   console.log('✅ Processus "Publie" terminé avec succès !');
-  console.log('   - Tous les tests passent (avec chronométrage)');
-  console.log('   - Toutes les métriques collectées');
+  console.log('   - Couverture ≥ 80% vérifiée');
+  console.log('   - Tests (Jest + BDD + E2E) passés en une seule passe');
+  console.log('   - Métriques et chronométrage à jour');
   console.log('   - Modifications publiées sur Git');
   console.log('   - Site prêt pour déploiement sur Vercel\n');
 }

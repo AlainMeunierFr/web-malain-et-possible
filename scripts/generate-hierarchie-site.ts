@@ -8,7 +8,7 @@ import * as path from 'path';
 import { generateHierarchyMarkdown } from '../utils/backoffice';
 
 const ROOT = path.resolve(__dirname, '..');
-const OUTPUT_DIR = path.join(ROOT, 'data', 'A propos de ce site', 'Documentation technique');
+const OUTPUT_DIR = path.join(ROOT, 'data', 'A propos', 'Documentation technique');
 const OUTPUT_FILE = path.join(OUTPUT_DIR, '2. Hierarchie du site.md');
 
 // Créer le dossier si nécessaire
@@ -19,5 +19,5 @@ if (!fs.existsSync(OUTPUT_DIR)) {
 const markdown = generateHierarchyMarkdown();
 fs.writeFileSync(OUTPUT_FILE, markdown, 'utf-8');
 
-console.log('✅ Fichier généré : data/A propos de ce site/Documentation technique/2. Hierarchie du site.md');
+console.log('✅ Fichier généré : data/A propos/Documentation technique/2. Hierarchie du site.md');
 console.log('   Source : constants/canonicalSpec.ts (CANONICAL_SPEC_ORDER)');

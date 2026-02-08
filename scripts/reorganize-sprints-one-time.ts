@@ -1,5 +1,5 @@
 /**
- * Script one-shot : réorganise le dossier "data/A propos de ce site/2. Sprints"
+ * Script one-shot : réorganise le dossier "data/A propos/Sprints"
  * 1. Chaque fichier MD (Sprint) devient un dossier (même nom sans .md)
  * 2. Chaque US (## US-X.X : Titre) dans le fichier devient un fichier .md dans ce dossier
  *
@@ -13,7 +13,7 @@ import * as path from 'path';
 const SPRINTS_DIR = path.join(
   process.cwd(),
   'data',
-  'A propos de ce site',
+  'A propos',
   '2. Sprints'
 );
 

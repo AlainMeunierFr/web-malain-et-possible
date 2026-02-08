@@ -1,5 +1,5 @@
 /**
- * Backend pur : Logique métier pour lire les dossiers dans "data/A propos de ce site"
+ * Backend pur : Logique métier pour lire les dossiers dans "data/<ABOUT_SITE_DATA_DIR>" (voir constants/aboutSitePath)
  * Cette logique est réutilisable et testable en ligne de commande
  *
  * Principe : Séparation backend pur (logique métier) / backend Next.js (génération HTML)
@@ -19,6 +19,7 @@
  * - Les fichiers MD vides sont considérés comme inexistants
  * - Un dossier ne contenant aucun fichier MD valide n'est pas affiché
  * - Un dossier contenant un seul fichier MD valide doit déclencher une erreur (au moins 2 sections requises)
+ * - Le fichier "US en cours.md" (métadonnée du board Kanban) n'est pas affiché dans la liste des documents (règle métier).
  */
 
 import fs from 'fs';
@@ -130,10 +131,13 @@ export interface Chapitre {
 /**
  * Entrée dossier à la racine d'un Path (US-11.4).
  * path = chemin relatif complet pour appeler readChapitreByPath(path) au dépliage.
+ * chapitre = pré-rempli lorsque le dossier ne contient qu'un seul document (affichage direct sans accordéon).
  */
 export interface DossierRacine {
   nom: string;
   path: string;
+  /** Présent uniquement si le dossier contient un seul fichier MD : affichage direct sans accordéon */
+  chapitre?: Chapitre;
 }
 
 /**
@@ -371,7 +375,8 @@ export const parseMarkdownContent = (contenu: string): ContenuElement[] => {
 
   const finaliserParagraphe = () => {
     if (paragrapheCourant.length > 0) {
-      const texte = paragrapheCourant.join(' ').trim();
+      // Joindre par \n pour préserver les retours à la ligne (affichage avec white-space: pre-line)
+      const texte = paragrapheCourant.join('\n').trim();
       if (texte) {
         elements.push({ type: 'paragraph', content: texte });
       }
@@ -872,8 +877,16 @@ export const readPathContentAtRoot = (relativePath: string): PathContentAtRoot |
   for (const entry of entries) {
     if (entry.isDirectory()) {
       const dossierPath = normalizedPathSlash + (normalizedPathSlash ? '/' : '') + entry.name;
-      dossiers.push({ nom: entry.name, path: dossierPath });
+      const chapitre = readChapitreByPath(dossierPath);
+      const seulDocument = chapitre && chapitre.sections.length === 1;
+      dossiers.push({
+        nom: entry.name,
+        path: dossierPath,
+        ...(seulDocument && chapitre ? { chapitre } : {}),
+      });
     } else if (entry.isFile() && (entry.name.endsWith('.md') || entry.name.endsWith('.mdc'))) {
+      // Règle métier : ne pas afficher "US en cours.md" (métadonnée du board, pas une US)
+      if (entry.name === 'US en cours.md') continue;
       const sectionPath = path.join(dirAbsolu, entry.name);
       let contenu: string;
       try {

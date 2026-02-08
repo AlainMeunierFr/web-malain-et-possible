@@ -422,7 +422,7 @@ export function formatMigrationReport(report: MigrationReport): string {
   return lines.join('\n');
 }
 
-const SPRINTS_DIR = 'data/A propos de ce site/Sprints';
+const SPRINTS_DIR = 'data/A propos/Sprints';
 
 /**
  * Scanne récursivement un répertoire pour trouver les fichiers .md

@@ -65,7 +65,6 @@ export const detecterPages = (): PlanPage[] => {
   const pages: PlanPage[] = [];
 
   const titreParUrl: Record<string, string> = {
-    '/mode-lecture': 'Mode lecture',
     '/raw': 'Raw (DOM sans CSS)',
   };
 
@@ -90,21 +89,21 @@ export const detecterPages = (): PlanPage[] => {
       }
     }
     // Pages à exclure complètement (redirections, pages techniques)
-    const pagesExclues = ['/metrics']; // /metrics redirige vers /a-propos-du-site?view=metrics
+    const pagesExclues = ['/metrics']; // /metrics redirige vers /a-propos?view=metrics
     if (pagesExclues.includes(url)) {
       return; // Ne pas ajouter cette page
     }
     
-    const pagesNonDessinees = ['/maintenance', '/plan-du-site'];
+    const pagesNonDessinees = ['/maintenance', '/plan-du-site', '/pour-aller-plus-loin'];
     const dessiner = pagesNonDessinees.includes(url) ? 'Non' : 'Oui';
     let zone: 'HomePage' | 'Profils' | 'Autres' | 'Footer' | 'Masqué' | undefined;
     if (url === '/') {
       zone = 'HomePage';
     } else if (url.startsWith('/profil/')) {
       zone = 'Profils';
-    } else if (url === '/a-propos-du-site' || url === '/faisons-connaissance') {
+    } else if (url === '/a-propos' || url === '/faisons-connaissance') {
       zone = 'Footer';
-    } else if (url === '/maintenance' || url === '/plan-du-site') {
+    } else if (url === '/maintenance' || url === '/plan-du-site' || url === '/pour-aller-plus-loin') {
       zone = 'Masqué';
     } else {
       zone = 'Autres';
@@ -442,8 +441,8 @@ export const detecterLiensInternes = (): PlanLien[] => {
       const pageData = readPageData(fichierJSON);
       const pageSource = fichierJsonVersPageSource(fichierJSON);
       
-      // Exclure l'extraction du contenu de /a-propos-du-site (on teste juste entrer/sortir)
-      if (pageSource === '/a-propos-du-site') {
+      // Exclure l'extraction du contenu de /a-propos (on teste juste entrer/sortir)
+      if (pageSource === '/a-propos') {
         continue;
       }
       
@@ -529,10 +528,26 @@ export const detecterLiensInternes = (): PlanLien[] => {
 
   const liensSansAuto = liensFiltres.filter((lien) => lien.source !== lien.destination);
 
+  // Filtrer les liens dont la source ou destination n'est pas une page existante,
+  // ou dont la source ou destination est une page masquée (dessiner = Non).
+  // Exception : /plan-du-site reste masquée pour l'affichage mais sert de hub de navigation E2E.
+  // Ex. /temoignage-linkedin = lien externe hérité, /pour-aller-plus-loin = page masquée
+  const urlsExistantes = new Set(pages.map((p) => p.url));
+  const PLAN_DU_SITE = '/plan-du-site';
+  const urlsPagesMasquees = new Set(
+    pages.filter((p) => p.dessiner === 'Non' && p.url !== PLAN_DU_SITE).map((p) => p.url)
+  );
+  const liensVersPageExistante = liensSansAuto.filter(
+    (lien) =>
+      urlsExistantes.has(lien.destination) &&
+      !urlsPagesMasquees.has(lien.destination) &&
+      !urlsPagesMasquees.has(lien.source)
+  );
+
   const liensUniques: PlanLien[] = [];
   const liensVus = new Set<string>();
   
-  for (const lien of liensSansAuto) {
+  for (const lien of liensVersPageExistante) {
     const cle = `${lien.source}->${lien.destination}`;
     if (!liensVus.has(cle)) {
       liensVus.add(cle);
@@ -654,12 +669,18 @@ export const injecterPagesDansPlanDuSiteJson = (
   const pagesFiltrees = pages.filter(
     (p) => (p as PlanPage & { zone?: string }).zone !== 'Masqué' && p.dessiner !== 'Non'
   );
-  const pagesPourJson = pagesFiltrees.map((p) => ({
-    url: p.url,
-    titre: p.titre,
-    zone: (p as PlanPage & { zone?: string }).zone,
-    dessiner: p.dessiner,
-  }));
+  const mapping = loadMapping();
+  const sourcePlan = '/plan-du-site';
+  const pagesPourJson = pagesFiltrees.map((p) => {
+    const e2eID = getE2eId(lienPageKey(sourcePlan, p.url), mapping);
+    return {
+      url: p.url,
+      titre: p.titre,
+      zone: (p as PlanPage & { zone?: string }).zone,
+      dessiner: p.dessiner,
+      ...(e2eID && { e2eID }),
+    };
+  });
 
   let contenu: unknown;
   if (fs.existsSync(planDuSitePath)) {

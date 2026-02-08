@@ -29,9 +29,9 @@ Given('je suis sur une page contenant des témoignages', async ({ page }) => {
   });
 });
 
-// Given('je suis sur la page "Portfolio détournements"') : step partagé dans a-propos-du-site-tableau-de-bord.steps.ts (je suis sur la page {string})
+// Given('je suis sur la page "Portfolio détournements"') : step partagé dans a-propos-tableau-de-bord.steps.ts (je suis sur la page {string})
 
-// When('la page se charge') : défini dans a-propos-du-site-tableau-de-bord.steps.ts (step partagé)
+// When('la page se charge') : défini dans a-propos-tableau-de-bord.steps.ts (step partagé)
 
 Then('je vois un lecteur vidéo YouTube intégré', async ({ page }) => {
   const video = page.locator('iframe[src*="youtube"]').first();

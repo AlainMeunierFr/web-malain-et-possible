@@ -12,13 +12,8 @@ export type { PlanPage, PlanLien, PlanSite } from './planDuSiteTypes';
 export { collectE2EMetrics } from './e2eMetricsCollector';
 export type { E2EMetrics } from './e2eMetricsCollector';
 
-export {
-  getPagesExclues,
-  getLiensAParcourirInitial,
-  getPagesAccessiblesDepuis,
-  retirerLienUtilise,
-  pageAccueil,
-} from './assistantScenario';
+// Slug pour ancres (titres → id HTML)
+export { titreToAnchorId } from './slugFromTitle';
 
 // Re-export des utilitaires markdown
 export * from './markdown';

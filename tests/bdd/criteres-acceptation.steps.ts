@@ -3,9 +3,9 @@ import { expect } from '@playwright/test';
 
 const { Given, When, Then } = createBdd();
 
-/** Après US-11.2 : contenu DOD dans la visualisation du dossier. Steps "que je suis sur la page" / "j'affiche le dossier" dans a-propos-du-site-tableau-de-bord.steps.ts. */
+/** Après US-11.2 : contenu DOD dans la visualisation du dossier. Steps "que je suis sur la page" / "j'affiche le dossier" dans a-propos-tableau-de-bord.steps.ts. */
 const urlVisualisationDossier = (nomDossier: string) =>
-  '/a-propos-du-site/' + encodeURIComponent(nomDossier);
+  '/a-propos/' + encodeURIComponent(nomDossier);
 
 // Background
 Given('qu\'une User Story contient une section {string}', async ({}) => {
@@ -215,5 +215,67 @@ When('je consulte cette DOD', async ({ page }) => {
 Then('je vois une règle spécifiant que lors de l\'écriture d\'une User Story dans le wiki, je dois respecter :', async ({ page }) => {
   // Vérifier que les règles sont présentes dans la DOD
   const dod = page.getByText(/DOD|Definition of Done/i);
+  await expect(dod.first()).toBeVisible();
+});
+
+// --- Variantes sans "qu'" et avec parenthèses échappées ---
+
+Given('une User Story contient une section {string}', async ({}) => {
+  // Vérifié dans les scénarios individuels
+});
+
+Given('une User Story contient la ligne {string}', async ({}) => {
+  // Vérifié via le parsing dans les scénarios
+});
+
+Given('une section {string} est ouverte', async ({ page }, sectionName: string) => {
+  await page.goto(urlVisualisationDossier('3. Definition of Done'));
+  const section = page.getByText(sectionName, { exact: false });
+  await expect(section.first()).toBeVisible();
+});
+
+Given('une section {string} est ouverte dans une sous-partie \\(H2\\)', async ({ page }, sectionName: string) => {
+  await page.goto(urlVisualisationDossier('3. Definition of Done'));
+  const section = page.getByText(sectionName, { exact: false });
+  await expect(section.first()).toBeVisible();
+});
+
+When('une nouvelle sous-partie \\(H2\\) commence ou la sous-partie se termine', async ({}) => {
+  // Vérifié via le parsing
+});
+
+When('une ligne commence par {string} \\(sans `**` au début\\)', async ({}, _prefix: string) => {
+  // Vérifié via le parsing
+});
+
+Given('une section {string} contient :', async ({}, _sectionName: string, _docString: string) => {
+  // Vérifié via le parsing
+});
+
+Given('un thème de critère est détecté dans la section {string}', async ({ page }, sectionName: string) => {
+  await page.goto(urlVisualisationDossier('3. Definition of Done'));
+  const section = page.getByText(sectionName, { exact: false });
+  await expect(section.first()).toBeVisible();
+});
+
+Given('un critère normal est détecté dans la section {string}', async ({ page }, sectionName: string) => {
+  await page.goto(urlVisualisationDossier('3. Definition of Done'));
+  const section = page.getByText(sectionName, { exact: false });
+  await expect(section.first()).toBeVisible();
+});
+
+Given('ce critère est associé à un thème', async ({}) => {
+  // Vérifié via la structure
+});
+
+Given('une section {string} contient des thèmes et des critères imbriqués', async ({ page }, sectionName: string) => {
+  await page.goto(urlVisualisationDossier('3. Definition of Done'));
+  const section = page.getByText(sectionName, { exact: false });
+  await expect(section.first()).toBeVisible();
+});
+
+Given('la DOD {string} existe', async ({ page }, dodName: string) => {
+  await page.goto(urlVisualisationDossier('3. Definition of Done'));
+  const dod = page.getByText(dodName, { exact: false });
   await expect(dod.first()).toBeVisible();
 });

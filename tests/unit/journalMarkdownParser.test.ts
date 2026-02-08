@@ -166,4 +166,141 @@ Faire en sorte que la couleur bleue ne soit pas évoquée directement dans le co
       expect(result.parties[0].sousParties[0].blocs[1].contenuParse[0].content).toContain('a78db21');
     });
   });
+
+  describe('Test 8 - Deux parties consécutives', () => {
+    it('devrait parser deux parties consécutives avec leur contenu respectif', () => {
+      // Avec décalage +2 : # dans MD → h3, ## dans MD → h4, ### dans MD → h5
+      // Couvre lignes 72-74 : finalisation de la partie précédente (contenuParse) quand on arrive à une nouvelle partie
+      const markdown = `# Partie A
+Contenu A
+# Partie B  
+Contenu B`;
+      
+      const result = parseJournalMarkdown(markdown);
+      
+      expect(result.parties).toHaveLength(2);
+      expect(result.parties[0].titre).toBe('Partie A');
+      expect(result.parties[0].contenuParse.length).toBeGreaterThan(0);
+      expect(result.parties[0].contenuParse[0].content).toBe('Contenu A');
+      expect(result.parties[1].titre).toBe('Partie B');
+      expect(result.parties[1].contenuParse.length).toBeGreaterThan(0);
+      expect(result.parties[1].contenuParse[0].content).toBe('Contenu B');
+    });
+  });
+
+  describe('Test 9 - Sous-partie avec contenu mais sans blocs', () => {
+    it('devrait parser une sous-partie avec contenu libre (pas dans un bloc Prompt ni Résultat technique)', () => {
+      // Avec décalage +2 : # dans MD → h3, ## dans MD → h4, ### dans MD → h5
+      // Couvre lignes 105 et 151-156 : contenu ajouté à une sous-partie (pas dans un bloc)
+      // Ajout d'une deuxième sous-partie pour déclencher le changement et couvrir la ligne 105
+      const markdown = `# Partie
+## Sous-partie avec contenu libre
+Ce texte n'est dans aucun bloc Prompt ni Résultat technique
+Il va directement dans le contenu de la sous-partie
+## Sous-partie 2 avec bloc
+### Prompt
+Mon prompt`;
+      
+      const result = parseJournalMarkdown(markdown);
+      
+      expect(result.parties).toHaveLength(1);
+      expect(result.parties[0].titre).toBe('Partie');
+      expect(result.parties[0].sousParties).toHaveLength(2);
+      
+      // Première sous-partie : contenu libre, pas de blocs
+      expect(result.parties[0].sousParties[0].titre).toBe('Sous-partie avec contenu libre');
+      expect(result.parties[0].sousParties[0].blocs).toHaveLength(0);
+      expect(result.parties[0].sousParties[0].contenuParse.length).toBeGreaterThan(0);
+      const contenuSousPartie = result.parties[0].sousParties[0].contenuParse.map(e => e.content).join(' ');
+      expect(contenuSousPartie).toContain("Ce texte n'est dans aucun bloc");
+      expect(contenuSousPartie).toContain('directement dans le contenu');
+      
+      // Deuxième sous-partie : avec bloc
+      expect(result.parties[0].sousParties[1].titre).toBe('Sous-partie 2 avec bloc');
+      expect(result.parties[0].sousParties[1].blocs).toHaveLength(1);
+    });
+  });
+
+  describe('Test 10 - Changement de partie avec bloc et sous-partie en cours', () => {
+    it('devrait finaliser le bloc et la sous-partie de la partie 1 et créer la partie 2', () => {
+      // Avec décalage +2 : # dans MD → h3, ## dans MD → h4, ### dans MD → h5
+      // Couvre lignes 54-58 : finalisation d'un bloc courant quand on arrive à une nouvelle partie (# titre)
+      // Couvre lignes 63-69 : finalisation d'une sous-partie sans blocs quand on arrive à une nouvelle partie
+      const markdown = `# Partie 1
+## Sous-partie 1
+### Prompt
+Mon prompt
+# Partie 2
+## Sous-partie 2
+### Prompt
+Mon prompt 2`;
+      
+      const result = parseJournalMarkdown(markdown);
+      
+      expect(result.parties).toHaveLength(2);
+      
+      // Partie 1
+      expect(result.parties[0].titre).toBe('Partie 1');
+      expect(result.parties[0].sousParties).toHaveLength(1);
+      expect(result.parties[0].sousParties[0].titre).toBe('Sous-partie 1');
+      expect(result.parties[0].sousParties[0].blocs).toHaveLength(1);
+      expect(result.parties[0].sousParties[0].blocs[0].titre).toBe('Prompt');
+      expect(result.parties[0].sousParties[0].blocs[0].contenuParse[0].content).toBe('Mon prompt');
+      
+      // Partie 2
+      expect(result.parties[1].titre).toBe('Partie 2');
+      expect(result.parties[1].sousParties).toHaveLength(1);
+      expect(result.parties[1].sousParties[0].titre).toBe('Sous-partie 2');
+      expect(result.parties[1].sousParties[0].blocs).toHaveLength(1);
+      expect(result.parties[1].sousParties[0].blocs[0].titre).toBe('Prompt');
+      expect(result.parties[1].sousParties[0].blocs[0].contenuParse[0].content).toBe('Mon prompt 2');
+    });
+  });
+
+  describe('Test 10bis - Changement de partie avec sous-partie sans blocs', () => {
+    it('devrait finaliser une sous-partie sans blocs lors du changement de partie (couvre ligne 64)', () => {
+      // Avec décalage +2 : # dans MD → h3, ## dans MD → h4, ### dans MD → h5
+      // Couvre ligne 64 : finalisation d'une sous-partie sans blocs quand on arrive à une nouvelle partie
+      const markdown = `# Partie 1
+## Sous-partie sans blocs
+Contenu libre de la sous-partie
+# Partie 2
+## Sous-partie 2
+### Prompt
+Mon prompt`;
+      
+      const result = parseJournalMarkdown(markdown);
+      
+      expect(result.parties).toHaveLength(2);
+      
+      // Partie 1 : sous-partie sans blocs mais avec contenu
+      expect(result.parties[0].titre).toBe('Partie 1');
+      expect(result.parties[0].sousParties).toHaveLength(1);
+      expect(result.parties[0].sousParties[0].titre).toBe('Sous-partie sans blocs');
+      expect(result.parties[0].sousParties[0].blocs).toHaveLength(0);
+      expect(result.parties[0].sousParties[0].contenuParse.length).toBeGreaterThan(0);
+      expect(result.parties[0].sousParties[0].contenuParse[0].content).toBe('Contenu libre de la sous-partie');
+      
+      // Partie 2
+      expect(result.parties[1].titre).toBe('Partie 2');
+      expect(result.parties[1].sousParties).toHaveLength(1);
+    });
+  });
+
+  describe('Test 11 - Retours à la ligne Windows', () => {
+    it('devrait parser correctement malgré les retours à la ligne Windows (\\r\\n)', () => {
+      // Avec décalage +2 : # dans MD → h3, ## dans MD → h4, ### dans MD → h5
+      // Teste la normalisation des retours à la ligne Windows (\r\n) en Unix (\n)
+      const markdown = `# Partie Windows\r\n## Sous-partie Windows\r\nContenu Windows`;
+      
+      const result = parseJournalMarkdown(markdown);
+      
+      expect(result.parties).toHaveLength(1);
+      expect(result.parties[0].titre).toBe('Partie Windows');
+      expect(result.parties[0].sousParties).toHaveLength(1);
+      expect(result.parties[0].sousParties[0].titre).toBe('Sous-partie Windows');
+      expect(result.parties[0].sousParties[0].contenuParse.length).toBeGreaterThan(0);
+      expect(result.parties[0].sousParties[0].contenuParse[0].content).toBe('Contenu Windows');
+    });
+  });
 });

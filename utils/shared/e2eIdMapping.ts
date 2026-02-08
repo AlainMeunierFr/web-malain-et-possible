@@ -15,6 +15,14 @@
 let serverMapping: Record<string, string> | null = null;
 
 /**
+ * Invalide le cache du mapping (pour les tests qui régénèrent le fichier puis relisent).
+ * À appeler après avoir exécuté scripts/generate-e2e-mapping.ts dans un sous-processus.
+ */
+export function clearMappingCache(): void {
+  serverMapping = null;
+}
+
+/**
  * Préfixes par type d'élément
  */
 const PREFIXES: Record<string, string> = {
@@ -240,6 +248,14 @@ export function heroCallToActionKey(source: string, destination: string): string
  */
 export function heroEnSavoirPlusKey(source: string, destination: string): string {
   return `${source}.Hero.EnSavoirPlus:${destination}`;
+}
+
+/**
+ * Construit une clé pour une entrée du menu « A propos » (bande sous le header).
+ * Format: Source.MenuAPropos:Destination (destination = URL complète du lien)
+ */
+export function menuAProposKey(source: string, destination: string): string {
+  return `${source}.MenuAPropos:${destination}`;
 }
 
 /**

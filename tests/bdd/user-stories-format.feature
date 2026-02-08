@@ -49,7 +49,7 @@ Fonctionnalité: Affichage formaté des User Stories avec typeDeContenu
     Alors aucun élément n'a de `typeDeContenu` attribué
 
   Scénario: Affichage formaté d'une User Story
-    Étant donné que je suis sur la page "À propos du site"
+    Étant donné que je suis sur la page "A propos"
     Et j'affiche le dossier "1. A propos du projet"
     Et que la section "User Stories" est déroulée
     Quand je vois une User Story avec les éléments formatés
@@ -60,7 +60,7 @@ Fonctionnalité: Affichage formaté des User Stories avec typeDeContenu
     Et les éléments sont espacés de manière lisible
 
   Scénario: Test d'intégration - Validation du fichier User Stories.md
-    Étant donné le fichier "A propos de ce site/1. A propos du projet/User Stories.md"
+    Étant donné le fichier "A propos/1. A propos du projet/User Stories.md"
     Quand le test d'intégration s'exécute
     Alors le fichier est validé selon la syntaxe attendue
     Et si une User Story ne respecte pas la syntaxe, le test échoue

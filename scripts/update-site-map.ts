@@ -18,7 +18,7 @@ const DEFAULT_MENUS: MenusConfig = {
     { id: 'accueil', pageUrl: '/' },
     { id: 'mes-profils', pageUrl: '/mes-profils', sousmenuPageUrls: ['/profil/cpo', '/profil/coo', '/profil/agile', '/profil/cto'] },
     { id: 'detournements', pageUrl: '/detournement-video', sousmenuPageUrls: ['/portfolio-detournements'] },
-    { id: 'a-propos', pageUrl: '/a-propos-du-site' },
+    { id: 'a-propos', pageUrl: '/a-propos' },
   ],
   exclusHeader: ['/pour-aller-plus-loin', '/faisons-connaissance'],
 };
@@ -39,7 +39,7 @@ if (!fs.existsSync(PAGES_LIENS_ET_MENUS_PATH) && fs.existsSync(oldPath)) {
 // CA5 US-13.1 : un seul fichier _Pages-Liens-Et-Menus.json (pages + liens + menus)
 mettreAJourPlanJSON(pages, liens, { siteMapPath: PAGES_LIENS_ET_MENUS_PATH });
 
-let planMisAJour: { pages: PlanPage[]; liens: unknown[]; menus?: MenusConfig } = JSON.parse(
+const planMisAJour: { pages: PlanPage[]; liens: unknown[]; menus?: MenusConfig } = JSON.parse(
   fs.readFileSync(PAGES_LIENS_ET_MENUS_PATH, 'utf8')
 );
 let menus: MenusConfig = DEFAULT_MENUS;

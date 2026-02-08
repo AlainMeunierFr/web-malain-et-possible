@@ -6,7 +6,7 @@ const path = require('path');
 const { readChapitreByPath } = require('./utils/aboutSiteReader.ts');
 
 // Lire le chapitre 2. Sprints par chemin
-const sprintPath = 'data/A propos de ce site/2. Sprints';
+const sprintPath = 'data/A propos/Sprints';
 const content = fs.readFileSync(path.join(sprintPath, '2026-01-19 - Site vitrine - Structure et responsive.md'), 'utf8');
 
 try {
