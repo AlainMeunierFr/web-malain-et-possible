@@ -3,6 +3,7 @@
  * - Jest (unit + intégration) en une passe, avec couverture et chronométrage
  * - Vérification des seuils de couverture (≥ 80 % lines/statements/functions, ≥ 65 % branches)
  * - BDD : génération puis exécution (règle : 100 % scénarios testables doivent passer)
+ *   → SKIP_BDD=1 ou --skip-bdd : ne pas lancer les BDD ; les métriques BDD du run précédent sont conservées (ordre de grandeur)
  * - E2E : exécution
  * - Arrêt au premier échec (Option A) ; log des erreurs dans logs/publish-errors.txt pour l’IA
  * - Mise à jour des données métriques (snapshot, history, durations)
@@ -1443,6 +1444,9 @@ async function main() {
   
   // Détecter l'option --force
   const forceReRun = process.argv.includes('--force') || process.argv.includes('--re-run');
+
+  /** Si true, on n'exécute pas les tests BDD ; on conserve les métriques BDD du run précédent (ordre de grandeur). */
+  const skipBdd = process.env.SKIP_BDD === '1' || process.argv.includes('--skip-bdd');
   
   // Obtenir le commit hash actuel
   const gitInfo = getGitInfo();
@@ -1520,11 +1524,17 @@ async function main() {
     }
     // Vérification des seuils de couverture (pipeline = tout sauf publish)
     checkCoverageThresholds();
-    
+
+    let bddHadFailure = false;
+    let bddPassed = 0;
+    let bddFailed = 0;
+    if (skipBdd) {
+      console.log('⏭️  BDD ignorés (SKIP_BDD=1 ou --skip-bdd). Métriques BDD conservées (ordre de grandeur).\n');
+      // bddDurationMs reste existingDurations.bddDuration
+    } else {
     // Exécuter BDD : 1) génération 2) exécution (chronométrée). En cas d'échec = warning + log, on continue (dette à résorber).
     // Voir .cursor/arbitrage-BDD-vs-TI.md pour l'arbitrage US ↔ TU.
     let bddStart: number | undefined;
-    let bddHadFailure = false;
 
     // Étape 1 : Génération BDD (bddgen test)
     // bddgen peut signaler des "missing step definitions" — c'est un gap de couverture,
@@ -1564,8 +1574,6 @@ async function main() {
     // Sous Windows, la config principale peut ne pas découvrir .features-gen (dossier caché).
     // Utiliser une config dédiée (testDir absolu vers .features-gen) pour une découverte fiable.
     const bddConfigPath = path.join(process.cwd(), 'playwright.bdd-only.config.ts');
-    let bddPassed = 0;
-    let bddFailed = 0;
     try {
       console.log('⏱️  Exécution des tests BDD (démarrage du serveur si besoin, puis ~183 tests)...');
       console.log('   Astuce : lancer "npm run dev" dans un autre terminal pour réutiliser le serveur.');
@@ -1610,6 +1618,7 @@ async function main() {
       writeErrorLog('BDD', '', '', detail);
       console.warn('⚠️  Des scénarios BDD ont échoué (dette à résorber). Log: ' + PUBLISH_ERRORS_LOG + '\n   La publication continue.\n');
     }
+    } // fin if (!skipBdd)
 
     // Vérification : le dossier tests/end-to-end doit exister et contenir au moins un .spec.ts (générés par un TI ou script).
     // Sinon = blocage publication (on vise à corriger la situation E2E).
@@ -1725,6 +1734,47 @@ async function main() {
     dependencies: collectDependencyMetrics(),
     performance: collectPerformanceMetrics(),
   };
+
+  // Si BDD ignorés, conserver les métriques BDD du run précédent (ordre de grandeur dans le JSON → affichage inchangé)
+  if (skipBdd && fs.existsSync(LATEST_FILE)) {
+    try {
+      const prev = JSON.parse(fs.readFileSync(LATEST_FILE, 'utf-8'));
+      if (prev.tests) {
+        const t = snapshot.tests;
+        const bddFeatures = prev.tests.bddFeatures ?? t.bddFeatures;
+        const bddScenariosTotal = prev.tests.bddScenariosTotal ?? t.bddScenariosTotal;
+        const bddScenariosTestable = prev.tests.bddScenariosTestable ?? t.bddScenariosTestable;
+        const bddScenariosNonTestable = prev.tests.bddScenariosNonTestable ?? t.bddScenariosNonTestable;
+        const bddTestDuration = prev.tests.bddTestDuration ?? bddDurationMs;
+        const bddStepsTotal = prev.tests.bddStepsTotal ?? t.bddStepsTotal;
+        const bddStepsImplemented = prev.tests.bddStepsImplemented ?? t.bddStepsImplemented;
+        const bddStepsMissing = prev.tests.bddStepsMissing ?? t.bddStepsMissing;
+        const totalTests = t.unitTests + t.integrationTests + bddScenariosTestable + t.e2eSteps;
+        const passingTests = t.unitTestPassed + t.integrationTestPassed + bddScenariosTestable + t.e2eStepsPassed;
+        const failingTests = t.unitTestFailed + t.integrationTestFailed + t.e2eStepsFailed;
+        const totalTestFiles = t.unitTestFiles + t.integrationTestFiles + bddFeatures + t.e2eScenarioFiles;
+        const testDuration = (t.unitTestDuration ?? 0) + (t.integrationTestDuration ?? 0) + bddTestDuration + (t.e2eTests?.duration ?? 0);
+        snapshot.tests = {
+          ...t,
+          bddFeatures,
+          bddScenariosTotal,
+          bddScenariosTestable,
+          bddScenariosNonTestable,
+          bddTestDuration,
+          bddStepsTotal,
+          bddStepsImplemented,
+          bddStepsMissing,
+          totalTests,
+          passingTests,
+          failingTests,
+          totalTestFiles,
+          testDuration,
+        };
+      }
+    } catch {
+      console.warn('⚠️  Impossible de lire le snapshot précédent pour les métriques BDD');
+    }
+  }
 
   // Sauvegarder le snapshot
   fs.writeFileSync(LATEST_FILE, JSON.stringify(snapshot, null, 2));

@@ -490,7 +490,9 @@ export const readPageData = (filename: string = 'index.json'): PageData => {
   if (hasReferences) {
     try {
       // Import dynamique pour éviter les dépendances circulaires
+      // eslint-disable-next-line @typescript-eslint/no-require-imports -- résolution dynamique pour éviter cycles
       const { readCompetences, readDomaines, readAutres } = require('./bibliothequeReader');
+      // eslint-disable-next-line @typescript-eslint/no-require-imports -- résolution dynamique pour éviter cycles
       const { resolvePageReferences } = require('./profilBuilder');
       
       const competences = readCompetences();

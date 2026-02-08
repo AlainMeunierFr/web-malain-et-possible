@@ -9,6 +9,7 @@ import path from 'node:path';
 import { defineConfig, devices } from '@playwright/test';
 
 // Charger la config BDD (playwright-bdd) pour que les steps soient reconnus
+// eslint-disable-next-line @typescript-eslint/no-require-imports -- config ESM, playwright-bdd expose CommonJS
 const { defineBddConfig } = require('playwright-bdd');
 defineBddConfig({
   features: 'tests/bdd/**/*.feature',

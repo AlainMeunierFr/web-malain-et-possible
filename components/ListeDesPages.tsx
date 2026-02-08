@@ -54,12 +54,9 @@ export default function ListeDesPages({ initialPages }: { initialPages?: ListeDe
   });
 
   const pagesParZone = {
-    // Zone du haut : HomePage + Home (ex. Home, Mes Profils)
+    // Zone du haut : HomePage (ex. Home, Mes Profils)
     HomePage: pagesAAfficher
-      .filter((p) => {
-        const z = p.zone;
-        return z === 'HomePage' || z === 'Home';
-      })
+      .filter((p) => p.zone === 'HomePage')
       .sort((a, b) => (a.ordre ?? 99) - (b.ordre ?? 99)),
     Profils: pagesAAfficher.filter((p) => p.zone === 'Profils'),
     Autres: pagesAAfficher.filter((p) => p.zone === 'Autres'),

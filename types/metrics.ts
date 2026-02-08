@@ -31,7 +31,9 @@ export interface TestMetrics {
   bddStepsTotal: number;            // [C] Nombre de textes de steps uniques dans les .feature
   bddStepsImplemented: number;      // [D] Steps ayant une définition dans les .steps.ts
   bddStepsMissing: number;          // [E] Steps sans définition (dette BDD)
-  
+  /** Si true, les métriques BDD affichées sont celles du run précédent (ordre de grandeur, non réexécuté). */
+  bddSkipped?: boolean;
+
   // E2E
   e2eSteps: number;            // Nombre total d'étapes E2E dans les fichiers de test
   e2eScenarioFiles: number;    // Nombre de fichiers de tests E2E (.spec.ts)

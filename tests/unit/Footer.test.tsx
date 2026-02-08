@@ -48,6 +48,7 @@ jest.mock('../../components/FooterButton', () => ({
   ),
 }));
 
+// eslint-disable-next-line @typescript-eslint/no-require-imports -- mock JSON en test
 const getMockFooterData = () => require('../../data/_footerButtons.json').default;
 
 const validBoutons = [

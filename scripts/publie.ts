@@ -1,13 +1,14 @@
 /**
  * Script "Publie" : Automatise le processus de publication
- * 
+ *
  * Ce script :
  * 0. Vérification de la couverture précédente (≥ 80% lines/statements/functions, ≥ 65% branches) — fail fast
  * 1. Vérification TypeScript (tsc --noEmit)
  * 2. Lance les tests et collecte les métriques (Jest + BDD + E2E en une seule passe, avec chronométrage)
- * 3. Publie sur Git
- * 
- * Objectif : Une seule exécution des tests pour valider et chronométrer.
+ * 3. Build Next.js (même commande que Vercel — détecte les erreurs que tsc peut ne pas voir)
+ * 4. Publie sur Git
+ *
+ * Objectif : Une seule exécution des tests pour valider et chronométrer ; le build garantit l’alignement avec Vercel.
  */
 
 import { execSync } from 'child_process';
@@ -225,8 +226,7 @@ function checkPreviousCoverage(): void {
 }
 
 /**
- * Vérification TypeScript (même contrôle que Vercel au build)
- * Détecte les erreurs de type (ex. variable non définie) avant de lancer les tests
+ * Vérification TypeScript (tsc --noEmit) — feedback rapide
  */
 function runTypeCheck(): void {
   console.log('🔍 Vérification TypeScript (tsc --noEmit)...\n');
@@ -237,7 +237,26 @@ function runTypeCheck(): void {
     });
     console.log('\n✅ Vérification TypeScript OK\n');
   } catch (error) {
-    console.error('\n❌ Erreur TypeScript : le build échouerait sur Vercel');
+    console.error('\n❌ Erreur TypeScript');
+    console.error('   Corriger les erreurs ci-dessus avant de publier\n');
+    throw error;
+  }
+}
+
+/**
+ * Build Next.js (même commande que Vercel)
+ * Détecte les erreurs de type/compilation que tsc --noEmit peut ne pas voir.
+ */
+function runNextBuild(): void {
+  console.log('🔨 Build Next.js (comme sur Vercel)...\n');
+  try {
+    execSync('npx next build', {
+      encoding: 'utf-8',
+      stdio: 'inherit'
+    });
+    console.log('\n✅ Build Next.js OK\n');
+  } catch (error) {
+    console.error('\n❌ Build Next.js échoué : le déploiement Vercel échouerait');
     console.error('   Corriger les erreurs ci-dessus avant de publier\n');
     throw error;
   }
@@ -250,17 +269,17 @@ function main() {
   console.log('🚀 Démarrage du processus "Publie"\n');
   
   console.log('='.repeat(60));
-  console.log('Étape 0/3 : Vérification de la couverture précédente\n');
+  console.log('Étape 0/4 : Vérification de la couverture précédente\n');
   
   checkPreviousCoverage();
   
   console.log('='.repeat(60));
-  console.log('Étape 1/3 : Vérification TypeScript\n');
+  console.log('Étape 1/4 : Vérification TypeScript\n');
   
   runTypeCheck();
   
   console.log('='.repeat(60));
-  console.log('Étape 2/3 : Lancement des tests et collecte des métriques\n');
+  console.log('Étape 2/4 : Lancement des tests et collecte des métriques\n');
   
   try {
     runTestsAndCollectMetrics();
@@ -287,7 +306,17 @@ function main() {
   }
 
   console.log('='.repeat(60));
-  console.log('Étape 3/3 : Publication sur Git\n');
+  console.log('Étape 3/4 : Build Next.js (aligné Vercel)\n');
+
+  try {
+    runNextBuild();
+  } catch (error) {
+    console.error('❌ Publication Git annulée — le build doit passer avant de pousser.\n');
+    process.exit(1);
+  }
+
+  console.log('='.repeat(60));
+  console.log('Étape 4/4 : Publication sur Git\n');
 
   const commitMessage = `Publication automatique - Tests OK, métriques à jour`;
   publishToGit(commitMessage);
@@ -296,6 +325,7 @@ function main() {
   console.log('✅ Processus "Publie" terminé avec succès !');
   console.log('   - Couverture ≥ 80% vérifiée');
   console.log('   - Tests (Jest + BDD + E2E) passés en une seule passe');
+  console.log('   - Build Next.js OK (comme sur Vercel)');
   console.log('   - Métriques et chronométrage à jour');
   console.log('   - Modifications publiées sur Git');
   console.log('   - Site prêt pour déploiement sur Vercel\n');
