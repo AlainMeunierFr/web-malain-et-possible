@@ -1,23 +1,23 @@
 {
-  "timestamp": "2026-02-09T00:29:48.830Z",
+  "timestamp": "2026-02-09T00:56:19.017Z",
   "branch": "main",
-  "commit": "eca70fd",
+  "commit": "3707376",
   "tests": {
     "unitTests": 961,
     "unitTestFiles": 93,
     "unitTestPassed": 961,
     "unitTestFailed": 0,
-    "unitTestDuration": 62298,
+    "unitTestDuration": 87381,
     "integrationTests": 33,
     "integrationTestFiles": 5,
     "integrationTestPassed": 33,
     "integrationTestFailed": 0,
-    "integrationTestDuration": 4259,
+    "integrationTestDuration": 6322,
     "bddFeatures": 24,
     "bddScenariosTotal": 224,
     "bddScenariosTestable": 97,
     "bddScenariosNonTestable": 127,
-    "bddTestDuration": 96558,
+    "bddTestDuration": 100159,
     "bddStepsTotal": 48,
     "bddStepsImplemented": 0,
     "bddStepsMissing": 285,
@@ -30,14 +30,14 @@
       "total": 1,
       "passed": 1,
       "failed": 0,
-      "duration": 57403,
-      "lastRunDate": "2026-02-09T00:29:48.787Z"
+      "duration": 70419,
+      "lastRunDate": "2026-02-09T00:56:18.981Z"
     },
     "totalTests": 1226,
     "totalTestFiles": 134,
     "passingTests": 1226,
     "failingTests": 0,
-    "testDuration": 220518
+    "testDuration": 264281
   },
   "coverage": {
     "lines": {
@@ -71,8 +71,8 @@
   },
   "size": {
     "totalFiles": 102,
-    "totalLines": 15411,
-    "sourceLines": 15411,
+    "totalLines": 15408,
+    "sourceLines": 15408,
     "commentLines": 0,
     "blankLines": 0,
     "components": 40,
@@ -94,7 +94,7 @@
     }
   },
   "performance": {
-    "bundleSize": 2841,
+    "bundleSize": 2842,
     "buildTime": 0,
     "lighthouseScore": "NC"
   }

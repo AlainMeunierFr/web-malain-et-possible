@@ -24,4 +24,4 @@ Ordre strict : **US** → **BDD** → **TDD-back-end** → **TDD-front-end**.
 
 US-13.1
 Menu header remplaçant le logo
-TDD-front-end
+done

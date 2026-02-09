@@ -1,47 +1,31 @@
-𝐂𝐨𝐝𝐞𝐫 𝐚𝐯𝐞𝐜 𝐈𝐀 – 𝐄𝐩𝐢𝐬𝐨𝐝𝐞 4 : j'ai mis en place un workflow KanBan
-J'aurai pu continuer en pur "Vibe Coding" : je parle dans le micro et je laisse l'IA se débrouiller...
-Mais mon parcours pro m'a vite invité à changer de stratégie.
-Mon prof de marketing stratégique appelait ça la "pédagogie par l'erreur".
+𝐂𝐨𝐝𝐞𝐫 𝐚𝐯𝐞𝐜 𝐈𝐀 – 𝐄𝐩𝐢𝐬𝐨𝐝𝐞 𝟒 : j’ai mis en place un workflow KanBan.
+J’aurais pu continuer en pur "Vibe Coding" : parler dans un micro et laisser l’IA se débrouiller. Mais mon parcours pro m’a vite poussé à changer de stratégie. Mon prof de marketing stratégique appelait ça la "pédagogie par l’erreur".
 
-1/ "Vide Coding" tout seul (sans l'aide d'une IA)
-Lorsque j'avais 22 ans, un peu par hasard, pour rendre service à un membre de ma famille, j'ai écris un logiciel de gestion de cabinet de radiologie.
-Je jouais tous les rôles des parties prennantes d'un projet informatique :
-- secrétaire médicale (oui, j'ai pratiqué au quotidien pour comprendre le besoin)
-- Product Manager pour formaliser le besoin
-- Administrateur de base de données : ce concevait le schéma de la base de données
-- Développeur : j'écrivais le code
-- Designer : je dessinais les formulaires et les icônes sur les boutons
-- Formateur : je rédigeais les documentations et présentais les évolutions
-(et plein d'autres rôles encore...)
-Mon associé et moi avons eu un certain succès.
-Nous sommes montés à 35 collaborateurs et 3,5M de CA.
-Un belle TPE.
+𝟏/ "𝐕𝐢𝐛𝐞 𝐂𝐨𝐝𝐢𝐧𝐠" 𝐭𝐨𝐮𝐭 𝐬𝐞𝐮𝐥 (𝐬𝐚𝐧𝐬 𝐈𝐀)
+À 22 ans, par hasard, j’ai écrit un logiciel de gestion pour un cabinet de radiologie. J’ai endossé tous les rôles :
+- secrétaire médicale (pour comprendre les besoins)
+- Product Manager (formaliser les besoins)
+- administrateur de base de données (concevoir le schéma)
+- développeur, designer, formateur, etc.
+Avec mon associé, on a atteint 35 collaborateurs et 3,5M€ de CA. Une belle TPE. Mais après quelques années, certains bouts de code portaient ce commentaire : "𝘈𝘷𝘢𝘯𝘵, 𝘈𝘭𝘢𝘪𝘯 𝘴𝘢𝘷𝘢𝘪𝘵 𝘤𝘦 𝘲𝘶𝘪 𝘴𝘦 𝘱𝘢𝘴𝘴𝘢𝘪𝘵 𝘪𝘤𝘪. 𝘋𝘦́𝘴𝘰𝘳𝘮𝘢𝘪𝘴, 𝘋𝘪𝘦𝘶 𝘴𝘦𝘶𝘭 𝘭𝘦 𝘴𝘢𝘪𝘵."
 
-Mais, après quelques années certains bouts de code commençaient pas ce commentaire :
-"Avant Alain savais ce qui se passait ici, désormais Dieu seul le sait"
+𝟐/ "𝐕𝐢𝐛𝐞 𝐂𝐨𝐝𝐢𝐧𝐠" 𝐚𝐯𝐞𝐜 𝐮𝐧𝐞 𝐞́𝐪𝐮𝐢𝐩𝐞 𝐝𝐞 𝐝𝐞́𝐯𝐞𝐥𝐨𝐩𝐩𝐞𝐮𝐫𝐬 (𝐡𝐮𝐦𝐚𝐢𝐧𝐬)
+Pour grandir, on a recruté une équipe de devs et changé de langage. Je n’avais pas les compétences techniques, mais une connaissance parfaite des besoins utilisateurs. Je suis devenu "Product Manager" (et "Product Owner" par la même occasion, Scrum oblige).
+J’écrivais des User Stories.
+La consigne pour le code était : "Faites-nous ça bien, qu’on ne soit pas embêtés."
+Moi, je poussais des fonctionnalités à l’infini.
+Le lead dev n’avait ni expérience ni appétence pour former les juniors.
+𝘙𝘦́𝘴𝘶𝘭𝘵𝘢𝘵 : 𝘢𝘱𝘳𝘦̀𝘴 3 𝘢𝘯𝘴, 𝘰𝘯 𝘢 𝘫𝘦𝘵𝘦́ 𝘭𝘦 "𝘵𝘢𝘴 𝘥𝘦 𝘴𝘱𝘢𝘨𝘩𝘦𝘵𝘵𝘪".
 
-2/ "Vide Coding" avec une équipe de développeurs (humains).
-Nous avions plein de nouvelles idées et voulions adresser de nouveaux marchés.
-Nous avons donc décidé de changer de langage et de recruter une équipe de dev.
-Je n'avais aucune compétence et expérience pour programmer avec eu mais...
-... j'avais une parfaite connaissance des besoins des utilisateurs finaux.
-Je me suis donc changé en "Product Manager".
-(et comme nous venions de découvrir Scrum je me suis affublé du Job Title de "Product Onwer")
-J'écrivais des User Stories sur les besoins fonctionnels mais pour le code, la consigné était simple :
-"Faites nous ça bien, qu'on ne soit pas emmerdé"
-- Moi je poussais une liste infinis de nouvelles fonctionnalités en laissant libre cours à ma créativité
-- Le leaddev n'avait pas d'expérience et d'appétence à la formation des juniors
-- Les juniors étaient... des juniors
-Après 3 ans nous avons mis le "tas de spachetti" à la poubelle
+𝟑/ 𝐅𝐢𝐧 𝐝𝐮 "𝐕𝐢𝐛𝐞 𝐂𝐨𝐝𝐢𝐧𝐠"
+On a analysé cet échec et découvert de nouvelles pratiques, résumées en deux principes :
+- Écrire les cas à tester avant de programmer.
+- Automatiser ces tests et déployer chez les utilisateurs finaux au plus vite. L’industrie appelle ça :
+- BDD et TDD (Développement piloté par le comportement et les tests).
+- CI/CD (Intégration et déploiement continus).
 
-3/ Fin du "Vibe Coding"
-Nous avons fait l'introspection de cet échec et nous avons découvert de nouvelles pratiques.
-Ca se résume en deux grands principes :
-- Ecrire les cas qu'il va falloir tester avant de programmer
-- Automatiser ces tests et déployer chez les utilisateurs finaux au plus vite
-L'industrie appelle ça :
-- BDD (Behavior-Driven Development) et TDD (Test-Driven Development) : Développement piloté par le comportement des utilisateurs et par les tests
-- CI/CD (Continuous Integration / Continuous Delivery or Deployment) : Déploiement jusqu'à l'utilisateur final automatisé
+Pour refaire mon site web, je n’ai pas "vibe codé" avec une IA. J’ai joué le rôle de CTO et mis en place un workflow pour obtenir du code de qualité, maintenable et déployable automatiquement. Je n’ai pas les compétences pour contrôler la qualité du code, mais j’ai veillé au respect du cadre. Tout est documenté sur mon site ;-)
 
-Alors pour refaire mon site Web je n'ai pas vraiment "Vibe Codé" avec une IA.
-J'en ait été le CTO et j'ai mis en place un flux de travail qui code un cadre pour obtenir du code de qualité, maintenable et déployable automatiquement et donc rapidement.
+https://m-alain-et-possible.fr/a-propos/data%2FA%20propos%2FA%20propos%20du%20projet
+
+Je suis Alain Meunier, Product Manager – Profil hybride Tech/Business

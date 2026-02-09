@@ -27,8 +27,8 @@ const MOCK_CARD_ALL_DONE: UsCard = {
 
 export async function GET() {
   const usEnCours = readUsEnCours();
-  
-  // Cas 1 : Une US est en cours → afficher son sprint
+
+  // Cas 1 : Une US est en cours (ou venant d'être clôturée) → afficher son sprint ; la carte apparaît en "Fait" si étape = done
   if (usEnCours?.usId) {
     const sprintPath = getSprintFolderContainingUs(usEnCours.usId);
     if (sprintPath) {
@@ -36,7 +36,7 @@ export async function GET() {
       return NextResponse.json(data);
     }
   }
-  
+
   // Cas 2 : Aucune US en cours → afficher le dernier sprint + carte fictive
   const latestSprintPath = getLatestSprintFolder();
   if (!latestSprintPath) {
@@ -45,18 +45,15 @@ export async function GET() {
       { status: 200 }
     );
   }
-  
+
   const data = getSprintBoardData(latestSprintPath);
-  
-  // Ajouter la carte fictive en mode "review" dans la colonne Lead-dev
   data.cards.push(MOCK_CARD_ALL_DONE);
-  
-  // Mettre à jour le compteur de la colonne Lead-dev
+
   const leadDevColumn = data.columns.find((c) => c.id === 'Lead-dev');
   if (leadDevColumn) {
-    leadDevColumn.count = 1;
+    leadDevColumn.count = (leadDevColumn.count || 0) + 1;
     leadDevColumn.wipLimit = '1/1';
   }
-  
+
   return NextResponse.json(data);
 }
