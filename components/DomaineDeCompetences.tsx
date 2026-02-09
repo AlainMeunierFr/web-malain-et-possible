@@ -175,26 +175,28 @@ const DomaineDeCompetences: React.FC<DomaineDeCompetencesProps> = ({ domaine, ba
           const IconComponent = competence.icon ? iconMap[competence.icon] : null;
           return (
             <div key={`competence-${index}`} className="competence-cont">
-              {/* Image en premier pour float left (structure Mistral : img direct) */}
-              {IconComponent && (
-                <div className="competence-cont icon">
-                  <IconComponent size={72} color="rgba(9, 23, 71, 1)" strokeWidth={1.5} />
-                </div>
-              )}
-              {competence.image && !IconComponent && (
-                <img
-                  src={getJsonImagePath(competence.image.src)}
-                  alt={competence.image.alt}
-                  width={72}
-                  height={72}
-                  className="competence-cont image"
-                />
-              )}
-              <h3 className="competence-cont titre">{competence.titre}</h3>
-              {parseMarkdownContent(competence.description)}
-              {competence.auteur && (
-                <p className="competence-cont auteur">{competence.auteur}</p>
-              )}
+              <div className="competence-cont competenceCardContent">
+                {/* Image en premier pour float left (structure Mistral : img direct) */}
+                {IconComponent && (
+                  <div className="competence-cont icon">
+                    <IconComponent size={72} color="rgba(9, 23, 71, 1)" strokeWidth={1.5} />
+                  </div>
+                )}
+                {competence.image && !IconComponent && (
+                  <img
+                    src={getJsonImagePath(competence.image.src)}
+                    alt={competence.image.alt}
+                    width={72}
+                    height={72}
+                    className="competence-cont image"
+                  />
+                )}
+                <h3 className="competence-cont titre">{competence.titre}</h3>
+                {parseMarkdownContent(competence.description)}
+                {competence.auteur && (
+                  <p className="competence-cont auteur">{competence.auteur}</p>
+                )}
+              </div>
               {competence.bouton && shouldDisplayButton(competence.bouton) && (
                 <div className="competence-cont lienContainer">
                   {isExternalUrl(competence.bouton.action) ? (

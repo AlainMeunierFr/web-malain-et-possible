@@ -926,10 +926,24 @@ h3.experienceEtApprentissage.titre {
 
 /* Carte uniquement (pas les enfants .competence-cont.titre etc.) */
 .domaineDeCompetence-competences-cont > .competence-cont {
+  display: flex;
+  flex-direction: column;
   padding: 1rem;
   border: 1px solid #d0d0d0;
   border-radius: 10px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+/* Wrapper du contenu (icône + titre + description + auteur) pour garder le float à l’intérieur et laisser le bouton en bas */
+.domaineDeCompetence-competences-cont > .competence-cont .competenceCardContent::after {
+  content: '';
+  display: table;
+  clear: both;
+}
+
+/* Aligner horizontalement les boutons entre cartes : le bloc bouton est poussé en bas de la carte */
+.domaineDeCompetence-competences-cont > .competence-cont .lienContainer {
+  margin-top: auto;
 }
 
 .competence-cont .image,

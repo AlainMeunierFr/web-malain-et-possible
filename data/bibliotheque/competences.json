@@ -49,7 +49,7 @@
       "bouton": {
         "type": "bouton",
         "texte": "Lire un témoignage linkedin",
-        "action": "/temoignage-linkedin"
+        "action": "https://www.linkedin.com/posts/tftp_il-a-invent%C3%A9-une-nouvelle-forme-de-communication-activity-7280877020689952768-dB4K"
       },
       "type": "competence",
       "auteur": "Malcolm Gladwell"
