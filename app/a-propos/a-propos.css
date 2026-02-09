@@ -1458,10 +1458,10 @@ ol.list {
   border-radius: 0.25rem;
 }
 
-/* Layout principal 2 colonnes : gauche 65%, droite 35% */
+/* Layout 2 colonnes : gauche (Tests 6 blocs + Couverture), droite (Autres indicateurs réduit) */
 .metricsMainLayout {
   display: grid;
-  grid-template-columns: 65% 35%;
+  grid-template-columns: 72% 28%;
   gap: 1rem;
   align-items: stretch;
 }
@@ -1501,10 +1501,10 @@ ol.list {
   padding-bottom: 0.25rem;
 }
 
-/* Tests grid - 5 cartes en ligne */
+/* Tests grid - 6 cartes (Total, Scénarios BDD, Étapes BDD, Unitaires, Intégration, E2E) */
 .metricsTestsGrid {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(6, 1fr);
   gap: 0.5rem;
 }
 
@@ -1671,7 +1671,7 @@ ol.list {
 /* Responsive : tablette - réduire colonnes */
 @media (max-width: 1200px) {
   .metricsMainLayout {
-    grid-template-columns: 60% 40%;
+    grid-template-columns: 65% 35%;
   }
   
   .metricsTestsGrid {

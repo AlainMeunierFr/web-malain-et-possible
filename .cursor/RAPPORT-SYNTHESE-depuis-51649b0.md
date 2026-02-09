@@ -35,9 +35,10 @@
 - **defineBddConfig() conditionnel** : `playwright.config.ts` — chargement BDD uniquement quand nécessaire, `SKIP_BDD_GEN=1` pour E2E, scripts `test:e2e` vs `test:bdd` séparés, Chromium seul en local, timeout 60s.
 - **Résilience headerMenuReader** : si `_Pages-Liens-Et-Menus.json` absent → menu par défaut (pas d’erreur levée) ; TU mis à jour en conséquence.
 - **Convention -cont, main-content-cont** : ID → classe, containers migrés (hero-cont, profil-cont, etc.), spec/hierarchy alignés.
-- **US-13.1 / US-13.2** : menu header, titre dans header, API menu, déplacement Charte, réorganisation menu A propos, double marge supprimée, style bouton contour, boutons hero même largeur, post-it « Prendre un café ».
+- **US-13.1 / US-13.2** : menu header, titre dans header, API menu, déplacement Charte, réorganisation menu A propos, double marge supprimée, **style « bouton contour »** pour les liens secondaires (Télécharger mon CV, Pour en savoir plus…), boutons hero même largeur, post-it « Prendre un café ». Charte : CTA principal = bouton plein (ex. Discutons) ; secondaires = aspect bouton mais différent (contour 2px bleu, fond transparent, survol bleu clair) — sélecteurs `.hero-cont .ui-heroCtas .lienInterne`, `.profil-cont .actions .lienInterne`, `.competence-cont .lienInterne`.
 - **Couverture** : nouveaux/ajouts de tests (e2eIdFromUrl, e2eIdMapping, journalMarkdownParser, siteHierarchyGenerator, etc.), adaptation `e2e-ids-coverage.integration.test.ts` aux specs modulaires.
 - **Fichiers BDD renommés** : a-propos-du-site-* → a-propos-* (tableau-de-bord, board-kanban, modal-us, charte-graphique) dans le journal ; dans le diff, les anciens noms sont **supprimés** et des versions « a-propos » existent (colonnes-board, menu-header, reorganisation-menu, etc.). À confirmer que tous les renommages sont cohérents partout.
+- **Page Métriques (MetricsCompact)** : 6 cartes dans la section Tests (Total, **Scénarios BDD**, **Étapes BDD**, Unitaires, Intégration, E2E) ; spec dans `data/A propos/Documentation technique/Spec affichage métriques Tests - blocs BDD.md` ; layout 72 % / 28 % (colonne « Autres indicateurs » réduite) ; grille 6 colonnes ; libellés personnalisés et **emojis** (✅❌⏱️📁📋) sur les 2 cartes BDD. Composant `MetricsCompact.tsx`, styles dans `app/a-propos/a-propos.css`.
 
 ---
 
@@ -86,4 +87,24 @@
 
 ---
 
-*Rapport généré par comparaison `git diff 51649b0` (working tree) et lecture des journaux 2026-02-05 à 2026-02-08.*
+## 7. Omissions de la synthèse initiale (conversations / spec vs rapport)
+
+Points réalisés dans les conversations (ou documentés dans une spec) mais **non identifiés** dans les sections 1–5 :
+
+| Point | Où c’est fait / documenté | Statut |
+|-------|---------------------------|--------|
+| **2 cartes BDD sur la page Métriques** (Scénarios BDD, Étapes BDD) avec libellés personnalisés, ordre des 6 blocs, proportions 72/28, emojis sur les libellés | Spec : `data/A propos/Documentation technique/Spec affichage métriques Tests - blocs BDD.md`. Code : `MetricsCompact.tsx`, `a-propos.css`. | **Ajouté** en section 2 (ligne « Page Métriques »). |
+
+**Charte graphique (documentée)** : « Pour en savoir plus… » et « Télécharger mon CV… » ont été passés en **bouton secondaire** (style « bouton contour ») — distinct du CTA principal (Discutons). Voir section 2 (US-13.1/13.2) pour les sélecteurs.
+
+**Footer** : (1) Le fichier `data/_footerButtons.json` a été **formaté avec retours à la ligne** pour lisibilité (contenu inchangé). (2) **Un emplacement pour le logo** est toujours injecté dans le footer (après le bouton « Plan du site ») par `Footer.tsx` ; le JSON ne contient pas le logo — c’est du code en dur. Pour retirer le logo du footer, supprimer l’injection `boutonsWithLogo` / `{ _logo: true }` dans `Footer.tsx`.
+
+**À vérifier dans le même esprit** (spec ou conversation vs code / rapport) :
+- **Hiérarchie containers** : `9. Hiérarchie containers par page.md` — les pages respectent-elles encore cette hiérarchie (hero-cont, main-content-cont, etc.) ?
+- **Organisation du DOM** : `4. Organisation du DOM.md` — sélecteurs canoniques, e2eID, pas de régression ?
+- **Charte graphique** : styles bouton contour effectivement appliqués partout (hero, profil, compétences) ?
+- **Plan du site / ListeDesPages** : zones (HomePage, Profils, Autres, Footer), ordre et structure conformes aux US et au JSON ?
+
+---
+
+*Rapport généré par comparaison `git diff 51649b0` (working tree) et lecture des journaux 2026-02-05 à 2026-02-08. Section 7 ajoutée après relecture (conversations vs rapport) — 2026-02-08.*

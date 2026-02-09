@@ -144,12 +144,12 @@ describe('MetricsCompact', () => {
   });
 
   describe('Bloc Tests (CA4)', () => {
-    it('devrait afficher 5 cartes de tests', async () => {
+    it('devrait afficher 6 cartes de tests (Total, Scénarios BDD, Étapes BDD, Unitaires, Intégration, E2E)', async () => {
       const { container } = render(<MetricsCompact />);
       
       await waitFor(() => {
         const testCards = container.querySelectorAll('.metricsTestCard');
-        expect(testCards).toHaveLength(5);
+        expect(testCards).toHaveLength(6);
       });
     });
 
@@ -160,11 +160,11 @@ describe('MetricsCompact', () => {
         const testsSection = container.querySelector('.metricsTests');
         expect(testsSection).toBeInTheDocument();
         
-        // Vérifier les titres dans la section Tests spécifiquement
         const cardTitles = testsSection?.querySelectorAll('.metricsCardTitle');
         const titles = Array.from(cardTitles || []).map(el => el.textContent);
         expect(titles).toContain('Total');
-        expect(titles).toContain('BDD');
+        expect(titles).toContain('Scénarios BDD');
+        expect(titles).toContain('Étapes BDD');
         expect(titles).toContain('Unitaires');
         expect(titles).toContain('Intégration');
         expect(titles).toContain('E2E');
@@ -176,7 +176,7 @@ describe('MetricsCompact', () => {
       
       await waitFor(() => {
         const infos = container.querySelectorAll('.metricsInfo');
-        expect(infos.length).toBeGreaterThanOrEqual(5);
+        expect(infos.length).toBeGreaterThanOrEqual(6);
       });
     });
 

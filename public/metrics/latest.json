@@ -1,23 +1,23 @@
 {
-  "timestamp": "2026-02-08T23:55:15.336Z",
+  "timestamp": "2026-02-09T00:29:48.830Z",
   "branch": "main",
-  "commit": "412a02f",
+  "commit": "eca70fd",
   "tests": {
     "unitTests": 961,
     "unitTestFiles": 93,
     "unitTestPassed": 961,
     "unitTestFailed": 0,
-    "unitTestDuration": 62659,
+    "unitTestDuration": 62298,
     "integrationTests": 33,
     "integrationTestFiles": 5,
     "integrationTestPassed": 33,
     "integrationTestFailed": 0,
-    "integrationTestDuration": 4370,
+    "integrationTestDuration": 4259,
     "bddFeatures": 24,
     "bddScenariosTotal": 224,
     "bddScenariosTestable": 97,
     "bddScenariosNonTestable": 127,
-    "bddTestDuration": 98317,
+    "bddTestDuration": 96558,
     "bddStepsTotal": 48,
     "bddStepsImplemented": 0,
     "bddStepsMissing": 285,
@@ -30,35 +30,35 @@
       "total": 1,
       "passed": 1,
       "failed": 0,
-      "duration": 64653,
-      "lastRunDate": "2026-02-08T23:55:15.292Z"
+      "duration": 57403,
+      "lastRunDate": "2026-02-09T00:29:48.787Z"
     },
     "totalTests": 1226,
     "totalTestFiles": 134,
     "passingTests": 1226,
     "failingTests": 0,
-    "testDuration": 229999
+    "testDuration": 220518
   },
   "coverage": {
     "lines": {
-      "total": 3764,
-      "covered": 3353,
-      "percentage": 89.08
+      "total": 3751,
+      "covered": 3340,
+      "percentage": 89.04
     },
     "statements": {
-      "total": 4038,
-      "covered": 3569,
-      "percentage": 88.38
+      "total": 4025,
+      "covered": 3556,
+      "percentage": 88.34
     },
     "functions": {
       "total": 634,
-      "covered": 554,
-      "percentage": 87.38
+      "covered": 555,
+      "percentage": 87.53
     },
     "branches": {
-      "total": 3088,
-      "covered": 2374,
-      "percentage": 76.87
+      "total": 3143,
+      "covered": 2409,
+      "percentage": 76.64
     }
   },
   "quality": {
@@ -71,8 +71,8 @@
   },
   "size": {
     "totalFiles": 102,
-    "totalLines": 15429,
-    "sourceLines": 15429,
+    "totalLines": 15411,
+    "sourceLines": 15411,
     "commentLines": 0,
     "blankLines": 0,
     "components": 40,

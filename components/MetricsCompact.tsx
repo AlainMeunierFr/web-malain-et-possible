@@ -20,6 +20,12 @@ interface MetricsData {
       bddScenarios?: number;
       bddScenariosPassed?: number;
       bddScenariosFailed?: number;
+      bddScenariosTotal?: number;
+      bddScenariosTestable?: number;
+      bddScenariosNonTestable?: number;
+      bddStepsTotal?: number;
+      bddStepsImplemented?: number;
+      bddStepsMissing?: number;
       bddTestDuration?: number;
       bddFeatures?: number;
       unitTests?: number;
@@ -84,8 +90,13 @@ interface MetricsData {
   siteVersion: string;
 }
 
+/** Une ligne de détail (libellé à gauche, valeur à droite) */
+export type TestCardDetailRow = { label: string; value: string | number };
+
 /**
- * Carte de test avec jauge et détails en colonne (style page Metrics originale)
+ * Carte de test avec jauge et détails en colonne.
+ * Si `details` est fourni, les lignes utilisent ces libellés/valeurs (spec blocs BDD).
+ * Sinon : Réussis, Échoués, Durée, Fichiers.
  */
 function TestCard({
   title,
@@ -95,6 +106,7 @@ function TestCard({
   duration,
   files,
   tooltip,
+  details,
 }: {
   title: string;
   total: number;
@@ -103,9 +115,18 @@ function TestCard({
   duration: number;
   files?: number;
   tooltip?: string;
+  /** Libellés personnalisés à gauche (spec : Scénarios BDD, Étapes BDD) */
+  details?: TestCardDetailRow[];
 }) {
   const rate = total > 0 ? (passed / total) * 100 : 0;
   const colorClass = rate >= 80 ? 'good' : rate >= 60 ? 'warning' : 'danger';
+
+  const rows: TestCardDetailRow[] = details ?? [
+    { label: '✅ Réussis', value: passed },
+    { label: '❌ Échoués', value: failed },
+    { label: '⏱️ Durée', value: `${(duration / 1000).toFixed(2)}s` },
+    ...(files !== undefined ? [{ label: '📁 Fichiers', value: files }] : []),
+  ];
 
   return (
     <div className="metricsTestCard">
@@ -122,26 +143,13 @@ function TestCard({
         <div className={`metricsGaugeFill ${colorClass}`} style={{ width: `${rate}%` }} />
       </div>
       <p className="metricsGaugeLabel">{rate.toFixed(0)}%</p>
-      {/* Détails en colonne avec titres */}
       <div className="metricsCardDetails">
-        <div className="metricsDetailRow">
-          <span className="metricsDetailLabel">✅ Réussis</span>
-          <span className="metricsDetailValue">{passed}</span>
-        </div>
-        <div className="metricsDetailRow">
-          <span className="metricsDetailLabel">❌ Échoués</span>
-          <span className="metricsDetailValue">{failed}</span>
-        </div>
-        <div className="metricsDetailRow">
-          <span className="metricsDetailLabel">⏱️ Durée</span>
-          <span className="metricsDetailValue">{(duration / 1000).toFixed(2)}s</span>
-        </div>
-        {files !== undefined && (
-          <div className="metricsDetailRow">
-            <span className="metricsDetailLabel">📁 Fichiers</span>
-            <span className="metricsDetailValue">{files}</span>
+        {rows.map((row, i) => (
+          <div key={i} className="metricsDetailRow">
+            <span className="metricsDetailLabel">{row.label}</span>
+            <span className="metricsDetailValue">{row.value}</span>
           </div>
-        )}
+        ))}
       </div>
     </div>
   );
@@ -273,14 +281,34 @@ export default function MetricsCompact() {
                 files={latest.tests.totalTestFiles}
                 tooltip="Nombre total de tests exécutés"
               />
+              {/* Spec : data/A propos/Documentation technique/Spec affichage métriques Tests - blocs BDD.md */}
               <TestCard
-                title="BDD"
-                total={latest.tests.bddScenarios || 0}
-                passed={latest.tests.bddScenariosPassed || latest.tests.bddScenarios || 0}
-                failed={latest.tests.bddScenariosFailed || 0}
+                title="Scénarios BDD"
+                total={latest.tests.bddScenariosTotal ?? latest.tests.bddScenarios ?? 0}
+                passed={latest.tests.bddScenariosTestable ?? latest.tests.bddScenarios ?? 0}
+                failed={latest.tests.bddScenariosFailed ?? 0}
                 duration={latest.tests.bddTestDuration || 0}
-                files={latest.tests.bddFeatures}
-                tooltip="Scénarios Gherkin (Behavior Driven Development)"
+                tooltip="Scénarios Gherkin. Voir tooltip bddScenarios dans data/_metrics.json."
+                details={[
+                  { label: '✅ Testable', value: latest.tests.bddScenariosTestable ?? 0 },
+                  { label: '❌ Non testable', value: latest.tests.bddScenariosNonTestable ?? latest.tests.bddScenariosFailed ?? 0 },
+                  { label: '⏱️ Durée', value: `${((latest.tests.bddTestDuration ?? 0) / 1000).toFixed(2)}s` },
+                  { label: '📁 Fichiers', value: latest.tests.bddFeatures ?? 0 },
+                ]}
+              />
+              <TestCard
+                title="Étapes BDD"
+                total={latest.tests.bddStepsTotal ?? 0}
+                passed={latest.tests.bddStepsImplemented ?? 0}
+                failed={latest.tests.bddStepsMissing ?? 0}
+                duration={0}
+                tooltip="Steps uniques dans les .feature ; Implémenté / Non implémenté (dette)."
+                details={[
+                  { label: '✅ Implémenté', value: latest.tests.bddStepsImplemented ?? 0 },
+                  { label: '❌ Non implémenté', value: latest.tests.bddStepsMissing ?? 0 },
+                  { label: '⏱️ Durée', value: 'NP' },
+                  { label: '📋 Scénarios', value: latest.tests.bddScenariosTotal ?? 0 },
+                ]}
               />
               <TestCard
                 title="Unitaires"

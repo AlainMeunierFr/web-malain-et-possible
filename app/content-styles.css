@@ -433,12 +433,47 @@
   align-self: center;
 }
 
+/* Hero CTAs : même largeur pour les deux boutons (Discutons + Télécharger mon CV) */
 .hero-gauche-cont .ui-heroCtas,
 .hero-cont .ui-content .ui-heroCtas {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 1rem; /* 1 espace entre Hero.callToAction et Hero.ensavoirplus */
+  align-items: stretch;
+  width: 100%;
+  max-width: 22rem;
+  gap: 1rem;
+}
+
+.hero-gauche-cont .ui-heroCtas .bouton,
+.hero-cont .ui-content .ui-heroCtas .bouton,
+.hero-gauche-cont .ui-heroCtas .lienInterne,
+.hero-cont .ui-content .ui-heroCtas .lienInterne {
+  display: block;
+  width: 100%;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+/* Bouton contour : Télécharger mon CV (secondaire, distinct du CTA principal) */
+.hero-gauche-cont .ui-heroCtas .lienInterne,
+.hero-cont .ui-content .ui-heroCtas .lienInterne {
+  display: block;
+  padding: 0.5rem var(--BoutonPaddingHorizontal);
+  font-size: var(--b-font-size);
+  font-weight: var(--b-font-weight);
+  color: var(--BleuFonce);
+  background: transparent;
+  border: 2px solid var(--BleuFonce);
+  border-radius: var(--BoutonContourRadius);
+  text-decoration: none;
+  transition: var(--BoutonTransition);
+  cursor: pointer;
+}
+
+.hero-gauche-cont .ui-heroCtas .lienInterne:hover,
+.hero-cont .ui-content .ui-heroCtas .lienInterne:hover {
+  background: var(--BleuClair);
+  text-decoration: none;
 }
 
 /* --- Hero 2 colonnes : empilé en portrait (iPhone, iPad), côte à côte en paysage si assez large --- */
@@ -615,6 +650,26 @@
 /* Boutons dans profil : pas de soulignement */
 .profil-cont .bouton,
 .profil-cont .route.bouton {
+  text-decoration: none;
+}
+
+/* Bouton contour : En savoir plus (cartes profil) */
+.profil-cont .actions .lienInterne {
+  display: inline-block;
+  padding: 0.5rem var(--BoutonPaddingHorizontal);
+  font-size: var(--b-font-size);
+  font-weight: var(--b-font-weight);
+  color: var(--BleuFonce);
+  background: transparent;
+  border: 2px solid var(--BleuFonce);
+  border-radius: var(--BoutonContourRadius);
+  text-decoration: none;
+  transition: var(--BoutonTransition);
+  cursor: pointer;
+}
+
+.profil-cont .actions .lienInterne:hover {
+  background: var(--BleuClair);
   text-decoration: none;
 }
 
@@ -921,14 +976,23 @@ h3.experienceEtApprentissage.titre {
   text-align: right;
 }
 
+/* Bouton contour : lien secondaire (ex. Voir le portfolio) */
 .competence-cont .lienInterne {
-  font-size: var(--lk-font-size);
-  font-weight: var(--lk-font-weight);
-  color: var(--lk-color);
-  text-decoration: var(--lk-text-decoration);
+  display: inline-block;
+  padding: 0.5rem var(--BoutonPaddingHorizontal);
+  font-size: var(--b-font-size);
+  font-weight: var(--b-font-weight);
+  color: var(--BleuFonce);
+  background: transparent;
+  border: 2px solid var(--BleuFonce);
+  border-radius: var(--BoutonContourRadius);
+  text-decoration: none;
+  transition: var(--BoutonTransition);
+  cursor: pointer;
 }
 
 .competence-cont .lienInterne:hover {
+  background: var(--BleuClair);
   text-decoration: none;
 }
 
